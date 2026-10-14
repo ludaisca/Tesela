@@ -15,7 +15,13 @@
     filterMode: "all", // "all" | "ready" | "wip" | "favs"
     theme: "dark", // "dark" | "light"
     blueprint: false,
-    favorites: new Set(["workspace-rail", "revenue-area", "command-palette", "three-tier"]),
+    // Keyed by full path: slugs repeat across folders (e.g. "profile", "two-factor")
+    favorites: new Set([
+      "/c/layouts/workspace-rail",
+      "/c/charts/revenue-area",
+      "/c/modals/command-palette",
+      "/c/pricing/three-tier"
+    ]),
     cmdkOpen: false,
     cmdkQuery: "",
     cmdkIndex: 0,
@@ -30,6 +36,7 @@
   // 1. Initialization
   // --------------------------------------------------------------------------
   function init() {
+    syncCatalogCounts();
     new window.DEVL_SHADER("ambient-canvas");
     renderHeroCards();
     renderFolderRail();
@@ -37,6 +44,15 @@
     bindGlobalEvents();
     setupScrollSpy();
     handleHashRoute();
+  }
+
+  // Keep static copy in index.html in sync with the catalog in data.js
+  function syncCatalogCounts() {
+    const files = FLAT.length;
+    const cmdkInput = document.getElementById("cmdk-input");
+    if (cmdkInput) cmdkInput.placeholder = `Search ${files} design experiments, folders, filenames, or tags…`;
+    const cmdkCount = document.getElementById("cmdk-result-count");
+    if (cmdkCount) cmdkCount.textContent = `${files} results`;
   }
 
   // --------------------------------------------------------------------------
@@ -101,7 +117,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 3. Render Floating Folder Minimap Rail (18 Folders Quick Jump)
+  // 3. Render Floating Folder Minimap Rail (Folder Quick Jump)
   // --------------------------------------------------------------------------
   function renderFolderRail() {
     const rail = document.getElementById("folder-minimap-list");
@@ -122,7 +138,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 4. Render All 18 Categories & 158 Experiment Cards
+  // 4. Render All Categories & Experiment Cards
   // --------------------------------------------------------------------------
   function renderGallery() {
     const main = document.getElementById("gallery-root");
@@ -137,7 +153,7 @@
           if (state.filterMode === "new") return Boolean(cat.isNew);
           if (state.filterMode === "ready") return !item.wip;
           if (state.filterMode === "wip") return item.wip;
-          if (state.filterMode === "favs") return state.favorites.has(item.slug);
+          if (state.filterMode === "favs") return state.favorites.has(`/c/${cat.id}/${item.slug}`);
           return true;
         });
 
@@ -150,7 +166,7 @@
         const cardsHtml = filteredItems
           .map((item, idx) => {
             const path = `/c/${cat.id}/${item.slug}`;
-            const isFav = state.favorites.has(item.slug);
+            const isFav = state.favorites.has(path);
             const svgPreview = PREVIEWS.generatePreviewSVG(cat.id, item, idx);
 
             return `
@@ -171,7 +187,7 @@
                     </div>
                     <div class="exp-card-file-row">
                       <span class="exp-card-filename">${item.file}</span>
-                      <button type="button" class="exp-fav-btn ${isFav ? "is-fav" : ""}" data-toggle-fav="${item.slug}" title="Bookmark design">
+                      <button type="button" class="exp-fav-btn ${isFav ? "is-fav" : ""}" data-toggle-fav="${path}" title="Bookmark design">
                         ★
                       </button>
                     </div>
@@ -225,7 +241,7 @@
       html ||
       `<div class="empty-filter-state">
         <p>No designs match the current filter.</p>
-        <button type="button" class="sb-btn-primary" id="reset-filter-btn">Reset to All 212 Files</button>
+        <button type="button" class="sb-btn-primary" id="reset-filter-btn">Reset to All ${FLAT.length} Files</button>
       </div>`;
 
     const counterEl = document.getElementById("header-count-text");
@@ -589,7 +605,7 @@
     const tourSteps = [
       { title: "Step 1 of 4 — Workspace Setup", desc: "Configure your primary design token surface and keyboard bindings." },
       { title: "Step 2 of 4 — Shader Pipeline", desc: "Calibrate the WebGL fragment noise field and mouse spotlight radius." },
-      { title: "Step 3 of 4 — Vector Micro-UIs", desc: "Inspect all 158 live SVG component wireframes across 18 folders." },
+      { title: "Step 3 of 4 — Vector Micro-UIs", desc: `Inspect all ${FLAT.length} live SVG component wireframes across ${DATA.categories.length} folders.` },
       { title: "Step 4 of 4 — Ready to Ship", desc: "Zero external dependencies. Copy TSX or Vanilla code with one keypress." }
     ];
     let curStep = 0;
@@ -896,7 +912,8 @@
     }
 
     if (state.cmdkResults.length === 0) {
-      listEl.innerHTML = `<div class="cmdk-empty">No matching experiments for "${state.cmdkQuery}"</div>`;
+      listEl.innerHTML = `<div class="cmdk-empty"></div>`;
+      listEl.firstElementChild.textContent = `No matching experiments for "${state.cmdkQuery}"`;
       if (previewEl) previewEl.innerHTML = "";
       return;
     }
@@ -1032,15 +1049,17 @@
       if (favBtn) {
         e.preventDefault();
         e.stopPropagation();
-        const slug = favBtn.getAttribute("data-toggle-fav");
-        if (state.favorites.has(slug)) {
-          state.favorites.delete(slug);
+        const favPath = favBtn.getAttribute("data-toggle-fav");
+        const favItem = FLAT.find((it) => it.path === favPath);
+        const label = favItem ? `${favItem.title} (${favItem.categoryTitle})` : favPath;
+        if (state.favorites.has(favPath)) {
+          state.favorites.delete(favPath);
           favBtn.classList.remove("is-fav");
-          showToast(`Removed ${slug} from favorites`);
+          showToast(`Removed ${label} from favorites`);
         } else {
-          state.favorites.add(slug);
+          state.favorites.add(favPath);
           favBtn.classList.add("is-fav");
-          showToast(`Saved ${slug} to favorites ★`);
+          showToast(`Saved ${label} to favorites ★`);
         }
         AUDIO.play("click");
         return;
