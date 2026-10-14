@@ -3,6 +3,42 @@
 Recreación y evolución completa de **devl.dev** construida **100% desde cero sin librerías externas** (Cero Tailwind, Cero React, Cero Lucide, Cero dependencias NPM), conservando y elevando su línea estética técnica.
 
 - **Live Demo (GitHub Pages):** [https://ludaisca.github.io/devl-scratchpad/](https://ludaisca.github.io/devl-scratchpad/)
+- **Biblioteca de componentes (docs):** [https://ludaisca.github.io/devl-scratchpad/components.html](https://ludaisca.github.io/devl-scratchpad/components.html)
+
+## devl-ui — Biblioteca de componentes
+
+Biblioteca propia **sin dependencias** con el mismo estilo de la galería: 43 componentes (botones, formularios, OTP, tags, dropzone, calendario, tabs, menús, command palette, diálogos, drawers, toasts, tablas ordenables, sparklines…) más patrones de ejemplo.
+
+### Uso
+
+Copia la carpeta `lib/` a tu proyecto:
+
+```html
+<link rel="stylesheet" href="lib/devl-ui.css" />
+<script src="lib/devl-ui.js" defer></script>
+
+<body class="dv">
+  <button class="dv-btn dv-btn--primary">Guardar</button>
+  <dv-tabs> … </dv-tabs>
+</body>
+```
+
+- **CSS (`devl-ui.css`):** tokens `--dv-*` + clases `dv-*`. Funciona sin JS.
+- **JS (`devl-ui.js`):** Custom Elements en light DOM (`<dv-tabs>`, `<dv-segmented>`, `<dv-menu>`, `<dv-command>`, `<dv-otp>`, `<dv-tags>`, `<dv-dropzone>`, `<dv-calendar>`, `<dv-sparkline>`) y atributos `data-dv-*` (abrir/cerrar diálogos, copiar, tema, tablas ordenables, rangos, steppers).
+- **API global:** `DevlUI.toast()`, `DevlUI.copy()`, `DevlUI.setTheme()`, `DevlUI.getTheme()`, `DevlUI.init(root)`.
+- **Eventos:** todos los componentes emiten eventos `dv-*` que burbujean (`dv-change`, `dv-select`, `dv-complete`, `dv-copy`, `dv-theme`).
+- **Temas:** oscuro por defecto; `data-theme="light"` en `<html>`. Cambia la marca sobrescribiendo `--dv-accent`, `--dv-radius`, etc.
+- **Accesibilidad:** roles ARIA, navegación por teclado, `<dialog>` nativo y soporte de `prefers-reduced-motion`.
+
+Abre `components.html` para ver cada componente en vivo, con su HTML/JS listo para copiar.
+
+### Estructura
+
+| Ruta | Contenido |
+|---|---|
+| `lib/devl-ui.css`, `lib/devl-ui.js` | La biblioteca (lo único que necesitas copiar) |
+| `components.html`, `docs/` | Documentación interactiva de la biblioteca |
+| `index.html`, `css/`, `js/` | Galería original de experimentos |
 
 ## Novedades de la Versión Mejorada (v2)
 
