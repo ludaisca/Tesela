@@ -558,7 +558,7 @@ export function ${compName}({
                 <div class="sb-tl-node" style="background:${item.categoryAccent}"></div>
                 <div class="sb-tl-card">
                   <div class="sb-tl-meta"><strong>Sean Brydon</strong> <span>deployed <code>f8a92c1</code> to production</span> <em class="sb-mono">2m ago</em></div>
-                  <p>Upgraded all 158 design previews to interactive SVG vector shaders with zero external dependencies.</p>
+                  <p>Upgraded all ${window.DEVL_FLAT_ITEMS.length} design previews to interactive SVG vector shaders with zero external dependencies.</p>
                 </div>
               </div>
               <div class="sb-tl-item">

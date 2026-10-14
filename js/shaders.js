@@ -130,6 +130,7 @@
       this.program = null;
       this.uniforms = {};
       this.isWebGL = false;
+      this.reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)");
 
       this.init();
       this.bindEvents();
@@ -321,7 +322,8 @@
       this.mouseX += (this.targetMouseX - this.mouseX) * 0.08;
       this.mouseY += (this.targetMouseY - this.mouseY) * 0.08;
 
-      const t = (now - this.startTime) * 0.001;
+      // Freeze the drifting noise field when the user prefers reduced motion
+      const t = this.reducedMotion?.matches ? 0 : (now - this.startTime) * 0.001;
       const isLight = document.documentElement.getAttribute("data-theme") === "light" ? 1.0 : 0.0;
       const isBlueprint = document.documentElement.hasAttribute("data-blueprint") ? 1.0 : 0.0;
 

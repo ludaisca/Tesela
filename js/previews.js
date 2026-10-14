@@ -1,5 +1,5 @@
 // ============================================================================
-// devl.dev — Procedural SVG Miniature UI Engine (18 Folder Badges + 158 Slug-Specific Live Previews)
+// devl.dev — Procedural SVG Miniature UI Engine (24 Folder Badges + 212 Slug-Specific Live Previews)
 // 100% Pure Custom Vector Code — Theme-Adaptive, Slug-Tailored & Hover-Animated
 // ============================================================================
 
@@ -14,7 +14,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 1. 18 Category Header Miniature Icons (80x60 bespoke micro-window SVGs)
+  // 1. 24 Category Header Miniature Icons (80x60 bespoke micro-window SVGs)
   // --------------------------------------------------------------------------
   function getCategoryIcon(catId) {
     const frame = (inner) => `<svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="cat-mini-svg">
@@ -251,7 +251,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 2. 158 Slug-Specific Miniature Card Previews (320x200 SVG Micro-Interfaces)
+  // 2. 212 Slug-Specific Miniature Card Previews (320x200 SVG Micro-Interfaces)
   // --------------------------------------------------------------------------
   function generatePreviewSVG(catId, item, idx) {
     const slug = item.slug;
