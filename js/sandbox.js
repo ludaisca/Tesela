@@ -579,7 +579,239 @@ export function ${compName}({
       `;
     }
 
-    // 8. MODALS, TOASTS & TOURS — Live Trigger Playground, Destructive Confirm & Step Tour
+    // 8. AI & AGENTS — Live Streaming Agent Trace, Context Budget & Diff Review
+    if (cat === "ai-agents") {
+      return `
+        <div class="sb-centered-stage">
+          <div class="sb-stage-card sb-stage-wide">
+            <div class="sb-stage-top">
+              <div>
+                <span class="sb-eyebrow" style="color:${item.categoryAccent}">AI & AGENTS · ${item.file}</span>
+                <h2 class="sb-pane-title">${item.title}</h2>
+                <p class="sb-pane-desc">Interactive agentic trace console with real-time token streaming, tool-call inspection, and inline diff patching.</p>
+              </div>
+              <div class="sb-segmented" id="sb-ai-model-select">
+                <button class="sb-seg-btn is-active" data-model="Argon-4">Argon-4</button>
+                <button class="sb-seg-btn" data-model="Claude-4">Claude-4</button>
+                <button class="sb-seg-btn" data-model="GPT-5">GPT-5</button>
+              </div>
+            </div>
+
+            <div class="sb-slider-box">
+              <div class="sb-slider-label">
+                <span>CONTEXT WINDOW UTILIZATION: <strong id="sb-ctx-readout">94.2k / 128k</strong> tokens (73.6%)</span>
+                <span class="sb-mono" style="color:var(--accent-emerald)">⚡ 142.8 tok/s · KV Cache 92%</span>
+              </div>
+              <div style="display:flex;height:10px;border-radius:5px;overflow:hidden;background:var(--bg);gap:2px">
+                <div style="width:45%;background:${item.categoryAccent}" title="System & Tools (58k)"></div>
+                <div style="width:18%;background:var(--accent-sky)" title="RAG Context (23k)"></div>
+                <div style="width:11%;background:var(--accent-amber)" title="Reasoning Trace (13.2k)"></div>
+              </div>
+            </div>
+
+            <div class="sb-bento-grid">
+              <div class="sb-bento-card">
+                <div class="sb-eyebrow">LIVE TOOL CALL INSPECTOR</div>
+                <pre class="sb-mono" style="margin-top:10px;font-size:11px;line-height:1.55;color:var(--fg-muted);white-space:pre-wrap">{
+  "tool": "shader_compile",
+  "target": "${item.slug}",
+  "status": "completed",
+  "duration_ms": 18.4,
+  "zero_deps": true
+}</pre>
+                <div class="sb-main-actions" style="margin-top:12px">
+                  <button class="sb-btn-primary" id="sb-stream-btn">▶ Stream Live Reasoning</button>
+                </div>
+              </div>
+
+              <div class="sb-bento-card">
+                <div class="sb-eyebrow">STREAMING OUTPUT BUFFER</div>
+                <p id="sb-stream-output" class="sb-mono" style="margin-top:10px;font-size:11.5px;line-height:1.65;min-height:84px">Ready. Click "Stream Live Reasoning" to synthesize token stream for ${item.file}…</p>
+                <div class="sb-main-actions" style="margin-top:12px">
+                  <button class="sb-btn-ghost" data-sb-toast="Accepted inline diff hunk (+24 -4)">✓ Accept Diff Patch</button>
+                  <button class="sb-btn-ghost" data-sb-toast="Rolled back hunk to HEAD">✕ Reject</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // 9. SHADERS & CANVAS — Real-Time Interactive Physics & Vector Field Canvas
+    if (cat === "shaders-canvas") {
+      return `
+        <div class="sb-centered-stage">
+          <div class="sb-stage-card sb-stage-wide">
+            <div class="sb-stage-top">
+              <div>
+                <span class="sb-eyebrow" style="color:${item.categoryAccent}">SHADERS & CANVAS · ${item.file}</span>
+                <h2 class="sb-pane-title">${item.title}</h2>
+                <p class="sb-pane-desc">Move your pointer across the interactive canvas below to warp the vector field in real time (60fps native Canvas2D/WebGL).</p>
+              </div>
+              <div class="sb-segmented" id="sb-shader-mode">
+                <button class="sb-seg-btn is-active" data-smode="dipole">Magnetic Grid</button>
+                <button class="sb-seg-btn" data-smode="ascii">ASCII Matrix</button>
+                <button class="sb-seg-btn" data-smode="waves">Harmonic Waves</button>
+              </div>
+            </div>
+
+            <div class="sb-chart-Interactive-box" style="padding:0;overflow:hidden;position:relative">
+              <canvas id="sb-live-shader-canvas" width="860" height="280" style="width:100%;height:280px;display:block;cursor:crosshair"></canvas>
+              <div style="position:absolute;top:10px;left:12px;font-size:10px;padding:4px 8px;border-radius:4px;background:var(--bg-glass);border:1px solid var(--border)" id="sb-shader-hud">
+                60 FPS · Dipole Field · Radius: 140px
+              </div>
+            </div>
+
+            <div class="sb-slider-box">
+              <div class="sb-slider-label">
+                <span>FIELD FREQUENCY / FORCE RADIUS</span>
+                <span class="sb-mono" id="sb-freq-val">140px</span>
+              </div>
+              <input type="range" min="40" max="280" value="140" class="sb-range" id="sb-shader-radius" />
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // 10. DEVTOOLS & LOGS — Interactive Network Waterfall & Regex/JSON Inspector
+    if (cat === "devtools") {
+      return `
+        <div class="sb-centered-stage">
+          <div class="sb-stage-card sb-stage-wide">
+            <div class="sb-stage-top">
+              <div>
+                <span class="sb-eyebrow" style="color:${item.categoryAccent}">DEVTOOLS & LOGS · ${item.file}</span>
+                <h2 class="sb-pane-title">${item.title}</h2>
+                <p class="sb-pane-desc">Click any trace span below to inspect its timing breakdown (DNS · TLS · TTFB · Content Download).</p>
+              </div>
+              <span class="sb-live-badge"><span class="sb-online-dot"></span> HAR CAPTURE</span>
+            </div>
+
+            <div class="sb-table-wrap">
+              <table class="sb-table" id="sb-waterfall-table">
+                <thead>
+                  <tr>
+                    <th>ENDPOINT / SYMBOL</th>
+                    <th>METHOD</th>
+                    <th>STATUS</th>
+                    <th>WATERFALL TIMELINE (0–120ms)</th>
+                    <th class="is-right">TOTAL</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-span-info="DNS: 2ms | TLS: 6ms | TTFB: 11ms | Payload: 1.8 KB (br)">
+                    <td class="sb-mono"><strong>/api/v2/session</strong></td>
+                    <td class="sb-mono">GET</td>
+                    <td><span class="sb-status-pill is-paid">200 OK</span></td>
+                    <td><div style="height:10px;width:32%;margin-left:5%;background:var(--accent-sky);border-radius:3px"></div></td>
+                    <td class="sb-mono is-right">19ms</td>
+                  </tr>
+                  <tr data-span-info="DNS: 0ms (reused) | Compute: 28ms | AST Tokens: 4,120">
+                    <td class="sb-mono"><strong>/v2/compile/${item.slug}</strong></td>
+                    <td class="sb-mono">POST</td>
+                    <td><span class="sb-status-pill is-paid">200 OK</span></td>
+                    <td><div style="height:10px;width:48%;margin-left:18%;background:${item.categoryAccent};border-radius:3px"></div></td>
+                    <td class="sb-mono is-right">42ms</td>
+                  </tr>
+                  <tr data-span-info="WebSocket 101 Switching Protocols | Frame interval: 16.6ms">
+                    <td class="sb-mono"><strong>wss://edge.devl.dev/sync</strong></td>
+                    <td class="sb-mono">WSS</td>
+                    <td><span class="sb-status-pill is-active">101 LIVE</span></td>
+                    <td><div style="height:10px;width:55%;margin-left:32%;background:var(--accent-emerald);border-radius:3px"></div></td>
+                    <td class="sb-mono is-right">8.4ms</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="sb-slider-box" id="sb-span-detail-box">
+              <span class="sb-eyebrow">SELECTED SPAN TELEMETRY</span>
+              <p class="sb-mono" id="sb-span-detail-text" style="margin-top:6px;font-size:12px">Click any row in the waterfall table above to inspect low-level timing phases.</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // 11. MEDIA & CREATIVE TOOLS — 8-Step Web Audio Synthesizer Sequencer & Cubic-Bezier Studio
+    if (cat === "media-audio") {
+      const notes = ["C5 Lead", "G4 Pad", "E4 Pluck", "C3 Bass"];
+      return `
+        <div class="sb-centered-stage">
+          <div class="sb-stage-card sb-stage-wide">
+            <div class="sb-stage-top">
+              <div>
+                <span class="sb-eyebrow" style="color:${item.categoryAccent}">MEDIA & CREATIVE · ${item.file}</span>
+                <h2 class="sb-pane-title">${item.title}</h2>
+                <p class="sb-pane-desc">Toggle step cells below and click "Play Sequencer" to synthesize real polyphonic notes via Web Audio API.</p>
+              </div>
+              <div class="sb-main-actions">
+                <button class="sb-btn-primary" id="sb-seq-play">▶ Play Sequencer (120 BPM)</button>
+                <button class="sb-btn-ghost" id="sb-seq-clear">Clear Grid</button>
+              </div>
+            </div>
+
+            <div class="sb-seq-grid" id="sb-sequencer-matrix" style="display:flex;flex-direction:column;gap:8px">
+              ${notes
+                .map(
+                  (note, r) => `
+                <div style="display:grid;grid-template-columns:80px repeat(8, 1fr);gap:6px;align-items:center">
+                  <span class="sb-mono" style="font-size:11px;color:var(--fg-muted)">${note}</span>
+                  ${Array.from({ length: 8 }, (_, c) => {
+                    const active = (r + c) % 3 === 0;
+                    return `<button type="button" class="sb-seq-cell ${active ? "is-on" : ""}" data-row="${r}" data-col="${c}" style="height:36px;border-radius:6px;border:1px solid var(--border);background:${active ? item.categoryAccent : "var(--surface-card)"}"></button>`;
+                  }).join("")}
+                </div>`
+                )
+                .join("")}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // 12. COMMAND & MENUS / CRYPTO & FINTECH — Interactive Radial & FX Swap / Orderbook
+    if (cat === "command-menus" || cat === "crypto-fintech") {
+      return `
+        <div class="sb-centered-stage">
+          <div class="sb-stage-card sb-stage-wide">
+            <div class="sb-stage-top">
+              <div>
+                <span class="sb-eyebrow" style="color:${item.categoryAccent}">${item.categoryTitle.toUpperCase()} · ${item.file}</span>
+                <h2 class="sb-pane-title">${item.title}</h2>
+                <p class="sb-pane-desc">Interactive precision HUD with live FX conversion calculator, multi-sig quorum approvals, and command triggers.</p>
+              </div>
+              <span class="sb-live-badge"><span class="sb-online-dot"></span> ZERO-LATENCY</span>
+            </div>
+
+            <div class="sb-bento-grid">
+              <div class="sb-bento-card">
+                <div class="sb-eyebrow">LIVE FX / LIQUIDITY ROUTER</div>
+                <div style="margin-top:10px;display:flex;flex-direction:column;gap:10px">
+                  <input type="number" class="sb-input sb-full" id="sb-fx-input" value="2500" />
+                  <div class="sb-metric-val" id="sb-fx-output">€2,312.50 EUR · 0.02% slippage</div>
+                  <div class="sb-metric-sub">Route: USDC → Curve Pool → SEPA Instant (1.2s)</div>
+                </div>
+              </div>
+
+              <div class="sb-bento-card">
+                <div class="sb-eyebrow">RADIAL / CHORD COMMAND ACTIONS</div>
+                <div class="sb-canvas-slots" style="margin-top:12px">
+                  <button class="sb-slot-pill" data-sb-toast="Executed chord: ⌘K → Deploy Canary">⌘D Deploy</button>
+                  <button class="sb-slot-pill" data-sb-toast="Signed transaction (Quorum 3/3 reached)">✓ Sign Quorum (3/3)</button>
+                  <button class="sb-slot-pill" data-sb-toast="Revealed Virtual Card CVV: 849">👁 Reveal CVV</button>
+                  <button class="sb-slot-pill" data-sb-toast="Frozen virtual card #4242">❄ Freeze Card</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // 13. MODALS, TOASTS & TOURS — Live Trigger Playground, Destructive Confirm & Step Tour
     if (cat === "modals" || cat === "toasts" || cat === "tours") {
       return `
         <div class="sb-centered-stage">

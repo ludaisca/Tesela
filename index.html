@@ -17,8 +17,8 @@
     <div class="header-inner">
       <div class="brand-group">
         <span class="brand-dot" aria-hidden="true"></span>
-        <span class="brand-title">SEAN'S SCRATCH PAD</span>
-        <span class="brand-count" id="header-count-text">158 FILES · 18 FOLDERS</span>
+        <span class="brand-title">SEAN'S SCRATCH PAD · v2</span>
+        <span class="brand-count" id="header-count-text">212 FILES · 24 FOLDERS</span>
       </div>
 
       <div class="header-controls">
@@ -48,6 +48,12 @@
           </svg>
           <span>Search…</span>
           <kbd class="kbd-badge">⌘K</kbd>
+        </button>
+
+        <!-- Design Token Studio (D) -->
+        <button type="button" class="header-pill-btn" id="btn-tokens" title="Live Design Token Studio">
+          <span class="dot-emerald"></span>
+          <span>Tokens</span>
         </button>
 
         <!-- Blueprint X-Ray Mode Toggle (B) -->
@@ -103,6 +109,34 @@
     <ul id="folder-minimap-list"></ul>
   </nav>
 
+  <!-- Live Design Token Studio Popover -->
+  <aside class="token-studio-popover" id="token-studio-popover" hidden aria-label="Design Token Studio">
+    <div class="token-studio-head">
+      <span>DESIGN TOKENS STUDIO</span>
+      <button type="button" id="btn-close-tokens" aria-label="Close token studio">✕</button>
+    </div>
+    <div class="token-studio-group">
+      <span class="sb-eyebrow">PRIMARY ACCENT</span>
+      <div class="token-swatch-row">
+        <button type="button" class="token-swatch is-active" data-token-accent="#6366f1" style="background:#6366f1" title="Indigo"></button>
+        <button type="button" class="token-swatch" data-token-accent="#10b981" style="background:#10b981" title="Emerald"></button>
+        <button type="button" class="token-swatch" data-token-accent="#f59e0b" style="background:#f59e0b" title="Amber"></button>
+        <button type="button" class="token-swatch" data-token-accent="#0ea5e9" style="background:#0ea5e9" title="Sky"></button>
+        <button type="button" class="token-swatch" data-token-accent="#ec4899" style="background:#ec4899" title="Rose"></button>
+        <button type="button" class="token-swatch" data-token-accent="#a855f7" style="background:#a855f7" title="Violet"></button>
+      </div>
+    </div>
+    <div class="token-studio-group">
+      <span class="sb-eyebrow">SURFACE RADIUS</span>
+      <div class="token-radius-row">
+        <button type="button" class="vp-btn" data-token-radius="0px">0px Brutal</button>
+        <button type="button" class="vp-btn is-active" data-token-radius="9px">9px Default</button>
+        <button type="button" class="vp-btn" data-token-radius="16px">16px Soft</button>
+      </div>
+    </div>
+    <button type="button" class="sb-btn-primary sb-full" id="btn-export-tokens">Copy CSS Variables</button>
+  </aside>
+
   <!-- Hero Section -->
   <section class="hero-section">
     <div class="hero-folder-row">
@@ -115,9 +149,8 @@
 
       <!-- Interactive Status Filter Bar -->
       <div class="hero-filter-pills" role="group" aria-label="Filter designs">
-        <button type="button" class="filter-pill is-active" data-filter-btn="all">All (158)</button>
-        <button type="button" class="filter-pill" data-filter-btn="ready">Production (136)</button>
-        <button type="button" class="filter-pill" data-filter-btn="wip">Enhanced WIP (22)</button>
+        <button type="button" class="filter-pill is-active" data-filter-btn="all">All (212)</button>
+        <button type="button" class="filter-pill" data-filter-btn="new">✦ New v2 (54)</button>
         <button type="button" class="filter-pill" data-filter-btn="favs">Favorites ★</button>
       </div>
     </div>
@@ -125,7 +158,7 @@
     <h1 class="hero-heading">Designs.</h1>
 
     <p class="hero-lead">
-      <strong>158</strong> design experiments, two years deep. Built on <strong>coss-ui</strong> — with raw CSS, shaders, weird SVGs, and the odd canvas thrown in. Scroll, or press
+      <strong>212</strong> design experiments across <strong>24 folders</strong>. Recreated and expanded from scratch — with raw CSS, WebGL shaders, procedural SVGs, Web Audio synthesis, and interactive canvases. Scroll, or press
       <button type="button" class="inline-cmdk-btn" id="hero-cmdk-trigger">⌘K</button>
       to jump in.
     </p>

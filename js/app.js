@@ -89,7 +89,7 @@
               </div>
               <h2 class="hero-promo-title">${card.title}</h2>
               <p class="hero-promo-desc">${card.description}</p>
-              <a href="#cat-${card.id === "coss-ui" ? "layouts" : card.id === "orbit" ? "dashboards" : "calendars"}" class="hero-promo-cta" data-scroll-cat="${card.id === "coss-ui" ? "layouts" : card.id === "orbit" ? "dashboards" : "calendars"}">
+              <a href="#cat-${card.targetCat || (card.id === "coss-ui" ? "layouts" : card.id === "orbit" ? "ai-agents" : "devtools")}" class="hero-promo-cta">
                 <span>${card.cta}</span>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
               </a>
@@ -134,6 +134,7 @@
     const html = DATA.categories
       .map((cat, catIdx) => {
         const filteredItems = cat.items.filter((item) => {
+          if (state.filterMode === "new") return Boolean(cat.isNew);
           if (state.filterMode === "ready") return !item.wip;
           if (state.filterMode === "wip") return item.wip;
           if (state.filterMode === "favs") return state.favorites.has(item.slug);
@@ -158,6 +159,7 @@
                   <div class="exp-card-frame">
                     ${svgPreview}
                     <div class="exp-card-overlay">
+                      <span class="exp-hover-pill" data-quick-code="${path}" title="Inspect TSX & HTML source">&lt;/&gt; Code</span>
                       <span class="exp-hover-pill">Inspect live ↗</span>
                     </div>
                     <div class="exp-blueprint-coords" aria-hidden="true">320×200 · ${cat.id}/${item.slug}</div>
@@ -165,7 +167,7 @@
                   <div class="exp-card-meta">
                     <div class="exp-card-title-row">
                       <span class="exp-card-title">${item.title}</span>
-                      ${item.wip ? `<span class="exp-wip-badge" title="Enhanced interactive WIP">WIP</span>` : ""}
+                      ${cat.isNew ? `<span class="exp-new-badge">NEW</span>` : item.wip ? `<span class="exp-wip-badge">WIP</span>` : ""}
                     </div>
                     <div class="exp-card-file-row">
                       <span class="exp-card-filename">${item.file}</span>
@@ -198,6 +200,7 @@
                   <div class="cat-title-line">
                     <h2 class="cat-title">${cat.title}</h2>
                     <span class="cat-index-pill">FOLDER ${String(catIdx + 1).padStart(2, "0")}</span>
+                    ${cat.isNew ? `<span class="cat-new-pill">NEW v2</span>` : ""}
                   </div>
                   <p class="cat-subtitle">
                     ${cat.description}
@@ -222,12 +225,12 @@
       html ||
       `<div class="empty-filter-state">
         <p>No designs match the current filter.</p>
-        <button type="button" class="sb-btn-primary" id="reset-filter-btn">Reset to All 158 Files</button>
+        <button type="button" class="sb-btn-primary" id="reset-filter-btn">Reset to All 212 Files</button>
       </div>`;
 
     const counterEl = document.getElementById("header-count-text");
     if (counterEl) {
-      counterEl.textContent = `${totalRendered} FILES · 18 FOLDERS`;
+      counterEl.textContent = `${totalRendered} FILES · ${DATA.categories.length} FOLDERS`;
     }
 
     bindCardSpotlightEffects();
@@ -622,6 +625,206 @@
         showToast("Destructive action confirmed and executed");
       });
     }
+
+    // 12. AI & Agents Live Token Streamer
+    const streamBtn = stage.querySelector("#sb-stream-btn");
+    const streamOut = stage.querySelector("#sb-stream-output");
+    if (streamBtn && streamOut) {
+      streamBtn.addEventListener("click", () => {
+        AUDIO.play("click");
+        const tokens = [
+          "[reasoning]", "Analyzing", "AST", "surface", "hierarchy", "for", `${item.file}...`,
+          "\n→", "Verified", "0", "external", "imports.",
+          "\n→", "Compiled", "OKLCH", "border", "tokens", "and", "hardware-accelerated", "SVG", "layers", "in", "14.2ms.",
+          "\n✓", "Ready", "to", "ship", "production", "component."
+        ];
+        streamOut.textContent = "";
+        let idx = 0;
+        const timer = setInterval(() => {
+          if (idx >= tokens.length) {
+            clearInterval(timer);
+            AUDIO.play("chime");
+            return;
+          }
+          streamOut.textContent += (idx === 0 ? "" : " ") + tokens[idx++];
+          AUDIO.play("tick");
+        }, 48);
+      });
+    }
+    stage.querySelectorAll("#sb-ai-model-select .sb-seg-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        AUDIO.play("click");
+        stage.querySelectorAll("#sb-ai-model-select .sb-seg-btn").forEach((b) => b.classList.remove("is-active"));
+        btn.classList.add("is-active");
+        showToast(`Switched active agent model to ${btn.getAttribute("data-model")}`);
+      });
+    });
+
+    // 13. Shaders & Canvas Live 60fps Interactive Vector / ASCII Field
+    const shaderCanvas = stage.querySelector("#sb-live-shader-canvas");
+    if (shaderCanvas) {
+      const ctx = shaderCanvas.getContext("2d");
+      let mx = 430;
+      let my = 140;
+      let radius = 140;
+      let smode = "dipole";
+      let animId = 0;
+      let t = 0;
+
+      shaderCanvas.addEventListener("pointermove", (e) => {
+        const r = shaderCanvas.getBoundingClientRect();
+        mx = ((e.clientX - r.left) / r.width) * shaderCanvas.width;
+        my = ((e.clientY - r.top) / r.height) * shaderCanvas.height;
+      });
+
+      const radSlider = stage.querySelector("#sb-shader-radius");
+      const freqVal = stage.querySelector("#sb-freq-val");
+      const hud = stage.querySelector("#sb-shader-hud");
+      radSlider?.addEventListener("input", () => {
+        radius = parseInt(radSlider.value, 10);
+        if (freqVal) freqVal.textContent = `${radius}px`;
+        if (hud) hud.textContent = `60 FPS · ${smode.toUpperCase()} · Radius: ${radius}px`;
+      });
+
+      stage.querySelectorAll("#sb-shader-mode .sb-seg-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          AUDIO.play("click");
+          stage.querySelectorAll("#sb-shader-mode .sb-seg-btn").forEach((b) => b.classList.remove("is-active"));
+          btn.classList.add("is-active");
+          smode = btn.getAttribute("data-smode") || "dipole";
+          if (hud) hud.textContent = `60 FPS · ${smode.toUpperCase()} · Radius: ${radius}px`;
+        });
+      });
+
+      const renderShaderLab = () => {
+        if (!document.body.contains(shaderCanvas)) {
+          cancelAnimationFrame(animId);
+          return;
+        }
+        t += 0.035;
+        ctx.clearRect(0, 0, shaderCanvas.width, shaderCanvas.height);
+
+        const cols = 28;
+        const rows = 9;
+        const cw = shaderCanvas.width / cols;
+        const ch = shaderCanvas.height / rows;
+
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            const x = (c + 0.5) * cw;
+            const y = (r + 0.5) * ch;
+            const dx = mx - x;
+            const dy = my - y;
+            const dist = Math.hypot(dx, dy);
+            const influence = Math.max(0, 1 - dist / radius);
+
+            if (smode === "dipole") {
+              const angle = Math.atan2(dy, dx) + Math.sin(t + c * 0.2) * 0.25;
+              const len = 8 + influence * 10;
+              ctx.strokeStyle = influence > 0.15 ? item.categoryAccent : "rgba(150,150,160,0.35)";
+              ctx.lineWidth = influence > 0.15 ? 2 : 1.2;
+              ctx.beginPath();
+              ctx.moveTo(x - Math.cos(angle) * len * 0.5, y - Math.sin(angle) * len * 0.5);
+              ctx.lineTo(x + Math.cos(angle) * len * 0.5, y + Math.sin(angle) * len * 0.5);
+              ctx.stroke();
+            } else if (smode === "ascii") {
+              const glyphs = [".", "·", ":", "+", "*", "#", "@"];
+              const gIdx = Math.min(glyphs.length - 1, Math.floor((influence + (Math.sin(t + c * 0.3 + r * 0.3) * 0.5 + 0.5) * 0.4) * glyphs.length));
+              ctx.fillStyle = influence > 0.2 ? item.categoryAccent : "rgba(150,150,160,0.45)";
+              ctx.font = "12px ui-monospace, monospace";
+              ctx.fillText(glyphs[gIdx], x - 4, y + 4);
+            } else {
+              const wy = y + Math.sin(t * 2 + c * 0.35) * (6 + influence * 18);
+              ctx.fillStyle = influence > 0.15 ? item.categoryAccent : "rgba(150,150,160,0.4)";
+              ctx.beginPath();
+              ctx.arc(x, wy, 2.2 + influence * 3.5, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+        }
+        animId = requestAnimationFrame(renderShaderLab);
+      };
+      renderShaderLab();
+    }
+
+    // 14. DevTools Network Waterfall Row Click
+    const wfTable = stage.querySelector("#sb-waterfall-table");
+    const spanText = stage.querySelector("#sb-span-detail-text");
+    if (wfTable && spanText) {
+      wfTable.querySelectorAll("tbody tr").forEach((tr) => {
+        tr.style.cursor = "pointer";
+        tr.addEventListener("click", () => {
+          AUDIO.play("click");
+          spanText.textContent = tr.getAttribute("data-span-info") || "";
+        });
+      });
+    }
+
+    // 15. Media & Audio 8-Step Polyphonic Synth Sequencer
+    const seqMatrix = stage.querySelector("#sb-sequencer-matrix");
+    if (seqMatrix) {
+      seqMatrix.querySelectorAll(".sb-seq-cell").forEach((cell) => {
+        cell.addEventListener("click", () => {
+          cell.classList.toggle("is-on");
+          const on = cell.classList.contains("is-on");
+          cell.style.background = on ? item.categoryAccent : "var(--surface-card)";
+          AUDIO.play("click");
+        });
+      });
+      stage.querySelector("#sb-seq-clear")?.addEventListener("click", () => {
+        seqMatrix.querySelectorAll(".sb-seq-cell").forEach((cell) => {
+          cell.classList.remove("is-on");
+          cell.style.background = "var(--surface-card)";
+        });
+        AUDIO.play("close");
+      });
+      stage.querySelector("#sb-seq-play")?.addEventListener("click", () => {
+        const freqs = [523.25, 392.0, 329.63, 130.81];
+        let step = 0;
+        const seqTimer = setInterval(() => {
+          if (step >= 8 || !document.body.contains(seqMatrix)) {
+            clearInterval(seqTimer);
+            return;
+          }
+          seqMatrix.querySelectorAll(`.sb-seq-cell[data-col="${step}"]`).forEach((cell) => {
+            cell.style.transform = "scale(1.08)";
+            setTimeout(() => {
+              cell.style.transform = "";
+            }, 110);
+            if (cell.classList.contains("is-on")) {
+              const row = parseInt(cell.getAttribute("data-row") || "0", 10);
+              try {
+                AUDIO.init();
+                if (AUDIO.ctx) {
+                  const now = AUDIO.ctx.currentTime;
+                  const osc = AUDIO.ctx.createOscillator();
+                  const g = AUDIO.ctx.createGain();
+                  osc.type = row === 3 ? "triangle" : "sine";
+                  osc.frequency.setValueAtTime(freqs[row] || 440, now);
+                  g.gain.setValueAtTime(0.035, now);
+                  g.gain.exponentialRampToValueAtTime(0.0001, now + 0.14);
+                  osc.connect(g);
+                  g.connect(AUDIO.ctx.destination);
+                  osc.start(now);
+                  osc.stop(now + 0.15);
+                }
+              } catch (_) {}
+            }
+          });
+          step++;
+        }, 145);
+      });
+    }
+
+    // 16. Fintech Live FX Swap Calculator
+    const fxIn = stage.querySelector("#sb-fx-input");
+    const fxOut = stage.querySelector("#sb-fx-output");
+    if (fxIn && fxOut) {
+      fxIn.addEventListener("input", () => {
+        const v = parseFloat(fxIn.value || "0");
+        fxOut.textContent = `€${(v * 0.925).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EUR · 0.02% slippage`;
+      });
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -843,6 +1046,40 @@
         return;
       }
 
+      // Quick Code button inside card overlay
+      const quickCodeBtn = target.closest("[data-quick-code]");
+      if (quickCodeBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const path = quickCodeBtn.getAttribute("data-quick-code");
+        state.codeDrawerOpen = true;
+        openSandbox(path);
+        return;
+      }
+
+      // Token Studio Swatches & Radius buttons
+      const accentSwatch = target.closest("[data-token-accent]");
+      if (accentSwatch) {
+        const hex = accentSwatch.getAttribute("data-token-accent");
+        document.documentElement.style.setProperty("--accent-indigo", hex);
+        document.querySelectorAll("[data-token-accent]").forEach((b) => b.classList.remove("is-active"));
+        accentSwatch.classList.add("is-active");
+        AUDIO.play("click");
+        showToast(`Updated primary token --accent-indigo to ${hex}`);
+        return;
+      }
+
+      const radiusBtn = target.closest("[data-token-radius]");
+      if (radiusBtn) {
+        const r = radiusBtn.getAttribute("data-token-radius");
+        document.documentElement.style.setProperty("--card-radius", r);
+        document.querySelectorAll("[data-token-radius]").forEach((b) => b.classList.remove("is-active"));
+        radiusBtn.classList.add("is-active");
+        AUDIO.play("click");
+        showToast(`Updated surface card radius to ${r}`);
+        return;
+      }
+
       // Open experiment in Sandbox
       const openLink = target.closest("[data-open-path]");
       if (openLink) {
@@ -952,6 +1189,22 @@
     document.getElementById("btn-random")?.addEventListener("click", openRandomDesign);
     document.getElementById("btn-theme")?.addEventListener("click", toggleTheme);
     document.getElementById("btn-blueprint")?.addEventListener("click", toggleBlueprint);
+    document.getElementById("btn-tokens")?.addEventListener("click", () => {
+      const pop = document.getElementById("token-studio-popover");
+      if (!pop) return;
+      pop.hidden = !pop.hidden;
+      AUDIO.play("click");
+    });
+    document.getElementById("btn-close-tokens")?.addEventListener("click", () => {
+      const pop = document.getElementById("token-studio-popover");
+      if (pop) pop.hidden = true;
+    });
+    document.getElementById("btn-export-tokens")?.addEventListener("click", () => {
+      const cssTokens = `:root {\n  --bg: ${getComputedStyle(document.documentElement).getPropertyValue("--bg").trim()};\n  --fg: ${getComputedStyle(document.documentElement).getPropertyValue("--fg").trim()};\n  --accent-indigo: ${getComputedStyle(document.documentElement).getPropertyValue("--accent-indigo").trim()};\n  --card-radius: ${getComputedStyle(document.documentElement).getPropertyValue("--card-radius").trim() || "9px"};\n}`;
+      navigator.clipboard?.writeText(cssTokens).catch(() => {});
+      AUDIO.play("chime");
+      showToast("Copied CSS custom properties to clipboard");
+    });
     document.getElementById("btn-sound")?.addEventListener("click", (e) => {
       const on = AUDIO.toggle();
       e.currentTarget.setAttribute("aria-pressed", String(on));

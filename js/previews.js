@@ -194,6 +194,57 @@
           <rect x="34" y="34" width="34" height="13" rx="2.5" class="op-80"/>
           <rect x="39" y="39" width="22" height="2.4" rx="0.6" fill="currentColor" class="op-80" stroke="none"/>
         `);
+      case "ai-agents":
+        return frame(`
+          <circle cx="18" cy="22" r="4.5" stroke="currentColor" stroke-width="1.3" class="op-85"/>
+          <circle cx="18" cy="22" r="1.8" fill="currentColor" class="op-90" stroke="none"/>
+          <path d="M23 22 H36 M36 22 L44 15 M36 22 L44 29" class="op-55"/>
+          <rect x="44" y="11" width="28" height="9" rx="2" class="op-75"/>
+          <rect x="44" y="25" width="28" height="9" rx="2" class="op-75"/>
+          <rect x="12" y="42" width="56" height="10" rx="3" class="op-45"/>
+          <rect x="16" y="45.5" width="34" height="2.5" rx="0.8" fill="currentColor" class="op-80" stroke="none"/>
+        `);
+      case "shaders-canvas":
+        return frame(`
+          <circle cx="40" cy="33" r="16" stroke-dasharray="2 2" class="op-45"/>
+          <circle cx="40" cy="33" r="9" class="op-85"/>
+          <path d="M12 46 Q 28 18, 40 33 T 68 20" stroke-width="1.4" class="op-90"/>
+          <circle cx="24" cy="24" r="1.5" fill="currentColor" class="op-60" stroke="none"/>
+          <circle cx="56" cy="42" r="1.5" fill="currentColor" class="op-60" stroke="none"/>
+        `);
+      case "devtools":
+        return frame(`
+          <rect x="8" y="13" width="24" height="5" rx="1" fill="currentColor" class="op-75" stroke="none"/>
+          <rect x="22" y="22" width="32" height="5" rx="1" fill="currentColor" class="op-55" stroke="none"/>
+          <rect x="36" y="31" width="28" height="5" rx="1" fill="currentColor" class="op-85" stroke="none"/>
+          <rect x="14" y="40" width="46" height="5" rx="1" fill="currentColor" class="op-40" stroke="none"/>
+          <line x1="22" y1="10" x2="22" y2="54" stroke-dasharray="1.5 1.5" class="op-30"/>
+          <line x1="50" y1="10" x2="50" y2="54" stroke-dasharray="1.5 1.5" class="op-30"/>
+        `);
+      case "command-menus":
+        return frame(`
+          <circle cx="40" cy="33" r="17" class="op-40"/>
+          <circle cx="40" cy="33" r="6" class="op-85"/>
+          <line x1="40" y1="16" x2="40" y2="27" class="op-45"/>
+          <line x1="40" y1="39" x2="40" y2="50" class="op-45"/>
+          <line x1="23" y1="33" x2="34" y2="33" class="op-45"/>
+          <line x1="46" y1="33" x2="57" y2="33" class="op-45"/>
+        `);
+      case "media-audio":
+        return frame(`
+          <path d="M14 48 C 28 48, 26 16, 66 16" stroke-width="1.6" class="op-90"/>
+          <line x1="14" y1="48" x2="28" y2="48" class="op-45"/>
+          <line x1="66" y1="16" x2="26" y2="16" class="op-45"/>
+          <circle cx="28" cy="48" r="2.8" fill="currentColor" stroke="none"/>
+          <circle cx="26" cy="16" r="2.8" fill="currentColor" stroke="none"/>
+        `);
+      case "crypto-fintech":
+        return frame(`
+          <path d="M8 50 L22 38 L34 38 L38 48 L38 52 L8 52 Z" fill="currentColor" class="op-25" stroke="none"/>
+          <polyline points="8,50 22,38 34,38 38,48" stroke-width="1.3" class="op-85"/>
+          <path d="M72 22 L56 34 L44 34 L42 48 L72 52 Z" fill="currentColor" class="op-15" stroke="none"/>
+          <polyline points="42,48 44,34 56,34 72,22" stroke-width="1.3" class="op-65"/>
+        `);
       default:
         return "";
     }
@@ -227,12 +278,230 @@
           <circle cx="11" cy="10" r="2.2" fill="currentColor" class="op-25"/>
           <circle cx="19" cy="10" r="2.2" fill="currentColor" class="op-20"/>
           <circle cx="27" cy="10" r="2.2" fill="currentColor" class="op-15"/>
-          <rect x="110" y="6.5" width="100" height="7" rx="3.5" fill="currentColor" class="op-06"/>
-          <circle cx="305" cy="10" r="2.8" fill="${acc}" class="op-80"/>
+          <rect x="96" y="5.5" width="128" height="9" rx="4.5" fill="currentColor" class="op-06"/>
+          <text x="160" y="12" text-anchor="middle" font-size="5.5" font-family="ui-monospace, monospace" fill="currentColor" class="op-45">${catId}/${slug}</text>
+          <circle cx="305" cy="10" r="2.8" fill="${acc}" class="op-85"/>
         </g>
         ${inner}
       </svg>`;
     };
+
+    // ========================================================================
+    // NEW CATEGORY A: AI & AGENTS (10 bespoke compositions)
+    // ========================================================================
+    if (catId === "ai-agents") {
+      if (slug === "agent-handoff-graph") {
+        return windowChrome(`
+          <rect x="28" y="76" width="64" height="36" rx="6" fill="${acc}" class="op-22" stroke="${acc}" stroke-width="1.5"/>
+          <text x="60" y="97" text-anchor="middle" font-size="7" fill="currentColor" class="op-90">ORCHESTRATOR</text>
+          <path d="M92 94 C118 94, 118 54, 144 54 M92 94 C118 94, 118 94, 144 94 M92 94 C118 94, 118 134, 144 134" stroke="${acc}" stroke-width="1.5" stroke-dasharray="3 3" class="anim-draw"/>
+          ${[38, 78, 118].map((y, i) => `
+            <rect x="144" y="${y}" width="72" height="32" rx="5" fill="var(--bg)" stroke="currentColor" class="op-45 anim-slide-x"/>
+            <circle cx="156" cy="${y + 16}" r="3.5" fill="${accents[(i + 1) % accents.length]}"/>
+            <rect x="166" y="${y + 14}" width="38" height="4" rx="1.5" fill="currentColor" class="op-80"/>
+          `).join("")}
+          <rect x="236" y="76" width="56" height="36" rx="6" stroke="var(--accent-emerald)" stroke-width="1.5" class="op-85 anim-pulse"/>
+        `);
+      }
+      if (slug === "token-budget-meter" || slug === "context-window-stack") {
+        return windowChrome(`
+          <rect x="24" y="34" width="272" height="148" rx="7" fill="var(--bg)" stroke="currentColor" class="op-28"/>
+          <text x="38" y="54" font-size="7.5" font-weight="600" fill="currentColor" class="op-85">CONTEXT WINDOW · 94.2k / 128k TOKENS</text>
+          <rect x="38" y="64" width="244" height="14" rx="4" fill="currentColor" class="op-10"/>
+          <rect x="38" y="64" width="96" height="14" rx="4" fill="${acc}" class="op-90"/>
+          <rect x="136" y="64" width="64" height="14" fill="var(--accent-sky)" class="op-85"/>
+          <rect x="202" y="64" width="38" height="14" fill="var(--accent-amber)" class="op-85"/>
+          ${[96, 122, 148].map((y, i) => `
+            <rect x="38" y="${y}" width="244" height="20" rx="4" fill="currentColor" class="op-05" stroke="currentColor" stroke-opacity="0.18"/>
+            <circle cx="50" cy="${y + 10}" r="3.5" fill="${i === 0 ? acc : i === 1 ? "var(--accent-sky)" : "var(--accent-amber)"}"/>
+            <rect x="60" y="${y + 8}" width="${90 + i * 24}" height="4" rx="1.5" fill="currentColor" class="op-75"/>
+            <text x="268" y="${y + 12.5}" text-anchor="end" font-size="6.5" fill="currentColor" class="op-55">${38 - i * 11}k tok</text>
+          `).join("")}
+        `);
+      }
+      if (slug === "voice-waveform-hud") {
+        return windowChrome(`
+          <circle cx="160" cy="96" r="36" fill="${acc}" class="op-15 anim-pulse"/>
+          <circle cx="160" cy="96" r="22" stroke="${acc}" stroke-width="1.8" class="op-90"/>
+          ${Array.from({ length: 28 }, (_, i) => {
+            const bh = 8 + Math.abs(Math.sin(i * 0.55)) * 36;
+            return `<rect x="${48 + i * 8}" y="${160 - bh / 2}" width="4" height="${bh}" rx="2" fill="${i > 9 && i < 19 ? acc : "currentColor"}" class="${i > 9 && i < 19 ? "op-90 anim-bar" : "op-30"}"/>`;
+          }).join("")}
+        `);
+      }
+      if (slug === "diff-apply-review") {
+        return windowChrome(`
+          <rect x="20" y="32" width="280" height="150" rx="6" fill="var(--bg)" stroke="currentColor" class="op-30"/>
+          <rect x="20" y="68" width="280" height="22" fill="#f43f5e" class="op-15"/>
+          <text x="30" y="82" font-size="8" fill="#f43f5e">- const timeout = 12000;</text>
+          <rect x="20" y="90" width="280" height="22" fill="var(--accent-emerald)" class="op-18"/>
+          <text x="30" y="104" font-size="8" fill="var(--accent-emerald)">+ const timeout = config.adaptiveTimeout ?? 30000;</text>
+          <rect x="176" y="152" width="52" height="18" rx="4" stroke="currentColor" class="op-35"/>
+          <rect x="234" y="152" width="54" height="18" rx="4" fill="var(--accent-emerald)" class="op-90"/>
+        `);
+      }
+      return windowChrome(`
+        <rect x="24" y="30" width="272" height="96" rx="6" stroke="currentColor" class="op-22" fill="currentColor" fill-opacity="0.02"/>
+        <circle cx="40" cy="46" r="5" fill="${acc}"/>
+        <rect x="52" y="43" width="96" height="5" rx="1.8" fill="currentColor" class="op-85"/>
+        <rect x="38" y="60" width="244" height="28" rx="4" fill="currentColor" class="op-06" stroke="${acc}" stroke-opacity="0.4"/>
+        <text x="48" y="77" font-size="7" fill="${acc}">⚡ tool_call: execute({ query: "ast_nodes" }) · 42ms</text>
+        <rect x="38" y="98" width="188" height="4" rx="1.5" fill="currentColor" class="op-65"/>
+        <rect x="24" y="136" width="272" height="48" rx="7" fill="var(--bg)" stroke="currentColor" class="op-40 anim-float"/>
+        <rect x="36" y="148" width="144" height="4.5" rx="1.5" fill="currentColor" class="op-55"/>
+        <rect x="236" y="160" width="48" height="16" rx="4" fill="${acc}" class="op-90"/>
+      `);
+    }
+
+    // ========================================================================
+    // NEW CATEGORY B: SHADERS & CANVAS (10 bespoke compositions)
+    // ========================================================================
+    if (catId === "shaders-canvas") {
+      if (slug === "magnetic-cursor-grid" || slug === "ascii-matrix-field") {
+        let vectors = "";
+        for (let r = 0; r < 6; r++) {
+          for (let c = 0; c < 11; c++) {
+            const x = 34 + c * 25;
+            const y = 44 + r * 24;
+            const dx = 160 - x;
+            const dy = 105 - y;
+            const ang = Math.atan2(dy, dx);
+            const x2 = (x + Math.cos(ang) * 9).toFixed(1);
+            const y2 = (y + Math.sin(ang) * 9).toFixed(1);
+            vectors += `<line x1="${x}" y1="${y}" x2="${x2}" y2="${y2}" stroke="${Math.hypot(dx, dy) < 68 ? acc : "currentColor"}" stroke-width="1.5" class="${Math.hypot(dx, dy) < 68 ? "op-95" : "op-30"}"/>`;
+          }
+        }
+        return windowChrome(`${vectors}<circle cx="160" cy="105" r="24" stroke="${acc}" stroke-dasharray="3 3" class="op-80 anim-pulse"/>`);
+      }
+      if (slug === "raymarched-sdf-orb" || slug === "dither-halftone-shader") {
+        return windowChrome(`
+          <circle cx="160" cy="110" r="54" fill="${acc}" class="op-15 anim-pulse"/>
+          <circle cx="160" cy="110" r="38" stroke="${acc}" stroke-width="2" class="op-85"/>
+          <ellipse cx="160" cy="110" rx="38" ry="14" stroke="currentColor" stroke-dasharray="3 3" class="op-45"/>
+          <ellipse cx="160" cy="110" rx="14" ry="38" stroke="currentColor" stroke-dasharray="3 3" class="op-45"/>
+          <circle cx="146" cy="96" r="6" fill="currentColor" class="op-90"/>
+        `);
+      }
+      return windowChrome(`
+        ${[0, 1, 2, 3, 4, 5].map((i) => `<path d="M 20 ${55 + i * 22} Q 95 ${25 + i * 26}, 160 ${65 + i * 18} T 300 ${45 + i * 24}" fill="none" stroke="${i % 2 === 0 ? acc : "currentColor"}" stroke-width="${i === 2 ? "2.2" : "1.2"}" class="${i % 2 === 0 ? "op-85 anim-draw" : "op-25"}"/>`).join("")}
+        <circle cx="160" cy="102" r="7" fill="${acc}" class="anim-pulse"/>
+      `);
+    }
+
+    // ========================================================================
+    // NEW CATEGORY C: DEVTOOLS & LOGS (9 bespoke compositions)
+    // ========================================================================
+    if (catId === "devtools") {
+      if (slug === "network-waterfall" || slug === "flamegraph-profiler") {
+        const spans = [
+          { x: 96, w: 42, c: "var(--accent-sky)", label: "GET /api/session · 200" },
+          { x: 128, w: 76, c: acc, label: "POST /v2/compile · 200" },
+          { x: 164, w: 64, c: "var(--accent-emerald)", label: "WSS /realtime · 101" },
+          { x: 196, w: 88, c: "var(--accent-amber)", label: "GET /chunks/shader.wasm" },
+          { x: 112, w: 142, c: "#ec4899", label: " Worker.evaluate() · 48ms" }
+        ];
+        return windowChrome(`
+          <rect x="14" y="28" width="292" height="158" rx="5" stroke="currentColor" class="op-24"/>
+          <line x1="90" y1="28" x2="90" y2="186" stroke="currentColor" class="op-20"/>
+          ${spans.map((s, i) => `
+            <text x="22" y="${52 + i * 27}" font-size="6" fill="currentColor" class="op-70">${s.label.slice(0, 14)}</text>
+            <rect x="${s.x}" y="${43 + i * 27}" width="${s.w}" height="13" rx="3" fill="${s.c}" class="op-85 anim-slide-x"/>
+          `).join("")}
+        `);
+      }
+      return windowChrome(`
+        <rect x="14" y="28" width="292" height="158" rx="5" fill="currentColor" class="op-04" stroke="currentColor" stroke-opacity="0.24"/>
+        <text x="26" y="48" font-size="7.5" fill="${acc}">▼ { "workspace": "argon-v2", "nodes": 212,</text>
+        <text x="38" y="66" font-size="7.5" fill="currentColor" class="op-80">  "shaderEngine": "webgl-fragment-fp16",</text>
+        <text x="38" y="84" font-size="7.5" fill="var(--accent-emerald)">  "externalDependencies": 0,</text>
+        <text x="38" y="102" font-size="7.5" fill="var(--accent-amber)">  "latencyMs": [1.2, 0.8, 1.4, 0.9],</text>
+        <text x="26" y="120" font-size="7.5" fill="${acc}">}</text>
+        <rect x="26" y="138" width="268" height="34" rx="4" stroke="currentColor" class="op-25"/>
+        <rect x="34" y="151" width="144" height="6" rx="2" fill="${acc}" class="op-85"/>
+      `);
+    }
+
+    // ========================================================================
+    // NEW CATEGORY D: COMMAND & MENUS (9 bespoke compositions)
+    // ========================================================================
+    if (catId === "command-menus") {
+      if (slug === "radial-pie-menu") {
+        return windowChrome(`
+          <g class="anim-float">
+            <circle cx="160" cy="108" r="58" fill="var(--bg)" stroke="currentColor" stroke-width="1.5" class="op-80"/>
+            <circle cx="160" cy="108" r="20" fill="${acc}" class="op-90"/>
+            <line x1="160" y1="50" x2="160" y2="88" stroke="currentColor" class="op-30"/>
+            <line x1="160" y1="128" x2="160" y2="166" stroke="currentColor" class="op-30"/>
+            <line x1="102" y1="108" x2="140" y2="108" stroke="currentColor" class="op-30"/>
+            <line x1="180" y1="108" x2="218" y2="108" stroke="currentColor" class="op-30"/>
+            <circle cx="188" cy="80" r="6" fill="${acc}" class="anim-pulse"/>
+          </g>
+        `);
+      }
+      return windowChrome(`
+        <rect x="52" y="34" width="216" height="146" rx="8" fill="var(--bg)" stroke="currentColor" class="op-55 anim-float"/>
+        <rect x="64" y="46" width="192" height="22" rx="4" fill="currentColor" class="op-08"/>
+        <text x="74" y="60" font-size="8" fill="${acc}">/deploy production --canary</text>
+        ${[80, 106, 132, 154].map((y, i) => `
+          <rect x="64" y="${y - 4}" width="192" height="20" rx="4" fill="${i === 0 ? acc : "none"}" fill-opacity="${i === 0 ? "0.2" : "0"}"/>
+          <rect x="74" y="${y + 4}" width="${84 + (i % 2) * 28}" height="4" rx="1.5" fill="currentColor" class="${i === 0 ? "op-95" : "op-60"}"/>
+          <rect x="224" y="${y + 1}" width="22" height="10" rx="2.5" stroke="currentColor" class="op-35"/>
+        `).join("")}
+      `);
+    }
+
+    // ========================================================================
+    // NEW CATEGORY E: MEDIA & CREATIVE TOOLS (8 bespoke compositions)
+    // ========================================================================
+    if (catId === "media-audio") {
+      if (slug === "bezier-easing-editor") {
+        return windowChrome(`
+          <rect x="44" y="34" width="136" height="136" rx="6" stroke="currentColor" class="op-30"/>
+          <line x1="44" y1="170" x2="108" y2="48" stroke="${acc}" stroke-width="1.4" stroke-dasharray="3 3"/>
+          <line x1="180" y1="34" x2="116" y2="152" stroke="var(--accent-sky)" stroke-width="1.4" stroke-dasharray="3 3"/>
+          <path d="M 44 170 C 108 48, 116 152, 180 34" fill="none" stroke="currentColor" stroke-width="2.5" class="anim-draw"/>
+          <circle cx="108" cy="48" r="5.5" fill="${acc}" class="anim-pulse"/>
+          <circle cx="116" cy="152" r="5.5" fill="var(--accent-sky)" class="anim-pulse"/>
+          <rect x="196" y="48" width="84" height="24" rx="5" fill="currentColor" class="op-08"/>
+          <text x="238" y="63" text-anchor="middle" font-size="6.5" fill="currentColor" class="op-85">(0.22, 1, 0.36, 1)</text>
+        `);
+      }
+      return windowChrome(`
+        <rect x="24" y="34" width="272" height="146" rx="7" fill="var(--bg)" stroke="currentColor" class="op-30"/>
+        ${[0, 1, 2, 3].map((r) =>
+          Array.from({ length: 8 }, (_, c) => {
+            const on = (r + c) % 3 === 0 || (r === 1 && c === 4);
+            return `<rect x="${40 + c * 30}" y="${50 + r * 28}" width="24" height="20" rx="3.5" fill="${on ? acc : "currentColor"}" class="${on ? "op-90 anim-pulse" : "op-10"}"/>`;
+          }).join("")
+        ).join("")}
+      `);
+    }
+
+    // ========================================================================
+    // NEW CATEGORY F: FINTECH & TREASURY (8 bespoke compositions)
+    // ========================================================================
+    if (catId === "crypto-fintech") {
+      if (slug === "orderbook-depth-wall") {
+        return windowChrome(`
+          <rect x="20" y="32" width="280" height="150" rx="6" stroke="currentColor" class="op-22"/>
+          <path d="M 28 172 L 28 74 L 68 74 L 68 102 L 114 102 L 114 136 L 154 136 L 154 172 Z" fill="var(--accent-emerald)" class="op-25"/>
+          <polyline points="28,74 68,74 68,102 114,102 114,136 154,136 154,172" fill="none" stroke="var(--accent-emerald)" stroke-width="2"/>
+          <path d="M 166 172 L 166 132 L 204 132 L 204 96 L 248 96 L 248 64 L 292 64 L 292 172 Z" fill="#f43f5e" class="op-25"/>
+          <polyline points="166,172 166,132 204,132 204,96 248,96 248,64 292,64" fill="none" stroke="#f43f5e" stroke-width="2"/>
+        `);
+      }
+      return windowChrome(`
+        <g class="anim-float">
+          <rect x="52" y="36" width="216" height="138" rx="10" fill="var(--bg)" stroke="${acc}" stroke-width="1.6"/>
+          <text x="72" y="60" font-size="8" font-weight="700" fill="${acc}">TREASURY VAULT · MULTI-SIG 3/5</text>
+          <text x="72" y="92" font-size="18" font-weight="700" fill="currentColor">$2,840,910.00</text>
+          <rect x="72" y="114" width="176" height="8" rx="4" fill="currentColor" class="op-12"/>
+          <rect x="72" y="114" width="132" height="8" rx="4" fill="var(--accent-emerald)" class="op-90"/>
+          <rect x="72" y="138" width="82" height="20" rx="4.5" fill="currentColor" class="op-90"/>
+          <rect x="162" y="138" width="86" height="20" rx="4.5" stroke="currentColor" class="op-35"/>
+        </g>
+      `);
+    }
 
     // ========================================================================
     // 1. LAYOUTS (12 distinct compositions)
