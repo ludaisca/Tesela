@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="devl.dev — 158 interactive UI design experiments across 18 folders, built from scratch with raw CSS, WebGL shaders, and custom SVGs." />
+  <title>devl.dev — 158 UI experiments built from scratch</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Ambient WebGL / Canvas 2D Shader Background -->
+  <canvas id="ambient-canvas" aria-hidden="true"></canvas>
+  <div class="blueprint-grid-overlay" aria-hidden="true"></div>
+
+  <!-- Top Sticky Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand-group">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span class="brand-title">SEAN'S SCRATCH PAD</span>
+        <span class="brand-count" id="header-count-text">158 FILES · 18 FOLDERS</span>
+      </div>
+
+      <div class="header-controls">
+        <!-- Layout Switcher (Grid vs Stack) -->
+        <div role="group" aria-label="Layout" class="layout-toggle-group">
+          <button type="button" class="icon-btn" data-view-btn="grid" aria-label="Grid view" aria-pressed="true" title="Grid view">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="7" height="7" x="3" y="3" rx="1"></rect>
+              <rect width="7" height="7" x="14" y="3" rx="1"></rect>
+              <rect width="7" height="7" x="14" y="14" rx="1"></rect>
+              <rect width="7" height="7" x="3" y="14" rx="1"></rect>
+            </svg>
+          </button>
+          <button type="button" class="icon-btn" data-view-btn="stack" aria-label="Stack view" aria-pressed="false" title="Stack view">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="18" height="6" x="3" y="4" rx="1"></rect>
+              <rect width="18" height="6" x="3" y="14" rx="1"></rect>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Search Trigger (⌘K) -->
+        <button type="button" class="header-pill-btn" id="btn-cmdk" aria-label="Search… ⌘K">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+          <span>Search…</span>
+          <kbd class="kbd-badge">⌘K</kbd>
+        </button>
+
+        <!-- Blueprint X-Ray Mode Toggle (B) -->
+        <button type="button" class="header-icon-action" id="btn-blueprint" aria-label="Toggle Blueprint X-Ray Mode (B)" aria-pressed="false" title="Blueprint X-Ray Mode (B)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 3h18v18H3z"></path>
+            <path d="M3 9h18"></path>
+            <path d="M3 15h18"></path>
+            <path d="M9 3v18"></path>
+            <path d="M15 3v18"></path>
+          </svg>
+        </button>
+
+        <!-- Random Design (R) -->
+        <button type="button" class="header-icon-action" id="btn-random" aria-label="Random design (R)" title="Random design (R)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"></path>
+            <path d="m18 2 4 4-4 4"></path>
+            <path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"></path>
+            <path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"></path>
+            <path d="m18 14 4 4-4 4"></path>
+          </svg>
+        </button>
+
+        <!-- Web Audio UI Synth Toggle -->
+        <button type="button" class="header-icon-action" id="btn-sound" aria-label="Toggle tactile UI audio" aria-pressed="true" title="Toggle Tactile UI Synth">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+        </button>
+
+        <!-- Theme Switcher (T) -->
+        <button type="button" class="header-icon-action" id="btn-theme" aria-label="Switch theme (T)" title="Switch Theme (T)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2"></path>
+            <path d="M12 20v2"></path>
+            <path d="m4.93 4.93 1.41 1.41"></path>
+            <path d="m17.66 17.66 1.41 1.41"></path>
+            <path d="M2 12h2"></path>
+            <path d="M20 12h2"></path>
+            <path d="m6.34 17.66-1.41 1.41"></path>
+            <path d="m19.07 4.93-1.41 1.41"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Floating Folder Minimap Rail -->
+  <nav class="folder-minimap" aria-label="Folder index">
+    <ul id="folder-minimap-list"></ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-folder-row">
+      <div class="hero-folder-tag">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"></path>
+        </svg>
+        <span>FOLDER</span>
+      </div>
+
+      <!-- Interactive Status Filter Bar -->
+      <div class="hero-filter-pills" role="group" aria-label="Filter designs">
+        <button type="button" class="filter-pill is-active" data-filter-btn="all">All (158)</button>
+        <button type="button" class="filter-pill" data-filter-btn="ready">Production (136)</button>
+        <button type="button" class="filter-pill" data-filter-btn="wip">Enhanced WIP (22)</button>
+        <button type="button" class="filter-pill" data-filter-btn="favs">Favorites ★</button>
+      </div>
+    </div>
+
+    <h1 class="hero-heading">Designs.</h1>
+
+    <p class="hero-lead">
+      <strong>158</strong> design experiments, two years deep. Built on <strong>coss-ui</strong> — with raw CSS, shaders, weird SVGs, and the odd canvas thrown in. Scroll, or press
+      <button type="button" class="inline-cmdk-btn" id="hero-cmdk-trigger">⌘K</button>
+      to jump in.
+    </p>
+
+    <!-- 3 Featured Cards with Live Interactive Widgets -->
+    <div class="hero-cards-grid" id="hero-cards-grid"></div>
+  </section>
+
+  <!-- Main 18-Category Gallery -->
+  <main class="gallery-main" id="gallery-root" data-view="grid"></main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div>
+      <strong>devl.dev</strong> — 158 UI experiments across 18 folders · 100% pure custom HTML/CSS/SVG/WebGL (0 external libraries)
+    </div>
+    <div>
+      Shortcuts: <kbd class="kbd-badge">⌘K</kbd> search · <kbd class="kbd-badge">R</kbd> random · <kbd class="kbd-badge">T</kbd> theme · <kbd class="kbd-badge">B</kbd> blueprint
+    </div>
+  </footer>
+
+  <!-- Floating Starter Kit Toast Card (Bottom Right) -->
+  <aside class="floating-promo" id="floating-promo" aria-label="Starter kit promotion">
+    <div class="floating-promo-glow"></div>
+    <button type="button" class="promo-close-btn" id="promo-dismiss" aria-label="Dismiss">✕</button>
+    <div class="promo-eyebrow">
+      <span>✦</span>
+      <span>STARTER KIT</span>
+    </div>
+    <h3 class="promo-title">Like what you see?</h3>
+    <p class="promo-desc">Ship your own with Orbit — auth, billing, emails, the polish. All wired up.</p>
+    <div class="promo-actions">
+      <a href="#cat-dashboards" class="promo-btn-primary">TRY ORBIT ↗</a>
+      <button type="button" class="promo-btn-ghost" id="promo-not-now">NOT NOW</button>
+    </div>
+  </aside>
+
+  <!-- Full-Screen Interactive Sandbox Overlay (/c/:category/:slug) -->
+  <section class="sandbox-overlay" id="sandbox-overlay" hidden aria-hidden="true">
+    <header class="sandbox-topbar">
+      <div class="sandbox-breadcrumb" id="sandbox-breadcrumb"></div>
+      <div class="sandbox-vp-controls">
+        <button type="button" class="vp-btn is-active" data-vp-size="100%">Full</button>
+        <button type="button" class="vp-btn" data-vp-size="1080px">Desktop</button>
+        <button type="button" class="vp-btn" data-vp-size="768px">Tablet</button>
+        <button type="button" class="vp-btn" data-vp-size="440px">Mobile</button>
+        <button type="button" class="vp-btn" data-hud-action="code">Code (C)</button>
+        <button type="button" class="vp-btn" data-hud-action="back">✕ Close</button>
+      </div>
+    </header>
+
+    <div class="sandbox-viewport-wrap">
+      <div class="sandbox-stage" id="sandbox-stage"></div>
+    </div>
+
+    <!-- Slide-Over Source Code Inspector with Custom Syntax Highlighter -->
+    <aside class="sandbox-code-drawer" id="sandbox-code-drawer" hidden>
+      <div class="code-drawer-header">
+        <div class="code-tabs">
+          <button type="button" class="code-tab is-active" data-code-tab="tsx">React / TSX</button>
+          <button type="button" class="code-tab" data-code-tab="vanilla">Vanilla HTML/CSS</button>
+        </div>
+        <div class="code-tabs">
+          <button type="button" class="code-tab" id="btn-copy-source">Copy Code</button>
+          <button type="button" class="code-tab" id="btn-close-code">✕</button>
+        </div>
+      </div>
+      <pre class="code-pre-wrap"><code id="sandbox-code-pre"></code></pre>
+    </aside>
+
+    <!-- Signature Floating Bottom-Right Keyboard HUD Pill -->
+    <div class="sandbox-hud" role="toolbar" aria-label="Sandbox keyboard controls">
+      <button type="button" class="hud-btn" data-hud-action="back"><kbd class="kbd-badge">esc</kbd> back</button>
+      <span class="hud-sep">·</span>
+      <button type="button" class="hud-btn" data-hud-action="prev"><kbd class="kbd-badge">←</kbd></button>
+      <button type="button" class="hud-btn" data-hud-action="next"><kbd class="kbd-badge">→</kbd> browse</button>
+      <span class="hud-sep">·</span>
+      <button type="button" class="hud-btn" data-hud-action="prev-group"><kbd class="kbd-badge">↑</kbd></button>
+      <button type="button" class="hud-btn" data-hud-action="next-group"><kbd class="kbd-badge">↓</kbd> group</button>
+      <span class="hud-sep">·</span>
+      <button type="button" class="hud-btn" data-hud-action="random"><kbd class="kbd-badge">r</kbd> random</button>
+      <span class="hud-sep">·</span>
+      <button type="button" class="hud-btn" data-hud-action="theme"><kbd class="kbd-badge">t</kbd> theme</button>
+      <span class="hud-sep">·</span>
+      <button type="button" class="hud-btn" data-hud-action="blueprint"><kbd class="kbd-badge">b</kbd> blueprint</button>
+      <span class="hud-sep">·</span>
+      <button type="button" class="hud-btn" data-hud-action="code"><kbd class="kbd-badge">c</kbd> code</button>
+    </div>
+  </section>
+
+  <!-- Command Palette Modal (⌘K) -->
+  <div class="cmdk-modal" id="cmdk-modal" hidden role="dialog" aria-modal="true" aria-label="Command palette">
+    <div class="cmdk-backdrop" id="cmdk-backdrop"></div>
+    <div class="cmdk-dialog">
+      <div class="cmdk-search-bar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </svg>
+        <input type="text" class="cmdk-input" id="cmdk-input" placeholder="Search 158 design experiments, folders, filenames, or tags…" autocomplete="off" />
+        <span class="cmdk-result-count" id="cmdk-result-count">158 results</span>
+        <kbd class="kbd-badge">ESC</kbd>
+      </div>
+      <div class="cmdk-body">
+        <div class="cmdk-results-list" id="cmdk-results-list"></div>
+        <div class="cmdk-live-preview" id="cmdk-live-preview"></div>
+      </div>
+      <div class="cmdk-footer">
+        <span>Use <kbd class="kbd-badge">↑</kbd> <kbd class="kbd-badge">↓</kbd> to navigate · <kbd class="kbd-badge">↵</kbd> to open live sandbox</span>
+        <span>Zero-dependency fuzzy search</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ephemeral Toast Feedback Stack -->
+  <div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+
+  <!-- Scripts (100% Custom Code, Zero External Libraries) -->
+  <script src="js/data.js"></script>
+  <script src="js/shaders.js"></script>
+  <script src="js/previews.js"></script>
+  <script src="js/sandbox.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
