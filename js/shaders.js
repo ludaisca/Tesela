@@ -234,7 +234,9 @@
             alpha *= 0.65;
           }
 
-          gl_FragColor = vec4(accentMix, clamp(alpha, 0.0, 0.28));
+          // Canvas is premultiplied-alpha: scale colour by alpha or it composites as a bright wash
+          float a = clamp(alpha, 0.0, 0.28);
+          gl_FragColor = vec4(accentMix * a, a);
         }
       `;
 

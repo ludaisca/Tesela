@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="devl.dev — 212 interactive UI design experiments across 24 folders, built from scratch with raw CSS, WebGL shaders, and custom SVGs." />
+  <meta name="description" content="devl.dev — 212 functional UI experiments across 24 folders, built on the zero-dependency devl-ui library with copyable HTML and JavaScript." />
   <title>devl.dev — 212 UI experiments built from scratch</title>
+  <link rel="stylesheet" href="lib/devl-ui.css" />
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/experiments.css" />
 </head>
 <body>
   <!-- Ambient WebGL / Canvas 2D Shader Background -->
@@ -164,7 +166,7 @@
     <h1 class="hero-heading">Designs.</h1>
 
     <p class="hero-lead">
-      <strong>212</strong> design experiments across <strong>24 folders</strong>. Recreated and expanded from scratch — with raw CSS, WebGL shaders, procedural SVGs, Web Audio synthesis, and interactive canvases. Scroll, or press
+      <strong>212</strong> functional experiments across <strong>24 folders</strong>, built on the zero-dependency devl-ui library — real forms, tables, charts, WebGL shaders, Web Audio and canvases you can use and copy. Scroll, or press
       <button type="button" class="inline-cmdk-btn" id="hero-cmdk-trigger">⌘K</button>
       to jump in.
     </p>
@@ -224,8 +226,8 @@
     <aside class="sandbox-code-drawer" id="sandbox-code-drawer" hidden>
       <div class="code-drawer-header">
         <div class="code-tabs">
-          <button type="button" class="code-tab is-active" data-code-tab="tsx">React / TSX</button>
-          <button type="button" class="code-tab" data-code-tab="vanilla">Vanilla HTML/CSS</button>
+          <button type="button" class="code-tab is-active" data-code-tab="html">HTML</button>
+          <button type="button" class="code-tab" data-code-tab="js">JavaScript</button>
         </div>
         <div class="code-tabs">
           <button type="button" class="code-tab" id="btn-copy-source">Copy Code</button>
@@ -283,10 +285,19 @@
   <div class="toast-stack" id="toast-stack" aria-live="polite"></div>
 
   <!-- Scripts (100% Custom Code, Zero External Libraries) -->
+  <script src="lib/devl-ui.js"></script>
   <script src="js/data.js"></script>
   <script src="js/shaders.js"></script>
   <script src="js/previews.js"></script>
   <script src="js/sandbox.js"></script>
+  <script src="js/highlight.js"></script>
+  <script src="js/experiments/core.js"></script>
+  <script src="js/experiments/layouts.js"></script>
+  <script src="js/experiments/data.js"></script>
+  <script src="js/experiments/engineering.js"></script>
+  <script src="js/experiments/apps.js"></script>
+  <script src="js/experiments/social.js"></script>
+  <script src="js/experiments/commerce.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
