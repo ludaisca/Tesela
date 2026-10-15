@@ -1,0 +1,396 @@
+/* ============================================================================
+   devl.dev — Layout helpers for functional experiments (js/experiments/*)
+   Components come from lib/devl-ui.css; these classes only arrange them.
+   ============================================================================ */
+
+.xp {
+  --xp-accent: var(--dv-accent);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 32px 24px 120px;
+  font-family: var(--dv-font-mono);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--dv-fg);
+}
+
+.xp *,
+.xp *::before,
+.xp *::after {
+  box-sizing: border-box;
+}
+
+.xp code {
+  font-family: var(--dv-font-mono);
+  font-size: 0.95em;
+}
+
+.xp-head .dv-eyebrow {
+  color: var(--xp-accent);
+}
+
+.xp-title {
+  margin-top: 6px;
+  font-family: var(--dv-font-heading);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.xp-desc {
+  margin-top: 6px;
+  max-width: 680px;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--dv-fg-muted);
+}
+
+.xp-panel {
+  padding: 18px;
+  border-radius: var(--dv-radius);
+  border: 1px solid var(--dv-border);
+  background: var(--dv-surface);
+}
+
+.xp-toolbar {
+  --gap: 10px;
+}
+
+.xp-search {
+  max-width: 260px;
+}
+
+.xp-bulk {
+  padding: 8px 12px;
+  border-radius: var(--dv-radius);
+  border: 1px solid color-mix(in srgb, var(--xp-accent) 45%, var(--dv-border));
+  background: color-mix(in srgb, var(--xp-accent) 9%, transparent);
+  font-size: 12px;
+}
+
+.xp-split {
+  display: grid;
+  grid-template-columns: var(--cols, 240px minmax(0, 1fr));
+  min-height: var(--h, 440px);
+  border-radius: var(--dv-radius);
+  border: 1px solid var(--dv-border);
+  background: var(--dv-surface);
+  overflow: hidden;
+}
+
+.xp-split > * {
+  min-width: 0;
+}
+
+.xp-split > * + * {
+  border-left: 1px solid var(--dv-border);
+}
+
+.xp-pane {
+  padding: 14px;
+  overflow: auto;
+}
+
+.xp-pane--flush {
+  padding: 0;
+}
+
+.xp-center {
+  display: grid;
+  place-items: center;
+  min-height: 62vh;
+}
+
+.xp-auth-card {
+  width: min(380px, 100%);
+}
+
+.xp-auth-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: min(880px, 100%);
+  min-height: 520px;
+  border-radius: 14px;
+  border: 1px solid var(--dv-border);
+  overflow: hidden;
+  background: var(--dv-surface);
+}
+
+.xp-auth-art {
+  position: relative;
+  display: none;
+  padding: 28px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--xp-accent) 45%, transparent), transparent 55%),
+    radial-gradient(circle at 80% 70%, color-mix(in srgb, var(--dv-info) 35%, transparent), transparent 55%),
+    var(--dv-bg-elevated);
+}
+
+.xp-auth-art blockquote {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  bottom: 28px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.xp-auth-form {
+  display: grid;
+  place-items: center;
+  padding: 32px 24px;
+}
+
+.xp-glass {
+  background: color-mix(in srgb, var(--dv-bg-elevated) 55%, transparent);
+  backdrop-filter: blur(18px) saturate(1.4);
+}
+
+.xp-glass-bg {
+  position: relative;
+  border-radius: 16px;
+  padding: 48px 16px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 30%, color-mix(in srgb, var(--xp-accent) 60%, transparent), transparent 45%),
+    radial-gradient(circle at 85% 20%, color-mix(in srgb, var(--dv-warning) 50%, transparent), transparent 40%),
+    radial-gradient(circle at 60% 90%, color-mix(in srgb, var(--dv-info) 50%, transparent), transparent 45%),
+    var(--dv-bg);
+}
+
+@media (min-width: 760px) {
+  .xp-auth-split {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .xp-auth-art {
+    display: block;
+  }
+}
+
+.xp-phone {
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  height: 600px;
+  border-radius: 36px;
+  border: 1px solid var(--dv-border-strong);
+  background: var(--dv-bg-elevated);
+  box-shadow: var(--dv-shadow-lg);
+  overflow: hidden;
+}
+
+.xp-canvas {
+  display: block;
+  width: 100%;
+  border-radius: var(--dv-radius);
+  border: 1px solid var(--dv-border);
+  background: var(--dv-bg-elevated);
+  touch-action: none;
+}
+
+.xp-board {
+  position: relative;
+  height: 420px;
+  border-radius: var(--dv-radius);
+  border: 1px solid var(--dv-border);
+  background-color: var(--dv-bg);
+  background-image: radial-gradient(circle at 1px 1px, var(--dv-border-strong) 1px, transparent 0);
+  background-size: 20px 20px;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.xp-node {
+  position: absolute;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--dv-border-strong);
+  background: var(--dv-bg-elevated);
+  box-shadow: var(--dv-shadow);
+  font-size: 12px;
+  cursor: grab;
+  user-select: none;
+}
+
+.xp-node.is-selected {
+  border-color: var(--xp-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--xp-accent) 25%, transparent);
+}
+
+.xp-kv {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 6px 16px;
+  font-size: 12px;
+}
+
+.xp-kv dt {
+  color: var(--dv-fg-muted);
+}
+
+.xp-kv dd {
+  margin: 0;
+}
+
+.xp-scroll {
+  max-height: var(--max, 360px);
+  overflow: auto;
+}
+
+.xp-select-item {
+  cursor: pointer;
+}
+
+.xp-select-item[aria-selected="true"] {
+  background: var(--dv-surface-strong);
+}
+
+.xp-unread .dv-list__title {
+  font-weight: 700;
+}
+
+.xp-num {
+  font-family: var(--dv-font-heading);
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.xp-mono {
+  font-family: var(--dv-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.xp-chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.xp-chart text {
+  font-family: var(--dv-font-mono);
+  font-size: 10px;
+  fill: var(--dv-fg-muted);
+}
+
+.xp-tip {
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+  padding: 6px 9px;
+  border-radius: 6px;
+  border: 1px solid var(--dv-border-strong);
+  background: var(--dv-bg-elevated);
+  box-shadow: var(--dv-shadow);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.xp-rel {
+  position: relative;
+}
+
+.xp-kanban {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.xp-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 200px;
+  padding: 10px;
+  border-radius: var(--dv-radius);
+  border: 1px dashed var(--dv-border-strong);
+}
+
+.xp-col.is-over {
+  border-color: var(--xp-accent);
+  background: color-mix(in srgb, var(--xp-accent) 7%, transparent);
+}
+
+.xp-editor {
+  min-height: 220px;
+  padding: 16px 18px;
+  border-radius: var(--dv-radius);
+  border: 1px solid var(--dv-border);
+  background: var(--dv-bg);
+  font-size: 14px;
+  line-height: 1.75;
+  outline: none;
+}
+
+.xp-editor:focus {
+  box-shadow: var(--dv-ring);
+}
+
+.xp-mark {
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--xp-accent) 35%, transparent);
+  color: var(--dv-fg);
+}
+
+.xp-diff-add {
+  background: color-mix(in srgb, var(--dv-success) 15%, transparent);
+}
+
+.xp-diff-del {
+  background: color-mix(in srgb, var(--dv-danger) 15%, transparent);
+}
+
+.xp-terminal {
+  min-height: 320px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #050806;
+  color: #7dffa1;
+  font-family: var(--dv-font-mono);
+  font-size: 12.5px;
+  line-height: 1.6;
+  text-shadow: 0 0 6px rgba(125, 255, 161, 0.55);
+  overflow: hidden;
+  position: relative;
+}
+
+.xp-terminal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.28) 0 1px, transparent 1px 3px);
+}
+
+.xp-terminal input {
+  width: 70%;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-shadow: inherit;
+  outline: none;
+}
+
+@media (max-width: 760px) {
+  .xp {
+    padding: 22px 14px 120px;
+  }
+
+  .xp-split {
+    grid-template-columns: 1fr;
+  }
+
+  .xp-split > * + * {
+    border-left: 0;
+    border-top: 1px solid var(--dv-border);
+  }
+}

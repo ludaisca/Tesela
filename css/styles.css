@@ -1320,9 +1320,11 @@ ul {
 
 /* Custom Syntax Highlighter Tokens */
 .tok-kw { color: #c084fc; font-weight: 500; }
-.tok-string { color: #34d399; }
+.tok-string,
+.tok-str { color: #34d399; }
 .tok-number { color: #fbbf24; }
-.tok-comment { color: var(--fg-subtle); font-style: italic; }
+.tok-comment,
+.tok-com { color: var(--fg-subtle); font-style: italic; }
 .tok-tag { color: #60a5fa; }
 .tok-fn { color: #38bdf8; }
 .tok-attr { color: #f472b6; }

@@ -9,14 +9,31 @@
   const PREVIEWS = window.DEVL_PREVIEWS;
   const SANDBOX = window.DEVL_SANDBOX;
   const AUDIO = window.DEVL_AUDIO;
+  const XP = window.DEVL_XP;
+  const HL = window.DEVL_HIGHLIGHT;
+  const FAV_KEY = "devl-favorites";
+
+  function loadFavorites(fallback) {
+    try {
+      const raw = window.localStorage.getItem(FAV_KEY);
+      if (raw) return new Set(JSON.parse(raw));
+    } catch (_) {}
+    return new Set(fallback);
+  }
+
+  function saveFavorites() {
+    try {
+      window.localStorage.setItem(FAV_KEY, JSON.stringify([...state.favorites]));
+    } catch (_) {}
+  }
 
   const state = {
     viewMode: "grid", // "grid" | "stack" | "compact"
     filterMode: "all", // "all" | "ready" | "wip" | "favs"
-    theme: "dark", // "dark" | "light"
+    theme: window.DevlUI ? window.DevlUI.getTheme() : "dark", // "dark" | "light"
     blueprint: false,
     // Keyed by full path: slugs repeat across folders (e.g. "profile", "two-factor")
-    favorites: new Set([
+    favorites: loadFavorites([
       "/c/layouts/workspace-rail",
       "/c/charts/revenue-area",
       "/c/modals/command-palette",
@@ -28,7 +45,8 @@
     cmdkResults: [...FLAT],
     activeItem: null, // flatItem when in Sandbox view (/c/:cat/:slug)
     codeDrawerOpen: false,
-    codeMode: "tsx", // "tsx" | "vanilla"
+    codeMode: "html", // "html" | "js"
+    unmountXp: null, // teardown for the mounted functional experiment
     viewportSize: "100%" // "100%" | "1024px" | "768px" | "420px"
   };
 
@@ -175,7 +193,7 @@
                   <div class="exp-card-frame">
                     ${svgPreview}
                     <div class="exp-card-overlay">
-                      <span class="exp-hover-pill" data-quick-code="${path}" title="Inspect TSX & HTML source">&lt;/&gt; Code</span>
+                      <span class="exp-hover-pill" data-quick-code="${path}" title="Inspect HTML & JS source">&lt;/&gt; Code</span>
                       <span class="exp-hover-pill">Inspect live ↗</span>
                     </div>
                     <div class="exp-blueprint-coords" aria-hidden="true">320×200 · ${cat.id}/${item.slug}</div>
@@ -315,16 +333,33 @@
     }
 
     stage.style.maxWidth = state.viewportSize;
-    stage.innerHTML = SANDBOX.renderLiveSandboxContent(item);
+    unmountExperiment();
+    if (XP && XP.has(item.categoryId, item.slug)) {
+      state.unmountXp = XP.mount(stage, item);
+    } else {
+      stage.innerHTML = SANDBOX.renderLiveSandboxContent(item);
+      bindSandboxLiveInteractions(stage, item);
+    }
+    const wrap = stage.closest(".sandbox-viewport-wrap");
+    if (wrap) wrap.scrollTop = 0;
 
     updateCodeDrawer();
-    bindSandboxLiveInteractions(stage, item);
+  }
+
+  function unmountExperiment() {
+    if (state.unmountXp) {
+      state.unmountXp();
+      state.unmountXp = null;
+    }
   }
 
   function closeSandbox(pushHash = true) {
     if (!state.activeItem) return;
     state.activeItem = null;
     state.codeDrawerOpen = false;
+    unmountExperiment();
+    const stageEl = document.getElementById("sandbox-stage");
+    if (stageEl) stageEl.innerHTML = "";
     const overlay = document.getElementById("sandbox-overlay");
     const drawer = document.getElementById("sandbox-code-drawer");
     if (drawer) drawer.hidden = true;
@@ -347,9 +382,14 @@
 
     drawer.hidden = !state.codeDrawerOpen;
     if (state.codeDrawerOpen) {
-      const raw = SANDBOX.generateSourceCode(state.activeItem, state.codeMode);
-      codePre.innerHTML = SANDBOX.highlightCode(raw);
+      const raw = getSource(state.activeItem, state.codeMode);
+      codePre.innerHTML = state.codeMode === "js" ? HL.js(raw) : HL.html(raw);
     }
+  }
+
+  function getSource(item, mode) {
+    if (XP && XP.has(item.categoryId, item.slug)) return XP.source(item)[mode];
+    return SANDBOX.generateSourceCode(item, mode === "js" ? "tsx" : "vanilla");
   }
 
   function navigateSandboxRel(delta) {
@@ -968,7 +1008,8 @@
   // --------------------------------------------------------------------------
   function toggleTheme() {
     state.theme = state.theme === "dark" ? "light" : "dark";
-    document.documentElement.setAttribute("data-theme", state.theme);
+    if (window.DevlUI) window.DevlUI.setTheme(state.theme);
+    else document.documentElement.setAttribute("data-theme", state.theme);
     AUDIO.play("click");
     showToast(`Switched to ${state.theme} mode`);
   }
@@ -987,6 +1028,10 @@
   }
 
   function showToast(message) {
+    if (window.DevlUI) {
+      window.DevlUI.toast({ title: message, variant: "neutral", duration: 2600 });
+      return;
+    }
     const stack = document.getElementById("toast-stack");
     if (!stack) return;
     const toast = document.createElement("div");
@@ -1056,10 +1101,12 @@
           state.favorites.delete(favPath);
           favBtn.classList.remove("is-fav");
           showToast(`Removed ${label} from favorites`);
+          saveFavorites();
         } else {
           state.favorites.add(favPath);
           favBtn.classList.add("is-fav");
           showToast(`Saved ${label} to favorites ★`);
+          saveFavorites();
         }
         AUDIO.play("click");
         return;
@@ -1081,6 +1128,7 @@
       if (accentSwatch) {
         const hex = accentSwatch.getAttribute("data-token-accent");
         document.documentElement.style.setProperty("--accent-indigo", hex);
+        document.documentElement.style.setProperty("--dv-accent", hex);
         document.querySelectorAll("[data-token-accent]").forEach((b) => b.classList.remove("is-active"));
         accentSwatch.classList.add("is-active");
         AUDIO.play("click");
@@ -1092,6 +1140,8 @@
       if (radiusBtn) {
         const r = radiusBtn.getAttribute("data-token-radius");
         document.documentElement.style.setProperty("--card-radius", r);
+        document.documentElement.style.setProperty("--dv-radius", r);
+        document.documentElement.style.setProperty("--dv-radius-sm", `${Math.max(0, parseInt(r, 10) - 2)}px`);
         document.querySelectorAll("[data-token-radius]").forEach((b) => b.classList.remove("is-active"));
         radiusBtn.classList.add("is-active");
         AUDIO.play("click");
@@ -1245,8 +1295,9 @@
     // Copy code button inside code drawer
     document.getElementById("btn-copy-source")?.addEventListener("click", () => {
       if (!state.activeItem) return;
-      const raw = SANDBOX.generateSourceCode(state.activeItem, state.codeMode);
-      navigator.clipboard?.writeText(raw).catch(() => {});
+      const raw = getSource(state.activeItem, state.codeMode);
+      if (window.DevlUI) window.DevlUI.copy(raw);
+      else navigator.clipboard?.writeText(raw).catch(() => {});
       AUDIO.play("chime");
       showToast(`Copied ${state.activeItem.file} (${state.codeMode.toUpperCase()}) to clipboard`);
     });
@@ -1268,7 +1319,7 @@
     // Global Keyboard Shortcuts
     window.addEventListener("keydown", (e) => {
       const tag = (e.target && e.target.tagName) || "";
-      const isInput = tag === "INPUT" || tag === "TEXTAREA" || e.target?.isContentEditable;
+      const isInput = tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || e.target?.isContentEditable;
 
       // ⌘K or Ctrl+K
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
@@ -1303,6 +1354,11 @@
       }
 
       if (isInput) return;
+
+      // Experiments own the keyboard while focus is inside them or a dialog is open
+      const stageEl = document.getElementById("sandbox-stage");
+      if (state.activeItem && e.key === "Escape" && (e.defaultPrevented || document.querySelector("dialog[open]"))) return;
+      if (state.activeItem && stageEl && e.key !== "Escape" && (stageEl.contains(e.target) || stageEl.querySelector("[data-xp-keys]"))) return;
 
       // Global shortcuts when not typing in an input
       if (e.key === "Escape" && state.activeItem) {

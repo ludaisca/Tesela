@@ -38,7 +38,31 @@ Abre `components.html` para ver cada componente en vivo, con su HTML/JS listo pa
 |---|---|
 | `lib/devl-ui.css`, `lib/devl-ui.js` | La biblioteca (lo único que necesitas copiar) |
 | `components.html`, `docs/` | Documentación interactiva de la biblioteca |
-| `index.html`, `css/`, `js/` | Galería original de experimentos |
+| `index.html`, `css/`, `js/` | Galería de experimentos |
+| `js/experiments/*.js`, `css/experiments.css` | Los 212 experimentos funcionales construidos con devl-ui |
+
+## Galería funcional
+
+Los **212 experimentos** de la galería son componentes reales y funcionales construidos con devl-ui (sin plantillas genéricas): tablas con búsqueda/orden/paginación/acciones masivas, formularios con validación, un motor SQL mínimo, parser de cron, tester de regex, raymarcher GLSL, secuenciador Web Audio, EQ paramétrico con biquads reales, validación IBAN mod-97, Luhn, HMAC-SHA256, etc.
+
+- Abre cualquier tarjeta: el sandbox monta el experimento y lo desmonta al salir (intervalos, animaciones, audio y listeners se limpian solos).
+- Pulsa **C** (o el botón `</> Code`) para ver y copiar su **HTML** y **JavaScript** reales.
+- Mientras el foco está dentro de un experimento, sus atajos de teclado tienen prioridad sobre los de la galería.
+
+### Añadir un experimento
+
+```js
+DEVL_XP.add("forms", "my-form", {
+  html: `<form class="dv-stack" data-xp-form data-success="Saved {name}">…</form>`,
+  setup(root, ctx) {
+    DEVL_XP.formSetup(root, ctx);          // validación genérica
+    ctx.every(1000, () => { /* … */ });    // se limpia al desmontar
+    ctx.on(window, "resize", () => {});    // listener con limpieza automática
+  }
+});
+```
+
+`ctx` ofrece `$`, `$$`, `toast`, `every`, `timeout`, `raf`, `on`, `onCleanup` y `fmt`. Constructores reutilizables: `DEVL_XP.table(cfg)`, `DEVL_XP.formSetup`, `DEVL_XP.field`, `DEVL_XP.chart.*`, `DEVL_XP.fitCanvas`.
 
 ## Novedades de la Versión Mejorada (v2)
 
