@@ -52,6 +52,14 @@
   --dv-warning: #f59e0b;
   --dv-danger: #f43f5e;
   --dv-info: #0ea5e9;
+  --dv-chart-1: var(--dv-accent);
+  --dv-chart-2: #10b981;
+  --dv-chart-3: #f59e0b;
+  --dv-chart-4: #f43f5e;
+  --dv-chart-5: #0ea5e9;
+  --dv-chart-6: #a855f7;
+  --dv-chart-7: #14b8a6;
+  --dv-chart-8: #ec4899;
   --dv-radius: 9px;
   --dv-radius-sm: 7px;
   --dv-radius-xs: 5px;
@@ -3391,6 +3399,632 @@ dv-resizable.is-resizing {
   height: 100%;
   object-fit: cover;
   border: 0;
+}
+
+/* ----------------------------------------------------------------------------
+   21g. Datos: tree view, lista virtualizada, ordenables y kanban
+   ---------------------------------------------------------------------------- */
+dv-tree {
+  display: block;
+  font-size: 12px;
+}
+
+dv-tree ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+dv-tree li[role="treeitem"] {
+  outline: none;
+}
+
+dv-tree li[role="treeitem"][aria-expanded="false"] > ul {
+  display: none;
+}
+
+dv-tree ul[role="group"] {
+  margin-left: 11px;
+  padding-left: 8px;
+  border-left: 1px solid var(--dv-border);
+}
+
+.dv-tree__row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 3px 8px 3px 4px;
+  border-radius: 6px;
+  color: var(--dv-fg-muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.dv-tree__row:hover {
+  background: var(--dv-surface-hover);
+  color: var(--dv-fg);
+}
+
+li[aria-selected="true"] > .dv-tree__row {
+  background: var(--dv-surface-strong);
+  color: var(--dv-fg);
+  font-weight: 500;
+}
+
+li[role="treeitem"]:focus-visible > .dv-tree__row {
+  box-shadow: var(--dv-ring);
+}
+
+.dv-tree__chevron {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+}
+
+.dv-tree__chevron:not(.is-leaf)::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 160ms var(--dv-ease);
+}
+
+li[aria-expanded="true"] > .dv-tree__row > .dv-tree__chevron::before {
+  transform: rotate(45deg);
+}
+
+.dv-tree__check {
+  flex: none;
+  margin: 0;
+}
+
+.dv-tree__label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+dv-virtual-list {
+  display: block;
+  height: 320px;
+  border-radius: var(--dv-radius);
+  border: 1px solid var(--dv-border);
+  background: var(--dv-surface);
+  overflow: hidden;
+}
+
+.dv-vlist__viewport {
+  position: relative;
+  height: 100%;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--dv-border-strong) transparent;
+  outline: none;
+}
+
+.dv-vlist__viewport:focus-visible {
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--dv-accent) 70%, transparent);
+}
+
+.dv-vlist__spacer {
+  position: relative;
+  width: 100%;
+}
+
+.dv-vlist__row {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--dv-border);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dv-vlist__row.is-active {
+  background: var(--dv-surface-strong);
+  box-shadow: inset 2px 0 0 var(--dv-accent);
+}
+
+dv-sortable {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+dv-sortable[direction="horizontal"] {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+dv-sortable[direction="grid"] {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--min, 140px), 1fr));
+}
+
+.dv-sortable__item {
+  position: relative;
+  border-radius: var(--dv-radius-sm);
+  border: 1px solid var(--dv-border);
+  background: var(--dv-bg-elevated);
+  cursor: grab;
+  touch-action: manipulation;
+}
+
+.dv-sortable__item:hover {
+  border-color: var(--dv-border-strong);
+}
+
+.dv-sortable__item:focus-visible {
+  outline: none;
+  box-shadow: var(--dv-ring);
+}
+
+.dv-sortable__item.is-dragging {
+  cursor: grabbing;
+  box-shadow: var(--dv-shadow-lg);
+  border-color: var(--dv-accent);
+  opacity: 0.96;
+  transform: rotate(1.2deg);
+}
+
+.dv-sortable__item.is-grabbed {
+  border-color: var(--dv-accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--dv-accent) 35%, transparent);
+}
+
+.dv-sortable__placeholder {
+  flex: none;
+  box-sizing: border-box;
+  border-radius: var(--dv-radius-sm);
+  border: 1.5px dashed var(--dv-accent);
+  background: color-mix(in srgb, var(--dv-accent) 8%, transparent);
+}
+
+.dv-sortable__handle {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  color: var(--dv-fg-subtle);
+  cursor: grab;
+  touch-action: none;
+}
+
+.dv-sortable__handle::before {
+  content: "⋮⋮";
+  font-size: 12px;
+  letter-spacing: -2px;
+  line-height: 1;
+}
+
+body.dv-is-sorting {
+  cursor: grabbing;
+  user-select: none;
+}
+
+.dv-kanban {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.dv-kanban__col {
+  flex: 1 0 220px;
+  max-width: 320px;
+  border-radius: var(--dv-radius);
+  border: 1px solid var(--dv-border);
+  background: var(--dv-surface);
+}
+
+.dv-kanban__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 12px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dv-fg-muted);
+}
+
+.dv-kanban__col > dv-sortable {
+  min-height: 56px;
+  max-height: 340px;
+  padding: 4px 8px 10px;
+  overflow-y: auto;
+}
+
+.dv-kanban__card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  font-size: 12px;
+}
+
+/* ----------------------------------------------------------------------------
+   21h. Tabla de datos
+   ---------------------------------------------------------------------------- */
+dv-data-table {
+  display: block;
+  font-size: 12px;
+}
+
+.dv-dt__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.dv-dt__search {
+  width: min(260px, 100%);
+}
+
+.dv-dt__selinfo {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding-left: 10px;
+  color: var(--dv-fg);
+}
+
+.dv-dt__colmenu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 180px;
+}
+
+.dv-dt__wrap {
+  overflow: auto;
+  border-radius: var(--dv-radius);
+  border: 1px solid var(--dv-border);
+}
+
+.dv-dt__wrap .dv-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--dv-bg-elevated);
+  box-shadow: 0 1px 0 var(--dv-border);
+}
+
+.dv-dt__table th,
+.dv-dt__table td {
+  padding-block: 10px;
+}
+
+dv-data-table[density="compact"] .dv-dt__table th,
+dv-data-table[density="compact"] .dv-dt__table td {
+  padding-block: 5px;
+}
+
+dv-data-table[density="comfortable"] .dv-dt__table th,
+dv-data-table[density="comfortable"] .dv-dt__table td {
+  padding-block: 16px;
+}
+
+.dv-dt__select {
+  width: 36px;
+  padding-inline: 12px 0 !important;
+}
+
+.dv-dt__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+.dv-dt__sort:hover {
+  color: var(--dv-fg);
+}
+
+.dv-dt__sort:focus-visible {
+  outline: none;
+  box-shadow: var(--dv-ring);
+  border-radius: 4px;
+}
+
+.dv-dt__sorticon {
+  opacity: 0.4;
+}
+
+th[aria-sort="ascending"] .dv-dt__sorticon,
+th[aria-sort="descending"] .dv-dt__sorticon {
+  opacity: 1;
+  color: var(--dv-accent);
+}
+
+.dv-dt__table tr.is-selected {
+  background: color-mix(in srgb, var(--dv-accent) 9%, transparent);
+}
+
+.dv-dt__empty {
+  padding: 36px 14px !important;
+  text-align: center !important;
+  color: var(--dv-fg-muted);
+}
+
+.dv-dt__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.dv-dt__size {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--dv-fg-muted);
+}
+
+.dv-dt__size .dv-select {
+  width: 68px;
+  height: 28px;
+  font-size: 11px;
+}
+
+/* ----------------------------------------------------------------------------
+   21i. Gráficas
+   ---------------------------------------------------------------------------- */
+dv-chart {
+  display: block;
+  position: relative;
+  border-radius: var(--dv-radius);
+  color: var(--dv-fg);
+}
+
+dv-chart:focus-visible {
+  outline: none;
+  box-shadow: var(--dv-ring);
+}
+
+.dv-chart__caption {
+  margin-bottom: 8px;
+  font-family: var(--dv-font-heading);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.dv-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-bottom: 8px;
+}
+
+.dv-chart__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 4px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--dv-fg-muted);
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.dv-chart__legend-item[aria-pressed="false"] {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+
+.dv-chart__legend-item:hover {
+  color: var(--dv-fg);
+}
+
+.dv-chart__legend-item:focus-visible {
+  outline: none;
+  box-shadow: var(--dv-ring);
+}
+
+.dv-chart__dot {
+  flex: none;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dv-chart__stage {
+  position: relative;
+}
+
+dv-chart svg {
+  display: block;
+  overflow: visible;
+}
+
+.dv-chart__grid {
+  stroke: var(--dv-border);
+  stroke-width: 1;
+}
+
+.dv-chart__axis {
+  stroke: var(--dv-border-strong);
+  stroke-width: 1;
+}
+
+.dv-chart__tick {
+  fill: var(--dv-fg-subtle);
+  font-family: var(--dv-font-mono);
+  font-size: 10px;
+}
+
+.dv-chart__line {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.dv-chart__area {
+  opacity: 0.14;
+}
+
+.dv-chart__point {
+  stroke: var(--dv-bg);
+  stroke-width: 1.5;
+}
+
+.dv-chart__cross {
+  stroke: var(--dv-border-strong);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.dv-chart__hot {
+  stroke: var(--dv-bg);
+  stroke-width: 2;
+}
+
+.dv-chart__hl {
+  fill: var(--dv-fg);
+  opacity: 0.06;
+}
+
+.dv-chart__cell-hl {
+  fill: none;
+  stroke: var(--dv-fg);
+  stroke-width: 1.5;
+}
+
+.dv-chart__seg {
+  transition: transform 140ms var(--dv-ease);
+}
+
+.dv-chart__center-value {
+  fill: var(--dv-fg);
+  font-family: var(--dv-font-heading);
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.dv-chart__center-label {
+  fill: var(--dv-fg-muted);
+  font-size: 11px;
+}
+
+.dv-chart__track {
+  fill: none;
+  stroke: var(--dv-surface-strong);
+  stroke-linecap: round;
+}
+
+.dv-chart__band-arc {
+  fill: none;
+  opacity: 0.28;
+}
+
+.dv-chart__value-arc {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.dv-chart__cell.is-empty {
+  fill: none;
+  stroke: var(--dv-border);
+  stroke-dasharray: 2 3;
+}
+
+.dv-chart__tip {
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 110px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--dv-border-strong);
+  background: var(--dv-bg-elevated);
+  box-shadow: var(--dv-shadow);
+  font-size: 11px;
+  pointer-events: none;
+}
+
+.dv-chart__tip-title {
+  font-weight: 600;
+  color: var(--dv-fg);
+}
+
+.dv-chart__tip-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--dv-fg-muted);
+}
+
+.dv-chart__tip-row strong {
+  margin-left: auto;
+  padding-left: 12px;
+  color: var(--dv-fg);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Animación de entrada (solo la primera vez, respeta prefers-reduced-motion) */
+dv-chart.is-animating .dv-chart__line,
+dv-chart.is-animating .dv-chart__value-arc {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: dv-chart-draw 800ms var(--dv-ease) forwards;
+}
+
+dv-chart.is-animating .dv-chart__bar {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: dv-chart-grow 600ms var(--dv-ease) both;
+}
+
+dv-chart.is-animating .dv-chart__area,
+dv-chart.is-animating .dv-chart__seg,
+dv-chart.is-animating .dv-chart__cell {
+  animation: dv-chart-fade 700ms ease both;
+}
+
+@keyframes dv-chart-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes dv-chart-grow {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+@keyframes dv-chart-fade {
+  from { opacity: 0; }
 }
 
 /* ----------------------------------------------------------------------------

@@ -12,7 +12,7 @@
   <header class="docs-topbar">
     <button type="button" class="dv-btn dv-btn--icon dv-btn--subtle docs-menu-btn" aria-label="Abrir índice">☰</button>
     <a class="docs-brand" href="#top"><span class="docs-brand-dot"></span>devl-ui</a>
-    <span class="dv-badge dv-badge--outline docs-hide-sm">v1.3.0</span>
+    <span class="dv-badge dv-badge--outline docs-hide-sm">v1.4.0</span>
     <span class="dv-spacer"></span>
     <a class="dv-btn dv-btn--sm dv-btn--subtle docs-hide-sm" href="index.html">← Galería</a>
     <button type="button" class="dv-btn dv-btn--sm" data-dv-open="docs-cmd">
@@ -1311,6 +1311,254 @@
             <button type="button" class="dv-btn dv-btn--block dv-btn--primary">Continuar con correo</button>
           </div>
         </template>
+      </section>
+
+      <section class="doc" id="tree" data-group="Datos" data-tall="260px" data-keywords="tree view arbol jerarquia carpetas archivos anidado checkbox permisos">
+        <h2><a href="#tree">Tree view</a></h2>
+        <p><code>&lt;dv-tree&gt;</code> convierte una lista anidada <code>&lt;ul&gt;</code> en un árbol accesible (<code>role="tree"</code>, <code>aria-expanded</code>, <code>aria-level</code>). Teclado: ↑ ↓ navegan, → expande o entra, ← colapsa o sube, Inicio/Fin, Enter selecciona, <kbd class="dv-kbd">*</kbd> expande los hermanos y las letras saltan por nombre. Con <code>checkable</code> cada nodo tiene casilla, con estado mixto en los padres (Espacio marca). Atributos de nodo: <code>data-value</code>, <code>data-expanded</code>, <code>data-selected</code>. Eventos <code>dv-select</code>, <code>dv-toggle</code> y <code>dv-check</code>.</p>
+        <template>
+          <div class="dv-grid" style="--min:240px;--gap:20px">
+            <dv-tree id="demo-tree" label="Archivos del proyecto">
+              <ul>
+                <li data-value="src" data-expanded>src
+                  <ul>
+                    <li data-value="components" data-expanded>components
+                      <ul><li data-value="button.js">button.js</li><li data-value="dialog.js">dialog.js</li><li data-value="tabs.js">tabs.js</li></ul>
+                    </li>
+                    <li data-value="utils">utils<ul><li data-value="format.js">format.js</li></ul></li>
+                    <li data-value="index.js">index.js</li>
+                  </ul>
+                </li>
+                <li data-value="docs">docs<ul><li data-value="guia.md">guia.md</li><li data-value="api.md">api.md</li></ul></li>
+                <li data-value="package.json">package.json</li>
+              </ul>
+            </dv-tree>
+            <dv-tree id="demo-tree-check" checkable selection="none" label="Permisos">
+              <ul>
+                <li data-value="lectura" data-expanded>Lectura<ul><li data-value="ver-proyectos" data-checked>Ver proyectos</li><li data-value="ver-informes" data-checked>Ver informes</li></ul></li>
+                <li data-value="escritura" data-expanded>Escritura<ul><li data-value="crear">Crear</li><li data-value="editar">Editar</li><li data-value="borrar">Borrar</li></ul></li>
+              </ul>
+            </dv-tree>
+          </div>
+          <p class="dv-muted" id="demo-tree-out" style="margin-top:12px">Selecciona un archivo o marca permisos.</p>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const out = document.querySelector("#demo-tree-out");
+          document.querySelector("#demo-tree").addEventListener("dv-select", (e) => (out.textContent = `Archivo: ${e.detail.value}`));
+          document.querySelector("#demo-tree-check").addEventListener("dv-check", (e) => (out.textContent = `Permisos: ${e.detail.values.join(", ") || "ninguno"}`));
+        </script>
+      </section>
+
+      <section class="doc" id="virtual-list" data-group="Datos" data-keywords="virtual list lista virtualizada miles filas rendimiento scroll infinito windowing">
+        <h2><a href="#virtual-list">Lista virtualizada</a></h2>
+        <p><code>&lt;dv-virtual-list&gt;</code> solo dibuja las filas visibles: con 10 000 elementos el DOM tiene unas docenas de nodos. Asigna <code>list.items</code> (cualquier arreglo) y, si quieres un diseño propio, <code>list.renderItem = (item, i) =&gt; Node</code>. Con <code>selectable</code> es un <code>listbox</code> navegable (↑ ↓ PgUp PgDn Inicio Fin, Enter) y emite <code>dv-select</code>. Alto de fila fijo (<code>item-height</code>); <code>scrollToIndex(i, "center")</code> desplaza hasta un elemento.</p>
+        <template>
+          <div class="dv-stack" style="--gap:10px;max-width:460px">
+            <div class="dv-row"><span class="dv-muted" id="demo-vlist-info"></span><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm" id="demo-vlist-go">Ir al n.º 5 000</button></div>
+            <dv-virtual-list id="demo-vlist" selectable item-height="36" height="260px" label="Contactos"></dv-virtual-list>
+            <span class="dv-muted" id="demo-vlist-out">Elige un contacto con clic o con el teclado.</span>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const list = document.querySelector("#demo-vlist");
+          const nombres = ["Ana", "Luis", "Marta", "Mateo", "Lucía", "Diego", "Sofía", "Pablo"];
+          list.items = Array.from({ length: 10000 }, (_, i) => ({ n: i + 1, nombre: `${nombres[i % nombres.length]} ${String.fromCharCode(65 + (i % 26))}.` }));
+          list.renderItem = (c) => {
+            const el = document.createElement("span");
+            el.innerHTML = '<b class="dv-mono"></b> <span></span>';
+            el.firstChild.textContent = String(c.n).padStart(5, "0");
+            el.lastChild.textContent = c.nombre;
+            return el;
+          };
+          const info = document.querySelector("#demo-vlist-info");
+          const count = () => (info.textContent = `${list.items.length.toLocaleString("es")} contactos · ${list.querySelectorAll(".dv-vlist__row").length} filas en el DOM`);
+          list.addEventListener("scroll", count, true);
+          count();
+          list.addEventListener("dv-select", (e) => (document.querySelector("#demo-vlist-out").textContent = `Elegido: ${e.detail.item.nombre} (n.º ${e.detail.item.n})`));
+          document.querySelector("#demo-vlist-go").addEventListener("click", () => { list.activate(4999, true); count(); });
+        </script>
+      </section>
+
+      <section class="doc" id="sortable" data-group="Datos" data-tall="340px" data-keywords="sortable ordenable drag drop arrastrar reordenar lista grid arrastrar soltar teclado">
+        <h2><a href="#sortable">Listas ordenables</a></h2>
+        <p><code>&lt;dv-sortable&gt;</code> reordena con el puntero y con el teclado. Con <code>handle=".dv-sortable__handle"</code> solo el asa arrastra (recomendado en pantallas táctiles). Teclado: <kbd class="dv-kbd">Espacio</kbd> toma el elemento, ↑ ↓ lo mueven, <kbd class="dv-kbd">Espacio</kbd> lo suelta y <kbd class="dv-kbd">Esc</kbd> cancela; cada paso se anuncia por una región <code>aria-live</code>. <code>direction="vertical|horizontal|grid"</code>. Las listas con el mismo <code>group</code> intercambian elementos. Evento <code>dv-sort</code> con <code>{ item, from, to }</code>.</p>
+        <template>
+          <div class="dv-grid" style="--min:260px;--gap:24px">
+            <div class="dv-stack">
+              <span class="dv-label">Prioridades (arrastra el asa o usa Espacio)</span>
+              <dv-sortable id="demo-sort" handle=".dv-sortable__handle" label="Prioridades">
+                <div class="dv-sortable__item dv-row" style="padding:10px 12px;flex-wrap:nowrap"><span class="dv-sortable__handle" aria-hidden="true"></span>Diseñar la portada</div>
+                <div class="dv-sortable__item dv-row" style="padding:10px 12px;flex-wrap:nowrap"><span class="dv-sortable__handle" aria-hidden="true"></span>Revisar accesibilidad</div>
+                <div class="dv-sortable__item dv-row" style="padding:10px 12px;flex-wrap:nowrap"><span class="dv-sortable__handle" aria-hidden="true"></span>Escribir documentación</div>
+                <div class="dv-sortable__item dv-row" style="padding:10px 12px;flex-wrap:nowrap"><span class="dv-sortable__handle" aria-hidden="true"></span>Publicar versión</div>
+              </dv-sortable>
+              <span class="dv-muted" id="demo-sort-out">Orden actual: 1, 2, 3, 4</span>
+            </div>
+            <div class="dv-stack">
+              <span class="dv-label">En cuadrícula (todo el elemento arrastra)</span>
+              <dv-sortable id="demo-sort-grid" direction="grid" style="--min:90px" label="Colores">
+                <div class="dv-sortable__item" style="height:56px;background:var(--dv-chart-1);display:grid;place-items:center;color:#fff">1</div>
+                <div class="dv-sortable__item" style="height:56px;background:var(--dv-chart-2);display:grid;place-items:center;color:#fff">2</div>
+                <div class="dv-sortable__item" style="height:56px;background:var(--dv-chart-3);display:grid;place-items:center;color:#fff">3</div>
+                <div class="dv-sortable__item" style="height:56px;background:var(--dv-chart-4);display:grid;place-items:center;color:#fff">4</div>
+                <div class="dv-sortable__item" style="height:56px;background:var(--dv-chart-5);display:grid;place-items:center;color:#fff">5</div>
+                <div class="dv-sortable__item" style="height:56px;background:var(--dv-chart-6);display:grid;place-items:center;color:#fff">6</div>
+              </dv-sortable>
+            </div>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const list = document.querySelector("#demo-sort");
+          list.addEventListener("dv-sort", () => {
+            const order = [...list.querySelectorAll(".dv-sortable__item")].map((el) => el.textContent.trim().split(" ")[0]);
+            document.querySelector("#demo-sort-out").textContent = `Orden actual: ${order.join(" · ")}`;
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="kanban" data-group="Datos" data-tall="380px" data-keywords="kanban tablero board columnas tareas arrastrar entre listas trello">
+        <h2><a href="#kanban">Kanban</a></h2>
+        <p>Un tablero es un conjunto de <code>&lt;dv-sortable&gt;</code> con el mismo <code>group</code>, dentro de <code>.dv-kanban</code> / <code>.dv-kanban__col</code>. Las tarjetas se arrastran entre columnas (con autoscroll) y con el teclado: Espacio toma, ↑ ↓ reordenan, ← → cambian de columna, Espacio suelta. Cada cambio de columna se anuncia con su nombre (<code>label</code>) y emite <code>dv-sort</code> en la columna de destino.</p>
+        <template>
+          <div class="dv-kanban" id="demo-kanban">
+            <section class="dv-kanban__col">
+              <div class="dv-kanban__head">Por hacer <span class="dv-badge" data-count>3</span></div>
+              <dv-sortable group="tablero" label="Por hacer" data-col="Por hacer">
+                <article class="dv-sortable__item dv-kanban__card"><strong>Diseñar el login</strong><span class="dv-muted">Pantalla y estados de error</span></article>
+                <article class="dv-sortable__item dv-kanban__card"><strong>Migrar la base de datos</strong><span class="dv-badge dv-badge--warning">Urgente</span></article>
+                <article class="dv-sortable__item dv-kanban__card"><strong>Escribir pruebas</strong></article>
+              </dv-sortable>
+            </section>
+            <section class="dv-kanban__col">
+              <div class="dv-kanban__head">En curso <span class="dv-badge" data-count>2</span></div>
+              <dv-sortable group="tablero" label="En curso" data-col="En curso">
+                <article class="dv-sortable__item dv-kanban__card"><strong>Componente de tabla</strong><span class="dv-muted">Orden y paginación</span></article>
+                <article class="dv-sortable__item dv-kanban__card"><strong>Revisión de accesibilidad</strong></article>
+              </dv-sortable>
+            </section>
+            <section class="dv-kanban__col">
+              <div class="dv-kanban__head">Hecho <span class="dv-badge dv-badge--success" data-count>1</span></div>
+              <dv-sortable group="tablero" label="Hecho" data-col="Hecho">
+                <article class="dv-sortable__item dv-kanban__card"><strong>Configurar el repositorio</strong></article>
+              </dv-sortable>
+            </section>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const board = document.querySelector("#demo-kanban");
+          const recount = () => board.querySelectorAll(".dv-kanban__col").forEach((col) => (col.querySelector("[data-count]").textContent = col.querySelectorAll(".dv-sortable__item").length));
+          board.addEventListener("dv-sort", (e) => {
+            recount();
+            DevlUI.toast({ title: `Movida a «${e.detail.to.container.dataset.col}»`, variant: "info", duration: 1800 });
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="data-table" data-group="Datos" data-tall="640px" data-keywords="data table tabla datos ordenar filtrar buscar paginar seleccionar columnas exportar csv densidad">
+        <h2><a href="#data-table">Tabla de datos</a></h2>
+        <p><code>&lt;dv-data-table&gt;</code> reúne búsqueda, orden (clic en la cabecera: ascendente → descendente → sin orden), selección con casillas (Shift para rangos), columnas visibles, densidad, paginación con tamaño de página y exportación CSV. Se configura con <code>table.columns</code> (<code>key</code>, <code>label</code>, <code>sort</code>, <code>align</code>, <code>format</code>, <code>render</code>) y <code>table.rows</code>; también acepta un <code>&lt;table&gt;</code> HTML normal dentro. Atributos: <code>page-size</code>, <code>selectable</code>, <code>searchable</code>, <code>exportable</code>, <code>height</code> (cabecera fija), <code>density</code> y <code>loading</code>. Eventos <code>dv-sort</code>, <code>dv-page</code>, <code>dv-selection</code> y <code>dv-row-click</code>.</p>
+        <template>
+          <dv-data-table id="demo-dt" page-size="8" selectable searchable exportable caption="Pedidos" empty-text="Aún no hay pedidos" locale="es"></dv-data-table>
+          <p class="dv-muted" id="demo-dt-out" style="margin-top:10px">Sin filas seleccionadas.</p>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const table = document.querySelector("#demo-dt");
+          const clientes = ["Acme", "Globex", "Initech", "Umbrella", "Hooli", "Stark", "Wayne", "Wonka"];
+          const estados = ["Pagado", "Pendiente", "Enviado", "Cancelado"];
+          const colores = { Pagado: "success", Pendiente: "warning", Enviado: "info", Cancelado: "danger" };
+          table.columns = [
+            { key: "id", label: "Pedido", sort: "text", width: "100px" },
+            { key: "cliente", label: "Cliente", sort: "text" },
+            { key: "estado", label: "Estado", sort: "text", render: (r) => { const b = document.createElement("span"); b.className = `dv-badge dv-badge--${colores[r.estado]}`; b.textContent = r.estado; return b; } },
+            { key: "fecha", label: "Fecha", sort: "date", format: (v) => new Date(v).toLocaleDateString("es", { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" }) },
+            { key: "total", label: "Total", sort: "number", align: "end", format: (v) => `$${v.toLocaleString("es", { minimumFractionDigits: 2 })}` }
+          ];
+          table.rows = Array.from({ length: 57 }, (_, i) => ({
+            id: `PED-${String(1000 + i)}`,
+            cliente: clientes[(i * 3) % clientes.length],
+            estado: estados[(i * 5 + 1) % estados.length],
+            fecha: `2026-10-${String(1 + (i % 28)).padStart(2, "0")}`,
+            total: Math.round((((i * 7919) % 90000) + 1500)) / 100
+          }));
+          table.addEventListener("dv-selection", (e) => {
+            document.querySelector("#demo-dt-out").textContent = e.detail.ids.length ? `${e.detail.ids.length} seleccionadas: ${e.detail.ids.slice(0, 4).join(", ")}${e.detail.ids.length > 4 ? "…" : ""}` : "Sin filas seleccionadas.";
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="chart-line" data-group="Datos" data-tall="340px" data-keywords="grafica linea area chart line series tendencia ventas ingresos leyenda tooltip">
+        <h2><a href="#chart-line">Gráfica de líneas y áreas</a></h2>
+        <p><code>&lt;dv-chart type="line|area"&gt;</code> dibuja series SVG con rejilla, leyenda interactiva (clic para ocultar una serie), tooltip y cursor al pasar el puntero. Datos: <code>chart.data = { labels, series: [{ name, values }] }</code> (o el atributo <code>data</code> en JSON). Opciones: <code>smooth</code>, <code>prefix</code>, <code>suffix</code>, <code>height</code>. Es accesible: el elemento recibe el foco, ← → recorren los puntos, el valor se anuncia en una región <code>aria-live</code> y hay una tabla de datos para lectores de pantalla. Los colores salen de <code>--dv-chart-1…8</code>.</p>
+        <template>
+          <div class="dv-grid" style="--min:320px;--gap:24px">
+            <dv-chart id="demo-chart-line" type="line" smooth caption="Visitas por mes" aria-label="Visitas por mes" height="220"></dv-chart>
+            <dv-chart id="demo-chart-area" type="area" smooth prefix="$" caption="Ingresos" aria-label="Ingresos por mes" height="220"></dv-chart>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+          document.querySelector("#demo-chart-line").data = { labels: meses, series: [
+            { name: "Web", values: [1200, 1350, 1280, 1700, 2100, 1900, 2300, 2500, 2400, 2900, 3300, 3100] },
+            { name: "App", values: [600, 720, 800, 950, 1100, 1500, 1450, 1800, 2100, 2000, 2400, 2700] }
+          ] };
+          document.querySelector("#demo-chart-area").data = { labels: meses, series: [
+            { name: "Ingresos", values: [8200, 9100, 8700, 11200, 13400, 12800, 15200, 16700, 16100, 18900, 21500, 20400] }
+          ] };
+        </script>
+      </section>
+
+      <section class="doc" id="chart-bar" data-group="Datos" data-tall="340px" data-keywords="grafica barras bar chart apiladas stacked horizontal comparativa">
+        <h2><a href="#chart-bar">Gráfica de barras</a></h2>
+        <p><code>&lt;dv-chart type="bar"&gt;</code> con barras agrupadas por defecto, <code>stacked</code> para apiladas y <code>horizontal</code> para barras horizontales (útil con etiquetas largas). Admite valores negativos.</p>
+        <template>
+          <div class="dv-grid" style="--min:320px;--gap:24px">
+            <dv-chart id="demo-chart-bar" type="bar" caption="Ventas por trimestre" aria-label="Ventas por trimestre" height="230"></dv-chart>
+            <dv-chart id="demo-chart-stack" type="bar" stacked horizontal caption="Tareas por equipo" aria-label="Tareas por equipo" height="230"></dv-chart>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          document.querySelector("#demo-chart-bar").data = { labels: ["T1", "T2", "T3", "T4"], series: [
+            { name: "2025", values: [32000, 41000, 38000, 52000] },
+            { name: "2026", values: [45000, 52000, 61000, 70000] }
+          ] };
+          document.querySelector("#demo-chart-stack").data = { labels: ["Diseño", "Ingeniería", "Producto", "Ventas"], series: [
+            { name: "Hechas", values: [14, 32, 18, 9] },
+            { name: "En curso", values: [5, 11, 7, 4] },
+            { name: "Pendientes", values: [3, 8, 6, 12] }
+          ] };
+        </script>
+      </section>
+
+      <section class="doc" id="chart-donut" data-group="Datos" data-tall="320px" data-keywords="grafica dona donut pie circular gauge medidor velocimetro porcentaje">
+        <h2><a href="#chart-donut">Dona y gauge</a></h2>
+        <p><code>type="donut"</code> reparte segmentos (<code>data = { segments: [{ label, value }] }</code>); al pasar el cursor el centro muestra el segmento y su porcentaje, y la leyenda oculta segmentos. <code>type="gauge"</code> muestra un valor dentro de un rango (<code>data = { value, min, max, label, thresholds: [{ to, color }] }</code>), coloreado según el umbral.</p>
+        <template>
+          <div class="dv-grid" style="--min:280px;--gap:24px">
+            <dv-chart id="demo-chart-donut" type="donut" center-label="Usuarios" aria-label="Usuarios por plan" caption="Usuarios por plan" height="230"></dv-chart>
+            <dv-chart id="demo-chart-gauge" type="gauge" suffix="%" aria-label="Uso de CPU" caption="Uso de CPU" height="200"></dv-chart>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          document.querySelector("#demo-chart-donut").data = { segments: [
+            { label: "Gratis", value: 540 }, { label: "Pro", value: 280 }, { label: "Equipos", value: 120 }, { label: "Enterprise", value: 40 }
+          ] };
+          document.querySelector("#demo-chart-gauge").data = { value: 72, min: 0, max: 100, label: "CPU", thresholds: [
+            { to: 60, color: "var(--dv-success)" }, { to: 85, color: "var(--dv-warning)" }, { to: 100, color: "var(--dv-danger)" }
+          ] };
+        </script>
+      </section>
+
+      <section class="doc" id="chart-heatmap" data-group="Datos" data-tall="320px" data-keywords="grafica mapa calor heatmap matriz actividad contribuciones horas dias">
+        <h2><a href="#chart-heatmap">Mapa de calor</a></h2>
+        <p><code>type="heatmap"</code> pinta una matriz (<code>data = { rows, cols, values }</code>) con la intensidad del color según el valor. Las celdas vacías (<code>null</code>) se dibujan con borde punteado. Con el teclado, las cuatro flechas recorren las celdas.</p>
+        <template>
+          <dv-chart id="demo-chart-heat" type="heatmap" caption="Actividad por día y franja" aria-label="Actividad por día y franja" height="250" style="max-width:560px"></dv-chart>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const dias = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
+          const franjas = ["00h", "04h", "08h", "12h", "16h", "20h"];
+          document.querySelector("#demo-chart-heat").data = { rows: dias, cols: franjas, values: dias.map((_, r) => franjas.map((_, c) => (r > 4 && c < 2 ? null : Math.round(((r * 31 + c * 17) % 23) + (c > 1 && c < 5 ? 40 : 4) + (r < 5 ? 15 : 0))))) };
+        </script>
       </section>
 
       <!-- ================================================================ Diseño -->
