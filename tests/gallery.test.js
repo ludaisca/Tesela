@@ -10,9 +10,9 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   p.on('console', m => m.type() === 'error' && errs.push(m.text()));
   await p.goto((process.env.BASE_URL || 'http://localhost:24100') + '/index.html'); await p.waitForLoadState('networkidle');
 
-  const total = await p.evaluate(() => window.DEVL_FLAT_ITEMS.length);
+  const total = await p.evaluate(() => window.TESELA_FLAT_ITEMS.length);
   ok((await p.locator('.exp-card-item').count()) === total && total === 212, `galería: ${total} tarjetas, una por experimento`);
-  const paths = await p.evaluate(() => window.DEVL_FLAT_ITEMS.map(i => i.path));
+  const paths = await p.evaluate(() => window.TESELA_FLAT_ITEMS.map(i => i.path));
   const empty = [];
   for (const path of paths) {
     await p.evaluate(h => { location.hash = '#' + h; }, path);

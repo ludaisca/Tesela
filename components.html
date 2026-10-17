@@ -3,31 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="devl-ui — biblioteca de componentes sin dependencias con el estilo de devl.dev: HTML + CSS + Custom Elements." />
-  <title>devl-ui — Biblioteca de componentes</title>
-  <link rel="stylesheet" href="lib/devl-ui.css" />
+  <meta name="description" content="Tesela — biblioteca de componentes sin dependencias inspirada en el estilo de devl.dev: HTML + CSS + Custom Elements." />
+  <title>Tesela — Biblioteca de componentes</title>
+  <link rel="stylesheet" href="lib/tesela-ui.css" />
   <link rel="stylesheet" href="docs/docs.css" />
 </head>
-<body class="dv">
+<body class="tsl">
   <header class="docs-topbar">
-    <button type="button" class="dv-btn dv-btn--icon dv-btn--subtle docs-menu-btn" aria-label="Abrir índice">☰</button>
-    <a class="docs-brand" href="#top"><span class="docs-brand-dot"></span>devl-ui</a>
-    <span class="dv-badge dv-badge--outline docs-hide-sm">v1.4.0</span>
-    <span class="dv-spacer"></span>
-    <a class="dv-btn dv-btn--sm dv-btn--subtle docs-hide-sm" href="index.html">← Galería</a>
-    <button type="button" class="dv-btn dv-btn--sm" data-dv-open="docs-cmd">
-      Buscar <kbd class="dv-kbd docs-hide-sm">⌘K</kbd>
+    <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--subtle docs-menu-btn" aria-label="Abrir índice">☰</button>
+    <a class="docs-brand" href="#top"><span class="docs-brand-dot"></span>Tesela</a>
+    <span class="tsl-badge tsl-badge--outline docs-hide-sm">v1.4.0</span>
+    <span class="tsl-spacer"></span>
+    <a class="tsl-btn tsl-btn--sm tsl-btn--subtle docs-hide-sm" href="index.html">← Galería</a>
+    <button type="button" class="tsl-btn tsl-btn--sm" data-tsl-open="docs-cmd">
+      Buscar <kbd class="tsl-kbd docs-hide-sm">⌘K</kbd>
     </button>
-    <button type="button" class="dv-btn dv-btn--sm dv-btn--icon" data-dv-theme-toggle aria-label="Cambiar tema" data-dv-tooltip="Tema" data-dv-placement="bottom">◐</button>
+    <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--icon" data-tsl-theme-toggle aria-label="Cambiar tema" data-tsl-tooltip="Tema" data-tsl-placement="bottom">◐</button>
   </header>
 
   <div class="docs-shell">
     <aside class="docs-sidebar" aria-label="Componentes">
-      <input type="search" class="dv-input" id="docs-search" placeholder="Filtrar componentes…" aria-label="Filtrar componentes" />
-      <nav class="dv-nav" id="docs-nav"></nav>
+      <input type="search" class="tsl-input" id="docs-search" placeholder="Filtrar componentes…" aria-label="Filtrar componentes" />
+      <nav class="tsl-nav" id="docs-nav"></nav>
 
       <div class="docs-tokens">
-        <span class="dv-eyebrow">Token de acento</span>
+        <span class="tsl-eyebrow">Token de acento</span>
         <div class="docs-swatches">
           <button type="button" class="docs-swatch" style="--c:#6366f1" data-accent="#6366f1" aria-label="Índigo"></button>
           <button type="button" class="docs-swatch" style="--c:#10b981" data-accent="#10b981" aria-label="Esmeralda"></button>
@@ -36,51 +36,51 @@
           <button type="button" class="docs-swatch" style="--c:#ec4899" data-accent="#ec4899" aria-label="Rosa"></button>
           <button type="button" class="docs-swatch" style="--c:#a855f7" data-accent="#a855f7" aria-label="Violeta"></button>
         </div>
-        <span class="dv-eyebrow">Radio</span>
-        <dv-segmented id="docs-radius" value="9" style="margin:10px 0 14px">
-          <button class="dv-segmented__item" value="2">2</button>
-          <button class="dv-segmented__item" value="9">9</button>
-          <button class="dv-segmented__item" value="16">16</button>
-        </dv-segmented>
-        <button type="button" class="dv-btn dv-btn--sm dv-btn--block" id="docs-export">Copiar overrides CSS</button>
+        <span class="tsl-eyebrow">Radio</span>
+        <tsl-segmented id="docs-radius" value="9" style="margin:10px 0 14px">
+          <button class="tsl-segmented__item" value="2">2</button>
+          <button class="tsl-segmented__item" value="9">9</button>
+          <button class="tsl-segmented__item" value="16">16</button>
+        </tsl-segmented>
+        <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--block" id="docs-export">Copiar overrides CSS</button>
       </div>
     </aside>
 
     <main class="docs-main" id="top">
       <!-- ================================================================ Introducción -->
       <section class="docs-hero">
-        <span class="dv-eyebrow">Biblioteca de componentes · <span id="docs-count">0</span> componentes</span>
-        <h1>devl-ui.</h1>
+        <span class="tsl-eyebrow">Biblioteca de componentes · <span id="docs-count">0</span> componentes</span>
+        <h1>Tesela.</h1>
         <p>
-          Componentes propios <strong>sin dependencias</strong> con el mismo lenguaje visual de devl.dev:
+          Componentes propios <strong>sin dependencias</strong> inspirados en el lenguaje visual de devl.dev:
           tokens en CSS, HTML semántico y Custom Elements en light DOM. Copia el HTML de cualquier demo,
           enlaza dos archivos y funciona en cualquier proyecto (estático, SSR o framework).
         </p>
-        <div class="dv-row">
-          <a class="dv-btn dv-btn--primary" href="#install">Empezar</a>
-          <a class="dv-btn" href="lib/devl-ui.css" download>devl-ui.css</a>
-          <a class="dv-btn" href="lib/devl-ui.js" download>devl-ui.js</a>
+        <div class="tsl-row">
+          <a class="tsl-btn tsl-btn--primary" href="#install">Empezar</a>
+          <a class="tsl-btn" href="lib/tesela-ui.css" download>tesela-ui.css</a>
+          <a class="tsl-btn" href="lib/tesela-ui.js" download>tesela-ui.js</a>
         </div>
       </section>
 
       <section class="doc" id="install" data-group="Inicio" data-keywords="setup install instalar uso">
         <h2><a href="#install">Instalación</a></h2>
-        <p>Copia la carpeta <code>lib/</code> a tu proyecto. El CSS funciona solo; el JS añade interactividad (Custom Elements y atributos <code>data-dv-*</code>). Pon la clase <code>dv</code> en <code>&lt;body&gt;</code> para heredar fuente y colores. Tema oscuro por defecto; <code>data-theme="light"</code> en <code>&lt;html&gt;</code> para claro.</p>
+        <p>Copia la carpeta <code>lib/</code> a tu proyecto. El CSS funciona solo; el JS añade interactividad (Custom Elements y atributos <code>data-tsl-*</code>). Pon la clase <code>tsl</code> en <code>&lt;body&gt;</code> para heredar fuente y colores. Tema oscuro por defecto; <code>data-theme="light"</code> en <code>&lt;html&gt;</code> para claro.</p>
         <div class="doc-frame">
-          <pre class="dv-code" style="border:0"><button type="button" class="dv-btn dv-btn--sm" data-dv-copy data-dv-copy-target="#install-snippet">Copiar</button><code id="install-snippet">&lt;link rel="stylesheet" href="lib/devl-ui.css" /&gt;
-&lt;script src="lib/devl-ui.js" defer&gt;&lt;/script&gt;
+          <pre class="tsl-code" style="border:0"><button type="button" class="tsl-btn tsl-btn--sm" data-tsl-copy data-tsl-copy-target="#install-snippet">Copiar</button><code id="install-snippet">&lt;link rel="stylesheet" href="lib/tesela-ui.css" /&gt;
+&lt;script src="lib/tesela-ui.js" defer&gt;&lt;/script&gt;
 
-&lt;body class="dv"&gt; … &lt;/body&gt;</code></pre>
+&lt;body class="tsl"&gt; … &lt;/body&gt;</code></pre>
         </div>
-        <div class="doc-api dv-table-wrap">
-          <table class="dv-table">
+        <div class="doc-api tsl-table-wrap">
+          <table class="tsl-table">
             <thead><tr><th>API global</th><th>Descripción</th></tr></thead>
             <tbody>
-              <tr><td>DevlUI.toast(opts)</td><td>Notificación efímera. <code>{ title, description, variant, duration, action }</code>. Devuelve una función para cerrarla.</td></tr>
-              <tr><td>DevlUI.copy(text)</td><td>Copia al portapapeles (con respaldo para <code>file://</code>). Promise&lt;boolean&gt;.</td></tr>
-              <tr><td>DevlUI.setTheme(t) / getTheme()</td><td>"dark" | "light". Se guarda en <code>localStorage</code>.</td></tr>
-              <tr><td>DevlUI.init(root)</td><td>Inicializa ayudantes estáticos (rangos, tablas) tras insertar HTML dinámico.</td></tr>
-              <tr><td>Eventos</td><td>Todos los componentes emiten eventos <code>dv-*</code> que burbujean: <code>dv-change</code>, <code>dv-select</code>, <code>dv-complete</code>, <code>dv-copy</code>, <code>dv-theme</code>.</td></tr>
+              <tr><td>TeselaUI.toast(opts)</td><td>Notificación efímera. <code>{ title, description, variant, duration, action }</code>. Devuelve una función para cerrarla.</td></tr>
+              <tr><td>TeselaUI.copy(text)</td><td>Copia al portapapeles (con respaldo para <code>file://</code>). Promise&lt;boolean&gt;.</td></tr>
+              <tr><td>TeselaUI.setTheme(t) / getTheme()</td><td>"dark" | "light". Se guarda en <code>localStorage</code>.</td></tr>
+              <tr><td>TeselaUI.init(root)</td><td>Inicializa ayudantes estáticos (rangos, tablas) tras insertar HTML dinámico.</td></tr>
+              <tr><td>Eventos</td><td>Todos los componentes emiten eventos <code>tsl-*</code> que burbujean: <code>tsl-change</code>, <code>tsl-select</code>, <code>tsl-complete</code>, <code>tsl-copy</code>, <code>tsl-theme</code>.</td></tr>
             </tbody>
           </table>
         </div>
@@ -88,26 +88,26 @@
 
       <section class="doc" id="tokens" data-group="Inicio" data-keywords="colors colores theme tema variables">
         <h2><a href="#tokens">Tokens</a></h2>
-        <p>Todo el estilo sale de variables <code>--dv-*</code>. Sobrescríbelas después de cargar <code>devl-ui.css</code> para adaptar la marca (o usa el panel lateral y "Copiar overrides CSS").</p>
+        <p>Todo el estilo sale de variables <code>--tsl-*</code>. Sobrescríbelas después de cargar <code>tesela-ui.css</code> para adaptar la marca (o usa el panel lateral y "Copiar overrides CSS").</p>
         <template>
-          <div class="dv-grid" style="--min:150px">
-            <div class="dv-stat"><span class="dv-dot dv-dot--accent"></span><span class="dv-eyebrow">--dv-accent</span></div>
-            <div class="dv-stat"><span class="dv-dot dv-dot--success"></span><span class="dv-eyebrow">--dv-success</span></div>
-            <div class="dv-stat"><span class="dv-dot dv-dot--warning"></span><span class="dv-eyebrow">--dv-warning</span></div>
-            <div class="dv-stat"><span class="dv-dot dv-dot--danger"></span><span class="dv-eyebrow">--dv-danger</span></div>
-            <div class="dv-stat"><span class="dv-dot dv-dot--info"></span><span class="dv-eyebrow">--dv-info</span></div>
+          <div class="tsl-grid" style="--min:150px">
+            <div class="tsl-stat"><span class="tsl-dot tsl-dot--accent"></span><span class="tsl-eyebrow">--tsl-accent</span></div>
+            <div class="tsl-stat"><span class="tsl-dot tsl-dot--success"></span><span class="tsl-eyebrow">--tsl-success</span></div>
+            <div class="tsl-stat"><span class="tsl-dot tsl-dot--warning"></span><span class="tsl-eyebrow">--tsl-warning</span></div>
+            <div class="tsl-stat"><span class="tsl-dot tsl-dot--danger"></span><span class="tsl-eyebrow">--tsl-danger</span></div>
+            <div class="tsl-stat"><span class="tsl-dot tsl-dot--info"></span><span class="tsl-eyebrow">--tsl-info</span></div>
           </div>
         </template>
       </section>
 
       <section class="doc" id="typography" data-group="Inicio" data-keywords="eyebrow heading kbd texto fuente">
         <h2><a href="#typography">Tipografía</a></h2>
-        <p>Mono por defecto, sans para titulares. Utilidades: <code>dv-eyebrow</code>, <code>dv-heading</code>, <code>dv-muted</code>, <code>dv-kbd</code>.</p>
+        <p>Mono por defecto, sans para titulares. Utilidades: <code>tsl-eyebrow</code>, <code>tsl-heading</code>, <code>tsl-muted</code>, <code>tsl-kbd</code>.</p>
         <template>
-          <div class="dv-stack">
-            <span class="dv-eyebrow">Carpeta 01 · Layouts</span>
-            <h3 class="dv-heading" style="font-size:32px">Diseños.</h3>
-            <p class="dv-muted">Pulsa <kbd class="dv-kbd">⌘</kbd> <kbd class="dv-kbd">K</kbd> para buscar.</p>
+          <div class="tsl-stack">
+            <span class="tsl-eyebrow">Carpeta 01 · Layouts</span>
+            <h3 class="tsl-heading" style="font-size:32px">Diseños.</h3>
+            <p class="tsl-muted">Pulsa <kbd class="tsl-kbd">⌘</kbd> <kbd class="tsl-kbd">K</kbd> para buscar.</p>
           </div>
         </template>
       </section>
@@ -117,21 +117,21 @@
         <h2><a href="#button">Botón</a></h2>
         <p>Variantes <code>--primary</code>, <code>--accent</code>, <code>--subtle</code>, <code>--danger</code>; tamaños <code>--sm</code>, <code>--lg</code>, <code>--icon</code>, <code>--block</code>, <code>--pill</code>. <code>aria-busy="true"</code> muestra un spinner.</p>
         <template>
-          <div class="dv-stack">
-            <div class="dv-row">
-              <button type="button" class="dv-btn dv-btn--primary">Principal</button>
-              <button type="button" class="dv-btn">Predeterminado</button>
-              <button type="button" class="dv-btn dv-btn--accent">Acento</button>
-              <button type="button" class="dv-btn dv-btn--subtle">Sutil</button>
-              <button type="button" class="dv-btn dv-btn--danger">Eliminar</button>
-              <button type="button" class="dv-btn" disabled>Deshabilitado</button>
+          <div class="tsl-stack">
+            <div class="tsl-row">
+              <button type="button" class="tsl-btn tsl-btn--primary">Principal</button>
+              <button type="button" class="tsl-btn">Predeterminado</button>
+              <button type="button" class="tsl-btn tsl-btn--accent">Acento</button>
+              <button type="button" class="tsl-btn tsl-btn--subtle">Sutil</button>
+              <button type="button" class="tsl-btn tsl-btn--danger">Eliminar</button>
+              <button type="button" class="tsl-btn" disabled>Deshabilitado</button>
             </div>
-            <div class="dv-row">
-              <button type="button" class="dv-btn dv-btn--sm">Pequeño</button>
-              <button type="button" class="dv-btn dv-btn--lg dv-btn--pill">Píldora grande</button>
-              <button type="button" class="dv-btn dv-btn--icon" aria-label="Añadir">+</button>
-              <button type="button" class="dv-btn dv-btn--primary" aria-busy="true">Guardando</button>
-              <button type="button" class="dv-btn" id="demo-busy">Clic para cargar</button>
+            <div class="tsl-row">
+              <button type="button" class="tsl-btn tsl-btn--sm">Pequeño</button>
+              <button type="button" class="tsl-btn tsl-btn--lg tsl-btn--pill">Píldora grande</button>
+              <button type="button" class="tsl-btn tsl-btn--icon" aria-label="Añadir">+</button>
+              <button type="button" class="tsl-btn tsl-btn--primary" aria-busy="true">Guardando</button>
+              <button type="button" class="tsl-btn" id="demo-busy">Clic para cargar</button>
             </div>
           </div>
         </template>
@@ -148,57 +148,57 @@
         <h2><a href="#button-group">Grupo de botones</a></h2>
         <p>Une botones adyacentes en un solo control.</p>
         <template>
-          <div class="dv-btn-group">
-            <button type="button" class="dv-btn">Día</button>
-            <button type="button" class="dv-btn">Semana</button>
-            <button type="button" class="dv-btn">Mes</button>
+          <div class="tsl-btn-group">
+            <button type="button" class="tsl-btn">Día</button>
+            <button type="button" class="tsl-btn">Semana</button>
+            <button type="button" class="tsl-btn">Mes</button>
           </div>
         </template>
       </section>
 
       <section class="doc" id="menu" data-group="Acciones" data-tall="300px" data-keywords="dropdown desplegable menu acciones">
         <h2><a href="#menu">Menú desplegable</a></h2>
-        <p><code>&lt;dv-menu&gt;</code> con navegación por teclado (↑ ↓ Home End Esc), cierre al hacer clic fuera y evento <code>dv-select</code>. <code>align="end"</code> lo alinea a la derecha.</p>
+        <p><code>&lt;tsl-menu&gt;</code> con navegación por teclado (↑ ↓ Home End Esc), cierre al hacer clic fuera y evento <code>tsl-select</code>. <code>align="end"</code> lo alinea a la derecha.</p>
         <template>
-          <dv-menu id="demo-menu">
-            <button type="button" class="dv-btn" data-dv-trigger>Opciones ▾</button>
-            <div class="dv-menu__list">
-              <div class="dv-menu__label">Espacio de trabajo</div>
-              <button type="button" class="dv-menu__item" data-value="rename">Renombrar <kbd class="dv-kbd">R</kbd></button>
-              <button type="button" class="dv-menu__item" data-value="duplicate">Duplicar <kbd class="dv-kbd">⌘D</kbd></button>
-              <button type="button" class="dv-menu__item" data-value="share">Compartir…</button>
-              <div class="dv-menu__sep"></div>
-              <button type="button" class="dv-menu__item dv-menu__item--danger" data-value="delete">Eliminar</button>
+          <tsl-menu id="demo-menu">
+            <button type="button" class="tsl-btn" data-tsl-trigger>Opciones ▾</button>
+            <div class="tsl-menu__list">
+              <div class="tsl-menu__label">Espacio de trabajo</div>
+              <button type="button" class="tsl-menu__item" data-value="rename">Renombrar <kbd class="tsl-kbd">R</kbd></button>
+              <button type="button" class="tsl-menu__item" data-value="duplicate">Duplicar <kbd class="tsl-kbd">⌘D</kbd></button>
+              <button type="button" class="tsl-menu__item" data-value="share">Compartir…</button>
+              <div class="tsl-menu__sep"></div>
+              <button type="button" class="tsl-menu__item tsl-menu__item--danger" data-value="delete">Eliminar</button>
             </div>
-          </dv-menu>
+          </tsl-menu>
         </template>
         <script type="text/plain" data-doc-js>
-          document.querySelector("#demo-menu").addEventListener("dv-select", (e) => {
-            DevlUI.toast({ title: `Seleccionado: ${e.detail.value}`, variant: "info" });
+          document.querySelector("#demo-menu").addEventListener("tsl-select", (e) => {
+            TeselaUI.toast({ title: `Seleccionado: ${e.detail.value}`, variant: "info" });
           });
         </script>
       </section>
 
       <section class="doc" id="chip" data-group="Acciones" data-keywords="toggle filtro pill pressed">
         <h2><a href="#chip">Chip / interruptor</a></h2>
-        <p>Chips de filtro. Con <code>data-dv-toggle</code> alternan <code>aria-pressed</code> y emiten <code>dv-change</code>.</p>
+        <p>Chips de filtro. Con <code>data-tsl-toggle</code> alternan <code>aria-pressed</code> y emiten <code>tsl-change</code>.</p>
         <template>
-          <div class="dv-row">
-            <button type="button" class="dv-chip" data-dv-toggle aria-pressed="true">Diseño</button>
-            <button type="button" class="dv-chip" data-dv-toggle aria-pressed="false">Ingeniería</button>
-            <button type="button" class="dv-chip" data-dv-toggle aria-pressed="false">Crecimiento</button>
-            <span class="dv-chip">Removible <button type="button" class="dv-chip__remove" aria-label="Quitar">✕</button></span>
+          <div class="tsl-row">
+            <button type="button" class="tsl-chip" data-tsl-toggle aria-pressed="true">Diseño</button>
+            <button type="button" class="tsl-chip" data-tsl-toggle aria-pressed="false">Ingeniería</button>
+            <button type="button" class="tsl-chip" data-tsl-toggle aria-pressed="false">Crecimiento</button>
+            <span class="tsl-chip">Removible <button type="button" class="tsl-chip__remove" aria-label="Quitar">✕</button></span>
           </div>
         </template>
       </section>
 
       <section class="doc" id="copy" data-group="Acciones" data-keywords="clipboard portapapeles copiar">
         <h2><a href="#copy">Botón de copiar</a></h2>
-        <p><code>data-dv-copy="texto"</code> copia un valor fijo; <code>data-dv-copy-target="#id"</code> copia el contenido de otro elemento.</p>
+        <p><code>data-tsl-copy="texto"</code> copia un valor fijo; <code>data-tsl-copy-target="#id"</code> copia el contenido de otro elemento.</p>
         <template>
-          <div class="dv-input-group demo-max">
-            <input class="dv-input dv-mono" id="demo-key" value="devl_live_98f2a4c71e09b3d841a2" readonly aria-label="Clave de API" />
-            <button type="button" class="dv-btn dv-btn--subtle" data-dv-copy data-dv-copy-target="#demo-key">Copiar</button>
+          <div class="tsl-input-group demo-max">
+            <input class="tsl-input tsl-mono" id="demo-key" value="tsl_live_98f2a4c71e09b3d841a2" readonly aria-label="Clave de API" />
+            <button type="button" class="tsl-btn tsl-btn--subtle" data-tsl-copy data-tsl-copy-target="#demo-key">Copiar</button>
           </div>
         </template>
       </section>
@@ -206,18 +206,18 @@
       <!-- ================================================================ Formularios -->
       <section class="doc" id="input" data-group="Formularios" data-keywords="text field campo label error hint">
         <h2><a href="#input">Input y campo</a></h2>
-        <p><code>dv-field</code> agrupa <code>dv-label</code>, control, <code>dv-hint</code> y <code>dv-error</code>. Usa <code>aria-invalid="true"</code> para el estado de error.</p>
+        <p><code>tsl-field</code> agrupa <code>tsl-label</code>, control, <code>tsl-hint</code> y <code>tsl-error</code>. Usa <code>aria-invalid="true"</code> para el estado de error.</p>
         <template>
-          <div class="dv-stack demo-max">
-            <label class="dv-field">
-              <span class="dv-label">Nombre del espacio de trabajo</span>
-              <input class="dv-input" placeholder="Acme S.A." />
-              <span class="dv-hint">Visible para todo el equipo.</span>
+          <div class="tsl-stack demo-max">
+            <label class="tsl-field">
+              <span class="tsl-label">Nombre del espacio de trabajo</span>
+              <input class="tsl-input" placeholder="Acme S.A." />
+              <span class="tsl-hint">Visible para todo el equipo.</span>
             </label>
-            <label class="dv-field">
-              <span class="dv-label">Correo electrónico</span>
-              <input class="dv-input" type="email" value="correo-no-valido" aria-invalid="true" />
-              <span class="dv-error">Introduce un email válido.</span>
+            <label class="tsl-field">
+              <span class="tsl-label">Correo electrónico</span>
+              <input class="tsl-input" type="email" value="correo-no-valido" aria-invalid="true" />
+              <span class="tsl-error">Introduce un email válido.</span>
             </label>
           </div>
         </template>
@@ -225,18 +225,18 @@
 
       <section class="doc" id="input-group" data-group="Formularios" data-keywords="addon prefijo sufijo url">
         <h2><a href="#input-group">Grupo de inputs</a></h2>
-        <p>Añade prefijos/sufijos con <code>dv-input-group__addon</code>.</p>
+        <p>Añade prefijos/sufijos con <code>tsl-input-group__addon</code>.</p>
         <template>
-          <div class="dv-stack demo-max">
-            <div class="dv-input-group">
-              <span class="dv-input-group__addon">https://</span>
-              <input class="dv-input" value="acme" aria-label="Subdominio" />
-              <span class="dv-input-group__addon">.devl.dev</span>
+          <div class="tsl-stack demo-max">
+            <div class="tsl-input-group">
+              <span class="tsl-input-group__addon">https://</span>
+              <input class="tsl-input" value="acme" aria-label="Subdominio" />
+              <span class="tsl-input-group__addon">.tesela.example</span>
             </div>
-            <div class="dv-input-group">
-              <span class="dv-input-group__addon">⌕</span>
-              <input class="dv-input" placeholder="Buscar…" aria-label="Buscar" />
-              <span class="dv-input-group__addon"><kbd class="dv-kbd">⌘K</kbd></span>
+            <div class="tsl-input-group">
+              <span class="tsl-input-group__addon">⌕</span>
+              <input class="tsl-input" placeholder="Buscar…" aria-label="Buscar" />
+              <span class="tsl-input-group__addon"><kbd class="tsl-kbd">⌘K</kbd></span>
             </div>
           </div>
         </template>
@@ -246,18 +246,18 @@
         <h2><a href="#select">Select y textarea</a></h2>
         <p>Controles nativos con el estilo de la biblioteca.</p>
         <template>
-          <div class="dv-stack demo-max">
-            <label class="dv-field">
-              <span class="dv-label">Región</span>
-              <select class="dv-select">
+          <div class="tsl-stack demo-max">
+            <label class="tsl-field">
+              <span class="tsl-label">Región</span>
+              <select class="tsl-select">
                 <option>US-East-1</option>
                 <option>EU-Central</option>
                 <option>AP-South</option>
               </select>
             </label>
-            <label class="dv-field">
-              <span class="dv-label">Comentarios</span>
-              <textarea class="dv-textarea" placeholder="¿Qué podemos mejorar?"></textarea>
+            <label class="tsl-field">
+              <span class="tsl-label">Comentarios</span>
+              <textarea class="tsl-textarea" placeholder="¿Qué podemos mejorar?"></textarea>
             </label>
           </div>
         </template>
@@ -265,17 +265,17 @@
 
       <section class="doc" id="checkbox" data-group="Formularios" data-keywords="radio check casilla">
         <h2><a href="#checkbox">Casilla y radio</a></h2>
-        <p><code>&lt;input type="checkbox|radio" class="dv-check"&gt;</code>, envuelto en <code>dv-choice</code> para la etiqueta. Soporta <code>indeterminate</code>.</p>
+        <p><code>&lt;input type="checkbox|radio" class="tsl-check"&gt;</code>, envuelto en <code>tsl-choice</code> para la etiqueta. Soporta <code>indeterminate</code>.</p>
         <template>
-          <div class="dv-row" style="--gap:24px">
-            <div class="dv-stack" style="--gap:10px">
-              <label class="dv-choice"><input type="checkbox" class="dv-check" checked /> Resumen por correo</label>
-              <label class="dv-choice"><input type="checkbox" class="dv-check" /> Notificaciones push</label>
-              <label class="dv-choice"><input type="checkbox" class="dv-check" disabled /> SMS (Pro)</label>
+          <div class="tsl-row" style="--gap:24px">
+            <div class="tsl-stack" style="--gap:10px">
+              <label class="tsl-choice"><input type="checkbox" class="tsl-check" checked /> Resumen por correo</label>
+              <label class="tsl-choice"><input type="checkbox" class="tsl-check" /> Notificaciones push</label>
+              <label class="tsl-choice"><input type="checkbox" class="tsl-check" disabled /> SMS (Pro)</label>
             </div>
-            <div class="dv-stack" style="--gap:10px">
-              <label class="dv-choice"><input type="radio" name="demo-plan" class="dv-check" checked /> Mensual</label>
-              <label class="dv-choice"><input type="radio" name="demo-plan" class="dv-check" /> Anual (-20%)</label>
+            <div class="tsl-stack" style="--gap:10px">
+              <label class="tsl-choice"><input type="radio" name="demo-plan" class="tsl-check" checked /> Mensual</label>
+              <label class="tsl-choice"><input type="radio" name="demo-plan" class="tsl-check" /> Anual (-20%)</label>
             </div>
           </div>
         </template>
@@ -285,23 +285,23 @@
         <h2><a href="#switch">Interruptor</a></h2>
         <p>Checkbox nativo con <code>role="switch"</code>: accesible y compatible con formularios.</p>
         <template>
-          <div class="dv-stack demo-max" style="--gap:14px">
-            <label class="dv-choice" style="justify-content:space-between;width:100%">Físicas de microinteracción <input type="checkbox" role="switch" class="dv-switch" checked /></label>
-            <label class="dv-choice" style="justify-content:space-between;width:100%">Anillo de foco estricto <input type="checkbox" role="switch" class="dv-switch" /></label>
+          <div class="tsl-stack demo-max" style="--gap:14px">
+            <label class="tsl-choice" style="justify-content:space-between;width:100%">Físicas de microinteracción <input type="checkbox" role="switch" class="tsl-switch" checked /></label>
+            <label class="tsl-choice" style="justify-content:space-between;width:100%">Anillo de foco estricto <input type="checkbox" role="switch" class="tsl-switch" /></label>
           </div>
         </template>
       </section>
 
       <section class="doc" id="range" data-group="Formularios" data-keywords="slider deslizador">
         <h2><a href="#range">Control deslizante</a></h2>
-        <p>Relleno de color automático. <code>data-dv-output="#id"</code> muestra el valor; <code>data-dv-suffix</code> añade unidad.</p>
+        <p>Relleno de color automático. <code>data-tsl-output="#id"</code> muestra el valor; <code>data-tsl-suffix</code> añade unidad.</p>
         <template>
-          <div class="dv-stack demo-max">
-            <div class="dv-row" style="justify-content:space-between">
-              <span class="dv-label">Asientos del equipo</span>
-              <strong class="dv-mono" id="demo-range-out">12</strong>
+          <div class="tsl-stack demo-max">
+            <div class="tsl-row" style="justify-content:space-between">
+              <span class="tsl-label">Asientos del equipo</span>
+              <strong class="tsl-mono" id="demo-range-out">12</strong>
             </div>
-            <input type="range" class="dv-range" min="1" max="100" value="12" data-dv-output="#demo-range-out" data-dv-suffix=" asientos" aria-label="Asientos del equipo" />
+            <input type="range" class="tsl-range" min="1" max="100" value="12" data-tsl-output="#demo-range-out" data-tsl-suffix=" asientos" aria-label="Asientos del equipo" />
           </div>
         </template>
       </section>
@@ -310,7 +310,7 @@
         <h2><a href="#number">Selector numérico</a></h2>
         <p>Botones con <code>data-step="-1|1"</code> que respetan <code>min</code>, <code>max</code> y <code>step</code> del input.</p>
         <template>
-          <div class="dv-number">
+          <div class="tsl-number">
             <button type="button" data-step="-1" aria-label="Disminuir">−</button>
             <input type="number" value="2" min="0" max="10" aria-label="Cantidad" />
             <button type="button" data-step="1" aria-label="Aumentar">+</button>
@@ -320,97 +320,97 @@
 
       <section class="doc" id="segmented" data-group="Formularios" data-keywords="radio group selector vista">
         <h2><a href="#segmented">Control segmentado</a></h2>
-        <p><code>&lt;dv-segmented value="…"&gt;</code> con <code>role="radiogroup"</code>, flechas ← → y evento <code>dv-change</code>.</p>
+        <p><code>&lt;tsl-segmented value="…"&gt;</code> con <code>role="radiogroup"</code>, flechas ← → y evento <code>tsl-change</code>.</p>
         <template>
-          <dv-segmented value="30d" id="demo-seg">
-            <button class="dv-segmented__item" value="7d">7D</button>
-            <button class="dv-segmented__item" value="30d">30D</button>
-            <button class="dv-segmented__item" value="90d">90D</button>
-            <button class="dv-segmented__item" value="1y">1A</button>
-          </dv-segmented>
+          <tsl-segmented value="30d" id="demo-seg">
+            <button class="tsl-segmented__item" value="7d">7D</button>
+            <button class="tsl-segmented__item" value="30d">30D</button>
+            <button class="tsl-segmented__item" value="90d">90D</button>
+            <button class="tsl-segmented__item" value="1y">1A</button>
+          </tsl-segmented>
         </template>
         <script type="text/plain" data-doc-js>
-          document.querySelector("#demo-seg").addEventListener("dv-change", (e) => {
-            DevlUI.toast({ title: `Rango: ${e.detail.value}`, variant: "neutral", duration: 1500 });
+          document.querySelector("#demo-seg").addEventListener("tsl-change", (e) => {
+            TeselaUI.toast({ title: `Rango: ${e.detail.value}`, variant: "neutral", duration: 1500 });
           });
         </script>
       </section>
 
       <section class="doc" id="otp" data-group="Formularios" data-keywords="pin codigo verificacion 2fa">
         <h2><a href="#otp">Campo OTP</a></h2>
-        <p><code>&lt;dv-otp length="6" name="code"&gt;</code>: avance automático, retroceso, pegado y evento <code>dv-complete</code>. <code>mode="text"</code> acepta letras.</p>
+        <p><code>&lt;tsl-otp length="6" name="code"&gt;</code>: avance automático, retroceso, pegado y evento <code>tsl-complete</code>. <code>mode="text"</code> acepta letras.</p>
         <template>
-          <dv-otp length="6" name="code" id="demo-otp"></dv-otp>
+          <tsl-otp length="6" name="code" id="demo-otp"></tsl-otp>
         </template>
         <script type="text/plain" data-doc-js>
-          document.querySelector("#demo-otp").addEventListener("dv-complete", (e) => {
-            DevlUI.toast({ title: "Código completo", description: e.detail.value });
+          document.querySelector("#demo-otp").addEventListener("tsl-complete", (e) => {
+            TeselaUI.toast({ title: "Código completo", description: e.detail.value });
           });
         </script>
       </section>
 
       <section class="doc" id="tags" data-group="Formularios" data-keywords="tag input etiquetas chips multiple">
         <h2><a href="#tags">Campo de etiquetas</a></h2>
-        <p><code>&lt;dv-tags&gt;</code>: Enter o coma para añadir, Retroceso para borrar. Atributos <code>value</code>, <code>name</code>, <code>max</code>, <code>placeholder</code>.</p>
+        <p><code>&lt;tsl-tags&gt;</code>: Enter o coma para añadir, Retroceso para borrar. Atributos <code>value</code>, <code>name</code>, <code>max</code>, <code>placeholder</code>.</p>
         <template>
-          <dv-tags class="demo-max" value="diseño,frontend" name="labels" placeholder="Añadir etiqueta…"></dv-tags>
+          <tsl-tags class="demo-max" value="diseño,frontend" name="labels" placeholder="Añadir etiqueta…"></tsl-tags>
         </template>
       </section>
 
       <section class="doc" id="dropzone" data-group="Formularios" data-keywords="upload archivos subir file drag drop">
         <h2><a href="#dropzone">Zona de carga</a></h2>
-        <p><code>&lt;dv-dropzone accept multiple name&gt;</code>: arrastrar o hacer clic; lista los archivos y emite <code>dv-change</code> con <code>files</code>.</p>
+        <p><code>&lt;tsl-dropzone accept multiple name&gt;</code>: arrastrar o hacer clic; lista los archivos y emite <code>tsl-change</code> con <code>files</code>.</p>
         <template>
-          <dv-dropzone class="demo-max" multiple>
+          <tsl-dropzone class="demo-max" multiple>
             <strong>Suelta los archivos aquí</strong>
             <span>o haz clic para explorar · PNG, PDF hasta 10 MB</span>
-          </dv-dropzone>
+          </tsl-dropzone>
         </template>
       </section>
 
       <section class="doc" id="calendar" data-group="Formularios" data-keywords="date picker fecha calendario mes">
         <h2><a href="#calendar">Calendario</a></h2>
-        <p><code>&lt;dv-calendar value="YYYY-MM-DD"&gt;</code> con nombres localizados (<code>locale</code>, por defecto el <code>lang</code> del documento), <code>week-start</code> y navegación con flechas (PgUp/PgDn cambian de mes). Opciones: <code>min</code> y <code>max</code> deshabilitan días, <code>mode="range"</code> selecciona un intervalo (<code>value="inicio/fin"</code>) y <code>months="2"</code> muestra varios meses. Para un campo desplegable usa <a href="#date-picker"><code>&lt;dv-date-picker&gt;</code></a>.</p>
+        <p><code>&lt;tsl-calendar value="YYYY-MM-DD"&gt;</code> con nombres localizados (<code>locale</code>, por defecto el <code>lang</code> del documento), <code>week-start</code> y navegación con flechas (PgUp/PgDn cambian de mes). Opciones: <code>min</code> y <code>max</code> deshabilitan días, <code>mode="range"</code> selecciona un intervalo (<code>value="inicio/fin"</code>) y <code>months="2"</code> muestra varios meses. Para un campo desplegable usa <a href="#date-picker"><code>&lt;tsl-date-picker&gt;</code></a>.</p>
         <template>
-          <dv-calendar value="2026-10-14" id="demo-cal"></dv-calendar>
+          <tsl-calendar value="2026-10-14" id="demo-cal"></tsl-calendar>
         </template>
         <script type="text/plain" data-doc-js>
-          document.querySelector("#demo-cal").addEventListener("dv-change", (e) => {
-            DevlUI.toast({ title: "Fecha seleccionada", description: e.detail.value, variant: "info" });
+          document.querySelector("#demo-cal").addEventListener("tsl-change", (e) => {
+            TeselaUI.toast({ title: "Fecha seleccionada", description: e.detail.value, variant: "info" });
           });
         </script>
       </section>
 
       <section class="doc" id="select-custom" data-group="Formularios" data-tall="340px" data-keywords="select personalizado listbox desplegable buscador searchable multiple multiselect creatable">
         <h2><a href="#select-custom">Select personalizado</a></h2>
-        <p><code>&lt;dv-select&gt;</code> reemplaza al <code>&lt;select&gt;</code> nativo con listbox accesible (<code>aria-activedescendant</code>), teclado completo (↑ ↓ Home End Enter Esc, búsqueda al teclear) y panel posicionado automáticamente. Se declara con <code>&lt;option&gt;</code> y <code>&lt;optgroup&gt;</code>. Atributos: <code>searchable</code>, <code>multiple</code>, <code>creatable</code>, <code>clearable</code>, <code>placeholder</code>, <code>required</code>, <code>disabled</code>. Participa en <code>&lt;form&gt;</code> (FormData, reset, validación). Evento <code>dv-change</code> con <code>{ value, values }</code>; <code>setOptions([...])</code> carga opciones dinámicas.</p>
+        <p><code>&lt;tsl-select&gt;</code> reemplaza al <code>&lt;select&gt;</code> nativo con listbox accesible (<code>aria-activedescendant</code>), teclado completo (↑ ↓ Home End Enter Esc, búsqueda al teclear) y panel posicionado automáticamente. Se declara con <code>&lt;option&gt;</code> y <code>&lt;optgroup&gt;</code>. Atributos: <code>searchable</code>, <code>multiple</code>, <code>creatable</code>, <code>clearable</code>, <code>placeholder</code>, <code>required</code>, <code>disabled</code>. Participa en <code>&lt;form&gt;</code> (FormData, reset, validación). Evento <code>tsl-change</code> con <code>{ value, values }</code>; <code>setOptions([...])</code> carga opciones dinámicas.</p>
         <template>
-          <div class="dv-grid demo-grid" style="--min:230px">
-            <div class="dv-field">
-              <span class="dv-label" id="sel1-l">Rol</span>
-              <dv-select name="rol" value="editor" label="Rol" aria-labelledby="sel1-l">
+          <div class="tsl-grid demo-grid" style="--min:230px">
+            <div class="tsl-field">
+              <span class="tsl-label" id="sel1-l">Rol</span>
+              <tsl-select name="rol" value="editor" label="Rol" aria-labelledby="sel1-l">
                 <option value="admin" data-hint="Todo">Administrador</option>
                 <option value="editor" data-hint="Escribir">Editor</option>
                 <option value="viewer" data-hint="Leer">Lector</option>
                 <option value="guest" disabled>Invitado</option>
-              </dv-select>
+              </tsl-select>
             </div>
-            <div class="dv-field">
-              <span class="dv-label">País (con buscador)</span>
-              <dv-select name="pais" searchable clearable placeholder="Elige un país" label="País">
+            <div class="tsl-field">
+              <span class="tsl-label">País (con buscador)</span>
+              <tsl-select name="pais" searchable clearable placeholder="Elige un país" label="País">
                 <optgroup label="América">
                   <option value="mx">México</option><option value="co">Colombia</option><option value="ar">Argentina</option><option value="cl">Chile</option>
                 </optgroup>
                 <optgroup label="Europa">
                   <option value="es">España</option><option value="pt">Portugal</option><option value="de">Alemania</option>
                 </optgroup>
-              </dv-select>
+              </tsl-select>
             </div>
-            <div class="dv-field">
-              <span class="dv-label">Equipos (múltiple)</span>
-              <dv-select name="equipos" multiple clearable placeholder="Elige equipos" label="Equipos" value="dis,ing">
+            <div class="tsl-field">
+              <span class="tsl-label">Equipos (múltiple)</span>
+              <tsl-select name="equipos" multiple clearable placeholder="Elige equipos" label="Equipos" value="dis,ing">
                 <option value="dis">Diseño</option><option value="ing">Ingeniería</option><option value="prod">Producto</option><option value="cre">Crecimiento</option><option value="ven">Ventas</option>
-              </dv-select>
+              </tsl-select>
             </div>
           </div>
         </template>
@@ -418,20 +418,20 @@
 
       <section class="doc" id="combobox" data-group="Formularios" data-tall="300px" data-keywords="combobox autocomplete autocompletar filtrar escribir creatable sugerencias">
         <h2><a href="#combobox">Combobox / Autocomplete</a></h2>
-        <p><code>&lt;dv-combobox&gt;</code> (o <code>&lt;dv-select autocomplete&gt;</code>) es un campo de texto que filtra las opciones mientras escribes (sin distinguir acentos). Con <code>creatable</code> ofrece «Crear …» para añadir un valor nuevo. Si sales sin elegir, se restaura la selección anterior. Con <code>multiple</code> acumula varias opciones.</p>
+        <p><code>&lt;tsl-combobox&gt;</code> (o <code>&lt;tsl-select autocomplete&gt;</code>) es un campo de texto que filtra las opciones mientras escribes (sin distinguir acentos). Con <code>creatable</code> ofrece «Crear …» para añadir un valor nuevo. Si sales sin elegir, se restaura la selección anterior. Con <code>multiple</code> acumula varias opciones.</p>
         <template>
-          <div class="dv-grid demo-grid" style="--min:230px">
-            <div class="dv-field">
-              <span class="dv-label">Framework</span>
-              <dv-combobox name="fw" placeholder="Escribe para buscar…" label="Framework" clearable>
+          <div class="tsl-grid demo-grid" style="--min:230px">
+            <div class="tsl-field">
+              <span class="tsl-label">Framework</span>
+              <tsl-combobox name="fw" placeholder="Escribe para buscar…" label="Framework" clearable>
                 <option value="react">React</option><option value="vue">Vue</option><option value="svelte">Svelte</option><option value="angular">Angular</option><option value="solid">Solid</option><option value="lit">Lit</option><option value="astro">Astro</option>
-              </dv-combobox>
+              </tsl-combobox>
             </div>
-            <div class="dv-field">
-              <span class="dv-label">Etiqueta (se puede crear)</span>
-              <dv-combobox name="etiqueta" creatable placeholder="Elige o crea…" label="Etiqueta">
+            <div class="tsl-field">
+              <span class="tsl-label">Etiqueta (se puede crear)</span>
+              <tsl-combobox name="etiqueta" creatable placeholder="Elige o crea…" label="Etiqueta">
                 <option value="bug">bug</option><option value="mejora">mejora</option><option value="docs">documentación</option>
-              </dv-combobox>
+              </tsl-combobox>
             </div>
           </div>
         </template>
@@ -439,17 +439,17 @@
 
       <section class="doc" id="date-picker" data-group="Formularios" data-tall="420px" data-keywords="date picker selector fecha calendario desplegable min max">
         <h2><a href="#date-picker">Selector de fecha</a></h2>
-        <p><code>&lt;dv-date-picker&gt;</code> muestra la fecha formateada con <code>Intl</code> y abre un calendario en un popover. Atributos: <code>value</code> (ISO), <code>min</code>, <code>max</code>, <code>locale</code>, <code>week-start</code>, <code>date-style</code> (<code>short|medium|long|full</code>), <code>clearable</code>, <code>required</code>. El valor enviado en el formulario es la fecha ISO (<code>2026-10-14</code>). Teclado en el calendario: flechas, <kbd class="dv-kbd">PgUp</kbd>/<kbd class="dv-kbd">PgDn</kbd> (mes) y con Shift (año).</p>
+        <p><code>&lt;tsl-date-picker&gt;</code> muestra la fecha formateada con <code>Intl</code> y abre un calendario en un popover. Atributos: <code>value</code> (ISO), <code>min</code>, <code>max</code>, <code>locale</code>, <code>week-start</code>, <code>date-style</code> (<code>short|medium|long|full</code>), <code>clearable</code>, <code>required</code>. El valor enviado en el formulario es la fecha ISO (<code>2026-10-14</code>). Teclado en el calendario: flechas, <kbd class="tsl-kbd">PgUp</kbd>/<kbd class="tsl-kbd">PgDn</kbd> (mes) y con Shift (año).</p>
         <template>
-          <div class="dv-grid demo-grid" style="--min:230px">
-            <div class="dv-field">
-              <span class="dv-label">Fecha de entrega</span>
-              <dv-date-picker name="entrega" value="2026-10-14" min="2026-10-01" max="2026-12-31" clearable label="Fecha de entrega"></dv-date-picker>
-              <span class="dv-hint">Entre octubre y diciembre de 2026.</span>
+          <div class="tsl-grid demo-grid" style="--min:230px">
+            <div class="tsl-field">
+              <span class="tsl-label">Fecha de entrega</span>
+              <tsl-date-picker name="entrega" value="2026-10-14" min="2026-10-01" max="2026-12-31" clearable label="Fecha de entrega"></tsl-date-picker>
+              <span class="tsl-hint">Entre octubre y diciembre de 2026.</span>
             </div>
-            <div class="dv-field">
-              <span class="dv-label">Nacimiento</span>
-              <dv-date-picker name="nacimiento" date-style="long" placeholder="Elige tu fecha" label="Fecha de nacimiento"></dv-date-picker>
+            <div class="tsl-field">
+              <span class="tsl-label">Nacimiento</span>
+              <tsl-date-picker name="nacimiento" date-style="long" placeholder="Elige tu fecha" label="Fecha de nacimiento"></tsl-date-picker>
             </div>
           </div>
         </template>
@@ -457,20 +457,20 @@
 
       <section class="doc" id="date-range" data-group="Formularios" data-tall="440px" data-keywords="date range rango fechas intervalo desde hasta">
         <h2><a href="#date-range">Rango de fechas</a></h2>
-        <p>Con el atributo <code>range</code>, <code>&lt;dv-date-picker&gt;</code> elige un intervalo: dos meses a la vez, vista previa del rango al mover el cursor y cierre automático al completarlo. El valor es un intervalo ISO 8601 <code>inicio/fin</code>; el evento <code>dv-change</code> trae <code>{ value, start, end }</code>. El <code>&lt;dv-calendar&gt;</code> también acepta <code>mode="range"</code>, <code>months</code>, <code>min</code> y <code>max</code> directamente.</p>
+        <p>Con el atributo <code>range</code>, <code>&lt;tsl-date-picker&gt;</code> elige un intervalo: dos meses a la vez, vista previa del rango al mover el cursor y cierre automático al completarlo. El valor es un intervalo ISO 8601 <code>inicio/fin</code>; el evento <code>tsl-change</code> trae <code>{ value, start, end }</code>. El <code>&lt;tsl-calendar&gt;</code> también acepta <code>mode="range"</code>, <code>months</code>, <code>min</code> y <code>max</code> directamente.</p>
         <template>
-          <div class="dv-stack" style="--gap:12px;max-width:380px">
-            <div class="dv-field">
-              <span class="dv-label">Periodo del informe</span>
-              <dv-date-picker id="demo-daterange" name="periodo" range value="2026-10-05/2026-10-12" clearable label="Periodo del informe"></dv-date-picker>
+          <div class="tsl-stack" style="--gap:12px;max-width:380px">
+            <div class="tsl-field">
+              <span class="tsl-label">Periodo del informe</span>
+              <tsl-date-picker id="demo-daterange" name="periodo" range value="2026-10-05/2026-10-12" clearable label="Periodo del informe"></tsl-date-picker>
             </div>
-            <span class="dv-muted" id="demo-daterange-out">5 oct → 12 oct</span>
+            <span class="tsl-muted" id="demo-daterange-out">5 oct → 12 oct</span>
           </div>
         </template>
         <script type="text/plain" data-doc-js>
           const picker = document.querySelector("#demo-daterange");
           const out = document.querySelector("#demo-daterange-out");
-          picker.addEventListener("dv-change", (e) => {
+          picker.addEventListener("tsl-change", (e) => {
             out.textContent = e.detail.start ? `${e.detail.start} → ${e.detail.end}` : "Sin periodo";
           });
         </script>
@@ -478,16 +478,16 @@
 
       <section class="doc" id="time-picker" data-group="Formularios" data-tall="360px" data-keywords="time picker hora minutos selector reloj 12h 24h">
         <h2><a href="#time-picker">Selector de hora</a></h2>
-        <p><code>&lt;dv-time-picker&gt;</code> ofrece columnas de hora y minutos (y AM/PM con <code>hour12</code>). Atributos: <code>value</code> (<code>HH:MM</code>), <code>step</code> (minutos entre opciones), <code>min</code>, <code>max</code>, <code>clearable</code>, <code>required</code>. El valor siempre se envía en 24 h. En el panel: ↑ ↓ cambian el valor, ← → cambian de columna, Enter confirma.</p>
+        <p><code>&lt;tsl-time-picker&gt;</code> ofrece columnas de hora y minutos (y AM/PM con <code>hour12</code>). Atributos: <code>value</code> (<code>HH:MM</code>), <code>step</code> (minutos entre opciones), <code>min</code>, <code>max</code>, <code>clearable</code>, <code>required</code>. El valor siempre se envía en 24 h. En el panel: ↑ ↓ cambian el valor, ← → cambian de columna, Enter confirma.</p>
         <template>
-          <div class="dv-grid demo-grid" style="--min:200px">
-            <div class="dv-field">
-              <span class="dv-label">Inicio (24 h)</span>
-              <dv-time-picker name="inicio" value="09:30" step="15" min="08:00" max="18:00" label="Hora de inicio"></dv-time-picker>
+          <div class="tsl-grid demo-grid" style="--min:200px">
+            <div class="tsl-field">
+              <span class="tsl-label">Inicio (24 h)</span>
+              <tsl-time-picker name="inicio" value="09:30" step="15" min="08:00" max="18:00" label="Hora de inicio"></tsl-time-picker>
             </div>
-            <div class="dv-field">
-              <span class="dv-label">Recordatorio (12 h)</span>
-              <dv-time-picker name="recordatorio" hour12 step="5" clearable locale="en-US" label="Recordatorio"></dv-time-picker>
+            <div class="tsl-field">
+              <span class="tsl-label">Recordatorio (12 h)</span>
+              <tsl-time-picker name="recordatorio" hour12 step="5" clearable locale="en-US" label="Recordatorio"></tsl-time-picker>
             </div>
           </div>
         </template>
@@ -495,30 +495,30 @@
 
       <section class="doc" id="form-fields" data-group="Formularios" data-tall="460px" data-keywords="formulario form formdata validacion required reset integracion elementinternals">
         <h2><a href="#form-fields">Campos dentro de un formulario</a></h2>
-        <p>Los campos de esta sección (<code>dv-select</code>, <code>dv-combobox</code>, <code>dv-date-picker</code>, <code>dv-time-picker</code>) son <em>form-associated</em>: sus valores aparecen en <code>new FormData(form)</code>, respetan <code>required</code> en la validación nativa, se restablecen con <code>form.reset()</code> y se deshabilitan con un <code>&lt;fieldset disabled&gt;</code>.</p>
+        <p>Los campos de esta sección (<code>tsl-select</code>, <code>tsl-combobox</code>, <code>tsl-date-picker</code>, <code>tsl-time-picker</code>) son <em>form-associated</em>: sus valores aparecen en <code>new FormData(form)</code>, respetan <code>required</code> en la validación nativa, se restablecen con <code>form.reset()</code> y se deshabilitan con un <code>&lt;fieldset disabled&gt;</code>.</p>
         <template>
-          <form id="demo-form" class="dv-stack" style="--gap:12px;max-width:420px" novalidate>
-            <div class="dv-field">
-              <span class="dv-label">Prioridad *</span>
-              <dv-select name="prioridad" required label="Prioridad" placeholder="Selecciona…">
+          <form id="demo-form" class="tsl-stack" style="--gap:12px;max-width:420px" novalidate>
+            <div class="tsl-field">
+              <span class="tsl-label">Prioridad *</span>
+              <tsl-select name="prioridad" required label="Prioridad" placeholder="Selecciona…">
                 <option value="alta">Alta</option><option value="media">Media</option><option value="baja">Baja</option>
-              </dv-select>
+              </tsl-select>
             </div>
-            <div class="dv-field">
-              <span class="dv-label">Equipos</span>
-              <dv-select name="equipos" multiple label="Equipos" placeholder="Elige equipos">
+            <div class="tsl-field">
+              <span class="tsl-label">Equipos</span>
+              <tsl-select name="equipos" multiple label="Equipos" placeholder="Elige equipos">
                 <option value="dis">Diseño</option><option value="ing">Ingeniería</option><option value="prod">Producto</option>
-              </dv-select>
+              </tsl-select>
             </div>
-            <div class="dv-row" style="flex-wrap:nowrap;align-items:flex-start">
-              <div class="dv-field" style="flex:1"><span class="dv-label">Fecha *</span><dv-date-picker name="fecha" required label="Fecha"></dv-date-picker></div>
-              <div class="dv-field" style="flex:1"><span class="dv-label">Hora</span><dv-time-picker name="hora" step="30" label="Hora"></dv-time-picker></div>
+            <div class="tsl-row" style="flex-wrap:nowrap;align-items:flex-start">
+              <div class="tsl-field" style="flex:1"><span class="tsl-label">Fecha *</span><tsl-date-picker name="fecha" required label="Fecha"></tsl-date-picker></div>
+              <div class="tsl-field" style="flex:1"><span class="tsl-label">Hora</span><tsl-time-picker name="hora" step="30" label="Hora"></tsl-time-picker></div>
             </div>
-            <div class="dv-row">
-              <button type="submit" class="dv-btn dv-btn--primary">Enviar</button>
-              <button type="reset" class="dv-btn">Restablecer</button>
+            <div class="tsl-row">
+              <button type="submit" class="tsl-btn tsl-btn--primary">Enviar</button>
+              <button type="reset" class="tsl-btn">Restablecer</button>
             </div>
-            <pre class="dv-code" id="demo-form-out" aria-live="polite">{ }</pre>
+            <pre class="tsl-code" id="demo-form-out" aria-live="polite">{ }</pre>
           </form>
         </template>
         <script type="text/plain" data-doc-js>
@@ -542,24 +542,24 @@
 
       <section class="doc" id="slider" data-group="Formularios" data-tall="150px" data-keywords="slider deslizador rango doble range precio valores">
         <h2><a href="#slider">Slider y rango doble</a></h2>
-        <p><code>&lt;dv-slider&gt;</code> con uno o dos pulgares (<code>range</code> o <code>value="20,80"</code>); los pulgares no se cruzan y muestran su valor al arrastrar o enfocar. Atributos: <code>min</code>, <code>max</code>, <code>step</code>, <code>prefix</code>, <code>suffix</code>. Teclado: ← → (±paso), PgUp/PgDn (±10 pasos), Home/End. Eventos <code>dv-input</code> (en vivo) y <code>dv-change</code> (al soltar). En un formulario, el rango envía dos entradas con el mismo <code>name</code>.</p>
+        <p><code>&lt;tsl-slider&gt;</code> con uno o dos pulgares (<code>range</code> o <code>value="20,80"</code>); los pulgares no se cruzan y muestran su valor al arrastrar o enfocar. Atributos: <code>min</code>, <code>max</code>, <code>step</code>, <code>prefix</code>, <code>suffix</code>. Teclado: ← → (±paso), PgUp/PgDn (±10 pasos), Home/End. Eventos <code>tsl-input</code> (en vivo) y <code>tsl-change</code> (al soltar). En un formulario, el rango envía dos entradas con el mismo <code>name</code>.</p>
         <template>
-          <div class="dv-stack" style="--gap:22px;max-width:420px">
-            <div class="dv-field">
-              <div class="dv-row" style="justify-content:space-between"><span class="dv-label">Volumen</span><span class="dv-mono" id="demo-slider-out">40%</span></div>
-              <dv-slider id="demo-slider" name="volumen" value="40" suffix="%" label="Volumen"></dv-slider>
+          <div class="tsl-stack" style="--gap:22px;max-width:420px">
+            <div class="tsl-field">
+              <div class="tsl-row" style="justify-content:space-between"><span class="tsl-label">Volumen</span><span class="tsl-mono" id="demo-slider-out">40%</span></div>
+              <tsl-slider id="demo-slider" name="volumen" value="40" suffix="%" label="Volumen"></tsl-slider>
             </div>
-            <div class="dv-field">
-              <div class="dv-row" style="justify-content:space-between"><span class="dv-label">Precio</span><span class="dv-mono" id="demo-range2-out">$200 – $800</span></div>
-              <dv-slider id="demo-range2" name="precio" range min="0" max="1000" step="50" value="200,800" prefix="$" label="Precio"></dv-slider>
+            <div class="tsl-field">
+              <div class="tsl-row" style="justify-content:space-between"><span class="tsl-label">Precio</span><span class="tsl-mono" id="demo-range2-out">$200 – $800</span></div>
+              <tsl-slider id="demo-range2" name="precio" range min="0" max="1000" step="50" value="200,800" prefix="$" label="Precio"></tsl-slider>
             </div>
           </div>
         </template>
         <script type="text/plain" data-doc-js>
-          document.querySelector("#demo-slider").addEventListener("dv-input", (e) => {
+          document.querySelector("#demo-slider").addEventListener("tsl-input", (e) => {
             document.querySelector("#demo-slider-out").textContent = `${e.detail.value}%`;
           });
-          document.querySelector("#demo-range2").addEventListener("dv-input", (e) => {
+          document.querySelector("#demo-range2").addEventListener("tsl-input", (e) => {
             const [a, b] = e.detail.values;
             document.querySelector("#demo-range2-out").textContent = `$${a} – $${b}`;
           });
@@ -568,16 +568,16 @@
 
       <section class="doc" id="rating" data-group="Formularios" data-keywords="rating estrellas valoracion calificacion puntuacion media estrella">
         <h2><a href="#rating">Valoración (rating)</a></h2>
-        <p><code>&lt;dv-rating&gt;</code> es un único control <code>role="slider"</code>: ← → cambian el valor, Home/End saltan a los extremos y Supr lo borra (con <code>clearable</code>). Atributos: <code>max</code>, <code>value</code>, <code>half</code> (medias estrellas), <code>readonly</code>, <code>size="sm|lg"</code>.</p>
+        <p><code>&lt;tsl-rating&gt;</code> es un único control <code>role="slider"</code>: ← → cambian el valor, Home/End saltan a los extremos y Supr lo borra (con <code>clearable</code>). Atributos: <code>max</code>, <code>value</code>, <code>half</code> (medias estrellas), <code>readonly</code>, <code>size="sm|lg"</code>.</p>
         <template>
-          <div class="dv-stack" style="--gap:14px">
-            <div class="dv-row"><dv-rating id="demo-rating" name="nota" value="3" clearable label="Tu valoración"></dv-rating><span class="dv-muted" id="demo-rating-out">3 de 5</span></div>
-            <div class="dv-row"><dv-rating half value="3.5" size="lg" label="Valoración con medias estrellas"></dv-rating><span class="dv-muted">con medias estrellas</span></div>
-            <div class="dv-row"><dv-rating readonly value="4.5" half size="sm" label="Nota media"></dv-rating><span class="dv-muted">solo lectura (4.5)</span></div>
+          <div class="tsl-stack" style="--gap:14px">
+            <div class="tsl-row"><tsl-rating id="demo-rating" name="nota" value="3" clearable label="Tu valoración"></tsl-rating><span class="tsl-muted" id="demo-rating-out">3 de 5</span></div>
+            <div class="tsl-row"><tsl-rating half value="3.5" size="lg" label="Valoración con medias estrellas"></tsl-rating><span class="tsl-muted">con medias estrellas</span></div>
+            <div class="tsl-row"><tsl-rating readonly value="4.5" half size="sm" label="Nota media"></tsl-rating><span class="tsl-muted">solo lectura (4.5)</span></div>
           </div>
         </template>
         <script type="text/plain" data-doc-js>
-          document.querySelector("#demo-rating").addEventListener("dv-change", (e) => {
+          document.querySelector("#demo-rating").addEventListener("tsl-change", (e) => {
             document.querySelector("#demo-rating-out").textContent = e.detail.value ? `${e.detail.value} de 5` : "Sin valorar";
           });
         </script>
@@ -585,91 +585,91 @@
 
       <section class="doc" id="color-picker" data-group="Formularios" data-tall="440px" data-keywords="color picker selector color hex hsv tono opacidad alpha cuentagotas">
         <h2><a href="#color-picker">Selector de color</a></h2>
-        <p><code>&lt;dv-color-picker&gt;</code> con área de saturación/brillo, tono, opacidad (<code>alpha</code>), campo hexadecimal, muestras (<code>swatches="#f00,#0f0"</code>) y cuentagotas donde el navegador lo soporta. Valor <code>#rrggbb</code> (o <code>#rrggbbaa</code> con opacidad). Cada control se maneja con flechas (Shift = ×10). Eventos <code>dv-input</code> (al arrastrar) y <code>dv-change</code>.</p>
+        <p><code>&lt;tsl-color-picker&gt;</code> con área de saturación/brillo, tono, opacidad (<code>alpha</code>), campo hexadecimal, muestras (<code>swatches="#f00,#0f0"</code>) y cuentagotas donde el navegador lo soporta. Valor <code>#rrggbb</code> (o <code>#rrggbbaa</code> con opacidad). Cada control se maneja con flechas (Shift = ×10). Eventos <code>tsl-input</code> (al arrastrar) y <code>tsl-change</code>.</p>
         <template>
-          <div class="dv-grid" style="--min:220px">
-            <div class="dv-field"><span class="dv-label">Color de marca</span><dv-color-picker id="demo-color" name="marca" value="#6366f1" label="Color de marca"></dv-color-picker></div>
-            <div class="dv-field"><span class="dv-label">Sombra (con opacidad)</span><dv-color-picker name="sombra" value="#10b981cc" alpha label="Color de sombra"></dv-color-picker></div>
+          <div class="tsl-grid" style="--min:220px">
+            <div class="tsl-field"><span class="tsl-label">Color de marca</span><tsl-color-picker id="demo-color" name="marca" value="#6366f1" label="Color de marca"></tsl-color-picker></div>
+            <div class="tsl-field"><span class="tsl-label">Sombra (con opacidad)</span><tsl-color-picker name="sombra" value="#10b981cc" alpha label="Color de sombra"></tsl-color-picker></div>
           </div>
         </template>
         <script type="text/plain" data-doc-js>
-          document.querySelector("#demo-color").addEventListener("dv-input", (e) => {
-            document.documentElement.style.setProperty("--dv-accent", e.detail.value);
+          document.querySelector("#demo-color").addEventListener("tsl-input", (e) => {
+            document.documentElement.style.setProperty("--tsl-accent", e.detail.value);
           });
         </script>
       </section>
 
       <section class="doc" id="password" data-group="Formularios" data-keywords="password contraseña clave medidor seguridad fuerza mostrar ocultar">
         <h2><a href="#password">Contraseña con medidor</a></h2>
-        <p><code>&lt;dv-password&gt;</code> añade a un <code>&lt;input&gt;</code> el botón mostrar/ocultar y, con <code>meter</code>, un medidor de seguridad (longitud mínima con <code>min-length</code>, mayúsculas y minúsculas, números y símbolos). El input real sigue dentro de tu formulario. Evento <code>dv-change</code> con <code>{ value, score }</code> (0 a 4).</p>
+        <p><code>&lt;tsl-password&gt;</code> añade a un <code>&lt;input&gt;</code> el botón mostrar/ocultar y, con <code>meter</code>, un medidor de seguridad (longitud mínima con <code>min-length</code>, mayúsculas y minúsculas, números y símbolos). El input real sigue dentro de tu formulario. Evento <code>tsl-change</code> con <code>{ value, score }</code> (0 a 4).</p>
         <template>
-          <div class="dv-field" style="max-width:360px">
-            <label class="dv-label" for="demo-pw">Nueva contraseña</label>
-            <dv-password meter min-length="10"><input id="demo-pw" name="clave" placeholder="Mínimo 10 caracteres" autocomplete="new-password" /></dv-password>
-            <span class="dv-hint">Prueba: <code>hola</code>, <code>Hola1234</code>, <code>Hola1234!xy</code></span>
+          <div class="tsl-field" style="max-width:360px">
+            <label class="tsl-label" for="demo-pw">Nueva contraseña</label>
+            <tsl-password meter min-length="10"><input id="demo-pw" name="clave" placeholder="Mínimo 10 caracteres" autocomplete="new-password" /></tsl-password>
+            <span class="tsl-hint">Prueba: <code>hola</code>, <code>Hola1234</code>, <code>Hola1234!xy</code></span>
           </div>
         </template>
       </section>
 
       <section class="doc" id="textarea-autosize" data-group="Formularios" data-keywords="textarea autoajuste autosize contador caracteres maxlength altura">
         <h2><a href="#textarea-autosize">Textarea autoajustable y contador</a></h2>
-        <p>Atributos sobre un <code>&lt;textarea class="dv-textarea"&gt;</code>: <code>data-dv-autosize</code> crece con el contenido hasta <code>data-max-rows</code> filas (luego aparece scroll) y <code>data-dv-count="#id"</code> muestra la cuenta de caracteres, usando <code>maxlength</code> como tope.</p>
+        <p>Atributos sobre un <code>&lt;textarea class="tsl-textarea"&gt;</code>: <code>data-tsl-autosize</code> crece con el contenido hasta <code>data-max-rows</code> filas (luego aparece scroll) y <code>data-tsl-count="#id"</code> muestra la cuenta de caracteres, usando <code>maxlength</code> como tope.</p>
         <template>
-          <div class="dv-field" style="max-width:420px">
-            <label class="dv-label" for="demo-ta">Mensaje</label>
-            <textarea id="demo-ta" class="dv-textarea" rows="2" maxlength="160" data-dv-autosize data-max-rows="6" data-dv-count="#demo-ta-count" placeholder="Escribe varias líneas…"></textarea>
-            <div class="dv-row" style="justify-content:space-between"><span class="dv-hint">Crece hasta 6 filas.</span><span class="dv-counter" id="demo-ta-count">0 / 160</span></div>
+          <div class="tsl-field" style="max-width:420px">
+            <label class="tsl-label" for="demo-ta">Mensaje</label>
+            <textarea id="demo-ta" class="tsl-textarea" rows="2" maxlength="160" data-tsl-autosize data-max-rows="6" data-tsl-count="#demo-ta-count" placeholder="Escribe varias líneas…"></textarea>
+            <div class="tsl-row" style="justify-content:space-between"><span class="tsl-hint">Crece hasta 6 filas.</span><span class="tsl-counter" id="demo-ta-count">0 / 160</span></div>
           </div>
         </template>
       </section>
 
       <section class="doc" id="mention" data-group="Formularios" data-tall="320px" data-keywords="mention mencion arroba usuarios autocompletar etiquetar caret">
         <h2><a href="#mention">Menciones (@)</a></h2>
-        <p><code>&lt;dv-mention&gt;</code> envuelve un <code>&lt;textarea&gt;</code> (o input) y ofrece usuarios al escribir <code>@</code> (carácter configurable con <code>trigger</code>), en un panel junto al cursor. ↑ ↓ eligen, Enter o Tab insertan, Esc cierra. Las opciones se declaran con <code>&lt;option&gt;</code> o se asignan con <code>element.users = [{ value, label, hint }]</code>. Evento <code>dv-mention</code>.</p>
+        <p><code>&lt;tsl-mention&gt;</code> envuelve un <code>&lt;textarea&gt;</code> (o input) y ofrece usuarios al escribir <code>@</code> (carácter configurable con <code>trigger</code>), en un panel junto al cursor. ↑ ↓ eligen, Enter o Tab insertan, Esc cierra. Las opciones se declaran con <code>&lt;option&gt;</code> o se asignan con <code>element.users = [{ value, label, hint }]</code>. Evento <code>tsl-mention</code>.</p>
         <template>
-          <dv-mention id="demo-mention" style="max-width:420px" label="Usuarios">
-            <textarea class="dv-textarea" rows="3" name="comentario" aria-label="Comentario" placeholder="Escribe @ para mencionar…"></textarea>
+          <tsl-mention id="demo-mention" style="max-width:420px" label="Usuarios">
+            <textarea class="tsl-textarea" rows="3" name="comentario" aria-label="Comentario" placeholder="Escribe @ para mencionar…"></textarea>
             <option value="luis" data-hint="Diseño">Luis Islas</option>
             <option value="lucia" data-hint="Producto">Lucía Fernández</option>
             <option value="marta" data-hint="Ingeniería">Marta Ríos</option>
             <option value="mateo" data-hint="Ventas">Mateo Soto</option>
-          </dv-mention>
+          </tsl-mention>
         </template>
         <script type="text/plain" data-doc-js>
-          document.querySelector("#demo-mention").addEventListener("dv-mention", (e) => {
-            DevlUI.toast({ title: `Mencionaste a ${e.detail.user.label}`, variant: "info" });
+          document.querySelector("#demo-mention").addEventListener("tsl-mention", (e) => {
+            TeselaUI.toast({ title: `Mencionaste a ${e.detail.user.label}`, variant: "info" });
           });
         </script>
       </section>
 
       <section class="doc" id="choice-card" data-group="Formularios" data-keywords="choice card tarjeta radio checkbox seleccion plan opcion">
         <h2><a href="#choice-card">Tarjetas de elección</a></h2>
-        <p>CSS puro: un <code>&lt;label class="dv-choice-card"&gt;</code> con un <code>dv-check</code> (radio o checkbox) dentro. El estado marcado, el foco y el deshabilitado se reflejan en toda la tarjeta mediante <code>:has()</code>.</p>
+        <p>CSS puro: un <code>&lt;label class="tsl-choice-card"&gt;</code> con un <code>tsl-check</code> (radio o checkbox) dentro. El estado marcado, el foco y el deshabilitado se reflejan en toda la tarjeta mediante <code>:has()</code>.</p>
         <template>
-          <div class="dv-grid" style="--min:200px;--gap:10px" role="radiogroup" aria-label="Plan">
-            <label class="dv-choice-card"><input class="dv-check" type="radio" name="plan" value="free" /><span><span class="dv-choice-card__title">Gratis</span><span class="dv-choice-card__desc" style="display:block">Para empezar.</span></span><span class="dv-choice-card__end">$0</span></label>
-            <label class="dv-choice-card"><input class="dv-check" type="radio" name="plan" value="pro" checked /><span><span class="dv-choice-card__title">Pro</span><span class="dv-choice-card__desc" style="display:block">Equipos pequeños.</span></span><span class="dv-choice-card__end">$12</span></label>
-            <label class="dv-choice-card"><input class="dv-check" type="radio" name="plan" value="ent" disabled /><span><span class="dv-choice-card__title">Enterprise</span><span class="dv-choice-card__desc" style="display:block">Próximamente.</span></span><span class="dv-choice-card__end">—</span></label>
+          <div class="tsl-grid" style="--min:200px;--gap:10px" role="radiogroup" aria-label="Plan">
+            <label class="tsl-choice-card"><input class="tsl-check" type="radio" name="plan" value="free" /><span><span class="tsl-choice-card__title">Gratis</span><span class="tsl-choice-card__desc" style="display:block">Para empezar.</span></span><span class="tsl-choice-card__end">$0</span></label>
+            <label class="tsl-choice-card"><input class="tsl-check" type="radio" name="plan" value="pro" checked /><span><span class="tsl-choice-card__title">Pro</span><span class="tsl-choice-card__desc" style="display:block">Equipos pequeños.</span></span><span class="tsl-choice-card__end">$12</span></label>
+            <label class="tsl-choice-card"><input class="tsl-check" type="radio" name="plan" value="ent" disabled /><span><span class="tsl-choice-card__title">Enterprise</span><span class="tsl-choice-card__desc" style="display:block">Próximamente.</span></span><span class="tsl-choice-card__end">—</span></label>
           </div>
         </template>
       </section>
 
       <section class="doc" id="toggle-group" data-group="Formularios" data-keywords="toggle group botones alternar negrita cursiva formato barra herramientas">
         <h2><a href="#toggle-group">Toggle group</a></h2>
-        <p><code>&lt;dv-toggle-group type="single|multiple"&gt;</code> agrupa botones con <code>aria-pressed</code>. En <code>single</code> volver a pulsar deselecciona (salvo con <code>required</code>); en <code>multiple</code> se combinan. ← → mueven el foco con tabulación itinerante. Evento <code>dv-change</code>.</p>
+        <p><code>&lt;tsl-toggle-group type="single|multiple"&gt;</code> agrupa botones con <code>aria-pressed</code>. En <code>single</code> volver a pulsar deselecciona (salvo con <code>required</code>); en <code>multiple</code> se combinan. ← → mueven el foco con tabulación itinerante. Evento <code>tsl-change</code>.</p>
         <template>
-          <div class="dv-row" style="--gap:16px">
-            <dv-toggle-group id="demo-tg-multi" type="multiple" value="negrita" aria-label="Formato">
-              <button class="dv-toggle-group__item" value="negrita" aria-label="Negrita"><b>B</b></button>
-              <button class="dv-toggle-group__item" value="cursiva" aria-label="Cursiva"><i>I</i></button>
-              <button class="dv-toggle-group__item" value="subrayado" aria-label="Subrayado"><u>U</u></button>
-            </dv-toggle-group>
-            <dv-toggle-group id="demo-tg-single" type="single" required value="centro" aria-label="Alineación">
-              <button class="dv-toggle-group__item" value="izq">Izq.</button>
-              <button class="dv-toggle-group__item" value="centro">Centro</button>
-              <button class="dv-toggle-group__item" value="der">Der.</button>
-            </dv-toggle-group>
-            <span class="dv-muted" id="demo-tg-out">negrita · centro</span>
+          <div class="tsl-row" style="--gap:16px">
+            <tsl-toggle-group id="demo-tg-multi" type="multiple" value="negrita" aria-label="Formato">
+              <button class="tsl-toggle-group__item" value="negrita" aria-label="Negrita"><b>B</b></button>
+              <button class="tsl-toggle-group__item" value="cursiva" aria-label="Cursiva"><i>I</i></button>
+              <button class="tsl-toggle-group__item" value="subrayado" aria-label="Subrayado"><u>U</u></button>
+            </tsl-toggle-group>
+            <tsl-toggle-group id="demo-tg-single" type="single" required value="centro" aria-label="Alineación">
+              <button class="tsl-toggle-group__item" value="izq">Izq.</button>
+              <button class="tsl-toggle-group__item" value="centro">Centro</button>
+              <button class="tsl-toggle-group__item" value="der">Der.</button>
+            </tsl-toggle-group>
+            <span class="tsl-muted" id="demo-tg-out">negrita · centro</span>
           </div>
         </template>
         <script type="text/plain" data-doc-js>
@@ -677,26 +677,26 @@
           const single = document.querySelector("#demo-tg-single");
           const out = document.querySelector("#demo-tg-out");
           const show = () => (out.textContent = [...multi.value, single.value].filter(Boolean).join(" · ") || "ninguno");
-          multi.addEventListener("dv-change", show);
-          single.addEventListener("dv-change", show);
+          multi.addEventListener("tsl-change", show);
+          single.addEventListener("tsl-change", show);
         </script>
       </section>
 
       <!-- ================================================================ Navegación -->
       <section class="doc" id="tabs" data-group="Navegación" data-keywords="pestañas tab panel">
         <h2><a href="#tabs">Pestañas</a></h2>
-        <p><code>&lt;dv-tabs&gt;</code> enlaza <code>data-tab</code> con <code>data-panel</code> y añade los roles ARIA y la navegación con flechas.</p>
+        <p><code>&lt;tsl-tabs&gt;</code> enlaza <code>data-tab</code> con <code>data-panel</code> y añade los roles ARIA y la navegación con flechas.</p>
         <template>
-          <dv-tabs class="demo-wide">
-            <div class="dv-tabs__list">
-              <button class="dv-tabs__tab" data-tab="overview">Resumen</button>
-              <button class="dv-tabs__tab" data-tab="activity">Actividad</button>
-              <button class="dv-tabs__tab" data-tab="settings">Ajustes</button>
+          <tsl-tabs class="demo-wide">
+            <div class="tsl-tabs__list">
+              <button class="tsl-tabs__tab" data-tab="overview">Resumen</button>
+              <button class="tsl-tabs__tab" data-tab="activity">Actividad</button>
+              <button class="tsl-tabs__tab" data-tab="settings">Ajustes</button>
             </div>
-            <div class="dv-tabs__panel" data-panel="overview">Resumen del proyecto, métricas clave y próximos hitos.</div>
-            <div class="dv-tabs__panel" data-panel="activity">Últimos despliegues, comentarios y cambios del equipo.</div>
-            <div class="dv-tabs__panel" data-panel="settings">Nombre, miembros, integraciones y zona de peligro.</div>
-          </dv-tabs>
+            <div class="tsl-tabs__panel" data-panel="overview">Resumen del proyecto, métricas clave y próximos hitos.</div>
+            <div class="tsl-tabs__panel" data-panel="activity">Últimos despliegues, comentarios y cambios del equipo.</div>
+            <div class="tsl-tabs__panel" data-panel="settings">Nombre, miembros, integraciones y zona de peligro.</div>
+          </tsl-tabs>
         </template>
       </section>
 
@@ -705,7 +705,7 @@
         <p>Lista ordenada con separadores automáticos; marca la página actual con <code>aria-current="page"</code>.</p>
         <template>
           <nav aria-label="Migas de pan">
-            <ol class="dv-breadcrumb">
+            <ol class="tsl-breadcrumb">
               <li><a href="#breadcrumb">Acme</a></li>
               <li><a href="#breadcrumb">Proyectos</a></li>
               <li><span aria-current="page">Rediseño de incorporación</span></li>
@@ -718,7 +718,7 @@
         <h2><a href="#pagination">Paginación</a></h2>
         <p>Enlaces o botones; la página activa usa <code>aria-current="page"</code>.</p>
         <template>
-          <nav class="dv-pagination" aria-label="Paginación">
+          <nav class="tsl-pagination" aria-label="Paginación">
             <a href="#pagination" aria-label="Anterior">‹</a>
             <a href="#pagination">1</a>
             <a href="#pagination" aria-current="page">2</a>
@@ -732,22 +732,22 @@
 
       <section class="doc" id="nav" data-group="Navegación" data-keywords="sidebar barra lateral app shell">
         <h2><a href="#nav">Navegación lateral</a></h2>
-        <p>Navegación vertical para app shells: <code>dv-nav</code>, <code>dv-nav__label</code>, <code>dv-nav__item</code>.</p>
+        <p>Navegación vertical para app shells: <code>tsl-nav</code>, <code>tsl-nav__label</code>, <code>tsl-nav__item</code>.</p>
         <template>
           <div class="demo-shell">
             <aside>
-              <nav class="dv-nav">
-                <a class="dv-nav__item" href="#nav" aria-current="page">⌂ Inicio</a>
-                <a class="dv-nav__item" href="#nav">✉ Bandeja <span class="dv-badge dv-badge--accent">4</span></a>
-                <a class="dv-nav__item" href="#nav">⚡ Actividad</a>
-                <div class="dv-nav__label">Equipos</div>
-                <a class="dv-nav__item" href="#nav"># diseño <span class="dv-nav__meta">6</span></a>
-                <a class="dv-nav__item" href="#nav"># ingeniería <span class="dv-nav__meta">24</span></a>
+              <nav class="tsl-nav">
+                <a class="tsl-nav__item" href="#nav" aria-current="page">⌂ Inicio</a>
+                <a class="tsl-nav__item" href="#nav">✉ Bandeja <span class="tsl-badge tsl-badge--accent">4</span></a>
+                <a class="tsl-nav__item" href="#nav">⚡ Actividad</a>
+                <div class="tsl-nav__label">Equipos</div>
+                <a class="tsl-nav__item" href="#nav"># diseño <span class="tsl-nav__meta">6</span></a>
+                <a class="tsl-nav__item" href="#nav"># ingeniería <span class="tsl-nav__meta">24</span></a>
               </nav>
             </aside>
             <div>
-              <span class="dv-eyebrow">Panel principal</span>
-              <h3 class="dv-heading" style="margin-top:6px;font-size:18px">Inicio</h3>
+              <span class="tsl-eyebrow">Panel principal</span>
+              <h3 class="tsl-heading" style="margin-top:6px;font-size:18px">Inicio</h3>
             </div>
           </div>
         </template>
@@ -757,7 +757,7 @@
         <h2><a href="#steps">Pasos</a></h2>
         <p>Progreso por pasos: <code>data-state="done"</code> y <code>aria-current="step"</code>.</p>
         <template>
-          <ol class="dv-steps demo-wide">
+          <ol class="tsl-steps demo-wide">
             <li data-state="done">Cuenta</li>
             <li data-state="done">Espacio de trabajo</li>
             <li aria-current="step">Invitar al equipo</li>
@@ -768,81 +768,81 @@
 
       <section class="doc" id="command" data-group="Navegación" data-keywords="command palette cmdk buscador spotlight">
         <h2><a href="#command">Paleta de comandos</a></h2>
-        <p><code>&lt;dv-command hotkey="k"&gt;</code> crea un <code>&lt;dialog&gt;</code> nativo con búsqueda difusa, grupos (<code>data-group</code>), palabras clave (<code>data-keywords</code>) y evento <code>dv-select</code>. Ábrelo con <code>data-dv-open="id"</code> o <code>⌘K</code>.</p>
+        <p><code>&lt;tsl-command hotkey="k"&gt;</code> crea un <code>&lt;dialog&gt;</code> nativo con búsqueda difusa, grupos (<code>data-group</code>), palabras clave (<code>data-keywords</code>) y evento <code>tsl-select</code>. Ábrelo con <code>data-tsl-open="id"</code> o <code>⌘K</code>.</p>
         <template>
-          <button type="button" class="dv-btn" data-dv-open="docs-cmd">Abrir paleta <kbd class="dv-kbd">⌘K</kbd></button>
+          <button type="button" class="tsl-btn" data-tsl-open="docs-cmd">Abrir paleta <kbd class="tsl-kbd">⌘K</kbd></button>
         </template>
       </section>
 
       <!-- ================================================================ Retroalimentación -->
       <section class="doc" id="menubar" data-group="Navegación" data-tall="320px" data-keywords="menubar barra menu aplicacion archivo editar submenu atajos checkbox">
         <h2><a href="#menubar">Barra de menús</a></h2>
-        <p><code>&lt;dv-menubar&gt;</code> es la barra de menús de una aplicación: cada elemento abre un menú; con uno abierto, pasar el cursor o pulsar ← → cambia de menú. Soporta submenús (<code>.dv-menu__sub</code> + <code>data-submenu</code>), ítems marcables (<code>data-check</code> + <code>aria-checked</code>), atajos con <code>dv-kbd</code> y deshabilitados. Teclado: ← → entre menús, ↓ ↑ entre ítems, → abre submenú, Esc cierra. Evento <code>dv-select</code> con <code>{ value, checked }</code>.</p>
+        <p><code>&lt;tsl-menubar&gt;</code> es la barra de menús de una aplicación: cada elemento abre un menú; con uno abierto, pasar el cursor o pulsar ← → cambia de menú. Soporta submenús (<code>.tsl-menu__sub</code> + <code>data-submenu</code>), ítems marcables (<code>data-check</code> + <code>aria-checked</code>), atajos con <code>tsl-kbd</code> y deshabilitados. Teclado: ← → entre menús, ↓ ↑ entre ítems, → abre submenú, Esc cierra. Evento <code>tsl-select</code> con <code>{ value, checked }</code>.</p>
         <template>
-          <dv-menubar id="demo-menubar">
-            <div class="dv-bar__item">
-              <button type="button" data-dv-trigger>Archivo</button>
-              <div class="dv-menu__list">
-                <button type="button" class="dv-menu__item" data-value="nuevo">Nuevo <kbd class="dv-kbd">⌘N</kbd></button>
-                <button type="button" class="dv-menu__item" data-value="abrir">Abrir… <kbd class="dv-kbd">⌘O</kbd></button>
-                <div class="dv-menu__sub">
-                  <button type="button" class="dv-menu__item" data-submenu>Compartir</button>
-                  <div class="dv-menu__list">
-                    <button type="button" class="dv-menu__item" data-value="correo">Por correo</button>
-                    <button type="button" class="dv-menu__item" data-value="enlace">Copiar enlace</button>
+          <tsl-menubar id="demo-menubar">
+            <div class="tsl-bar__item">
+              <button type="button" data-tsl-trigger>Archivo</button>
+              <div class="tsl-menu__list">
+                <button type="button" class="tsl-menu__item" data-value="nuevo">Nuevo <kbd class="tsl-kbd">⌘N</kbd></button>
+                <button type="button" class="tsl-menu__item" data-value="abrir">Abrir… <kbd class="tsl-kbd">⌘O</kbd></button>
+                <div class="tsl-menu__sub">
+                  <button type="button" class="tsl-menu__item" data-submenu>Compartir</button>
+                  <div class="tsl-menu__list">
+                    <button type="button" class="tsl-menu__item" data-value="correo">Por correo</button>
+                    <button type="button" class="tsl-menu__item" data-value="enlace">Copiar enlace</button>
                   </div>
                 </div>
-                <div class="dv-menu__sep"></div>
-                <button type="button" class="dv-menu__item" data-value="imprimir" disabled>Imprimir</button>
+                <div class="tsl-menu__sep"></div>
+                <button type="button" class="tsl-menu__item" data-value="imprimir" disabled>Imprimir</button>
               </div>
             </div>
-            <div class="dv-bar__item">
-              <button type="button" data-dv-trigger>Ver</button>
-              <div class="dv-menu__list">
-                <button type="button" class="dv-menu__item" data-check aria-checked="true" data-value="cuadricula">Cuadrícula</button>
-                <button type="button" class="dv-menu__item" data-check aria-checked="false" data-value="reglas">Reglas</button>
-                <div class="dv-menu__sep"></div>
-                <button type="button" class="dv-menu__item" data-value="zoom">Ajustar zoom</button>
+            <div class="tsl-bar__item">
+              <button type="button" data-tsl-trigger>Ver</button>
+              <div class="tsl-menu__list">
+                <button type="button" class="tsl-menu__item" data-check aria-checked="true" data-value="cuadricula">Cuadrícula</button>
+                <button type="button" class="tsl-menu__item" data-check aria-checked="false" data-value="reglas">Reglas</button>
+                <div class="tsl-menu__sep"></div>
+                <button type="button" class="tsl-menu__item" data-value="zoom">Ajustar zoom</button>
               </div>
             </div>
-            <a class="dv-bar__item" href="#menubar">Ayuda</a>
-          </dv-menubar>
+            <a class="tsl-bar__item" href="#menubar">Ayuda</a>
+          </tsl-menubar>
         </template>
         <script type="text/plain" data-doc-js>
-          document.querySelector("#demo-menubar").addEventListener("dv-select", (e) => {
+          document.querySelector("#demo-menubar").addEventListener("tsl-select", (e) => {
             const extra = e.detail.checked === undefined ? "" : e.detail.checked ? " (activado)" : " (desactivado)";
-            DevlUI.toast({ title: `${e.detail.value}${extra}`, variant: "info" });
+            TeselaUI.toast({ title: `${e.detail.value}${extra}`, variant: "info" });
           });
         </script>
       </section>
 
       <section class="doc" id="nav-menu" data-group="Navegación" data-tall="340px" data-keywords="navigation menu mega menu navegacion cabecera dropdown rico">
         <h2><a href="#nav-menu">Menú de navegación</a></h2>
-        <p><code>&lt;dv-nav-menu&gt;</code> es el menú de cabecera de un sitio: los paneles (<code>.dv-bar__panel</code>) llevan contenido libre (tarjetas, enlaces, imágenes) y se abren al pasar el cursor con retardo (<code>hover-delay</code>), al hacer clic o con ↓. Cambiar entre elementos con el panel abierto es inmediato. Esc cierra y devuelve el foco.</p>
+        <p><code>&lt;tsl-nav-menu&gt;</code> es el menú de cabecera de un sitio: los paneles (<code>.tsl-bar__panel</code>) llevan contenido libre (tarjetas, enlaces, imágenes) y se abren al pasar el cursor con retardo (<code>hover-delay</code>), al hacer clic o con ↓. Cambiar entre elementos con el panel abierto es inmediato. Esc cierra y devuelve el foco.</p>
         <template>
-          <dv-nav-menu aria-label="Principal">
-            <div class="dv-bar__item">
-              <button type="button" data-dv-trigger>Producto</button>
-              <div class="dv-bar__panel">
-                <div class="dv-navmenu__grid">
-                  <a class="dv-navmenu__card" href="#nav-menu"><strong>Componentes</strong><span>48 piezas listas para usar.</span></a>
-                  <a class="dv-navmenu__card" href="#nav-menu"><strong>Temas</strong><span>Tokens, acentos y modo oscuro.</span></a>
-                  <a class="dv-navmenu__card" href="#nav-menu"><strong>Accesibilidad</strong><span>ARIA y teclado de serie.</span></a>
-                  <a class="dv-navmenu__card" href="#nav-menu"><strong>Galería</strong><span>212 experimentos reales.</span></a>
+          <tsl-nav-menu aria-label="Principal">
+            <div class="tsl-bar__item">
+              <button type="button" data-tsl-trigger>Producto</button>
+              <div class="tsl-bar__panel">
+                <div class="tsl-navmenu__grid">
+                  <a class="tsl-navmenu__card" href="#nav-menu"><strong>Componentes</strong><span>48 piezas listas para usar.</span></a>
+                  <a class="tsl-navmenu__card" href="#nav-menu"><strong>Temas</strong><span>Tokens, acentos y modo oscuro.</span></a>
+                  <a class="tsl-navmenu__card" href="#nav-menu"><strong>Accesibilidad</strong><span>ARIA y teclado de serie.</span></a>
+                  <a class="tsl-navmenu__card" href="#nav-menu"><strong>Galería</strong><span>212 experimentos reales.</span></a>
                 </div>
               </div>
             </div>
-            <div class="dv-bar__item">
-              <button type="button" data-dv-trigger>Recursos</button>
-              <div class="dv-bar__panel">
-                <div class="dv-navmenu__grid" style="grid-template-columns:1fr;min-width:240px">
-                  <a class="dv-navmenu__card" href="#nav-menu"><strong>Documentación</strong><span>Guías y referencia.</span></a>
-                  <a class="dv-navmenu__card" href="#nav-menu"><strong>Changelog</strong><span>Qué hay de nuevo.</span></a>
+            <div class="tsl-bar__item">
+              <button type="button" data-tsl-trigger>Recursos</button>
+              <div class="tsl-bar__panel">
+                <div class="tsl-navmenu__grid" style="grid-template-columns:1fr;min-width:240px">
+                  <a class="tsl-navmenu__card" href="#nav-menu"><strong>Documentación</strong><span>Guías y referencia.</span></a>
+                  <a class="tsl-navmenu__card" href="#nav-menu"><strong>Changelog</strong><span>Qué hay de nuevo.</span></a>
                 </div>
               </div>
             </div>
-            <a class="dv-bar__item" href="#nav-menu">Precios</a>
-          </dv-nav-menu>
+            <a class="tsl-bar__item" href="#nav-menu">Precios</a>
+          </tsl-nav-menu>
         </template>
       </section>
 
@@ -850,11 +850,11 @@
         <h2><a href="#alert">Alerta</a></h2>
         <p>Variantes <code>--info</code>, <code>--success</code>, <code>--warning</code>, <code>--danger</code>, <code>--accent</code>.</p>
         <template>
-          <div class="dv-stack demo-wide">
-            <div class="dv-alert dv-alert--info" role="status"><div><div class="dv-alert__title">Mantenimiento programado</div><div class="dv-alert__desc">Domingo 02:00–03:00 UTC. La API estará en modo de solo lectura.</div></div></div>
-            <div class="dv-alert dv-alert--success" role="status"><div><div class="dv-alert__title">Despliegue exitoso</div><div class="dv-alert__desc">f8a92c1 ya está en producción.</div></div></div>
-            <div class="dv-alert dv-alert--warning" role="status"><div><div class="dv-alert__title">Cerca de la cuota</div><div class="dv-alert__desc">Has usado el 85% de tus solicitudes mensuales.</div></div></div>
-            <div class="dv-alert dv-alert--danger" role="alert"><div><div class="dv-alert__title">Pago fallido</div><div class="dv-alert__desc">Actualiza tu tarjeta para evitar la interrupción del servicio.</div></div></div>
+          <div class="tsl-stack demo-wide">
+            <div class="tsl-alert tsl-alert--info" role="status"><div><div class="tsl-alert__title">Mantenimiento programado</div><div class="tsl-alert__desc">Domingo 02:00–03:00 UTC. La API estará en modo de solo lectura.</div></div></div>
+            <div class="tsl-alert tsl-alert--success" role="status"><div><div class="tsl-alert__title">Despliegue exitoso</div><div class="tsl-alert__desc">f8a92c1 ya está en producción.</div></div></div>
+            <div class="tsl-alert tsl-alert--warning" role="status"><div><div class="tsl-alert__title">Cerca de la cuota</div><div class="tsl-alert__desc">Has usado el 85% de tus solicitudes mensuales.</div></div></div>
+            <div class="tsl-alert tsl-alert--danger" role="alert"><div><div class="tsl-alert__title">Pago fallido</div><div class="tsl-alert__desc">Actualiza tu tarjeta para evitar la interrupción del servicio.</div></div></div>
           </div>
         </template>
       </section>
@@ -863,36 +863,36 @@
         <h2><a href="#banner">Banner</a></h2>
         <p>Barra de anuncio a ancho completo.</p>
         <template>
-          <div class="dv-banner">✦ Ya salió devl-ui 1.0: más de 40 componentes sin dependencias. <a href="#install">Lee la documentación</a></div>
+          <div class="tsl-banner">✦ Ya salió Tesela 1.4: más de 70 componentes sin dependencias. <a href="#install">Lee la documentación</a></div>
         </template>
       </section>
 
       <section class="doc" id="toast" data-group="Retroalimentación" data-keywords="notificacion snackbar mensaje">
         <h2><a href="#toast">Toast</a></h2>
-        <p><code>DevlUI.toast()</code> apila notificaciones abajo a la derecha. Se pausan al pasar el ratón; <code>duration: 0</code> las deja fijas; <code>action</code> añade un botón.</p>
+        <p><code>TeselaUI.toast()</code> apila notificaciones abajo a la derecha. Se pausan al pasar el ratón; <code>duration: 0</code> las deja fijas; <code>action</code> añade un botón.</p>
         <template>
-          <div class="dv-row">
-            <button type="button" class="dv-btn" id="demo-toast-ok">Éxito</button>
-            <button type="button" class="dv-btn" id="demo-toast-warn">Advertencia</button>
-            <button type="button" class="dv-btn" id="demo-toast-err">Error</button>
-            <button type="button" class="dv-btn" id="demo-toast-undo">Con acción</button>
+          <div class="tsl-row">
+            <button type="button" class="tsl-btn" id="demo-toast-ok">Éxito</button>
+            <button type="button" class="tsl-btn" id="demo-toast-warn">Advertencia</button>
+            <button type="button" class="tsl-btn" id="demo-toast-err">Error</button>
+            <button type="button" class="tsl-btn" id="demo-toast-undo">Con acción</button>
           </div>
         </template>
         <script type="text/plain" data-doc-js>
           document.querySelector("#demo-toast-ok").addEventListener("click", () =>
-            DevlUI.toast({ title: "El despliegue #4829 fue exitoso", description: "Compilado en 1.4 s" })
+            TeselaUI.toast({ title: "El despliegue #4829 fue exitoso", description: "Compilado en 1.4 s" })
           );
           document.querySelector("#demo-toast-warn").addEventListener("click", () =>
-            DevlUI.toast({ title: "Cerca del límite de uso", description: "85% de la cuota usada", variant: "warning" })
+            TeselaUI.toast({ title: "Cerca del límite de uso", description: "85% de la cuota usada", variant: "warning" })
           );
           document.querySelector("#demo-toast-err").addEventListener("click", () =>
-            DevlUI.toast({ title: "No se pudieron guardar los cambios", variant: "danger" })
+            TeselaUI.toast({ title: "No se pudieron guardar los cambios", variant: "danger" })
           );
           document.querySelector("#demo-toast-undo").addEventListener("click", () =>
-            DevlUI.toast({
+            TeselaUI.toast({
               title: "Mensaje archivado",
               variant: "neutral",
-              action: { label: "Deshacer", onClick: () => DevlUI.toast("Restaurado") }
+              action: { label: "Deshacer", onClick: () => TeselaUI.toast("Restaurado") }
             })
           );
         </script>
@@ -900,15 +900,15 @@
 
       <section class="doc" id="progress" data-group="Retroalimentación" data-keywords="barra progreso meter cuota uso">
         <h2><a href="#progress">Progreso y medidor</a></h2>
-        <p><code>&lt;progress class="dv-progress"&gt;</code> nativo (sin <code>value</code> = indeterminado) y <code>dv-meter</code> por segmentos con <code>--w</code> y <code>--c</code>.</p>
+        <p><code>&lt;progress class="tsl-progress"&gt;</code> nativo (sin <code>value</code> = indeterminado) y <code>tsl-meter</code> por segmentos con <code>--w</code> y <code>--c</code>.</p>
         <template>
-          <div class="dv-stack demo-wide">
-            <progress class="dv-progress" value="64" max="100" aria-label="Progreso de carga">64%</progress>
-            <progress class="dv-progress" aria-label="Cargando"></progress>
-            <div class="dv-meter" role="img" aria-label="Ventana de contexto: 45% sistema, 18% RAG, 11% razonamiento">
+          <div class="tsl-stack demo-wide">
+            <progress class="tsl-progress" value="64" max="100" aria-label="Progreso de carga">64%</progress>
+            <progress class="tsl-progress" aria-label="Cargando"></progress>
+            <div class="tsl-meter" role="img" aria-label="Ventana de contexto: 45% sistema, 18% RAG, 11% razonamiento">
               <span style="--w:45%"></span>
-              <span style="--w:18%;--c:var(--dv-info)"></span>
-              <span style="--w:11%;--c:var(--dv-warning)"></span>
+              <span style="--w:18%;--c:var(--tsl-info)"></span>
+              <span style="--w:11%;--c:var(--tsl-warning)"></span>
             </div>
           </div>
         </template>
@@ -918,13 +918,13 @@
         <h2><a href="#loading">Spinner y skeleton</a></h2>
         <p>Estados de carga. Tamaño con <code>--size</code> (spinner) o <code>--w</code>/<code>--h</code> (skeleton).</p>
         <template>
-          <div class="dv-row" style="--gap:28px;align-items:flex-start">
-            <div class="dv-row"><span class="dv-spinner" role="status" aria-label="Cargando"></span><span class="dv-spinner" style="--size:24px" aria-hidden="true"></span></div>
-            <div class="dv-row" style="flex-wrap:nowrap;width:300px">
-              <span class="dv-skeleton dv-skeleton--circle"></span>
-              <div class="dv-stack" style="flex:1;--gap:8px">
-                <span class="dv-skeleton" style="--w:60%"></span>
-                <span class="dv-skeleton"></span>
+          <div class="tsl-row" style="--gap:28px;align-items:flex-start">
+            <div class="tsl-row"><span class="tsl-spinner" role="status" aria-label="Cargando"></span><span class="tsl-spinner" style="--size:24px" aria-hidden="true"></span></div>
+            <div class="tsl-row" style="flex-wrap:nowrap;width:300px">
+              <span class="tsl-skeleton tsl-skeleton--circle"></span>
+              <div class="tsl-stack" style="flex:1;--gap:8px">
+                <span class="tsl-skeleton" style="--w:60%"></span>
+                <span class="tsl-skeleton"></span>
               </div>
             </div>
           </div>
@@ -933,34 +933,34 @@
 
       <section class="doc" id="tooltip" data-group="Retroalimentación" data-keywords="hint ayuda title">
         <h2><a href="#tooltip">Tooltip</a></h2>
-        <p>Solo CSS: <code>data-dv-tooltip="texto"</code> y opcionalmente <code>data-dv-placement="bottom"</code>. Aparece con hover y foco de teclado.</p>
+        <p>Solo CSS: <code>data-tsl-tooltip="texto"</code> y opcionalmente <code>data-tsl-placement="bottom"</code>. Aparece con hover y foco de teclado.</p>
         <template>
-          <div class="dv-row">
-            <button type="button" class="dv-btn" data-dv-tooltip="Copiar enlace (⌘C)">Pasa el cursor</button>
-            <button type="button" class="dv-btn dv-btn--icon" data-dv-tooltip="Ajustes" data-dv-placement="bottom" aria-label="Ajustes">⚙</button>
+          <div class="tsl-row">
+            <button type="button" class="tsl-btn" data-tsl-tooltip="Copiar enlace (⌘C)">Pasa el cursor</button>
+            <button type="button" class="tsl-btn tsl-btn--icon" data-tsl-tooltip="Ajustes" data-tsl-placement="bottom" aria-label="Ajustes">⚙</button>
           </div>
         </template>
       </section>
 
       <section class="doc" id="dialog" data-group="Retroalimentación" data-keywords="modal confirmar popup">
         <h2><a href="#dialog">Diálogo</a></h2>
-        <p><code>&lt;dialog class="dv-dialog"&gt;</code> nativo: atrapa el foco y cierra con Esc. <code>data-dv-open="id"</code> lo abre, <code>data-dv-close</code> lo cierra, clic en el fondo también (desactívalo con <code>data-dv-static</code>).</p>
+        <p><code>&lt;dialog class="tsl-dialog"&gt;</code> nativo: atrapa el foco y cierra con Esc. <code>data-tsl-open="id"</code> lo abre, <code>data-tsl-close</code> lo cierra, clic en el fondo también (desactívalo con <code>data-tsl-static</code>).</p>
         <template>
-          <button type="button" class="dv-btn dv-btn--danger" data-dv-open="demo-dialog">Eliminar espacio de trabajo…</button>
-          <dialog class="dv-dialog" id="demo-dialog" aria-labelledby="demo-dialog-title">
-            <div class="dv-dialog__header">
-              <h3 class="dv-dialog__title" id="demo-dialog-title">¿Eliminar el espacio de trabajo?</h3>
-              <p class="dv-dialog__desc">Esto elimina de forma permanente todos los proyectos, miembros e historial de facturación. Esta acción no se puede deshacer.</p>
+          <button type="button" class="tsl-btn tsl-btn--danger" data-tsl-open="demo-dialog">Eliminar espacio de trabajo…</button>
+          <dialog class="tsl-dialog" id="demo-dialog" aria-labelledby="demo-dialog-title">
+            <div class="tsl-dialog__header">
+              <h3 class="tsl-dialog__title" id="demo-dialog-title">¿Eliminar el espacio de trabajo?</h3>
+              <p class="tsl-dialog__desc">Esto elimina de forma permanente todos los proyectos, miembros e historial de facturación. Esta acción no se puede deshacer.</p>
             </div>
-            <div class="dv-dialog__body">
-              <label class="dv-field">
-                <span class="dv-label">Escribe acme para confirmar</span>
-                <input class="dv-input" id="demo-dialog-input" autocomplete="off" />
+            <div class="tsl-dialog__body">
+              <label class="tsl-field">
+                <span class="tsl-label">Escribe acme para confirmar</span>
+                <input class="tsl-input" id="demo-dialog-input" autocomplete="off" />
               </label>
             </div>
-            <div class="dv-dialog__footer">
-              <button type="button" class="dv-btn" data-dv-close>Cancelar</button>
-              <button type="button" class="dv-btn dv-btn--danger" id="demo-dialog-confirm" disabled data-dv-close="confirm">Eliminar</button>
+            <div class="tsl-dialog__footer">
+              <button type="button" class="tsl-btn" data-tsl-close>Cancelar</button>
+              <button type="button" class="tsl-btn tsl-btn--danger" id="demo-dialog-confirm" disabled data-tsl-close="confirm">Eliminar</button>
             </div>
           </dialog>
         </template>
@@ -970,7 +970,7 @@
           const confirmBtn = document.querySelector("#demo-dialog-confirm");
           input.addEventListener("input", () => (confirmBtn.disabled = input.value !== "acme"));
           dialog.addEventListener("close", () => {
-            if (dialog.returnValue === "confirm") DevlUI.toast({ title: "Espacio de trabajo eliminado", variant: "danger" });
+            if (dialog.returnValue === "confirm") TeselaUI.toast({ title: "Espacio de trabajo eliminado", variant: "danger" });
             input.value = "";
             confirmBtn.disabled = true;
           });
@@ -979,23 +979,23 @@
 
       <section class="doc" id="drawer" data-group="Retroalimentación" data-keywords="sheet panel lateral slide over">
         <h2><a href="#drawer">Panel lateral</a></h2>
-        <p>Variante lateral del diálogo: añade <code>dv-dialog--drawer</code>.</p>
+        <p>Variante lateral del diálogo: añade <code>tsl-dialog--drawer</code>.</p>
         <template>
-          <button type="button" class="dv-btn" data-dv-open="demo-drawer">Abrir panel lateral</button>
-          <dialog class="dv-dialog dv-dialog--drawer" id="demo-drawer" aria-labelledby="demo-drawer-title">
-            <button type="button" class="dv-btn dv-btn--subtle dv-btn--icon dv-btn--sm dv-dialog__close" data-dv-close aria-label="Cerrar">✕</button>
-            <div class="dv-dialog__header">
-              <span class="dv-eyebrow">INV-2094</span>
-              <h3 class="dv-dialog__title" id="demo-drawer-title">Clúster de seguridad</h3>
-              <p class="dv-dialog__desc">Pendiente · EU-Central · $6,400.00</p>
+          <button type="button" class="tsl-btn" data-tsl-open="demo-drawer">Abrir panel lateral</button>
+          <dialog class="tsl-dialog tsl-dialog--drawer" id="demo-drawer" aria-labelledby="demo-drawer-title">
+            <button type="button" class="tsl-btn tsl-btn--subtle tsl-btn--icon tsl-btn--sm tsl-dialog__close" data-tsl-close aria-label="Cerrar">✕</button>
+            <div class="tsl-dialog__header">
+              <span class="tsl-eyebrow">INV-2094</span>
+              <h3 class="tsl-dialog__title" id="demo-drawer-title">Clúster de seguridad</h3>
+              <p class="tsl-dialog__desc">Pendiente · EU-Central · $6,400.00</p>
             </div>
-            <div class="dv-dialog__body dv-stack">
-              <label class="dv-field"><span class="dv-label">Responsable</span><input class="dv-input" value="Equipo de finanzas" /></label>
-              <label class="dv-field"><span class="dv-label">Notas</span><textarea class="dv-textarea">Neto a 30 días. Enviar recordatorio el 20 de oct.</textarea></label>
+            <div class="tsl-dialog__body tsl-stack">
+              <label class="tsl-field"><span class="tsl-label">Responsable</span><input class="tsl-input" value="Equipo de finanzas" /></label>
+              <label class="tsl-field"><span class="tsl-label">Notas</span><textarea class="tsl-textarea">Neto a 30 días. Enviar recordatorio el 20 de oct.</textarea></label>
             </div>
-            <div class="dv-dialog__footer">
-              <button type="button" class="dv-btn" data-dv-close>Cancelar</button>
-              <button type="button" class="dv-btn dv-btn--primary" data-dv-close>Guardar</button>
+            <div class="tsl-dialog__footer">
+              <button type="button" class="tsl-btn" data-tsl-close>Cancelar</button>
+              <button type="button" class="tsl-btn tsl-btn--primary" data-tsl-close>Guardar</button>
             </div>
           </dialog>
         </template>
@@ -1004,138 +1004,138 @@
       <!-- ================================================================ Presentación de datos -->
       <section class="doc" id="popover" data-group="Superposiciones" data-tall="260px" data-keywords="popover panel flotante floating anchor posicion">
         <h2><a href="#popover">Popover</a></h2>
-        <p><code>&lt;dv-popover&gt;</code> usa la API nativa <code>popover</code> (capa superior, cierre con Esc y clic fuera). Se posiciona junto al disparador, se voltea si no cabe y sigue al scroll. Atributos: <code>placement</code> (<code>top|bottom|left|right</code> + <code>-start|-end</code>), <code>offset</code>, <code>manual</code>. Métodos <code>open()</code>, <code>close()</code>, <code>toggle()</code>; eventos <code>dv-open</code> y <code>dv-close</code>. Cualquier <code>data-dv-close</code> dentro del panel lo cierra.</p>
+        <p><code>&lt;tsl-popover&gt;</code> usa la API nativa <code>popover</code> (capa superior, cierre con Esc y clic fuera). Se posiciona junto al disparador, se voltea si no cabe y sigue al scroll. Atributos: <code>placement</code> (<code>top|bottom|left|right</code> + <code>-start|-end</code>), <code>offset</code>, <code>manual</code>. Métodos <code>open()</code>, <code>close()</code>, <code>toggle()</code>; eventos <code>tsl-open</code> y <code>tsl-close</code>. Cualquier <code>data-tsl-close</code> dentro del panel lo cierra.</p>
         <template>
-          <dv-popover placement="bottom-start">
-            <button type="button" class="dv-btn" data-dv-trigger>Dimensiones ▾</button>
-            <div class="dv-popover__panel">
-              <div class="dv-stack" style="--gap:10px">
-                <div class="dv-popover__title">Dimensiones</div>
-                <div class="dv-field"><label class="dv-label" for="pop-w">Ancho</label><input id="pop-w" class="dv-input" value="100%" /></div>
-                <div class="dv-field"><label class="dv-label" for="pop-h">Alto</label><input id="pop-h" class="dv-input" value="25px" /></div>
-                <button type="button" class="dv-btn dv-btn--sm dv-btn--primary" data-dv-close>Aplicar</button>
+          <tsl-popover placement="bottom-start">
+            <button type="button" class="tsl-btn" data-tsl-trigger>Dimensiones ▾</button>
+            <div class="tsl-popover__panel">
+              <div class="tsl-stack" style="--gap:10px">
+                <div class="tsl-popover__title">Dimensiones</div>
+                <div class="tsl-field"><label class="tsl-label" for="pop-w">Ancho</label><input id="pop-w" class="tsl-input" value="100%" /></div>
+                <div class="tsl-field"><label class="tsl-label" for="pop-h">Alto</label><input id="pop-h" class="tsl-input" value="25px" /></div>
+                <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--primary" data-tsl-close>Aplicar</button>
               </div>
             </div>
-          </dv-popover>
+          </tsl-popover>
         </template>
       </section>
 
       <section class="doc" id="hovercard" data-group="Superposiciones" data-tall="260px" data-keywords="hover card tarjeta flotante perfil preview">
         <h2><a href="#hovercard">Hover card</a></h2>
-        <p><code>&lt;dv-hovercard&gt;</code> muestra una vista previa al pasar el cursor o enfocar con el teclado, con retardos configurables (<code>open-delay</code>, <code>close-delay</code>). El panel sigue abierto mientras el cursor esté sobre él, y Esc lo cierra. Reutiliza <code>.dv-popover__panel</code>.</p>
+        <p><code>&lt;tsl-hovercard&gt;</code> muestra una vista previa al pasar el cursor o enfocar con el teclado, con retardos configurables (<code>open-delay</code>, <code>close-delay</code>). El panel sigue abierto mientras el cursor esté sobre él, y Esc lo cierra. Reutiliza <code>.tsl-popover__panel</code>.</p>
         <template>
-          <dv-hovercard>
-            <a href="#hovercard" data-dv-trigger>@luis</a>
-            <div class="dv-popover__panel" style="width:280px">
-              <div class="dv-row" style="align-items:flex-start;flex-wrap:nowrap;--gap:12px">
-                <span class="dv-avatar dv-avatar--lg">LI</span>
-                <div class="dv-stack" style="--gap:4px">
-                  <div class="dv-popover__title">Luis Islas</div>
-                  <div class="dv-muted">Construye la biblioteca de componentes devl-ui.</div>
-                  <div class="dv-row"><span class="dv-badge dv-badge--success">En línea</span><span class="dv-muted">24 repositorios</span></div>
+          <tsl-hovercard>
+            <a href="#hovercard" data-tsl-trigger>@luis</a>
+            <div class="tsl-popover__panel" style="width:280px">
+              <div class="tsl-row" style="align-items:flex-start;flex-wrap:nowrap;--gap:12px">
+                <span class="tsl-avatar tsl-avatar--lg">LI</span>
+                <div class="tsl-stack" style="--gap:4px">
+                  <div class="tsl-popover__title">Luis Islas</div>
+                  <div class="tsl-muted">Construye la biblioteca de componentes tesela-ui.</div>
+                  <div class="tsl-row"><span class="tsl-badge tsl-badge--success">En línea</span><span class="tsl-muted">24 repositorios</span></div>
                 </div>
               </div>
             </div>
-          </dv-hovercard>
+          </tsl-hovercard>
         </template>
       </section>
 
       <section class="doc" id="context-menu" data-group="Superposiciones" data-tall="220px" data-keywords="contextual clic derecho right click menu">
         <h2><a href="#context-menu">Menú contextual</a></h2>
-        <p><code>&lt;dv-context-menu&gt;</code> se abre con clic derecho, con la tecla de menú contextual (o <kbd class="dv-kbd">Shift</kbd>+<kbd class="dv-kbd">F10</kbd>) y con pulsación larga en pantallas táctiles. Se abre en el punto del cursor, navega con ↑ ↓ Home End y emite <code>dv-select</code>.</p>
+        <p><code>&lt;tsl-context-menu&gt;</code> se abre con clic derecho, con la tecla de menú contextual (o <kbd class="tsl-kbd">Shift</kbd>+<kbd class="tsl-kbd">F10</kbd>) y con pulsación larga en pantallas táctiles. Se abre en el punto del cursor, navega con ↑ ↓ Home End y emite <code>tsl-select</code>.</p>
         <template>
-          <dv-context-menu id="demo-ctx">
-            <div class="dv-context-zone" tabindex="0">Haz clic derecho aquí<br /><span class="dv-muted">o enfoca y pulsa Shift+F10</span></div>
-            <div class="dv-menu__list">
-              <button type="button" class="dv-menu__item" data-value="copy">Copiar <kbd class="dv-kbd">⌘C</kbd></button>
-              <button type="button" class="dv-menu__item" data-value="paste">Pegar <kbd class="dv-kbd">⌘V</kbd></button>
-              <button type="button" class="dv-menu__item" data-value="duplicate" disabled>Duplicar</button>
-              <div class="dv-menu__sep"></div>
-              <button type="button" class="dv-menu__item dv-menu__item--danger" data-value="delete">Eliminar</button>
+          <tsl-context-menu id="demo-ctx">
+            <div class="tsl-context-zone" tabindex="0">Haz clic derecho aquí<br /><span class="tsl-muted">o enfoca y pulsa Shift+F10</span></div>
+            <div class="tsl-menu__list">
+              <button type="button" class="tsl-menu__item" data-value="copy">Copiar <kbd class="tsl-kbd">⌘C</kbd></button>
+              <button type="button" class="tsl-menu__item" data-value="paste">Pegar <kbd class="tsl-kbd">⌘V</kbd></button>
+              <button type="button" class="tsl-menu__item" data-value="duplicate" disabled>Duplicar</button>
+              <div class="tsl-menu__sep"></div>
+              <button type="button" class="tsl-menu__item tsl-menu__item--danger" data-value="delete">Eliminar</button>
             </div>
-          </dv-context-menu>
+          </tsl-context-menu>
         </template>
         <script type="text/plain" data-doc-js>
-          document.querySelector("#demo-ctx").addEventListener("dv-select", (e) => {
-            DevlUI.toast({ title: `Acción: ${e.detail.value}`, variant: "info" });
+          document.querySelector("#demo-ctx").addEventListener("tsl-select", (e) => {
+            TeselaUI.toast({ title: `Acción: ${e.detail.value}`, variant: "info" });
           });
         </script>
       </section>
 
       <section class="doc" id="alert-dialog" data-group="Superposiciones" data-keywords="confirmar confirm alertdialog destructivo eliminar promesa">
         <h2><a href="#alert-dialog">Diálogo de confirmación</a></h2>
-        <p><code>DevlUI.confirm(opciones)</code> abre un <code>alertdialog</code> modal y devuelve una <code>Promise&lt;boolean&gt;</code>. Esc o «Cancelar» resuelven <code>false</code>; el clic en el fondo no lo cierra. Con <code>variant: "danger"</code> el foco inicial queda en «Cancelar». Con <code>cancelLabel: null</code> funciona como alerta simple.</p>
+        <p><code>TeselaUI.confirm(opciones)</code> abre un <code>alertdialog</code> modal y devuelve una <code>Promise&lt;boolean&gt;</code>. Esc o «Cancelar» resuelven <code>false</code>; el clic en el fondo no lo cierra. Con <code>variant: "danger"</code> el foco inicial queda en «Cancelar». Con <code>cancelLabel: null</code> funciona como alerta simple.</p>
         <template>
-          <div class="dv-row">
-            <button type="button" class="dv-btn dv-btn--danger" id="demo-confirm-del">Eliminar proyecto…</button>
-            <button type="button" class="dv-btn" id="demo-confirm-alert">Mostrar alerta</button>
+          <div class="tsl-row">
+            <button type="button" class="tsl-btn tsl-btn--danger" id="demo-confirm-del">Eliminar proyecto…</button>
+            <button type="button" class="tsl-btn" id="demo-confirm-alert">Mostrar alerta</button>
           </div>
         </template>
         <script type="text/plain" data-doc-js>
           document.querySelector("#demo-confirm-del").addEventListener("click", async () => {
-            const ok = await DevlUI.confirm({
+            const ok = await TeselaUI.confirm({
               title: "¿Eliminar el proyecto?",
               description: "Se borrarán todos los archivos. Esta acción no se puede deshacer.",
               confirmLabel: "Eliminar",
               variant: "danger"
             });
-            DevlUI.toast({ title: ok ? "Proyecto eliminado" : "Cancelado", variant: ok ? "danger" : "neutral" });
+            TeselaUI.toast({ title: ok ? "Proyecto eliminado" : "Cancelado", variant: ok ? "danger" : "neutral" });
           });
           document.querySelector("#demo-confirm-alert").addEventListener("click", () => {
-            DevlUI.confirm({ title: "Sesión caducada", description: "Vuelve a iniciar sesión para continuar.", cancelLabel: null, confirmLabel: "Entendido" });
+            TeselaUI.confirm({ title: "Sesión caducada", description: "Vuelve a iniciar sesión para continuar.", cancelLabel: null, confirmLabel: "Entendido" });
           });
         </script>
       </section>
 
       <section class="doc" id="sheet" data-group="Superposiciones" data-keywords="sheet bottom inferior movil drawer izquierdo lateral">
         <h2><a href="#sheet">Sheet y drawer izquierdo</a></h2>
-        <p>Variantes de <code>&lt;dialog class="dv-dialog"&gt;</code>: <code>dv-dialog--sheet</code> (panel inferior, ideal en móvil; el asa <code>.dv-sheet__handle</code> se arrastra hacia abajo para cerrar) y <code>dv-dialog--drawer dv-dialog--drawer-start</code> (drawer por la izquierda).</p>
+        <p>Variantes de <code>&lt;dialog class="tsl-dialog"&gt;</code>: <code>tsl-dialog--sheet</code> (panel inferior, ideal en móvil; el asa <code>.tsl-sheet__handle</code> se arrastra hacia abajo para cerrar) y <code>tsl-dialog--drawer tsl-dialog--drawer-start</code> (drawer por la izquierda).</p>
         <template>
-          <div class="dv-row">
-            <button type="button" class="dv-btn" data-dv-open="demo-sheet">Abrir sheet</button>
-            <button type="button" class="dv-btn" data-dv-open="demo-drawer-start">Drawer izquierdo</button>
+          <div class="tsl-row">
+            <button type="button" class="tsl-btn" data-tsl-open="demo-sheet">Abrir sheet</button>
+            <button type="button" class="tsl-btn" data-tsl-open="demo-drawer-start">Drawer izquierdo</button>
           </div>
-          <dialog class="dv-dialog dv-dialog--sheet" id="demo-sheet" aria-labelledby="demo-sheet-title">
-            <div class="dv-sheet__handle" aria-hidden="true"></div>
-            <div class="dv-dialog__header">
-              <h3 class="dv-dialog__title" id="demo-sheet-title">Compartir</h3>
-              <p class="dv-dialog__desc">Arrastra el asa hacia abajo o pulsa Esc para cerrar.</p>
+          <dialog class="tsl-dialog tsl-dialog--sheet" id="demo-sheet" aria-labelledby="demo-sheet-title">
+            <div class="tsl-sheet__handle" aria-hidden="true"></div>
+            <div class="tsl-dialog__header">
+              <h3 class="tsl-dialog__title" id="demo-sheet-title">Compartir</h3>
+              <p class="tsl-dialog__desc">Arrastra el asa hacia abajo o pulsa Esc para cerrar.</p>
             </div>
-            <div class="dv-dialog__body dv-stack">
-              <button type="button" class="dv-btn dv-btn--block" data-dv-copy="https://devl.example/p/123">Copiar enlace</button>
-              <button type="button" class="dv-btn dv-btn--block">Enviar por correo</button>
+            <div class="tsl-dialog__body tsl-stack">
+              <button type="button" class="tsl-btn tsl-btn--block" data-tsl-copy="https://tesela.example/p/123">Copiar enlace</button>
+              <button type="button" class="tsl-btn tsl-btn--block">Enviar por correo</button>
             </div>
           </dialog>
-          <dialog class="dv-dialog dv-dialog--drawer dv-dialog--drawer-start" id="demo-drawer-start" aria-labelledby="demo-drawer-start-title">
-            <div class="dv-dialog__header">
-              <h3 class="dv-dialog__title" id="demo-drawer-start-title">Navegación</h3>
+          <dialog class="tsl-dialog tsl-dialog--drawer tsl-dialog--drawer-start" id="demo-drawer-start" aria-labelledby="demo-drawer-start-title">
+            <div class="tsl-dialog__header">
+              <h3 class="tsl-dialog__title" id="demo-drawer-start-title">Navegación</h3>
             </div>
-            <div class="dv-dialog__body">
-              <nav class="dv-nav"><a class="dv-nav__item" href="#sheet" aria-current="page">Inicio</a><a class="dv-nav__item" href="#sheet">Proyectos</a><a class="dv-nav__item" href="#sheet">Ajustes</a></nav>
+            <div class="tsl-dialog__body">
+              <nav class="tsl-nav"><a class="tsl-nav__item" href="#sheet" aria-current="page">Inicio</a><a class="tsl-nav__item" href="#sheet">Proyectos</a><a class="tsl-nav__item" href="#sheet">Ajustes</a></nav>
             </div>
-            <div class="dv-dialog__footer"><button type="button" class="dv-btn" data-dv-close>Cerrar</button></div>
+            <div class="tsl-dialog__footer"><button type="button" class="tsl-btn" data-tsl-close>Cerrar</button></div>
           </dialog>
         </template>
       </section>
 
       <section class="doc" id="card" data-group="Datos" data-keywords="tarjeta panel surface">
         <h2><a href="#card">Tarjeta</a></h2>
-        <p><code>dv-card</code> con <code>__header</code>, <code>__body</code>, <code>__footer</code>. <code>--interactive</code> añade elevación y spotlight que sigue al cursor.</p>
+        <p><code>tsl-card</code> con <code>__header</code>, <code>__body</code>, <code>__footer</code>. <code>--interactive</code> añade elevación y spotlight que sigue al cursor.</p>
         <template>
-          <div class="dv-grid" style="--min:260px">
-            <article class="dv-card">
-              <div class="dv-card__header">
-                <h3 class="dv-card__title">Invitar compañeros</h3>
-                <p class="dv-card__desc">Colabora en proyectos en tiempo real.</p>
+          <div class="tsl-grid" style="--min:260px">
+            <article class="tsl-card">
+              <div class="tsl-card__header">
+                <h3 class="tsl-card__title">Invitar compañeros</h3>
+                <p class="tsl-card__desc">Colabora en proyectos en tiempo real.</p>
               </div>
-              <div class="dv-card__body"><input class="dv-input" placeholder="nombre@empresa.com" aria-label="Correo electrónico" /></div>
-              <div class="dv-card__footer"><button type="button" class="dv-btn dv-btn--sm">Cancelar</button><button type="button" class="dv-btn dv-btn--sm dv-btn--primary">Enviar invitación</button></div>
+              <div class="tsl-card__body"><input class="tsl-input" placeholder="nombre@empresa.com" aria-label="Correo electrónico" /></div>
+              <div class="tsl-card__footer"><button type="button" class="tsl-btn tsl-btn--sm">Cancelar</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--primary">Enviar invitación</button></div>
             </article>
-            <article class="dv-card dv-card--interactive">
-              <div class="dv-card__body">
-                <span class="dv-eyebrow">Kit inicial</span>
-                <h3 class="dv-card__title" style="margin-top:8px">¿Te gusta lo que ves?</h3>
-                <p class="dv-card__desc">Pasa el cursor: el foco lo sigue.</p>
+            <article class="tsl-card tsl-card--interactive">
+              <div class="tsl-card__body">
+                <span class="tsl-eyebrow">Kit inicial</span>
+                <h3 class="tsl-card__title" style="margin-top:8px">¿Te gusta lo que ves?</h3>
+                <p class="tsl-card__desc">Pasa el cursor: el foco lo sigue.</p>
               </div>
             </article>
           </div>
@@ -1144,26 +1144,26 @@
 
       <section class="doc" id="stat" data-group="Datos" data-keywords="kpi metrica sparkline grafica tendencia">
         <h2><a href="#stat">Métrica y minigráfico</a></h2>
-        <p><code>dv-stat</code> para KPIs y <code>&lt;dv-sparkline values="…" fill&gt;</code> que dibuja un SVG con el color actual (cámbialo con <code>color</code>).</p>
+        <p><code>tsl-stat</code> para KPIs y <code>&lt;tsl-sparkline values="…" fill&gt;</code> que dibuja un SVG con el color actual (cámbialo con <code>color</code>).</p>
         <template>
-          <div class="dv-grid" style="--min:200px">
-            <div class="dv-stat">
-              <span class="dv-eyebrow">Ingresos netos</span>
-              <span class="dv-stat__value">$148,920</span>
-              <dv-sparkline values="12 14 13 18 17 22 21 26 30" fill style="--w:100%"></dv-sparkline>
-              <span class="dv-stat__delta is-up">+24.8% vs. periodo anterior</span>
+          <div class="tsl-grid" style="--min:200px">
+            <div class="tsl-stat">
+              <span class="tsl-eyebrow">Ingresos netos</span>
+              <span class="tsl-stat__value">$148,920</span>
+              <tsl-sparkline values="12 14 13 18 17 22 21 26 30" fill style="--w:100%"></tsl-sparkline>
+              <span class="tsl-stat__delta is-up">+24.8% vs. periodo anterior</span>
             </div>
-            <div class="dv-stat">
-              <span class="dv-eyebrow">Cancelaciones</span>
-              <span class="dv-stat__value">2.1%</span>
-              <dv-sparkline values="4 3.8 3.9 3.1 2.8 2.6 2.1" style="--w:100%;color:var(--dv-danger)"></dv-sparkline>
-              <span class="dv-stat__delta is-down">-0.4 pts</span>
+            <div class="tsl-stat">
+              <span class="tsl-eyebrow">Cancelaciones</span>
+              <span class="tsl-stat__value">2.1%</span>
+              <tsl-sparkline values="4 3.8 3.9 3.1 2.8 2.6 2.1" style="--w:100%;color:var(--tsl-danger)"></tsl-sparkline>
+              <span class="tsl-stat__delta is-down">-0.4 pts</span>
             </div>
-            <div class="dv-stat">
-              <span class="dv-eyebrow">Latencia P95</span>
-              <span class="dv-stat__value">38ms</span>
-              <dv-sparkline values="52 48 50 44 41 40 38" fill style="--w:100%;color:var(--dv-info)"></dv-sparkline>
-              <span class="dv-stat__delta">14 ms más rápido</span>
+            <div class="tsl-stat">
+              <span class="tsl-eyebrow">Latencia P95</span>
+              <span class="tsl-stat__value">38ms</span>
+              <tsl-sparkline values="52 48 50 44 41 40 38" fill style="--w:100%;color:var(--tsl-info)"></tsl-sparkline>
+              <span class="tsl-stat__delta">14 ms más rápido</span>
             </div>
           </div>
         </template>
@@ -1171,16 +1171,16 @@
 
       <section class="doc" id="badge" data-group="Datos" data-keywords="etiqueta status estado dot punto">
         <h2><a href="#badge">Insignia y punto</a></h2>
-        <p>Estados compactos. <code>dv-dot--pulse</code> anima un indicador en vivo.</p>
+        <p>Estados compactos. <code>tsl-dot--pulse</code> anima un indicador en vivo.</p>
         <template>
-          <div class="dv-row">
-            <span class="dv-badge">Borrador</span>
-            <span class="dv-badge dv-badge--success">Pagado</span>
-            <span class="dv-badge dv-badge--warning">Pendiente</span>
-            <span class="dv-badge dv-badge--danger">Fallido</span>
-            <span class="dv-badge dv-badge--info">Beta</span>
-            <span class="dv-badge dv-badge--accent dv-badge--upper">Nuevo</span>
-            <span class="dv-badge dv-badge--outline"><span class="dv-dot dv-dot--success dv-dot--pulse"></span> En vivo</span>
+          <div class="tsl-row">
+            <span class="tsl-badge">Borrador</span>
+            <span class="tsl-badge tsl-badge--success">Pagado</span>
+            <span class="tsl-badge tsl-badge--warning">Pendiente</span>
+            <span class="tsl-badge tsl-badge--danger">Fallido</span>
+            <span class="tsl-badge tsl-badge--info">Beta</span>
+            <span class="tsl-badge tsl-badge--accent tsl-badge--upper">Nuevo</span>
+            <span class="tsl-badge tsl-badge--outline"><span class="tsl-dot tsl-dot--success tsl-dot--pulse"></span> En vivo</span>
           </div>
         </template>
       </section>
@@ -1189,16 +1189,16 @@
         <h2><a href="#avatar">Avatar</a></h2>
         <p>Iniciales o imagen, tamaños <code>--sm</code>/<code>--lg</code>, <code>--square</code>, estado con <code>data-status="online|busy|away"</code> y grupos solapados.</p>
         <template>
-          <div class="dv-row" style="--gap:18px">
-            <span class="dv-avatar dv-avatar--sm">LI</span>
-            <span class="dv-avatar" data-status="online">AB</span>
-            <span class="dv-avatar dv-avatar--lg" data-status="busy">MR</span>
-            <span class="dv-avatar dv-avatar--square">DV</span>
-            <div class="dv-avatar-group">
-              <span class="dv-avatar">AK</span>
-              <span class="dv-avatar" style="--dv-accent:#10b981">JP</span>
-              <span class="dv-avatar" style="--dv-accent:#f59e0b">SM</span>
-              <span class="dv-avatar" style="--dv-accent:#64748b">+5</span>
+          <div class="tsl-row" style="--gap:18px">
+            <span class="tsl-avatar tsl-avatar--sm">LI</span>
+            <span class="tsl-avatar" data-status="online">AB</span>
+            <span class="tsl-avatar tsl-avatar--lg" data-status="busy">MR</span>
+            <span class="tsl-avatar tsl-avatar--square">DV</span>
+            <div class="tsl-avatar-group">
+              <span class="tsl-avatar">AK</span>
+              <span class="tsl-avatar" style="--tsl-accent:#10b981">JP</span>
+              <span class="tsl-avatar" style="--tsl-accent:#f59e0b">SM</span>
+              <span class="tsl-avatar" style="--tsl-accent:#64748b">+5</span>
             </div>
           </div>
         </template>
@@ -1206,10 +1206,10 @@
 
       <section class="doc" id="table" data-group="Datos" data-keywords="tabla datos sort ordenar grid">
         <h2><a href="#table">Tabla</a></h2>
-        <p>Tabla con hover y números tabulares (<code>is-num</code>). Con <code>data-dv-sortable</code> y <code>th[data-sort="text|number"]</code> se ordena por clic o teclado.</p>
+        <p>Tabla con hover y números tabulares (<code>is-num</code>). Con <code>data-tsl-sortable</code> y <code>th[data-sort="text|number"]</code> se ordena por clic o teclado.</p>
         <template>
-          <div class="dv-table-wrap">
-            <table class="dv-table" data-dv-sortable>
+          <div class="tsl-table-wrap">
+            <table class="tsl-table" data-tsl-sortable>
               <thead>
                 <tr>
                   <th data-sort="text">Factura</th>
@@ -1219,10 +1219,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr><td class="dv-mono">INV-2091</td><td>Proveedor Alfa</td><td><span class="dv-badge dv-badge--success">Pagado</span></td><td class="is-num">$4,200.00</td></tr>
-                <tr><td class="dv-mono">INV-2092</td><td>Agenda de equipo</td><td><span class="dv-badge dv-badge--info">Activo</span></td><td class="is-num">$1,850.00</td></tr>
-                <tr><td class="dv-mono">INV-2093</td><td>Sistema de diseño Pro</td><td><span class="dv-badge dv-badge--success">Pagado</span></td><td class="is-num">$890.00</td></tr>
-                <tr><td class="dv-mono">INV-2094</td><td>Proveedor Beta</td><td><span class="dv-badge dv-badge--warning">Pendiente</span></td><td class="is-num">$6,400.00</td></tr>
+                <tr><td class="tsl-mono">INV-2091</td><td>Proveedor Alfa</td><td><span class="tsl-badge tsl-badge--success">Pagado</span></td><td class="is-num">$4,200.00</td></tr>
+                <tr><td class="tsl-mono">INV-2092</td><td>Agenda de equipo</td><td><span class="tsl-badge tsl-badge--info">Activo</span></td><td class="is-num">$1,850.00</td></tr>
+                <tr><td class="tsl-mono">INV-2093</td><td>Sistema de diseño Pro</td><td><span class="tsl-badge tsl-badge--success">Pagado</span></td><td class="is-num">$890.00</td></tr>
+                <tr><td class="tsl-mono">INV-2094</td><td>Proveedor Beta</td><td><span class="tsl-badge tsl-badge--warning">Pendiente</span></td><td class="is-num">$6,400.00</td></tr>
               </tbody>
             </table>
           </div>
@@ -1231,11 +1231,11 @@
 
       <section class="doc" id="list" data-group="Datos" data-keywords="lista items filas settings">
         <h2><a href="#list">Lista</a></h2>
-        <p>Filas con título, descripción y acciones al final (<code>dv-list__end</code>).</p>
+        <p>Filas con título, descripción y acciones al final (<code>tsl-list__end</code>).</p>
         <template>
-          <ul class="dv-list demo-wide">
-            <li><span class="dv-avatar dv-avatar--sm">GH</span><div><div class="dv-list__title">GitHub</div><div class="dv-list__desc">Sincroniza incidencias y pull requests</div></div><div class="dv-list__end"><span class="dv-badge dv-badge--success">Conectado</span></div></li>
-            <li><span class="dv-avatar dv-avatar--sm" style="--dv-accent:#f59e0b">SL</span><div><div class="dv-list__title">Slack</div><div class="dv-list__desc">Publica novedades en los canales</div></div><div class="dv-list__end"><button type="button" class="dv-btn dv-btn--sm">Conectar</button></div></li>
+          <ul class="tsl-list demo-wide">
+            <li><span class="tsl-avatar tsl-avatar--sm">GH</span><div><div class="tsl-list__title">GitHub</div><div class="tsl-list__desc">Sincroniza incidencias y pull requests</div></div><div class="tsl-list__end"><span class="tsl-badge tsl-badge--success">Conectado</span></div></li>
+            <li><span class="tsl-avatar tsl-avatar--sm" style="--tsl-accent:#f59e0b">SL</span><div><div class="tsl-list__title">Slack</div><div class="tsl-list__desc">Publica novedades en los canales</div></div><div class="tsl-list__end"><button type="button" class="tsl-btn tsl-btn--sm">Conectar</button></div></li>
           </ul>
         </template>
       </section>
@@ -1244,10 +1244,10 @@
         <h2><a href="#timeline">Línea de tiempo</a></h2>
         <p>Historial vertical; colorea cada nodo con <code>--c</code>.</p>
         <template>
-          <ol class="dv-timeline demo-wide">
-            <li style="--c:var(--dv-success)"><strong>Se desplegó f8a92c1</strong> a producción<div class="dv-timeline__meta">hace 2 min · Luis</div></li>
-            <li style="--c:var(--dv-accent)"><strong>Se fusionó</strong> #482 Paleta de comandos<div class="dv-timeline__meta">hace 18 min · Bot</div></li>
-            <li><strong>Se abrió</strong> la incidencia «Contraste del modo oscuro»<div class="dv-timeline__meta">hace 1 h · Ana</div></li>
+          <ol class="tsl-timeline demo-wide">
+            <li style="--c:var(--tsl-success)"><strong>Se desplegó f8a92c1</strong> a producción<div class="tsl-timeline__meta">hace 2 min · Luis</div></li>
+            <li style="--c:var(--tsl-accent)"><strong>Se fusionó</strong> #482 Paleta de comandos<div class="tsl-timeline__meta">hace 18 min · Bot</div></li>
+            <li><strong>Se abrió</strong> la incidencia «Contraste del modo oscuro»<div class="tsl-timeline__meta">hace 1 h · Ana</div></li>
           </ol>
         </template>
       </section>
@@ -1256,15 +1256,15 @@
         <h2><a href="#empty">Estado vacío</a></h2>
         <p>Estado vacío con icono, título, descripción y acción.</p>
         <template>
-          <div class="dv-empty demo-wide">
-            <div class="dv-empty__icon">
+          <div class="tsl-empty demo-wide">
+            <div class="tsl-empty__icon">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
             </div>
-            <div class="dv-empty__title">Aún no hay proyectos</div>
-            <p class="dv-empty__desc">Crea tu primer proyecto o parte de una plantilla.</p>
-            <div class="dv-row" style="justify-content:center;margin-top:6px">
-              <button type="button" class="dv-btn dv-btn--primary">Nuevo proyecto</button>
-              <button type="button" class="dv-btn">Explorar plantillas</button>
+            <div class="tsl-empty__title">Aún no hay proyectos</div>
+            <p class="tsl-empty__desc">Crea tu primer proyecto o parte de una plantilla.</p>
+            <div class="tsl-row" style="justify-content:center;margin-top:6px">
+              <button type="button" class="tsl-btn tsl-btn--primary">Nuevo proyecto</button>
+              <button type="button" class="tsl-btn">Explorar plantillas</button>
             </div>
           </div>
         </template>
@@ -1274,18 +1274,18 @@
         <h2><a href="#accordion">Acordeón</a></h2>
         <p>Basado en <code>&lt;details&gt;</code> nativo: accesible sin JS. Usa el mismo <code>name</code> en los details para que solo uno quede abierto.</p>
         <template>
-          <div class="dv-accordion demo-wide">
+          <div class="tsl-accordion demo-wide">
             <details name="faq" open>
               <summary>¿Necesita dependencias?</summary>
-              <div class="dv-accordion__content">No. Solo dos archivos: devl-ui.css y devl-ui.js.</div>
+              <div class="tsl-accordion__content">No. Solo dos archivos: tesela-ui.css y tesela-ui.js.</div>
             </details>
             <details name="faq">
               <summary>¿Funciona con frameworks?</summary>
-              <div class="dv-accordion__content">Sí. Son clases CSS y Custom Elements estándar, compatibles con React, Vue, Svelte o HTML plano.</div>
+              <div class="tsl-accordion__content">Sí. Son clases CSS y Custom Elements estándar, compatibles con React, Vue, Svelte o HTML plano.</div>
             </details>
             <details name="faq">
               <summary>¿Cómo cambio los colores?</summary>
-              <div class="dv-accordion__content">Sobrescribe las variables --dv-* en :root después de cargar el CSS.</div>
+              <div class="tsl-accordion__content">Sobrescribe las variables --tsl-* en :root después de cargar el CSS.</div>
             </details>
           </div>
         </template>
@@ -1293,9 +1293,9 @@
 
       <section class="doc" id="code" data-group="Datos" data-keywords="snippet bloque codigo pre">
         <h2><a href="#code">Bloque de código</a></h2>
-        <p><code>dv-code</code> sobre <code>&lt;pre&gt;</code>; añade un botón de copiar con <code>data-dv-copy</code>.</p>
+        <p><code>tsl-code</code> sobre <code>&lt;pre&gt;</code>; añade un botón de copiar con <code>data-tsl-copy</code>.</p>
         <template>
-          <pre class="dv-code demo-wide"><button type="button" class="dv-btn dv-btn--sm" data-dv-copy="npm run dev">Copiar</button>$ npm run dev
+          <pre class="tsl-code demo-wide"><button type="button" class="tsl-btn tsl-btn--sm" data-tsl-copy="npm run dev">Copiar</button>$ npm run dev
   listo en 182 ms
   ➜ Local: http://localhost:5173/</pre>
         </template>
@@ -1306,19 +1306,19 @@
         <p>Separador con o sin etiqueta.</p>
         <template>
           <div class="demo-max">
-            <button type="button" class="dv-btn dv-btn--block">Continuar con GitHub</button>
-            <div class="dv-divider">o</div>
-            <button type="button" class="dv-btn dv-btn--block dv-btn--primary">Continuar con correo</button>
+            <button type="button" class="tsl-btn tsl-btn--block">Continuar con GitHub</button>
+            <div class="tsl-divider">o</div>
+            <button type="button" class="tsl-btn tsl-btn--block tsl-btn--primary">Continuar con correo</button>
           </div>
         </template>
       </section>
 
       <section class="doc" id="tree" data-group="Datos" data-tall="260px" data-keywords="tree view arbol jerarquia carpetas archivos anidado checkbox permisos">
         <h2><a href="#tree">Tree view</a></h2>
-        <p><code>&lt;dv-tree&gt;</code> convierte una lista anidada <code>&lt;ul&gt;</code> en un árbol accesible (<code>role="tree"</code>, <code>aria-expanded</code>, <code>aria-level</code>). Teclado: ↑ ↓ navegan, → expande o entra, ← colapsa o sube, Inicio/Fin, Enter selecciona, <kbd class="dv-kbd">*</kbd> expande los hermanos y las letras saltan por nombre. Con <code>checkable</code> cada nodo tiene casilla, con estado mixto en los padres (Espacio marca). Atributos de nodo: <code>data-value</code>, <code>data-expanded</code>, <code>data-selected</code>. Eventos <code>dv-select</code>, <code>dv-toggle</code> y <code>dv-check</code>.</p>
+        <p><code>&lt;tsl-tree&gt;</code> convierte una lista anidada <code>&lt;ul&gt;</code> en un árbol accesible (<code>role="tree"</code>, <code>aria-expanded</code>, <code>aria-level</code>). Teclado: ↑ ↓ navegan, → expande o entra, ← colapsa o sube, Inicio/Fin, Enter selecciona, <kbd class="tsl-kbd">*</kbd> expande los hermanos y las letras saltan por nombre. Con <code>checkable</code> cada nodo tiene casilla, con estado mixto en los padres (Espacio marca). Atributos de nodo: <code>data-value</code>, <code>data-expanded</code>, <code>data-selected</code>. Eventos <code>tsl-select</code>, <code>tsl-toggle</code> y <code>tsl-check</code>.</p>
         <template>
-          <div class="dv-grid" style="--min:240px;--gap:20px">
-            <dv-tree id="demo-tree" label="Archivos del proyecto">
+          <div class="tsl-grid" style="--min:240px;--gap:20px">
+            <tsl-tree id="demo-tree" label="Archivos del proyecto">
               <ul>
                 <li data-value="src" data-expanded>src
                   <ul>
@@ -1332,31 +1332,31 @@
                 <li data-value="docs">docs<ul><li data-value="guia.md">guia.md</li><li data-value="api.md">api.md</li></ul></li>
                 <li data-value="package.json">package.json</li>
               </ul>
-            </dv-tree>
-            <dv-tree id="demo-tree-check" checkable selection="none" label="Permisos">
+            </tsl-tree>
+            <tsl-tree id="demo-tree-check" checkable selection="none" label="Permisos">
               <ul>
                 <li data-value="lectura" data-expanded>Lectura<ul><li data-value="ver-proyectos" data-checked>Ver proyectos</li><li data-value="ver-informes" data-checked>Ver informes</li></ul></li>
                 <li data-value="escritura" data-expanded>Escritura<ul><li data-value="crear">Crear</li><li data-value="editar">Editar</li><li data-value="borrar">Borrar</li></ul></li>
               </ul>
-            </dv-tree>
+            </tsl-tree>
           </div>
-          <p class="dv-muted" id="demo-tree-out" style="margin-top:12px">Selecciona un archivo o marca permisos.</p>
+          <p class="tsl-muted" id="demo-tree-out" style="margin-top:12px">Selecciona un archivo o marca permisos.</p>
         </template>
         <script type="text/plain" data-doc-js>
           const out = document.querySelector("#demo-tree-out");
-          document.querySelector("#demo-tree").addEventListener("dv-select", (e) => (out.textContent = `Archivo: ${e.detail.value}`));
-          document.querySelector("#demo-tree-check").addEventListener("dv-check", (e) => (out.textContent = `Permisos: ${e.detail.values.join(", ") || "ninguno"}`));
+          document.querySelector("#demo-tree").addEventListener("tsl-select", (e) => (out.textContent = `Archivo: ${e.detail.value}`));
+          document.querySelector("#demo-tree-check").addEventListener("tsl-check", (e) => (out.textContent = `Permisos: ${e.detail.values.join(", ") || "ninguno"}`));
         </script>
       </section>
 
       <section class="doc" id="virtual-list" data-group="Datos" data-keywords="virtual list lista virtualizada miles filas rendimiento scroll infinito windowing">
         <h2><a href="#virtual-list">Lista virtualizada</a></h2>
-        <p><code>&lt;dv-virtual-list&gt;</code> solo dibuja las filas visibles: con 10 000 elementos el DOM tiene unas docenas de nodos. Asigna <code>list.items</code> (cualquier arreglo) y, si quieres un diseño propio, <code>list.renderItem = (item, i) =&gt; Node</code>. Con <code>selectable</code> es un <code>listbox</code> navegable (↑ ↓ PgUp PgDn Inicio Fin, Enter) y emite <code>dv-select</code>. Alto de fila fijo (<code>item-height</code>); <code>scrollToIndex(i, "center")</code> desplaza hasta un elemento.</p>
+        <p><code>&lt;tsl-virtual-list&gt;</code> solo dibuja las filas visibles: con 10 000 elementos el DOM tiene unas docenas de nodos. Asigna <code>list.items</code> (cualquier arreglo) y, si quieres un diseño propio, <code>list.renderItem = (item, i) =&gt; Node</code>. Con <code>selectable</code> es un <code>listbox</code> navegable (↑ ↓ PgUp PgDn Inicio Fin, Enter) y emite <code>tsl-select</code>. Alto de fila fijo (<code>item-height</code>); <code>scrollToIndex(i, "center")</code> desplaza hasta un elemento.</p>
         <template>
-          <div class="dv-stack" style="--gap:10px;max-width:460px">
-            <div class="dv-row"><span class="dv-muted" id="demo-vlist-info"></span><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm" id="demo-vlist-go">Ir al n.º 5 000</button></div>
-            <dv-virtual-list id="demo-vlist" selectable item-height="36" height="260px" label="Contactos"></dv-virtual-list>
-            <span class="dv-muted" id="demo-vlist-out">Elige un contacto con clic o con el teclado.</span>
+          <div class="tsl-stack" style="--gap:10px;max-width:460px">
+            <div class="tsl-row"><span class="tsl-muted" id="demo-vlist-info"></span><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--sm" id="demo-vlist-go">Ir al n.º 5 000</button></div>
+            <tsl-virtual-list id="demo-vlist" selectable item-height="36" height="260px" label="Contactos"></tsl-virtual-list>
+            <span class="tsl-muted" id="demo-vlist-out">Elige un contacto con clic o con el teclado.</span>
           </div>
         </template>
         <script type="text/plain" data-doc-js>
@@ -1365,52 +1365,52 @@
           list.items = Array.from({ length: 10000 }, (_, i) => ({ n: i + 1, nombre: `${nombres[i % nombres.length]} ${String.fromCharCode(65 + (i % 26))}.` }));
           list.renderItem = (c) => {
             const el = document.createElement("span");
-            el.innerHTML = '<b class="dv-mono"></b> <span></span>';
+            el.innerHTML = '<b class="tsl-mono"></b> <span></span>';
             el.firstChild.textContent = String(c.n).padStart(5, "0");
             el.lastChild.textContent = c.nombre;
             return el;
           };
           const info = document.querySelector("#demo-vlist-info");
-          const count = () => (info.textContent = `${list.items.length.toLocaleString("es")} contactos · ${list.querySelectorAll(".dv-vlist__row").length} filas en el DOM`);
+          const count = () => (info.textContent = `${list.items.length.toLocaleString("es")} contactos · ${list.querySelectorAll(".tsl-vlist__row").length} filas en el DOM`);
           list.addEventListener("scroll", count, true);
           count();
-          list.addEventListener("dv-select", (e) => (document.querySelector("#demo-vlist-out").textContent = `Elegido: ${e.detail.item.nombre} (n.º ${e.detail.item.n})`));
+          list.addEventListener("tsl-select", (e) => (document.querySelector("#demo-vlist-out").textContent = `Elegido: ${e.detail.item.nombre} (n.º ${e.detail.item.n})`));
           document.querySelector("#demo-vlist-go").addEventListener("click", () => { list.activate(4999, true); count(); });
         </script>
       </section>
 
       <section class="doc" id="sortable" data-group="Datos" data-tall="340px" data-keywords="sortable ordenable drag drop arrastrar reordenar lista grid arrastrar soltar teclado">
         <h2><a href="#sortable">Listas ordenables</a></h2>
-        <p><code>&lt;dv-sortable&gt;</code> reordena con el puntero y con el teclado. Con <code>handle=".dv-sortable__handle"</code> solo el asa arrastra (recomendado en pantallas táctiles). Teclado: <kbd class="dv-kbd">Espacio</kbd> toma el elemento, ↑ ↓ lo mueven, <kbd class="dv-kbd">Espacio</kbd> lo suelta y <kbd class="dv-kbd">Esc</kbd> cancela; cada paso se anuncia por una región <code>aria-live</code>. <code>direction="vertical|horizontal|grid"</code>. Las listas con el mismo <code>group</code> intercambian elementos. Evento <code>dv-sort</code> con <code>{ item, from, to }</code>.</p>
+        <p><code>&lt;tsl-sortable&gt;</code> reordena con el puntero y con el teclado. Con <code>handle=".tsl-sortable__handle"</code> solo el asa arrastra (recomendado en pantallas táctiles). Teclado: <kbd class="tsl-kbd">Espacio</kbd> toma el elemento, ↑ ↓ lo mueven, <kbd class="tsl-kbd">Espacio</kbd> lo suelta y <kbd class="tsl-kbd">Esc</kbd> cancela; cada paso se anuncia por una región <code>aria-live</code>. <code>direction="vertical|horizontal|grid"</code>. Las listas con el mismo <code>group</code> intercambian elementos. Evento <code>tsl-sort</code> con <code>{ item, from, to }</code>.</p>
         <template>
-          <div class="dv-grid" style="--min:260px;--gap:24px">
-            <div class="dv-stack">
-              <span class="dv-label">Prioridades (arrastra el asa o usa Espacio)</span>
-              <dv-sortable id="demo-sort" handle=".dv-sortable__handle" label="Prioridades">
-                <div class="dv-sortable__item dv-row" style="padding:10px 12px;flex-wrap:nowrap"><span class="dv-sortable__handle" aria-hidden="true"></span>Diseñar la portada</div>
-                <div class="dv-sortable__item dv-row" style="padding:10px 12px;flex-wrap:nowrap"><span class="dv-sortable__handle" aria-hidden="true"></span>Revisar accesibilidad</div>
-                <div class="dv-sortable__item dv-row" style="padding:10px 12px;flex-wrap:nowrap"><span class="dv-sortable__handle" aria-hidden="true"></span>Escribir documentación</div>
-                <div class="dv-sortable__item dv-row" style="padding:10px 12px;flex-wrap:nowrap"><span class="dv-sortable__handle" aria-hidden="true"></span>Publicar versión</div>
-              </dv-sortable>
-              <span class="dv-muted" id="demo-sort-out">Orden actual: 1, 2, 3, 4</span>
+          <div class="tsl-grid" style="--min:260px;--gap:24px">
+            <div class="tsl-stack">
+              <span class="tsl-label">Prioridades (arrastra el asa o usa Espacio)</span>
+              <tsl-sortable id="demo-sort" handle=".tsl-sortable__handle" label="Prioridades">
+                <div class="tsl-sortable__item tsl-row" style="padding:10px 12px;flex-wrap:nowrap"><span class="tsl-sortable__handle" aria-hidden="true"></span>Diseñar la portada</div>
+                <div class="tsl-sortable__item tsl-row" style="padding:10px 12px;flex-wrap:nowrap"><span class="tsl-sortable__handle" aria-hidden="true"></span>Revisar accesibilidad</div>
+                <div class="tsl-sortable__item tsl-row" style="padding:10px 12px;flex-wrap:nowrap"><span class="tsl-sortable__handle" aria-hidden="true"></span>Escribir documentación</div>
+                <div class="tsl-sortable__item tsl-row" style="padding:10px 12px;flex-wrap:nowrap"><span class="tsl-sortable__handle" aria-hidden="true"></span>Publicar versión</div>
+              </tsl-sortable>
+              <span class="tsl-muted" id="demo-sort-out">Orden actual: 1, 2, 3, 4</span>
             </div>
-            <div class="dv-stack">
-              <span class="dv-label">En cuadrícula (todo el elemento arrastra)</span>
-              <dv-sortable id="demo-sort-grid" direction="grid" style="--min:90px" label="Colores">
-                <div class="dv-sortable__item" style="height:56px;background:var(--dv-chart-1);display:grid;place-items:center;color:#fff">1</div>
-                <div class="dv-sortable__item" style="height:56px;background:var(--dv-chart-2);display:grid;place-items:center;color:#fff">2</div>
-                <div class="dv-sortable__item" style="height:56px;background:var(--dv-chart-3);display:grid;place-items:center;color:#fff">3</div>
-                <div class="dv-sortable__item" style="height:56px;background:var(--dv-chart-4);display:grid;place-items:center;color:#fff">4</div>
-                <div class="dv-sortable__item" style="height:56px;background:var(--dv-chart-5);display:grid;place-items:center;color:#fff">5</div>
-                <div class="dv-sortable__item" style="height:56px;background:var(--dv-chart-6);display:grid;place-items:center;color:#fff">6</div>
-              </dv-sortable>
+            <div class="tsl-stack">
+              <span class="tsl-label">En cuadrícula (todo el elemento arrastra)</span>
+              <tsl-sortable id="demo-sort-grid" direction="grid" style="--min:90px" label="Colores">
+                <div class="tsl-sortable__item" style="height:56px;background:var(--tsl-chart-1);display:grid;place-items:center;color:#fff">1</div>
+                <div class="tsl-sortable__item" style="height:56px;background:var(--tsl-chart-2);display:grid;place-items:center;color:#fff">2</div>
+                <div class="tsl-sortable__item" style="height:56px;background:var(--tsl-chart-3);display:grid;place-items:center;color:#fff">3</div>
+                <div class="tsl-sortable__item" style="height:56px;background:var(--tsl-chart-4);display:grid;place-items:center;color:#fff">4</div>
+                <div class="tsl-sortable__item" style="height:56px;background:var(--tsl-chart-5);display:grid;place-items:center;color:#fff">5</div>
+                <div class="tsl-sortable__item" style="height:56px;background:var(--tsl-chart-6);display:grid;place-items:center;color:#fff">6</div>
+              </tsl-sortable>
             </div>
           </div>
         </template>
         <script type="text/plain" data-doc-js>
           const list = document.querySelector("#demo-sort");
-          list.addEventListener("dv-sort", () => {
-            const order = [...list.querySelectorAll(".dv-sortable__item")].map((el) => el.textContent.trim().split(" ")[0]);
+          list.addEventListener("tsl-sort", () => {
+            const order = [...list.querySelectorAll(".tsl-sortable__item")].map((el) => el.textContent.trim().split(" ")[0]);
             document.querySelector("#demo-sort-out").textContent = `Orden actual: ${order.join(" · ")}`;
           });
         </script>
@@ -1418,48 +1418,48 @@
 
       <section class="doc" id="kanban" data-group="Datos" data-tall="380px" data-keywords="kanban tablero board columnas tareas arrastrar entre listas trello">
         <h2><a href="#kanban">Kanban</a></h2>
-        <p>Un tablero es un conjunto de <code>&lt;dv-sortable&gt;</code> con el mismo <code>group</code>, dentro de <code>.dv-kanban</code> / <code>.dv-kanban__col</code>. Las tarjetas se arrastran entre columnas (con autoscroll) y con el teclado: Espacio toma, ↑ ↓ reordenan, ← → cambian de columna, Espacio suelta. Cada cambio de columna se anuncia con su nombre (<code>label</code>) y emite <code>dv-sort</code> en la columna de destino.</p>
+        <p>Un tablero es un conjunto de <code>&lt;tsl-sortable&gt;</code> con el mismo <code>group</code>, dentro de <code>.tsl-kanban</code> / <code>.tsl-kanban__col</code>. Las tarjetas se arrastran entre columnas (con autoscroll) y con el teclado: Espacio toma, ↑ ↓ reordenan, ← → cambian de columna, Espacio suelta. Cada cambio de columna se anuncia con su nombre (<code>label</code>) y emite <code>tsl-sort</code> en la columna de destino.</p>
         <template>
-          <div class="dv-kanban" id="demo-kanban">
-            <section class="dv-kanban__col">
-              <div class="dv-kanban__head">Por hacer <span class="dv-badge" data-count>3</span></div>
-              <dv-sortable group="tablero" label="Por hacer" data-col="Por hacer">
-                <article class="dv-sortable__item dv-kanban__card"><strong>Diseñar el login</strong><span class="dv-muted">Pantalla y estados de error</span></article>
-                <article class="dv-sortable__item dv-kanban__card"><strong>Migrar la base de datos</strong><span class="dv-badge dv-badge--warning">Urgente</span></article>
-                <article class="dv-sortable__item dv-kanban__card"><strong>Escribir pruebas</strong></article>
-              </dv-sortable>
+          <div class="tsl-kanban" id="demo-kanban">
+            <section class="tsl-kanban__col">
+              <div class="tsl-kanban__head">Por hacer <span class="tsl-badge" data-count>3</span></div>
+              <tsl-sortable group="tablero" label="Por hacer" data-col="Por hacer">
+                <article class="tsl-sortable__item tsl-kanban__card"><strong>Diseñar el login</strong><span class="tsl-muted">Pantalla y estados de error</span></article>
+                <article class="tsl-sortable__item tsl-kanban__card"><strong>Migrar la base de datos</strong><span class="tsl-badge tsl-badge--warning">Urgente</span></article>
+                <article class="tsl-sortable__item tsl-kanban__card"><strong>Escribir pruebas</strong></article>
+              </tsl-sortable>
             </section>
-            <section class="dv-kanban__col">
-              <div class="dv-kanban__head">En curso <span class="dv-badge" data-count>2</span></div>
-              <dv-sortable group="tablero" label="En curso" data-col="En curso">
-                <article class="dv-sortable__item dv-kanban__card"><strong>Componente de tabla</strong><span class="dv-muted">Orden y paginación</span></article>
-                <article class="dv-sortable__item dv-kanban__card"><strong>Revisión de accesibilidad</strong></article>
-              </dv-sortable>
+            <section class="tsl-kanban__col">
+              <div class="tsl-kanban__head">En curso <span class="tsl-badge" data-count>2</span></div>
+              <tsl-sortable group="tablero" label="En curso" data-col="En curso">
+                <article class="tsl-sortable__item tsl-kanban__card"><strong>Componente de tabla</strong><span class="tsl-muted">Orden y paginación</span></article>
+                <article class="tsl-sortable__item tsl-kanban__card"><strong>Revisión de accesibilidad</strong></article>
+              </tsl-sortable>
             </section>
-            <section class="dv-kanban__col">
-              <div class="dv-kanban__head">Hecho <span class="dv-badge dv-badge--success" data-count>1</span></div>
-              <dv-sortable group="tablero" label="Hecho" data-col="Hecho">
-                <article class="dv-sortable__item dv-kanban__card"><strong>Configurar el repositorio</strong></article>
-              </dv-sortable>
+            <section class="tsl-kanban__col">
+              <div class="tsl-kanban__head">Hecho <span class="tsl-badge tsl-badge--success" data-count>1</span></div>
+              <tsl-sortable group="tablero" label="Hecho" data-col="Hecho">
+                <article class="tsl-sortable__item tsl-kanban__card"><strong>Configurar el repositorio</strong></article>
+              </tsl-sortable>
             </section>
           </div>
         </template>
         <script type="text/plain" data-doc-js>
           const board = document.querySelector("#demo-kanban");
-          const recount = () => board.querySelectorAll(".dv-kanban__col").forEach((col) => (col.querySelector("[data-count]").textContent = col.querySelectorAll(".dv-sortable__item").length));
-          board.addEventListener("dv-sort", (e) => {
+          const recount = () => board.querySelectorAll(".tsl-kanban__col").forEach((col) => (col.querySelector("[data-count]").textContent = col.querySelectorAll(".tsl-sortable__item").length));
+          board.addEventListener("tsl-sort", (e) => {
             recount();
-            DevlUI.toast({ title: `Movida a «${e.detail.to.container.dataset.col}»`, variant: "info", duration: 1800 });
+            TeselaUI.toast({ title: `Movida a «${e.detail.to.container.dataset.col}»`, variant: "info", duration: 1800 });
           });
         </script>
       </section>
 
       <section class="doc" id="data-table" data-group="Datos" data-tall="640px" data-keywords="data table tabla datos ordenar filtrar buscar paginar seleccionar columnas exportar csv densidad">
         <h2><a href="#data-table">Tabla de datos</a></h2>
-        <p><code>&lt;dv-data-table&gt;</code> reúne búsqueda, orden (clic en la cabecera: ascendente → descendente → sin orden), selección con casillas (Shift para rangos), columnas visibles, densidad, paginación con tamaño de página y exportación CSV. Se configura con <code>table.columns</code> (<code>key</code>, <code>label</code>, <code>sort</code>, <code>align</code>, <code>format</code>, <code>render</code>) y <code>table.rows</code>; también acepta un <code>&lt;table&gt;</code> HTML normal dentro. Atributos: <code>page-size</code>, <code>selectable</code>, <code>searchable</code>, <code>exportable</code>, <code>height</code> (cabecera fija), <code>density</code> y <code>loading</code>. Eventos <code>dv-sort</code>, <code>dv-page</code>, <code>dv-selection</code> y <code>dv-row-click</code>.</p>
+        <p><code>&lt;tsl-data-table&gt;</code> reúne búsqueda, orden (clic en la cabecera: ascendente → descendente → sin orden), selección con casillas (Shift para rangos), columnas visibles, densidad, paginación con tamaño de página y exportación CSV. Se configura con <code>table.columns</code> (<code>key</code>, <code>label</code>, <code>sort</code>, <code>align</code>, <code>format</code>, <code>render</code>) y <code>table.rows</code>; también acepta un <code>&lt;table&gt;</code> HTML normal dentro. Atributos: <code>page-size</code>, <code>selectable</code>, <code>searchable</code>, <code>exportable</code>, <code>height</code> (cabecera fija), <code>density</code> y <code>loading</code>. Eventos <code>tsl-sort</code>, <code>tsl-page</code>, <code>tsl-selection</code> y <code>tsl-row-click</code>.</p>
         <template>
-          <dv-data-table id="demo-dt" page-size="8" selectable searchable exportable caption="Pedidos" empty-text="Aún no hay pedidos" locale="es"></dv-data-table>
-          <p class="dv-muted" id="demo-dt-out" style="margin-top:10px">Sin filas seleccionadas.</p>
+          <tsl-data-table id="demo-dt" page-size="8" selectable searchable exportable caption="Pedidos" empty-text="Aún no hay pedidos" locale="es"></tsl-data-table>
+          <p class="tsl-muted" id="demo-dt-out" style="margin-top:10px">Sin filas seleccionadas.</p>
         </template>
         <script type="text/plain" data-doc-js>
           const table = document.querySelector("#demo-dt");
@@ -1469,7 +1469,7 @@
           table.columns = [
             { key: "id", label: "Pedido", sort: "text", width: "100px" },
             { key: "cliente", label: "Cliente", sort: "text" },
-            { key: "estado", label: "Estado", sort: "text", render: (r) => { const b = document.createElement("span"); b.className = `dv-badge dv-badge--${colores[r.estado]}`; b.textContent = r.estado; return b; } },
+            { key: "estado", label: "Estado", sort: "text", render: (r) => { const b = document.createElement("span"); b.className = `tsl-badge tsl-badge--${colores[r.estado]}`; b.textContent = r.estado; return b; } },
             { key: "fecha", label: "Fecha", sort: "date", format: (v) => new Date(v).toLocaleDateString("es", { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" }) },
             { key: "total", label: "Total", sort: "number", align: "end", format: (v) => `$${v.toLocaleString("es", { minimumFractionDigits: 2 })}` }
           ];
@@ -1480,7 +1480,7 @@
             fecha: `2026-10-${String(1 + (i % 28)).padStart(2, "0")}`,
             total: Math.round((((i * 7919) % 90000) + 1500)) / 100
           }));
-          table.addEventListener("dv-selection", (e) => {
+          table.addEventListener("tsl-selection", (e) => {
             document.querySelector("#demo-dt-out").textContent = e.detail.ids.length ? `${e.detail.ids.length} seleccionadas: ${e.detail.ids.slice(0, 4).join(", ")}${e.detail.ids.length > 4 ? "…" : ""}` : "Sin filas seleccionadas.";
           });
         </script>
@@ -1488,11 +1488,11 @@
 
       <section class="doc" id="chart-line" data-group="Datos" data-tall="340px" data-keywords="grafica linea area chart line series tendencia ventas ingresos leyenda tooltip">
         <h2><a href="#chart-line">Gráfica de líneas y áreas</a></h2>
-        <p><code>&lt;dv-chart type="line|area"&gt;</code> dibuja series SVG con rejilla, leyenda interactiva (clic para ocultar una serie), tooltip y cursor al pasar el puntero. Datos: <code>chart.data = { labels, series: [{ name, values }] }</code> (o el atributo <code>data</code> en JSON). Opciones: <code>smooth</code>, <code>prefix</code>, <code>suffix</code>, <code>height</code>. Es accesible: el elemento recibe el foco, ← → recorren los puntos, el valor se anuncia en una región <code>aria-live</code> y hay una tabla de datos para lectores de pantalla. Los colores salen de <code>--dv-chart-1…8</code>.</p>
+        <p><code>&lt;tsl-chart type="line|area"&gt;</code> dibuja series SVG con rejilla, leyenda interactiva (clic para ocultar una serie), tooltip y cursor al pasar el puntero. Datos: <code>chart.data = { labels, series: [{ name, values }] }</code> (o el atributo <code>data</code> en JSON). Opciones: <code>smooth</code>, <code>prefix</code>, <code>suffix</code>, <code>height</code>. Es accesible: el elemento recibe el foco, ← → recorren los puntos, el valor se anuncia en una región <code>aria-live</code> y hay una tabla de datos para lectores de pantalla. Los colores salen de <code>--tsl-chart-1…8</code>.</p>
         <template>
-          <div class="dv-grid" style="--min:320px;--gap:24px">
-            <dv-chart id="demo-chart-line" type="line" smooth caption="Visitas por mes" aria-label="Visitas por mes" height="220"></dv-chart>
-            <dv-chart id="demo-chart-area" type="area" smooth prefix="$" caption="Ingresos" aria-label="Ingresos por mes" height="220"></dv-chart>
+          <div class="tsl-grid" style="--min:320px;--gap:24px">
+            <tsl-chart id="demo-chart-line" type="line" smooth caption="Visitas por mes" aria-label="Visitas por mes" height="220"></tsl-chart>
+            <tsl-chart id="demo-chart-area" type="area" smooth prefix="$" caption="Ingresos" aria-label="Ingresos por mes" height="220"></tsl-chart>
           </div>
         </template>
         <script type="text/plain" data-doc-js>
@@ -1509,11 +1509,11 @@
 
       <section class="doc" id="chart-bar" data-group="Datos" data-tall="340px" data-keywords="grafica barras bar chart apiladas stacked horizontal comparativa">
         <h2><a href="#chart-bar">Gráfica de barras</a></h2>
-        <p><code>&lt;dv-chart type="bar"&gt;</code> con barras agrupadas por defecto, <code>stacked</code> para apiladas y <code>horizontal</code> para barras horizontales (útil con etiquetas largas). Admite valores negativos.</p>
+        <p><code>&lt;tsl-chart type="bar"&gt;</code> con barras agrupadas por defecto, <code>stacked</code> para apiladas y <code>horizontal</code> para barras horizontales (útil con etiquetas largas). Admite valores negativos.</p>
         <template>
-          <div class="dv-grid" style="--min:320px;--gap:24px">
-            <dv-chart id="demo-chart-bar" type="bar" caption="Ventas por trimestre" aria-label="Ventas por trimestre" height="230"></dv-chart>
-            <dv-chart id="demo-chart-stack" type="bar" stacked horizontal caption="Tareas por equipo" aria-label="Tareas por equipo" height="230"></dv-chart>
+          <div class="tsl-grid" style="--min:320px;--gap:24px">
+            <tsl-chart id="demo-chart-bar" type="bar" caption="Ventas por trimestre" aria-label="Ventas por trimestre" height="230"></tsl-chart>
+            <tsl-chart id="demo-chart-stack" type="bar" stacked horizontal caption="Tareas por equipo" aria-label="Tareas por equipo" height="230"></tsl-chart>
           </div>
         </template>
         <script type="text/plain" data-doc-js>
@@ -1533,9 +1533,9 @@
         <h2><a href="#chart-donut">Dona y gauge</a></h2>
         <p><code>type="donut"</code> reparte segmentos (<code>data = { segments: [{ label, value }] }</code>); al pasar el cursor el centro muestra el segmento y su porcentaje, y la leyenda oculta segmentos. <code>type="gauge"</code> muestra un valor dentro de un rango (<code>data = { value, min, max, label, thresholds: [{ to, color }] }</code>), coloreado según el umbral.</p>
         <template>
-          <div class="dv-grid" style="--min:280px;--gap:24px">
-            <dv-chart id="demo-chart-donut" type="donut" center-label="Usuarios" aria-label="Usuarios por plan" caption="Usuarios por plan" height="230"></dv-chart>
-            <dv-chart id="demo-chart-gauge" type="gauge" suffix="%" aria-label="Uso de CPU" caption="Uso de CPU" height="200"></dv-chart>
+          <div class="tsl-grid" style="--min:280px;--gap:24px">
+            <tsl-chart id="demo-chart-donut" type="donut" center-label="Usuarios" aria-label="Usuarios por plan" caption="Usuarios por plan" height="230"></tsl-chart>
+            <tsl-chart id="demo-chart-gauge" type="gauge" suffix="%" aria-label="Uso de CPU" caption="Uso de CPU" height="200"></tsl-chart>
           </div>
         </template>
         <script type="text/plain" data-doc-js>
@@ -1543,7 +1543,7 @@
             { label: "Gratis", value: 540 }, { label: "Pro", value: 280 }, { label: "Equipos", value: 120 }, { label: "Enterprise", value: 40 }
           ] };
           document.querySelector("#demo-chart-gauge").data = { value: 72, min: 0, max: 100, label: "CPU", thresholds: [
-            { to: 60, color: "var(--dv-success)" }, { to: 85, color: "var(--dv-warning)" }, { to: 100, color: "var(--dv-danger)" }
+            { to: 60, color: "var(--tsl-success)" }, { to: 85, color: "var(--tsl-warning)" }, { to: 100, color: "var(--tsl-danger)" }
           ] };
         </script>
       </section>
@@ -1552,7 +1552,7 @@
         <h2><a href="#chart-heatmap">Mapa de calor</a></h2>
         <p><code>type="heatmap"</code> pinta una matriz (<code>data = { rows, cols, values }</code>) con la intensidad del color según el valor. Las celdas vacías (<code>null</code>) se dibujan con borde punteado. Con el teclado, las cuatro flechas recorren las celdas.</p>
         <template>
-          <dv-chart id="demo-chart-heat" type="heatmap" caption="Actividad por día y franja" aria-label="Actividad por día y franja" height="250" style="max-width:560px"></dv-chart>
+          <tsl-chart id="demo-chart-heat" type="heatmap" caption="Actividad por día y franja" aria-label="Actividad por día y franja" height="250" style="max-width:560px"></tsl-chart>
         </template>
         <script type="text/plain" data-doc-js>
           const dias = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
@@ -1564,12 +1564,12 @@
       <!-- ================================================================ Diseño -->
       <section class="doc" id="layout" data-group="Diseño" data-keywords="stack row grid flex espaciado">
         <h2><a href="#layout">Utilidades de diseño</a></h2>
-        <p><code>dv-stack</code> (vertical), <code>dv-row</code> (horizontal con wrap) y <code>dv-grid</code> (auto-fit). Ajusta con <code>--gap</code> y <code>--min</code>; <code>dv-spacer</code> empuja elementos.</p>
+        <p><code>tsl-stack</code> (vertical), <code>tsl-row</code> (horizontal con wrap) y <code>tsl-grid</code> (auto-fit). Ajusta con <code>--gap</code> y <code>--min</code>; <code>tsl-spacer</code> empuja elementos.</p>
         <template>
-          <div class="dv-stack">
-            <div class="dv-row"><span class="dv-badge">row</span><span class="dv-badge">row</span><span class="dv-spacer"></span><span class="dv-badge dv-badge--accent">spacer →</span></div>
-            <div class="dv-grid" style="--min:120px;--gap:8px">
-              <div class="dv-stat">grid</div><div class="dv-stat">grid</div><div class="dv-stat">grid</div><div class="dv-stat">grid</div>
+          <div class="tsl-stack">
+            <div class="tsl-row"><span class="tsl-badge">row</span><span class="tsl-badge">row</span><span class="tsl-spacer"></span><span class="tsl-badge tsl-badge--accent">spacer →</span></div>
+            <div class="tsl-grid" style="--min:120px;--gap:8px">
+              <div class="tsl-stat">grid</div><div class="tsl-stat">grid</div><div class="tsl-stat">grid</div><div class="tsl-stat">grid</div>
             </div>
           </div>
         </template>
@@ -1577,74 +1577,74 @@
 
       <section class="doc" id="collapsible" data-group="Diseño" data-keywords="collapsible colapsable plegable desplegar detalles animado disclosure">
         <h2><a href="#collapsible">Collapsible</a></h2>
-        <p><code>&lt;dv-collapsible open&gt;</code> muestra u oculta contenido con altura animada. El disparador recibe <code>aria-expanded</code> y <code>aria-controls</code>; el contenido cerrado queda <code>inert</code> (no se enfoca ni se lee). Métodos <code>toggle()</code>, <code>open()</code>, <code>close()</code> y evento <code>dv-toggle</code>. A diferencia del acordeón, es un único bloque independiente.</p>
+        <p><code>&lt;tsl-collapsible open&gt;</code> muestra u oculta contenido con altura animada. El disparador recibe <code>aria-expanded</code> y <code>aria-controls</code>; el contenido cerrado queda <code>inert</code> (no se enfoca ni se lee). Métodos <code>toggle()</code>, <code>open()</code>, <code>close()</code> y evento <code>tsl-toggle</code>. A diferencia del acordeón, es un único bloque independiente.</p>
         <template>
-          <dv-collapsible id="demo-collapsible" style="max-width:420px" open>
-            <button type="button" class="dv-btn dv-btn--block" data-dv-trigger style="justify-content:space-between">Ver detalles del pedido <span class="dv-collapsible__chevron"></span></button>
-            <div class="dv-collapsible__content">
-              <ul class="dv-list" style="margin-top:8px">
-                <li><span class="dv-list__title">Camiseta básica</span><span class="dv-list__end dv-mono">$24</span></li>
-                <li><span class="dv-list__title">Gorra</span><span class="dv-list__end dv-mono">$18</span></li>
-                <li><span class="dv-list__title">Envío</span><span class="dv-list__end dv-mono">$5</span></li>
+          <tsl-collapsible id="demo-collapsible" style="max-width:420px" open>
+            <button type="button" class="tsl-btn tsl-btn--block" data-tsl-trigger style="justify-content:space-between">Ver detalles del pedido <span class="tsl-collapsible__chevron"></span></button>
+            <div class="tsl-collapsible__content">
+              <ul class="tsl-list" style="margin-top:8px">
+                <li><span class="tsl-list__title">Camiseta básica</span><span class="tsl-list__end tsl-mono">$24</span></li>
+                <li><span class="tsl-list__title">Gorra</span><span class="tsl-list__end tsl-mono">$18</span></li>
+                <li><span class="tsl-list__title">Envío</span><span class="tsl-list__end tsl-mono">$5</span></li>
               </ul>
             </div>
-          </dv-collapsible>
+          </tsl-collapsible>
         </template>
       </section>
 
       <section class="doc" id="scroll-area" data-group="Diseño" data-keywords="scroll area desplazable scrollbar barra desplazamiento degradado fade">
         <h2><a href="#scroll-area">Scroll area</a></h2>
-        <p><code>&lt;dv-scroll-area&gt;</code> da a una zona de altura fija una barra discreta y un degradado en los bordes que aún tienen contenido (expone <code>data-top</code>, <code>data-bottom</code>, <code>data-left</code> y <code>data-right</code>). El área es enfocable para desplazarla con el teclado. <code>orientation="vertical|horizontal|both"</code>.</p>
+        <p><code>&lt;tsl-scroll-area&gt;</code> da a una zona de altura fija una barra discreta y un degradado en los bordes que aún tienen contenido (expone <code>data-top</code>, <code>data-bottom</code>, <code>data-left</code> y <code>data-right</code>). El área es enfocable para desplazarla con el teclado. <code>orientation="vertical|horizontal|both"</code>.</p>
         <template>
-          <dv-scroll-area style="height:170px;max-width:420px" label="Registro de actividad">
-            <ul class="dv-timeline" style="padding:14px 16px 14px 36px">
-              <li>Despliegue completado<div class="dv-timeline__meta">hace 2 min</div></li>
-              <li>Revisión aprobada<div class="dv-timeline__meta">hace 14 min</div></li>
-              <li>Pruebas superadas<div class="dv-timeline__meta">hace 31 min</div></li>
-              <li>Rama actualizada<div class="dv-timeline__meta">hace 1 h</div></li>
-              <li>Solicitud abierta<div class="dv-timeline__meta">hace 2 h</div></li>
-              <li>Proyecto creado<div class="dv-timeline__meta">ayer</div></li>
+          <tsl-scroll-area style="height:170px;max-width:420px" label="Registro de actividad">
+            <ul class="tsl-timeline" style="padding:14px 16px 14px 36px">
+              <li>Despliegue completado<div class="tsl-timeline__meta">hace 2 min</div></li>
+              <li>Revisión aprobada<div class="tsl-timeline__meta">hace 14 min</div></li>
+              <li>Pruebas superadas<div class="tsl-timeline__meta">hace 31 min</div></li>
+              <li>Rama actualizada<div class="tsl-timeline__meta">hace 1 h</div></li>
+              <li>Solicitud abierta<div class="tsl-timeline__meta">hace 2 h</div></li>
+              <li>Proyecto creado<div class="tsl-timeline__meta">ayer</div></li>
             </ul>
-          </dv-scroll-area>
+          </tsl-scroll-area>
         </template>
       </section>
 
       <section class="doc" id="resizable" data-group="Diseño" data-tall="300px" data-keywords="resizable paneles redimensionables splitter divisor arrastrar split layout">
         <h2><a href="#resizable">Paneles redimensionables</a></h2>
-        <p><code>&lt;dv-resizable&gt;</code> inserta separadores arrastrables entre paneles (<code>.dv-resizable__panel</code>) con tamaño inicial (<code>data-size</code>), mínimo y máximo (<code>data-min</code>, <code>data-max</code>, en %). Admite varios paneles y anidación (<code>direction="vertical"</code>). Teclado: flechas (Shift ×5), Home/End; doble clic restablece. Con <code>storage-key</code> recuerda los tamaños. Evento <code>dv-resize</code>.</p>
+        <p><code>&lt;tsl-resizable&gt;</code> inserta separadores arrastrables entre paneles (<code>.tsl-resizable__panel</code>) con tamaño inicial (<code>data-size</code>), mínimo y máximo (<code>data-min</code>, <code>data-max</code>, en %). Admite varios paneles y anidación (<code>direction="vertical"</code>). Teclado: flechas (Shift ×5), Home/End; doble clic restablece. Con <code>storage-key</code> recuerda los tamaños. Evento <code>tsl-resize</code>.</p>
         <template>
-          <dv-resizable style="height:240px" storage-key="docs-demo">
-            <div class="dv-resizable__panel" data-size="28" data-min="15" data-max="50"><div style="padding:14px"><div class="dv-eyebrow">Barra lateral</div><p class="dv-muted" style="margin-top:8px">Arrastra el borde.</p></div></div>
-            <div class="dv-resizable__panel" data-size="72">
-              <dv-resizable direction="vertical" style="height:100%;border:0;border-radius:0">
-                <div class="dv-resizable__panel" data-size="60"><div style="padding:14px"><div class="dv-eyebrow">Editor</div></div></div>
-                <div class="dv-resizable__panel" data-size="40" data-min="20"><div style="padding:14px"><div class="dv-eyebrow">Consola</div></div></div>
-              </dv-resizable>
+          <tsl-resizable style="height:240px" storage-key="docs-demo">
+            <div class="tsl-resizable__panel" data-size="28" data-min="15" data-max="50"><div style="padding:14px"><div class="tsl-eyebrow">Barra lateral</div><p class="tsl-muted" style="margin-top:8px">Arrastra el borde.</p></div></div>
+            <div class="tsl-resizable__panel" data-size="72">
+              <tsl-resizable direction="vertical" style="height:100%;border:0;border-radius:0">
+                <div class="tsl-resizable__panel" data-size="60"><div style="padding:14px"><div class="tsl-eyebrow">Editor</div></div></div>
+                <div class="tsl-resizable__panel" data-size="40" data-min="20"><div style="padding:14px"><div class="tsl-eyebrow">Consola</div></div></div>
+              </tsl-resizable>
             </div>
-          </dv-resizable>
+          </tsl-resizable>
         </template>
       </section>
 
       <section class="doc" id="separator" data-group="Diseño" data-keywords="separator separador linea divisor vertical horizontal hr">
         <h2><a href="#separator">Separator</a></h2>
-        <p><code>&lt;div class="dv-separator" role="separator"&gt;</code> (línea horizontal) y <code>dv-separator--vertical</code> para barras de herramientas. Es un separador puro, sin texto; para uno con etiqueta usa <a href="#divider"><code>dv-divider</code></a>.</p>
+        <p><code>&lt;div class="tsl-separator" role="separator"&gt;</code> (línea horizontal) y <code>tsl-separator--vertical</code> para barras de herramientas. Es un separador puro, sin texto; para uno con etiqueta usa <a href="#divider"><code>tsl-divider</code></a>.</p>
         <template>
-          <div class="dv-stack" style="--gap:14px;max-width:360px">
-            <div><strong>devl-ui</strong><div class="dv-muted">Biblioteca sin dependencias</div></div>
-            <div class="dv-separator" role="separator"></div>
-            <div class="dv-row" style="height:20px;--gap:12px;flex-wrap:nowrap"><span>Docs</span><div class="dv-separator dv-separator--vertical" role="separator" aria-orientation="vertical"></div><span>Galería</span><div class="dv-separator dv-separator--vertical" role="separator" aria-orientation="vertical"></div><span>Código</span></div>
+          <div class="tsl-stack" style="--gap:14px;max-width:360px">
+            <div><strong>tesela-ui</strong><div class="tsl-muted">Biblioteca sin dependencias</div></div>
+            <div class="tsl-separator" role="separator"></div>
+            <div class="tsl-row" style="height:20px;--gap:12px;flex-wrap:nowrap"><span>Docs</span><div class="tsl-separator tsl-separator--vertical" role="separator" aria-orientation="vertical"></div><span>Galería</span><div class="tsl-separator tsl-separator--vertical" role="separator" aria-orientation="vertical"></div><span>Código</span></div>
           </div>
         </template>
       </section>
 
       <section class="doc" id="aspect-ratio" data-group="Diseño" data-keywords="aspect ratio relacion aspecto imagen video 16:9 proporcion">
         <h2><a href="#aspect-ratio">Aspect ratio</a></h2>
-        <p><code>.dv-aspect</code> mantiene una proporción con la variable <code>--ratio</code> (por defecto <code>16 / 9</code>). Los hijos <code>img</code>, <code>video</code>, <code>iframe</code>, <code>svg</code> o <code>.dv-aspect__fill</code> la rellenan.</p>
+        <p><code>.tsl-aspect</code> mantiene una proporción con la variable <code>--ratio</code> (por defecto <code>16 / 9</code>). Los hijos <code>img</code>, <code>video</code>, <code>iframe</code>, <code>svg</code> o <code>.tsl-aspect__fill</code> la rellenan.</p>
         <template>
-          <div class="dv-grid" style="--min:160px;--gap:12px;max-width:520px">
-            <div class="dv-aspect"><div class="dv-aspect__fill dv-empty" style="border:0"><span class="dv-muted">16 / 9</span></div></div>
-            <div class="dv-aspect" style="--ratio:1"><div class="dv-aspect__fill dv-empty" style="border:0"><span class="dv-muted">1 / 1</span></div></div>
-            <div class="dv-aspect" style="--ratio:4 / 5"><div class="dv-aspect__fill dv-empty" style="border:0"><span class="dv-muted">4 / 5</span></div></div>
+          <div class="tsl-grid" style="--min:160px;--gap:12px;max-width:520px">
+            <div class="tsl-aspect"><div class="tsl-aspect__fill tsl-empty" style="border:0"><span class="tsl-muted">16 / 9</span></div></div>
+            <div class="tsl-aspect" style="--ratio:1"><div class="tsl-aspect__fill tsl-empty" style="border:0"><span class="tsl-muted">1 / 1</span></div></div>
+            <div class="tsl-aspect" style="--ratio:4 / 5"><div class="tsl-aspect__fill tsl-empty" style="border:0"><span class="tsl-muted">4 / 5</span></div></div>
           </div>
         </template>
       </section>
@@ -1654,18 +1654,18 @@
         <h2><a href="#pattern-login">Inicio de sesión</a></h2>
         <p>Ejemplo de composición: card + fields + divider + botones.</p>
         <template>
-          <form class="dv-card" style="max-width:360px" onsubmit="return false">
-            <div class="dv-card__header">
-              <span class="dv-eyebrow">Acme S.A.</span>
-              <h3 class="dv-card__title" style="margin-top:8px">Inicia sesión en tu espacio de trabajo</h3>
+          <form class="tsl-card" style="max-width:360px" onsubmit="return false">
+            <div class="tsl-card__header">
+              <span class="tsl-eyebrow">Acme S.A.</span>
+              <h3 class="tsl-card__title" style="margin-top:8px">Inicia sesión en tu espacio de trabajo</h3>
             </div>
-            <div class="dv-card__body dv-stack">
-              <label class="dv-field"><span class="dv-label">Correo electrónico</span><input class="dv-input" type="email" placeholder="tu@empresa.com" /></label>
-              <label class="dv-field"><span class="dv-label">Contraseña</span><input class="dv-input" type="password" /></label>
-              <label class="dv-choice"><input type="checkbox" class="dv-check" /> Recuérdame</label>
-              <button type="submit" class="dv-btn dv-btn--primary dv-btn--block">Iniciar sesión</button>
-              <div class="dv-divider">o</div>
-              <button type="button" class="dv-btn dv-btn--block">Continuar con SSO</button>
+            <div class="tsl-card__body tsl-stack">
+              <label class="tsl-field"><span class="tsl-label">Correo electrónico</span><input class="tsl-input" type="email" placeholder="tu@empresa.com" /></label>
+              <label class="tsl-field"><span class="tsl-label">Contraseña</span><input class="tsl-input" type="password" /></label>
+              <label class="tsl-choice"><input type="checkbox" class="tsl-check" /> Recuérdame</label>
+              <button type="submit" class="tsl-btn tsl-btn--primary tsl-btn--block">Iniciar sesión</button>
+              <div class="tsl-divider">o</div>
+              <button type="button" class="tsl-btn tsl-btn--block">Continuar con SSO</button>
             </div>
           </form>
         </template>
@@ -1675,25 +1675,25 @@
         <h2><a href="#pattern-settings">Panel de ajustes</a></h2>
         <p>Tabs + lista + switches + acciones.</p>
         <template>
-          <div class="dv-card demo-wide">
-            <div class="dv-card__body">
-              <dv-tabs>
-                <div class="dv-tabs__list">
-                  <button class="dv-tabs__tab" data-tab="notif">Notificaciones</button>
-                  <button class="dv-tabs__tab" data-tab="security">Seguridad</button>
+          <div class="tsl-card demo-wide">
+            <div class="tsl-card__body">
+              <tsl-tabs>
+                <div class="tsl-tabs__list">
+                  <button class="tsl-tabs__tab" data-tab="notif">Notificaciones</button>
+                  <button class="tsl-tabs__tab" data-tab="security">Seguridad</button>
                 </div>
-                <div class="dv-tabs__panel" data-panel="notif">
-                  <ul class="dv-list">
-                    <li><div><div class="dv-list__title">Resumen por correo</div><div class="dv-list__desc">Resumen semanal cada lunes</div></div><div class="dv-list__end"><input type="checkbox" role="switch" class="dv-switch" checked aria-label="Resumen por correo" /></div></li>
-                    <li><div><div class="dv-list__title">Menciones</div><div class="dv-list__desc">Cuando alguien te @menciona</div></div><div class="dv-list__end"><input type="checkbox" role="switch" class="dv-switch" checked aria-label="Menciones" /></div></li>
+                <div class="tsl-tabs__panel" data-panel="notif">
+                  <ul class="tsl-list">
+                    <li><div><div class="tsl-list__title">Resumen por correo</div><div class="tsl-list__desc">Resumen semanal cada lunes</div></div><div class="tsl-list__end"><input type="checkbox" role="switch" class="tsl-switch" checked aria-label="Resumen por correo" /></div></li>
+                    <li><div><div class="tsl-list__title">Menciones</div><div class="tsl-list__desc">Cuando alguien te @menciona</div></div><div class="tsl-list__end"><input type="checkbox" role="switch" class="tsl-switch" checked aria-label="Menciones" /></div></li>
                   </ul>
                 </div>
-                <div class="dv-tabs__panel" data-panel="security">
-                  <div class="dv-alert dv-alert--warning"><div><div class="dv-alert__title">2FA desactivada</div><div class="dv-alert__desc">Activa la autenticación de dos factores para proteger tu cuenta.</div></div></div>
+                <div class="tsl-tabs__panel" data-panel="security">
+                  <div class="tsl-alert tsl-alert--warning"><div><div class="tsl-alert__title">2FA desactivada</div><div class="tsl-alert__desc">Activa la autenticación de dos factores para proteger tu cuenta.</div></div></div>
                 </div>
-              </dv-tabs>
+              </tsl-tabs>
             </div>
-            <div class="dv-card__footer"><button type="button" class="dv-btn dv-btn--sm">Restablecer</button><button type="button" class="dv-btn dv-btn--sm dv-btn--primary">Guardar cambios</button></div>
+            <div class="tsl-card__footer"><button type="button" class="tsl-btn tsl-btn--sm">Restablecer</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--primary">Guardar cambios</button></div>
           </div>
         </template>
       </section>
@@ -1701,19 +1701,19 @@
   </div>
 
   <!-- Paleta de comandos global (navegación de la documentación + demo) -->
-  <dv-command id="docs-cmd" hotkey="k" placeholder="Buscar componentes o acciones…" empty="Sin resultados." label="Buscar en devl-ui">
-    <button class="dv-command__item" data-group="Comandos" data-value="theme" data-keywords="dark light modo oscuro claro">Cambiar tema <kbd class="dv-kbd">◐</kbd></button>
-    <button class="dv-command__item" data-group="Comandos" data-value="toast" data-keywords="notification notificación">Mostrar un toast</button>
-    <button class="dv-command__item" data-group="Comandos" data-value="gallery" data-keywords="home index">Ir a la galería</button>
-  </dv-command>
+  <tsl-command id="docs-cmd" hotkey="k" placeholder="Buscar componentes o acciones…" empty="Sin resultados." label="Buscar en Tesela">
+    <button class="tsl-command__item" data-group="Comandos" data-value="theme" data-keywords="dark light modo oscuro claro">Cambiar tema <kbd class="tsl-kbd">◐</kbd></button>
+    <button class="tsl-command__item" data-group="Comandos" data-value="toast" data-keywords="notification notificación">Mostrar un toast</button>
+    <button class="tsl-command__item" data-group="Comandos" data-value="gallery" data-keywords="home index">Ir a la galería</button>
+  </tsl-command>
 
   <script>
-    // Agrega una entrada de paleta por cada sección documentada antes de que devl-ui.js actualice <dv-command>
+    // Agrega una entrada de paleta por cada sección documentada antes de que tesela-ui.js actualice <tsl-command>
     (function () {
       const cmd = document.getElementById("docs-cmd");
       document.querySelectorAll("section.doc[id]").forEach((s) => {
         const item = document.createElement("button");
-        item.className = "dv-command__item";
+        item.className = "tsl-command__item";
         item.dataset.group = s.dataset.group || "Componentes";
         item.dataset.value = `#${s.id}`;
         item.dataset.keywords = s.dataset.keywords || "";
@@ -1721,16 +1721,16 @@
         cmd.appendChild(item);
       });
 
-      cmd.addEventListener("dv-select", (e) => {
+      cmd.addEventListener("tsl-select", (e) => {
         const v = e.detail.value;
-        if (v === "theme") DevlUI.setTheme(DevlUI.getTheme() === "dark" ? "light" : "dark");
-        else if (v === "toast") DevlUI.toast({ title: "Hola desde devl-ui", description: "Toast lanzado desde la paleta" });
+        if (v === "theme") TeselaUI.setTheme(TeselaUI.getTheme() === "dark" ? "light" : "dark");
+        else if (v === "toast") TeselaUI.toast({ title: "Hola desde tesela-ui", description: "Toast lanzado desde la paleta" });
         else if (v === "gallery") window.location.href = "index.html";
         else if (v.startsWith("#")) document.querySelector(v)?.scrollIntoView({ behavior: "smooth" });
       });
     })();
   </script>
-  <script src="lib/devl-ui.js"></script>
+  <script src="lib/tesela-ui.js"></script>
   <script src="js/highlight.js"></script>
   <script src="docs/docs.js"></script>
 </body>

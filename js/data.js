@@ -1,12 +1,12 @@
 // ============================================================================
-// Biblioteca de Componentes — Catálogo de 24 carpetas y 212 experimentos
+// Tesela — Catálogo de 24 carpetas y 212 experimentos
 // 18 carpetas originales (158 archivos) + 6 carpetas nuevas (54 archivos)
 // Implementación propia, 100% sin dependencias
 // ============================================================================
 
-window.DEVL_DATA = {
+window.TESELA_DATA = {
   meta: {
-    title: "BIBLIOTECA DE COMPONENTES",
+    title: "TESELA",
     totalFiles: 212,
     totalFolders: 24,
     heading: "Diseños.",
@@ -18,7 +18,7 @@ window.DEVL_DATA = {
     {
       id: "primitivos",
       badge: "PRIMITIVOS Y TOKENS",
-      title: "devl-ui",
+      title: "tesela-ui",
       description:
         "Primitivos de UI sin dependencias, con contraste dinámico OKLCH, físicas de resorte y código HTML/JS listo para copiar.",
       cta: "EXPLORAR LAYOUTS",
@@ -482,8 +482,8 @@ window.DEVL_DATA = {
   ]
 };
 
-window.DEVL_FLAT_ITEMS = [];
-window.DEVL_DATA.categories.forEach((cat, catIdx) => {
+window.TESELA_FLAT_ITEMS = [];
+window.TESELA_DATA.categories.forEach((cat, catIdx) => {
   cat.items.forEach((item, itemIdx) => {
     const flatItem = {
       ...item,
@@ -494,9 +494,9 @@ window.DEVL_DATA.categories.forEach((cat, catIdx) => {
       categoryAccent: cat.accent,
       categoryIndex: catIdx,
       itemIndex: itemIdx,
-      globalIndex: window.DEVL_FLAT_ITEMS.length,
+      globalIndex: window.TESELA_FLAT_ITEMS.length,
       path: `/c/${cat.id}/${item.slug}`
     };
-    window.DEVL_FLAT_ITEMS.push(flatItem);
+    window.TESELA_FLAT_ITEMS.push(flatItem);
   });
 });

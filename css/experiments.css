@@ -1,20 +1,20 @@
 /* ============================================================================
-   devl.dev — Utilidades de diseño para los experimentos funcionales (js/experiments/*)
-   Los componentes vienen de lib/devl-ui.css; estas clases solo los acomodan.
+   Tesela — Utilidades de diseño para los experimentos funcionales (js/experiments/*)
+   Los componentes vienen de lib/tesela-ui.css; estas clases solo los acomodan.
    ============================================================================ */
 
 .xp {
-  --xp-accent: var(--dv-accent);
+  --xp-accent: var(--tsl-accent);
   display: flex;
   flex-direction: column;
   gap: 20px;
   max-width: 1180px;
   margin: 0 auto;
   padding: 32px 24px 120px;
-  font-family: var(--dv-font-mono);
+  font-family: var(--tsl-font-mono);
   font-size: 13px;
   line-height: 1.5;
-  color: var(--dv-fg);
+  color: var(--tsl-fg);
 }
 
 .xp *,
@@ -24,17 +24,17 @@
 }
 
 .xp code {
-  font-family: var(--dv-font-mono);
+  font-family: var(--tsl-font-mono);
   font-size: 0.95em;
 }
 
-.xp-head .dv-eyebrow {
+.xp-head .tsl-eyebrow {
   color: var(--xp-accent);
 }
 
 .xp-title {
   margin-top: 6px;
-  font-family: var(--dv-font-heading);
+  font-family: var(--tsl-font-heading);
   font-size: 24px;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -45,14 +45,14 @@
   max-width: 680px;
   font-size: 12.5px;
   line-height: 1.6;
-  color: var(--dv-fg-muted);
+  color: var(--tsl-fg-muted);
 }
 
 .xp-panel {
   padding: 18px;
-  border-radius: var(--dv-radius);
-  border: 1px solid var(--dv-border);
-  background: var(--dv-surface);
+  border-radius: var(--tsl-radius);
+  border: 1px solid var(--tsl-border);
+  background: var(--tsl-surface);
 }
 
 .xp-toolbar {
@@ -65,8 +65,8 @@
 
 .xp-bulk {
   padding: 8px 12px;
-  border-radius: var(--dv-radius);
-  border: 1px solid color-mix(in srgb, var(--xp-accent) 45%, var(--dv-border));
+  border-radius: var(--tsl-radius);
+  border: 1px solid color-mix(in srgb, var(--xp-accent) 45%, var(--tsl-border));
   background: color-mix(in srgb, var(--xp-accent) 9%, transparent);
   font-size: 12px;
 }
@@ -75,9 +75,9 @@
   display: grid;
   grid-template-columns: var(--cols, 240px minmax(0, 1fr));
   min-height: var(--h, 440px);
-  border-radius: var(--dv-radius);
-  border: 1px solid var(--dv-border);
-  background: var(--dv-surface);
+  border-radius: var(--tsl-radius);
+  border: 1px solid var(--tsl-border);
+  background: var(--tsl-surface);
   overflow: hidden;
 }
 
@@ -86,7 +86,7 @@
 }
 
 .xp-split > * + * {
-  border-left: 1px solid var(--dv-border);
+  border-left: 1px solid var(--tsl-border);
 }
 
 .xp-pane {
@@ -114,9 +114,9 @@
   width: min(880px, 100%);
   min-height: 520px;
   border-radius: 14px;
-  border: 1px solid var(--dv-border);
+  border: 1px solid var(--tsl-border);
   overflow: hidden;
-  background: var(--dv-surface);
+  background: var(--tsl-surface);
 }
 
 .xp-auth-art {
@@ -126,8 +126,8 @@
   overflow: hidden;
   background:
     radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--xp-accent) 45%, transparent), transparent 55%),
-    radial-gradient(circle at 80% 70%, color-mix(in srgb, var(--dv-info) 35%, transparent), transparent 55%),
-    var(--dv-bg-elevated);
+    radial-gradient(circle at 80% 70%, color-mix(in srgb, var(--tsl-info) 35%, transparent), transparent 55%),
+    var(--tsl-bg-elevated);
 }
 
 .xp-auth-art blockquote {
@@ -147,7 +147,7 @@
 }
 
 .xp-glass {
-  background: color-mix(in srgb, var(--dv-bg-elevated) 55%, transparent);
+  background: color-mix(in srgb, var(--tsl-bg-elevated) 55%, transparent);
   backdrop-filter: blur(18px) saturate(1.4);
 }
 
@@ -158,9 +158,9 @@
   overflow: hidden;
   background:
     radial-gradient(circle at 15% 30%, color-mix(in srgb, var(--xp-accent) 60%, transparent), transparent 45%),
-    radial-gradient(circle at 85% 20%, color-mix(in srgb, var(--dv-warning) 50%, transparent), transparent 40%),
-    radial-gradient(circle at 60% 90%, color-mix(in srgb, var(--dv-info) 50%, transparent), transparent 45%),
-    var(--dv-bg);
+    radial-gradient(circle at 85% 20%, color-mix(in srgb, var(--tsl-warning) 50%, transparent), transparent 40%),
+    radial-gradient(circle at 60% 90%, color-mix(in srgb, var(--tsl-info) 50%, transparent), transparent 45%),
+    var(--tsl-bg);
 }
 
 @media (min-width: 760px) {
@@ -179,28 +179,28 @@
   width: 320px;
   height: 600px;
   border-radius: 36px;
-  border: 1px solid var(--dv-border-strong);
-  background: var(--dv-bg-elevated);
-  box-shadow: var(--dv-shadow-lg);
+  border: 1px solid var(--tsl-border-strong);
+  background: var(--tsl-bg-elevated);
+  box-shadow: var(--tsl-shadow-lg);
   overflow: hidden;
 }
 
 .xp-canvas {
   display: block;
   width: 100%;
-  border-radius: var(--dv-radius);
-  border: 1px solid var(--dv-border);
-  background: var(--dv-bg-elevated);
+  border-radius: var(--tsl-radius);
+  border: 1px solid var(--tsl-border);
+  background: var(--tsl-bg-elevated);
   touch-action: none;
 }
 
 .xp-board {
   position: relative;
   height: 420px;
-  border-radius: var(--dv-radius);
-  border: 1px solid var(--dv-border);
-  background-color: var(--dv-bg);
-  background-image: radial-gradient(circle at 1px 1px, var(--dv-border-strong) 1px, transparent 0);
+  border-radius: var(--tsl-radius);
+  border: 1px solid var(--tsl-border);
+  background-color: var(--tsl-bg);
+  background-image: radial-gradient(circle at 1px 1px, var(--tsl-border-strong) 1px, transparent 0);
   background-size: 20px 20px;
   overflow: hidden;
   touch-action: none;
@@ -210,9 +210,9 @@
   position: absolute;
   padding: 10px 12px;
   border-radius: 8px;
-  border: 1px solid var(--dv-border-strong);
-  background: var(--dv-bg-elevated);
-  box-shadow: var(--dv-shadow);
+  border: 1px solid var(--tsl-border-strong);
+  background: var(--tsl-bg-elevated);
+  box-shadow: var(--tsl-shadow);
   font-size: 12px;
   cursor: grab;
   user-select: none;
@@ -231,7 +231,7 @@
 }
 
 .xp-kv dt {
-  color: var(--dv-fg-muted);
+  color: var(--tsl-fg-muted);
 }
 
 .xp-kv dd {
@@ -248,15 +248,15 @@
 }
 
 .xp-select-item[aria-selected="true"] {
-  background: var(--dv-surface-strong);
+  background: var(--tsl-surface-strong);
 }
 
-.xp-unread .dv-list__title {
+.xp-unread .tsl-list__title {
   font-weight: 700;
 }
 
 .xp-num {
-  font-family: var(--dv-font-heading);
+  font-family: var(--tsl-font-heading);
   font-size: 28px;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -264,7 +264,7 @@
 }
 
 .xp-mono {
-  font-family: var(--dv-font-mono);
+  font-family: var(--tsl-font-mono);
   font-variant-numeric: tabular-nums;
 }
 
@@ -276,9 +276,9 @@
 }
 
 .xp-chart text {
-  font-family: var(--dv-font-mono);
+  font-family: var(--tsl-font-mono);
   font-size: 10px;
-  fill: var(--dv-fg-muted);
+  fill: var(--tsl-fg-muted);
 }
 
 .xp-tip {
@@ -287,9 +287,9 @@
   pointer-events: none;
   padding: 6px 9px;
   border-radius: 6px;
-  border: 1px solid var(--dv-border-strong);
-  background: var(--dv-bg-elevated);
-  box-shadow: var(--dv-shadow);
+  border: 1px solid var(--tsl-border-strong);
+  background: var(--tsl-bg-elevated);
+  box-shadow: var(--tsl-shadow);
   font-size: 11px;
   white-space: nowrap;
 }
@@ -310,8 +310,8 @@
   gap: 8px;
   min-height: 200px;
   padding: 10px;
-  border-radius: var(--dv-radius);
-  border: 1px dashed var(--dv-border-strong);
+  border-radius: var(--tsl-radius);
+  border: 1px dashed var(--tsl-border-strong);
 }
 
 .xp-col.is-over {
@@ -322,30 +322,30 @@
 .xp-editor {
   min-height: 220px;
   padding: 16px 18px;
-  border-radius: var(--dv-radius);
-  border: 1px solid var(--dv-border);
-  background: var(--dv-bg);
+  border-radius: var(--tsl-radius);
+  border: 1px solid var(--tsl-border);
+  background: var(--tsl-bg);
   font-size: 14px;
   line-height: 1.75;
   outline: none;
 }
 
 .xp-editor:focus {
-  box-shadow: var(--dv-ring);
+  box-shadow: var(--tsl-ring);
 }
 
 .xp-mark {
   border-radius: 3px;
   background: color-mix(in srgb, var(--xp-accent) 35%, transparent);
-  color: var(--dv-fg);
+  color: var(--tsl-fg);
 }
 
 .xp-diff-add {
-  background: color-mix(in srgb, var(--dv-success) 15%, transparent);
+  background: color-mix(in srgb, var(--tsl-success) 15%, transparent);
 }
 
 .xp-diff-del {
-  background: color-mix(in srgb, var(--dv-danger) 15%, transparent);
+  background: color-mix(in srgb, var(--tsl-danger) 15%, transparent);
 }
 
 .xp-terminal {
@@ -354,7 +354,7 @@
   border-radius: 12px;
   background: #050806;
   color: #7dffa1;
-  font-family: var(--dv-font-mono);
+  font-family: var(--tsl-font-mono);
   font-size: 12.5px;
   line-height: 1.6;
   text-shadow: 0 0 6px rgba(125, 255, 161, 0.55);
@@ -391,6 +391,6 @@
 
   .xp-split > * + * {
     border-left: 0;
-    border-top: 1px solid var(--dv-border);
+    border-top: 1px solid var(--tsl-border);
   }
 }

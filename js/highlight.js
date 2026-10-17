@@ -1,5 +1,5 @@
 // ============================================================================
-// devl.dev — Resaltador de sintaxis HTML / JS minimalista compartido por la galería y la documentación
+// Tesela — Resaltador de sintaxis HTML / JS minimalista compartido por la galería y la documentación
 // La salida usa las clases .tok-tag .tok-attr .tok-str .tok-com .tok-kw.
 // ============================================================================
 
@@ -46,5 +46,5 @@
     return out + esc(src.slice(last));
   }
 
-  window.DEVL_HIGHLIGHT = { html, js };
+  window.TESELA_HIGHLIGHT = { html, js };
 })();

@@ -1,5 +1,5 @@
 // ============================================================================
-// Documentación de devl-ui — genera demos en vivo, vistas de código y navegación para components.html
+// Documentación de tesela-ui — genera demos en vivo, vistas de código y navegación para components.html
 // Cada <section class="doc"> contiene un <template> (HTML de la demo, mostrado como código)
 // y opcionalmente un <script type="text/plain" data-doc-js> (mostrado y ejecutado).
 // ============================================================================
@@ -25,8 +25,8 @@
   }
 
   // Resaltador compartido (js/highlight.js)
-  const highlightHTML = window.DEVL_HIGHLIGHT.html;
-  const highlightJS = window.DEVL_HIGHLIGHT.js;
+  const highlightHTML = window.TESELA_HIGHLIGHT.html;
+  const highlightJS = window.TESELA_HIGHLIGHT.js;
 
   // ---------------------------------------------------------------- Marcos de demo
   function buildDoc(section) {
@@ -44,10 +44,10 @@
     const views = [["preview", "Vista previa"], ["html", "HTML"]];
     if (js) views.push(["js", "JS"]);
     bar.innerHTML = `
-      <dv-segmented class="dv-segmented" value="preview" aria-label="View">
-        ${views.map(([v, l]) => `<button class="dv-segmented__item" value="${v}">${l}</button>`).join("")}
-      </dv-segmented>
-      <button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-doc-copy>Copiar</button>`;
+      <tsl-segmented class="tsl-segmented" value="preview" aria-label="View">
+        ${views.map(([v, l]) => `<button class="tsl-segmented__item" value="${v}">${l}</button>`).join("")}
+      </tsl-segmented>
+      <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-doc-copy>Copiar</button>`;
 
     const demo = document.createElement("div");
     demo.className = "doc-demo";
@@ -69,7 +69,7 @@
     tpl.replaceWith(frame);
 
     let view = "preview";
-    bar.querySelector("dv-segmented").addEventListener("dv-change", (e) => {
+    bar.querySelector("tsl-segmented").addEventListener("tsl-change", (e) => {
       view = e.detail.value;
       demo.hidden = view !== "preview";
       codeHTML.hidden = view !== "html";
@@ -77,12 +77,12 @@
     });
     bar.querySelector("[data-doc-copy]").addEventListener("click", () => {
       const text = view === "js" ? js : html;
-      DevlUI.copy(text).then((ok) =>
-        DevlUI.toast(ok ? { title: `${view === "js" ? "JS" : "HTML"} copiado`, description: section.querySelector("h2").textContent } : { title: "Error al copiar", variant: "danger" })
+      TeselaUI.copy(text).then((ok) =>
+        TeselaUI.toast(ok ? { title: `${view === "js" ? "JS" : "HTML"} copiado`, description: section.querySelector("h2").textContent } : { title: "Error al copiar", variant: "danger" })
       );
     });
 
-    DevlUI.init(demo);
+    TeselaUI.init(demo);
     if (js) {
       try {
         new Function(js)();
@@ -106,9 +106,9 @@
     nav.innerHTML = groups
       .map(
         (g) => `
-        <div class="dv-nav__label" data-nav-group>${g.name}</div>
+        <div class="tsl-nav__label" data-nav-group>${g.name}</div>
         ${g.items
-          .map((s) => `<a class="dv-nav__item" href="#${s.id}" data-nav-item data-search="${(s.querySelector("h2").textContent + " " + (s.dataset.keywords || "")).toLowerCase()}">${s.querySelector("h2").textContent}</a>`)
+          .map((s) => `<a class="tsl-nav__item" href="#${s.id}" data-nav-item data-search="${(s.querySelector("h2").textContent + " " + (s.dataset.keywords || "")).toLowerCase()}">${s.querySelector("h2").textContent}</a>`)
           .join("")}`
       )
       .join("") + `<div class="docs-empty-search" hidden>Sin coincidencias</div>`;
@@ -174,40 +174,40 @@
   function setupTokens() {
     const root = document.documentElement;
     const applyAccent = (hex) => {
-      root.style.setProperty("--dv-accent", hex);
+      root.style.setProperty("--tsl-accent", hex);
       document.querySelectorAll("[data-accent]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.accent === hex)));
     };
     const applyRadius = (r) => {
-      root.style.setProperty("--dv-radius", `${r}px`);
-      root.style.setProperty("--dv-radius-sm", `${Math.max(0, r - 2)}px`);
-      root.style.setProperty("--dv-radius-xs", `${Math.max(0, r - 4)}px`);
+      root.style.setProperty("--tsl-radius", `${r}px`);
+      root.style.setProperty("--tsl-radius-sm", `${Math.max(0, r - 2)}px`);
+      root.style.setProperty("--tsl-radius-xs", `${Math.max(0, r - 4)}px`);
     };
 
-    applyAccent(storageGet("dv-docs-accent") || "#6366f1");
-    const savedRadius = storageGet("dv-docs-radius");
+    applyAccent(storageGet("tsl-docs-accent") || "#6366f1");
+    const savedRadius = storageGet("tsl-docs-radius");
     if (savedRadius) applyRadius(parseInt(savedRadius, 10));
 
     document.querySelectorAll("[data-accent]").forEach((b) =>
       b.addEventListener("click", () => {
         applyAccent(b.dataset.accent);
-        storageSet("dv-docs-accent", b.dataset.accent);
+        storageSet("tsl-docs-accent", b.dataset.accent);
       })
     );
 
     const radius = document.getElementById("docs-radius");
     if (radius) {
       if (savedRadius) radius.value = savedRadius;
-      radius.addEventListener("dv-change", (e) => {
+      radius.addEventListener("tsl-change", (e) => {
         applyRadius(parseInt(e.detail.value, 10));
-        storageSet("dv-docs-radius", e.detail.value);
+        storageSet("tsl-docs-radius", e.detail.value);
       });
     }
 
     document.getElementById("docs-export")?.addEventListener("click", () => {
       const cs = getComputedStyle(root);
-      const names = ["--dv-accent", "--dv-radius", "--dv-radius-sm", "--dv-radius-xs"];
+      const names = ["--tsl-accent", "--tsl-radius", "--tsl-radius-sm", "--tsl-radius-xs"];
       const css = `:root {\n${names.map((n) => `  ${n}: ${cs.getPropertyValue(n).trim()};`).join("\n")}\n}`;
-      DevlUI.copy(css).then(() => DevlUI.toast({ title: "Tokens copiados", description: "Pégalos después de devl-ui.css" }));
+      TeselaUI.copy(css).then(() => TeselaUI.toast({ title: "Tokens copiados", description: "Pégalos después de tesela-ui.css" }));
     });
   }
 

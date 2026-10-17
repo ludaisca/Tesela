@@ -1,5 +1,5 @@
 // ============================================================================
-// devl.dev — Shaders procedurales (WebGL + Canvas 2D) y sintetizador de audio para UI con Web Audio
+// Tesela — Shaders procedurales (WebGL + Canvas 2D) y sintetizador de audio para UI con Web Audio
 // Código 100% propio — cero dependencias externas
 // ============================================================================
 
@@ -111,7 +111,7 @@
     }
   }
 
-  window.DEVL_AUDIO = new TactileAudioEngine();
+  window.TESELA_AUDIO = new TactileAudioEngine();
 
   // --------------------------------------------------------------------------
   // 2. Campo ambiental de shader WebGL / Canvas2D
@@ -363,5 +363,5 @@
     }
   }
 
-  window.DEVL_SHADER = AmbientShaderField;
+  window.TESELA_SHADER = AmbientShaderField;
 })();

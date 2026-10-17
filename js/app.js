@@ -1,16 +1,16 @@
 // ============================================================================
-// Biblioteca de Componentes — Controlador principal, router, paleta de comandos y UI
+// Tesela — Controlador principal, router, paleta de comandos y UI
 // JS puro, sin librerías externas
 // ============================================================================
 
 (function () {
-  const DATA = window.DEVL_DATA;
-  const FLAT = window.DEVL_FLAT_ITEMS;
-  const PREVIEWS = window.DEVL_PREVIEWS;
-  const AUDIO = window.DEVL_AUDIO;
-  const XP = window.DEVL_XP;
-  const HL = window.DEVL_HIGHLIGHT;
-  const FAV_KEY = "devl-favorites";
+  const DATA = window.TESELA_DATA;
+  const FLAT = window.TESELA_FLAT_ITEMS;
+  const PREVIEWS = window.TESELA_PREVIEWS;
+  const AUDIO = window.TESELA_AUDIO;
+  const XP = window.TESELA_XP;
+  const HL = window.TESELA_HIGHLIGHT;
+  const FAV_KEY = "tesela-favorites";
 
   function loadFavorites(fallback) {
     try {
@@ -29,7 +29,7 @@
   const state = {
     viewMode: "grid", // "grid" | "stack" | "compact"
     filterMode: "all", // "all" | "ready" | "wip" | "favs"
-    theme: window.DevlUI ? window.DevlUI.getTheme() : "dark", // "dark" | "light"
+    theme: window.TeselaUI ? window.TeselaUI.getTheme() : "dark", // "dark" | "light"
     blueprint: false,
     // Indexado por ruta completa: los slugs se repiten entre carpetas (p. ej. "profile", "two-factor")
     favorites: loadFavorites([
@@ -54,7 +54,7 @@
   // --------------------------------------------------------------------------
   function init() {
     syncCatalogCounts();
-    new window.DEVL_SHADER("ambient-canvas");
+    new window.TESELA_SHADER("ambient-canvas");
     renderHeroCards();
     renderFolderRail();
     renderGallery();
@@ -86,7 +86,7 @@
           microWidget = `
             <div class="hero-micro-ui" aria-label="Vista previa interactiva">
               <button type="button" class="hero-pill-toggle is-on" data-hero-toggle title="Alternar">
-                <span class="hero-pill-dot"></span><span>devl-ui</span>
+                <span class="hero-pill-dot"></span><span>tesela-ui</span>
               </button>
               <button type="button" class="hero-pill-toggle" data-hero-toggle title="Alternar">
                 <span class="hero-pill-dot"></span><span>OKLCH</span>
@@ -533,7 +533,7 @@
   // --------------------------------------------------------------------------
   function toggleTheme() {
     state.theme = state.theme === "dark" ? "light" : "dark";
-    if (window.DevlUI) window.DevlUI.setTheme(state.theme);
+    if (window.TeselaUI) window.TeselaUI.setTheme(state.theme);
     else document.documentElement.setAttribute("data-theme", state.theme);
     AUDIO.play("click");
     showToast(`Modo ${state.theme === "dark" ? "oscuro" : "claro"} activado`);
@@ -553,8 +553,8 @@
   }
 
   function showToast(message) {
-    if (window.DevlUI) {
-      window.DevlUI.toast({ title: message, variant: "neutral", duration: 2600 });
+    if (window.TeselaUI) {
+      window.TeselaUI.toast({ title: message, variant: "neutral", duration: 2600 });
       return;
     }
     const stack = document.getElementById("toast-stack");
@@ -653,7 +653,7 @@
       if (accentSwatch) {
         const hex = accentSwatch.getAttribute("data-token-accent");
         document.documentElement.style.setProperty("--accent-indigo", hex);
-        document.documentElement.style.setProperty("--dv-accent", hex);
+        document.documentElement.style.setProperty("--tsl-accent", hex);
         document.querySelectorAll("[data-token-accent]").forEach((b) => b.classList.remove("is-active"));
         accentSwatch.classList.add("is-active");
         AUDIO.play("click");
@@ -665,8 +665,8 @@
       if (radiusBtn) {
         const r = radiusBtn.getAttribute("data-token-radius");
         document.documentElement.style.setProperty("--card-radius", r);
-        document.documentElement.style.setProperty("--dv-radius", r);
-        document.documentElement.style.setProperty("--dv-radius-sm", `${Math.max(0, parseInt(r, 10) - 2)}px`);
+        document.documentElement.style.setProperty("--tsl-radius", r);
+        document.documentElement.style.setProperty("--tsl-radius-sm", `${Math.max(0, parseInt(r, 10) - 2)}px`);
         document.querySelectorAll("[data-token-radius]").forEach((b) => b.classList.remove("is-active"));
         radiusBtn.classList.add("is-active");
         AUDIO.play("click");
@@ -809,7 +809,7 @@
     document.getElementById("btn-copy-source")?.addEventListener("click", () => {
       if (!state.activeItem) return;
       const raw = getSource(state.activeItem, state.codeMode);
-      if (window.DevlUI) window.DevlUI.copy(raw);
+      if (window.TeselaUI) window.TeselaUI.copy(raw);
       else navigator.clipboard?.writeText(raw).catch(() => {});
       AUDIO.play("chime");
       showToast(`${state.activeItem.file} (${state.codeMode.toUpperCase()}) copiado al portapapeles`);

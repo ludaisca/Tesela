@@ -1,6 +1,6 @@
 // ============================================================================
-// devl.dev — Entorno de ejecución de los experimentos funcionales
-// Cada experimento de la galería es { html, setup(root, ctx) } construido sobre devl-ui.
+// Tesela — Entorno de ejecución de los experimentos funcionales
+// Cada experimento de la galería es { html, setup(root, ctx) } construido sobre tesela-ui.
 // ctx registra intervalos, fotogramas de animación y listeners para que el sandbox
 // pueda desmontar un experimento sin dejar residuos al navegar a otro.
 // ============================================================================
@@ -49,7 +49,7 @@
       rng,
       $: (sel) => root.querySelector(sel),
       $$: (sel) => Array.from(root.querySelectorAll(sel)),
-      toast: (opts) => window.DevlUI.toast(opts),
+      toast: (opts) => window.TeselaUI.toast(opts),
       every(ms, fn) {
         const id = setInterval(fn, ms);
         cleanups.push(() => clearInterval(id));
@@ -134,8 +134,8 @@
     if (!def) return { html: "", js: "" };
     const html = htmlOf(item);
     const js = def.setup
-      ? `// Requiere lib/devl-ui.js + js/experiments/core.js (utilidades de ctx)\nconst root = document.querySelector('[data-xp="${item.categoryId}/${item.slug}"]');\nconst ctx = DEVL_XP.createCtx(root);\n\n(${fnSource(def.setup)})(root, ctx);`
-      : "// No hace falta JavaScript: solo HTML + lib/devl-ui.css";
+      ? `// Requiere lib/tesela-ui.js + js/experiments/core.js (utilidades de ctx)\nconst root = document.querySelector('[data-xp="${item.categoryId}/${item.slug}"]');\nconst ctx = TESELA_XP.createCtx(root);\n\n(${fnSource(def.setup)})(root, ctx);`
+      : "// No hace falta JavaScript: solo HTML + lib/tesela-ui.css";
     return {
       html: `<div class="xp" data-xp="${item.categoryId}/${item.slug}">\n${html.replace(/^/gm, "  ")}\n</div>`,
       js
@@ -148,7 +148,7 @@
     if (!def) return null;
     stage.innerHTML = `<div class="xp" data-xp="${item.categoryId}/${item.slug}" style="--xp-accent:${item.categoryAccent}">${htmlOf(item)}</div>`;
     const root = stage.firstElementChild;
-    window.DevlUI.init(root);
+    window.TeselaUI.init(root);
     const ctx = createCtx(root);
     if (def.setup) {
       try {
@@ -164,12 +164,12 @@
   // -------------------------------------------------------------- Utilidades de HTML
   const head = (eyebrow, title, desc = "") => `
     <header class="xp-head">
-      <span class="dv-eyebrow">${eyebrow}</span>
+      <span class="tsl-eyebrow">${eyebrow}</span>
       <h2 class="xp-title">${title}</h2>
       ${desc ? `<p class="xp-desc">${desc}</p>` : ""}
     </header>`;
 
-  const badge = (text, variant = "") => `<span class="dv-badge${variant ? ` dv-badge--${variant}` : ""}">${esc(text)}</span>`;
+  const badge = (text, variant = "") => `<span class="tsl-badge${variant ? ` tsl-badge--${variant}` : ""}">${esc(text)}</span>`;
 
   // -------------------------------------------------------------- Constructor de tablas de datos
   /**
@@ -192,27 +192,27 @@
     const filters = cfg.filters || [];
     const html = `
       ${head(cfg.eyebrow, cfg.title, cfg.desc)}
-      <div class="dv-row xp-toolbar">
-        ${cfg.search === false ? "" : `<input class="dv-input xp-search" data-t-search placeholder="${esc(cfg.searchPlaceholder || "Buscar…")}" aria-label="Buscar filas" />`}
-        ${filters.length ? `<div class="dv-row" style="--gap:6px">
-          <button type="button" class="dv-chip" data-t-filter="all" aria-pressed="true">Todos</button>
-          ${filters.map((f) => `<button type="button" class="dv-chip" data-t-filter="${esc(f)}" aria-pressed="false">${esc(f)}</button>`).join("")}
+      <div class="tsl-row xp-toolbar">
+        ${cfg.search === false ? "" : `<input class="tsl-input xp-search" data-t-search placeholder="${esc(cfg.searchPlaceholder || "Buscar…")}" aria-label="Buscar filas" />`}
+        ${filters.length ? `<div class="tsl-row" style="--gap:6px">
+          <button type="button" class="tsl-chip" data-t-filter="all" aria-pressed="true">Todos</button>
+          ${filters.map((f) => `<button type="button" class="tsl-chip" data-t-filter="${esc(f)}" aria-pressed="false">${esc(f)}</button>`).join("")}
         </div>` : ""}
-        <span class="dv-spacer"></span>
-        <span class="dv-muted" data-t-count></span>
+        <span class="tsl-spacer"></span>
+        <span class="tsl-muted" data-t-count></span>
         ${cfg.toolbar || ""}
       </div>
-      <div class="dv-row xp-bulk" data-t-bulk hidden>
+      <div class="tsl-row xp-bulk" data-t-bulk hidden>
         <strong data-t-selected>0 seleccionadas</strong>
-        <span class="dv-spacer"></span>
+        <span class="tsl-spacer"></span>
         ${(cfg.bulk || [])
-          .map((b) => `<button type="button" class="dv-btn dv-btn--sm${b.remove ? " dv-btn--danger" : ""}" data-t-action="${b.remove ? "remove" : "set"}"${b.set ? ` data-set="${esc(b.set)}"` : ""}>${esc(b.label)}</button>`)
+          .map((b) => `<button type="button" class="tsl-btn tsl-btn--sm${b.remove ? " tsl-btn--danger" : ""}" data-t-action="${b.remove ? "remove" : "set"}"${b.set ? ` data-set="${esc(b.set)}"` : ""}>${esc(b.label)}</button>`)
           .join("")}
       </div>
-      <div class="dv-table-wrap">
-        <table class="dv-table" data-dv-sortable data-page-size="${cfg.pageSize || 0}" data-filter-key="${filterKey}" data-badges='${esc(JSON.stringify(badges))}'>
+      <div class="tsl-table-wrap">
+        <table class="tsl-table" data-tsl-sortable data-page-size="${cfg.pageSize || 0}" data-filter-key="${filterKey}" data-badges='${esc(JSON.stringify(badges))}'>
           <thead><tr>
-            <th style="width:36px"><input type="checkbox" class="dv-check" data-t-all aria-label="Seleccionar todo" /></th>
+            <th style="width:36px"><input type="checkbox" class="tsl-check" data-t-all aria-label="Seleccionar todo" /></th>
             ${cols.map((c) => `<th${c.sort ? ` data-sort="${c.sort}"` : ""}${c.num ? ' class="is-num"' : ""}>${esc(c.label)}</th>`).join("")}
             ${cfg.rowAction ? "<th></th>" : ""}
           </tr></thead>
@@ -220,17 +220,17 @@
             ${cfg.rows
               .map(
                 (r) => `<tr data-id="${esc(r.id)}" data-status="${esc(r[filterKey] || "")}">
-              <td><input type="checkbox" class="dv-check" data-t-row aria-label="Seleccionar ${esc(r.id)}" /></td>
-              ${cols.map((c) => `<td data-f="${c.key}"${c.num ? ' class="is-num"' : ""}${c.mono ? ' style="font-family:var(--dv-font-mono)"' : ""}>${cell(r, c)}</td>`).join("")}
-              ${cfg.rowAction ? `<td class="is-num"><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-t-row-action${cfg.rowAction.remove ? " data-remove" : ""}${cfg.rowAction.set ? ` data-set="${esc(cfg.rowAction.set)}"` : ""} data-toast="${esc(cfg.rowAction.toast || "")}">${esc(cfg.rowAction.label)}</button></td>` : ""}
+              <td><input type="checkbox" class="tsl-check" data-t-row aria-label="Seleccionar ${esc(r.id)}" /></td>
+              ${cols.map((c) => `<td data-f="${c.key}"${c.num ? ' class="is-num"' : ""}${c.mono ? ' style="font-family:var(--tsl-font-mono)"' : ""}>${cell(r, c)}</td>`).join("")}
+              ${cfg.rowAction ? `<td class="is-num"><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-t-row-action${cfg.rowAction.remove ? " data-remove" : ""}${cfg.rowAction.set ? ` data-set="${esc(cfg.rowAction.set)}"` : ""} data-toast="${esc(cfg.rowAction.toast || "")}">${esc(cfg.rowAction.label)}</button></td>` : ""}
             </tr>`
               )
               .join("")}
           </tbody>
         </table>
       </div>
-      <div class="dv-empty" data-t-empty hidden><div class="dv-empty__title">Sin filas coincidentes</div><p class="dv-empty__desc">Prueba con otra búsqueda o filtro.</p></div>
-      <nav class="dv-pagination" data-t-pager aria-label="Paginación"></nav>`;
+      <div class="tsl-empty" data-t-empty hidden><div class="tsl-empty__title">Sin filas coincidentes</div><p class="tsl-empty__desc">Prueba con otra búsqueda o filtro.</p></div>
+      <nav class="tsl-pagination" data-t-pager aria-label="Paginación"></nav>`;
     return { html, setup: tableSetup };
   }
 
@@ -261,7 +261,7 @@
       td.innerHTML = "";
       if (variant) {
         const b = document.createElement("span");
-        b.className = `dv-badge dv-badge--${variant}`;
+        b.className = `tsl-badge tsl-badge--${variant}`;
         b.textContent = value;
         td.appendChild(b);
       } else {
@@ -322,7 +322,7 @@
       syncSelection();
     });
     ctx.on(tbody, "change", syncSelection);
-    // devl-ui ordena con el clic en el documento; se vuelve a paginar después
+    // tesela-ui ordena con el clic en el documento; se vuelve a paginar después
     ctx.on(table.tHead, "click", () => ctx.timeout(0, refresh));
 
     root.querySelectorAll("[data-t-action]").forEach((btn) =>
@@ -367,7 +367,7 @@
   function formSetup(root, ctx) {
     const scoreOf = (v) => [v.length >= 8, /[A-Z]/.test(v), /\d/.test(v), /[^A-Za-z0-9]/.test(v)].filter(Boolean).length;
     const labels = ["Muy débil", "Débil", "Regular", "Buena", "Fuerte"];
-    const colors = ["var(--dv-danger)", "var(--dv-danger)", "var(--dv-warning)", "var(--dv-info)", "var(--dv-success)"];
+    const colors = ["var(--tsl-danger)", "var(--tsl-danger)", "var(--tsl-warning)", "var(--tsl-info)", "var(--tsl-success)"];
 
     root.querySelectorAll("[data-pw-toggle]").forEach((btn) =>
       ctx.on(btn, "click", () => {
@@ -395,11 +395,11 @@
 
     root.querySelectorAll("form[data-xp-form]").forEach((form) => {
       const errorFor = (input) => {
-        const field = input.closest(".dv-field") || input.parentElement;
-        let el = field.querySelector(".dv-error");
+        const field = input.closest(".tsl-field") || input.parentElement;
+        let el = field.querySelector(".tsl-error");
         if (!el) {
           el = document.createElement("span");
-          el.className = "dv-error";
+          el.className = "tsl-error";
           field.appendChild(el);
         }
         return el;
@@ -486,15 +486,15 @@
       .join(" ");
     const input =
       f.type === "password"
-        ? `<div class="dv-input-group"><input class="dv-input" ${attrs} /><button type="button" class="dv-btn dv-btn--subtle dv-btn--sm" data-pw-toggle style="margin:3px">Mostrar</button></div>`
-        : `<input class="dv-input" ${attrs} />`;
+        ? `<div class="tsl-input-group"><input class="tsl-input" ${attrs} /><button type="button" class="tsl-btn tsl-btn--subtle tsl-btn--sm" data-pw-toggle style="margin:3px">Mostrar</button></div>`
+        : `<input class="tsl-input" ${attrs} />`;
     const strength = f.strength
-      ? `<div class="dv-row" style="--gap:8px"><div class="dv-meter" data-pw-strength="${f.name}" style="flex:1;height:5px"><span></span><span></span><span></span><span></span></div><span class="dv-hint" data-pw-label></span></div>`
+      ? `<div class="tsl-row" style="--gap:8px"><div class="tsl-meter" data-pw-strength="${f.name}" style="flex:1;height:5px"><span></span><span></span><span></span><span></span></div><span class="tsl-hint" data-pw-label></span></div>`
       : "";
     const labelRow = f.aside
-      ? `<div class="dv-row" style="justify-content:space-between"><label class="dv-label" for="${id}">${esc(f.label)}</label>${f.aside}</div>`
-      : `<label class="dv-label" for="${id}">${esc(f.label)}</label>`;
-    return `<div class="dv-field">${labelRow}${input}${strength}${f.hint ? `<span class="dv-hint">${esc(f.hint)}</span>` : ""}</div>`;
+      ? `<div class="tsl-row" style="justify-content:space-between"><label class="tsl-label" for="${id}">${esc(f.label)}</label>${f.aside}</div>`
+      : `<label class="tsl-label" for="${id}">${esc(f.label)}</label>`;
+    return `<div class="tsl-field">${labelRow}${input}${strength}${f.hint ? `<span class="tsl-hint">${esc(f.hint)}</span>` : ""}</div>`;
   }
 
   // -------------------------------------------------------------- Utilidades de gráficas SVG
@@ -591,7 +591,7 @@
     return () => (stopped = true);
   }
 
-  window.DEVL_XP = {
+  window.TESELA_XP = {
     stream,
     chart,
     fitCanvas,

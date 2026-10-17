@@ -4,7 +4,7 @@
 
 (function () {
   "use strict";
-  const X = window.DEVL_XP;
+  const X = window.TESELA_XP;
   const { head, esc, rng } = X;
   const tip = '<div class="xp-tip" data-tip hidden></div>';
 
@@ -15,16 +15,16 @@
     "metrics-overview": {
       html: `
         ${head("Paneles · metrics-overview.tsx", "Resumen de métricas", "Cambia el rango para recalcular los KPI, las variaciones y la gráfica de tendencia. Pasa el cursor sobre la gráfica para ver los valores diarios.")}
-        <div class="dv-row"><dv-segmented value="30" data-range><button class="dv-segmented__item" value="7">7 d</button><button class="dv-segmented__item" value="30">30 d</button><button class="dv-segmented__item" value="90">90 d</button></dv-segmented><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm" data-export>Exportar CSV</button></div>
-        <div class="dv-grid" style="--min:200px" data-kpis></div>
-        <div class="xp-panel xp-rel"><span class="dv-eyebrow">Ingresos por día</span>${tip}<svg class="xp-chart" viewBox="0 0 760 240" data-chart style="margin-top:10px"></svg></div>`,
+        <div class="tsl-row"><tsl-segmented value="30" data-range><button class="tsl-segmented__item" value="7">7 d</button><button class="tsl-segmented__item" value="30">30 d</button><button class="tsl-segmented__item" value="90">90 d</button></tsl-segmented><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--sm" data-export>Exportar CSV</button></div>
+        <div class="tsl-grid" style="--min:200px" data-kpis></div>
+        <div class="xp-panel xp-rel"><span class="tsl-eyebrow">Ingresos por día</span>${tip}<svg class="xp-chart" viewBox="0 0 760 240" data-chart style="margin-top:10px"></svg></div>`,
       setup(root, ctx) {
-        const C = DEVL_XP.chart;
+        const C = TESELA_XP.chart;
         const svg = ctx.$("[data-chart]");
         const tipEl = ctx.$("[data-tip]");
         let series = [];
         const gen = (days, seed) => {
-          const r = DEVL_XP.rng(seed);
+          const r = TESELA_XP.rng(seed);
           let v = 4200;
           return Array.from({ length: days * 2 }, () => (v = Math.max(1200, v + (r() - 0.42) * 600)));
         };
@@ -43,7 +43,7 @@
           ctx.$("[data-kpis]").innerHTML = kpis
             .map(([label, cur, before, f]) => {
               const d = ((cur - before) / before) * 100;
-              return `<div class="dv-stat"><span class="dv-eyebrow">${label}</span><span class="dv-stat__value">${f(cur)}</span><span class="dv-stat__delta ${d >= 0 ? "is-up" : "is-down"}">${d >= 0 ? "+" : ""}${d.toFixed(1)}% vs. ${days} d previos</span></div>`;
+              return `<div class="tsl-stat"><span class="tsl-eyebrow">${label}</span><span class="tsl-stat__value">${f(cur)}</span><span class="tsl-stat__delta ${d >= 0 ? "is-up" : "is-down"}">${d >= 0 ? "+" : ""}${d.toFixed(1)}% vs. ${days} d previos</span></div>`;
             })
             .join("");
           const max = C.niceMax(Math.max(...series));
@@ -73,7 +73,7 @@
           C.tip(tipEl, e, `<strong>${day}</strong> · ${ctx.fmt.money(series[i], "USD", 0)}`);
         });
         ctx.on(svg, "pointerleave", () => (tipEl.hidden = true));
-        ctx.on(ctx.$("[data-range]"), "dv-change", (e) => render(Number(e.detail.value)));
+        ctx.on(ctx.$("[data-range]"), "tsl-change", (e) => render(Number(e.detail.value)));
         ctx.on(ctx.$("[data-export]"), "click", () => {
           const csv = "day,revenue\n" + series.map((v, i) => `${i + 1},${v.toFixed(2)}`).join("\n");
           const a = document.createElement("a");
@@ -89,9 +89,9 @@
     usage: {
       html: `
         ${head("Paneles · usage.tsx", "Uso del plan", "Simula tráfico para ver cómo se llenan las cuotas; avisos al 80 % y una invitación a mejorar el plan cuando se alcanza un límite.")}
-        <div class="dv-row"><span class="dv-badge dv-badge--accent">Plan Pro</span><span class="dv-muted">Se reinicia en 12 días</span><span class="dv-spacer"></span><button type="button" class="dv-btn" data-sim aria-pressed="false">▶ Simular tráfico</button><button type="button" class="dv-btn dv-btn--subtle" data-reset>Restablecer</button></div>
-        <div class="dv-alert dv-alert--danger" data-limit hidden><div style="flex:1"><div class="dv-alert__title">Límite alcanzado</div><div class="dv-alert__desc" data-limit-text></div></div><button type="button" class="dv-btn dv-btn--sm dv-btn--primary" data-upgrade>Mejorar plan</button></div>
-        <div class="dv-grid" style="--min:260px" data-meters></div>`,
+        <div class="tsl-row"><span class="tsl-badge tsl-badge--accent">Plan Pro</span><span class="tsl-muted">Se reinicia en 12 días</span><span class="tsl-spacer"></span><button type="button" class="tsl-btn" data-sim aria-pressed="false">▶ Simular tráfico</button><button type="button" class="tsl-btn tsl-btn--subtle" data-reset>Restablecer</button></div>
+        <div class="tsl-alert tsl-alert--danger" data-limit hidden><div style="flex:1"><div class="tsl-alert__title">Límite alcanzado</div><div class="tsl-alert__desc" data-limit-text></div></div><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--primary" data-upgrade>Mejorar plan</button></div>
+        <div class="tsl-grid" style="--min:260px" data-meters></div>`,
       setup(root, ctx) {
         let limits = { "Solicitudes API": 1000000, "Almacenamiento (GB)": 50, "Ancho de banda (GB)": 500, Asientos: 10 };
         const base = { "Solicitudes API": 612000, "Almacenamiento (GB)": 31.4, "Ancho de banda (GB)": 205, Asientos: 7 };
@@ -104,9 +104,9 @@
               const pct = Math.min(100, (used[k] / limits[k]) * 100);
               if (pct >= 100) full.push(k);
               const state = pct >= 100 ? "danger" : pct >= 80 ? "warning" : "success";
-              return `<div class="dv-stat"><div class="dv-row"><span class="dv-eyebrow">${k}</span><span class="dv-spacer"></span><span class="dv-badge dv-badge--${state}">${pct.toFixed(0)}%</span></div>
-                <span class="dv-stat__value">${ctx.fmt.num(used[k], k.includes("GB") ? 1 : 0)}<span class="dv-muted" style="font-size:13px"> / ${ctx.fmt.num(limits[k])}</span></span>
-                <div class="dv-meter"><span style="--w:${pct}%;--c:var(--dv-${state})"></span></div></div>`;
+              return `<div class="tsl-stat"><div class="tsl-row"><span class="tsl-eyebrow">${k}</span><span class="tsl-spacer"></span><span class="tsl-badge tsl-badge--${state}">${pct.toFixed(0)}%</span></div>
+                <span class="tsl-stat__value">${ctx.fmt.num(used[k], k.includes("GB") ? 1 : 0)}<span class="tsl-muted" style="font-size:13px"> / ${ctx.fmt.num(limits[k])}</span></span>
+                <div class="tsl-meter"><span style="--w:${pct}%;--c:var(--tsl-${state})"></span></div></div>`;
             })
             .join("");
           ctx.$("[data-limit]").hidden = !full.length;
@@ -141,23 +141,23 @@
     analytics: {
       html: `
         ${head("Paneles · analytics.tsx", "Analítica", "Contador de visitantes en vivo, barras diarias con información al pasar el cursor y páginas principales ordenables.")}
-        <div class="dv-grid" style="--min:180px">
-          <div class="dv-stat"><span class="dv-eyebrow"><span class="dv-dot dv-dot--success dv-dot--pulse"></span> Visitantes en vivo</span><span class="dv-stat__value" data-live>128</span></div>
-          <div class="dv-stat"><span class="dv-eyebrow">Páginas vistas (14 d)</span><span class="dv-stat__value" data-pv></span></div>
-          <div class="dv-stat"><span class="dv-eyebrow">Tasa de rebote</span><span class="dv-stat__value">38.2%</span></div>
+        <div class="tsl-grid" style="--min:180px">
+          <div class="tsl-stat"><span class="tsl-eyebrow"><span class="tsl-dot tsl-dot--success tsl-dot--pulse"></span> Visitantes en vivo</span><span class="tsl-stat__value" data-live>128</span></div>
+          <div class="tsl-stat"><span class="tsl-eyebrow">Páginas vistas (14 d)</span><span class="tsl-stat__value" data-pv></span></div>
+          <div class="tsl-stat"><span class="tsl-eyebrow">Tasa de rebote</span><span class="tsl-stat__value">38.2%</span></div>
         </div>
-        <div class="xp-panel xp-rel"><span class="dv-eyebrow">Visitantes por día</span>${tip}<svg class="xp-chart" viewBox="0 0 760 200" data-bars style="margin-top:10px"></svg></div>
-        <div class="dv-grid" style="--min:300px;align-items:start">
-          <div class="dv-table-wrap"><table class="dv-table" data-dv-sortable><thead><tr><th data-sort="text">Página</th><th data-sort="number" class="is-num">Vistas</th><th data-sort="number" class="is-num">Tiempo prom.</th></tr></thead><tbody>
-            ${[["/", 18420, 42], ["/pricing", 6210, 95], ["/docs", 5402, 188], ["/blog/devl-ui", 3307, 241], ["/changelog", 1288, 63]].map(([p, v, t]) => `<tr><td class="xp-mono">${p}</td><td class="is-num">${v.toLocaleString("es-MX")}</td><td class="is-num" data-value="${t}">${Math.floor(t / 60)}m ${t % 60}s</td></tr>`).join("")}
+        <div class="xp-panel xp-rel"><span class="tsl-eyebrow">Visitantes por día</span>${tip}<svg class="xp-chart" viewBox="0 0 760 200" data-bars style="margin-top:10px"></svg></div>
+        <div class="tsl-grid" style="--min:300px;align-items:start">
+          <div class="tsl-table-wrap"><table class="tsl-table" data-tsl-sortable><thead><tr><th data-sort="text">Página</th><th data-sort="number" class="is-num">Vistas</th><th data-sort="number" class="is-num">Tiempo prom.</th></tr></thead><tbody>
+            ${[["/", 18420, 42], ["/pricing", 6210, 95], ["/docs", 5402, 188], ["/blog/tesela-ui", 3307, 241], ["/changelog", 1288, 63]].map(([p, v, t]) => `<tr><td class="xp-mono">${p}</td><td class="is-num">${v.toLocaleString("es-MX")}</td><td class="is-num" data-value="${t}">${Math.floor(t / 60)}m ${t % 60}s</td></tr>`).join("")}
           </tbody></table></div>
-          <div class="xp-panel dv-stack" style="--gap:10px"><span class="dv-eyebrow">Países</span>
-            ${[["México", 34], ["Estados Unidos", 28], ["España", 14], ["Alemania", 9], ["Otros", 15]].map(([c, p]) => `<div><div class="dv-row" style="justify-content:space-between;font-size:12px"><span>${c}</span><span class="dv-muted">${p}%</span></div><div class="dv-meter" style="height:5px;margin-top:4px"><span style="--w:${p}%"></span></div></div>`).join("")}
+          <div class="xp-panel tsl-stack" style="--gap:10px"><span class="tsl-eyebrow">Países</span>
+            ${[["México", 34], ["Estados Unidos", 28], ["España", 14], ["Alemania", 9], ["Otros", 15]].map(([c, p]) => `<div><div class="tsl-row" style="justify-content:space-between;font-size:12px"><span>${c}</span><span class="tsl-muted">${p}%</span></div><div class="tsl-meter" style="height:5px;margin-top:4px"><span style="--w:${p}%"></span></div></div>`).join("")}
           </div>
         </div>`,
       setup(root, ctx) {
-        const C = DEVL_XP.chart;
-        const r = DEVL_XP.rng(11);
+        const C = TESELA_XP.chart;
+        const r = TESELA_XP.rng(11);
         const days = Array.from({ length: 14 }, (_, i) => Math.round(1800 + r() * 1600 + (i % 7 < 5 ? 600 : -300)));
         ctx.$("[data-pv]").textContent = ctx.fmt.num(days.reduce((a, b) => a + b, 0) * 2.3);
         const svg = ctx.$("[data-bars]");
@@ -195,18 +195,18 @@
     home: {
       html: `
         ${head("Paneles · home.tsx", "Inicio personal", "Saludo según la hora del día, una lista de tareas funcional y un temporizador de enfoque.")}
-        <div><h3 class="xp-title" style="margin:0" data-greet></h3><p class="dv-muted" data-date></p></div>
-        <div class="dv-grid" style="--min:300px;align-items:start">
-          <div class="xp-panel dv-stack">
-            <div class="dv-row"><span class="dv-eyebrow">Hoy</span><span class="dv-spacer"></span><span class="dv-badge" data-left></span></div>
-            <form class="dv-input-group" data-add><input class="dv-input" placeholder="Agrega una tarea y presiona Enter" aria-label="Nueva tarea" /></form>
-            <ul class="dv-list" data-tasks></ul>
+        <div><h3 class="xp-title" style="margin:0" data-greet></h3><p class="tsl-muted" data-date></p></div>
+        <div class="tsl-grid" style="--min:300px;align-items:start">
+          <div class="xp-panel tsl-stack">
+            <div class="tsl-row"><span class="tsl-eyebrow">Hoy</span><span class="tsl-spacer"></span><span class="tsl-badge" data-left></span></div>
+            <form class="tsl-input-group" data-add><input class="tsl-input" placeholder="Agrega una tarea y presiona Enter" aria-label="Nueva tarea" /></form>
+            <ul class="tsl-list" data-tasks></ul>
           </div>
-          <div class="xp-panel dv-stack" style="align-items:center;text-align:center">
-            <span class="dv-eyebrow">Temporizador de enfoque</span>
+          <div class="xp-panel tsl-stack" style="align-items:center;text-align:center">
+            <span class="tsl-eyebrow">Temporizador de enfoque</span>
             <div class="xp-num xp-mono" style="font-size:48px" data-time>25:00</div>
-            <progress class="dv-progress" max="1500" value="0" data-bar></progress>
-            <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-start>Iniciar</button><button type="button" class="dv-btn" data-reset>Restablecer</button></div>
+            <progress class="tsl-progress" max="1500" value="0" data-bar></progress>
+            <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-start>Iniciar</button><button type="button" class="tsl-btn" data-reset>Restablecer</button></div>
           </div>
         </div>`,
       setup(root, ctx) {
@@ -217,7 +217,7 @@
         const sync = () => (ctx.$("[data-left]").textContent = `${list.querySelectorAll("input:not(:checked)").length} pendientes`);
         const addTask = (text, done = false) => {
           const li = document.createElement("li");
-          li.innerHTML = `<label class="dv-choice" style="flex:1"><input type="checkbox" class="dv-check" /><span></span></label><button type="button" class="dv-btn dv-btn--icon dv-btn--subtle dv-btn--sm" aria-label="Eliminar tarea">✕</button>`;
+          li.innerHTML = `<label class="tsl-choice" style="flex:1"><input type="checkbox" class="tsl-check" /><span></span></label><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--subtle tsl-btn--sm" aria-label="Eliminar tarea">✕</button>`;
           const box = li.querySelector("input");
           const label = li.querySelector("span");
           label.textContent = text;
@@ -266,22 +266,22 @@
     revenue: {
       html: `
         ${head("Paneles · revenue.tsx", "Ingresos", "Movimientos de MRR apilados por mes. Activa o desactiva series en la leyenda; los totales y la retención neta se recalculan.")}
-        <div class="dv-grid" style="--min:170px" data-kpis></div>
+        <div class="tsl-grid" style="--min:170px" data-kpis></div>
         <div class="xp-panel xp-rel">
-          <div class="dv-row" data-legend>
-            <button type="button" class="dv-chip" data-s="new" aria-pressed="true"><span class="dv-dot" style="--_c:var(--dv-success)"></span> Nuevo</button>
-            <button type="button" class="dv-chip" data-s="expansion" aria-pressed="true"><span class="dv-dot" style="--_c:var(--dv-info)"></span> Expansión</button>
-            <button type="button" class="dv-chip" data-s="churn" aria-pressed="true"><span class="dv-dot" style="--_c:var(--dv-danger)"></span> Cancelaciones</button>
+          <div class="tsl-row" data-legend>
+            <button type="button" class="tsl-chip" data-s="new" aria-pressed="true"><span class="tsl-dot" style="--_c:var(--tsl-success)"></span> Nuevo</button>
+            <button type="button" class="tsl-chip" data-s="expansion" aria-pressed="true"><span class="tsl-dot" style="--_c:var(--tsl-info)"></span> Expansión</button>
+            <button type="button" class="tsl-chip" data-s="churn" aria-pressed="true"><span class="tsl-dot" style="--_c:var(--tsl-danger)"></span> Cancelaciones</button>
           </div>${tip}
           <svg class="xp-chart" viewBox="0 0 760 260" data-chart style="margin-top:10px"></svg>
         </div>`,
       setup(root, ctx) {
-        const C = DEVL_XP.chart;
-        const r = DEVL_XP.rng(5);
+        const C = TESELA_XP.chart;
+        const r = TESELA_XP.rng(5);
         const months = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
         const data = months.map(() => ({ new: 6000 + r() * 6000, expansion: 2000 + r() * 4000, churn: 1500 + r() * 2500 }));
         const on = { new: true, expansion: true, churn: true };
-        const colors = { new: "var(--dv-success)", expansion: "var(--dv-info)", churn: "var(--dv-danger)" };
+        const colors = { new: "var(--tsl-success)", expansion: "var(--tsl-info)", churn: "var(--tsl-danger)" };
         const svg = ctx.$("[data-chart]");
         const tipEl = ctx.$("[data-tip]");
         const box = { x: 50, y: 10, w: 700, h: 210 };
@@ -314,7 +314,7 @@
             ["Cancelado", ctx.fmt.money(sum("churn"), "USD", 0)],
             ["Retención neta", ctx.fmt.pct(nrr)]
           ]
-            .map(([l, v]) => `<div class="dv-stat"><span class="dv-eyebrow">${l}</span><span class="dv-stat__value">${v}</span></div>`)
+            .map(([l, v]) => `<div class="tsl-stat"><span class="tsl-eyebrow">${l}</span><span class="tsl-stat__value">${v}</span></div>`)
             .join("");
         };
         ctx.on(ctx.$("[data-legend]"), "click", (e) => {
@@ -338,13 +338,13 @@
     services: {
       html: `
         ${head("Paneles · services.tsx", "Estado de los servicios", "La latencia se actualiza cada segundo. Provoca un incidente para ver cómo reaccionan el estado, el aviso y la disponibilidad; resuélvelo para recuperarte.")}
-        <div class="dv-alert dv-alert--success" data-banner><div><div class="dv-alert__title" data-banner-title>Todos los sistemas operan con normalidad</div><div class="dv-alert__desc" data-banner-desc>Actualizado justo ahora</div></div></div>
-        <div class="dv-table-wrap"><table class="dv-table"><thead><tr><th>Servicio</th><th>Estado</th><th>Latencia (p95)</th><th class="is-num">Disponibilidad 30 d</th><th></th></tr></thead><tbody data-rows></tbody></table></div>`,
+        <div class="tsl-alert tsl-alert--success" data-banner><div><div class="tsl-alert__title" data-banner-title>Todos los sistemas operan con normalidad</div><div class="tsl-alert__desc" data-banner-desc>Actualizado justo ahora</div></div></div>
+        <div class="tsl-table-wrap"><table class="tsl-table"><thead><tr><th>Servicio</th><th>Estado</th><th>Latencia (p95)</th><th class="is-num">Disponibilidad 30 d</th><th></th></tr></thead><tbody data-rows></tbody></table></div>`,
       setup(root, ctx) {
         const services = ["Puerta de enlace API", "Autenticación", "Base de datos", "CDN de borde", "Webhooks"].map((name, i) => ({ name, base: 30 + i * 18, hist: [], down: false, uptime: 99.9 + i * 0.015 }));
         const tbody = ctx.$("[data-rows]");
         tbody.innerHTML = services
-          .map((s, i) => `<tr data-i="${i}"><td><strong>${s.name}</strong></td><td data-status></td><td><div class="dv-row" style="flex-wrap:nowrap"><dv-sparkline style="--w:120px;--h:24px" data-spark></dv-sparkline><span class="xp-mono" data-lat></span></div></td><td class="is-num xp-mono" data-up></td><td class="is-num"><button type="button" class="dv-btn dv-btn--sm" data-toggle>Simular incidente</button></td></tr>`)
+          .map((s, i) => `<tr data-i="${i}"><td><strong>${s.name}</strong></td><td data-status></td><td><div class="tsl-row" style="flex-wrap:nowrap"><tsl-sparkline style="--w:120px;--h:24px" data-spark></tsl-sparkline><span class="xp-mono" data-lat></span></div></td><td class="is-num xp-mono" data-up></td><td class="is-num"><button type="button" class="tsl-btn tsl-btn--sm" data-toggle>Simular incidente</button></td></tr>`)
           .join("");
         const tick = () => {
           services.forEach((s, i) => {
@@ -353,15 +353,15 @@
             if (s.down) s.uptime = Math.max(98.5, s.uptime - 0.004);
             const row = tbody.querySelector(`[data-i="${i}"]`);
             row.querySelector("[data-spark]").setAttribute("values", s.hist.map((x) => x.toFixed(0)).join(","));
-            row.querySelector("[data-spark]").style.color = s.down ? "var(--dv-danger)" : "var(--dv-success)";
+            row.querySelector("[data-spark]").style.color = s.down ? "var(--tsl-danger)" : "var(--tsl-success)";
             row.querySelector("[data-lat]").textContent = `${v.toFixed(0)}ms`;
             row.querySelector("[data-up]").textContent = `${s.uptime.toFixed(3)}%`;
-            row.querySelector("[data-status]").innerHTML = s.down ? '<span class="dv-badge dv-badge--danger">Degradado</span>' : '<span class="dv-badge dv-badge--success">Operativo</span>';
+            row.querySelector("[data-status]").innerHTML = s.down ? '<span class="tsl-badge tsl-badge--danger">Degradado</span>' : '<span class="tsl-badge tsl-badge--success">Operativo</span>';
             row.querySelector("[data-toggle]").textContent = s.down ? "Resolver" : "Simular incidente";
           });
           const bad = services.filter((s) => s.down);
           const banner = ctx.$("[data-banner]");
-          banner.className = `dv-alert dv-alert--${bad.length ? "danger" : "success"}`;
+          banner.className = `tsl-alert tsl-alert--${bad.length ? "danger" : "success"}`;
           ctx.$("[data-banner-title]").textContent = bad.length ? `Incidente: ${bad.map((s) => s.name).join(", ")} degradado` : "Todos los sistemas operan con normalidad";
           ctx.$("[data-banner-desc]").textContent = `Actualizado ${new Date().toLocaleTimeString("es-MX")}`;
         };
@@ -381,17 +381,17 @@
     engineering: {
       html: `
         ${head("Paneles · engineering.tsx", "Velocidad de ingeniería", "Métricas DORA, tiempo de ciclo semanal y una lista de pull requests que puedes filtrar y fusionar.")}
-        <div class="dv-grid" style="--min:170px">
-          <div class="dv-stat"><span class="dv-eyebrow">Deploys / semana</span><span class="dv-stat__value" data-deploys>23</span></div>
-          <div class="dv-stat"><span class="dv-eyebrow">Lead time</span><span class="dv-stat__value">1.8d</span></div>
-          <div class="dv-stat"><span class="dv-eyebrow">Fallos por cambio</span><span class="dv-stat__value">4.2%</span></div>
-          <div class="dv-stat"><span class="dv-eyebrow">PR abiertos</span><span class="dv-stat__value" data-open></span></div>
+        <div class="tsl-grid" style="--min:170px">
+          <div class="tsl-stat"><span class="tsl-eyebrow">Deploys / semana</span><span class="tsl-stat__value" data-deploys>23</span></div>
+          <div class="tsl-stat"><span class="tsl-eyebrow">Lead time</span><span class="tsl-stat__value">1.8d</span></div>
+          <div class="tsl-stat"><span class="tsl-eyebrow">Fallos por cambio</span><span class="tsl-stat__value">4.2%</span></div>
+          <div class="tsl-stat"><span class="tsl-eyebrow">PR abiertos</span><span class="tsl-stat__value" data-open></span></div>
         </div>
-        <div class="xp-panel"><span class="dv-eyebrow">Tiempo de ciclo (horas) · últimas 8 semanas</span><svg class="xp-chart" viewBox="0 0 760 170" data-chart style="margin-top:10px"></svg></div>
-        <div class="dv-row"><dv-segmented value="open" data-filter><button class="dv-segmented__item" value="open">Abiertos</button><button class="dv-segmented__item" value="merged">Fusionados</button><button class="dv-segmented__item" value="all">Todos</button></dv-segmented></div>
-        <ul class="dv-list" data-prs></ul>`,
+        <div class="xp-panel"><span class="tsl-eyebrow">Tiempo de ciclo (horas) · últimas 8 semanas</span><svg class="xp-chart" viewBox="0 0 760 170" data-chart style="margin-top:10px"></svg></div>
+        <div class="tsl-row"><tsl-segmented value="open" data-filter><button class="tsl-segmented__item" value="open">Abiertos</button><button class="tsl-segmented__item" value="merged">Fusionados</button><button class="tsl-segmented__item" value="all">Todos</button></tsl-segmented></div>
+        <ul class="tsl-list" data-prs></ul>`,
       setup(root, ctx) {
-        const C = DEVL_XP.chart;
+        const C = TESELA_XP.chart;
         const weeks = [42, 38, 45, 31, 29, 33, 26, 22];
         const box = { x: 36, y: 10, w: 714, h: 130 };
         const max = C.niceMax(Math.max(...weeks));
@@ -411,8 +411,8 @@
           list.innerHTML = "";
           prs.filter((p) => filter === "all" || p.s === filter).forEach((p) => {
             const li = document.createElement("li");
-            li.innerHTML = `<span class="dv-badge dv-badge--${p.s === "merged" ? "accent" : "success"}">${p.s === "merged" ? "fusionado" : "abierto"}</span><div><div class="dv-list__title"></div><div class="dv-list__desc">#${p.n} · ${p.a} · ${p.checks ? "✓ verificaciones aprobadas" : "✕ verificaciones fallando"}</div></div><div class="dv-list__end">${p.s === "open" ? `<button type="button" class="dv-btn dv-btn--sm"${p.checks ? "" : " disabled"}>Fusionar</button>` : ""}</div>`;
-            li.querySelector(".dv-list__title").textContent = p.t;
+            li.innerHTML = `<span class="tsl-badge tsl-badge--${p.s === "merged" ? "accent" : "success"}">${p.s === "merged" ? "fusionado" : "abierto"}</span><div><div class="tsl-list__title"></div><div class="tsl-list__desc">#${p.n} · ${p.a} · ${p.checks ? "✓ verificaciones aprobadas" : "✕ verificaciones fallando"}</div></div><div class="tsl-list__end">${p.s === "open" ? `<button type="button" class="tsl-btn tsl-btn--sm"${p.checks ? "" : " disabled"}>Fusionar</button>` : ""}</div>`;
+            li.querySelector(".tsl-list__title").textContent = p.t;
             const btn = li.querySelector("button");
             if (btn)
               btn.addEventListener("click", () => {
@@ -425,7 +425,7 @@
           });
           ctx.$("[data-open]").textContent = String(prs.filter((p) => p.s === "open").length);
         };
-        ctx.on(ctx.$("[data-filter]"), "dv-change", (e) => ((filter = e.detail.value), render()));
+        ctx.on(ctx.$("[data-filter]"), "tsl-change", (e) => ((filter = e.detail.value), render()));
         render();
       }
     },
@@ -433,8 +433,8 @@
     support: {
       html: `
         ${head("Paneles · support.tsx", "Cola de soporte", "Los temporizadores de SLA descuentan en vivo; los tickets vencidos se ponen en rojo. Asigna, resuelve y filtra por prioridad.")}
-        <div class="dv-row"><dv-segmented value="all" data-filter><button class="dv-segmented__item" value="all">Todos</button><button class="dv-segmented__item" value="Urgente">Urgente</button><button class="dv-segmented__item" value="Alta">Alta</button><button class="dv-segmented__item" value="Normal">Normal</button></dv-segmented><span class="dv-spacer"></span><span class="dv-badge" data-csat>CSAT 94%</span><span class="dv-badge dv-badge--danger" data-breached></span></div>
-        <div class="dv-table-wrap"><table class="dv-table"><thead><tr><th>Ticket</th><th>Cliente</th><th>Prioridad</th><th>Asignado a</th><th class="is-num">SLA</th><th></th></tr></thead><tbody data-rows></tbody></table></div>`,
+        <div class="tsl-row"><tsl-segmented value="all" data-filter><button class="tsl-segmented__item" value="all">Todos</button><button class="tsl-segmented__item" value="Urgente">Urgente</button><button class="tsl-segmented__item" value="Alta">Alta</button><button class="tsl-segmented__item" value="Normal">Normal</button></tsl-segmented><span class="tsl-spacer"></span><span class="tsl-badge" data-csat>CSAT 94%</span><span class="tsl-badge tsl-badge--danger" data-breached></span></div>
+        <div class="tsl-table-wrap"><table class="tsl-table"><thead><tr><th>Ticket</th><th>Cliente</th><th>Prioridad</th><th>Asignado a</th><th class="is-num">SLA</th><th></th></tr></thead><tbody data-rows></tbody></table></div>`,
       setup(root, ctx) {
         const tickets = [
           ["T-901", "Bucle de inicio de sesión en Safari", "Globex", "Urgente", 95],
@@ -449,8 +449,8 @@
         const render = () => {
           tbody.innerHTML = tickets
             .filter((t) => filter === "all" || t.prio === filter)
-            .map((t) => `<tr data-id="${t.id}"><td><span class="xp-mono dv-muted">${t.id}</span><br><strong>${esc(t.subject)}</strong></td><td>${esc(t.customer)}</td><td><span class="dv-badge dv-badge--${t.prio === "Urgente" ? "danger" : t.prio === "Alta" ? "warning" : "info"}">${t.prio}</span></td><td>${t.owner}</td><td class="is-num xp-mono" data-sla style="color:${t.sla <= 0 ? "var(--dv-danger)" : t.sla < 120 ? "var(--dv-warning)" : ""}">${fmt(t.sla)}</td><td class="is-num"><div class="dv-row" style="justify-content:flex-end;flex-wrap:nowrap"><button type="button" class="dv-btn dv-btn--sm" data-assign>Asignarme</button><button type="button" class="dv-btn dv-btn--sm dv-btn--primary" data-resolve>Resolver</button></div></td></tr>`)
-            .join("") || '<tr><td colspan="6" class="dv-muted">La cola está vacía 🎉</td></tr>';
+            .map((t) => `<tr data-id="${t.id}"><td><span class="xp-mono tsl-muted">${t.id}</span><br><strong>${esc(t.subject)}</strong></td><td>${esc(t.customer)}</td><td><span class="tsl-badge tsl-badge--${t.prio === "Urgente" ? "danger" : t.prio === "Alta" ? "warning" : "info"}">${t.prio}</span></td><td>${t.owner}</td><td class="is-num xp-mono" data-sla style="color:${t.sla <= 0 ? "var(--tsl-danger)" : t.sla < 120 ? "var(--tsl-warning)" : ""}">${fmt(t.sla)}</td><td class="is-num"><div class="tsl-row" style="justify-content:flex-end;flex-wrap:nowrap"><button type="button" class="tsl-btn tsl-btn--sm" data-assign>Asignarme</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--primary" data-resolve>Resolver</button></div></td></tr>`)
+            .join("") || '<tr><td colspan="6" class="tsl-muted">La cola está vacía 🎉</td></tr>';
           ctx.$("[data-breached]").textContent = `${tickets.filter((t) => t.sla <= 0).length} vencidos`;
         };
         ctx.every(1000, () => {
@@ -459,7 +459,7 @@
             const t = tickets.find((x) => x.id === tr.dataset.id);
             const cell = tr.querySelector("[data-sla]");
             cell.textContent = fmt(t.sla);
-            cell.style.color = t.sla <= 0 ? "var(--dv-danger)" : t.sla < 120 ? "var(--dv-warning)" : "";
+            cell.style.color = t.sla <= 0 ? "var(--tsl-danger)" : t.sla < 120 ? "var(--tsl-warning)" : "";
           });
           ctx.$("[data-breached]").textContent = `${tickets.filter((t) => t.sla <= 0).length} vencidos`;
         });
@@ -476,7 +476,7 @@
             render();
           }
         });
-        ctx.on(ctx.$("[data-filter]"), "dv-change", (e) => ((filter = e.detail.value), render()));
+        ctx.on(ctx.$("[data-filter]"), "tsl-change", (e) => ((filter = e.detail.value), render()));
         render();
       }
     },
@@ -485,55 +485,55 @@
       html: `
         ${head("Paneles · market.tsx", "Mercados", "Cotizaciones simuladas en vivo con paseo aleatorio. Selecciona una y compra o vende; el portafolio y el efectivo se actualizan.")}
         <div class="xp-split" style="--cols:300px minmax(0,1fr)">
-          <ul class="dv-list" data-watch style="border:0;border-radius:0"></ul>
-          <div class="xp-pane dv-stack">
-            <div class="dv-row"><h3 class="xp-title" style="margin:0" data-sym></h3><span class="xp-num xp-mono" style="font-size:22px" data-price></span><span class="dv-badge" data-chg></span></div>
-            <dv-sparkline fill style="--w:100%;--h:120px" data-big></dv-sparkline>
-            <form class="dv-row" data-trade><div class="dv-number"><button type="button" data-step="-1" aria-label="Menos">−</button><input type="number" min="1" max="1000" value="10" name="qty" aria-label="Cantidad" /><button type="button" data-step="1" aria-label="Más">+</button></div><button type="submit" class="dv-btn dv-btn--primary" value="buy">Comprar</button><button type="submit" class="dv-btn" value="sell">Vender</button><span class="dv-spacer"></span><span class="dv-muted">Efectivo <strong class="xp-mono" data-cash></strong></span></form>
-            <div class="dv-table-wrap"><table class="dv-table dv-table--compact"><thead><tr><th>Posición</th><th class="is-num">Cant.</th><th class="is-num">Valor</th><th class="is-num">G/P</th></tr></thead><tbody data-pos></tbody></table></div>
+          <ul class="tsl-list" data-watch style="border:0;border-radius:0"></ul>
+          <div class="xp-pane tsl-stack">
+            <div class="tsl-row"><h3 class="xp-title" style="margin:0" data-sym></h3><span class="xp-num xp-mono" style="font-size:22px" data-price></span><span class="tsl-badge" data-chg></span></div>
+            <tsl-sparkline fill style="--w:100%;--h:120px" data-big></tsl-sparkline>
+            <form class="tsl-row" data-trade><div class="tsl-number"><button type="button" data-step="-1" aria-label="Menos">−</button><input type="number" min="1" max="1000" value="10" name="qty" aria-label="Cantidad" /><button type="button" data-step="1" aria-label="Más">+</button></div><button type="submit" class="tsl-btn tsl-btn--primary" value="buy">Comprar</button><button type="submit" class="tsl-btn" value="sell">Vender</button><span class="tsl-spacer"></span><span class="tsl-muted">Efectivo <strong class="xp-mono" data-cash></strong></span></form>
+            <div class="tsl-table-wrap"><table class="tsl-table tsl-table--compact"><thead><tr><th>Posición</th><th class="is-num">Cant.</th><th class="is-num">Valor</th><th class="is-num">G/P</th></tr></thead><tbody data-pos></tbody></table></div>
           </div>
         </div>`,
       setup(root, ctx) {
-        const tickers = { DEVL: 142.3, ACME: 88.1, GLBX: 23.75, INIT: 310.4, UMBR: 57.9 };
+        const tickers = { TSLX: 142.3, ACME: 88.1, GLBX: 23.75, INIT: 310.4, UMBR: 57.9 };
         // Inicializa cada cotización con un paseo aleatorio hacia atrás que termina en el precio de hoy
         const hist = Object.fromEntries(
           Object.entries(tickers).map(([k, v]) => {
-            const r = DEVL_XP.rng(k.charCodeAt(0) * 31 + k.charCodeAt(1));
+            const r = TESELA_XP.rng(k.charCodeAt(0) * 31 + k.charCodeAt(1));
             const out = [v];
             for (let i = 1; i < 40; i++) out.unshift(+(out[0] * (1 + (r() - 0.5) * 0.02)).toFixed(2));
             return [k, out];
           })
         );
         const open = { ...tickers };
-        let sel = "DEVL";
+        let sel = "TSLX";
         let cash = 10000;
         const pos = {};
         const watch = ctx.$("[data-watch]");
-        watch.innerHTML = Object.keys(tickers).map((k) => `<li class="xp-select-item" data-k="${k}"><strong class="xp-mono" style="width:52px">${k}</strong><dv-sparkline style="--w:80px;--h:22px"></dv-sparkline><span class="dv-list__end xp-mono" data-p></span></li>`).join("");
+        watch.innerHTML = Object.keys(tickers).map((k) => `<li class="xp-select-item" data-k="${k}"><strong class="xp-mono" style="width:52px">${k}</strong><tsl-sparkline style="--w:80px;--h:22px"></tsl-sparkline><span class="tsl-list__end xp-mono" data-p></span></li>`).join("");
         const render = () => {
           Object.keys(tickers).forEach((k) => {
             const li = watch.querySelector(`[data-k="${k}"]`);
             const up = tickers[k] >= open[k];
             li.setAttribute("aria-selected", String(k === sel));
-            li.querySelector("dv-sparkline").setAttribute("values", hist[k].join(","));
-            li.querySelector("dv-sparkline").style.color = up ? "var(--dv-success)" : "var(--dv-danger)";
+            li.querySelector("tsl-sparkline").setAttribute("values", hist[k].join(","));
+            li.querySelector("tsl-sparkline").style.color = up ? "var(--tsl-success)" : "var(--tsl-danger)";
             li.querySelector("[data-p]").textContent = tickers[k].toFixed(2);
-            li.querySelector("[data-p]").style.color = up ? "var(--dv-success)" : "var(--dv-danger)";
+            li.querySelector("[data-p]").style.color = up ? "var(--tsl-success)" : "var(--tsl-danger)";
           });
           const chg = ((tickers[sel] - open[sel]) / open[sel]) * 100;
           ctx.$("[data-sym]").textContent = sel;
           ctx.$("[data-price]").textContent = ctx.fmt.money(tickers[sel]);
-          ctx.$("[data-chg]").className = `dv-badge dv-badge--${chg >= 0 ? "success" : "danger"}`;
+          ctx.$("[data-chg]").className = `tsl-badge tsl-badge--${chg >= 0 ? "success" : "danger"}`;
           ctx.$("[data-chg]").textContent = `${chg >= 0 ? "+" : ""}${chg.toFixed(2)}%`;
           ctx.$("[data-big]").setAttribute("values", hist[sel].join(","));
-          ctx.$("[data-big]").style.color = chg >= 0 ? "var(--dv-success)" : "var(--dv-danger)";
+          ctx.$("[data-big]").style.color = chg >= 0 ? "var(--tsl-success)" : "var(--tsl-danger)";
           ctx.$("[data-cash]").textContent = ctx.fmt.money(cash);
           ctx.$("[data-pos]").innerHTML = Object.keys(pos).length
             ? Object.entries(pos).map(([k, p]) => {
                 const pl = (tickers[k] - p.avg) * p.qty;
-                return `<tr><td class="xp-mono">${k}</td><td class="is-num">${p.qty}</td><td class="is-num">${ctx.fmt.money(p.qty * tickers[k])}</td><td class="is-num" style="color:${pl >= 0 ? "var(--dv-success)" : "var(--dv-danger)"}">${ctx.fmt.money(pl)}</td></tr>`;
+                return `<tr><td class="xp-mono">${k}</td><td class="is-num">${p.qty}</td><td class="is-num">${ctx.fmt.money(p.qty * tickers[k])}</td><td class="is-num" style="color:${pl >= 0 ? "var(--tsl-success)" : "var(--tsl-danger)"}">${ctx.fmt.money(pl)}</td></tr>`;
               }).join("")
-            : '<tr><td colspan="4" class="dv-muted">Aún no hay posiciones.</td></tr>';
+            : '<tr><td colspan="4" class="tsl-muted">Aún no hay posiciones.</td></tr>';
         };
         ctx.every(1000, () => {
           Object.keys(tickers).forEach((k) => {
@@ -610,7 +610,7 @@
     "api-keys": {
       eyebrow: "Tablas · api-keys.tsx", title: "API keys", desc: "Revoca claves de forma individual o en lote; las claves revocadas siguen listadas para auditoría.",
       columns: [{ key: "name", label: "Nombre", sort: "text" }, { key: "key", label: "Clave", mono: true }, { key: "scopes", label: "Permisos" }, { key: "used", label: "Último uso", sort: "text" }, { key: "status", label: "Estado" }],
-      rows: ["Producción", "Staging", "Deploy de CI", "Exportación de analítica", "Zapier", "App móvil"].map((n, i) => ({ id: n, name: n, key: `devl_live_••••${(1000 + i * 1337).toString(16)}`, scopes: pick(["lectura", "lectura, escritura", "admin"]), used: `hace ${i + 1} d`, status: "Activa" })),
+      rows: ["Producción", "Staging", "Deploy de CI", "Exportación de analítica", "Zapier", "App móvil"].map((n, i) => ({ id: n, name: n, key: `tsl_live_••••${(1000 + i * 1337).toString(16)}`, scopes: pick(["lectura", "lectura, escritura", "admin"]), used: `hace ${i + 1} d`, status: "Activa" })),
       filters: ["Activa", "Revocada"], badges: { status: { Activa: "success", Revocada: "danger" } },
       bulk: [{ label: "Revocar", set: "status=Revocada" }], rowAction: { label: "Revocar", set: "status=Revocada", toast: "{id} revocada" }
     },
@@ -636,7 +636,7 @@
       columns: [{ key: "time", label: "Hora", sort: "text", mono: true }, { key: "actor", label: "Actor", sort: "text" }, { key: "action", label: "Acción" }, { key: "target", label: "Objetivo" }, { key: "ip", label: "IP", mono: true }],
       rows: Array.from({ length: 16 }, (_, i) => ({ id: `evt_${9000 + i}`, time: `2026-10-${String(14 - Math.floor(i / 3)).padStart(2, "0")} ${String(9 + (i % 9)).padStart(2, "0")}:${String((i * 7) % 60).padStart(2, "0")}`, actor: pick(people), action: pick(["login", "role.update", "key.create", "member.remove", "billing.update"]), target: pick(["espacio de trabajo", "API key", "miembro", "plan"]), ip: `189.203.${i}.${40 + i}` })),
       filterKey: "action", filters: ["login", "role.update", "key.create", "member.remove", "billing.update"], badges: { action: { login: "", "role.update": "warning", "key.create": "info", "member.remove": "danger", "billing.update": "accent" } },
-      toolbar: '<button type="button" class="dv-btn dv-btn--sm" data-export>Exportar CSV</button>', pageSize: 8
+      toolbar: '<button type="button" class="tsl-btn tsl-btn--sm" data-export>Exportar CSV</button>', pageSize: 8
     }
   };
   function ctxMoney(n) {
@@ -657,7 +657,7 @@
   X.add("tables", "audit-log", {
     html: X.table(tables["audit-log"]).html,
     setup(root, ctx) {
-      DEVL_XP.tableSetup(root, ctx);
+      TESELA_XP.tableSetup(root, ctx);
       ctx.on(ctx.$("[data-export]"), "click", () => {
         const visible = ctx.$$("tbody tr").filter((tr) => !tr.hidden);
         const csv = ["time,actor,action,target,ip"].concat(visible.map((tr) => Array.from(tr.querySelectorAll("[data-f]"), (td) => `"${td.textContent.trim()}"`).join(","))).join("\n");
@@ -677,10 +677,10 @@
       columns: [{ key: "time", label: "Hora", mono: true }, { key: "level", label: "Nivel" }, { key: "route", label: "Ruta", mono: true }, { key: "ms", label: "Latencia", num: true, sort: "number" }, { key: "msg", label: "Mensaje" }],
       rows: Array.from({ length: 10 }, (_, i) => ({ id: `log${i}`, time: `12:0${i}:1${i}`, level: pick(["INFO", "INFO", "WARN", "ERROR"]), route: pick(["GET /api/v2/session", "POST /v2/compile", "GET /health"]), ms: Math.round(5 + r() * 300), msg: pick(["correcto", "fallo de caché", "consulta lenta", "tiempo de espera agotado en origen"]) })),
       filterKey: "level", filters: ["INFO", "WARN", "ERROR"], badges: { level: { INFO: "info", WARN: "warning", ERROR: "danger" } },
-      toolbar: '<label class="dv-choice">Seguimiento en vivo <input type="checkbox" role="switch" class="dv-switch" data-live /></label>'
+      toolbar: '<label class="tsl-choice">Seguimiento en vivo <input type="checkbox" role="switch" class="tsl-switch" data-live /></label>'
     }).html,
     setup(root, ctx) {
-      DEVL_XP.tableSetup(root, ctx);
+      TESELA_XP.tableSetup(root, ctx);
       const tbody = ctx.$("tbody");
       const search = ctx.$("[data-t-search]");
       let n = 0;
@@ -692,7 +692,7 @@
         const tr = document.createElement("tr");
         tr.dataset.id = `live${++n}`;
         tr.dataset.status = level;
-        tr.innerHTML = `<td><input type="checkbox" class="dv-check" data-t-row aria-label="Seleccionar" /></td><td data-f="time" style="font-family:var(--dv-font-mono)">${new Date().toLocaleTimeString("es-MX")}</td><td data-f="level"><span class="dv-badge dv-badge--${variant}">${level}</span></td><td data-f="route" style="font-family:var(--dv-font-mono)">${["GET /api/v2/session", "POST /v2/compile", "GET /health"][n % 3]}</td><td data-f="ms" class="is-num">${ms}</td><td data-f="msg">${level === "ERROR" ? "tiempo de espera agotado en origen" : level === "WARN" ? "consulta lenta" : "correcto"}</td>`;
+        tr.innerHTML = `<td><input type="checkbox" class="tsl-check" data-t-row aria-label="Seleccionar" /></td><td data-f="time" style="font-family:var(--tsl-font-mono)">${new Date().toLocaleTimeString("es-MX")}</td><td data-f="level"><span class="tsl-badge tsl-badge--${variant}">${level}</span></td><td data-f="route" style="font-family:var(--tsl-font-mono)">${["GET /api/v2/session", "POST /v2/compile", "GET /health"][n % 3]}</td><td data-f="ms" class="is-num">${ms}</td><td data-f="msg">${level === "ERROR" ? "tiempo de espera agotado en origen" : level === "WARN" ? "consulta lenta" : "correcto"}</td>`;
         tbody.prepend(tr);
         if (tbody.rows.length > 60) tbody.lastElementChild.remove();
         search.dispatchEvent(new Event("input"));
@@ -704,16 +704,16 @@
   X.add("tables", "transactions", {
     html: X.table({
       eyebrow: "Tablas · transactions.tsx", title: "Transacciones", desc: "Los totales de ingresos, gastos y neto se recalculan según lo que está visible.",
-      columns: [{ key: "date", label: "Fecha", sort: "text", mono: true }, { key: "merchant", label: "Comercio", sort: "text" }, { key: "category", label: "Categoría" }, { key: "amount", label: "Monto", sort: "number", num: true, render: (row) => `<span data-value="${row.amount}" style="color:${row.amount < 0 ? "var(--dv-fg)" : "var(--dv-success)"}">${row.amount < 0 ? "−" : "+"}${X.fmt.money(Math.abs(row.amount))}</span>` }],
+      columns: [{ key: "date", label: "Fecha", sort: "text", mono: true }, { key: "merchant", label: "Comercio", sort: "text" }, { key: "category", label: "Categoría" }, { key: "amount", label: "Monto", sort: "number", num: true, render: (row) => `<span data-value="${row.amount}" style="color:${row.amount < 0 ? "var(--tsl-fg)" : "var(--tsl-success)"}">${row.amount < 0 ? "−" : "+"}${X.fmt.money(Math.abs(row.amount))}</span>` }],
       rows: Array.from({ length: 14 }, (_, i) => {
         const cat = pick(["Software", "Viajes", "Nómina", "Ingresos", "Oficina"]);
         return { id: `tx${i}`, date: date(i), merchant: cat === "Ingresos" ? pick(companies) : pick(["Figma", "Delta", "Gusto", "AWS", "WeWork", "Notion"]), category: cat, amount: ctxMoney(cat === "Ingresos" ? 800 + r() * 5000 : -(20 + r() * 2400)) };
       }),
       filterKey: "category", filters: ["Software", "Viajes", "Nómina", "Ingresos", "Oficina"],
-      toolbar: '<span class="dv-badge dv-badge--success" data-in></span><span class="dv-badge" data-out></span><span class="dv-badge dv-badge--accent" data-net></span>'
+      toolbar: '<span class="tsl-badge tsl-badge--success" data-in></span><span class="tsl-badge" data-out></span><span class="tsl-badge tsl-badge--accent" data-net></span>'
     }).html,
     setup(root, ctx) {
-      DEVL_XP.tableSetup(root, ctx);
+      TESELA_XP.tableSetup(root, ctx);
       const totals = () => {
         let income = 0;
         let spend = 0;
@@ -750,12 +750,12 @@
     toolbar: {
       html: `
         ${head("Filtros · toolbar.tsx", "Barra de filtros", "Busca, ordena, agrupa y cambia la vista. Cada control vuelve a renderizar la lista al instante.")}
-        <div class="dv-row xp-panel" style="padding:10px">
-          <input class="dv-input xp-search" data-q placeholder="Buscar tareas…" aria-label="Buscar tareas" />
-          <label class="dv-choice">Ordenar <select class="dv-select" style="width:auto;height:30px" data-sort><option value="title">Título</option><option value="priority">Prioridad</option><option value="points">Puntos</option></select></label>
-          <label class="dv-choice">Agrupar <select class="dv-select" style="width:auto;height:30px" data-group><option value="">Ninguno</option><option value="status">Estado</option><option value="assignee">Asignado a</option></select></label>
-          <span class="dv-spacer"></span>
-          <dv-segmented value="list" data-display><button class="dv-segmented__item" value="list">Lista</button><button class="dv-segmented__item" value="grid">Cuadrícula</button></dv-segmented>
+        <div class="tsl-row xp-panel" style="padding:10px">
+          <input class="tsl-input xp-search" data-q placeholder="Buscar tareas…" aria-label="Buscar tareas" />
+          <label class="tsl-choice">Ordenar <select class="tsl-select" style="width:auto;height:30px" data-sort><option value="title">Título</option><option value="priority">Prioridad</option><option value="points">Puntos</option></select></label>
+          <label class="tsl-choice">Agrupar <select class="tsl-select" style="width:auto;height:30px" data-group><option value="">Ninguno</option><option value="status">Estado</option><option value="assignee">Asignado a</option></select></label>
+          <span class="tsl-spacer"></span>
+          <tsl-segmented value="list" data-display><button class="tsl-segmented__item" value="list">Lista</button><button class="tsl-segmented__item" value="grid">Cuadrícula</button></tsl-segmented>
         </div>
         <div data-out data-tasks="${tasksJSON}"></div>`,
       setup(root, ctx) {
@@ -770,13 +770,13 @@
             .filter((t) => t.title.toLowerCase().includes(q))
             .sort((a, b) => (sortKey === "priority" ? order[a.priority] - order[b.priority] : sortKey === "points" ? b.points - a.points : a.title.localeCompare(b.title)));
           const groups = groupKey ? [...new Set(rows.map((t) => t[groupKey]))].map((g) => [g, rows.filter((t) => t[groupKey] === g)]) : [["", rows]];
-          const item = (t) => (grid ? `<div class="dv-card dv-card--flat"><div class="dv-card__body dv-stack" style="--gap:6px"><strong>${t.title}</strong><div class="dv-row" style="--gap:6px"><span class="dv-badge">${t.status}</span><span class="dv-badge dv-badge--outline">${t.priority}</span><span class="dv-muted">${t.points} pts · ${t.assignee}</span></div></div></div>` : `<li><span class="dv-badge" style="width:84px;justify-content:center">${t.status}</span><span style="flex:1">${t.title}</span><span class="dv-muted">${t.assignee}</span><span class="dv-badge dv-badge--outline">${t.priority}</span><span class="xp-mono dv-muted">${t.points}</span></li>`);
+          const item = (t) => (grid ? `<div class="tsl-card tsl-card--flat"><div class="tsl-card__body tsl-stack" style="--gap:6px"><strong>${t.title}</strong><div class="tsl-row" style="--gap:6px"><span class="tsl-badge">${t.status}</span><span class="tsl-badge tsl-badge--outline">${t.priority}</span><span class="tsl-muted">${t.points} pts · ${t.assignee}</span></div></div></div>` : `<li><span class="tsl-badge" style="width:84px;justify-content:center">${t.status}</span><span style="flex:1">${t.title}</span><span class="tsl-muted">${t.assignee}</span><span class="tsl-badge tsl-badge--outline">${t.priority}</span><span class="xp-mono tsl-muted">${t.points}</span></li>`);
           ctx.$("[data-out]").innerHTML = rows.length
-            ? groups.map(([g, list]) => `${g ? `<div class="dv-divider">${g} · ${list.length}</div>` : ""}${grid ? `<div class="dv-grid" style="--min:200px">${list.map(item).join("")}</div>` : `<ul class="dv-list">${list.map(item).join("")}</ul>`}`).join("")
-            : '<div class="dv-empty"><div class="dv-empty__title">Ninguna tarea coincide</div></div>';
+            ? groups.map(([g, list]) => `${g ? `<div class="tsl-divider">${g} · ${list.length}</div>` : ""}${grid ? `<div class="tsl-grid" style="--min:200px">${list.map(item).join("")}</div>` : `<ul class="tsl-list">${list.map(item).join("")}</ul>`}`).join("")
+            : '<div class="tsl-empty"><div class="tsl-empty__title">Ninguna tarea coincide</div></div>';
         };
         ["[data-q]", "[data-sort]", "[data-group]"].forEach((s) => ctx.on(ctx.$(s), "input", render));
-        ctx.on(ctx.$("[data-display]"), "dv-change", render);
+        ctx.on(ctx.$("[data-display]"), "tsl-change", render);
         render();
       }
     },
@@ -784,11 +784,11 @@
     faceted: {
       html: `
         ${head("Filtros · faceted.tsx", "Popover con facetas", "Facetas de selección múltiple con conteos en vivo. Las facetas activas se muestran como una insignia en su botón.")}
-        <div class="dv-row" data-bar>
-          ${["status", "assignee", "priority"].map((f) => `<dv-menu data-facet="${f}"><button type="button" class="dv-btn dv-btn--sm" data-dv-trigger>${{ status: "Estado", assignee: "Asignado a", priority: "Prioridad" }[f]} <span class="dv-badge dv-badge--accent" data-n hidden></span> ▾</button><div class="dv-menu__list" data-opts></div></dv-menu>`).join("")}
-          <button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-clear>Borrar todo</button><span class="dv-spacer"></span><span class="dv-muted" data-count></span>
+        <div class="tsl-row" data-bar>
+          ${["status", "assignee", "priority"].map((f) => `<tsl-menu data-facet="${f}"><button type="button" class="tsl-btn tsl-btn--sm" data-tsl-trigger>${{ status: "Estado", assignee: "Asignado a", priority: "Prioridad" }[f]} <span class="tsl-badge tsl-badge--accent" data-n hidden></span> ▾</button><div class="tsl-menu__list" data-opts></div></tsl-menu>`).join("")}
+          <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-clear>Borrar todo</button><span class="tsl-spacer"></span><span class="tsl-muted" data-count></span>
         </div>
-        <ul class="dv-list" data-out data-tasks="${tasksJSON}"></ul>`,
+        <ul class="tsl-list" data-out data-tasks="${tasksJSON}"></ul>`,
       setup(root, ctx) {
         const data = JSON.parse(ctx.$("[data-out]").dataset.tasks);
         const sel = { status: new Set(), assignee: new Set(), priority: new Set() };
@@ -798,14 +798,14 @@
             const f = menu.dataset.facet;
             const values = [...new Set(data.map((t) => t[f]))];
             const opts = menu.querySelector("[data-opts]");
-            opts.innerHTML = values.map((v) => `<label class="dv-menu__item"><input type="checkbox" class="dv-check" value="${v}"${sel[f].has(v) ? " checked" : ""} /> ${v}<span class="dv-nav__meta">${data.filter((t) => t[f] === v && match(t, f)).length}</span></label>`).join("");
+            opts.innerHTML = values.map((v) => `<label class="tsl-menu__item"><input type="checkbox" class="tsl-check" value="${v}"${sel[f].has(v) ? " checked" : ""} /> ${v}<span class="tsl-nav__meta">${data.filter((t) => t[f] === v && match(t, f)).length}</span></label>`).join("");
             const n = menu.querySelector("[data-n]");
             n.hidden = !sel[f].size;
             n.textContent = String(sel[f].size);
           });
           const rows = data.filter((t) => match(t));
           ctx.$("[data-count]").textContent = `${rows.length} de ${data.length}`;
-          ctx.$("[data-out]").innerHTML = rows.map((t) => `<li><span style="flex:1">${t.title}</span><span class="dv-badge">${t.status}</span><span class="dv-muted">${t.assignee}</span><span class="dv-badge dv-badge--outline">${t.priority}</span></li>`).join("") || '<li class="dv-muted">Sin resultados</li>';
+          ctx.$("[data-out]").innerHTML = rows.map((t) => `<li><span style="flex:1">${t.title}</span><span class="tsl-badge">${t.status}</span><span class="tsl-muted">${t.assignee}</span><span class="tsl-badge tsl-badge--outline">${t.priority}</span></li>`).join("") || '<li class="tsl-muted">Sin resultados</li>';
         };
         ctx.on(ctx.$("[data-bar]"), "change", (e) => {
           const menu = e.target.closest("[data-facet]");
@@ -815,7 +815,7 @@
           render();
         });
         // mantiene el menú abierto mientras se marcan casillas
-        ctx.$$(".dv-menu__list").forEach((l) => ctx.on(l, "click", (e) => e.stopPropagation(), true));
+        ctx.$$(".tsl-menu__list").forEach((l) => ctx.on(l, "click", (e) => e.stopPropagation(), true));
         ctx.on(ctx.$("[data-clear]"), "click", () => {
           Object.values(sel).forEach((s) => s.clear());
           render();
@@ -827,14 +827,14 @@
     chips: {
       html: `
         ${head("Filtros · chips.tsx", "Chips de filtros activos", "Crea filtros como campo · operador · valor. Los chips se pueden quitar y se combinan con AND.")}
-        <form class="dv-row xp-panel" style="padding:10px" data-builder>
-          <select class="dv-select" style="width:auto" name="field" aria-label="Campo"><option value="status">Estado</option><option value="assignee">Asignado a</option><option value="priority">Prioridad</option><option value="points">Puntos</option></select>
-          <select class="dv-select" style="width:auto" name="op" aria-label="Operador"><option value="is">es</option><option value="not">no es</option><option value="gt">mayor que</option></select>
-          <input class="dv-input" style="width:160px" name="value" placeholder="p. ej. Hecho, Ana, 3" aria-label="Valor" required />
-          <button type="submit" class="dv-btn dv-btn--primary dv-btn--sm">Agregar filtro</button>
+        <form class="tsl-row xp-panel" style="padding:10px" data-builder>
+          <select class="tsl-select" style="width:auto" name="field" aria-label="Campo"><option value="status">Estado</option><option value="assignee">Asignado a</option><option value="priority">Prioridad</option><option value="points">Puntos</option></select>
+          <select class="tsl-select" style="width:auto" name="op" aria-label="Operador"><option value="is">es</option><option value="not">no es</option><option value="gt">mayor que</option></select>
+          <input class="tsl-input" style="width:160px" name="value" placeholder="p. ej. Hecho, Ana, 3" aria-label="Valor" required />
+          <button type="submit" class="tsl-btn tsl-btn--primary tsl-btn--sm">Agregar filtro</button>
         </form>
-        <div class="dv-row" data-chips><span class="dv-muted" data-none>Sin filtros: se muestra todo.</span></div>
-        <ul class="dv-list" data-out data-tasks="${tasksJSON}"></ul>`,
+        <div class="tsl-row" data-chips><span class="tsl-muted" data-none>Sin filtros: se muestra todo.</span></div>
+        <ul class="tsl-list" data-out data-tasks="${tasksJSON}"></ul>`,
       setup(root, ctx) {
         const data = JSON.parse(ctx.$("[data-out]").dataset.tasks);
         const filters = [];
@@ -848,12 +848,12 @@
         };
         const render = () => {
           const chips = ctx.$("[data-chips]");
-          chips.innerHTML = filters.length ? "" : '<span class="dv-muted">Sin filtros: se muestra todo.</span>';
+          chips.innerHTML = filters.length ? "" : '<span class="tsl-muted">Sin filtros: se muestra todo.</span>';
           filters.forEach((f, i) => {
             const chip = document.createElement("span");
-            chip.className = "dv-chip";
-            chip.style.color = "var(--dv-fg)";
-            chip.innerHTML = `<span></span><button type="button" class="dv-chip__remove" aria-label="Quitar filtro">✕</button>`;
+            chip.className = "tsl-chip";
+            chip.style.color = "var(--tsl-fg)";
+            chip.innerHTML = `<span></span><button type="button" class="tsl-chip__remove" aria-label="Quitar filtro">✕</button>`;
             chip.firstChild.textContent = `${fieldLabels[f.field]} ${ops[f.op]} ${f.value}`;
             chip.lastChild.addEventListener("click", () => {
               filters.splice(i, 1);
@@ -862,7 +862,7 @@
             chips.appendChild(chip);
           });
           const rows = data.filter((t) => filters.every((f) => test(t, f)));
-          ctx.$("[data-out]").innerHTML = rows.map((t) => `<li><span style="flex:1">${t.title}</span><span class="dv-badge">${t.status}</span><span class="dv-muted">${t.assignee}</span><span class="dv-badge dv-badge--outline">${t.priority}</span><span class="xp-mono">${t.points}</span></li>`).join("") || '<li class="dv-muted">Ninguna tarea cumple todos los filtros.</li>';
+          ctx.$("[data-out]").innerHTML = rows.map((t) => `<li><span style="flex:1">${t.title}</span><span class="tsl-badge">${t.status}</span><span class="tsl-muted">${t.assignee}</span><span class="tsl-badge tsl-badge--outline">${t.priority}</span><span class="xp-mono">${t.points}</span></li>`).join("") || '<li class="tsl-muted">Ninguna tarea cumple todos los filtros.</li>';
         };
         ctx.on(ctx.$("[data-builder]"), "submit", (e) => {
           e.preventDefault();
@@ -880,17 +880,17 @@
       html: `
         ${head("Filtros · sidebar.tsx", "Barra lateral de filtros", "Los filtros de categoría, rango de precio, calificación y existencias acotan una cuadrícula de productos en vivo.")}
         <div class="xp-split" style="--cols:240px minmax(0,1fr)">
-          <aside class="xp-pane dv-stack" data-form>
-            <span class="dv-label">Categoría</span>
-            ${["Audio", "Escritorio", "Iluminación", "Cables"].map((c) => `<label class="dv-choice"><input type="checkbox" class="dv-check" name="cat" value="${c}" checked /> ${c}</label>`).join("")}
-            <span class="dv-label" style="margin-top:8px">Precio máx. <strong class="xp-mono" id="sb-price-out">$300</strong></span>
-            <input type="range" class="dv-range" min="10" max="300" value="300" name="price" data-dv-output="#sb-price-out" aria-label="Precio máximo" />
-            <span class="dv-label" style="margin-top:8px">Calificación mín.</span>
-            <dv-segmented value="0" name="rating" data-rating><button class="dv-segmented__item" value="0">Cualquiera</button><button class="dv-segmented__item" value="4">4★+</button><button class="dv-segmented__item" value="4.5">4.5★+</button></dv-segmented>
-            <label class="dv-choice" style="margin-top:8px;justify-content:space-between">Solo en stock <input type="checkbox" role="switch" class="dv-switch" name="stock" /></label>
-            <button type="button" class="dv-btn dv-btn--sm" data-reset>Restablecer filtros</button>
+          <aside class="xp-pane tsl-stack" data-form>
+            <span class="tsl-label">Categoría</span>
+            ${["Audio", "Escritorio", "Iluminación", "Cables"].map((c) => `<label class="tsl-choice"><input type="checkbox" class="tsl-check" name="cat" value="${c}" checked /> ${c}</label>`).join("")}
+            <span class="tsl-label" style="margin-top:8px">Precio máx. <strong class="xp-mono" id="sb-price-out">$300</strong></span>
+            <input type="range" class="tsl-range" min="10" max="300" value="300" name="price" data-tsl-output="#sb-price-out" aria-label="Precio máximo" />
+            <span class="tsl-label" style="margin-top:8px">Calificación mín.</span>
+            <tsl-segmented value="0" name="rating" data-rating><button class="tsl-segmented__item" value="0">Cualquiera</button><button class="tsl-segmented__item" value="4">4★+</button><button class="tsl-segmented__item" value="4.5">4.5★+</button></tsl-segmented>
+            <label class="tsl-choice" style="margin-top:8px;justify-content:space-between">Solo en stock <input type="checkbox" role="switch" class="tsl-switch" name="stock" /></label>
+            <button type="button" class="tsl-btn tsl-btn--sm" data-reset>Restablecer filtros</button>
           </aside>
-          <div class="xp-pane dv-stack"><span class="dv-muted" data-count></span><div class="dv-grid" style="--min:170px" data-grid></div></div>
+          <div class="xp-pane tsl-stack"><span class="tsl-muted" data-count></span><div class="tsl-grid" style="--min:170px" data-grid></div></div>
         </div>`,
       setup(root, ctx) {
         const products = [
@@ -905,11 +905,11 @@
           const stock = ctx.$('[name="stock"]').checked;
           const rows = products.filter(([, c, p, r, s]) => cats.includes(c) && p <= max && r >= rating && (!stock || s));
           ctx.$("[data-count]").textContent = `${rows.length} de ${products.length} productos`;
-          ctx.$("[data-grid]").innerHTML = rows.map(([n, c, p, r, s]) => `<div class="dv-card dv-card--flat"><div class="dv-card__body dv-stack" style="--gap:6px"><span class="dv-eyebrow">${c}</span><strong>${n}</strong><div class="dv-row" style="--gap:6px"><span class="xp-mono">$${p}</span><span class="dv-muted">★ ${r}</span>${s ? "" : '<span class="dv-badge dv-badge--warning">Agotado</span>'}</div></div></div>`).join("") || '<div class="dv-empty"><div class="dv-empty__title">Sin productos</div><p class="dv-empty__desc">Afloja algún filtro.</p></div>';
+          ctx.$("[data-grid]").innerHTML = rows.map(([n, c, p, r, s]) => `<div class="tsl-card tsl-card--flat"><div class="tsl-card__body tsl-stack" style="--gap:6px"><span class="tsl-eyebrow">${c}</span><strong>${n}</strong><div class="tsl-row" style="--gap:6px"><span class="xp-mono">$${p}</span><span class="tsl-muted">★ ${r}</span>${s ? "" : '<span class="tsl-badge tsl-badge--warning">Agotado</span>'}</div></div></div>`).join("") || '<div class="tsl-empty"><div class="tsl-empty__title">Sin productos</div><p class="tsl-empty__desc">Afloja algún filtro.</p></div>';
         };
         ctx.on(ctx.$("[data-form]"), "input", render);
         ctx.on(ctx.$("[data-form]"), "change", render);
-        ctx.on(ctx.$("[data-rating]"), "dv-change", render);
+        ctx.on(ctx.$("[data-rating]"), "tsl-change", render);
         ctx.on(ctx.$("[data-reset]"), "click", () => {
           ctx.$$('[name="cat"]').forEach((c) => (c.checked = true));
           const range = ctx.$('[name="price"]');
@@ -931,11 +931,11 @@
     "revenue-area": {
       html: `
         ${head("Gráficas · revenue-area.tsx", "Área de ingresos", "Área con degradado, tooltip con cruz, selector de rango y comparación opcional con el periodo anterior.")}
-        <div class="dv-row"><dv-segmented value="12" data-range><button class="dv-segmented__item" value="6">6 m</button><button class="dv-segmented__item" value="12">12 m</button><button class="dv-segmented__item" value="24">24 m</button></dv-segmented><label class="dv-choice">Comparar con el periodo anterior <input type="checkbox" role="switch" class="dv-switch" data-compare checked /></label></div>
+        <div class="tsl-row"><tsl-segmented value="12" data-range><button class="tsl-segmented__item" value="6">6 m</button><button class="tsl-segmented__item" value="12">12 m</button><button class="tsl-segmented__item" value="24">24 m</button></tsl-segmented><label class="tsl-choice">Comparar con el periodo anterior <input type="checkbox" role="switch" class="tsl-switch" data-compare checked /></label></div>
         <div class="xp-panel xp-rel">${tip}<svg class="xp-chart" viewBox="0 0 760 280" data-chart></svg></div>`,
       setup(root, ctx) {
-        const C = DEVL_XP.chart;
-        const r = DEVL_XP.rng(3);
+        const C = TESELA_XP.chart;
+        const r = TESELA_XP.rng(3);
         let v = 40000;
         const all = Array.from({ length: 48 }, () => (v = v * (1 + (r() - 0.35) * 0.09)));
         const svg = ctx.$("[data-chart]");
@@ -959,7 +959,7 @@
             ${cmp ? `<path d="${C.path(prev.map((val, i) => [x(i), y(val)]))}" fill="none" stroke="currentColor" stroke-opacity="0.35" stroke-dasharray="4 4"/>` : ""}
             <path d="${C.path(pts)} L${x(n - 1)},${box.y + box.h} L${box.x},${box.y + box.h} Z" fill="url(#xp-ra-g)"/>
             <path d="${C.path(pts)}" fill="none" stroke="var(--xp-accent)" stroke-width="2.5"/>
-            <line data-x y1="${box.y}" y2="${box.y + box.h}" stroke="currentColor" stroke-dasharray="3 3" opacity="0"/><circle data-d r="5" fill="var(--xp-accent)" stroke="var(--dv-bg)" stroke-width="2" opacity="0"/>`;
+            <line data-x y1="${box.y}" y2="${box.y + box.h}" stroke="currentColor" stroke-dasharray="3 3" opacity="0"/><circle data-d r="5" fill="var(--xp-accent)" stroke="var(--tsl-bg)" stroke-width="2" opacity="0"/>`;
         };
         ctx.on(svg, "pointermove", (e) => {
           const i = C.indexAt(svg, e, cur.length, box.x, box.x + box.w);
@@ -973,10 +973,10 @@
           dot.setAttribute("opacity", "1");
           const d = ((cur[i] - prev[i]) / prev[i]) * 100;
           const month = new Date(2026, 9 - (cur.length - 1 - i), 1).toLocaleDateString("es-MX", { month: "short", year: "numeric" });
-          C.tip(tipEl, e, `<strong>${month}</strong><br>${ctx.fmt.money(cur[i], "USD", 0)} <span style="color:${d >= 0 ? "var(--dv-success)" : "var(--dv-danger)"}">${d >= 0 ? "+" : ""}${d.toFixed(1)}%</span>`);
+          C.tip(tipEl, e, `<strong>${month}</strong><br>${ctx.fmt.money(cur[i], "USD", 0)} <span style="color:${d >= 0 ? "var(--tsl-success)" : "var(--tsl-danger)"}">${d >= 0 ? "+" : ""}${d.toFixed(1)}%</span>`);
         });
         ctx.on(svg, "pointerleave", () => (tipEl.hidden = true));
-        ctx.on(ctx.$("[data-range]"), "dv-change", render);
+        ctx.on(ctx.$("[data-range]"), "tsl-change", render);
         ctx.on(ctx.$("[data-compare]"), "change", render);
         render();
       }
@@ -985,10 +985,10 @@
     "cohort-heatmap": {
       html: `
         ${head("Gráficas · cohort-heatmap.tsx", "Mapa de calor de cohortes", "Retención semanal por cohorte de registro. Alterna entre % y usuarios y pasa el cursor sobre cualquier celda.")}
-        <div class="dv-row"><dv-segmented value="pct" data-metric><button class="dv-segmented__item" value="pct">Retención %</button><button class="dv-segmented__item" value="users">Usuarios</button></dv-segmented></div>
-        <div class="xp-panel xp-rel" style="overflow:auto">${tip}<table class="dv-table dv-table--compact" data-grid style="width:auto"></table></div>`,
+        <div class="tsl-row"><tsl-segmented value="pct" data-metric><button class="tsl-segmented__item" value="pct">Retención %</button><button class="tsl-segmented__item" value="users">Usuarios</button></tsl-segmented></div>
+        <div class="xp-panel xp-rel" style="overflow:auto">${tip}<table class="tsl-table tsl-table--compact" data-grid style="width:auto"></table></div>`,
       setup(root, ctx) {
-        const r = DEVL_XP.rng(9);
+        const r = TESELA_XP.rng(9);
         const cohorts = Array.from({ length: 8 }, (_, c) => {
           const size = Math.round(400 + r() * 600);
           let ret = 100;
@@ -1002,7 +1002,7 @@
               const v = c.weeks[w];
               if (v === undefined) return "<td></td>";
               const users = Math.round((c.size * v) / 100);
-              return `<td class="is-num" data-c="${ci}" data-w="${w}" style="background:color-mix(in srgb, var(--xp-accent) ${Math.round(v * 0.85)}%, transparent);color:${v > 55 ? "#fff" : "var(--dv-fg)"}">${pct ? `${v.toFixed(0)}%` : users}</td>`;
+              return `<td class="is-num" data-c="${ci}" data-w="${w}" style="background:color-mix(in srgb, var(--xp-accent) ${Math.round(v * 0.85)}%, transparent);color:${v > 55 ? "#fff" : "var(--tsl-fg)"}">${pct ? `${v.toFixed(0)}%` : users}</td>`;
             }).join("")}</tr>`)
             .join("")}</tbody>`;
         };
@@ -1012,10 +1012,10 @@
           if (!td) return (tipEl.hidden = true);
           const c = cohorts[td.dataset.c];
           const v = c.weeks[td.dataset.w];
-          DEVL_XP.chart.tip(tipEl, e, `<strong>${c.name} · semana ${td.dataset.w}</strong><br>${Math.round((c.size * v) / 100)} de ${c.size} usuarios (${v.toFixed(1)}%)`);
+          TESELA_XP.chart.tip(tipEl, e, `<strong>${c.name} · semana ${td.dataset.w}</strong><br>${Math.round((c.size * v) / 100)} de ${c.size} usuarios (${v.toFixed(1)}%)`);
         });
         ctx.on(table, "pointerleave", () => (tipEl.hidden = true));
-        ctx.on(ctx.$("[data-metric]"), "dv-change", render);
+        ctx.on(ctx.$("[data-metric]"), "tsl-change", render);
         render();
       }
     },
@@ -1023,13 +1023,13 @@
     funnel: {
       html: `
         ${head("Gráficas · funnel.tsx", "Embudo", "Edita el conteo de cualquier etapa: las barras, la conversión por paso y la caída se recalculan. La mayor fuga se resalta.")}
-        <div class="xp-panel dv-stack" data-funnel></div>
-        <div class="dv-row"><span class="dv-badge dv-badge--accent" data-overall></span><span class="dv-badge dv-badge--danger" data-leak></span></div>`,
+        <div class="xp-panel tsl-stack" data-funnel></div>
+        <div class="tsl-row"><span class="tsl-badge tsl-badge--accent" data-overall></span><span class="tsl-badge tsl-badge--danger" data-leak></span></div>`,
       setup(root, ctx) {
         const stages = [["Visitaron", 24000], ["Se registraron", 6200], ["Activaron", 3100], ["Se suscribieron", 840], ["Retenidos a 90 d", 610]];
         const wrap = ctx.$("[data-funnel]");
         wrap.innerHTML = stages
-          .map(([name, v], i) => `<div class="dv-row" style="flex-wrap:nowrap;--gap:12px"><span style="width:110px">${name}</span><input class="dv-input xp-mono" type="number" min="0" value="${v}" data-i="${i}" style="width:100px" aria-label="${name}" /><div style="flex:1;height:30px;background:var(--dv-surface-strong);border-radius:6px;overflow:hidden"><div data-bar style="height:100%;background:var(--xp-accent);border-radius:6px;transition:width .3s"></div></div><span class="xp-mono dv-muted" style="width:120px;text-align:right" data-conv></span></div>`)
+          .map(([name, v], i) => `<div class="tsl-row" style="flex-wrap:nowrap;--gap:12px"><span style="width:110px">${name}</span><input class="tsl-input xp-mono" type="number" min="0" value="${v}" data-i="${i}" style="width:100px" aria-label="${name}" /><div style="flex:1;height:30px;background:var(--tsl-surface-strong);border-radius:6px;overflow:hidden"><div data-bar style="height:100%;background:var(--xp-accent);border-radius:6px;transition:width .3s"></div></div><span class="xp-mono tsl-muted" style="width:120px;text-align:right" data-conv></span></div>`)
           .join("");
         const render = () => {
           const vals = ctx.$$("[data-i]").map((i) => Math.max(0, Number(i.value) || 0));
@@ -1040,7 +1040,7 @@
             if (i > 0 && 100 - conv > worst.drop) worst = { drop: 100 - conv, i };
             ctx.$$("[data-conv]")[i].textContent = i === 0 ? "100%" : `${conv.toFixed(1)}% (−${(100 - conv).toFixed(0)}%)`;
           });
-          ctx.$$("[data-bar]").forEach((bar, i) => (bar.style.background = i === worst.i ? "var(--dv-danger)" : "var(--xp-accent)"));
+          ctx.$$("[data-bar]").forEach((bar, i) => (bar.style.background = i === worst.i ? "var(--tsl-danger)" : "var(--xp-accent)"));
           ctx.$("[data-overall]").textContent = `Conversión global ${vals[0] ? ((vals[vals.length - 1] / vals[0]) * 100).toFixed(2) : 0}%`;
           ctx.$("[data-leak]").textContent = `Mayor fuga: ${stages[worst.i][0]} (−${worst.drop.toFixed(0)}%)`;
         };
@@ -1052,19 +1052,19 @@
     gauges: {
       html: `
         ${head("Gráficas · gauges.tsx", "Indicadores radiales", "Arrastra los controles deslizantes (o presiona Animar): los arcos, los colores y los umbrales se actualizan.")}
-        <div class="dv-grid" style="--min:200px" data-gauges></div>
-        <div class="dv-row"><button type="button" class="dv-btn" data-anim aria-pressed="false">▶ Animar carga</button></div>`,
+        <div class="tsl-grid" style="--min:200px" data-gauges></div>
+        <div class="tsl-row"><button type="button" class="tsl-btn" data-anim aria-pressed="false">▶ Animar carga</button></div>`,
       setup(root, ctx) {
         const defs = [["CPU", 42, "%"], ["Memoria", 68, "%"], ["Apdex", 91, ""]];
         const wrap = ctx.$("[data-gauges]");
-        wrap.innerHTML = defs.map(([n, v, u], i) => `<div class="xp-panel dv-stack" style="align-items:center"><svg viewBox="0 0 120 70" style="width:180px"><path d="M10,60 A50,50 0 0 1 110,60" fill="none" stroke="var(--dv-surface-strong)" stroke-width="10" stroke-linecap="round"/><path data-arc d="M10,60 A50,50 0 0 1 110,60" fill="none" stroke-width="10" stroke-linecap="round" pathLength="100"/><text x="60" y="56" text-anchor="middle" font-size="18" font-weight="600" fill="currentColor" data-val></text></svg><span class="dv-eyebrow">${n}</span><input type="range" class="dv-range" min="0" max="100" value="${v}" data-g="${i}" aria-label="${n}" /></div>`).join("");
+        wrap.innerHTML = defs.map(([n, v, u], i) => `<div class="xp-panel tsl-stack" style="align-items:center"><svg viewBox="0 0 120 70" style="width:180px"><path d="M10,60 A50,50 0 0 1 110,60" fill="none" stroke="var(--tsl-surface-strong)" stroke-width="10" stroke-linecap="round"/><path data-arc d="M10,60 A50,50 0 0 1 110,60" fill="none" stroke-width="10" stroke-linecap="round" pathLength="100"/><text x="60" y="56" text-anchor="middle" font-size="18" font-weight="600" fill="currentColor" data-val></text></svg><span class="tsl-eyebrow">${n}</span><input type="range" class="tsl-range" min="0" max="100" value="${v}" data-g="${i}" aria-label="${n}" /></div>`).join("");
         const render = () => {
           ctx.$$("[data-g]").forEach((input, i) => {
             const v = Number(input.value);
             const apdex = i === 2;
             const bad = apdex ? v < 70 : v > 85;
             const warn = apdex ? v < 85 : v > 65;
-            const color = bad ? "var(--dv-danger)" : warn ? "var(--dv-warning)" : "var(--dv-success)";
+            const color = bad ? "var(--tsl-danger)" : warn ? "var(--tsl-warning)" : "var(--tsl-success)";
             const card = input.closest(".xp-panel");
             const arc = card.querySelector("[data-arc]");
             arc.setAttribute("stroke", color);
@@ -1084,7 +1084,7 @@
           if (!anim) return;
           ctx.$$("[data-g]").forEach((input) => {
             input.value = String(Math.max(0, Math.min(100, Number(input.value) + Math.round((Math.random() - 0.5) * 18))));
-            DevlUI.init(root);
+            TeselaUI.init(root);
           });
           render();
         });
@@ -1095,14 +1095,14 @@
     "bar-grouped": {
       html: `
         ${head("Gráficas · bar-grouped.tsx", "Barras agrupadas", "Comparación trimestral de tres productos. Activa o desactiva series para reescalar; pasa el cursor para ver los valores.")}
-        <div class="dv-row" data-legend></div>
+        <div class="tsl-row" data-legend></div>
         <div class="xp-panel xp-rel">${tip}<svg class="xp-chart" viewBox="0 0 760 260" data-chart></svg></div>`,
       setup(root, ctx) {
-        const C = DEVL_XP.chart;
-        const series = [["Núcleo", "var(--xp-accent)", [120, 150, 170, 210]], ["Nube", "var(--dv-info)", [80, 110, 160, 190]], ["Soporte", "var(--dv-warning)", [40, 42, 55, 61]]];
+        const C = TESELA_XP.chart;
+        const series = [["Núcleo", "var(--xp-accent)", [120, 150, 170, 210]], ["Nube", "var(--tsl-info)", [80, 110, 160, 190]], ["Soporte", "var(--tsl-warning)", [40, 42, 55, 61]]];
         const on = series.map(() => true);
         const q = ["T1", "T2", "T3", "T4"];
-        ctx.$("[data-legend]").innerHTML = series.map(([n, c], i) => `<button type="button" class="dv-chip" aria-pressed="true" data-s="${i}"><span class="dv-dot" style="--_c:${c}"></span> ${n}</button>`).join("");
+        ctx.$("[data-legend]").innerHTML = series.map(([n, c], i) => `<button type="button" class="tsl-chip" aria-pressed="true" data-s="${i}"><span class="tsl-dot" style="--_c:${c}"></span> ${n}</button>`).join("");
         const svg = ctx.$("[data-chart]");
         const box = { x: 46, y: 10, w: 700, h: 210 };
         const render = () => {
@@ -1141,16 +1141,16 @@
     "line-multi": {
       html: `
         ${head("Gráficas · line-multi.tsx", "Líneas de varias series", "Latencia p50 / p95 / p99 con lectura compartida al pasar el cursor. Activa el modo en vivo para recibir un punto nuevo cada segundo.")}
-        <div class="dv-row"><div class="dv-row" data-legend></div><span class="dv-spacer"></span><label class="dv-choice">En vivo <input type="checkbox" role="switch" class="dv-switch" data-live /></label></div>
+        <div class="tsl-row"><div class="tsl-row" data-legend></div><span class="tsl-spacer"></span><label class="tsl-choice">En vivo <input type="checkbox" role="switch" class="tsl-switch" data-live /></label></div>
         <div class="xp-panel xp-rel">${tip}<svg class="xp-chart" viewBox="0 0 760 260" data-chart></svg></div>`,
       setup(root, ctx) {
-        const C = DEVL_XP.chart;
-        const keys = [["p50", "var(--dv-success)", 40], ["p95", "var(--dv-warning)", 120], ["p99", "var(--dv-danger)", 260]];
+        const C = TESELA_XP.chart;
+        const keys = [["p50", "var(--tsl-success)", 40], ["p95", "var(--tsl-warning)", 120], ["p99", "var(--tsl-danger)", 260]];
         const on = { p50: true, p95: true, p99: true };
         const data = { p50: [], p95: [], p99: [] };
         const push = () => keys.forEach(([k, , base]) => (data[k] = data[k].concat(base * (0.8 + Math.random() * 0.5)).slice(-30)));
         for (let i = 0; i < 30; i++) push();
-        ctx.$("[data-legend]").innerHTML = keys.map(([k, c]) => `<button type="button" class="dv-chip" aria-pressed="true" data-k="${k}"><span class="dv-dot" style="--_c:${c}"></span> ${k}</button>`).join("");
+        ctx.$("[data-legend]").innerHTML = keys.map(([k, c]) => `<button type="button" class="tsl-chip" aria-pressed="true" data-k="${k}"><span class="tsl-dot" style="--_c:${c}"></span> ${k}</button>`).join("");
         const svg = ctx.$("[data-chart]");
         const tipEl = ctx.$("[data-tip]");
         const box = { x: 50, y: 10, w: 696, h: 220 };
@@ -1190,12 +1190,12 @@
     donut: {
       html: `
         ${head("Gráficas · donut.tsx", "Desglose en dona", "Asignación del presupuesto. Pasa el cursor sobre un segmento o una fila de la leyenda; activa o desactiva categorías para renormalizar.")}
-        <div class="dv-row xp-panel" style="--gap:28px;align-items:center">
+        <div class="tsl-row xp-panel" style="--gap:28px;align-items:center">
           <svg viewBox="0 0 200 200" style="width:220px" data-donut></svg>
-          <ul class="dv-list" style="flex:1;min-width:220px" data-legend></ul>
+          <ul class="tsl-list" style="flex:1;min-width:220px" data-legend></ul>
         </div>`,
       setup(root, ctx) {
-        const items = [["Ingeniería", 420, "var(--xp-accent)"], ["Marketing", 180, "var(--dv-info)"], ["Ventas", 150, "var(--dv-warning)"], ["Administración", 90, "var(--dv-success)"], ["I+D", 120, "var(--dv-danger)"]];
+        const items = [["Ingeniería", 420, "var(--xp-accent)"], ["Marketing", 180, "var(--tsl-info)"], ["Ventas", 150, "var(--tsl-warning)"], ["Administración", 90, "var(--tsl-success)"], ["I+D", 120, "var(--tsl-danger)"]];
         const on = items.map(() => true);
         let hover = -1;
         const svg = ctx.$("[data-donut]");
@@ -1206,7 +1206,7 @@
           const R = 80;
           const circ = 2 * Math.PI * R;
           svg.innerHTML =
-            `<circle cx="100" cy="100" r="${R}" fill="none" stroke="var(--dv-surface-strong)" stroke-width="26"/>` +
+            `<circle cx="100" cy="100" r="${R}" fill="none" stroke="var(--tsl-surface-strong)" stroke-width="26"/>` +
             items
               .map(([n, v, c], i) => {
                 if (!on[i] || !total) return "";
@@ -1216,8 +1216,8 @@
                 return seg;
               })
               .join("") +
-            `<text x="100" y="96" text-anchor="middle" font-size="12" fill="var(--dv-fg-muted)">${hover >= 0 ? items[hover][0] : "Total"}</text><text x="100" y="118" text-anchor="middle" font-size="20" font-weight="600" fill="currentColor">$${hover >= 0 ? items[hover][1] : total}k</text>`;
-          legend.innerHTML = items.map(([n, v, c], i) => `<li data-i="${i}" style="opacity:${on[i] ? 1 : 0.4};cursor:pointer${hover === i ? ";background:var(--dv-surface-strong)" : ""}"><span class="dv-dot" style="--_c:${c}"></span><span style="flex:1">${n}</span><span class="xp-mono">$${v}k</span><span class="dv-muted xp-mono" style="width:48px;text-align:right">${on[i] && total ? ((v / total) * 100).toFixed(0) + "%" : "—"}</span></li>`).join("");
+            `<text x="100" y="96" text-anchor="middle" font-size="12" fill="var(--tsl-fg-muted)">${hover >= 0 ? items[hover][0] : "Total"}</text><text x="100" y="118" text-anchor="middle" font-size="20" font-weight="600" fill="currentColor">$${hover >= 0 ? items[hover][1] : total}k</text>`;
+          legend.innerHTML = items.map(([n, v, c], i) => `<li data-i="${i}" style="opacity:${on[i] ? 1 : 0.4};cursor:pointer${hover === i ? ";background:var(--tsl-surface-strong)" : ""}"><span class="tsl-dot" style="--_c:${c}"></span><span style="flex:1">${n}</span><span class="xp-mono">$${v}k</span><span class="tsl-muted xp-mono" style="width:48px;text-align:right">${on[i] && total ? ((v / total) * 100).toFixed(0) + "%" : "—"}</span></li>`).join("");
         };
         const onHover = (e) => {
           const el = e.target.closest("[data-i]");
@@ -1244,11 +1244,11 @@
     scatter: {
       html: `
         ${head("Gráficas · scatter.tsx", "Diagrama de dispersión", "Cuentas por uso frente a ingresos con una línea de tendencia ajustada. Filtra un cuadrante; pasa el cursor sobre los puntos para ver el detalle.")}
-        <div class="dv-row"><dv-segmented value="all" data-q><button class="dv-segmented__item" value="all">Todas</button><button class="dv-segmented__item" value="tr">Campeonas</button><button class="dv-segmented__item" value="br">Venta adicional</button><button class="dv-segmented__item" value="tl">En riesgo</button></dv-segmented><span class="dv-badge" data-r></span></div>
+        <div class="tsl-row"><tsl-segmented value="all" data-q><button class="tsl-segmented__item" value="all">Todas</button><button class="tsl-segmented__item" value="tr">Campeonas</button><button class="tsl-segmented__item" value="br">Venta adicional</button><button class="tsl-segmented__item" value="tl">En riesgo</button></tsl-segmented><span class="tsl-badge" data-r></span></div>
         <div class="xp-panel xp-rel">${tip}<svg class="xp-chart" viewBox="0 0 760 320" data-chart></svg></div>`,
       setup(root, ctx) {
-        const C = DEVL_XP.chart;
-        const r = DEVL_XP.rng(21);
+        const C = TESELA_XP.chart;
+        const r = TESELA_XP.rng(21);
         const pts = Array.from({ length: 70 }, (_, i) => {
           const u = r() * 100;
           return { name: `Cuenta ${i + 1}`, u, rev: Math.max(2, u * 0.9 + (r() - 0.5) * 50) };
@@ -1269,7 +1269,7 @@
           svg.innerHTML =
             C.grid(box, 120, 4, (v) => `$${v}k`) +
             `<line x1="${x(50)}" x2="${x(50)}" y1="${box.y}" y2="${box.y + box.h}" stroke="currentColor" stroke-opacity="0.2" stroke-dasharray="4 4"/><line x1="${box.x}" x2="${box.x + box.w}" y1="${y(60)}" y2="${y(60)}" stroke="currentColor" stroke-opacity="0.2" stroke-dasharray="4 4"/>` +
-            `<line x1="${x(0)}" y1="${y(my - slope * mx)}" x2="${x(100)}" y2="${y(my + slope * (100 - mx))}" stroke="var(--dv-warning)" stroke-width="1.5"/>` +
+            `<line x1="${x(0)}" y1="${y(my - slope * mx)}" x2="${x(100)}" y2="${y(my + slope * (100 - mx))}" stroke="var(--tsl-warning)" stroke-width="1.5"/>` +
             pts.map((p, i) => `<circle data-i="${i}" cx="${x(p.u)}" cy="${y(p.rev)}" r="5" fill="var(--xp-accent)" opacity="${q === "all" || quad(p) === q ? 0.85 : 0.12}"/>`).join("") +
             `<text x="${box.x + box.w}" y="${box.y + box.h + 18}" text-anchor="end">uso →</text>`;
         };
@@ -1281,7 +1281,7 @@
           C.tip(tipEl, e, `<strong>${p.name}</strong><br>uso ${p.u.toFixed(0)} · $${p.rev.toFixed(1)}k`);
         });
         ctx.on(svg, "pointerleave", () => (tipEl.hidden = true));
-        ctx.on(ctx.$("[data-q]"), "dv-change", render);
+        ctx.on(ctx.$("[data-q]"), "tsl-change", render);
         render();
       }
     },
@@ -1289,21 +1289,21 @@
     waterfall: {
       html: `
         ${head("Gráficas · waterfall.tsx", "Cascada", "Puente de efectivo del saldo inicial al final. Edita, agrega o quita pasos y el puente se recalcula.")}
-        <div class="dv-grid" style="--min:300px;align-items:start">
-          <div class="xp-panel dv-stack" style="--gap:8px"><div data-steps class="dv-stack" style="--gap:6px"></div><button type="button" class="dv-btn dv-btn--sm" data-add>+ Agregar paso</button></div>
+        <div class="tsl-grid" style="--min:300px;align-items:start">
+          <div class="xp-panel tsl-stack" style="--gap:8px"><div data-steps class="tsl-stack" style="--gap:6px"></div><button type="button" class="tsl-btn tsl-btn--sm" data-add>+ Agregar paso</button></div>
           <div class="xp-panel"><svg class="xp-chart" viewBox="0 0 520 300" data-chart></svg></div>
         </div>`,
       setup(root, ctx) {
-        const C = DEVL_XP.chart;
+        const C = TESELA_XP.chart;
         const steps = [["Inicial", 120], ["Ingresos", 85], ["Nómina", -62], ["Nube", -18], ["Marketing", -24], ["Financiamiento", 40]];
         const wrap = ctx.$("[data-steps]");
         const renderInputs = () => {
           wrap.innerHTML = "";
           steps.forEach(([n, v], i) => {
             const row = document.createElement("div");
-            row.className = "dv-row";
+            row.className = "tsl-row";
             row.style.flexWrap = "nowrap";
-            row.innerHTML = `<input class="dv-input" style="flex:1" aria-label="Nombre del paso" /><input class="dv-input xp-mono" type="number" style="width:90px" aria-label="Monto" /><button type="button" class="dv-btn dv-btn--icon dv-btn--subtle dv-btn--sm" aria-label="Quitar"${i === 0 ? " disabled" : ""}>✕</button>`;
+            row.innerHTML = `<input class="tsl-input" style="flex:1" aria-label="Nombre del paso" /><input class="tsl-input xp-mono" type="number" style="width:90px" aria-label="Monto" /><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--subtle tsl-btn--sm" aria-label="Quitar"${i === 0 ? " disabled" : ""}>✕</button>`;
             const [name, amt] = row.querySelectorAll("input");
             name.value = n;
             amt.value = v;
@@ -1333,14 +1333,14 @@
               .map((b, i) => {
                 const top = y(Math.max(b.from, b.to));
                 const h = Math.max(1, Math.abs(y(b.from) - y(b.to)));
-                const color = b.total ? "var(--dv-fg-muted)" : b.to >= b.from ? "var(--dv-success)" : "var(--dv-danger)";
+                const color = b.total ? "var(--tsl-fg-muted)" : b.to >= b.from ? "var(--tsl-success)" : "var(--tsl-danger)";
                 const label = b.total ? b.to : (b.to - b.from >= 0 ? "+" : "") + (b.to - b.from);
                 return `<rect x="${box.x + i * bw + 6}" y="${top}" width="${bw - 12}" height="${h}" rx="3" fill="${color}"/><text x="${box.x + i * bw + bw / 2}" y="${top - 5}" text-anchor="middle">${label}</text><text x="${box.x + i * bw + bw / 2}" y="${box.y + box.h + 16}" text-anchor="middle">${esc(b.n).slice(0, 9)}</text>`;
               })
               .join("");
         };
         const svg = ctx.$("[data-chart]");
-        const esc = DEVL_XP.esc;
+        const esc = TESELA_XP.esc;
         ctx.on(ctx.$("[data-add]"), "click", () => {
           steps.push([`Paso ${steps.length}`, 10]);
           renderInputs();

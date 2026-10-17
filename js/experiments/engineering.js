@@ -4,7 +4,7 @@
 
 (function () {
   "use strict";
-  const X = window.DEVL_XP;
+  const X = window.TESELA_XP;
   const { head, esc } = X;
 
   // ==========================================================================
@@ -14,12 +14,12 @@
     "network-waterfall": {
       html: `
         ${head("DevTools · network-waterfall.tsx", "Cascada de red", "Línea de tiempo estilo HAR: filtra por tipo, haz clic en una petición para ver su desglose de DNS / TLS / TTFB / descarga y recarga para volver a capturar.")}
-        <div class="dv-row"><div class="dv-row" style="--gap:6px" data-types></div><span class="dv-spacer"></span><span class="dv-muted xp-mono" data-sum></span><button type="button" class="dv-btn dv-btn--sm" data-reload>⟳ Recargar</button></div>
-        <div class="dv-table-wrap"><table class="dv-table dv-table--compact"><thead><tr><th>Nombre</th><th>Tipo</th><th>Estado</th><th class="is-num">Tamaño</th><th style="width:40%">Cascada</th><th class="is-num">Tiempo</th></tr></thead><tbody data-rows></tbody></table></div>
-        <div class="xp-panel" data-detail><span class="dv-muted">Selecciona una petición para inspeccionar sus tiempos.</span></div>`,
+        <div class="tsl-row"><div class="tsl-row" style="--gap:6px" data-types></div><span class="tsl-spacer"></span><span class="tsl-muted xp-mono" data-sum></span><button type="button" class="tsl-btn tsl-btn--sm" data-reload>⟳ Recargar</button></div>
+        <div class="tsl-table-wrap"><table class="tsl-table tsl-table--compact"><thead><tr><th>Nombre</th><th>Tipo</th><th>Estado</th><th class="is-num">Tamaño</th><th style="width:40%">Cascada</th><th class="is-num">Tiempo</th></tr></thead><tbody data-rows></tbody></table></div>
+        <div class="xp-panel" data-detail><span class="tsl-muted">Selecciona una petición para inspeccionar sus tiempos.</span></div>`,
       setup(root, ctx) {
         const types = ["all", "doc", "script", "style", "img", "fetch", "ws"];
-        const names = [["/", "doc"], ["app.js", "script"], ["styles.css", "style"], ["devl-ui.js", "script"], ["logo.svg", "img"], ["/api/session", "fetch"], ["/api/projects", "fetch"], ["hero.webp", "img"], ["fonts.woff2", "style"], ["wss://edge/sync", "ws"], ["/api/metrics", "fetch"]];
+        const names = [["/", "doc"], ["app.js", "script"], ["styles.css", "style"], ["tesela-ui.js", "script"], ["logo.svg", "img"], ["/api/session", "fetch"], ["/api/projects", "fetch"], ["hero.webp", "img"], ["fonts.woff2", "style"], ["wss://edge/sync", "ws"], ["/api/metrics", "fetch"]];
         let reqs = [];
         let filter = "all";
         let selected = null;
@@ -45,12 +45,12 @@
             .map((r) => {
               const i = reqs.indexOf(r);
               const seg = (w, c) => `<span style="display:inline-block;height:10px;width:${pct(w)}%;background:${c}"></span>`;
-              return `<tr data-i="${i}" style="cursor:pointer${selected === i ? ";background:var(--dv-surface-strong)" : ""}"><td class="xp-mono">${r.name}</td><td>${r.type}</td><td><span class="dv-badge dv-badge--${r.status >= 500 ? "danger" : r.status === 304 ? "info" : "success"}">${r.status}</span></td><td class="is-num">${r.size} kB</td><td><div style="white-space:nowrap;padding-left:${pct(r.start)}%;line-height:0">${seg(r.dns, "var(--dv-info)")}${seg(r.tls, "var(--dv-warning)")}${seg(r.ttfb, "var(--dv-success)")}${seg(r.dl, "var(--xp-accent)")}</div></td><td class="is-num xp-mono">${(r.dns + r.tls + r.ttfb + r.dl).toFixed(0)}ms</td></tr>`;
+              return `<tr data-i="${i}" style="cursor:pointer${selected === i ? ";background:var(--tsl-surface-strong)" : ""}"><td class="xp-mono">${r.name}</td><td>${r.type}</td><td><span class="tsl-badge tsl-badge--${r.status >= 500 ? "danger" : r.status === 304 ? "info" : "success"}">${r.status}</span></td><td class="is-num">${r.size} kB</td><td><div style="white-space:nowrap;padding-left:${pct(r.start)}%;line-height:0">${seg(r.dns, "var(--tsl-info)")}${seg(r.tls, "var(--tsl-warning)")}${seg(r.ttfb, "var(--tsl-success)")}${seg(r.dl, "var(--xp-accent)")}</div></td><td class="is-num xp-mono">${(r.dns + r.tls + r.ttfb + r.dl).toFixed(0)}ms</td></tr>`;
             })
             .join("");
           ctx.$("[data-sum]").textContent = `${rows.length} peticiones · ${rows.reduce((s, r) => s + r.size, 0)} kB · fin ${total.toFixed(0)}ms`;
         };
-        ctx.$("[data-types]").innerHTML = types.map((t) => `<button type="button" class="dv-chip" data-t="${t}" aria-pressed="${t === "all"}">${t === "all" ? "todo" : t}</button>`).join("");
+        ctx.$("[data-types]").innerHTML = types.map((t) => `<button type="button" class="tsl-chip" data-t="${t}" aria-pressed="${t === "all"}">${t === "all" ? "todo" : t}</button>`).join("");
         ctx.on(ctx.$("[data-types]"), "click", (e) => {
           const b = e.target.closest("[data-t]");
           if (!b) return;
@@ -63,8 +63,8 @@
           if (!tr) return;
           selected = Number(tr.dataset.i);
           const r = reqs[selected];
-          ctx.$("[data-detail]").innerHTML = `<div class="dv-row"><strong class="xp-mono">${r.name}</strong><span class="dv-badge">${r.type}</span><span class="dv-spacer"></span><span class="dv-muted">inició a los ${r.start.toFixed(1)}ms</span></div>
-            <dl class="xp-kv" style="margin-top:10px"><dt><span class="dv-dot dv-dot--info"></span> DNS</dt><dd>${r.dns.toFixed(1)}ms</dd><dt><span class="dv-dot dv-dot--warning"></span> TLS</dt><dd>${r.tls.toFixed(1)}ms</dd><dt><span class="dv-dot dv-dot--success"></span> TTFB</dt><dd>${r.ttfb.toFixed(1)}ms</dd><dt><span class="dv-dot dv-dot--accent"></span> Descarga</dt><dd>${r.dl.toFixed(1)}ms</dd><dt>Tamaño</dt><dd>${r.size} kB (br)</dd></dl>`;
+          ctx.$("[data-detail]").innerHTML = `<div class="tsl-row"><strong class="xp-mono">${r.name}</strong><span class="tsl-badge">${r.type}</span><span class="tsl-spacer"></span><span class="tsl-muted">inició a los ${r.start.toFixed(1)}ms</span></div>
+            <dl class="xp-kv" style="margin-top:10px"><dt><span class="tsl-dot tsl-dot--info"></span> DNS</dt><dd>${r.dns.toFixed(1)}ms</dd><dt><span class="tsl-dot tsl-dot--warning"></span> TLS</dt><dd>${r.tls.toFixed(1)}ms</dd><dt><span class="tsl-dot tsl-dot--success"></span> TTFB</dt><dd>${r.ttfb.toFixed(1)}ms</dd><dt><span class="tsl-dot tsl-dot--accent"></span> Descarga</dt><dd>${r.dl.toFixed(1)}ms</dd><dt>Tamaño</dt><dd>${r.size} kB (br)</dd></dl>`;
           render();
         });
         ctx.on(ctx.$("[data-reload]"), "click", () => {
@@ -79,9 +79,9 @@
     "flamegraph-profiler": {
       html: `
         ${head("DevTools · flamegraph-profiler.tsx", "Perfilador de flamegraph", "Haz clic en un marco para acercarte, usa la ruta de navegación para alejarte y busca para resaltar las rutas más costosas.")}
-        <div class="dv-row"><ol class="dv-breadcrumb" data-crumbs></ol><span class="dv-spacer"></span><input class="dv-input xp-search" data-q placeholder="Resaltar función…" aria-label="Resaltar función" /></div>
-        <div class="xp-panel xp-rel" style="padding:10px"><div data-flame class="dv-stack" style="--gap:2px"></div><div class="xp-tip" data-tip hidden></div></div>
-        <div class="dv-muted xp-mono" data-info>Pasa el cursor sobre un marco para ver el tiempo propio / total.</div>`,
+        <div class="tsl-row"><ol class="tsl-breadcrumb" data-crumbs></ol><span class="tsl-spacer"></span><input class="tsl-input xp-search" data-q placeholder="Resaltar función…" aria-label="Resaltar función" /></div>
+        <div class="xp-panel xp-rel" style="padding:10px"><div data-flame class="tsl-stack" style="--gap:2px"></div><div class="xp-tip" data-tip hidden></div></div>
+        <div class="tsl-muted xp-mono" data-info>Pasa el cursor sobre un marco para ver el tiempo propio / total.</div>`,
       setup(root, ctx) {
         const tree = { name: "main", t: 1000, c: [
           { name: "render", t: 520, c: [{ name: "layout", t: 210, c: [{ name: "measureText", t: 120, c: [] }, { name: "flexbox", t: 70, c: [] }] }, { name: "paint", t: 240, c: [{ name: "rasterize", t: 160, c: [] }, { name: "composite", t: 60, c: [] }] }] },
@@ -137,7 +137,7 @@
           const b = e.target.closest("[data-name]");
           const tipEl = ctx.$("[data-tip]");
           if (!b) return (tipEl.hidden = true);
-          DEVL_XP.chart.tip(tipEl, e, `<strong>${b.dataset.name}</strong><br>total ${b.dataset.total}ms · propio ${b.dataset.self}ms · ${((b.dataset.total / tree.t) * 100).toFixed(1)}%`);
+          TESELA_XP.chart.tip(tipEl, e, `<strong>${b.dataset.name}</strong><br>total ${b.dataset.total}ms · propio ${b.dataset.self}ms · ${((b.dataset.total / tree.t) * 100).toFixed(1)}%`);
         });
         ctx.on(ctx.$("[data-flame]"), "pointerleave", () => (ctx.$("[data-tip]").hidden = true));
         ctx.on(ctx.$("[data-q]"), "input", render);
@@ -148,25 +148,25 @@
     "json-tree-explorer": {
       html: `
         ${head("DevTools · json-tree-explorer.tsx", "Explorador de árbol JSON", "Edita el JSON a la izquierda; el árbol se vuelve a analizar en vivo. Haz clic en cualquier clave para obtener su ruta; expande o contrae todo.")}
-        <div class="dv-grid" style="--min:320px;align-items:start">
-          <div class="dv-stack"><textarea class="dv-textarea xp-mono" data-src style="min-height:340px;font-size:12px" spellcheck="false" aria-label="Origen JSON"></textarea><span class="dv-error" data-err></span></div>
-          <div class="xp-panel dv-stack">
-            <div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-all="1">Expandir todo</button><button type="button" class="dv-btn dv-btn--sm" data-all="0">Contraer todo</button><span class="dv-spacer"></span></div>
-            <div class="dv-input-group"><input class="dv-input xp-mono" readonly data-path id="json-path" value="$" aria-label="Ruta seleccionada" /><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" style="margin:3px" data-dv-copy data-dv-copy-target="#json-path">Copiar</button></div>
+        <div class="tsl-grid" style="--min:320px;align-items:start">
+          <div class="tsl-stack"><textarea class="tsl-textarea xp-mono" data-src style="min-height:340px;font-size:12px" spellcheck="false" aria-label="Origen JSON"></textarea><span class="tsl-error" data-err></span></div>
+          <div class="xp-panel tsl-stack">
+            <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--sm" data-all="1">Expandir todo</button><button type="button" class="tsl-btn tsl-btn--sm" data-all="0">Contraer todo</button><span class="tsl-spacer"></span></div>
+            <div class="tsl-input-group"><input class="tsl-input xp-mono" readonly data-path id="json-path" value="$" aria-label="Ruta seleccionada" /><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" style="margin:3px" data-tsl-copy data-tsl-copy-target="#json-path">Copiar</button></div>
             <div class="xp-mono xp-scroll" data-tree style="font-size:12px;line-height:1.7;--max:300px"></div>
           </div>
         </div>`,
       setup(root, ctx) {
         const src = ctx.$("[data-src]");
         src.value = JSON.stringify({ workspace: "acme", plan: { name: "pro", seats: 24, trial: false }, users: [{ id: 1, name: "Ana", roles: ["admin"] }, { id: 2, name: "Leo", roles: [] }], features: { sso: true, auditLog: null } }, null, 2);
-        const color = (v) => (v === null ? "var(--dv-fg-subtle)" : typeof v === "string" ? "var(--dv-success)" : typeof v === "number" ? "var(--dv-warning)" : typeof v === "boolean" ? "var(--dv-info)" : "inherit");
+        const color = (v) => (v === null ? "var(--tsl-fg-subtle)" : typeof v === "string" ? "var(--tsl-success)" : typeof v === "number" ? "var(--tsl-warning)" : typeof v === "boolean" ? "var(--tsl-info)" : "inherit");
         const node = (key, v, path) => {
           const label = key === null ? "" : `<a href="#" data-p="${esc(path)}" style="color:var(--xp-accent);text-decoration:none">${esc(key)}</a>: `;
           if (v && typeof v === "object") {
             const isArr = Array.isArray(v);
             const entries = isArr ? v.map((x, i) => [i, x]) : Object.entries(v);
             const kids = entries.map(([k, x]) => node(k, x, isArr ? `${path}[${k}]` : /^[A-Za-z_$][\w$]*$/.test(k) ? `${path}.${k}` : `${path}["${k}"]`)).join("");
-            return `<details open style="padding-left:14px"><summary style="cursor:pointer;margin-left:-14px">${label}<span class="dv-muted">${isArr ? `Array(${v.length})` : `{${entries.length}}`}</span></summary>${kids}</details>`;
+            return `<details open style="padding-left:14px"><summary style="cursor:pointer;margin-left:-14px">${label}<span class="tsl-muted">${isArr ? `Array(${v.length})` : `{${entries.length}}`}</span></summary>${kids}</details>`;
           }
           return `<div style="padding-left:14px">${label}<span style="color:${color(v)}">${esc(JSON.stringify(v))}</span></div>`;
         };
@@ -196,16 +196,16 @@
     "sql-query-workbench": {
       html: `
         ${head("DevTools · sql-query-workbench.tsx", "Banco de consultas SQL", "Un pequeño motor SQL real sobre una tabla de usuarios en memoria: SELECT · WHERE (=, !=, >, <, LIKE, AND) · ORDER BY · LIMIT.")}
-        <div class="dv-row" data-examples></div>
-        <textarea class="dv-textarea xp-mono" data-sql spellcheck="false" style="min-height:90px;font-size:12.5px" aria-label="Consulta SQL">SELECT name, plan, mrr FROM users WHERE plan = 'pro' ORDER BY mrr DESC LIMIT 5</textarea>
-        <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-run>Ejecutar ⌘↵</button><span class="dv-muted xp-mono" data-meta></span></div>
-        <div class="dv-alert dv-alert--danger" data-err hidden><div><div class="dv-alert__title">Error en la consulta</div><div class="dv-alert__desc xp-mono" data-err-msg></div></div></div>
-        <div class="dv-table-wrap"><table class="dv-table dv-table--compact" data-out></table></div>`,
+        <div class="tsl-row" data-examples></div>
+        <textarea class="tsl-textarea xp-mono" data-sql spellcheck="false" style="min-height:90px;font-size:12.5px" aria-label="Consulta SQL">SELECT name, plan, mrr FROM users WHERE plan = 'pro' ORDER BY mrr DESC LIMIT 5</textarea>
+        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-run>Ejecutar ⌘↵</button><span class="tsl-muted xp-mono" data-meta></span></div>
+        <div class="tsl-alert tsl-alert--danger" data-err hidden><div><div class="tsl-alert__title">Error en la consulta</div><div class="tsl-alert__desc xp-mono" data-err-msg></div></div></div>
+        <div class="tsl-table-wrap"><table class="tsl-table tsl-table--compact" data-out></table></div>`,
       setup(root, ctx) {
         const names = ["Ana", "Leo", "Sara", "Tom", "Mia", "Noah", "Lucía", "Omar", "Eva", "Kai", "Iris", "Ben", "Zoe", "Max"];
         const users = names.map((n, i) => ({ id: i + 1, name: n, plan: ["free", "pro", "team", "pro"][i % 4], mrr: [0, 29, 99, 29][i % 4] * (1 + (i % 3)), country: ["MX", "ES", "US", "DE"][i % 4], signup: `2026-0${(i % 9) + 1}-1${i % 9}` }));
         const examples = ["SELECT * FROM users LIMIT 5", "SELECT name, country FROM users WHERE country = 'MX'", "SELECT name, mrr FROM users WHERE mrr > 50 ORDER BY mrr DESC", "SELECT name FROM users WHERE name LIKE '%a%' AND plan != 'free'"];
-        ctx.$("[data-examples]").innerHTML = examples.map((q, i) => `<button type="button" class="dv-chip" data-ex="${i}">Ejemplo ${i + 1}</button>`).join("");
+        ctx.$("[data-examples]").innerHTML = examples.map((q, i) => `<button type="button" class="tsl-chip" data-ex="${i}">Ejemplo ${i + 1}</button>`).join("");
         const sql = ctx.$("[data-sql]");
         const run = () => {
           const t0 = performance.now();
@@ -240,7 +240,7 @@
               rows.sort((a, b) => (a[orderBy] > b[orderBy] ? 1 : a[orderBy] < b[orderBy] ? -1 : 0) * (dir && dir.toLowerCase() === "desc" ? -1 : 1));
             }
             if (limit) rows = rows.slice(0, Number(limit));
-            ctx.$("[data-out]").innerHTML = `<thead><tr>${cols.map((c) => `<th>${c}</th>`).join("")}</tr></thead><tbody>${rows.map((r) => `<tr>${cols.map((c) => `<td class="${typeof r[c] === "number" ? "is-num" : ""}">${esc(r[c])}</td>`).join("")}</tr>`).join("") || `<tr><td colspan="${cols.length}" class="dv-muted">0 filas</td></tr>`}</tbody>`;
+            ctx.$("[data-out]").innerHTML = `<thead><tr>${cols.map((c) => `<th>${c}</th>`).join("")}</tr></thead><tbody>${rows.map((r) => `<tr>${cols.map((c) => `<td class="${typeof r[c] === "number" ? "is-num" : ""}">${esc(r[c])}</td>`).join("")}</tr>`).join("") || `<tr><td colspan="${cols.length}" class="tsl-muted">0 filas</td></tr>`}</tbody>`;
             ctx.$("[data-err]").hidden = true;
             ctx.$("[data-meta]").textContent = `${rows.length} fila${rows.length === 1 ? "" : "s"} · ${(performance.now() - t0).toFixed(2)}ms`;
           } catch (err) {
@@ -266,9 +266,9 @@
     "env-secrets-vault": {
       html: `
         ${head("DevTools · env-secrets-vault.tsx", "Bóveda de secretos de entorno", "Variables por entorno: revela, copia, elimina, agrega (se exige UPPER_SNAKE_CASE) y exporta un archivo .env.")}
-        <div class="dv-row"><dv-segmented value="production" data-env><button class="dv-segmented__item" value="development">Desarrollo</button><button class="dv-segmented__item" value="preview">Vista previa</button><button class="dv-segmented__item" value="production">Producción</button></dv-segmented><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm" data-export>Descargar .env</button></div>
-        <ul class="dv-list" data-vars></ul>
-        <form class="dv-row xp-panel" data-add style="padding:10px"><input class="dv-input xp-mono" style="width:220px" name="key" placeholder="NUEVA_CLAVE" required pattern="[A-Z][A-Z0-9_]*" aria-label="Clave" /><input class="dv-input xp-mono" style="flex:1;min-width:160px" name="value" placeholder="valor" required aria-label="Valor" /><button type="submit" class="dv-btn dv-btn--primary dv-btn--sm">Agregar</button></form>`,
+        <div class="tsl-row"><tsl-segmented value="production" data-env><button class="tsl-segmented__item" value="development">Desarrollo</button><button class="tsl-segmented__item" value="preview">Vista previa</button><button class="tsl-segmented__item" value="production">Producción</button></tsl-segmented><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--sm" data-export>Descargar .env</button></div>
+        <ul class="tsl-list" data-vars></ul>
+        <form class="tsl-row xp-panel" data-add style="padding:10px"><input class="tsl-input xp-mono" style="width:220px" name="key" placeholder="NUEVA_CLAVE" required pattern="[A-Z][A-Z0-9_]*" aria-label="Clave" /><input class="tsl-input xp-mono" style="flex:1;min-width:160px" name="value" placeholder="valor" required aria-label="Valor" /><button type="submit" class="tsl-btn tsl-btn--primary tsl-btn--sm">Agregar</button></form>`,
       setup(root, ctx) {
         const vault = {
           development: { DATABASE_URL: "postgres://localhost/acme", STRIPE_KEY: "sk_test_51Hd…dev", DEBUG: "true" },
@@ -282,28 +282,28 @@
           list.innerHTML = "";
           Object.entries(vault[env]).forEach(([k, v]) => {
             const li = document.createElement("li");
-            li.innerHTML = `<strong class="xp-mono" style="min-width:160px"></strong><code class="xp-mono dv-muted" style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></code><div class="dv-list__end"><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-act="reveal"></button><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-act="copy">Copiar</button><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-act="del" aria-label="Eliminar ${k}">✕</button></div>`;
+            li.innerHTML = `<strong class="xp-mono" style="min-width:160px"></strong><code class="xp-mono tsl-muted" style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></code><div class="tsl-list__end"><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-act="reveal"></button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-act="copy">Copiar</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-act="del" aria-label="Eliminar ${k}">✕</button></div>`;
             li.dataset.k = k;
             li.querySelector("strong").textContent = k;
             li.querySelector("code").textContent = revealed.has(k) ? v : "•".repeat(Math.min(24, v.length));
             li.querySelector('[data-act="reveal"]').textContent = revealed.has(k) ? "Ocultar" : "Revelar";
             list.appendChild(li);
           });
-          if (!list.children.length) list.innerHTML = '<li class="dv-muted">No hay variables en este entorno.</li>';
+          if (!list.children.length) list.innerHTML = '<li class="tsl-muted">No hay variables en este entorno.</li>';
         };
         ctx.on(ctx.$("[data-vars]"), "click", (e) => {
           const b = e.target.closest("[data-act]");
           if (!b) return;
           const k = b.closest("li").dataset.k;
           if (b.dataset.act === "reveal") revealed.has(k) ? revealed.delete(k) : revealed.add(k);
-          if (b.dataset.act === "copy") DevlUI.copy(vault[env][k]).then(() => ctx.toast({ title: `${k} copiada` }));
+          if (b.dataset.act === "copy") TeselaUI.copy(vault[env][k]).then(() => ctx.toast({ title: `${k} copiada` }));
           if (b.dataset.act === "del") {
             delete vault[env][k];
             ctx.toast({ title: `${k} eliminada de ${env}`, variant: "danger" });
           }
           render();
         });
-        ctx.on(ctx.$("[data-env]"), "dv-change", (e) => {
+        ctx.on(ctx.$("[data-env]"), "tsl-change", (e) => {
           env = e.detail.value;
           revealed.clear();
           render();
@@ -331,15 +331,15 @@
     "webhook-payload-diff": {
       html: `
         ${head("DevTools · webhook-payload-diff.tsx", "Diff de payload de webhook", "Diff por líneas entre dos entregas, una firma HMAC-SHA256 real del payload actual y reentrega con registro.")}
-        <div class="dv-grid" style="--min:280px">
-          <label class="dv-field"><span class="dv-label">Entrega anterior</span><textarea class="dv-textarea xp-mono" data-a style="min-height:170px;font-size:12px" spellcheck="false"></textarea></label>
-          <label class="dv-field"><span class="dv-label">Entrega actual</span><textarea class="dv-textarea xp-mono" data-b style="min-height:170px;font-size:12px" spellcheck="false"></textarea></label>
+        <div class="tsl-grid" style="--min:280px">
+          <label class="tsl-field"><span class="tsl-label">Entrega anterior</span><textarea class="tsl-textarea xp-mono" data-a style="min-height:170px;font-size:12px" spellcheck="false"></textarea></label>
+          <label class="tsl-field"><span class="tsl-label">Entrega actual</span><textarea class="tsl-textarea xp-mono" data-b style="min-height:170px;font-size:12px" spellcheck="false"></textarea></label>
         </div>
-        <pre class="dv-code" data-diff style="padding:0"></pre>
-        <div class="xp-panel dv-stack">
-          <div class="dv-row"><span class="dv-label">Secreto de firma</span><input class="dv-input xp-mono" style="max-width:220px" value="whsec_devl_123" data-secret aria-label="Secreto de firma" /><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--primary dv-btn--sm" data-redeliver>Reentregar</button></div>
+        <pre class="tsl-code" data-diff style="padding:0"></pre>
+        <div class="xp-panel tsl-stack">
+          <div class="tsl-row"><span class="tsl-label">Secreto de firma</span><input class="tsl-input xp-mono" style="max-width:220px" value="whsec_tsl_123" data-secret aria-label="Secreto de firma" /><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--primary tsl-btn--sm" data-redeliver>Reentregar</button></div>
           <code class="xp-mono" data-sig style="word-break:break-all;font-size:11.5px"></code>
-          <ul class="dv-list" data-log></ul>
+          <ul class="tsl-list" data-log></ul>
         </div>`,
       setup(root, ctx) {
         const a = ctx.$("[data-a]");
@@ -369,14 +369,14 @@
           try {
             const key = await crypto.subtle.importKey("raw", enc.encode(ctx.$("[data-secret]").value), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
             const sig = await crypto.subtle.sign("HMAC", key, enc.encode(`${ts}.${b.value}`));
-            ctx.$("[data-sig]").textContent = `devl-signature: t=${ts},v1=${Array.from(new Uint8Array(sig), (x) => x.toString(16).padStart(2, "0")).join("")}`;
+            ctx.$("[data-sig]").textContent = `tsl-signature: t=${ts},v1=${Array.from(new Uint8Array(sig), (x) => x.toString(16).padStart(2, "0")).join("")}`;
           } catch (_) {
             ctx.$("[data-sig]").textContent = "Web Crypto no disponible (requiere https o localhost).";
           }
         };
         const render = () => {
           const rows = diff(a.value.split("\n"), b.value.split("\n"));
-          ctx.$("[data-diff]").innerHTML = rows.map(([t, line]) => `<div class="${t === "+" ? "xp-diff-add" : t === "-" ? "xp-diff-del" : ""}" style="padding:0 14px"><span class="dv-muted">${t}</span> ${esc(line)}</div>`).join("");
+          ctx.$("[data-diff]").innerHTML = rows.map(([t, line]) => `<div class="${t === "+" ? "xp-diff-add" : t === "-" ? "xp-diff-del" : ""}" style="padding:0 14px"><span class="tsl-muted">${t}</span> ${esc(line)}</div>`).join("");
           sign();
         };
         ctx.on(a, "input", render);
@@ -385,7 +385,7 @@
         ctx.on(ctx.$("[data-redeliver]"), "click", () => {
           const ok = Math.random() > 0.25;
           const li = document.createElement("li");
-          li.innerHTML = `<span class="dv-badge dv-badge--${ok ? "success" : "danger"}">${ok ? "200 OK" : "500"}</span><span class="xp-mono dv-muted">${new Date().toLocaleTimeString()}</span><span>${ok ? "Entregado" : "Error del endpoint — se reintentará con retroceso exponencial"}</span><span class="dv-list__end xp-mono dv-muted">${Math.round(80 + Math.random() * 300)}ms</span>`;
+          li.innerHTML = `<span class="tsl-badge tsl-badge--${ok ? "success" : "danger"}">${ok ? "200 OK" : "500"}</span><span class="xp-mono tsl-muted">${new Date().toLocaleTimeString()}</span><span>${ok ? "Entregado" : "Error del endpoint — se reintentará con retroceso exponencial"}</span><span class="tsl-list__end xp-mono tsl-muted">${Math.round(80 + Math.random() * 300)}ms</span>`;
           ctx.$("[data-log]").prepend(li);
           sign();
         });
@@ -396,14 +396,14 @@
     "cron-schedule-visualizer": {
       html: `
         ${head("DevTools · cron-schedule-visualizer.tsx", "Visualizador de cron", "Analizador cron real de 5 campos (*, listas, rangos, pasos) con una descripción en lenguaje natural y las próximas ejecuciones en tu zona horaria.")}
-        <div class="dv-row" data-presets></div>
-        <div class="dv-grid" style="--min:280px;align-items:start">
-          <div class="dv-stack">
-            <input class="dv-input xp-mono" style="font-size:18px;height:46px" data-expr value="*/15 9-17 * * 1-5" aria-label="Expresión cron" spellcheck="false" />
-            <div class="dv-row xp-mono dv-muted" style="font-size:10px;--gap:0;justify-content:space-around"><span>minuto</span><span>hora</span><span>día</span><span>mes</span><span>día sem.</span></div>
-            <div class="dv-alert dv-alert--info" data-desc-box><div><div class="dv-alert__title" data-desc></div></div></div>
+        <div class="tsl-row" data-presets></div>
+        <div class="tsl-grid" style="--min:280px;align-items:start">
+          <div class="tsl-stack">
+            <input class="tsl-input xp-mono" style="font-size:18px;height:46px" data-expr value="*/15 9-17 * * 1-5" aria-label="Expresión cron" spellcheck="false" />
+            <div class="tsl-row xp-mono tsl-muted" style="font-size:10px;--gap:0;justify-content:space-around"><span>minuto</span><span>hora</span><span>día</span><span>mes</span><span>día sem.</span></div>
+            <div class="tsl-alert tsl-alert--info" data-desc-box><div><div class="tsl-alert__title" data-desc></div></div></div>
           </div>
-          <div class="xp-panel"><span class="dv-eyebrow">Próximas ejecuciones</span><ol class="dv-timeline" style="margin-top:12px" data-runs></ol></div>
+          <div class="xp-panel"><span class="tsl-eyebrow">Próximas ejecuciones</span><ol class="tsl-timeline" style="margin-top:12px" data-runs></ol></div>
         </div>`,
       setup(root, ctx) {
         const ranges = [[0, 59], [0, 23], [1, 31], [1, 12], [0, 6]];
@@ -448,19 +448,19 @@
               if (sets[0].has(d.getMinutes()) && sets[1].has(d.getHours()) && sets[3].has(d.getMonth() + 1) && dayOk) runs.push(new Date(d));
               d.setMinutes(d.getMinutes() + 1);
             }
-            box.className = "dv-alert dv-alert--info";
+            box.className = "tsl-alert tsl-alert--info";
             ctx.$("[data-desc]").textContent = describe(parts);
             ctx.$("[data-expr]").setAttribute("aria-invalid", "false");
-            ctx.$("[data-runs]").innerHTML = runs.map((r, i) => `<li style="--c:${i ? "var(--dv-fg-subtle)" : "var(--xp-accent)"}"><strong>${r.toLocaleString("es-MX", { weekday: "short", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</strong><div class="dv-timeline__meta">en ${Math.round((r - Date.now()) / 60000)} min</div></li>`).join("") || '<li class="dv-muted">Sin ejecuciones en el próximo año.</li>';
+            ctx.$("[data-runs]").innerHTML = runs.map((r, i) => `<li style="--c:${i ? "var(--tsl-fg-subtle)" : "var(--xp-accent)"}"><strong>${r.toLocaleString("es-MX", { weekday: "short", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</strong><div class="tsl-timeline__meta">en ${Math.round((r - Date.now()) / 60000)} min</div></li>`).join("") || '<li class="tsl-muted">Sin ejecuciones en el próximo año.</li>';
           } catch (err) {
-            box.className = "dv-alert dv-alert--danger";
+            box.className = "tsl-alert tsl-alert--danger";
             ctx.$("[data-desc]").textContent = err.message;
             ctx.$("[data-expr]").setAttribute("aria-invalid", "true");
             ctx.$("[data-runs]").innerHTML = "";
           }
         };
         const presets = [["Cada 15 min (horario laboral)", "*/15 9-17 * * 1-5"], ["Cada noche 02:30", "30 2 * * *"], ["Lunes 09:00", "0 9 * * 1"], ["Día 1 del mes", "0 0 1 * *"], ["Cada 5 minutos", "*/5 * * * *"]];
-        ctx.$("[data-presets]").innerHTML = presets.map(([l, e]) => `<button type="button" class="dv-chip" data-e="${e}">${l}</button>`).join("");
+        ctx.$("[data-presets]").innerHTML = presets.map(([l, e]) => `<button type="button" class="tsl-chip" data-e="${e}">${l}</button>`).join("");
         ctx.on(ctx.$("[data-presets]"), "click", (e) => {
           const b = e.target.closest("[data-e]");
           if (!b) return;
@@ -475,9 +475,9 @@
     "memory-heap-map": {
       html: `
         ${head("DevTools · memory-heap-map.tsx", "Mapa del heap de memoria", "Treemap del tamaño retenido. Asigna objetos, desconecta algunos y ejecuta el GC para recuperar los inalcanzables.")}
-        <div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-alloc>+ Asignar</button><button type="button" class="dv-btn dv-btn--sm" data-leak>Desconectar al azar</button><button type="button" class="dv-btn dv-btn--sm dv-btn--primary" data-gc>Ejecutar GC</button><span class="dv-spacer"></span><span class="xp-mono dv-muted" data-total></span></div>
-        <div class="dv-meter" style="height:8px"><span data-used style="--w:0%"></span></div>
-        <div data-map style="position:relative;height:340px;border-radius:var(--dv-radius);overflow:hidden;border:1px solid var(--dv-border)"></div>
+        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--sm" data-alloc>+ Asignar</button><button type="button" class="tsl-btn tsl-btn--sm" data-leak>Desconectar al azar</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--primary" data-gc>Ejecutar GC</button><span class="tsl-spacer"></span><span class="xp-mono tsl-muted" data-total></span></div>
+        <div class="tsl-meter" style="height:8px"><span data-used style="--w:0%"></span></div>
+        <div data-map style="position:relative;height:340px;border-radius:var(--tsl-radius);overflow:hidden;border:1px solid var(--tsl-border)"></div>
         <div class="xp-panel xp-mono" data-info style="font-size:12px">Haz clic en un bloque para inspeccionar sus retenedores.</div>`,
       setup(root, ctx) {
         const LIMIT = 64;
@@ -510,13 +510,13 @@
           const sorted = objs.slice().sort((p, q) => q.size - p.size);
           const rects = layout(sorted, 0, 0, 100, 100, false);
           ctx.$("[data-map]").innerHTML = rects
-            .map((r) => `<button type="button" data-n="${esc(r.name)}" style="position:absolute;left:${r.x}%;top:${r.y}%;width:${r.w}%;height:${r.h}%;border:1px solid var(--dv-bg);background:${palette[r.kind]};opacity:${r.live ? 0.85 : 0.35};color:#fff;font:inherit;font-size:11px;text-align:left;padding:6px;overflow:hidden;cursor:pointer;${r.live ? "" : "background-image:repeating-linear-gradient(45deg,transparent 0 6px,rgba(0,0,0,.25) 6px 12px)"}">${esc(r.name)}<br><strong>${r.size.toFixed(1)} MB</strong></button>`)
+            .map((r) => `<button type="button" data-n="${esc(r.name)}" style="position:absolute;left:${r.x}%;top:${r.y}%;width:${r.w}%;height:${r.h}%;border:1px solid var(--tsl-bg);background:${palette[r.kind]};opacity:${r.live ? 0.85 : 0.35};color:#fff;font:inherit;font-size:11px;text-align:left;padding:6px;overflow:hidden;cursor:pointer;${r.live ? "" : "background-image:repeating-linear-gradient(45deg,transparent 0 6px,rgba(0,0,0,.25) 6px 12px)"}">${esc(r.name)}<br><strong>${r.size.toFixed(1)} MB</strong></button>`)
             .join("");
           const total = objs.reduce((s, o) => s + o.size, 0);
           ctx.$("[data-total]").textContent = `${total.toFixed(1)} / ${LIMIT} MB · ${objs.filter((o) => !o.live).length} inalcanzables`;
           const used = ctx.$("[data-used]");
           used.style.setProperty("--w", `${Math.min(100, (total / LIMIT) * 100)}%`);
-          used.style.setProperty("--c", total > LIMIT * 0.8 ? "var(--dv-danger)" : "var(--xp-accent)");
+          used.style.setProperty("--c", total > LIMIT * 0.8 ? "var(--tsl-danger)" : "var(--xp-accent)");
         };
         let n = 0;
         ctx.on(ctx.$("[data-alloc]"), "click", () => {
@@ -543,7 +543,7 @@
           const b = e.target.closest("[data-n]");
           if (!b) return;
           const o = objs.find((x) => x.name === b.dataset.n);
-          ctx.$("[data-info]").innerHTML = `<strong>${esc(o.name)}</strong> · ${o.kind} · ${o.size} MB · retenido por <code>${esc(o.by)}</code> · ${o.live ? '<span class="dv-badge dv-badge--success">alcanzable</span>' : '<span class="dv-badge dv-badge--danger">basura</span>'}`;
+          ctx.$("[data-info]").innerHTML = `<strong>${esc(o.name)}</strong> · ${o.kind} · ${o.size} MB · retenido por <code>${esc(o.by)}</code> · ${o.live ? '<span class="tsl-badge tsl-badge--success">alcanzable</span>' : '<span class="tsl-badge tsl-badge--danger">basura</span>'}`;
         });
         render();
       }
@@ -552,13 +552,13 @@
     "regex-ast-tester": {
       html: `
         ${head("DevTools · regex-ast-tester.tsx", "Probador de regex con AST", "Coincidencias en vivo con resaltado, grupos de captura por coincidencia, interruptores de flags y una explicación token por token.")}
-        <div class="dv-input-group"><span class="dv-input-group__addon">/</span><input class="dv-input xp-mono" data-re value="(\\w+)@(\\w+)\\.(com|dev)" aria-label="Patrón" spellcheck="false" /><span class="dv-input-group__addon">/</span><span class="dv-input-group__addon" data-flags style="gap:4px">${["g", "i", "m", "s"].map((f) => `<button type="button" class="dv-chip" data-f="${f}" aria-pressed="${f === "g" || f === "i"}" style="padding:1px 7px">${f}</button>`).join("")}</span></div>
-        <span class="dv-error" data-err></span>
-        <textarea class="dv-textarea xp-mono" data-text spellcheck="false" style="min-height:90px;font-size:12.5px" aria-label="Texto de prueba">Escribe a ana@acme.dev o a leo@globex.com — no a bob@site.org.</textarea>
+        <div class="tsl-input-group"><span class="tsl-input-group__addon">/</span><input class="tsl-input xp-mono" data-re value="(\\w+)@(\\w+)\\.(com|dev)" aria-label="Patrón" spellcheck="false" /><span class="tsl-input-group__addon">/</span><span class="tsl-input-group__addon" data-flags style="gap:4px">${["g", "i", "m", "s"].map((f) => `<button type="button" class="tsl-chip" data-f="${f}" aria-pressed="${f === "g" || f === "i"}" style="padding:1px 7px">${f}</button>`).join("")}</span></div>
+        <span class="tsl-error" data-err></span>
+        <textarea class="tsl-textarea xp-mono" data-text spellcheck="false" style="min-height:90px;font-size:12.5px" aria-label="Texto de prueba">Escribe a ana@acme.dev o a leo@globex.com — no a bob@site.org.</textarea>
         <div class="xp-panel xp-mono" data-hl style="white-space:pre-wrap;font-size:12.5px;line-height:1.8"></div>
-        <div class="dv-grid" style="--min:280px;align-items:start">
-          <div><span class="dv-eyebrow">Coincidencias</span><ul class="dv-list" data-matches style="margin-top:8px"></ul></div>
-          <div><span class="dv-eyebrow">Explicación</span><ul class="dv-list xp-mono" data-explain style="margin-top:8px;font-size:12px"></ul></div>
+        <div class="tsl-grid" style="--min:280px;align-items:start">
+          <div><span class="tsl-eyebrow">Coincidencias</span><ul class="tsl-list" data-matches style="margin-top:8px"></ul></div>
+          <div><span class="tsl-eyebrow">Explicación</span><ul class="tsl-list xp-mono" data-explain style="margin-top:8px;font-size:12px"></ul></div>
         </div>`,
       setup(root, ctx) {
         const re = ctx.$("[data-re]");
@@ -608,8 +608,8 @@
             last = mm.index + mm[0].length;
           });
           ctx.$("[data-hl]").innerHTML = html + esc(src.slice(last));
-          ctx.$("[data-matches]").innerHTML = matches.map((mm, i) => `<li><span class="dv-badge">${i + 1}</span><code>${esc(mm[0])}</code><span class="dv-list__end dv-muted xp-mono">${mm.slice(1).map((g, gi) => `$${gi + 1}=${esc(g === undefined ? "∅" : g)}`).join("  ")}</span></li>`).join("") || '<li class="dv-muted">Sin coincidencias</li>';
-          ctx.$("[data-explain]").innerHTML = explain(re.value).map(([t, d]) => `<li><code style="color:var(--xp-accent);min-width:70px">${esc(t)}</code><span class="dv-muted">${esc(d)}</span></li>`).join("");
+          ctx.$("[data-matches]").innerHTML = matches.map((mm, i) => `<li><span class="tsl-badge">${i + 1}</span><code>${esc(mm[0])}</code><span class="tsl-list__end tsl-muted xp-mono">${mm.slice(1).map((g, gi) => `$${gi + 1}=${esc(g === undefined ? "∅" : g)}`).join("  ")}</span></li>`).join("") || '<li class="tsl-muted">Sin coincidencias</li>';
+          ctx.$("[data-explain]").innerHTML = explain(re.value).map(([t, d]) => `<li><code style="color:var(--xp-accent);min-width:70px">${esc(t)}</code><span class="tsl-muted">${esc(d)}</span></li>`).join("");
         };
         ctx.on(re, "input", render);
         ctx.on(text, "input", render);
@@ -631,22 +631,22 @@
     "prompt-composer": {
       html: `
         ${head("IA y agentes · prompt-composer.tsx", "Compositor de prompts", "Escribe «/» para ver plantillas, adjunta archivos, ajusta la temperatura y envía: la respuesta llega en streaming y se puede detener.")}
-        <div class="xp-panel dv-stack" style="max-width:820px;width:100%;margin:0 auto">
+        <div class="xp-panel tsl-stack" style="max-width:820px;width:100%;margin:0 auto">
           <div class="xp-rel">
-            <div class="dv-menu__list" data-slash hidden style="top:auto;bottom:calc(100% + 6px)"></div>
-            <textarea class="dv-textarea" data-prompt placeholder="Pregunta lo que quieras… escribe / para ver plantillas" style="min-height:110px" aria-label="Prompt"></textarea>
+            <div class="tsl-menu__list" data-slash hidden style="top:auto;bottom:calc(100% + 6px)"></div>
+            <textarea class="tsl-textarea" data-prompt placeholder="Pregunta lo que quieras… escribe / para ver plantillas" style="min-height:110px" aria-label="Prompt"></textarea>
           </div>
-          <div class="dv-row" data-files></div>
-          <div class="dv-row">
-            <label class="dv-btn dv-btn--sm" style="cursor:pointer">📎 Adjuntar<input type="file" multiple hidden data-file /></label>
-            <select class="dv-select" style="width:auto;height:28px" data-model aria-label="Modelo"><option>devl-large</option><option>devl-fast</option><option>devl-reasoner</option></select>
-            <label class="dv-choice" style="font-size:11px">temp. <input type="range" class="dv-range" min="0" max="10" value="7" style="width:90px" data-temp data-dv-output="#pc-temp" aria-label="Temperatura" /><span class="xp-mono" id="pc-temp">7</span></label>
-            <span class="dv-spacer"></span>
-            <span class="xp-mono dv-muted" data-tokens>0 tokens</span>
-            <button type="button" class="dv-btn dv-btn--primary" data-send>Enviar ↵</button>
+          <div class="tsl-row" data-files></div>
+          <div class="tsl-row">
+            <label class="tsl-btn tsl-btn--sm" style="cursor:pointer">📎 Adjuntar<input type="file" multiple hidden data-file /></label>
+            <select class="tsl-select" style="width:auto;height:28px" data-model aria-label="Modelo"><option>tesela-large</option><option>tesela-fast</option><option>tesela-reasoner</option></select>
+            <label class="tsl-choice" style="font-size:11px">temp. <input type="range" class="tsl-range" min="0" max="10" value="7" style="width:90px" data-temp data-tsl-output="#pc-temp" aria-label="Temperatura" /><span class="xp-mono" id="pc-temp">7</span></label>
+            <span class="tsl-spacer"></span>
+            <span class="xp-mono tsl-muted" data-tokens>0 tokens</span>
+            <button type="button" class="tsl-btn tsl-btn--primary" data-send>Enviar ↵</button>
           </div>
         </div>
-        <div class="xp-panel" style="max-width:820px;width:100%;margin:0 auto"><span class="dv-eyebrow" data-who>Asistente</span><p data-out style="margin-top:8px;line-height:1.7;white-space:pre-wrap" class="dv-muted">Las respuestas aparecen aquí.</p></div>`,
+        <div class="xp-panel" style="max-width:820px;width:100%;margin:0 auto"><span class="tsl-eyebrow" data-who>Asistente</span><p data-out style="margin-top:8px;line-height:1.7;white-space:pre-wrap" class="tsl-muted">Las respuestas aparecen aquí.</p></div>`,
       setup(root, ctx) {
         const prompt = ctx.$("[data-prompt]");
         const slash = ctx.$("[data-slash]");
@@ -658,7 +658,7 @@
           const q = prompt.value.startsWith("/") && !prompt.value.includes(" ") && !prompt.value.includes("\n") ? prompt.value : null;
           const hits = q === null ? [] : Object.keys(templates).filter((t) => t.startsWith(q));
           slash.hidden = !hits.length;
-          slash.innerHTML = hits.map((t) => `<button type="button" class="dv-menu__item" data-t="${t}">${t}<span class="dv-nav__meta">${templates[t].split(/[:\n]/)[0].slice(0, 28)}</span></button>`).join("");
+          slash.innerHTML = hits.map((t) => `<button type="button" class="tsl-menu__item" data-t="${t}">${t}<span class="tsl-nav__meta">${templates[t].split(/[:\n]/)[0].slice(0, 28)}</span></button>`).join("");
         };
         ctx.on(prompt, "input", () => (showSlash(), tokens()));
         ctx.on(slash, "click", (e) => {
@@ -671,14 +671,14 @@
         });
         ctx.on(ctx.$("[data-file]"), "change", (e) => {
           Array.from(e.target.files).forEach((f) => files.push(f));
-          ctx.$("[data-files]").innerHTML = files.map((f, i) => `<span class="dv-chip" style="color:var(--dv-fg)">📄 ${esc(f.name)} <button type="button" class="dv-chip__remove" data-rm="${i}" aria-label="Quitar">✕</button></span>`).join("");
+          ctx.$("[data-files]").innerHTML = files.map((f, i) => `<span class="tsl-chip" style="color:var(--tsl-fg)">📄 ${esc(f.name)} <button type="button" class="tsl-chip__remove" data-rm="${i}" aria-label="Quitar">✕</button></span>`).join("");
           tokens();
         });
         ctx.on(ctx.$("[data-files]"), "click", (e) => {
           const b = e.target.closest("[data-rm]");
           if (!b) return;
           files.splice(Number(b.dataset.rm), 1);
-          b.closest(".dv-chip").remove();
+          b.closest(".tsl-chip").remove();
           tokens();
         });
         const send = () => {
@@ -693,13 +693,13 @@
           if (!q) return ctx.toast({ title: "Escribe un prompt primero", variant: "warning" });
           const out = ctx.$("[data-out]");
           out.textContent = "";
-          out.classList.remove("dv-muted");
+          out.classList.remove("tsl-muted");
           const model = ctx.$("[data-model]").value;
           const temp = Number(ctx.$("[data-temp]").value) / 10;
           ctx.$("[data-who]").textContent = `${model} · temp. ${temp}`;
-          const reply = `Esta es una propuesta ${temp > 0.6 ? "creativa" : "precisa"} sobre «${q.slice(0, 60)}${q.length > 60 ? "…" : ""}».\n\n• Parte de la intención del usuario, no del componente.\n• Mantén tokens y espaciado consistentes: devl-ui lo hace por ti.\n• Lanza en pequeño, mide y luego itera.${files.length ? `\n\nTambién leí ${files.length} archivo${files.length > 1 ? "s" : ""} adjunto${files.length > 1 ? "s" : ""}.` : ""}`;
+          const reply = `Esta es una propuesta ${temp > 0.6 ? "creativa" : "precisa"} sobre «${q.slice(0, 60)}${q.length > 60 ? "…" : ""}».\n\n• Parte de la intención del usuario, no del componente.\n• Mantén tokens y espaciado consistentes: tesela-ui lo hace por ti.\n• Lanza en pequeño, mide y luego itera.${files.length ? `\n\nTambién leí ${files.length} archivo${files.length > 1 ? "s" : ""} adjunto${files.length > 1 ? "s" : ""}.` : ""}`;
           btn.textContent = "■ Detener";
-          stop = DEVL_XP.stream(ctx, out, reply, { wps: model === "devl-fast" ? 45 : 22, onDone: () => ((stop = null), (btn.textContent = "Enviar ↵")) });
+          stop = TESELA_XP.stream(ctx, out, reply, { wps: model === "tesela-fast" ? 45 : 22, onDone: () => ((stop = null), (btn.textContent = "Enviar ↵")) });
         };
         ctx.on(ctx.$("[data-send]"), "click", send);
         ctx.on(prompt, "keydown", (e) => {
@@ -714,8 +714,8 @@
     "streaming-trace": {
       html: `
         ${head("IA y agentes · streaming-trace.tsx", "Traza de streaming", "Ejecuta un agente: el razonamiento llega en streaming a un bloque plegable, se ejecutan las herramientas y luego la respuesta, con tokens/s en vivo.")}
-        <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-run>▶ Ejecutar agente</button><span class="dv-badge dv-badge--outline xp-mono" data-tps>0 tok/s</span><span class="dv-badge dv-badge--outline xp-mono" data-time>0.0s</span></div>
-        <div class="dv-stack" data-trace></div>`,
+        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-run>▶ Ejecutar agente</button><span class="tsl-badge tsl-badge--outline xp-mono" data-tps>0 tok/s</span><span class="tsl-badge tsl-badge--outline xp-mono" data-time>0.0s</span></div>
+        <div class="tsl-stack" data-trace></div>`,
       setup(root, ctx) {
         let running = false;
         let tokens = 0;
@@ -729,18 +729,18 @@
         });
         const block = (title, open = true) => {
           const d = document.createElement("details");
-          d.className = "dv-accordion";
+          d.className = "tsl-accordion";
           d.open = open;
-          d.innerHTML = `<summary style="padding:10px 14px;cursor:pointer;font-size:12px"><span class="dv-spinner" style="--size:11px;margin-right:8px"></span>${title}</summary><div class="dv-accordion__content xp-mono" style="white-space:pre-wrap;padding-top:4px"></div>`;
+          d.innerHTML = `<summary style="padding:10px 14px;cursor:pointer;font-size:12px"><span class="tsl-spinner" style="--size:11px;margin-right:8px"></span>${title}</summary><div class="tsl-accordion__content xp-mono" style="white-space:pre-wrap;padding-top:4px"></div>`;
           trace.appendChild(d);
           return d;
         };
         const done = (d, label) => {
-          const sp = d.querySelector(".dv-spinner");
-          if (sp) sp.outerHTML = '<span style="color:var(--dv-success);margin-right:8px">✓</span>';
+          const sp = d.querySelector(".tsl-spinner");
+          if (sp) sp.outerHTML = '<span style="color:var(--tsl-success);margin-right:8px">✓</span>';
           if (label) d.querySelector("summary").lastChild.textContent = label;
         };
-        const streamInto = (el, text, wps) => new Promise((res) => DEVL_XP.stream(ctx, el, text, { wps, onWord: () => tokens++, onDone: res }));
+        const streamInto = (el, text, wps) => new Promise((res) => TESELA_XP.stream(ctx, el, text, { wps, onWord: () => tokens++, onDone: res }));
         ctx.on(ctx.$("[data-run]"), "click", async () => {
           if (running) return;
           running = true;
@@ -767,24 +767,24 @@
       html: `
         ${head("IA y agentes · tool-call-inspector.tsx", "Inspector de llamadas a herramientas", "Selecciona una llamada para ver sus argumentos y su resultado. Reproducir la vuelve a ejecutar con una latencia nueva (y puede fallar).")}
         <div class="xp-split" style="--cols:300px minmax(0,1fr)">
-          <div class="xp-pane dv-stack" style="--gap:8px"><label class="dv-choice"><input type="checkbox" class="dv-check" data-failed /> Solo fallidas</label><ul class="dv-list" data-calls></ul></div>
-          <div class="xp-pane dv-stack" data-detail><span class="dv-muted">Selecciona una llamada a herramienta.</span></div>
+          <div class="xp-pane tsl-stack" style="--gap:8px"><label class="tsl-choice"><input type="checkbox" class="tsl-check" data-failed /> Solo fallidas</label><ul class="tsl-list" data-calls></ul></div>
+          <div class="xp-pane tsl-stack" data-detail><span class="tsl-muted">Selecciona una llamada a herramienta.</span></div>
         </div>`,
       setup(root, ctx) {
         const calls = [
           { tool: "search_docs", args: { query: "trampa de foco en diálogos", top_k: 3 }, result: { hits: ["dialog.md#focus", "a11y.md#modals", "drawer.md"] }, ms: 182, ok: true },
           { tool: "run_sql", args: { sql: "SELECT count(*) FROM users WHERE plan='pro'" }, result: { rows: [{ count: 412 }] }, ms: 41, ok: true },
-          { tool: "http_get", args: { url: "https://status.devl.dev/api" }, result: { error: "ETIMEDOUT tras 5000ms" }, ms: 5003, ok: false },
+          { tool: "http_get", args: { url: "https://status.tesela.example/api" }, result: { error: "ETIMEDOUT tras 5000ms" }, ms: 5003, ok: false },
           { tool: "write_file", args: { path: "src/Button.tsx", bytes: 1834 }, result: { written: true }, ms: 12, ok: true }
         ];
         let sel = 0;
         const render = () => {
           const only = ctx.$("[data-failed]").checked;
-          ctx.$("[data-calls]").innerHTML = calls.map((c, i) => (only && c.ok ? "" : `<li class="xp-select-item" data-i="${i}" aria-selected="${i === sel}"><span class="dv-dot dv-dot--${c.ok ? "success" : "danger"}"></span><span class="xp-mono" style="flex:1">${c.tool}</span><span class="dv-muted xp-mono">${c.ms}ms</span></li>`)).join("") || '<li class="dv-muted">Sin llamadas fallidas</li>';
+          ctx.$("[data-calls]").innerHTML = calls.map((c, i) => (only && c.ok ? "" : `<li class="xp-select-item" data-i="${i}" aria-selected="${i === sel}"><span class="tsl-dot tsl-dot--${c.ok ? "success" : "danger"}"></span><span class="xp-mono" style="flex:1">${c.tool}</span><span class="tsl-muted xp-mono">${c.ms}ms</span></li>`)).join("") || '<li class="tsl-muted">Sin llamadas fallidas</li>';
           const c = calls[sel];
-          ctx.$("[data-detail]").innerHTML = `<div class="dv-row"><strong class="xp-mono">${c.tool}</strong><span class="dv-badge dv-badge--${c.ok ? "success" : "danger"}">${c.ok ? "ok" : "error"}</span><span class="dv-muted xp-mono">${c.ms}ms</span><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm" data-replay>⟳ Reproducir</button></div>
-            <dv-tabs><div class="dv-tabs__list"><button class="dv-tabs__tab" data-tab="args">Argumentos</button><button class="dv-tabs__tab" data-tab="res">Resultado</button></div>
-            <div class="dv-tabs__panel" data-panel="args"><pre class="dv-code"></pre></div><div class="dv-tabs__panel" data-panel="res"><pre class="dv-code"></pre></div></dv-tabs>`;
+          ctx.$("[data-detail]").innerHTML = `<div class="tsl-row"><strong class="xp-mono">${c.tool}</strong><span class="tsl-badge tsl-badge--${c.ok ? "success" : "danger"}">${c.ok ? "ok" : "error"}</span><span class="tsl-muted xp-mono">${c.ms}ms</span><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--sm" data-replay>⟳ Reproducir</button></div>
+            <tsl-tabs><div class="tsl-tabs__list"><button class="tsl-tabs__tab" data-tab="args">Argumentos</button><button class="tsl-tabs__tab" data-tab="res">Resultado</button></div>
+            <div class="tsl-tabs__panel" data-panel="args"><pre class="tsl-code"></pre></div><div class="tsl-tabs__panel" data-panel="res"><pre class="tsl-code"></pre></div></tsl-tabs>`;
           const pres = ctx.$$("[data-detail] pre");
           pres[0].textContent = JSON.stringify(c.args, null, 2);
           pres[1].textContent = JSON.stringify(c.result, null, 2);
@@ -817,15 +817,15 @@
     "model-arena-selector": {
       html: `
         ${head("IA y agentes · model-arena-selector.tsx", "Arena de modelos", "Ejecuta dos modelos lado a lado con el mismo prompt, compara latencia y costo, y luego vota: el Elo se actualiza en vivo.")}
-        <div class="dv-row"><input class="dv-input" style="flex:1" data-prompt value="Explica las container queries de CSS en un párrafo." aria-label="Prompt" /><button type="button" class="dv-btn dv-btn--primary" data-run>Ejecutar ambos</button></div>
-        <div class="dv-grid" style="--min:300px" data-cols></div>
-        <div class="dv-row" data-vote hidden><span class="dv-muted">¿Cuál fue mejor?</span><button type="button" class="dv-btn" data-v="0">← A</button><button type="button" class="dv-btn" data-v="0.5">Empate</button><button type="button" class="dv-btn" data-v="1">B →</button></div>
-        <div class="dv-table-wrap"><table class="dv-table dv-table--compact"><thead><tr><th>Modelo</th><th class="is-num">Elo</th><th class="is-num">Combates</th></tr></thead><tbody data-board></tbody></table></div>`,
+        <div class="tsl-row"><input class="tsl-input" style="flex:1" data-prompt value="Explica las container queries de CSS en un párrafo." aria-label="Prompt" /><button type="button" class="tsl-btn tsl-btn--primary" data-run>Ejecutar ambos</button></div>
+        <div class="tsl-grid" style="--min:300px" data-cols></div>
+        <div class="tsl-row" data-vote hidden><span class="tsl-muted">¿Cuál fue mejor?</span><button type="button" class="tsl-btn" data-v="0">← A</button><button type="button" class="tsl-btn" data-v="0.5">Empate</button><button type="button" class="tsl-btn" data-v="1">B →</button></div>
+        <div class="tsl-table-wrap"><table class="tsl-table tsl-table--compact"><thead><tr><th>Modelo</th><th class="is-num">Elo</th><th class="is-num">Combates</th></tr></thead><tbody data-board></tbody></table></div>`,
       setup(root, ctx) {
-        const models = { "devl-large": { elo: 1240, n: 0, wps: 24, cost: 15 }, "devl-fast": { elo: 1180, n: 0, wps: 60, cost: 2 }, "devl-reasoner": { elo: 1265, n: 0, wps: 14, cost: 30 } };
+        const models = { "tesela-large": { elo: 1240, n: 0, wps: 24, cost: 15 }, "tesela-fast": { elo: 1180, n: 0, wps: 60, cost: 2 }, "tesela-reasoner": { elo: 1265, n: 0, wps: 14, cost: 30 } };
         const opts = Object.keys(models).map((m) => `<option>${m}</option>`).join("");
-        ctx.$("[data-cols]").innerHTML = ["A", "B"].map((s, i) => `<div class="xp-panel dv-stack"><div class="dv-row"><span class="dv-badge dv-badge--accent">${s}</span><select class="dv-select" style="width:auto;height:28px" data-m="${i}" aria-label="Modelo ${s}">${opts}</select><span class="dv-spacer"></span><span class="xp-mono dv-muted" data-stat="${i}"></span></div><p data-out="${i}" style="line-height:1.7;min-height:96px" class="dv-muted">Esperando…</p></div>`).join("");
-        ctx.$('[data-m="1"]').value = "devl-fast";
+        ctx.$("[data-cols]").innerHTML = ["A", "B"].map((s, i) => `<div class="xp-panel tsl-stack"><div class="tsl-row"><span class="tsl-badge tsl-badge--accent">${s}</span><select class="tsl-select" style="width:auto;height:28px" data-m="${i}" aria-label="Modelo ${s}">${opts}</select><span class="tsl-spacer"></span><span class="xp-mono tsl-muted" data-stat="${i}"></span></div><p data-out="${i}" style="line-height:1.7;min-height:96px" class="tsl-muted">Esperando…</p></div>`).join("");
+        ctx.$('[data-m="1"]').value = "tesela-fast";
         const board = () => (ctx.$("[data-board]").innerHTML = Object.entries(models).sort((a, b) => b[1].elo - a[1].elo).map(([m, s]) => `<tr><td class="xp-mono">${m}</td><td class="is-num">${Math.round(s.elo)}</td><td class="is-num">${s.n}</td></tr>`).join(""));
         const answers = ["Las container queries permiten que un componente se estilice según el tamaño de su contenedor en lugar del viewport. Declara container-type: inline-size en un elemento padre y luego usa @container (min-width: 400px) { … } en el hijo. Por fin las tarjetas y las barras laterales se adaptan dondequiera que se coloquen.", "Son como las media queries, pero acotadas a un elemento padre: marca un contenedor con container-type y escribe reglas @container para que el componente responda al espacio que realmente tiene."];
         ctx.on(ctx.$("[data-run]"), "click", () => {
@@ -835,11 +835,11 @@
             const m = models[ctx.$(`[data-m="${i}"]`).value];
             const out = ctx.$(`[data-out="${i}"]`);
             out.textContent = "";
-            out.classList.remove("dv-muted");
+            out.classList.remove("tsl-muted");
             const t0 = performance.now();
             const text = answers[i];
             ctx.timeout(150 + Math.random() * 400, () =>
-              DEVL_XP.stream(ctx, out, text, {
+              TESELA_XP.stream(ctx, out, text, {
                 wps: m.wps,
                 onDone: () => {
                   const words = text.split(/\s+/).length;
@@ -873,13 +873,13 @@
     "token-budget-meter": {
       html: `
         ${head("IA y agentes · token-budget-meter.tsx", "Medidor de presupuesto de tokens", "Reparte la ventana de contexto entre sistema, herramientas, historial, RAG y salida. Si te pasas del presupuesto se pone en rojo; el caché reduce el costo.")}
-        <div class="dv-row"><span class="dv-label">Ventana de contexto</span><dv-segmented value="128000" data-limit><button class="dv-segmented__item" value="8000">8k</button><button class="dv-segmented__item" value="32000">32k</button><button class="dv-segmented__item" value="128000">128k</button><button class="dv-segmented__item" value="200000">200k</button></dv-segmented><label class="dv-choice">Caché de prompts <input type="checkbox" role="switch" class="dv-switch" data-cache checked /></label></div>
-        <div class="dv-meter" style="height:16px" data-meter></div>
-        <div class="dv-row"><strong class="xp-mono" data-total></strong><span class="dv-badge" data-state></span><span class="dv-spacer"></span><span class="dv-muted">Costo est. / solicitud <strong class="xp-mono" data-cost></strong></span></div>
-        <div class="dv-grid" style="--min:220px" data-sliders></div>`,
+        <div class="tsl-row"><span class="tsl-label">Ventana de contexto</span><tsl-segmented value="128000" data-limit><button class="tsl-segmented__item" value="8000">8k</button><button class="tsl-segmented__item" value="32000">32k</button><button class="tsl-segmented__item" value="128000">128k</button><button class="tsl-segmented__item" value="200000">200k</button></tsl-segmented><label class="tsl-choice">Caché de prompts <input type="checkbox" role="switch" class="tsl-switch" data-cache checked /></label></div>
+        <div class="tsl-meter" style="height:16px" data-meter></div>
+        <div class="tsl-row"><strong class="xp-mono" data-total></strong><span class="tsl-badge" data-state></span><span class="tsl-spacer"></span><span class="tsl-muted">Costo est. / solicitud <strong class="xp-mono" data-cost></strong></span></div>
+        <div class="tsl-grid" style="--min:220px" data-sliders></div>`,
       setup(root, ctx) {
-        const parts = [["Sistema", 4000, "var(--xp-accent)", true], ["Herramientas", 9000, "var(--dv-info)", true], ["Historial", 38000, "var(--dv-warning)", false], ["Fragmentos RAG", 30000, "var(--dv-success)", false], ["Reserva de salida", 8000, "var(--dv-danger)", false]];
-        ctx.$("[data-sliders]").innerHTML = parts.map(([n, v, c], i) => `<div class="xp-panel dv-stack" style="--gap:6px;padding:12px"><div class="dv-row"><span class="dv-dot" style="--_c:${c}"></span><span>${n}</span><span class="dv-spacer"></span><span class="xp-mono" data-v="${i}"></span></div><input type="range" class="dv-range" min="0" max="100000" step="500" value="${v}" data-i="${i}" aria-label="${n}: tokens" /></div>`).join("");
+        const parts = [["Sistema", 4000, "var(--xp-accent)", true], ["Herramientas", 9000, "var(--tsl-info)", true], ["Historial", 38000, "var(--tsl-warning)", false], ["Fragmentos RAG", 30000, "var(--tsl-success)", false], ["Reserva de salida", 8000, "var(--tsl-danger)", false]];
+        ctx.$("[data-sliders]").innerHTML = parts.map(([n, v, c], i) => `<div class="xp-panel tsl-stack" style="--gap:6px;padding:12px"><div class="tsl-row"><span class="tsl-dot" style="--_c:${c}"></span><span>${n}</span><span class="tsl-spacer"></span><span class="xp-mono" data-v="${i}"></span></div><input type="range" class="tsl-range" min="0" max="100000" step="500" value="${v}" data-i="${i}" aria-label="${n}: tokens" /></div>`).join("");
         const render = () => {
           const limit = Number(ctx.$("[data-limit]").value || 128000);
           const vals = ctx.$$("[data-i]").map((s) => Number(s.value));
@@ -888,7 +888,7 @@
           ctx.$("[data-meter]").innerHTML = parts.map(([, , c], i) => `<span style="--w:${Math.min(100, (vals[i] / Math.max(total, limit)) * 100)}%;--c:${c}"></span>`).join("");
           ctx.$("[data-total]").textContent = `${total.toLocaleString("es-MX")} / ${limit.toLocaleString("es-MX")} tokens`;
           const over = total > limit;
-          ctx.$("[data-state]").className = `dv-badge dv-badge--${over ? "danger" : total > limit * 0.85 ? "warning" : "success"}`;
+          ctx.$("[data-state]").className = `tsl-badge tsl-badge--${over ? "danger" : total > limit * 0.85 ? "warning" : "success"}`;
           ctx.$("[data-state]").textContent = over ? `Excedido por ${(total - limit).toLocaleString("es-MX")}` : `${((total / limit) * 100).toFixed(1)}% usado`;
           const cached = ctx.$("[data-cache]").checked ? vals[0] + vals[1] : 0;
           const input = total - vals[4];
@@ -896,7 +896,7 @@
           ctx.$("[data-cost]").textContent = `$${cost.toFixed(4)}`;
         };
         ctx.on(ctx.$("[data-sliders]"), "input", render);
-        ctx.on(ctx.$("[data-limit]"), "dv-change", render);
+        ctx.on(ctx.$("[data-limit]"), "tsl-change", render);
         ctx.on(ctx.$("[data-cache]"), "change", render);
         render();
       }
@@ -905,10 +905,10 @@
     "context-window-stack": {
       html: `
         ${head("IA y agentes · context-window-stack.tsx", "Pila de la ventana de contexto", "Fija lo que debe quedarse, suelta archivos para agregar contexto y poda automáticamente lo menos relevante para que todo quepa en la ventana.")}
-        <div class="dv-row"><strong class="xp-mono" data-total></strong><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm dv-btn--primary" data-prune>Podar automáticamente</button></div>
-        <div class="dv-meter" style="height:10px"><span data-bar></span></div>
-        <ul class="dv-list" data-items></ul>
-        <dv-dropzone multiple data-drop><strong>Suelta archivos para agregar contexto</strong><span>≈ 1 token por cada 4 bytes</span></dv-dropzone>`,
+        <div class="tsl-row"><strong class="xp-mono" data-total></strong><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--primary" data-prune>Podar automáticamente</button></div>
+        <div class="tsl-meter" style="height:10px"><span data-bar></span></div>
+        <ul class="tsl-list" data-items></ul>
+        <tsl-dropzone multiple data-drop><strong>Suelta archivos para agregar contexto</strong><span>≈ 1 token por cada 4 bytes</span></tsl-dropzone>`,
       setup(root, ctx) {
         const LIMIT = 32000;
         const items = [
@@ -924,8 +924,8 @@
           ctx.$("[data-total]").textContent = `${total.toLocaleString("es-MX")} / ${LIMIT.toLocaleString("es-MX")} tokens`;
           const bar = ctx.$("[data-bar]");
           bar.style.setProperty("--w", `${Math.min(100, (total / LIMIT) * 100)}%`);
-          bar.style.setProperty("--c", total > LIMIT ? "var(--dv-danger)" : "var(--xp-accent)");
-          ctx.$("[data-items]").innerHTML = items.map((it, i) => `<li><button type="button" class="dv-btn dv-btn--icon dv-btn--sm ${it.pin ? "dv-btn--accent" : "dv-btn--subtle"}" data-pin="${i}" aria-pressed="${it.pin}" aria-label="Fijar ${esc(it.name)}">📌</button><div style="flex:1;min-width:0"><div class="dv-list__title xp-mono">${esc(it.name)}</div><div class="dv-meter" style="height:4px;margin-top:4px;max-width:200px"><span style="--w:${it.rel * 100}%;--c:var(--dv-success)"></span></div></div><span class="xp-mono dv-muted">${(it.tokens / 1000).toFixed(1)}k</span><button type="button" class="dv-btn dv-btn--icon dv-btn--sm dv-btn--subtle" data-rm="${i}" aria-label="Quitar">✕</button></li>`).join("");
+          bar.style.setProperty("--c", total > LIMIT ? "var(--tsl-danger)" : "var(--xp-accent)");
+          ctx.$("[data-items]").innerHTML = items.map((it, i) => `<li><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm ${it.pin ? "tsl-btn--accent" : "tsl-btn--subtle"}" data-pin="${i}" aria-pressed="${it.pin}" aria-label="Fijar ${esc(it.name)}">📌</button><div style="flex:1;min-width:0"><div class="tsl-list__title xp-mono">${esc(it.name)}</div><div class="tsl-meter" style="height:4px;margin-top:4px;max-width:200px"><span style="--w:${it.rel * 100}%;--c:var(--tsl-success)"></span></div></div><span class="xp-mono tsl-muted">${(it.tokens / 1000).toFixed(1)}k</span><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" data-rm="${i}" aria-label="Quitar">✕</button></li>`).join("");
         };
         ctx.on(ctx.$("[data-items]"), "click", (e) => {
           const p = e.target.closest("[data-pin]");
@@ -947,7 +947,7 @@
           render();
         });
         let seen = 0;
-        ctx.on(ctx.$("[data-drop]"), "dv-change", (e) => {
+        ctx.on(ctx.$("[data-drop]"), "tsl-change", (e) => {
           e.detail.files.slice(seen).forEach((f) => items.push({ name: f.name, tokens: Math.max(1, Math.round(f.size / 4)), rel: 0.6, pin: false }));
           seen = e.detail.files.length;
           render();
@@ -959,10 +959,10 @@
     "agent-handoff-graph": {
       html: `
         ${head("IA y agentes · agent-handoff-graph.tsx", "Grafo de traspasos entre agentes", "El orquestador reparte el trabajo entre subagentes. Ejecútalo para animar los traspasos; haz que el revisor falle para ver un ciclo de reintento.")}
-        <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-run>▶ Ejecutar</button><label class="dv-choice">El revisor rechaza el primer borrador <input type="checkbox" role="switch" class="dv-switch" data-fail /></label></div>
-        <div class="dv-grid" style="--min:320px;align-items:start">
+        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-run>▶ Ejecutar</button><label class="tsl-choice">El revisor rechaza el primer borrador <input type="checkbox" role="switch" class="tsl-switch" data-fail /></label></div>
+        <div class="tsl-grid" style="--min:320px;align-items:start">
           <div class="xp-panel"><svg viewBox="0 0 520 300" class="xp-chart" data-g></svg></div>
-          <div class="xp-panel"><span class="dv-eyebrow">Registro de traspasos</span><ol class="dv-timeline" data-log style="margin-top:12px"></ol></div>
+          <div class="xp-panel"><span class="tsl-eyebrow">Registro de traspasos</span><ol class="tsl-timeline" data-log style="margin-top:12px"></ol></div>
         </div>`,
       setup(root, ctx) {
         const nodes = { orch: [70, 150, "Orquestador"], research: [260, 60, "Investigador"], coder: [260, 150, "Programador"], review: [260, 240, "Revisor"], final: [450, 150, "Finalizador"] };
@@ -980,14 +980,14 @@
             }).join("") +
             Object.entries(nodes).map(([k, [x, y, label]]) => {
               const s = state[k] || "idle";
-              const c = s === "running" ? "var(--xp-accent)" : s === "done" ? "var(--dv-success)" : s === "error" ? "var(--dv-danger)" : "var(--dv-border-strong)";
-              return `<g><rect x="${x - 56}" y="${y - 18}" width="112" height="36" rx="8" fill="var(--dv-bg-elevated)" stroke="${c}" stroke-width="2"/><text x="${x}" y="${y + 4}" text-anchor="middle" font-size="11" fill="currentColor" style="fill:var(--dv-fg)">${label}</text></g>`;
+              const c = s === "running" ? "var(--xp-accent)" : s === "done" ? "var(--tsl-success)" : s === "error" ? "var(--tsl-danger)" : "var(--tsl-border-strong)";
+              return `<g><rect x="${x - 56}" y="${y - 18}" width="112" height="36" rx="8" fill="var(--tsl-bg-elevated)" stroke="${c}" stroke-width="2"/><text x="${x}" y="${y + 4}" text-anchor="middle" font-size="11" fill="currentColor" style="fill:var(--tsl-fg)">${label}</text></g>`;
             }).join("");
         };
         const log = (text) => {
           const li = document.createElement("li");
           li.style.setProperty("--c", "var(--xp-accent)");
-          li.innerHTML = `<span></span><div class="dv-timeline__meta">${new Date().toLocaleTimeString()}</div>`;
+          li.innerHTML = `<span></span><div class="tsl-timeline__meta">${new Date().toLocaleTimeString()}</div>`;
           li.firstChild.textContent = text;
           ctx.$("[data-log]").appendChild(li);
         };
@@ -1010,7 +1010,7 @@
           log("El orquestador recibió la tarea: «Agregar interruptor de modo oscuro»");
           await wait(600);
           await hop("orch", "research", "→ Investigador: buscar los tokens de tema existentes");
-          await hop("research", "coder", "→ Programador: implementar el interruptor con DevlUI.setTheme");
+          await hop("research", "coder", "→ Programador: implementar el interruptor con TeselaUI.setTheme");
           await hop("coder", "review", "→ Revisor: verificar a11y + pruebas");
           if (ctx.$("[data-fail]").checked) {
             state.review = "error";
@@ -1034,10 +1034,10 @@
       html: `
         ${head("IA y agentes · citation-popover.tsx", "Popover de citas", "Pasa el cursor o enfoca una cita para previsualizar su fuente con una puntuación de confianza; haz clic para resaltarla en la lista de fuentes.")}
         <div class="xp-panel xp-rel" style="line-height:1.9;font-size:14px" data-text>
-          Los elementos <code>&lt;dialog&gt;</code> nativos atrapan el foco y se cierran con Escape sin código adicional<button type="button" class="dv-badge dv-badge--accent" data-c="0" style="border:0;cursor:pointer;margin:0 2px">1</button>. Las container queries son compatibles con todos los navegadores actuales<button type="button" class="dv-badge dv-badge--accent" data-c="1" style="border:0;cursor:pointer;margin:0 2px">2</button>, y <code>color-mix()</code> vuelve trivial el tematizado basado en tokens<button type="button" class="dv-badge dv-badge--accent" data-c="2" style="border:0;cursor:pointer;margin:0 2px">3</button>.
-          <div class="dv-card" data-pop hidden style="position:absolute;z-index:10;width:300px;box-shadow:var(--dv-shadow-lg);background:var(--dv-bg-elevated)"><div class="dv-card__body dv-stack" style="--gap:6px;font-size:12px;line-height:1.5"></div></div>
+          Los elementos <code>&lt;dialog&gt;</code> nativos atrapan el foco y se cierran con Escape sin código adicional<button type="button" class="tsl-badge tsl-badge--accent" data-c="0" style="border:0;cursor:pointer;margin:0 2px">1</button>. Las container queries son compatibles con todos los navegadores actuales<button type="button" class="tsl-badge tsl-badge--accent" data-c="1" style="border:0;cursor:pointer;margin:0 2px">2</button>, y <code>color-mix()</code> vuelve trivial el tematizado basado en tokens<button type="button" class="tsl-badge tsl-badge--accent" data-c="2" style="border:0;cursor:pointer;margin:0 2px">3</button>.
+          <div class="tsl-card" data-pop hidden style="position:absolute;z-index:10;width:300px;box-shadow:var(--tsl-shadow-lg);background:var(--tsl-bg-elevated)"><div class="tsl-card__body tsl-stack" style="--gap:6px;font-size:12px;line-height:1.5"></div></div>
         </div>
-        <ol class="dv-list" data-sources></ol>`,
+        <ol class="tsl-list" data-sources></ol>`,
       setup(root, ctx) {
         const src = [
           { title: "El elemento dialog", host: "developer.mozilla.org", snippet: "Un diálogo modal… el foco se mueve al diálogo y el resto de la página queda inerte.", conf: 0.96 },
@@ -1049,7 +1049,7 @@
         const show = (btn) => {
           const s = src[btn.dataset.c];
           const body = pop.firstElementChild;
-          body.innerHTML = `<span class="dv-eyebrow"></span><strong></strong><span class="dv-muted"></span><div class="dv-row"><div class="dv-meter" style="flex:1;height:5px"><span style="--w:${s.conf * 100}%;--c:${s.conf > 0.85 ? "var(--dv-success)" : "var(--dv-warning)"}"></span></div><span class="xp-mono">${Math.round(s.conf * 100)}%</span></div>`;
+          body.innerHTML = `<span class="tsl-eyebrow"></span><strong></strong><span class="tsl-muted"></span><div class="tsl-row"><div class="tsl-meter" style="flex:1;height:5px"><span style="--w:${s.conf * 100}%;--c:${s.conf > 0.85 ? "var(--tsl-success)" : "var(--tsl-warning)"}"></span></div><span class="xp-mono">${Math.round(s.conf * 100)}%</span></div>`;
           body.children[0].textContent = s.host;
           body.children[1].textContent = s.title;
           body.children[2].textContent = `“${s.snippet}”`;
@@ -1065,26 +1065,26 @@
           ctx.on(b, "pointerleave", () => (pop.hidden = true));
           ctx.on(b, "blur", () => (pop.hidden = true));
           ctx.on(b, "click", () => {
-            ctx.$$("[data-sources] li").forEach((li, i) => (li.style.background = i === Number(b.dataset.c) ? "var(--dv-surface-strong)" : ""));
+            ctx.$$("[data-sources] li").forEach((li, i) => (li.style.background = i === Number(b.dataset.c) ? "var(--tsl-surface-strong)" : ""));
           });
         });
-        ctx.$("[data-sources]").innerHTML = src.map((s, i) => `<li><span class="dv-badge dv-badge--accent">${i + 1}</span><div><div class="dv-list__title">${s.title}</div><div class="dv-list__desc">${s.host}</div></div><span class="dv-list__end xp-mono dv-muted">${Math.round(s.conf * 100)}%</span></li>`).join("");
+        ctx.$("[data-sources]").innerHTML = src.map((s, i) => `<li><span class="tsl-badge tsl-badge--accent">${i + 1}</span><div><div class="tsl-list__title">${s.title}</div><div class="tsl-list__desc">${s.host}</div></div><span class="tsl-list__end xp-mono tsl-muted">${Math.round(s.conf * 100)}%</span></li>`).join("");
       }
     },
 
     "voice-waveform-hud": {
       html: `
         ${head("IA y agentes · voice-waveform-hud.tsx", "HUD de forma de onda de voz", "Mantén presionado el botón (o la barra espaciadora mientras tiene el foco) para hablar: la forma de onda reacciona, el VAD se enciende y al soltar se transcribe en streaming. Opcionalmente usa tu micrófono real.")}
-        <div class="xp-panel dv-stack" style="align-items:center">
+        <div class="xp-panel tsl-stack" style="align-items:center">
           <canvas class="xp-canvas" data-wave style="height:140px;border:0;background:transparent"></canvas>
-          <div class="dv-row"><span class="dv-badge" data-vad>● inactivo</span></div>
-          <div class="dv-row"><button type="button" class="dv-btn dv-btn--lg dv-btn--pill dv-btn--accent" data-ptt>Mantén para hablar</button><button type="button" class="dv-btn dv-btn--sm" data-mic>Usar micrófono</button></div>
-          <p data-transcript class="dv-muted" style="min-height:44px;text-align:center;max-width:520px">La transcripción aparece aquí.</p>
+          <div class="tsl-row"><span class="tsl-badge" data-vad>● inactivo</span></div>
+          <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--lg tsl-btn--pill tsl-btn--accent" data-ptt>Mantén para hablar</button><button type="button" class="tsl-btn tsl-btn--sm" data-mic>Usar micrófono</button></div>
+          <p data-transcript class="tsl-muted" style="min-height:44px;text-align:center;max-width:520px">La transcripción aparece aquí.</p>
         </div>`,
       setup(root, ctx) {
         const cv = ctx.$("[data-wave]");
         const g = cv.getContext("2d");
-        const size = DEVL_XP.fitCanvas(ctx, cv);
+        const size = TESELA_XP.fitCanvas(ctx, cv);
         let talking = false;
         let level = 0;
         let analyser = null;
@@ -1119,7 +1119,7 @@
           g.globalAlpha = 1;
           const vad = ctx.$("[data-vad]");
           const speaking = level > 0.15;
-          vad.className = `dv-badge${speaking ? " dv-badge--success" : ""}`;
+          vad.className = `tsl-badge${speaking ? " tsl-badge--success" : ""}`;
           vad.textContent = speaking ? "● voz detectada" : "● inactivo";
         });
         const btn = ctx.$("[data-ptt]");
@@ -1133,8 +1133,8 @@
           talking = false;
           btn.textContent = "Mantén para hablar";
           const out = ctx.$("[data-transcript]");
-          out.classList.remove("dv-muted");
-          DEVL_XP.stream(ctx, out, phrases[pi++ % phrases.length], { wps: 9 });
+          out.classList.remove("tsl-muted");
+          TESELA_XP.stream(ctx, out, phrases[pi++ % phrases.length], { wps: 9 });
         };
         ctx.on(btn, "pointerdown", start);
         ctx.on(btn, "pointerup", end);
@@ -1169,20 +1169,20 @@
     "diff-apply-review": {
       html: `
         ${head("IA y agentes · diff-apply-review.tsx", "Revisión y aplicación de diff", "Acepta o rechaza cada hunk que propuso el agente y luego aplica: el archivo resultante se reconstruye con tus decisiones.")}
-        <div class="dv-row"><strong class="xp-mono">src/Button.tsx</strong><span class="dv-badge" data-count></span><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm" data-all="1">Aceptar todo</button><button type="button" class="dv-btn dv-btn--sm" data-all="0">Rechazar todo</button><button type="button" class="dv-btn dv-btn--primary dv-btn--sm" data-apply>Aplicar</button></div>
-        <div class="dv-stack" data-hunks></div>
-        <div class="xp-panel" data-result hidden><span class="dv-eyebrow">Resultado</span><pre class="dv-code" style="margin-top:8px" data-file></pre></div>`,
+        <div class="tsl-row"><strong class="xp-mono">src/Button.tsx</strong><span class="tsl-badge" data-count></span><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--sm" data-all="1">Aceptar todo</button><button type="button" class="tsl-btn tsl-btn--sm" data-all="0">Rechazar todo</button><button type="button" class="tsl-btn tsl-btn--primary tsl-btn--sm" data-apply>Aplicar</button></div>
+        <div class="tsl-stack" data-hunks></div>
+        <div class="xp-panel" data-result hidden><span class="tsl-eyebrow">Resultado</span><pre class="tsl-code" style="margin-top:8px" data-file></pre></div>`,
       setup(root, ctx) {
         const base = ["export function Button({ children }) {", "  return (", '    <button className="btn">', "      {children}", "    </button>", "  );", "}"];
         const hunks = [
           { at: 0, del: ["export function Button({ children }) {"], add: ['export function Button({ children, variant = "default", ...props }) {'], why: "Agregar prop variant" },
-          { at: 2, del: ['    <button className="btn">'], add: ['    <button type="button" className={`dv-btn dv-btn--${variant}`} {...props}>'], why: "Usar clases de devl-ui + type" },
+          { at: 2, del: ['    <button className="btn">'], add: ['    <button type="button" className={`tsl-btn tsl-btn--${variant}`} {...props}>'], why: "Usar clases de tesela-ui + type" },
           { at: 4, del: ["    </button>"], add: ["    </button>", "    // TODO: estado de carga"], why: "Dejar TODO (opcional)" }
         ];
         const choice = hunks.map(() => null);
         const render = () => {
           ctx.$("[data-hunks]").innerHTML = hunks
-            .map((h, i) => `<div class="dv-card dv-card--flat" style="border-color:${choice[i] === true ? "var(--dv-success)" : choice[i] === false ? "var(--dv-danger)" : "var(--dv-border)"}"><div class="dv-row" style="padding:8px 12px;border-bottom:1px solid var(--dv-border)"><span class="xp-mono dv-muted">@@ línea ${h.at + 1} @@</span><span>${h.why}</span><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm" data-h="${i}" data-v="1" aria-pressed="${choice[i] === true}">✓ Aceptar</button><button type="button" class="dv-btn dv-btn--sm" data-h="${i}" data-v="0" aria-pressed="${choice[i] === false}">✕ Rechazar</button></div><pre class="xp-mono" style="margin:0;padding:8px 0;font-size:12px">${h.del.map((l) => `<div class="xp-diff-del" style="padding:0 12px">- ${esc(l)}</div>`).join("")}${h.add.map((l) => `<div class="xp-diff-add" style="padding:0 12px">+ ${esc(l)}</div>`).join("")}</pre></div>`)
+            .map((h, i) => `<div class="tsl-card tsl-card--flat" style="border-color:${choice[i] === true ? "var(--tsl-success)" : choice[i] === false ? "var(--tsl-danger)" : "var(--tsl-border)"}"><div class="tsl-row" style="padding:8px 12px;border-bottom:1px solid var(--tsl-border)"><span class="xp-mono tsl-muted">@@ línea ${h.at + 1} @@</span><span>${h.why}</span><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--sm" data-h="${i}" data-v="1" aria-pressed="${choice[i] === true}">✓ Aceptar</button><button type="button" class="tsl-btn tsl-btn--sm" data-h="${i}" data-v="0" aria-pressed="${choice[i] === false}">✕ Rechazar</button></div><pre class="xp-mono" style="margin:0;padding:8px 0;font-size:12px">${h.del.map((l) => `<div class="xp-diff-del" style="padding:0 12px">- ${esc(l)}</div>`).join("")}${h.add.map((l) => `<div class="xp-diff-add" style="padding:0 12px">+ ${esc(l)}</div>`).join("")}</pre></div>`)
             .join("");
           const acc = choice.filter((c) => c === true).length;
           const rej = choice.filter((c) => c === false).length;
@@ -1217,19 +1217,19 @@
   // ==========================================================================
   const canvasHead = (file, title, desc, controls = "") => `
     ${head(`Shaders y canvas · ${file}`, title, desc)}
-    ${controls ? `<div class="dv-row">${controls}</div>` : ""}
+    ${controls ? `<div class="tsl-row">${controls}</div>` : ""}
     <canvas class="xp-canvas" data-cv style="height:420px"></canvas>`;
 
   X.addMany("shaders-canvas", {
     "magnetic-cursor-grid": {
-      html: canvasHead("magnetic-cursor-grid.tsx", "Cuadrícula de cursor magnético", "Cada aguja apunta hacia el puntero dentro del radio de fuerza. Ajusta el radio y la densidad.", `<label class="dv-choice">Radio <input type="range" class="dv-range" min="40" max="400" value="180" data-r style="width:140px" aria-label="Radio" /></label><label class="dv-choice">Espaciado <input type="range" class="dv-range" min="14" max="48" value="24" data-s style="width:140px" aria-label="Espaciado" /></label>`),
+      html: canvasHead("magnetic-cursor-grid.tsx", "Cuadrícula de cursor magnético", "Cada aguja apunta hacia el puntero dentro del radio de fuerza. Ajusta el radio y la densidad.", `<label class="tsl-choice">Radio <input type="range" class="tsl-range" min="40" max="400" value="180" data-r style="width:140px" aria-label="Radio" /></label><label class="tsl-choice">Espaciado <input type="range" class="tsl-range" min="14" max="48" value="24" data-s style="width:140px" aria-label="Espaciado" /></label>`),
       setup(root, ctx) {
         const cv = ctx.$("[data-cv]");
         const g = cv.getContext("2d");
-        const size = DEVL_XP.fitCanvas(ctx, cv);
+        const size = TESELA_XP.fitCanvas(ctx, cv);
         let mx = -999;
         let my = -999;
-        ctx.on(cv, "pointermove", (e) => ({ x: mx, y: my } = DEVL_XP.pointer(cv, e)));
+        ctx.on(cv, "pointermove", (e) => ({ x: mx, y: my } = TESELA_XP.pointer(cv, e)));
         ctx.on(cv, "pointerleave", () => (mx = my = -999));
         const accent = getComputedStyle(root).getPropertyValue("--xp-accent").trim();
         ctx.raf((t) => {
@@ -1260,11 +1260,11 @@
     },
 
     "ascii-matrix-field": {
-      html: canvasHead("ascii-matrix-field.tsx", "Campo matricial ASCII", "Ruido de valor animado representado como luminancia de glifos. El puntero ilumina el campo; cambia el juego de caracteres.", `<dv-segmented value=" .:-=+*#%@" data-set><button class="dv-segmented__item" value=" .:-=+*#%@">Clásico</button><button class="dv-segmented__item" value=" ░▒▓█">Bloques</button><button class="dv-segmented__item" value=" 01">Binario</button></dv-segmented><label class="dv-choice">Celda <input type="range" class="dv-range" min="8" max="20" value="12" data-cell style="width:120px" aria-label="Tamaño de celda" /></label>`),
+      html: canvasHead("ascii-matrix-field.tsx", "Campo matricial ASCII", "Ruido de valor animado representado como luminancia de glifos. El puntero ilumina el campo; cambia el juego de caracteres.", `<tsl-segmented value=" .:-=+*#%@" data-set><button class="tsl-segmented__item" value=" .:-=+*#%@">Clásico</button><button class="tsl-segmented__item" value=" ░▒▓█">Bloques</button><button class="tsl-segmented__item" value=" 01">Binario</button></tsl-segmented><label class="tsl-choice">Celda <input type="range" class="tsl-range" min="8" max="20" value="12" data-cell style="width:120px" aria-label="Tamaño de celda" /></label>`),
       setup(root, ctx) {
         const cv = ctx.$("[data-cv]");
         const g = cv.getContext("2d");
-        const size = DEVL_XP.fitCanvas(ctx, cv);
+        const size = TESELA_XP.fitCanvas(ctx, cv);
         const hash = (x, y) => {
           const s = Math.sin(x * 127.1 + y * 311.7) * 43758.5453;
           return s - Math.floor(s);
@@ -1284,7 +1284,7 @@
         };
         let mx = -1;
         let my = -1;
-        ctx.on(cv, "pointermove", (e) => ({ x: mx, y: my } = DEVL_XP.pointer(cv, e)));
+        ctx.on(cv, "pointermove", (e) => ({ x: mx, y: my } = TESELA_XP.pointer(cv, e)));
         const accent = getComputedStyle(root).getPropertyValue("--xp-accent").trim();
         ctx.raf((t) => {
           const { w, h, dpr } = size;
@@ -1309,12 +1309,12 @@
     },
 
     "simplex-flow-lines": {
-      html: canvasHead("simplex-flow-lines.tsx", "Líneas de flujo simplex", "Las partículas siguen un campo de ruido tipo curl y dejan estelas que se desvanecen. Cambia el número de partículas o regenera el campo.", `<label class="dv-choice">Partículas <input type="range" class="dv-range" min="200" max="3000" step="100" value="1200" data-n style="width:160px" aria-label="Partículas" /></label><button type="button" class="dv-btn dv-btn--sm" data-seed>Regenerar</button><button type="button" class="dv-btn dv-btn--sm" data-clear>Limpiar</button>`),
+      html: canvasHead("simplex-flow-lines.tsx", "Líneas de flujo simplex", "Las partículas siguen un campo de ruido tipo curl y dejan estelas que se desvanecen. Cambia el número de partículas o regenera el campo.", `<label class="tsl-choice">Partículas <input type="range" class="tsl-range" min="200" max="3000" step="100" value="1200" data-n style="width:160px" aria-label="Partículas" /></label><button type="button" class="tsl-btn tsl-btn--sm" data-seed>Regenerar</button><button type="button" class="tsl-btn tsl-btn--sm" data-clear>Limpiar</button>`),
       setup(root, ctx) {
         const cv = ctx.$("[data-cv]");
         const g = cv.getContext("2d");
         let seed = Math.random() * 1000;
-        const size = DEVL_XP.fitCanvas(ctx, cv, () => g.clearRect(0, 0, cv.width, cv.height));
+        const size = TESELA_XP.fitCanvas(ctx, cv, () => g.clearRect(0, 0, cv.width, cv.height));
         const hash = (x, y) => {
           const s = Math.sin(x * 12.9898 + y * 78.233 + seed) * 43758.5453;
           return s - Math.floor(s);
@@ -1372,11 +1372,11 @@
     },
 
     "dither-halftone-shader": {
-      html: canvasHead("dither-halftone-shader.tsx", "Shader de dithering y medios tonos", "Una imagen procedural en movimiento renderizada con dithering ordenado de Bayer o puntos de medios tonos, píxel por píxel en la CPU.", `<dv-segmented value="bayer4" data-mode><button class="dv-segmented__item" value="bayer4">Bayer 4×4</button><button class="dv-segmented__item" value="bayer8">Bayer 8×8</button><button class="dv-segmented__item" value="halftone">Medios tonos</button><button class="dv-segmented__item" value="none">Original</button></dv-segmented><label class="dv-choice">Píxel <input type="range" class="dv-range" min="2" max="8" value="3" data-px style="width:110px" aria-label="Tamaño de píxel" /></label>`),
+      html: canvasHead("dither-halftone-shader.tsx", "Shader de dithering y medios tonos", "Una imagen procedural en movimiento renderizada con dithering ordenado de Bayer o puntos de medios tonos, píxel por píxel en la CPU.", `<tsl-segmented value="bayer4" data-mode><button class="tsl-segmented__item" value="bayer4">Bayer 4×4</button><button class="tsl-segmented__item" value="bayer8">Bayer 8×8</button><button class="tsl-segmented__item" value="halftone">Medios tonos</button><button class="tsl-segmented__item" value="none">Original</button></tsl-segmented><label class="tsl-choice">Píxel <input type="range" class="tsl-range" min="2" max="8" value="3" data-px style="width:110px" aria-label="Tamaño de píxel" /></label>`),
       setup(root, ctx) {
         const cv = ctx.$("[data-cv]");
         const g = cv.getContext("2d");
-        const size = DEVL_XP.fitCanvas(ctx, cv);
+        const size = TESELA_XP.fitCanvas(ctx, cv);
         const bayer = (n) => {
           let m = [[0]];
           while (m.length < n) {
@@ -1401,7 +1401,7 @@
         let mx = 0.5;
         let my = 0.5;
         ctx.on(cv, "pointermove", (e) => {
-          const p = DEVL_XP.pointer(cv, e);
+          const p = TESELA_XP.pointer(cv, e);
           mx = p.x / p.w;
           my = p.y / p.h;
         });
@@ -1446,11 +1446,11 @@
     },
 
     "interactive-cloth-mesh": {
-      html: canvasHead("interactive-cloth-mesh.tsx", "Malla de tela interactiva", "Tela integrada con Verlet y sujeta por arriba. Arrastra para jalarla; con el desgarro activado, estírala con fuerza para romper las restricciones.", `<label class="dv-choice">Gravedad <input type="range" class="dv-range" min="0" max="20" value="9" data-g style="width:120px" aria-label="Gravedad" /></label><label class="dv-choice">Desgarro <input type="checkbox" role="switch" class="dv-switch" data-tear checked /></label><button type="button" class="dv-btn dv-btn--sm" data-reset>Restablecer</button>`),
+      html: canvasHead("interactive-cloth-mesh.tsx", "Malla de tela interactiva", "Tela integrada con Verlet y sujeta por arriba. Arrastra para jalarla; con el desgarro activado, estírala con fuerza para romper las restricciones.", `<label class="tsl-choice">Gravedad <input type="range" class="tsl-range" min="0" max="20" value="9" data-g style="width:120px" aria-label="Gravedad" /></label><label class="tsl-choice">Desgarro <input type="checkbox" role="switch" class="tsl-switch" data-tear checked /></label><button type="button" class="tsl-btn tsl-btn--sm" data-reset>Restablecer</button>`),
       setup(root, ctx) {
         const cv = ctx.$("[data-cv]");
         const g = cv.getContext("2d");
-        const size = DEVL_XP.fitCanvas(ctx, cv);
+        const size = TESELA_XP.fitCanvas(ctx, cv);
         let pts;
         let links;
         const COLS = 34;
@@ -1472,7 +1472,7 @@
         ctx.on(ctx.$("[data-reset]"), "click", build);
         let grab = null;
         ctx.on(cv, "pointerdown", (e) => {
-          const m = DEVL_XP.pointer(cv, e);
+          const m = TESELA_XP.pointer(cv, e);
           let best = null;
           let bd = 30;
           pts.forEach((p) => {
@@ -1484,7 +1484,7 @@
         });
         ctx.on(cv, "pointermove", (e) => {
           if (!grab) return;
-          const m = DEVL_XP.pointer(cv, e);
+          const m = TESELA_XP.pointer(cv, e);
           grab.x = m.x;
           grab.y = m.y;
         });
@@ -1542,15 +1542,15 @@
     },
 
     "raymarched-sdf-orb": {
-      html: canvasHead("raymarched-sdf-orb.tsx", "Esfera SDF con raymarching", "Un raymarcher GLSL real: una esfera y una caja mezcladas con smooth-min e iluminadas con sombreado suave. Arrastra para orbitar y desliza para mezclar.", `<label class="dv-choice">Mezcla <input type="range" class="dv-range" min="0" max="100" value="45" data-k style="width:150px" aria-label="Mezcla" /></label><label class="dv-choice">Transformación <input type="range" class="dv-range" min="0" max="100" value="50" data-m style="width:150px" aria-label="Transformación" /></label>`),
+      html: canvasHead("raymarched-sdf-orb.tsx", "Esfera SDF con raymarching", "Un raymarcher GLSL real: una esfera y una caja mezcladas con smooth-min e iluminadas con sombreado suave. Arrastra para orbitar y desliza para mezclar.", `<label class="tsl-choice">Mezcla <input type="range" class="tsl-range" min="0" max="100" value="45" data-k style="width:150px" aria-label="Mezcla" /></label><label class="tsl-choice">Transformación <input type="range" class="tsl-range" min="0" max="100" value="50" data-m style="width:150px" aria-label="Transformación" /></label>`),
       setup(root, ctx) {
         const cv = ctx.$("[data-cv]");
         const gl = cv.getContext("webgl");
         if (!gl) {
-          cv.replaceWith(Object.assign(document.createElement("div"), { className: "dv-alert dv-alert--warning", textContent: "WebGL no está disponible en este navegador." }));
+          cv.replaceWith(Object.assign(document.createElement("div"), { className: "tsl-alert tsl-alert--warning", textContent: "WebGL no está disponible en este navegador." }));
           return;
         }
-        const size = DEVL_XP.fitCanvas(ctx, cv, () => gl.viewport(0, 0, cv.width, cv.height));
+        const size = TESELA_XP.fitCanvas(ctx, cv, () => gl.viewport(0, 0, cv.width, cv.height));
         const vs = "attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}";
         const fs = `precision mediump float;uniform vec2 r;uniform float t,k,m;uniform vec2 rot;
           float smin(float a,float b,float k){float h=clamp(.5+.5*(b-a)/k,0.,1.);return mix(b,a,h)-k*h*(1.-h);}
@@ -1602,11 +1602,11 @@
     },
 
     "audio-fft-spectrum": {
-      html: canvasHead("audio-fft-spectrum.tsx", "Espectro FFT de audio", "Un grafo real de Web Audio: oscilador + LFO → analizador. Inícialo, cambia la forma de onda y el tono, y observa los armónicos.", `<button type="button" class="dv-btn dv-btn--primary" data-play>▶ Iniciar audio</button><select class="dv-select" style="width:auto;height:30px" data-wave aria-label="Forma de onda"><option>sawtooth</option><option>square</option><option>triangle</option><option>sine</option></select><label class="dv-choice">Tono <input type="range" class="dv-range" min="40" max="880" value="110" data-f style="width:150px" aria-label="Tono" /><span class="xp-mono" data-fv>110 Hz</span></label><label class="dv-choice">Volumen <input type="range" class="dv-range" min="0" max="100" value="20" data-v style="width:100px" aria-label="Volumen" /></label>`),
+      html: canvasHead("audio-fft-spectrum.tsx", "Espectro FFT de audio", "Un grafo real de Web Audio: oscilador + LFO → analizador. Inícialo, cambia la forma de onda y el tono, y observa los armónicos.", `<button type="button" class="tsl-btn tsl-btn--primary" data-play>▶ Iniciar audio</button><select class="tsl-select" style="width:auto;height:30px" data-wave aria-label="Forma de onda"><option>sawtooth</option><option>square</option><option>triangle</option><option>sine</option></select><label class="tsl-choice">Tono <input type="range" class="tsl-range" min="40" max="880" value="110" data-f style="width:150px" aria-label="Tono" /><span class="xp-mono" data-fv>110 Hz</span></label><label class="tsl-choice">Volumen <input type="range" class="tsl-range" min="0" max="100" value="20" data-v style="width:100px" aria-label="Volumen" /></label>`),
       setup(root, ctx) {
         const cv = ctx.$("[data-cv]");
         const g = cv.getContext("2d");
-        const size = DEVL_XP.fitCanvas(ctx, cv);
+        const size = TESELA_XP.fitCanvas(ctx, cv);
         let ac = null;
         let osc;
         let gain;
@@ -1680,7 +1680,7 @@
       html: `
         ${head("Shaders & Canvas · bezier-node-graph.tsx", "Grafo de nodos Bézier", "Arrastra los nodos; haz clic en un puerto de salida y luego en uno de entrada para conectar un cable; haz clic en un cable para quitarlo. La señal fluye cuando la cadena llega a Salida.")}
         <div class="xp-board" data-board><svg data-wires style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"></svg></div>
-        <div class="dv-row"><span class="dv-badge" data-status></span><span class="dv-muted" data-hint>Consejo: Oscilador → Filtro → Ganancia → Salida</span></div>`,
+        <div class="tsl-row"><span class="tsl-badge" data-status></span><span class="tsl-muted" data-hint>Consejo: Oscilador → Filtro → Ganancia → Salida</span></div>`,
       setup(root, ctx) {
         const board = ctx.$("[data-board]");
         const svg = ctx.$("[data-wires]");
@@ -1692,7 +1692,7 @@
           n.style.left = `${x}px`;
           n.style.top = `${y}px`;
           n.style.minWidth = "120px";
-          n.innerHTML = `${inp ? '<button type="button" data-port="in" aria-label="Entrada" style="position:absolute;left:-7px;top:50%;margin-top:-6px;width:12px;height:12px;border-radius:50%;border:2px solid var(--dv-fg-muted);background:var(--dv-bg);cursor:crosshair"></button>' : ""}<strong></strong>${out ? '<button type="button" data-port="out" aria-label="Salida" style="position:absolute;right:-7px;top:50%;margin-top:-6px;width:12px;height:12px;border-radius:50%;border:2px solid var(--xp-accent);background:var(--dv-bg);cursor:crosshair"></button>' : ""}`;
+          n.innerHTML = `${inp ? '<button type="button" data-port="in" aria-label="Entrada" style="position:absolute;left:-7px;top:50%;margin-top:-6px;width:12px;height:12px;border-radius:50%;border:2px solid var(--tsl-fg-muted);background:var(--tsl-bg);cursor:crosshair"></button>' : ""}<strong></strong>${out ? '<button type="button" data-port="out" aria-label="Salida" style="position:absolute;right:-7px;top:50%;margin-top:-6px;width:12px;height:12px;border-radius:50%;border:2px solid var(--xp-accent);background:var(--tsl-bg);cursor:crosshair"></button>' : ""}`;
           n.querySelector("strong").textContent = label;
           board.appendChild(n);
         });
@@ -1724,11 +1724,11 @@
               const [x2, y2] = portPos(b, "in");
               const dx = Math.max(40, Math.abs(x2 - x1) / 2);
               const on = reach.has(a) && reach.has("osc");
-              return `<path data-w="${i}" d="M${x1},${y1} C${x1 + dx},${y1} ${x2 - dx},${y2} ${x2},${y2}" fill="none" stroke="${on ? "var(--xp-accent)" : "var(--dv-fg-subtle)"}" stroke-width="3" style="pointer-events:stroke;cursor:pointer" ${on ? 'stroke-dasharray="8 6"' : ""}>${on ? '<animate attributeName="stroke-dashoffset" from="28" to="0" dur="0.6s" repeatCount="indefinite"/>' : ""}</path>`;
+              return `<path data-w="${i}" d="M${x1},${y1} C${x1 + dx},${y1} ${x2 - dx},${y2} ${x2},${y2}" fill="none" stroke="${on ? "var(--xp-accent)" : "var(--tsl-fg-subtle)"}" stroke-width="3" style="pointer-events:stroke;cursor:pointer" ${on ? 'stroke-dasharray="8 6"' : ""}>${on ? '<animate attributeName="stroke-dashoffset" from="28" to="0" dur="0.6s" repeatCount="indefinite"/>' : ""}</path>`;
             })
             .join("");
           const ok = reach.has("osc");
-          ctx.$("[data-status]").className = `dv-badge dv-badge--${ok ? "success" : "warning"}`;
+          ctx.$("[data-status]").className = `tsl-badge tsl-badge--${ok ? "success" : "warning"}`;
           ctx.$("[data-status]").textContent = ok ? "♪ La señal llega a la salida" : "Sin señal en la salida";
         };
         let drag = null;
@@ -1770,17 +1770,17 @@
     },
 
     "voronoi-cell-reactor": {
-      html: canvasHead("voronoi-cell-reactor.tsx", "Reactor de celdas de Voronoi", "Teselación por píxel según la semilla más cercana, con semillas a la deriva. Haz clic para agregar una semilla; relaja para repartirlas de forma uniforme (Lloyd).", `<button type="button" class="dv-btn dv-btn--sm" data-relax>Relajación de Lloyd</button><label class="dv-choice">Deriva <input type="checkbox" role="switch" class="dv-switch" data-drift checked /></label><label class="dv-choice">Bordes <input type="checkbox" role="switch" class="dv-switch" data-edges checked /></label><span class="dv-muted xp-mono" data-n></span>`),
+      html: canvasHead("voronoi-cell-reactor.tsx", "Reactor de celdas de Voronoi", "Teselación por píxel según la semilla más cercana, con semillas a la deriva. Haz clic para agregar una semilla; relaja para repartirlas de forma uniforme (Lloyd).", `<button type="button" class="tsl-btn tsl-btn--sm" data-relax>Relajación de Lloyd</button><label class="tsl-choice">Deriva <input type="checkbox" role="switch" class="tsl-switch" data-drift checked /></label><label class="tsl-choice">Bordes <input type="checkbox" role="switch" class="tsl-switch" data-edges checked /></label><span class="tsl-muted xp-mono" data-n></span>`),
       setup(root, ctx) {
         const cv = ctx.$("[data-cv]");
         const g = cv.getContext("2d");
-        const size = DEVL_XP.fitCanvas(ctx, cv);
+        const size = TESELA_XP.fitCanvas(ctx, cv);
         const S = 4;
         const off = document.createElement("canvas");
         const og = off.getContext("2d");
         let seeds = Array.from({ length: 18 }, () => ({ x: Math.random(), y: Math.random(), vx: (Math.random() - 0.5) * 0.0008, vy: (Math.random() - 0.5) * 0.0008, hue: Math.random() * 360 }));
         ctx.on(cv, "click", (e) => {
-          const p = DEVL_XP.pointer(cv, e);
+          const p = TESELA_XP.pointer(cv, e);
           seeds.push({ x: p.x / p.w, y: p.y / p.h, vx: 0, vy: 0, hue: Math.random() * 360 });
         });
         let owner = null;
@@ -1859,11 +1859,11 @@
     "crt-scanline-terminal": {
       html: `
         ${head("Shaders & Canvas · crt-scanline-terminal.tsx", "Terminal CRT con líneas de barrido", "Una shell funcional sobre un pequeño sistema de archivos virtual: help, ls, cd, cat, echo, date, whoami, history, clear, theme. ↑/↓ para el historial, Tab para autocompletar.")}
-        <div class="dv-row"><label class="dv-choice">Parpadeo <input type="checkbox" role="switch" class="dv-switch" data-flicker checked /></label></div>
+        <div class="tsl-row"><label class="tsl-choice">Parpadeo <input type="checkbox" role="switch" class="tsl-switch" data-flicker checked /></label></div>
         <div class="xp-terminal" data-term tabindex="-1"><div data-out></div><div><span data-prompt></span> <input data-in aria-label="Entrada de la terminal" autocomplete="off" spellcheck="false" /></div></div>`,
       setup(root, ctx) {
         const fs = { "/": ["home", "etc", "readme.txt"], "/home": ["luis"], "/home/luis": ["notes.md", "todo.txt"], "/etc": ["motd"] };
-        const files = { "/readme.txt": "devl.dev — experimentos funcionales de UI construidos con devl-ui.", "/home/luis/notes.md": "# Notas\n- publicar la galería\n- celebrar", "/home/luis/todo.txt": "[x] biblioteca\n[ ] dominación mundial", "/etc/motd": "Bienvenido a DEVL OS 1.0 (tty1)" };
+        const files = { "/readme.txt": "Tesela — experimentos funcionales de UI construidos con tesela-ui.", "/home/luis/notes.md": "# Notas\n- publicar la galería\n- celebrar", "/home/luis/todo.txt": "[x] biblioteca\n[ ] dominación mundial", "/etc/motd": "Bienvenido a DEVL OS 1.0 (tty1)" };
         let cwd = "/home/luis";
         const history = [];
         let hi = 0;
@@ -1884,7 +1884,7 @@
           div.textContent = text;
           out.appendChild(div);
         };
-        const prompt = () => (ctx.$("[data-prompt]").textContent = `luis@devl:${cwd.replace("/home/luis", "~")}$`);
+        const prompt = () => (ctx.$("[data-prompt]").textContent = `luis@tesela:${cwd.replace("/home/luis", "~")}$`);
         const cmds = {
           help: () => "comandos: help ls cd cat echo date whoami history clear theme",
           ls: (a) => {

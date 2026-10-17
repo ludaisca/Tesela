@@ -1,5 +1,5 @@
 // ============================================================================
-// devl.dev — Motor procedural de miniaturas UI en SVG (24 insignias de carpeta + 212 vistas previas en vivo por slug)
+// Tesela — Motor procedural de miniaturas UI en SVG (24 insignias de carpeta + 212 vistas previas en vivo por slug)
 // Código vectorial 100% propio: adaptable al tema, a la medida de cada slug y animado al pasar el cursor
 // ============================================================================
 
@@ -1319,7 +1319,7 @@
     `);
   }
 
-  window.DEVL_PREVIEWS = {
+  window.TESELA_PREVIEWS = {
     getCategoryIcon,
     generatePreviewSVG
   };

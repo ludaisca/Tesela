@@ -1,5 +1,5 @@
 /* ============================================================================
-   devl-ui docs — diseño de components.html (usa los tokens de devl-ui.css)
+   tesela-ui docs — diseño de components.html (usa los tokens de tesela-ui.css)
    ============================================================================ */
 
 *,
@@ -44,8 +44,8 @@ p {
   gap: 12px;
   height: 56px;
   padding: 0 20px;
-  border-bottom: 1px solid var(--dv-border);
-  background: var(--dv-bg-glass);
+  border-bottom: 1px solid var(--tsl-border);
+  background: var(--tsl-bg-glass);
   backdrop-filter: blur(14px);
 }
 
@@ -56,7 +56,7 @@ p {
   font-size: 11px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--dv-fg);
+  color: var(--tsl-fg);
   text-decoration: none;
   white-space: nowrap;
 }
@@ -65,8 +65,8 @@ p {
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: var(--dv-accent);
-  box-shadow: 0 0 12px var(--dv-accent);
+  background: var(--tsl-accent);
+  box-shadow: 0 0 12px var(--tsl-accent);
 }
 
 .docs-menu-btn {
@@ -86,26 +86,26 @@ p {
   z-index: 40;
   width: 260px;
   padding: 16px 12px 24px;
-  border-right: 1px solid var(--dv-border);
-  background: var(--dv-bg);
+  border-right: 1px solid var(--tsl-border);
+  background: var(--tsl-bg);
   overflow-y: auto;
   transform: translateX(-100%);
-  transition: transform 220ms var(--dv-ease);
+  transition: transform 220ms var(--tsl-ease);
 }
 
 .docs-sidebar.is-open {
   transform: none;
-  box-shadow: var(--dv-shadow-lg);
+  box-shadow: var(--tsl-shadow-lg);
 }
 
-.docs-sidebar .dv-nav__item {
+.docs-sidebar .tsl-nav__item {
   padding: 6px 10px;
 }
 
 .docs-tokens {
   margin-top: 18px;
   padding: 14px 10px 0;
-  border-top: 1px solid var(--dv-border);
+  border-top: 1px solid var(--tsl-border);
 }
 
 .docs-swatches {
@@ -125,7 +125,7 @@ p {
 }
 
 .docs-swatch[aria-pressed="true"] {
-  border-color: var(--dv-fg);
+  border-color: var(--tsl-fg);
 }
 
 .docs-main {
@@ -156,7 +156,7 @@ p {
 }
 
 .docs-hero h1 {
-  font-family: var(--dv-font-heading);
+  font-family: var(--tsl-font-heading);
   font-size: clamp(34px, 6vw, 58px);
   font-weight: 600;
   letter-spacing: -0.04em;
@@ -169,10 +169,10 @@ p {
   margin-top: 14px;
   font-size: 13px;
   line-height: 1.7;
-  color: var(--dv-fg-muted);
+  color: var(--tsl-fg-muted);
 }
 
-.docs-hero .dv-row {
+.docs-hero .tsl-row {
   margin-top: 22px;
 }
 
@@ -184,7 +184,7 @@ p {
 .docs-group-title {
   margin: 64px 0 4px;
   padding-top: 16px;
-  border-top: 1px solid var(--dv-border);
+  border-top: 1px solid var(--tsl-border);
 }
 
 .doc {
@@ -192,7 +192,7 @@ p {
 }
 
 .doc h2 {
-  font-family: var(--dv-font-heading);
+  font-family: var(--tsl-font-heading);
   font-size: 20px;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -205,7 +205,7 @@ p {
 
 .doc h2 a:hover::after {
   content: " #";
-  color: var(--dv-fg-subtle);
+  color: var(--tsl-fg-subtle);
 }
 
 .doc > p {
@@ -213,23 +213,23 @@ p {
   margin-top: 6px;
   font-size: 12.5px;
   line-height: 1.65;
-  color: var(--dv-fg-muted);
+  color: var(--tsl-fg-muted);
 }
 
 .doc-frame {
   margin-top: 16px;
-  border-radius: var(--dv-radius);
-  border: 1px solid var(--dv-border);
+  border-radius: var(--tsl-radius);
+  border: 1px solid var(--tsl-border);
 }
 
 /* El marco mantiene overflow:visible para que los menús y tooltips no se recorten */
 .doc-frame > :first-child {
-  border-radius: calc(var(--dv-radius) - 1px) calc(var(--dv-radius) - 1px) 0 0;
+  border-radius: calc(var(--tsl-radius) - 1px) calc(var(--tsl-radius) - 1px) 0 0;
 }
 
 .doc-frame > :last-child,
 .doc-frame > .doc-demo {
-  border-radius: 0 0 calc(var(--dv-radius) - 1px) calc(var(--dv-radius) - 1px);
+  border-radius: 0 0 calc(var(--tsl-radius) - 1px) calc(var(--tsl-radius) - 1px);
 }
 
 .doc-frame-bar {
@@ -238,15 +238,15 @@ p {
   justify-content: space-between;
   gap: 8px;
   padding: 6px 8px 6px 12px;
-  border-bottom: 1px solid var(--dv-border);
-  background: var(--dv-surface);
+  border-bottom: 1px solid var(--tsl-border);
+  background: var(--tsl-surface);
 }
 
 .doc-demo {
   position: relative;
   padding: 28px 24px;
-  background-color: var(--dv-bg);
-  background-image: radial-gradient(circle at 1px 1px, var(--dv-border) 1px, transparent 0);
+  background-color: var(--tsl-bg);
+  background-image: radial-gradient(circle at 1px 1px, var(--tsl-border) 1px, transparent 0);
   background-size: 16px 16px;
 }
 
@@ -255,8 +255,8 @@ p {
   max-height: 420px;
   overflow: auto;
   padding: 16px 18px;
-  background: var(--dv-bg-elevated);
-  font-family: var(--dv-font-mono);
+  background: var(--tsl-bg-elevated);
+  font-family: var(--tsl-font-mono);
   font-size: 11.5px;
   line-height: 1.7;
   white-space: pre;
@@ -267,19 +267,19 @@ p {
   margin-top: 12px;
 }
 
-.doc-api .dv-table td:first-child {
-  color: var(--dv-fg);
+.doc-api .tsl-table td:first-child {
+  color: var(--tsl-fg);
 }
 
-.doc-api .dv-table td {
+.doc-api .tsl-table td {
   white-space: normal;
-  color: var(--dv-fg-muted);
+  color: var(--tsl-fg-muted);
 }
 
 .tok-tag { color: #f472b6; }
 .tok-attr { color: #a5b4fc; }
 .tok-str { color: #34d399; }
-.tok-com { color: var(--dv-fg-subtle); font-style: italic; }
+.tok-com { color: var(--tsl-fg-subtle); font-style: italic; }
 .tok-kw { color: #f59e0b; }
 
 [data-theme="light"] .tok-tag { color: #be185d; }
@@ -290,7 +290,7 @@ p {
 .docs-empty-search {
   padding: 10px;
   font-size: 11px;
-  color: var(--dv-fg-subtle);
+  color: var(--tsl-fg-subtle);
 }
 
 /* Utilidades solo para las demos */
@@ -306,15 +306,15 @@ p {
   display: grid;
   grid-template-columns: 200px 1fr;
   min-height: 220px;
-  border-radius: var(--dv-radius);
-  border: 1px solid var(--dv-border);
+  border-radius: var(--tsl-radius);
+  border: 1px solid var(--tsl-border);
   overflow: hidden;
 }
 
 .demo-shell > aside {
   padding: 10px;
-  border-right: 1px solid var(--dv-border);
-  background: var(--dv-surface);
+  border-right: 1px solid var(--tsl-border);
+  background: var(--tsl-surface);
 }
 
 .demo-shell > div {
