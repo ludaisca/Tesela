@@ -1,6 +1,6 @@
 /* ============================================================================
-   devl.dev — 100% Custom Zero-Dependency Stylesheet
-   Tokens, OKLCH/RGB Surfaces, Hover SVG Animations, Blueprint Mode & Sandbox
+   devl.dev — Hoja de estilos 100% propia, sin dependencias
+   Tokens, superficies OKLCH/RGB, animaciones SVG al pasar el cursor, modo blueprint y Sandbox
    ============================================================================ */
 
 :root,
@@ -99,7 +99,7 @@ ul {
 }
 
 /* ============================================================================
-   1. Ambient Canvas & Blueprint X-Ray Overlay
+   1. Canvas ambiental y capa de rayos X blueprint
    ============================================================================ */
 #ambient-canvas {
   position: fixed;
@@ -156,7 +156,7 @@ ul {
 }
 
 /* ============================================================================
-   2. Top Sticky Header
+   2. Encabezado fijo superior
    ============================================================================ */
 .site-header {
   position: sticky;
@@ -300,7 +300,7 @@ ul {
 }
 
 /* ============================================================================
-   3. Hero Section & 3 Featured Promo Cards
+   3. Sección hero y 3 tarjetas promocionales destacadas
    ============================================================================ */
 .hero-section {
   position: relative;
@@ -404,7 +404,7 @@ ul {
   transform: translateY(-1px);
 }
 
-/* 3 Featured Cards Grid */
+/* Cuadrícula de 3 tarjetas destacadas */
 .hero-cards-grid {
   margin-top: 38px;
   display: grid;
@@ -586,7 +586,7 @@ ul {
 }
 
 /* ============================================================================
-   4. Floating Folder Minimap Rail (Quick Jump to 18 Folders)
+   4. Minimapa flotante de carpetas (salto rápido a 18 carpetas)
    ============================================================================ */
 .folder-minimap {
   position: fixed;
@@ -651,7 +651,7 @@ ul {
 }
 
 /* ============================================================================
-   5. Main Gallery, Category Headers & 18 Bespoke Miniature Icons
+   5. Galería principal, encabezados de categoría y 18 íconos en miniatura a medida
    ============================================================================ */
 .gallery-main {
   position: relative;
@@ -721,7 +721,7 @@ ul {
   color: var(--fg);
 }
 
-/* Special Category Badges matching devl.dev's Auth 'or', Charts '62%', Calendars mini grid */
+/* Insignias especiales de categoría: el 'or' de Acceso, el '62%' de Gráficas y la minicuadrícula de Calendarios */
 .cat-mini-auth {
   display: flex;
   align-items: center;
@@ -831,7 +831,7 @@ ul {
 }
 
 /* ============================================================================
-   6. Experiment Cards Grid / Stack Views & SVG Micro-Animations
+   6. Cuadrícula y vista apilada de tarjetas de experimentos, y microanimaciones SVG
    ============================================================================ */
 .exp-grid {
   margin-top: 26px;
@@ -858,7 +858,7 @@ ul {
   }
 }
 
-/* Stack View layout */
+/* Diseño de la vista apilada */
 .gallery-main[data-view="stack"] .exp-grid {
   grid-template-columns: 1fr;
   gap: 36px;
@@ -918,7 +918,7 @@ ul {
   color: var(--fg);
 }
 
-/* SVG Opacity Utilities */
+/* Utilidades de opacidad SVG */
 .op-0 { opacity: 0; }
 .op-03 { opacity: 0.03; }
 .op-04 { opacity: 0.04; }
@@ -952,7 +952,7 @@ ul {
 .op-90 { opacity: 0.9; }
 .op-95 { opacity: 0.95; }
 
-/* Live SVG Micro-Animations on Card Hover */
+/* Microanimaciones SVG en vivo al pasar el cursor sobre la tarjeta */
 .anim-slide-x,
 .anim-float,
 .anim-pulse,
@@ -1155,7 +1155,7 @@ ul {
 }
 
 /* ============================================================================
-   7. Full-Screen Interactive Sandbox (/c/:category/:slug) & Bottom HUD
+   7. Sandbox interactivo a pantalla completa (/c/:category/:slug) y HUD inferior
    ============================================================================ */
 .sandbox-overlay {
   position: fixed;
@@ -1231,7 +1231,7 @@ ul {
   transition: max-width 240ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Floating Bottom-Right HUD Pill (Signature devl.dev detail view bar) */
+/* Píldora HUD flotante inferior derecha (barra distintiva de la vista de detalle) */
 .sandbox-hud {
   position: fixed;
   right: 16px;
@@ -1267,7 +1267,7 @@ ul {
   opacity: 0.35;
 }
 
-/* Slide-over Source Code Drawer */
+/* Panel deslizable de código fuente */
 .sandbox-code-drawer {
   position: fixed;
   top: 50px;
@@ -1318,7 +1318,7 @@ ul {
   tab-size: 2;
 }
 
-/* Custom Syntax Highlighter Tokens */
+/* Tokens del resaltador de sintaxis */
 .tok-kw { color: #c084fc; font-weight: 500; }
 .tok-string,
 .tok-str { color: #34d399; }
@@ -1331,7 +1331,7 @@ ul {
 .tok-type { color: #a78bfa; }
 
 /* ============================================================================
-   8. Sandbox Internal Interactive Components Styling
+   8. Estilos de los componentes interactivos internos del Sandbox
    ============================================================================ */
 .sb-layout-shell {
   display: flex;
@@ -2033,7 +2033,7 @@ ul {
 }
 
 /* ============================================================================
-   9. Command Palette Modal (⌘K) with Split Live Preview
+   9. Modal de paleta de comandos (⌘K) con vista previa dividida en vivo
    ============================================================================ */
 .cmdk-modal {
   position: fixed;
@@ -2200,7 +2200,7 @@ ul {
 }
 
 /* ============================================================================
-   10. Floating Starter Kit Card & Live Toast Stack
+   10. Tarjeta flotante del kit inicial y pila de toasts en vivo
    ============================================================================ */
 .floating-promo {
   position: fixed;
@@ -2338,7 +2338,7 @@ ul {
   color: var(--fg-muted);
 }
 
-/* Respect users who ask the OS for less motion */
+/* Respetar a quienes piden al sistema operativo menos movimiento */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

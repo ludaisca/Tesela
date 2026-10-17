@@ -1,6 +1,6 @@
 // ============================================================================
-// Functional experiments — Timelines (12), Calendars (9), Profile (10),
-// Threads & comments (6), Tours & coachmarks (6)
+// Experimentos funcionales — Líneas de tiempo (12), Calendarios (9), Perfil (10),
+// Hilos y comentarios (6), Tours y coachmarks (6)
 // ============================================================================
 
 (function () {
@@ -10,24 +10,24 @@
 
   const ago = (ms) => {
     const s = Math.max(0, Math.round((Date.now() - ms) / 1000));
-    if (s < 10) return "just now";
-    if (s < 60) return `${s}s ago`;
-    if (s < 3600) return `${Math.floor(s / 60)}m ago`;
-    if (s < 86400) return `${Math.floor(s / 3600)}h ago`;
-    return `${Math.floor(s / 86400)}d ago`;
+    if (s < 10) return "ahora";
+    if (s < 60) return `hace ${s}s`;
+    if (s < 3600) return `hace ${Math.floor(s / 60)} min`;
+    if (s < 86400) return `hace ${Math.floor(s / 3600)} h`;
+    return `hace ${Math.floor(s / 86400)} d`;
   };
   X.ago = ago;
 
   // ==========================================================================
-  // TIMELINES
+  // LÍNEAS DE TIEMPO
   // ==========================================================================
   X.addMany("timelines", {
     audit: {
       html: `
-        ${head("Timelines · audit.tsx", "Audit trail", "Filter by actor and event type, expand any event to see its before/after diff, load older history.")}
-        <div class="dv-row"><select class="dv-select" style="width:auto" data-actor aria-label="Actor"><option value="">All actors</option><option>Ana</option><option>Leo</option><option>Sara</option><option>system</option></select><div class="dv-row" style="--gap:6px" data-types></div></div>
+        ${head("Líneas de tiempo · audit.tsx", "Registro de auditoría", "Filtra por autor y tipo de evento, expande cualquier evento para ver su diff antes/después y carga historial anterior.")}
+        <div class="dv-row"><select class="dv-select" style="width:auto" data-actor aria-label="Actor"><option value="">Todos los actores</option><option>Ana</option><option>Leo</option><option>Sara</option><option>system</option></select><div class="dv-row" style="--gap:6px" data-types></div></div>
         <ol class="dv-timeline" data-list></ol>
-        <button type="button" class="dv-btn dv-btn--sm" data-more style="align-self:flex-start">Load older</button>`,
+        <button type="button" class="dv-btn dv-btn--sm" data-more style="align-self:flex-start">Cargar anteriores</button>`,
       setup(root, ctx) {
         const types = { "role.update": "warning", "key.create": "info", "member.remove": "danger", "settings.update": "accent" };
         const actors = ["Ana", "Leo", "Sara", "system"];
@@ -37,7 +37,7 @@
           for (let i = 0; i < n; i++) {
             const type = Object.keys(types)[(events.length * 7) % 4];
             t -= (15 + ((events.length * 13) % 50)) * 60000;
-            events.push({ type, actor: actors[(events.length * 3) % 4], at: t, target: ["Leo Kim", "CI deploy key", "Tom Weber", "Workspace name"][(events.length * 5) % 4], before: { role: "Member", name: "Acme" }, after: { role: "Admin", name: "Acme inc." } });
+            events.push({ type, actor: actors[(events.length * 3) % 4], at: t, target: ["Leo Kim", "Clave de deploy de CI", "Tom Weber", "Nombre del espacio"][(events.length * 5) % 4], before: { role: "Miembro", name: "Acme" }, after: { role: "Admin", name: "Acme S.A." } });
           }
         };
         const on = new Set(Object.keys(types));
@@ -47,7 +47,7 @@
           ctx.$("[data-list]").innerHTML = events
             .filter((e) => on.has(e.type) && (!actor || e.actor === actor))
             .map((e) => `<li style="--c:var(--dv-${types[e.type] === "accent" ? "accent" : types[e.type]})"><details><summary style="cursor:pointer;list-style:none"><strong>${e.actor}</strong> <span class="dv-badge dv-badge--${types[e.type]}">${e.type}</span> ${esc(e.target)} <span class="dv-timeline__meta">· ${ago(e.at)}</span></summary><pre class="dv-code" style="margin-top:6px;font-size:11px"><span class="xp-diff-del">- ${esc(JSON.stringify(e.before))}</span>\n<span class="xp-diff-add">+ ${esc(JSON.stringify(e.after))}</span></pre></details></li>`)
-            .join("") || '<li class="dv-muted">No events match.</li>';
+            .join("") || '<li class="dv-muted">Ningún evento coincide.</li>';
         };
         ctx.on(ctx.$("[data-types]"), "click", (e) => {
           const b = e.target.closest("[data-t]");
@@ -65,19 +65,19 @@
 
     notifications: {
       html: `
-        ${head("Timelines · notifications.tsx", "Notifications panel", "Tabs for all / unread / mentions, mark read individually or all at once. A new notification arrives every few seconds.")}
+        ${head("Líneas de tiempo · notifications.tsx", "Panel de notificaciones", "Pestañas de todas / no leídas / menciones; marca como leídas una por una o todas a la vez. Llega una notificación nueva cada pocos segundos.")}
         <div class="dv-card" style="max-width:520px;width:100%;margin:0 auto">
-          <div class="dv-card__header dv-row"><strong>Notifications</strong><span class="dv-badge dv-badge--danger" data-badge></span><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-all>Mark all read</button></div>
-          <div class="dv-card__body"><dv-segmented value="all" data-tab><button class="dv-segmented__item" value="all">All</button><button class="dv-segmented__item" value="unread">Unread</button><button class="dv-segmented__item" value="mention">Mentions</button></dv-segmented><ul class="dv-list" style="margin-top:12px;max-height:340px;overflow:auto" data-list></ul></div>
+          <div class="dv-card__header dv-row"><strong>Notificaciones</strong><span class="dv-badge dv-badge--danger" data-badge></span><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-all>Marcar todas como leídas</button></div>
+          <div class="dv-card__body"><dv-segmented value="all" data-tab><button class="dv-segmented__item" value="all">Todas</button><button class="dv-segmented__item" value="unread">No leídas</button><button class="dv-segmented__item" value="mention">Menciones</button></dv-segmented><ul class="dv-list" style="margin-top:12px;max-height:340px;overflow:auto" data-list></ul></div>
         </div>`,
       setup(root, ctx) {
-        const seed = [["Ana", "mentioned you in “Tokens v2”", true], ["GitHub", "PR #482 was approved", false], ["Leo", "assigned you DEV-124", false], ["Sara", "mentioned you in Q3 roadmap", true]];
+        const seed = [["Ana", "te mencionó en “Tokens v2”", true], ["GitHub", "El PR #482 fue aprobado", false], ["Leo", "te asignó DEV-124", false], ["Sara", "te mencionó en el roadmap del T3", true]];
         let items = seed.map(([who, what, mention], i) => ({ id: i, who, what, mention, read: i > 1, at: Date.now() - (i + 1) * 900000 }));
         let id = items.length;
         const render = () => {
           const tab = ctx.$("[data-tab]").value || "all";
           const list = items.filter((n) => tab === "all" || (tab === "unread" ? !n.read : n.mention));
-          ctx.$("[data-list]").innerHTML = list.map((n) => `<li data-id="${n.id}" class="${n.read ? "" : "xp-unread"}" style="cursor:pointer"><span class="dv-avatar dv-avatar--sm">${n.who[0]}</span><div style="flex:1"><div><strong>${esc(n.who)}</strong> ${esc(n.what)}</div><div class="dv-list__desc">${ago(n.at)}</div></div>${n.read ? "" : '<span class="dv-dot dv-dot--accent"></span>'}</li>`).join("") || '<li class="dv-muted">Nothing here.</li>';
+          ctx.$("[data-list]").innerHTML = list.map((n) => `<li data-id="${n.id}" class="${n.read ? "" : "xp-unread"}" style="cursor:pointer"><span class="dv-avatar dv-avatar--sm">${n.who[0]}</span><div style="flex:1"><div><strong>${esc(n.who)}</strong> ${esc(n.what)}</div><div class="dv-list__desc">${ago(n.at)}</div></div>${n.read ? "" : '<span class="dv-dot dv-dot--accent"></span>'}</li>`).join("") || '<li class="dv-muted">Aquí no hay nada.</li>';
           const unread = items.filter((n) => !n.read).length;
           ctx.$("[data-badge]").hidden = !unread;
           ctx.$("[data-badge]").textContent = String(unread);
@@ -91,7 +91,7 @@
         });
         ctx.on(ctx.$("[data-all]"), "click", () => (items.forEach((n) => (n.read = true)), render()));
         ctx.on(ctx.$("[data-tab]"), "dv-change", render);
-        const pool = [["Tom", "commented on DEV-120", false], ["Mia", "mentioned you in standup notes", true], ["Vercel", "Deployment ready", false]];
+        const pool = [["Tom", "comentó en DEV-120", false], ["Mia", "te mencionó en las notas del standup", true], ["Vercel", "Deploy listo", false]];
         ctx.every(6000, () => {
           const [who, what, mention] = pool[id % pool.length];
           items.unshift({ id: id++, who, what, mention, read: false, at: Date.now() });
@@ -104,15 +104,15 @@
 
     changelog: {
       html: `
-        ${head("Timelines · changelog.tsx", "Changelog", "Filter releases by change type, search entries and subscribe to updates.")}
-        <div class="dv-row"><input class="dv-input xp-search" data-q placeholder="Search changes…" aria-label="Search" /><div class="dv-row" style="--gap:6px" data-types></div><span class="dv-spacer"></span><form class="dv-input-group" data-sub style="max-width:280px"><input class="dv-input" type="email" required placeholder="Email for updates" aria-label="Email" /><button type="submit" class="dv-btn dv-btn--sm" style="margin:3px">Subscribe</button></form></div>
+        ${head("Líneas de tiempo · changelog.tsx", "Changelog", "Filtra versiones por tipo de cambio, busca entradas y suscríbete a las novedades.")}
+        <div class="dv-row"><input class="dv-input xp-search" data-q placeholder="Buscar cambios…" aria-label="Buscar" /><div class="dv-row" style="--gap:6px" data-types></div><span class="dv-spacer"></span><form class="dv-input-group" data-sub style="max-width:280px"><input class="dv-input" type="email" required placeholder="Correo para novedades" aria-label="Correo electrónico" /><button type="submit" class="dv-btn dv-btn--sm" style="margin:3px">Suscribirse</button></form></div>
         <ol class="dv-timeline" data-list></ol>`,
       setup(root, ctx) {
         const releases = [
-          ["1.3.0", "2026-10-14", [["feature", "Functional gallery: every experiment is a real component"], ["fix", "Sparkline end dot no longer stretches"], ["improvement", "Command palette ranks by relevance"]]],
-          ["1.2.0", "2026-10-02", [["feature", "OTP input with paste support"], ["feature", "Calendar component with locale support"], ["fix", "Hidden attribute respected by dv-* elements"]]],
-          ["1.1.0", "2026-09-20", [["improvement", "Reduced-motion support everywhere"], ["fix", "Favorites keyed by full path"]]],
-          ["1.0.0", "2026-09-01", [["feature", "Initial release of devl-ui"]]]
+          ["1.3.0", "2026-10-14", [["feature", "Galería funcional: cada experimento es un componente real"], ["fix", "El punto final del sparkline ya no se deforma"], ["improvement", "La paleta de comandos ordena por relevancia"]]],
+          ["1.2.0", "2026-10-02", [["feature", "Input de OTP con soporte para pegar"], ["feature", "Componente de calendario con soporte de idioma"], ["fix", "Los elementos dv-* respetan el atributo hidden"]]],
+          ["1.1.0", "2026-09-20", [["improvement", "Soporte de movimiento reducido en todas partes"], ["fix", "Favoritos identificados por ruta completa"]]],
+          ["1.0.0", "2026-09-01", [["feature", "Lanzamiento inicial de devl-ui"]]]
         ];
         const colors = { feature: "success", fix: "danger", improvement: "info" };
         const on = new Set(Object.keys(colors));
@@ -124,7 +124,7 @@
               const rows = changes.filter(([t, text]) => on.has(t) && text.toLowerCase().includes(q));
               return rows.length ? `<li style="--c:var(--xp-accent)"><div class="dv-row"><strong class="xp-mono">v${v}</strong><span class="dv-timeline__meta">${d}</span></div><ul class="dv-stack" style="--gap:4px;list-style:none;padding:0;margin:8px 0 0">${rows.map(([t, text]) => `<li class="dv-row" style="--gap:8px;flex-wrap:nowrap"><span class="dv-badge dv-badge--${colors[t]}" style="min-width:90px;justify-content:center">${t}</span>${esc(text)}</li>`).join("")}</ul></li>` : "";
             })
-            .join("") || '<li class="dv-muted">No changes match.</li>';
+            .join("") || '<li class="dv-muted">Ningún cambio coincide.</li>';
         };
         ctx.on(ctx.$("[data-q]"), "input", render);
         ctx.on(ctx.$("[data-types]"), "click", (e) => {
@@ -136,7 +136,7 @@
         });
         ctx.on(ctx.$("[data-sub]"), "submit", (e) => {
           e.preventDefault();
-          ctx.toast({ title: "Subscribed to release notes" });
+          ctx.toast({ title: "Suscripción a las notas de versión confirmada" });
           e.target.reset();
         });
         render();
@@ -145,11 +145,11 @@
 
     commits: {
       html: `
-        ${head("Timelines · commits.tsx", "Commit history", "Switch branches, copy SHAs and expand a commit to see the files it touched.")}
+        ${head("Líneas de tiempo · commits.tsx", "Historial de commits", "Cambia de rama, copia SHAs y expande un commit para ver los archivos que tocó.")}
         <div class="dv-row"><dv-menu data-branch><button type="button" class="dv-btn dv-btn--sm" data-dv-trigger>⎇ <span data-b>main</span> ▾</button><div class="dv-menu__list"><button type="button" class="dv-menu__item" data-value="main">main</button><button type="button" class="dv-menu__item" data-value="feat/gallery">feat/gallery</button><button type="button" class="dv-menu__item" data-value="fix/sparkline">fix/sparkline</button></div></dv-menu><span class="dv-muted" data-count></span></div>
         <div data-list class="dv-stack"></div>`,
       setup(root, ctx) {
-        const msgs = ["feat: functional experiments runtime", "fix: premultiplied alpha in ambient shader", "chore: bump docs", "feat(ui): dv-calendar keyboard nav", "refactor: share highlighter", "test: smoke all experiments", "fix: sparkline aspect ratio", "docs: README usage"];
+        const msgs = ["feat: runtime de experimentos funcionales", "fix: alfa premultiplicado en el shader ambiental", "chore: actualizar docs", "feat(ui): navegación por teclado en dv-calendar", "refactor: compartir el resaltador", "test: smoke de todos los experimentos", "fix: relación de aspecto del sparkline", "docs: uso en el README"];
         const files = ["js/experiments/core.js", "lib/devl-ui.js", "lib/devl-ui.css", "README.md", "index.html", "css/experiments.css"];
         const render = (branch) => {
           ctx.$("[data-b]").textContent = branch;
@@ -159,7 +159,7 @@
           ctx.$("[data-count]").textContent = `${commits.length} commits`;
           const days = [...new Set(commits.map((c) => c.day))];
           ctx.$("[data-list]").innerHTML = days
-            .map((d) => `<div><span class="dv-eyebrow">${d === 0 ? "Today" : `${d} day${d > 1 ? "s" : ""} ago`}</span><ul class="dv-list" style="margin-top:6px">${commits.filter((c) => c.day === d).map((c) => `<li style="flex-wrap:wrap"><span class="dv-avatar dv-avatar--sm">${c.who[0]}</span><div style="flex:1;min-width:200px"><div class="dv-list__title">${esc(c.msg)}</div><div class="dv-list__desc">${c.who} committed${c.verified ? ' · <span style="color:var(--dv-success)">✓ Verified</span>' : ""}</div></div><span class="dv-list__end"><button type="button" class="dv-btn dv-btn--sm xp-mono" data-dv-copy="${c.sha}" data-dv-tooltip="Copy SHA">${c.sha}</button><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-x aria-expanded="false">Files</button></span><div data-files hidden style="flex-basis:100%;padding-left:36px" class="xp-mono dv-muted">${c.files.map((f) => `<div>M ${f}</div>`).join("") || "<div>(empty commit)</div>"}</div></li>`).join("")}</ul></div>`)
+            .map((d) => `<div><span class="dv-eyebrow">${d === 0 ? "Hoy" : `Hace ${d} ${d > 1 ? "días" : "día"}`}</span><ul class="dv-list" style="margin-top:6px">${commits.filter((c) => c.day === d).map((c) => `<li style="flex-wrap:wrap"><span class="dv-avatar dv-avatar--sm">${c.who[0]}</span><div style="flex:1;min-width:200px"><div class="dv-list__title">${esc(c.msg)}</div><div class="dv-list__desc">${c.who} hizo commit${c.verified ? ' · <span style="color:var(--dv-success)">✓ Verificado</span>' : ""}</div></div><span class="dv-list__end"><button type="button" class="dv-btn dv-btn--sm xp-mono" data-dv-copy="${c.sha}" data-dv-tooltip="Copiar SHA">${c.sha}</button><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-x aria-expanded="false">Archivos</button></span><div data-files hidden style="flex-basis:100%;padding-left:36px" class="xp-mono dv-muted">${c.files.map((f) => `<div>M ${f}</div>`).join("") || "<div>(commit vacío)</div>"}</div></li>`).join("")}</ul></div>`)
             .join("");
         };
         ctx.on(ctx.$("[data-list]"), "click", (e) => {
@@ -176,19 +176,19 @@
 
     approvals: {
       html: `
-        ${head("Timelines · approvals.tsx", "Approvals", "Sequential sign-off: each reviewer approves or rejects (with a reason). When every step passes, the request is ready to ship.")}
-        <div class="dv-row"><strong>Launch: pricing page v2</strong><span class="dv-badge" data-status></span><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm" data-reset>Reset</button></div>
+        ${head("Líneas de tiempo · approvals.tsx", "Aprobaciones", "Visto bueno secuencial: cada revisor aprueba o rechaza (con un motivo). Cuando todos los pasos pasan, la solicitud está lista para salir.")}
+        <div class="dv-row"><strong>Lanzamiento: página de precios v2</strong><span class="dv-badge" data-status></span><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm" data-reset>Restablecer</button></div>
         <ol class="dv-timeline" data-steps></ol>`,
       setup(root, ctx) {
         let steps;
-        const reset = () => (steps = [["Design", "Ana López"], ["Engineering", "Leo Kim"], ["Legal", "Sara Ruiz"]].map(([team, who]) => ({ team, who, state: "pending", note: "" })));
+        const reset = () => (steps = [["Diseño", "Ana López"], ["Ingeniería", "Leo Kim"], ["Legal", "Sara Ruiz"]].map(([team, who]) => ({ team, who, state: "pending", note: "" })));
         const render = () => {
           const cur = steps.findIndex((s) => s.state === "pending");
           const rejected = steps.some((s) => s.state === "rejected");
           ctx.$("[data-status]").className = `dv-badge dv-badge--${rejected ? "danger" : cur === -1 ? "success" : "warning"}`;
-          ctx.$("[data-status]").textContent = rejected ? "Changes requested" : cur === -1 ? "Ready to ship 🚀" : `Waiting on ${steps[cur].team}`;
+          ctx.$("[data-status]").textContent = rejected ? "Cambios solicitados" : cur === -1 ? "Listo para salir 🚀" : `Esperando a ${steps[cur].team}`;
           ctx.$("[data-steps]").innerHTML = steps
-            .map((s, i) => `<li style="--c:var(--dv-${s.state === "approved" ? "success" : s.state === "rejected" ? "danger" : i === cur && !rejected ? "warning" : "fg-subtle"})"><div class="dv-row"><strong>${s.team}</strong><span class="dv-muted">${s.who}</span><span class="dv-badge${s.state === "approved" ? " dv-badge--success" : s.state === "rejected" ? " dv-badge--danger" : ""}">${s.state}</span></div>${s.note ? `<div class="dv-muted" style="margin-top:4px">“${esc(s.note)}”</div>` : ""}${i === cur && !rejected ? `<div class="dv-stack" style="margin-top:8px;--gap:6px"><textarea class="dv-textarea" data-note placeholder="Optional note (required to reject)" style="min-height:60px"></textarea><div class="dv-row"><button type="button" class="dv-btn dv-btn--sm dv-btn--primary" data-ok>Approve</button><button type="button" class="dv-btn dv-btn--sm dv-btn--danger" data-no>Request changes</button></div><span class="dv-error" data-err></span></div>` : ""}</li>`)
+            .map((s, i) => `<li style="--c:var(--dv-${s.state === "approved" ? "success" : s.state === "rejected" ? "danger" : i === cur && !rejected ? "warning" : "fg-subtle"})"><div class="dv-row"><strong>${s.team}</strong><span class="dv-muted">${s.who}</span><span class="dv-badge${s.state === "approved" ? " dv-badge--success" : s.state === "rejected" ? " dv-badge--danger" : ""}">${{ approved: "aprobado", rejected: "rechazado", pending: "pendiente" }[s.state]}</span></div>${s.note ? `<div class="dv-muted" style="margin-top:4px">“${esc(s.note)}”</div>` : ""}${i === cur && !rejected ? `<div class="dv-stack" style="margin-top:8px;--gap:6px"><textarea class="dv-textarea" data-note placeholder="Nota opcional (obligatoria para rechazar)" style="min-height:60px"></textarea><div class="dv-row"><button type="button" class="dv-btn dv-btn--sm dv-btn--primary" data-ok>Aprobar</button><button type="button" class="dv-btn dv-btn--sm dv-btn--danger" data-no>Solicitar cambios</button></div><span class="dv-error" data-err></span></div>` : ""}</li>`)
             .join("");
         };
         ctx.on(ctx.$("[data-steps]"), "click", (e) => {
@@ -199,7 +199,7 @@
             steps[cur].note = note.value.trim();
             render();
           } else if (e.target.closest("[data-no]")) {
-            if (!note.value.trim()) return (ctx.$("[data-err]").textContent = "Please explain what needs to change.");
+            if (!note.value.trim()) return (ctx.$("[data-err]").textContent = "Explica qué hay que cambiar.");
             steps[cur].state = "rejected";
             steps[cur].note = note.value.trim();
             render();
@@ -213,18 +213,18 @@
 
     "pull-request": {
       html: `
-        ${head("Timelines · pull-request.tsx", "Pull request", "Checks run live (and can fail — re-run them). Approve, comment and merge once everything is green.")}
-        <div class="dv-row"><span class="dv-badge dv-badge--success" data-state>Open</span><strong>#482 Command palette ranking</strong><span class="dv-muted">feat/palette → main</span></div>
+        ${head("Líneas de tiempo · pull-request.tsx", "Pull request", "Los checks corren en vivo (y pueden fallar: vuelve a ejecutarlos). Aprueba, comenta y haz merge cuando todo esté en verde.")}
+        <div class="dv-row"><span class="dv-badge dv-badge--success" data-state>Abierto</span><strong>#482 Ranking de la paleta de comandos</strong><span class="dv-muted">feat/palette → main</span></div>
         <div class="dv-grid" style="--min:320px;align-items:start">
           <div class="dv-stack">
-            <div class="xp-panel dv-stack" style="--gap:8px"><div class="dv-row"><strong>Checks</strong><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm" data-rerun>Re-run</button></div><ul class="dv-list" data-checks></ul></div>
+            <div class="xp-panel dv-stack" style="--gap:8px"><div class="dv-row"><strong>Checks</strong><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm" data-rerun>Volver a ejecutar</button></div><ul class="dv-list" data-checks></ul></div>
             <ol class="dv-timeline" data-conv></ol>
-            <form class="dv-stack" data-comment><textarea class="dv-textarea" placeholder="Leave a comment" required aria-label="Comment"></textarea><button type="submit" class="dv-btn dv-btn--sm" style="align-self:flex-end">Comment</button></form>
+            <form class="dv-stack" data-comment><textarea class="dv-textarea" placeholder="Deja un comentario" required aria-label="Comentario"></textarea><button type="submit" class="dv-btn dv-btn--sm" style="align-self:flex-end">Comentar</button></form>
           </div>
-          <div class="xp-panel dv-stack"><div class="dv-row"><strong>Reviews</strong><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm" data-approve>Approve</button></div><span class="dv-muted" data-reviews>No reviews yet</span><div class="dv-divider"></div><select class="dv-select" data-method aria-label="Merge method"><option>Create a merge commit</option><option>Squash and merge</option><option>Rebase and merge</option></select><button type="button" class="dv-btn dv-btn--primary" data-merge disabled>Merge pull request</button><span class="dv-hint" data-why></span></div>
+          <div class="xp-panel dv-stack"><div class="dv-row"><strong>Revisiones</strong><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm" data-approve>Aprobar</button></div><span class="dv-muted" data-reviews>Aún no hay revisiones</span><div class="dv-divider"></div><select class="dv-select" data-method aria-label="Método de merge"><option>Crear un commit de merge</option><option>Squash y merge</option><option>Rebase y merge</option></select><button type="button" class="dv-btn dv-btn--primary" data-merge disabled>Hacer merge del pull request</button><span class="dv-hint" data-why></span></div>
         </div>`,
       setup(root, ctx) {
-        const names = ["lint", "unit tests", "e2e (chromium)", "build"];
+        const names = ["lint", "pruebas unitarias", "e2e (chromium)", "build"];
         let checks = [];
         let approved = false;
         let merged = false;
@@ -237,11 +237,11 @@
           ctx.$("[data-conv]").appendChild(li);
         };
         const sync = () => {
-          ctx.$("[data-checks]").innerHTML = checks.map((c) => `<li><span>${c.state === "running" ? '<span class="dv-spinner" style="--size:12px"></span>' : c.state === "pass" ? '<span style="color:var(--dv-success)">✓</span>' : '<span style="color:var(--dv-danger)">✕</span>'}</span><span style="flex:1">${c.name}</span><span class="dv-muted xp-mono">${c.state === "running" ? "running…" : `${c.s}s`}</span></li>`).join("");
+          ctx.$("[data-checks]").innerHTML = checks.map((c) => `<li><span>${c.state === "running" ? '<span class="dv-spinner" style="--size:12px"></span>' : c.state === "pass" ? '<span style="color:var(--dv-success)">✓</span>' : '<span style="color:var(--dv-danger)">✕</span>'}</span><span style="flex:1">${c.name}</span><span class="dv-muted xp-mono">${c.state === "running" ? "ejecutando…" : `${c.s}s`}</span></li>`).join("");
           const green = checks.every((c) => c.state === "pass");
           const btn = ctx.$("[data-merge]");
           btn.disabled = merged || !green || !approved;
-          ctx.$("[data-why]").textContent = merged ? "" : !green ? "Waiting for checks to pass" : !approved ? "Needs 1 approving review" : "Ready to merge";
+          ctx.$("[data-why]").textContent = merged ? "" : !green ? "Esperando a que pasen los checks" : !approved ? "Requiere 1 revisión aprobatoria" : "Listo para merge";
         };
         const run = () => {
           checks = names.map((name) => ({ name, state: "running", s: 0 }));
@@ -258,8 +258,8 @@
         ctx.on(ctx.$("[data-approve]"), "click", (e) => {
           approved = true;
           e.target.disabled = true;
-          ctx.$("[data-reviews]").innerHTML = '<span class="dv-badge dv-badge--success">✓ Luis approved</span>';
-          conv("Luis", "approved these changes", "var(--dv-success)");
+          ctx.$("[data-reviews]").innerHTML = '<span class="dv-badge dv-badge--success">✓ Luis aprobó</span>';
+          conv("Luis", "aprobó estos cambios", "var(--dv-success)");
           sync();
         });
         ctx.on(ctx.$("[data-comment]"), "submit", (e) => {
@@ -270,25 +270,25 @@
         ctx.on(ctx.$("[data-merge]"), "click", () => {
           merged = true;
           ctx.$("[data-state]").className = "dv-badge dv-badge--accent";
-          ctx.$("[data-state]").textContent = "Merged";
-          conv("Luis", `merged via “${ctx.$("[data-method]").value}”`, "var(--xp-accent)");
-          ctx.toast({ title: "Pull request merged" });
+          ctx.$("[data-state]").textContent = "Fusionado";
+          conv("Luis", `hizo merge con “${ctx.$("[data-method]").value}”`, "var(--xp-accent)");
+          ctx.toast({ title: "Pull request fusionado" });
           sync();
         });
-        conv("Leo", "opened this pull request");
+        conv("Leo", "abrió este pull request");
         run();
       }
     },
 
     "pr-ops-console": {
       html: `
-        ${head("Timelines · pr-ops-console.tsx", "PR ops console", "A CI/CD pipeline you can run: stages execute in order with streaming logs, staging needs manual approval, cancel or roll back any time.")}
-        <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-run>▶ Run pipeline</button><button type="button" class="dv-btn" data-cancel disabled>Cancel</button><button type="button" class="dv-btn dv-btn--subtle" data-rollback disabled>Roll back prod</button><span class="dv-spacer"></span><span class="dv-badge" data-state>idle</span></div>
+        ${head("Líneas de tiempo · pr-ops-console.tsx", "Consola de operaciones de PR", "Un pipeline de CI/CD que puedes ejecutar: las etapas corren en orden con logs en streaming, staging requiere aprobación manual y puedes cancelar o revertir en cualquier momento.")}
+        <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-run>▶ Ejecutar pipeline</button><button type="button" class="dv-btn" data-cancel disabled>Cancelar</button><button type="button" class="dv-btn dv-btn--subtle" data-rollback disabled>Revertir prod</button><span class="dv-spacer"></span><span class="dv-badge" data-state>inactivo</span></div>
         <div class="dv-row" style="--gap:6px;flex-wrap:nowrap;overflow:auto" data-stages></div>
-        <div class="dv-alert dv-alert--warning" data-gate hidden><div style="flex:1"><div class="dv-alert__title">Staging deployed — promote to production?</div></div><button type="button" class="dv-btn dv-btn--sm dv-btn--primary" data-approve>Approve</button></div>
+        <div class="dv-alert dv-alert--warning" data-gate hidden><div style="flex:1"><div class="dv-alert__title">Staging desplegado: ¿promover a producción?</div></div><button type="button" class="dv-btn dv-btn--sm dv-btn--primary" data-approve>Aprobar</button></div>
         <pre class="xp-terminal" data-log style="min-height:220px;max-height:260px;overflow:auto;margin:0"></pre>`,
       setup(root, ctx) {
-        const stages = ["Install", "Lint", "Test", "Build", "Deploy staging", "Deploy prod"];
+        const stages = ["Instalar", "Lint", "Pruebas", "Build", "Deploy a staging", "Deploy a prod"];
         let state = [];
         let token = 0;
         const log = (line) => {
@@ -297,10 +297,10 @@
           el.scrollTop = el.scrollHeight;
         };
         const render = () => {
-          ctx.$("[data-stages]").innerHTML = stages.map((s, i) => `<div class="dv-stat" style="min-width:120px;padding:10px;border-color:${state[i] === "running" ? "var(--xp-accent)" : "var(--dv-border)"}"><span class="dv-eyebrow">${i + 1}. ${s}</span><span>${{ running: '<span class="dv-spinner" style="--size:12px"></span> running', done: '<span style="color:var(--dv-success)">✓ passed</span>', failed: '<span style="color:var(--dv-danger)">✕ failed</span>', waiting: "⏸ waiting", cancelled: "⊘ cancelled" }[state[i]] || '<span class="dv-muted">queued</span>'}</span></div>`).join("");
+          ctx.$("[data-stages]").innerHTML = stages.map((s, i) => `<div class="dv-stat" style="min-width:120px;padding:10px;border-color:${state[i] === "running" ? "var(--xp-accent)" : "var(--dv-border)"}"><span class="dv-eyebrow">${i + 1}. ${s}</span><span>${{ running: '<span class="dv-spinner" style="--size:12px"></span> ejecutando', done: '<span style="color:var(--dv-success)">✓ exitoso</span>', failed: '<span style="color:var(--dv-danger)">✕ fallido</span>', waiting: "⏸ en espera", cancelled: "⊘ cancelado" }[state[i]] || '<span class="dv-muted">en cola</span>'}</span></div>`).join("");
         };
         const setState = (s) => {
-          ctx.$("[data-state]").textContent = s;
+          ctx.$("[data-state]").textContent = { idle: "inactivo", success: "exitoso", failed: "fallido", cancelled: "cancelado", running: "ejecutando", "awaiting approval": "esperando aprobación" }[s] || s;
           ctx.$("[data-state]").className = `dv-badge${s === "success" ? " dv-badge--success" : s === "failed" || s === "cancelled" ? " dv-badge--danger" : s === "running" ? " dv-badge--info" : ""}`;
           ctx.$("[data-run]").disabled = s === "running" || s === "awaiting approval";
           ctx.$("[data-cancel]").disabled = !(s === "running" || s === "awaiting approval");
@@ -311,19 +311,19 @@
             state[5] = "waiting";
             ctx.$("[data-gate]").hidden = false;
             setState("awaiting approval");
-            log("⏸ waiting for manual approval");
+            log("⏸ esperando aprobación manual");
             return render();
           }
           if (i >= stages.length) {
             setState("success");
             ctx.$("[data-rollback]").disabled = false;
-            log("✓ pipeline succeeded — v1.3.0 live");
+            log("✓ pipeline exitoso: v1.3.0 en vivo");
             return;
           }
           state[i] = "running";
           render();
           log(`▶ ${stages[i]}…`);
-          const steps = [`  $ ${["npm ci", "npm run lint", "npm test", "npm run build", "deploy --env staging", "deploy --env production"][i]}`, `  ${["added 0 packages (zero deps!)", "0 problems", "212 passed", "dist/ 148 kB", "https://staging.devl.dev", "https://devl.dev"][i]}`];
+          const steps = [`  $ ${["npm ci", "npm run lint", "npm test", "npm run build", "deploy --env staging", "deploy --env production"][i]}`, `  ${["0 paquetes añadidos (¡cero dependencias!)", "0 problemas", "212 exitosas", "dist/ 148 kB", "https://staging.devl.dev", "https://devl.dev"][i]}`];
           steps.forEach((l, k) => ctx.timeout(250 * (k + 1), () => my === token && log(l)));
           ctx.timeout(800 + Math.random() * 500, () => {
             if (my !== token) return;
@@ -344,7 +344,7 @@
           ctx.$("[data-gate]").hidden = true;
           state[5] = "approved";
           setState("running");
-          log("✓ approved by Luis");
+          log("✓ aprobado por Luis");
           runStage(5, token);
         });
         ctx.on(ctx.$("[data-cancel]"), "click", () => {
@@ -352,15 +352,15 @@
           state = state.map((s) => (s === "running" || s === "waiting" ? "cancelled" : s));
           ctx.$("[data-gate]").hidden = true;
           setState("cancelled");
-          log("⊘ cancelled by user");
+          log("⊘ cancelado por el usuario");
           render();
         });
         ctx.on(ctx.$("[data-rollback]"), "click", (e) => {
           e.target.disabled = true;
-          log("↺ rolling back production to v1.2.0…");
+          log("↺ revirtiendo producción a v1.2.0…");
           ctx.timeout(900, () => {
-            log("✓ rollback complete");
-            ctx.toast({ title: "Production rolled back to v1.2.0", variant: "warning" });
+            log("✓ reversión completada");
+            ctx.toast({ title: "Producción revertida a v1.2.0", variant: "warning" });
           });
         });
         render();
@@ -369,16 +369,16 @@
 
     releases: {
       html: `
-        ${head("Timelines · releases.tsx", "Release timeline", "Promote any release to production or roll back; the live marker moves and the history records it.")}
+        ${head("Líneas de tiempo · releases.tsx", "Línea de tiempo de versiones", "Promueve cualquier versión a producción o revierte; el marcador en vivo se mueve y el historial lo registra.")}
         <ol class="dv-timeline" data-list></ol>
-        <div><span class="dv-eyebrow">History</span><ul class="dv-list" style="margin-top:8px" data-hist></ul></div>`,
+        <div><span class="dv-eyebrow">Historial</span><ul class="dv-list" style="margin-top:8px" data-hist></ul></div>`,
       setup(root, ctx) {
-        const rel = [["v1.3.0", "Functional gallery", "2026-10-14", 3], ["v1.2.0", "Calendar & OTP", "2026-10-02", 4], ["v1.1.0", "Reduced motion", "2026-09-20", 2], ["v1.0.0", "Initial release", "2026-09-01", 5]];
+        const rel = [["v1.3.0", "Galería funcional", "2026-10-14", 3], ["v1.2.0", "Calendario y OTP", "2026-10-02", 4], ["v1.1.0", "Movimiento reducido", "2026-09-20", 2], ["v1.0.0", "Lanzamiento inicial", "2026-09-01", 5]];
         let live = 1;
         const hist = [];
         const render = () => {
-          ctx.$("[data-list]").innerHTML = rel.map(([v, t, d, a], i) => `<li style="--c:${i === live ? "var(--dv-success)" : "var(--dv-fg-subtle)"}"><div class="dv-row"><strong class="xp-mono">${v}</strong><span>${t}</span>${i === live ? '<span class="dv-badge dv-badge--success"><span class="dv-dot dv-dot--success dv-dot--pulse"></span> Production</span>' : ""}<span class="dv-spacer"></span>${i === live ? "" : `<button type="button" class="dv-btn dv-btn--sm" data-p="${i}">${i < live ? "Promote" : "Roll back to"}</button>`}</div><div class="dv-timeline__meta">${d} · ${a} artifacts · tag ${v}</div></li>`).join("");
-          ctx.$("[data-hist]").innerHTML = hist.map((h) => `<li>${h}</li>`).join("") || '<li class="dv-muted">No deployments this session.</li>';
+          ctx.$("[data-list]").innerHTML = rel.map(([v, t, d, a], i) => `<li style="--c:${i === live ? "var(--dv-success)" : "var(--dv-fg-subtle)"}"><div class="dv-row"><strong class="xp-mono">${v}</strong><span>${t}</span>${i === live ? '<span class="dv-badge dv-badge--success"><span class="dv-dot dv-dot--success dv-dot--pulse"></span> Producción</span>' : ""}<span class="dv-spacer"></span>${i === live ? "" : `<button type="button" class="dv-btn dv-btn--sm" data-p="${i}">${i < live ? "Promover" : "Revertir a"}</button>`}</div><div class="dv-timeline__meta">${d} · ${a} artefactos · tag ${v}</div></li>`).join("");
+          ctx.$("[data-hist]").innerHTML = hist.map((h) => `<li>${h}</li>`).join("") || '<li class="dv-muted">No hay deploys en esta sesión.</li>';
         };
         ctx.on(ctx.$("[data-list]"), "click", (e) => {
           const b = e.target.closest("[data-p]");
@@ -386,9 +386,9 @@
           const i = Number(b.dataset.p);
           b.setAttribute("aria-busy", "true");
           ctx.timeout(700, () => {
-            hist.unshift(`${new Date().toLocaleTimeString()} · ${i < live ? "promoted" : "rolled back"} ${rel[live][0]} → <strong>${rel[i][0]}</strong>`);
+            hist.unshift(`${new Date().toLocaleTimeString()} · ${i < live ? "promovió" : "revirtió"} ${rel[live][0]} → <strong>${rel[i][0]}</strong>`);
             live = i;
-            ctx.toast({ title: `${rel[i][0]} is live` });
+            ctx.toast({ title: `${rel[i][0]} está en vivo` });
             render();
           });
         });
@@ -398,12 +398,12 @@
 
     "status-page": {
       html: `
-        ${head("Timelines · status-page.tsx", "Status page", "90-day uptime bars per component with hover detail, computed uptime percentages and incident history.")}
-        <div class="dv-alert dv-alert--success"><div><div class="dv-alert__title">All systems operational</div></div></div>
+        ${head("Líneas de tiempo · status-page.tsx", "Página de estado", "Barras de disponibilidad de 90 días por componente con detalle al pasar el cursor, porcentajes de uptime calculados e historial de incidentes.")}
+        <div class="dv-alert dv-alert--success"><div><div class="dv-alert__title">Todos los sistemas operativos</div></div></div>
         <div class="xp-panel xp-rel dv-stack" data-comps><div class="xp-tip" data-tip hidden></div></div>
-        <div><span class="dv-eyebrow">Past incidents</span><ol class="dv-timeline" style="margin-top:10px" data-inc></ol></div>`,
+        <div><span class="dv-eyebrow">Incidentes pasados</span><ol class="dv-timeline" style="margin-top:10px" data-inc></ol></div>`,
       setup(root, ctx) {
-        const comps = ["API", "Dashboard", "Webhooks", "CDN"];
+        const comps = ["API", "Panel", "Webhooks", "CDN"];
         const r = DEVL_XP.rng(77);
         const incidents = [];
         const days = comps.map((c) =>
@@ -421,7 +421,7 @@
             .map((c, ci) => {
               const down = days[ci].filter((s) => s === "major").length * 0.5 + days[ci].filter((s) => s === "minor").length * 0.08;
               const up = ((90 - down) / 90) * 100;
-              return `<div class="dv-stack" style="--gap:6px"><div class="dv-row"><strong>${c}</strong><span class="dv-spacer"></span><span class="dv-muted xp-mono">${up.toFixed(2)}% uptime</span></div><div style="display:flex;gap:2px;height:30px">${days[ci].map((s, i) => `<span data-c="${ci}" data-i="${i}" style="flex:1;border-radius:2px;background:var(--dv-${s === "ok" ? "success" : s === "minor" ? "warning" : "danger"});opacity:${s === "ok" ? 0.7 : 1}"></span>`).join("")}</div></div>`;
+              return `<div class="dv-stack" style="--gap:6px"><div class="dv-row"><strong>${c}</strong><span class="dv-spacer"></span><span class="dv-muted xp-mono">${up.toFixed(2)}% de uptime</span></div><div style="display:flex;gap:2px;height:30px">${days[ci].map((s, i) => `<span data-c="${ci}" data-i="${i}" style="flex:1;border-radius:2px;background:var(--dv-${s === "ok" ? "success" : s === "minor" ? "warning" : "danger"});opacity:${s === "ok" ? 0.7 : 1}"></span>`).join("")}</div></div>`;
             })
             .join("")
         );
@@ -430,25 +430,25 @@
           const s = e.target.closest("[data-i]");
           if (!s) return (tipEl.hidden = true);
           const st = days[s.dataset.c][s.dataset.i];
-          const d = new Date(Date.now() - (89 - s.dataset.i) * 864e5).toLocaleDateString("en-US", { month: "short", day: "numeric" });
-          DEVL_XP.chart.tip(tipEl, e, `<strong>${comps[s.dataset.c]} · ${d}</strong><br>${st === "ok" ? "No downtime" : st === "minor" ? "Degraded performance (~2h)" : "Major outage (~12h)"}`);
+          const d = new Date(Date.now() - (89 - s.dataset.i) * 864e5).toLocaleDateString("es-MX", { month: "short", day: "numeric" });
+          DEVL_XP.chart.tip(tipEl, e, `<strong>${comps[s.dataset.c]} · ${d}</strong><br>${st === "ok" ? "Sin caídas" : st === "minor" ? "Rendimiento degradado (~2 h)" : "Caída mayor (~12 h)"}`);
         });
         ctx.on(box, "pointerleave", () => (tipEl.hidden = true));
-        ctx.$("[data-inc]").innerHTML = incidents.sort((a, b) => b.i - a.i).slice(0, 5).map((x) => `<li style="--c:var(--dv-${x.s === "major" ? "danger" : "warning"})"><strong>${x.c}</strong> ${x.s === "major" ? "outage" : "degraded performance"}<div class="dv-timeline__meta">${new Date(Date.now() - (89 - x.i) * 864e5).toLocaleDateString()} · resolved</div></li>`).join("");
+        ctx.$("[data-inc]").innerHTML = incidents.sort((a, b) => b.i - a.i).slice(0, 5).map((x) => `<li style="--c:var(--dv-${x.s === "major" ? "danger" : "warning"})"><strong>${x.c}</strong> ${x.s === "major" ? "caída" : "rendimiento degradado"}<div class="dv-timeline__meta">${new Date(Date.now() - (89 - x.i) * 864e5).toLocaleDateString("es-MX")} · resuelto</div></li>`).join("");
       }
     },
 
     deploys: {
       html: `
-        ${head("Timelines · deploys.tsx", "Deploy history", "Filter by environment, redeploy any commit and watch it build with a live duration until it's ready (or errors).")}
-        <div class="dv-row"><dv-segmented value="all" data-env><button class="dv-segmented__item" value="all">All</button><button class="dv-segmented__item" value="production">Production</button><button class="dv-segmented__item" value="preview">Preview</button></dv-segmented></div>
+        ${head("Líneas de tiempo · deploys.tsx", "Historial de deploys", "Filtra por entorno, vuelve a desplegar cualquier commit y míralo compilar con duración en vivo hasta que esté listo (o falle).")}
+        <div class="dv-row"><dv-segmented value="all" data-env><button class="dv-segmented__item" value="all">Todos</button><button class="dv-segmented__item" value="production">Producción</button><button class="dv-segmented__item" value="preview">Preview</button></dv-segmented></div>
         <ul class="dv-list" data-list></ul>`,
       setup(root, ctx) {
         let n = 0;
         const deploys = [
-          { id: ++n, sha: "f8a92c1", msg: "feat: functional gallery", env: "production", state: "ready", start: Date.now() - 3600e3, dur: 41 },
-          { id: ++n, sha: "1c0de42", msg: "fix: sparkline aspect", env: "preview", state: "ready", start: Date.now() - 7200e3, dur: 38 },
-          { id: ++n, sha: "9b7e3d0", msg: "chore: deps", env: "preview", state: "error", start: Date.now() - 9000e3, dur: 12 }
+          { id: ++n, sha: "f8a92c1", msg: "feat: galería funcional", env: "production", state: "ready", start: Date.now() - 3600e3, dur: 41 },
+          { id: ++n, sha: "1c0de42", msg: "fix: aspecto del sparkline", env: "preview", state: "ready", start: Date.now() - 7200e3, dur: 38 },
+          { id: ++n, sha: "9b7e3d0", msg: "chore: dependencias", env: "preview", state: "error", start: Date.now() - 9000e3, dur: 12 }
         ];
         const render = () => {
           const env = ctx.$("[data-env]").value || "all";
@@ -457,7 +457,7 @@
             .map((d) => {
               const dur = d.state === "building" ? Math.round((Date.now() - d.start) / 1000) : d.dur;
               const badge = { ready: "success", error: "danger", building: "info" }[d.state];
-              return `<li><span class="dv-badge dv-badge--${badge}">${d.state === "building" ? '<span class="dv-spinner" style="--size:10px;margin-right:4px"></span>' : ""}${d.state}</span><div style="flex:1"><div class="dv-list__title">${esc(d.msg)}</div><div class="dv-list__desc"><span class="xp-mono">${d.sha}</span> · ${d.env} · ${ago(d.start)} · ${dur}s</div></div><span class="dv-list__end"><button type="button" class="dv-btn dv-btn--sm" data-re="${d.id}"${d.state === "building" ? " disabled" : ""}>Redeploy</button></span></li>`;
+              return `<li><span class="dv-badge dv-badge--${badge}">${d.state === "building" ? '<span class="dv-spinner" style="--size:10px;margin-right:4px"></span>' : ""}${{ ready: "listo", error: "error", building: "compilando" }[d.state]}</span><div style="flex:1"><div class="dv-list__title">${esc(d.msg)}</div><div class="dv-list__desc"><span class="xp-mono">${d.sha}</span> · ${d.env === "production" ? "producción" : "preview"} · ${ago(d.start)} · ${dur}s</div></div><span class="dv-list__end"><button type="button" class="dv-btn dv-btn--sm" data-re="${d.id}"${d.state === "building" ? " disabled" : ""}>Volver a desplegar</button></span></li>`;
             })
             .join("");
         };
@@ -471,7 +471,7 @@
           ctx.timeout(total, () => {
             d.state = Math.random() < 0.2 ? "error" : "ready";
             d.dur = Math.round(total / 1000);
-            ctx.toast({ title: `Deploy ${d.state === "ready" ? "ready" : "failed"}`, description: `${d.sha} → ${d.env}`, variant: d.state === "ready" ? "success" : "danger" });
+            ctx.toast({ title: `Deploy ${d.state === "ready" ? "listo" : "fallido"}`, description: `${d.sha} → ${d.env}`, variant: d.state === "ready" ? "success" : "danger" });
             render();
           });
           render();
@@ -484,12 +484,12 @@
 
     "inbox-thread": {
       html: `
-        ${head("Timelines · inbox-thread.tsx", "Inbox thread", "Send a reply (Enter), attach files, and watch the other side type and answer.")}
+        ${head("Líneas de tiempo · inbox-thread.tsx", "Hilo de bandeja", "Envía una respuesta (Enter), adjunta archivos y mira cómo la otra persona escribe y responde.")}
         <div class="dv-card" style="max-width:640px;width:100%;margin:0 auto;display:flex;flex-direction:column;height:480px">
-          <div class="dv-card__header dv-row" style="border-bottom:1px solid var(--dv-border);padding-bottom:12px"><span class="dv-avatar" data-status="online">AL</span><div><strong>Ana López</strong><div class="dv-muted" style="font-size:11px">Design lead</div></div></div>
+          <div class="dv-card__header dv-row" style="border-bottom:1px solid var(--dv-border);padding-bottom:12px"><span class="dv-avatar" data-status="online">AL</span><div><strong>Ana López</strong><div class="dv-muted" style="font-size:11px">Líder de diseño</div></div></div>
           <div data-msgs style="flex:1;overflow:auto;padding:14px 18px;display:flex;flex-direction:column;gap:10px"></div>
-          <div class="dv-muted" data-typing hidden style="padding:0 18px 6px;font-size:11px">Ana is typing…</div>
-          <form class="dv-row" data-form style="padding:10px 12px;border-top:1px solid var(--dv-border);flex-wrap:nowrap"><label class="dv-btn dv-btn--icon dv-btn--subtle" style="cursor:pointer" aria-label="Attach">📎<input type="file" hidden data-file /></label><input class="dv-input" data-text placeholder="Write a reply…" aria-label="Reply" autocomplete="off" /><button type="submit" class="dv-btn dv-btn--primary">Send</button></form>
+          <div class="dv-muted" data-typing hidden style="padding:0 18px 6px;font-size:11px">Ana está escribiendo…</div>
+          <form class="dv-row" data-form style="padding:10px 12px;border-top:1px solid var(--dv-border);flex-wrap:nowrap"><label class="dv-btn dv-btn--icon dv-btn--subtle" style="cursor:pointer" aria-label="Adjuntar">📎<input type="file" hidden data-file /></label><input class="dv-input" data-text placeholder="Escribe una respuesta…" aria-label="Respuesta" autocomplete="off" /><button type="submit" class="dv-btn dv-btn--primary">Enviar</button></form>
         </div>`,
       setup(root, ctx) {
         const box = ctx.$("[data-msgs]");
@@ -505,12 +505,12 @@
           box.appendChild(d);
           box.scrollTop = box.scrollHeight;
         };
-        const replies = ["Love it — can we tighten the spacing on mobile?", "Sounds good, ship it 🚀", "Can you send the Figma link?", "Perfect, thanks!"];
+        const replies = ["Me encanta, ¿podemos ajustar el espaciado en móvil?", "Suena bien, ¡a producción! 🚀", "¿Puedes enviarme el enlace de Figma?", "¡Perfecto, gracias!"];
         let k = 0;
         let pendingFile = "";
         ctx.on(ctx.$("[data-file]"), "change", (e) => {
           pendingFile = e.target.files[0] ? e.target.files[0].name : "";
-          if (pendingFile) ctx.toast({ title: `Attached ${pendingFile}`, variant: "neutral", duration: 1200 });
+          if (pendingFile) ctx.toast({ title: `Adjuntaste ${pendingFile}`, variant: "neutral", duration: 1200 });
         });
         ctx.on(ctx.$("[data-form]"), "submit", (e) => {
           e.preventDefault();
@@ -525,19 +525,19 @@
             bubble(false, replies[k++ % replies.length]);
           });
         });
-        bubble(false, "Hey! Did you get a chance to look at the new gallery?");
-        bubble(true, "Yes — every experiment is functional now.");
+        bubble(false, "¡Hola! ¿Pudiste ver la nueva galería?");
+        bubble(true, "Sí, ahora cada experimento es funcional.");
       }
     },
 
     "activity-feed": {
       html: `
-        ${head("Timelines · activity-feed.tsx", "Activity feed", "Realtime stream with pause/resume, type filters and relative timestamps that keep updating.")}
-        <div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-pause aria-pressed="false">❚❚ Pause</button><div class="dv-row" style="--gap:6px" data-types></div><span class="dv-spacer"></span><span class="dv-badge" data-count></span></div>
+        ${head("Líneas de tiempo · activity-feed.tsx", "Feed de actividad", "Flujo en tiempo real con pausa/reanudar, filtros por tipo y marcas de tiempo relativas que se actualizan solas.")}
+        <div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-pause aria-pressed="false">❚❚ Pausar</button><div class="dv-row" style="--gap:6px" data-types></div><span class="dv-spacer"></span><span class="dv-badge" data-count></span></div>
         <ol class="dv-timeline" data-list style="max-height:460px;overflow:auto"></ol>`,
       setup(root, ctx) {
         const kinds = { deploy: "success", comment: "info", issue: "warning", member: "accent" };
-        const templates = { deploy: ["deployed f8a92c1 to production", "deployed preview for #483"], comment: ["commented on DEV-120", "replied in Tokens v2"], issue: ["opened DEV-131", "closed DEV-118"], member: ["joined the workspace", "was promoted to Admin"] };
+        const templates = { deploy: ["desplegó f8a92c1 a producción", "desplegó el preview de #483"], comment: ["comentó en DEV-120", "respondió en Tokens v2"], issue: ["abrió DEV-131", "cerró DEV-118"], member: ["se unió al espacio de trabajo", "fue ascendido a Admin"] };
         const people = ["Ana", "Leo", "Sara", "Tom", "Mia"];
         const feed = [];
         const on = new Set(Object.keys(kinds));
@@ -552,7 +552,7 @@
         };
         const render = () => {
           const rows = feed.filter((f) => on.has(f.k));
-          ctx.$("[data-count]").textContent = `${rows.length} events`;
+          ctx.$("[data-count]").textContent = `${rows.length} eventos`;
           ctx.$("[data-list]").innerHTML = rows.map((f) => `<li style="--c:var(--dv-${kinds[f.k] === "accent" ? "accent" : kinds[f.k]})"><strong>${f.who}</strong> ${f.what}<div class="dv-timeline__meta">${ago(f.at)}</div></li>`).join("");
         };
         for (let i = 0; i < 5; i++) add();
@@ -564,7 +564,7 @@
         ctx.on(ctx.$("[data-pause]"), "click", (e) => {
           paused = !paused;
           e.target.setAttribute("aria-pressed", String(paused));
-          e.target.textContent = paused ? "▶ Resume" : "❚❚ Pause";
+          e.target.textContent = paused ? "▶ Reanudar" : "❚❚ Pausar";
         });
         ctx.on(ctx.$("[data-types]"), "click", (e) => {
           const b = e.target.closest("[data-t]");
@@ -579,7 +579,7 @@
   });
 
   // ==========================================================================
-  // CALENDARS
+  // CALENDARIOS
   // ==========================================================================
   const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
   X.iso = iso;
@@ -587,20 +587,20 @@
   X.addMany("calendars", {
     month: {
       html: `
-        ${head("Calendars · month.tsx", "Month view", "Navigate months, click a day to add an event, click an event to remove it. Today is outlined.")}
-        <div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-nav="-1">‹</button><button type="button" class="dv-btn dv-btn--sm" data-today>Today</button><button type="button" class="dv-btn dv-btn--sm" data-nav="1">›</button><h3 class="xp-title" style="margin:0;font-size:18px" data-title></h3></div>
+        ${head("Calendarios · month.tsx", "Vista mensual", "Navega por los meses, haz clic en un día para añadir un evento y en un evento para quitarlo. El día de hoy está resaltado.")}
+        <div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-nav="-1">‹</button><button type="button" class="dv-btn dv-btn--sm" data-today>Hoy</button><button type="button" class="dv-btn dv-btn--sm" data-nav="1">›</button><h3 class="xp-title" style="margin:0;font-size:18px" data-title></h3></div>
         <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px" data-grid></div>
-        <form class="dv-row xp-panel" data-form hidden style="padding:10px"><span class="dv-badge" data-day></span><input class="dv-input" style="flex:1" placeholder="Event title" required data-title-in aria-label="Event title" /><button type="submit" class="dv-btn dv-btn--primary dv-btn--sm">Add</button><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-cancel>Cancel</button></form>`,
+        <form class="dv-row xp-panel" data-form hidden style="padding:10px"><span class="dv-badge" data-day></span><input class="dv-input" style="flex:1" placeholder="Título del evento" required data-title-in aria-label="Título del evento" /><button type="submit" class="dv-btn dv-btn--primary dv-btn--sm">Añadir</button><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-cancel>Cancelar</button></form>`,
       setup(root, ctx) {
         const today = new Date();
         let view = new Date(today.getFullYear(), today.getMonth(), 1);
-        const events = { [DEVL_XP.iso(today)]: ["Design sync"], [DEVL_XP.iso(new Date(today.getFullYear(), today.getMonth(), 3))]: ["Release v1.2"] };
+        const events = { [DEVL_XP.iso(today)]: ["Sincronización de diseño"], [DEVL_XP.iso(new Date(today.getFullYear(), today.getMonth(), 3))]: ["Lanzamiento v1.2"] };
         let picked = null;
         const render = () => {
-          ctx.$("[data-title]").textContent = view.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+          ctx.$("[data-title]").textContent = view.toLocaleDateString("es-MX", { month: "long", year: "numeric" });
           const offset = (view.getDay() + 6) % 7;
           const start = new Date(view.getFullYear(), view.getMonth(), 1 - offset);
-          let html = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => `<div class="dv-eyebrow" style="padding:4px;overflow:hidden">${d}</div>`).join("");
+          let html = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"].map((d) => `<div class="dv-eyebrow" style="padding:4px;overflow:hidden">${d}</div>`).join("");
           for (let i = 0; i < 42; i++) {
             const d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
             const key = DEVL_XP.iso(d);
@@ -638,8 +638,8 @@
 
     week: {
       html: `
-        ${head("Calendars · week.tsx", "Week schedule", "Click an empty slot to block an hour, click a block to remove it. The red line is the current time.")}
-        <div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-nav="-7">‹ Prev</button><button type="button" class="dv-btn dv-btn--sm" data-nav="7">Next ›</button><strong data-range></strong><span class="dv-spacer"></span><span class="dv-badge" data-busy></span></div>
+        ${head("Calendarios · week.tsx", "Horario semanal", "Haz clic en un espacio vacío para bloquear una hora y en un bloque para quitarlo. La línea roja es la hora actual.")}
+        <div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-nav="-7">‹ Anterior</button><button type="button" class="dv-btn dv-btn--sm" data-nav="7">Siguiente ›</button><strong data-range></strong><span class="dv-spacer"></span><span class="dv-badge" data-busy></span></div>
         <div class="xp-panel" style="padding:0;overflow:auto"><div data-grid style="position:relative;display:grid;grid-template-columns:52px repeat(7,minmax(90px,1fr));min-width:720px"></div></div>`,
       setup(root, ctx) {
         const H0 = 8;
@@ -647,12 +647,12 @@
         const ROW = 40;
         const now = new Date();
         let monday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - ((now.getDay() + 6) % 7));
-        const blocks = new Map([[`${DEVL_XP.iso(monday)}|10`, "Standup"], [`${DEVL_XP.iso(new Date(monday.getTime() + 2 * 864e5))}|14`, "Design review"]]);
+        const blocks = new Map([[`${DEVL_XP.iso(monday)}|10`, "Standup"], [`${DEVL_XP.iso(new Date(monday.getTime() + 2 * 864e5))}|14`, "Revisión de diseño"]]);
         const grid = ctx.$("[data-grid]");
         const render = () => {
           const days = Array.from({ length: 7 }, (_, i) => new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + i));
-          ctx.$("[data-range]").textContent = `${days[0].toLocaleDateString("en-US", { month: "short", day: "numeric" })} – ${days[6].toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
-          let html = '<div style="height:36px"></div>' + days.map((d) => `<div class="dv-eyebrow" style="height:36px;display:grid;place-items:center;border-left:1px solid var(--dv-border);${DEVL_XP.iso(d) === DEVL_XP.iso(now) ? "color:var(--xp-accent)" : ""}">${d.toLocaleDateString("en-US", { weekday: "short", day: "numeric" })}</div>`).join("");
+          ctx.$("[data-range]").textContent = `${days[0].toLocaleDateString("es-MX", { month: "short", day: "numeric" })} – ${days[6].toLocaleDateString("es-MX", { month: "short", day: "numeric" })}`;
+          let html = '<div style="height:36px"></div>' + days.map((d) => `<div class="dv-eyebrow" style="height:36px;display:grid;place-items:center;border-left:1px solid var(--dv-border);${DEVL_XP.iso(d) === DEVL_XP.iso(now) ? "color:var(--xp-accent)" : ""}">${d.toLocaleDateString("es-MX", { weekday: "short", day: "numeric" })}</div>`).join("");
           for (let h = H0; h < H1; h++) {
             html += `<div class="xp-mono dv-muted" style="height:${ROW}px;font-size:10px;padding:2px 6px;border-top:1px solid var(--dv-border)">${String(h).padStart(2, "0")}:00</div>`;
             days.forEach((d) => {
@@ -665,13 +665,13 @@
           const todayIdx = days.findIndex((d) => DEVL_XP.iso(d) === DEVL_XP.iso(now));
           const mins = now.getHours() * 60 + now.getMinutes();
           if (todayIdx >= 0 && mins >= H0 * 60 && mins < H1 * 60) grid.insertAdjacentHTML("beforeend", `<div style="position:absolute;left:52px;right:0;top:${36 + ((mins - H0 * 60) / 60) * ROW}px;height:2px;background:var(--dv-danger);pointer-events:none"></div>`);
-          ctx.$("[data-busy]").textContent = `${[...blocks.keys()].filter((k) => days.some((d) => k.startsWith(DEVL_XP.iso(d)))).length}h booked this week`;
+          ctx.$("[data-busy]").textContent = `${[...blocks.keys()].filter((k) => days.some((d) => k.startsWith(DEVL_XP.iso(d)))).length}h reservadas esta semana`;
         };
         ctx.on(grid, "click", (e) => {
           const c = e.target.closest("[data-k]");
           if (!c) return;
           if (blocks.has(c.dataset.k)) blocks.delete(c.dataset.k);
-          else blocks.set(c.dataset.k, "Focus block");
+          else blocks.set(c.dataset.k, "Bloque de enfoque");
           render();
         });
         ctx.$$("[data-nav]").forEach((b) => ctx.on(b, "click", () => ((monday = new Date(monday.getTime() + Number(b.dataset.nav) * 864e5)), render())));
@@ -682,12 +682,12 @@
 
     agenda: {
       html: `
-        ${head("Calendars · agenda.tsx", "Agenda list", "Upcoming events grouped by day, filterable by calendar and searchable; join buttons light up for events starting soon.")}
-        <div class="dv-row"><input class="dv-input xp-search" data-q placeholder="Search events…" aria-label="Search" /><label class="dv-choice"><input type="checkbox" class="dv-check" data-cal value="Work" checked /> <span class="dv-dot dv-dot--accent"></span> Work</label><label class="dv-choice"><input type="checkbox" class="dv-check" data-cal value="Personal" checked /> <span class="dv-dot dv-dot--success"></span> Personal</label></div>
+        ${head("Calendarios · agenda.tsx", "Lista de agenda", "Próximos eventos agrupados por día, filtrables por calendario y con búsqueda; los botones de unirse se destacan en los eventos que empiezan pronto.")}
+        <div class="dv-row"><input class="dv-input xp-search" data-q placeholder="Buscar eventos…" aria-label="Buscar" /><label class="dv-choice"><input type="checkbox" class="dv-check" data-cal value="Trabajo" checked /> <span class="dv-dot dv-dot--accent"></span> Trabajo</label><label class="dv-choice"><input type="checkbox" class="dv-check" data-cal value="Personal" checked /> <span class="dv-dot dv-dot--success"></span> Personal</label></div>
         <div data-list class="dv-stack"></div>`,
       setup(root, ctx) {
         const now = Date.now();
-        const evs = [[0.01, "Standup", "Work"], [0.2, "Design review", "Work"], [0.4, "Gym", "Personal"], [1.1, "1:1 with Ana", "Work"], [1.5, "Dinner with Leo", "Personal"], [2.2, "Sprint planning", "Work"], [4.3, "Dentist", "Personal"], [6.1, "Quarterly review", "Work"]].map(([d, t, c]) => ({ at: now + d * 864e5, t, c }));
+        const evs = [[0.01, "Standup", "Trabajo"], [0.2, "Revisión de diseño", "Trabajo"], [0.4, "Gimnasio", "Personal"], [1.1, "1:1 con Ana", "Trabajo"], [1.5, "Cena con Leo", "Personal"], [2.2, "Planificación del sprint", "Trabajo"], [4.3, "Dentista", "Personal"], [6.1, "Revisión trimestral", "Trabajo"]].map(([d, t, c]) => ({ at: now + d * 864e5, t, c }));
         const render = () => {
           const q = ctx.$("[data-q]").value.toLowerCase();
           const cals = ctx.$$("[data-cal]:checked").map((c) => c.value);
@@ -695,17 +695,17 @@
           const groups = {};
           rows.forEach((e) => (groups[DEVL_XP.iso(new Date(e.at))] = groups[DEVL_XP.iso(new Date(e.at))] || []).push(e));
           ctx.$("[data-list]").innerHTML = Object.entries(groups)
-            .map(([day, list]) => `<div><span class="dv-eyebrow">${new Date(day + "T00:00").toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })}</span><ul class="dv-list" style="margin-top:6px">${list.map((e) => {
+            .map(([day, list]) => `<div><span class="dv-eyebrow">${new Date(day + "T00:00").toLocaleDateString("es-MX", { weekday: "long", month: "short", day: "numeric" })}</span><ul class="dv-list" style="margin-top:6px">${list.map((e) => {
               const soon = e.at - Date.now() < 30 * 60000;
-              return `<li><span class="dv-dot dv-dot--${e.c === "Work" ? "accent" : "success"}"></span><span class="xp-mono dv-muted">${new Date(e.at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span><span style="flex:1">${esc(e.t)}</span>${e.c === "Work" ? `<button type="button" class="dv-btn dv-btn--sm${soon ? " dv-btn--primary" : ""}" data-join="${esc(e.t)}">${soon ? "Join now" : "Join"}</button>` : ""}</li>`;
+              return `<li><span class="dv-dot dv-dot--${e.c === "Trabajo" ? "accent" : "success"}"></span><span class="xp-mono dv-muted">${new Date(e.at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span><span style="flex:1">${esc(e.t)}</span>${e.c === "Trabajo" ? `<button type="button" class="dv-btn dv-btn--sm${soon ? " dv-btn--primary" : ""}" data-join="${esc(e.t)}">${soon ? "Unirse ahora" : "Unirse"}</button>` : ""}</li>`;
             }).join("")}</ul></div>`)
-            .join("") || '<div class="dv-empty"><div class="dv-empty__title">Nothing scheduled</div></div>';
+            .join("") || '<div class="dv-empty"><div class="dv-empty__title">No hay nada programado</div></div>';
         };
         ctx.on(ctx.$("[data-q]"), "input", render);
         ctx.$$("[data-cal]").forEach((c) => ctx.on(c, "change", render));
         ctx.on(ctx.$("[data-list]"), "click", (e) => {
           const b = e.target.closest("[data-join]");
-          if (b) ctx.toast({ title: `Joining “${b.dataset.join}”`, variant: "info" });
+          if (b) ctx.toast({ title: `Uniéndote a “${b.dataset.join}”`, variant: "info" });
         });
         render();
       }
@@ -713,9 +713,9 @@
 
     "date-range": {
       html: `
-        ${head("Calendars · date-range.tsx", "Date range picker", "Two months side by side: click a start and an end (hover previews the range), or use a preset.")}
-        <div class="dv-row"><span class="dv-badge dv-badge--outline xp-mono" data-out>Pick a start date</span><span class="dv-spacer"></span>${[["7", "Last 7 days"], ["30", "Last 30 days"], ["month", "This month"]].map(([v, l]) => `<button type="button" class="dv-chip" data-preset="${v}">${l}</button>`).join("")}</div>
-        <div class="xp-panel dv-row" style="align-items:flex-start;--gap:28px"><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-nav="-1" aria-label="Previous">‹</button><div class="dv-row" style="align-items:flex-start;--gap:28px;flex:1;justify-content:center" data-months></div><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-nav="1" aria-label="Next">›</button></div>`,
+        ${head("Calendarios · date-range.tsx", "Selector de rango de fechas", "Dos meses lado a lado: haz clic en un inicio y un fin (al pasar el cursor se previsualiza el rango) o usa un preajuste.")}
+        <div class="dv-row"><span class="dv-badge dv-badge--outline xp-mono" data-out>Elige una fecha de inicio</span><span class="dv-spacer"></span>${[["7", "Últimos 7 días"], ["30", "Últimos 30 días"], ["month", "Este mes"]].map(([v, l]) => `<button type="button" class="dv-chip" data-preset="${v}">${l}</button>`).join("")}</div>
+        <div class="xp-panel dv-row" style="align-items:flex-start;--gap:28px"><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-nav="-1" aria-label="Anterior">‹</button><div class="dv-row" style="align-items:flex-start;--gap:28px;flex:1;justify-content:center" data-months></div><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-nav="1" aria-label="Siguiente">›</button></div>`,
       setup(root, ctx) {
         const today = new Date();
         let view = new Date(today.getFullYear(), today.getMonth() - 1, 1);
@@ -725,7 +725,7 @@
         const key = (d) => DEVL_XP.iso(d);
         const month = (base) => {
           const offset = (base.getDay() + 6) % 7;
-          let cells = ["M", "T", "W", "T", "F", "S", "S"].map((d) => `<span class="dv-cal__dow">${d}</span>`).join("");
+          let cells = ["L", "M", "X", "J", "V", "S", "D"].map((d) => `<span class="dv-cal__dow">${d}</span>`).join("");
           for (let i = 0; i < offset; i++) cells += "<span></span>";
           const days = new Date(base.getFullYear(), base.getMonth() + 1, 0).getDate();
           const end = b || hover;
@@ -737,7 +737,7 @@
             const edge = k === lo || k === hi;
             cells += `<button type="button" class="dv-cal__day" data-k="${k}" aria-pressed="${edge}" style="${inRange && !edge ? "background:color-mix(in srgb,var(--xp-accent) 20%,transparent);border-radius:0" : ""}">${d}</button>`;
           }
-          return `<div><div class="dv-eyebrow" style="text-align:center;margin-bottom:8px">${base.toLocaleDateString("en-US", { month: "long", year: "numeric" })}</div><div class="dv-cal__grid">${cells}</div></div>`;
+          return `<div><div class="dv-eyebrow" style="text-align:center;margin-bottom:8px">${base.toLocaleDateString("es-MX", { month: "long", year: "numeric" })}</div><div class="dv-cal__grid">${cells}</div></div>`;
         };
         const render = () => {
           ctx.$("[data-months]").innerHTML = month(view) + month(new Date(view.getFullYear(), view.getMonth() + 1, 1));
@@ -745,8 +745,8 @@
           if (a && b) {
             const [lo, hi] = a < b ? [a, b] : [b, a];
             const nights = Math.round((new Date(hi) - new Date(lo)) / 864e5);
-            out.textContent = `${lo} → ${hi} · ${nights + 1} days`;
-          } else out.textContent = a ? `${a} → pick an end date` : "Pick a start date";
+            out.textContent = `${lo} → ${hi} · ${nights + 1} días`;
+          } else out.textContent = a ? `${a} → elige una fecha de fin` : "Elige una fecha de inicio";
         };
         ctx.on(ctx.$("[data-months]"), "click", (e) => {
           const d = e.target.closest("[data-k]");
@@ -780,8 +780,8 @@
 
     timezone: {
       html: `
-        ${head("Calendars · timezone.tsx", "Timezone planner", "Real Intl time zones. Slide to shift the meeting time; working hours (9–18) light up green so you can find the overlap.")}
-        <div class="dv-row"><span class="dv-label">Offset</span><input type="range" class="dv-range" min="-12" max="12" value="0" step="0.5" data-shift style="flex:1;max-width:420px" aria-label="Shift hours" /><strong class="xp-mono" data-shift-out>now</strong><select class="dv-select" style="width:auto" data-add aria-label="Add city"><option value="">+ Add city</option><option>Asia/Tokyo</option><option>Australia/Sydney</option><option>Asia/Kolkata</option><option>America/Sao_Paulo</option></select></div>
+        ${head("Calendarios · timezone.tsx", "Planificador de zonas horarias", "Zonas horarias reales de Intl. Desliza para mover la hora de la reunión; el horario laboral (9–18) se ilumina en verde para que encuentres el traslape.")}
+        <div class="dv-row"><span class="dv-label">Desfase</span><input type="range" class="dv-range" min="-12" max="12" value="0" step="0.5" data-shift style="flex:1;max-width:420px" aria-label="Desplazar horas" /><strong class="xp-mono" data-shift-out>ahora</strong><select class="dv-select" style="width:auto" data-add aria-label="Añadir ciudad"><option value="">+ Añadir ciudad</option><option>Asia/Tokyo</option><option>Australia/Sydney</option><option>Asia/Kolkata</option><option>America/Sao_Paulo</option></select></div>
         <ul class="dv-list" data-list></ul>
         <div class="dv-alert" data-overlap><div><div class="dv-alert__title" data-overlap-t></div></div></div>`,
       setup(root, ctx) {
@@ -790,18 +790,18 @@
         const render = () => {
           const shift = Number(ctx.$("[data-shift]").value);
           const t = new Date(Date.now() + shift * 3600e3);
-          ctx.$("[data-shift-out]").textContent = shift === 0 ? "now" : `${shift > 0 ? "+" : ""}${shift}h`;
+          ctx.$("[data-shift-out]").textContent = shift === 0 ? "ahora" : `${shift > 0 ? "+" : ""}${shift}h`;
           let all = true;
           ctx.$("[data-list]").innerHTML = zones
             .map((tz, i) => {
               const h = hourIn(t, tz);
               const work = h >= 9 && h < 18;
               if (!work) all = false;
-              return `<li><span class="dv-dot dv-dot--${work ? "success" : "danger"}"></span><div style="flex:1"><div class="dv-list__title">${tz.split("/").pop().replace("_", " ")}</div><div class="dv-list__desc">${tz}</div></div><span class="xp-num xp-mono" style="font-size:20px">${new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: tz }).format(t)}</span><span class="dv-muted" style="width:70px;text-align:right">${new Intl.DateTimeFormat("en-US", { weekday: "short", timeZone: tz }).format(t)}</span>${i ? `<button type="button" class="dv-btn dv-btn--icon dv-btn--sm dv-btn--subtle" data-rm="${i}" aria-label="Remove">✕</button>` : '<span style="width:26px"></span>'}</li>`;
+              return `<li><span class="dv-dot dv-dot--${work ? "success" : "danger"}"></span><div style="flex:1"><div class="dv-list__title">${tz.split("/").pop().replace("_", " ")}</div><div class="dv-list__desc">${tz}</div></div><span class="xp-num xp-mono" style="font-size:20px">${new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: tz }).format(t)}</span><span class="dv-muted" style="width:70px;text-align:right">${new Intl.DateTimeFormat("es-MX", { weekday: "short", timeZone: tz }).format(t)}</span>${i ? `<button type="button" class="dv-btn dv-btn--icon dv-btn--sm dv-btn--subtle" data-rm="${i}" aria-label="Quitar">✕</button>` : '<span style="width:26px"></span>'}</li>`;
             })
             .join("");
           ctx.$("[data-overlap]").className = `dv-alert dv-alert--${all ? "success" : "warning"}`;
-          ctx.$("[data-overlap-t]").textContent = all ? "✓ Everyone is within working hours" : "Someone is outside working hours — slide to find overlap";
+          ctx.$("[data-overlap-t]").textContent = all ? "✓ Todos están dentro del horario laboral" : "Alguien está fuera del horario laboral: desliza para encontrar el traslape";
         };
         ctx.on(ctx.$("[data-shift]"), "input", render);
         ctx.on(ctx.$("[data-add]"), "change", (e) => {
@@ -822,10 +822,10 @@
 
     mini: {
       html: `
-        ${head("Calendars · mini.tsx", "Mini calendar", "A date input with a popover <dv-calendar>: type a date or pick one; Escape closes the popover.")}
+        ${head("Calendarios · mini.tsx", "Mini calendario", "Un campo de fecha con un popover <dv-calendar>: escribe una fecha o elige una; Escape cierra el popover.")}
         <div class="xp-rel" style="max-width:300px">
-          <div class="dv-input-group"><input class="dv-input xp-mono" data-in placeholder="YYYY-MM-DD" aria-label="Date" /><button type="button" class="dv-btn dv-btn--subtle dv-btn--sm" style="margin:3px" data-open aria-expanded="false" aria-label="Open calendar">📅</button></div>
-          <div data-pop hidden style="position:absolute;z-index:5;top:calc(100% + 6px);left:0;box-shadow:var(--dv-shadow-lg);border-radius:var(--dv-radius);background:var(--dv-bg-elevated)"><dv-calendar data-cal locale="en-US"></dv-calendar></div>
+          <div class="dv-input-group"><input class="dv-input xp-mono" data-in placeholder="AAAA-MM-DD" aria-label="Fecha" /><button type="button" class="dv-btn dv-btn--subtle dv-btn--sm" style="margin:3px" data-open aria-expanded="false" aria-label="Abrir calendario">📅</button></div>
+          <div data-pop hidden style="position:absolute;z-index:5;top:calc(100% + 6px);left:0;box-shadow:var(--dv-shadow-lg);border-radius:var(--dv-radius);background:var(--dv-bg-elevated)"><dv-calendar data-cal locale="es-MX"></dv-calendar></div>
         </div>
         <p class="dv-muted" data-out></p>`,
       setup(root, ctx) {
@@ -833,7 +833,7 @@
         const pop = ctx.$("[data-pop]");
         const cal = ctx.$("[data-cal]");
         const btn = ctx.$("[data-open]");
-        const describe = (v) => (ctx.$("[data-out]").textContent = v ? `Selected: ${new Date(v + "T00:00").toLocaleDateString("en-US", { dateStyle: "full" })}` : "");
+        const describe = (v) => (ctx.$("[data-out]").textContent = v ? `Seleccionado: ${new Date(v + "T00:00").toLocaleDateString("es-MX", { dateStyle: "full" })}` : "");
         const toggle = (open) => {
           pop.hidden = !open;
           btn.setAttribute("aria-expanded", String(open));
@@ -860,9 +860,9 @@
 
     "year-heatmap": {
       html: `
-        ${head("Calendars · year-heatmap.tsx", "Contribution heatmap", "53 weeks of activity with hover counts, totals and computed current / longest streaks. Switch years to regenerate.")}
+        ${head("Calendarios · year-heatmap.tsx", "Mapa de calor de contribuciones", "53 semanas de actividad con conteos al pasar el cursor, totales y rachas actual / más larga calculadas. Cambia de año para regenerar.")}
         <div class="dv-row"><dv-segmented value="2026" data-year><button class="dv-segmented__item" value="2024">2024</button><button class="dv-segmented__item" value="2025">2025</button><button class="dv-segmented__item" value="2026">2026</button></dv-segmented><span class="dv-spacer"></span><span class="dv-badge" data-total></span><span class="dv-badge dv-badge--success" data-streak></span><span class="dv-badge dv-badge--accent" data-longest></span></div>
-        <div class="xp-panel xp-rel" style="overflow:auto"><div class="xp-tip" data-tip hidden></div><div data-grid style="display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,12px);gap:3px;width:max-content"></div><div class="dv-row" style="margin-top:10px;font-size:11px;--gap:4px"><span class="dv-muted">Less</span>${[0, 1, 2, 3, 4].map((l) => `<span style="width:12px;height:12px;border-radius:2px;background:${l ? `color-mix(in srgb,var(--dv-success) ${l * 25}%,var(--dv-surface-strong))` : "var(--dv-surface-strong)"}"></span>`).join("")}<span class="dv-muted">More</span></div></div>`,
+        <div class="xp-panel xp-rel" style="overflow:auto"><div class="xp-tip" data-tip hidden></div><div data-grid style="display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,12px);gap:3px;width:max-content"></div><div class="dv-row" style="margin-top:10px;font-size:11px;--gap:4px"><span class="dv-muted">Menos</span>${[0, 1, 2, 3, 4].map((l) => `<span style="width:12px;height:12px;border-radius:2px;background:${l ? `color-mix(in srgb,var(--dv-success) ${l * 25}%,var(--dv-surface-strong))` : "var(--dv-surface-strong)"}"></span>`).join("")}<span class="dv-muted">Más</span></div></div>`,
       setup(root, ctx) {
         const render = () => {
           const year = Number(ctx.$("[data-year]").value || 2026);
@@ -882,9 +882,9 @@
           valid.forEach((x) => ((run = x.n ? run + 1 : 0), (longest = Math.max(longest, run))));
           let current = 0;
           for (let i = valid.length - 1; i >= 0 && valid[i].n; i--) current++;
-          ctx.$("[data-total]").textContent = `${valid.reduce((s, x) => s + x.n, 0)} contributions`;
-          ctx.$("[data-streak]").textContent = `Current streak ${current}d`;
-          ctx.$("[data-longest]").textContent = `Longest ${longest}d`;
+          ctx.$("[data-total]").textContent = `${valid.reduce((s, x) => s + x.n, 0)} contribuciones`;
+          ctx.$("[data-streak]").textContent = `Racha actual ${current} d`;
+          ctx.$("[data-longest]").textContent = `Más larga ${longest} d`;
           ctx.$("[data-grid]").innerHTML = days.map((x, i) => {
             const lvl = !x.in ? -1 : x.n === 0 ? 0 : x.n < 3 ? 1 : x.n < 6 ? 2 : x.n < 9 ? 3 : 4;
             return `<span data-i="${i}" data-n="${x.n}" data-d="${DEVL_XP.iso(x.d)}" style="width:12px;height:12px;border-radius:2px;background:${lvl < 0 ? "transparent" : lvl ? `color-mix(in srgb,var(--dv-success) ${lvl * 25}%,var(--dv-surface-strong))` : "var(--dv-surface-strong)"}"></span>`;
@@ -894,7 +894,7 @@
         ctx.on(ctx.$("[data-grid]"), "pointermove", (e) => {
           const s = e.target.closest("[data-i]");
           if (!s || s.style.background === "transparent") return (tipEl.hidden = true);
-          DEVL_XP.chart.tip(tipEl, e, `<strong>${s.dataset.n} contributions</strong> on ${new Date(s.dataset.d + "T00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`);
+          DEVL_XP.chart.tip(tipEl, e, `<strong>${s.dataset.n} contribuciones</strong> el ${new Date(s.dataset.d + "T00:00").toLocaleDateString("es-MX", { month: "short", day: "numeric", year: "numeric" })}`);
         });
         ctx.on(ctx.$("[data-grid]"), "pointerleave", () => (tipEl.hidden = true));
         ctx.on(ctx.$("[data-year]"), "dv-change", render);
@@ -904,16 +904,16 @@
 
     recurring: {
       html: `
-        ${head("Calendars · recurring.tsx", "Recurring event", "Build a recurrence rule (frequency, interval, weekdays, end condition) and see a plain-English summary plus the next occurrences.")}
+        ${head("Calendarios · recurring.tsx", "Evento recurrente", "Crea una regla de recurrencia (frecuencia, intervalo, días de la semana, condición de fin) y mira un resumen en lenguaje natural junto con las próximas ocurrencias.")}
         <div class="dv-grid" style="--min:300px;align-items:start">
           <div class="xp-panel dv-stack" data-form>
-            <label class="dv-field"><span class="dv-label">Starts</span><input type="date" class="dv-input" data-start /></label>
-            <div class="dv-row"><span class="dv-label">Every</span><div class="dv-number"><button type="button" data-step="-1" aria-label="Less">−</button><input type="number" min="1" max="30" value="1" data-int aria-label="Interval" /><button type="button" data-step="1" aria-label="More">+</button></div><select class="dv-select" style="width:auto" data-freq aria-label="Frequency"><option value="day">day(s)</option><option value="week" selected>week(s)</option><option value="month">month(s)</option></select></div>
-            <div class="dv-row" style="--gap:4px" data-days>${["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map((d, i) => `<button type="button" class="dv-chip" data-wd="${(i + 1) % 7}" aria-pressed="${i === 0 || i === 2}">${d}</button>`).join("")}</div>
-            <span class="dv-label">Ends</span>
-            <label class="dv-choice"><input type="radio" class="dv-check" name="rr-end" value="never" checked /> Never</label>
-            <label class="dv-choice"><input type="radio" class="dv-check" name="rr-end" value="count" /> After <input type="number" class="dv-input" style="width:70px;height:28px" min="1" value="10" data-count /> occurrences</label>
-            <label class="dv-choice"><input type="radio" class="dv-check" name="rr-end" value="until" /> On <input type="date" class="dv-input" style="width:auto;height:28px" data-until /></label>
+            <label class="dv-field"><span class="dv-label">Comienza</span><input type="date" class="dv-input" data-start /></label>
+            <div class="dv-row"><span class="dv-label">Cada</span><div class="dv-number"><button type="button" data-step="-1" aria-label="Menos">−</button><input type="number" min="1" max="30" value="1" data-int aria-label="Intervalo" /><button type="button" data-step="1" aria-label="Más">+</button></div><select class="dv-select" style="width:auto" data-freq aria-label="Frecuencia"><option value="day">día(s)</option><option value="week" selected>semana(s)</option><option value="month">mes(es)</option></select></div>
+            <div class="dv-row" style="--gap:4px" data-days>${["Lu", "Ma", "Mi", "Ju", "Vi", "Sá", "Do"].map((d, i) => `<button type="button" class="dv-chip" data-wd="${(i + 1) % 7}" aria-pressed="${i === 0 || i === 2}">${d}</button>`).join("")}</div>
+            <span class="dv-label">Termina</span>
+            <label class="dv-choice"><input type="radio" class="dv-check" name="rr-end" value="never" checked /> Nunca</label>
+            <label class="dv-choice"><input type="radio" class="dv-check" name="rr-end" value="count" /> Después de <input type="number" class="dv-input" style="width:70px;height:28px" min="1" value="10" data-count /> ocurrencias</label>
+            <label class="dv-choice"><input type="radio" class="dv-check" name="rr-end" value="until" /> El <input type="date" class="dv-input" style="width:auto;height:28px" data-until /></label>
           </div>
           <div class="dv-stack"><div class="dv-alert dv-alert--info"><div><div class="dv-alert__title" data-text></div><code class="xp-mono dv-muted" style="font-size:11px" data-rrule></code></div></div><ol class="dv-timeline" data-next></ol></div>
         </div>`,
@@ -921,7 +921,7 @@
         const start = ctx.$("[data-start]");
         start.value = DEVL_XP.iso(new Date());
         ctx.$("[data-until]").value = DEVL_XP.iso(new Date(Date.now() + 60 * 864e5));
-        const names = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const names = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
         const render = () => {
           const freq = ctx.$("[data-freq]").value;
           const n = Math.max(1, Number(ctx.$("[data-int]").value) || 1);
@@ -946,12 +946,12 @@
               d.setDate(d.getDate() + 1);
             }
           }
-          const unit = n === 1 ? freq : `${n} ${freq}s`;
-          const on = freq === "week" && wds.length ? ` on ${wds.sort().map((w) => names[w]).join(", ")}` : freq === "month" ? ` on day ${s.getDate()}` : "";
-          const ends = end === "count" ? `, ${count} times` : end === "until" ? `, until ${until}` : "";
-          ctx.$("[data-text]").textContent = `Every ${unit}${on}${ends}`;
+          const unit = n === 1 ? { day: "día", week: "semana", month: "mes" }[freq] : `${n} ${{ day: "días", week: "semanas", month: "meses" }[freq]}`;
+          const on = freq === "week" && wds.length ? ` el ${wds.sort().map((w) => names[w]).join(", ")}` : freq === "month" ? ` el día ${s.getDate()}` : "";
+          const ends = end === "count" ? `, ${count} veces` : end === "until" ? `, hasta ${until}` : "";
+          ctx.$("[data-text]").textContent = `Cada ${unit}${on}${ends}`;
           ctx.$("[data-rrule]").textContent = `RRULE:FREQ=${{ day: "DAILY", week: "WEEKLY", month: "MONTHLY" }[freq]};INTERVAL=${n}${freq === "week" && wds.length ? `;BYDAY=${wds.map((w) => ["SU", "MO", "TU", "WE", "TH", "FR", "SA"][w]).join(",")}` : ""}${end === "count" ? `;COUNT=${count}` : end === "until" ? `;UNTIL=${until.replace(/-/g, "")}` : ""}`;
-          ctx.$("[data-next]").innerHTML = out.map((d, i) => `<li style="--c:${i ? "var(--dv-fg-subtle)" : "var(--xp-accent)"}">${d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" })}</li>`).join("") || '<li class="dv-muted">No occurrences.</li>';
+          ctx.$("[data-next]").innerHTML = out.map((d, i) => `<li style="--c:${i ? "var(--dv-fg-subtle)" : "var(--xp-accent)"}">${d.toLocaleDateString("es-MX", { weekday: "short", month: "short", day: "numeric", year: "numeric" })}</li>`).join("") || '<li class="dv-muted">Sin ocurrencias.</li>';
         };
         ctx.on(ctx.$("[data-form]"), "input", render);
         ctx.on(ctx.$("[data-form]"), "change", render);
@@ -968,14 +968,14 @@
 
     holidays: {
       html: `
-        ${head("Calendars · holidays.tsx", "Holidays & PTO", "Request time off: business days are counted (weekends excluded), deducted from your balance and shown on the team strip.")}
-        <div class="dv-grid" style="--min:180px"><div class="dv-stat"><span class="dv-eyebrow">Vacation balance</span><span class="dv-stat__value" data-bal></span></div><div class="dv-stat"><span class="dv-eyebrow">Pending</span><span class="dv-stat__value" data-pend></span></div></div>
-        <form class="xp-panel dv-row" data-form><label class="dv-field"><span class="dv-label">From</span><input type="date" class="dv-input" data-from required /></label><label class="dv-field"><span class="dv-label">To</span><input type="date" class="dv-input" data-to required /></label><label class="dv-field"><span class="dv-label">Type</span><select class="dv-select" data-type><option>Vacation</option><option>Sick</option><option>Personal</option></select></label><span class="dv-muted" data-days style="align-self:flex-end;padding-bottom:8px"></span><button type="submit" class="dv-btn dv-btn--primary" style="align-self:flex-end">Request</button></form>
+        ${head("Calendarios · holidays.tsx", "Vacaciones y permisos", "Solicita días libres: se cuentan los días hábiles (sin fines de semana), se descuentan de tu saldo y se muestran en la franja del equipo.")}
+        <div class="dv-grid" style="--min:180px"><div class="dv-stat"><span class="dv-eyebrow">Saldo de vacaciones</span><span class="dv-stat__value" data-bal></span></div><div class="dv-stat"><span class="dv-eyebrow">Pendientes</span><span class="dv-stat__value" data-pend></span></div></div>
+        <form class="xp-panel dv-row" data-form><label class="dv-field"><span class="dv-label">Desde</span><input type="date" class="dv-input" data-from required /></label><label class="dv-field"><span class="dv-label">Hasta</span><input type="date" class="dv-input" data-to required /></label><label class="dv-field"><span class="dv-label">Tipo</span><select class="dv-select" data-type><option>Vacaciones</option><option>Enfermedad</option><option>Personal</option></select></label><span class="dv-muted" data-days style="align-self:flex-end;padding-bottom:8px"></span><button type="submit" class="dv-btn dv-btn--primary" style="align-self:flex-end">Solicitar</button></form>
         <ul class="dv-list" data-list></ul>
-        <div class="xp-panel"><span class="dv-eyebrow">Team availability · next 14 days</span><div data-strip class="dv-stack" style="margin-top:10px;--gap:4px"></div></div>`,
+        <div class="xp-panel"><span class="dv-eyebrow">Disponibilidad del equipo · próximos 14 días</span><div data-strip class="dv-stack" style="margin-top:10px;--gap:4px"></div></div>`,
       setup(root, ctx) {
         let balance = 15;
-        const reqs = [{ who: "Ana", from: DEVL_XP.iso(new Date(Date.now() + 3 * 864e5)), to: DEVL_XP.iso(new Date(Date.now() + 5 * 864e5)), type: "Vacation", days: 3, state: "Approved" }];
+        const reqs = [{ who: "Ana", from: DEVL_XP.iso(new Date(Date.now() + 3 * 864e5)), to: DEVL_XP.iso(new Date(Date.now() + 5 * 864e5)), type: "Vacaciones", days: 3, state: "Aprobada" }];
         const bizDays = (a, b) => {
           let n = 0;
           for (let d = new Date(a + "T00:00"); d <= new Date(b + "T00:00"); d.setDate(d.getDate() + 1)) if (d.getDay() % 6) n++;
@@ -986,30 +986,30 @@
         from.value = DEVL_XP.iso(new Date(Date.now() + 7 * 864e5));
         to.value = DEVL_XP.iso(new Date(Date.now() + 9 * 864e5));
         const render = () => {
-          const mine = reqs.filter((r) => r.who === "You");
-          ctx.$("[data-bal]").textContent = `${balance - mine.filter((r) => r.type === "Vacation" && r.state !== "Rejected").reduce((s, r) => s + r.days, 0)} days`;
-          ctx.$("[data-pend]").textContent = String(mine.filter((r) => r.state === "Pending").length);
-          ctx.$("[data-days]").textContent = from.value && to.value && from.value <= to.value ? `${bizDays(from.value, to.value)} business days` : "";
-          ctx.$("[data-list]").innerHTML = reqs.map((r, i) => `<li><span class="dv-avatar dv-avatar--sm">${r.who[0]}</span><div style="flex:1"><div class="dv-list__title">${r.who} · ${r.type}</div><div class="dv-list__desc">${r.from} → ${r.to} · ${r.days} days</div></div><span class="dv-badge dv-badge--${r.state === "Approved" ? "success" : r.state === "Pending" ? "warning" : "danger"}">${r.state}</span>${r.who === "You" && r.state === "Pending" ? `<button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-cancel="${i}">Cancel</button>` : ""}</li>`).join("");
-          const people = ["You", "Ana", "Leo", "Sara"];
+          const mine = reqs.filter((r) => r.who === "Tú");
+          ctx.$("[data-bal]").textContent = `${balance - mine.filter((r) => r.type === "Vacaciones" && r.state !== "Rechazada").reduce((s, r) => s + r.days, 0)} días`;
+          ctx.$("[data-pend]").textContent = String(mine.filter((r) => r.state === "Pendiente").length);
+          ctx.$("[data-days]").textContent = from.value && to.value && from.value <= to.value ? `${bizDays(from.value, to.value)} días hábiles` : "";
+          ctx.$("[data-list]").innerHTML = reqs.map((r, i) => `<li><span class="dv-avatar dv-avatar--sm">${r.who[0]}</span><div style="flex:1"><div class="dv-list__title">${r.who} · ${r.type}</div><div class="dv-list__desc">${r.from} → ${r.to} · ${r.days} días</div></div><span class="dv-badge dv-badge--${r.state === "Aprobada" ? "success" : r.state === "Pendiente" ? "warning" : "danger"}">${r.state}</span>${r.who === "Tú" && r.state === "Pendiente" ? `<button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-cancel="${i}">Cancelar</button>` : ""}</li>`).join("");
+          const people = ["Tú", "Ana", "Leo", "Sara"];
           ctx.$("[data-strip]").innerHTML = people.map((p) => `<div class="dv-row" style="flex-wrap:nowrap;--gap:3px"><span style="width:44px;font-size:11px">${p}</span>${Array.from({ length: 14 }, (_, k) => {
             const d = new Date(Date.now() + k * 864e5);
             const day = DEVL_XP.iso(d);
-            const off = reqs.some((r) => r.who === p && r.state !== "Rejected" && day >= r.from && day <= r.to);
+            const off = reqs.some((r) => r.who === p && r.state !== "Rechazada" && day >= r.from && day <= r.to);
             return `<span title="${day}" style="flex:1;height:14px;border-radius:3px;background:${off ? "var(--dv-warning)" : d.getDay() % 6 ? "var(--dv-surface-strong)" : "transparent"}"></span>`;
           }).join("")}</div>`).join("");
         };
         ctx.on(ctx.$("[data-form]"), "input", render);
         ctx.on(ctx.$("[data-form]"), "submit", (e) => {
           e.preventDefault();
-          if (from.value > to.value) return ctx.toast({ title: "End date must be after start", variant: "warning" });
+          if (from.value > to.value) return ctx.toast({ title: "La fecha de fin debe ser posterior al inicio", variant: "warning" });
           const days = bizDays(from.value, to.value);
-          if (!days) return ctx.toast({ title: "That range has no business days", variant: "warning" });
-          const req = { who: "You", from: from.value, to: to.value, type: ctx.$("[data-type]").value, days, state: "Pending" };
+          if (!days) return ctx.toast({ title: "Ese rango no tiene días hábiles", variant: "warning" });
+          const req = { who: "Tú", from: from.value, to: to.value, type: ctx.$("[data-type]").value, days, state: "Pendiente" };
           reqs.push(req);
           ctx.timeout(2500, () => {
-            req.state = "Approved";
-            ctx.toast({ title: "Time off approved 🌴", description: `${req.from} → ${req.to}` });
+            req.state = "Aprobada";
+            ctx.toast({ title: "Días libres aprobados 🌴", description: `${req.from} → ${req.to}` });
             render();
           });
           render();
@@ -1026,24 +1026,25 @@
   });
 
   // ==========================================================================
-  // PROFILE
+  // PERFIL
   // ==========================================================================
-  const team = [["Ana López", "Design", "Design lead", "online"], ["Leo Kim", "Engineering", "Staff engineer", "busy"], ["Sara Ruiz", "Product", "PM", "away"], ["Tom Weber", "Engineering", "Frontend", "online"], ["Mia Chen", "Design", "Brand designer", "offline"], ["Noah Patel", "Engineering", "SRE", "online"], ["Lucía Gómez", "Marketing", "Growth", "away"], ["Omar Haddad", "Product", "Designer-PM", "online"], ["Eva Novak", "Marketing", "Content", "offline"], ["Kai Tanaka", "Engineering", "Backend", "busy"]];
+  const team = [["Ana López", "Diseño", "Líder de diseño", "online"], ["Leo Kim", "Ingeniería", "Ingeniero staff", "busy"], ["Sara Ruiz", "Producto", "PM", "away"], ["Tom Weber", "Ingeniería", "Frontend", "online"], ["Mia Chen", "Diseño", "Diseñadora de marca", "offline"], ["Noah Patel", "Ingeniería", "SRE", "online"], ["Lucía Gómez", "Marketing", "Growth", "away"], ["Omar Haddad", "Producto", "Diseñador-PM", "online"], ["Eva Novak", "Marketing", "Contenido", "offline"], ["Kai Tanaka", "Ingeniería", "Backend", "busy"]];
+  const statusEs = { online: "en línea", busy: "ocupado", away: "ausente", offline: "desconectado" };
   const initials = (n) => n.split(" ").map((w) => w[0]).join("").slice(0, 2);
 
   X.addMany("profile", {
     hero: {
       html: `
-        ${head("Profile · hero.tsx", "Profile hero", "Banner, avatar and tabs. Follow toggles; “Edit bio” makes it editable in place.")}
+        ${head("Perfil · hero.tsx", "Portada de perfil", "Banner, avatar y pestañas. Seguir se alterna; “Editar bio” la vuelve editable en el mismo lugar.")}
         <div class="dv-card"><div style="height:140px;background:radial-gradient(circle at 20% 30%,var(--xp-accent),transparent 50%),radial-gradient(circle at 80% 60%,var(--dv-info),transparent 50%),var(--dv-bg-elevated)"></div>
           <div class="dv-card__body dv-stack" style="margin-top:-56px">
-            <div class="dv-row" style="align-items:flex-end"><span class="dv-avatar" data-status="online" style="--_s:96px;box-shadow:0 0 0 4px var(--dv-bg-elevated)">LI</span><span class="dv-spacer"></span><button type="button" class="dv-btn" data-edit>Edit bio</button><button type="button" class="dv-btn dv-btn--primary" data-follow aria-pressed="false">Follow</button></div>
-            <div><h3 class="xp-title" style="margin:0">Luis Islas</h3><span class="dv-muted">@luis · CDMX · <span data-f>842</span> followers</span></div>
-            <p data-bio style="max-width:620px;line-height:1.6">Building calm, zero-dependency interfaces. Currently: devl-ui.</p>
-            <dv-tabs><div class="dv-tabs__list"><button class="dv-tabs__tab" data-tab="o">Overview</button><button class="dv-tabs__tab" data-tab="p">Projects</button><button class="dv-tabs__tab" data-tab="a">Activity</button></div>
-              <div class="dv-tabs__panel" data-panel="o"><div class="dv-grid" style="--min:150px"><div class="dv-stat"><span class="dv-eyebrow">Projects</span><span class="dv-stat__value">12</span></div><div class="dv-stat"><span class="dv-eyebrow">Stars</span><span class="dv-stat__value">3.4k</span></div><div class="dv-stat"><span class="dv-eyebrow">Streak</span><span class="dv-stat__value">41d</span></div></div></div>
+            <div class="dv-row" style="align-items:flex-end"><span class="dv-avatar" data-status="online" style="--_s:96px;box-shadow:0 0 0 4px var(--dv-bg-elevated)">LI</span><span class="dv-spacer"></span><button type="button" class="dv-btn" data-edit>Editar bio</button><button type="button" class="dv-btn dv-btn--primary" data-follow aria-pressed="false">Seguir</button></div>
+            <div><h3 class="xp-title" style="margin:0">Luis Islas</h3><span class="dv-muted">@luis · CDMX · <span data-f>842</span> seguidores</span></div>
+            <p data-bio style="max-width:620px;line-height:1.6">Construyo interfaces tranquilas y sin dependencias. Ahora mismo: devl-ui.</p>
+            <dv-tabs><div class="dv-tabs__list"><button class="dv-tabs__tab" data-tab="o">Resumen</button><button class="dv-tabs__tab" data-tab="p">Proyectos</button><button class="dv-tabs__tab" data-tab="a">Actividad</button></div>
+              <div class="dv-tabs__panel" data-panel="o"><div class="dv-grid" style="--min:150px"><div class="dv-stat"><span class="dv-eyebrow">Proyectos</span><span class="dv-stat__value">12</span></div><div class="dv-stat"><span class="dv-eyebrow">Estrellas</span><span class="dv-stat__value">3.4k</span></div><div class="dv-stat"><span class="dv-eyebrow">Racha</span><span class="dv-stat__value">41d</span></div></div></div>
               <div class="dv-tabs__panel" data-panel="p"><ul class="dv-list"><li>devl-ui <span class="dv-list__end dv-badge">★ 2.1k</span></li><li>devl-scratchpad <span class="dv-list__end dv-badge">★ 1.3k</span></li></ul></div>
-              <div class="dv-tabs__panel" data-panel="a"><ol class="dv-timeline"><li>Merged #482<div class="dv-timeline__meta">2h ago</div></li><li>Released v1.3.0<div class="dv-timeline__meta">1d ago</div></li></ol></div>
+              <div class="dv-tabs__panel" data-panel="a"><ol class="dv-timeline"><li>Hizo merge de #482<div class="dv-timeline__meta">hace 2 h</div></li><li>Lanzó v1.3.0<div class="dv-timeline__meta">hace 1 d</div></li></ol></div>
             </dv-tabs>
           </div></div>`,
       setup(root, ctx) {
@@ -1051,7 +1052,7 @@
         ctx.on(ctx.$("[data-follow]"), "click", (e) => {
           const on = e.target.getAttribute("aria-pressed") !== "true";
           e.target.setAttribute("aria-pressed", String(on));
-          e.target.textContent = on ? "Following" : "Follow";
+          e.target.textContent = on ? "Siguiendo" : "Seguir";
           e.target.className = `dv-btn ${on ? "" : "dv-btn--primary"}`;
           ctx.$("[data-f]").textContent = String((f += on ? 1 : -1));
         });
@@ -1060,8 +1061,8 @@
           const editing = bio.isContentEditable;
           bio.contentEditable = String(!editing);
           bio.className = editing ? "" : "xp-editor";
-          e.target.textContent = editing ? "Edit bio" : "Save bio";
-          if (editing) ctx.toast({ title: "Bio saved" });
+          e.target.textContent = editing ? "Editar bio" : "Guardar bio";
+          if (editing) ctx.toast({ title: "Bio guardada" });
           else bio.focus();
         });
       }
@@ -1069,9 +1070,9 @@
 
     "hover-card": {
       html: `
-        ${head("Profile · hover-card.tsx", "Hover card", "Hover (or focus) a mention: after a short delay a card appears with mutuals and a quick follow button.")}
+        ${head("Perfil · hover-card.tsx", "Tarjeta al pasar el cursor", "Pasa el cursor (o enfoca) una mención: tras una breve espera aparece una tarjeta con conexiones en común y un botón rápido de seguir.")}
         <div class="xp-panel xp-rel" style="line-height:2;font-size:14px" data-text>
-          Thanks to ${team.slice(0, 4).map((p, i) => `<button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-p="${i}" style="color:var(--xp-accent);padding:0 4px;height:auto">@${p[0].split(" ")[0].toLowerCase()}</button>`).join(", ")} for reviewing the new gallery.
+          Gracias a ${team.slice(0, 4).map((p, i) => `<button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-p="${i}" style="color:var(--xp-accent);padding:0 4px;height:auto">@${p[0].split(" ")[0].toLowerCase()}</button>`).join(", ")} por revisar la nueva galería.
           <div class="dv-card" data-card hidden style="position:absolute;z-index:5;width:280px;box-shadow:var(--dv-shadow-lg);background:var(--dv-bg-elevated)"><div class="dv-card__body dv-stack" style="--gap:8px;line-height:1.5;font-size:12px"></div></div>
         </div>`,
       setup(root, ctx) {
@@ -1083,7 +1084,7 @@
         const show = (btn) => {
           const [name, dept, role, status] = team[btn.dataset.p];
           const body = card.firstElementChild;
-          body.innerHTML = `<div class="dv-row"><span class="dv-avatar" data-status="${status}">${initials(name)}</span><div><strong></strong><div class="dv-muted"></div></div></div><div class="dv-muted">${3 + Number(btn.dataset.p) * 4} mutual connections</div><button type="button" class="dv-btn dv-btn--sm ${following.has(name) ? "" : "dv-btn--primary"}" data-follow>${following.has(name) ? "Following" : "Follow"}</button>`;
+          body.innerHTML = `<div class="dv-row"><span class="dv-avatar" data-status="${status}">${initials(name)}</span><div><strong></strong><div class="dv-muted"></div></div></div><div class="dv-muted">${3 + Number(btn.dataset.p) * 4} conexiones en común</div><button type="button" class="dv-btn dv-btn--sm ${following.has(name) ? "" : "dv-btn--primary"}" data-follow>${following.has(name) ? "Siguiendo" : "Seguir"}</button>`;
           body.querySelector("strong").textContent = name;
           body.querySelector(".dv-muted").textContent = `${role} · ${dept}`;
           body.querySelector("[data-follow]").addEventListener("click", () => {
@@ -1118,21 +1119,21 @@
 
     "team-grid": {
       html: `
-        ${head("Profile · team-grid.tsx", "Team grid", "Filter by department or name; click a person to open their details in a drawer.")}
-        <div class="dv-row"><input class="dv-input xp-search" data-q placeholder="Search people…" aria-label="Search" /><div class="dv-row" style="--gap:6px" data-deps></div></div>
+        ${head("Perfil · team-grid.tsx", "Cuadrícula del equipo", "Filtra por departamento o nombre; haz clic en una persona para abrir sus detalles en un panel lateral.")}
+        <div class="dv-row"><input class="dv-input xp-search" data-q placeholder="Buscar personas…" aria-label="Buscar" /><div class="dv-row" style="--gap:6px" data-deps></div></div>
         <div class="dv-grid" style="--min:180px" data-grid></div>
-        <dialog class="dv-dialog dv-dialog--drawer" id="tg-drawer"><button type="button" class="dv-btn dv-btn--subtle dv-btn--icon dv-btn--sm dv-dialog__close" data-dv-close aria-label="Close">✕</button><div class="dv-dialog__body dv-stack" data-detail style="padding-top:28px"></div></dialog>`,
+        <dialog class="dv-dialog dv-dialog--drawer" id="tg-drawer"><button type="button" class="dv-btn dv-btn--subtle dv-btn--icon dv-btn--sm dv-dialog__close" data-dv-close aria-label="Cerrar">✕</button><div class="dv-dialog__body dv-stack" data-detail style="padding-top:28px"></div></dialog>`,
       setup(root, ctx) {
-        const deps = ["All", ...new Set(team.map((t) => t[1]))];
-        let dep = "All";
-        ctx.$("[data-deps]").innerHTML = deps.map((d) => `<button type="button" class="dv-chip" data-d="${d}" aria-pressed="${d === "All"}">${d}</button>`).join("");
+        const deps = ["Todos", ...new Set(team.map((t) => t[1]))];
+        let dep = "Todos";
+        ctx.$("[data-deps]").innerHTML = deps.map((d) => `<button type="button" class="dv-chip" data-d="${d}" aria-pressed="${d === "Todos"}">${d}</button>`).join("");
         const render = () => {
           const q = ctx.$("[data-q]").value.toLowerCase();
           ctx.$("[data-grid]").innerHTML = team
             .map((p, i) => [p, i])
-            .filter(([p]) => (dep === "All" || p[1] === dep) && p[0].toLowerCase().includes(q))
+            .filter(([p]) => (dep === "Todos" || p[1] === dep) && p[0].toLowerCase().includes(q))
             .map(([p, i]) => `<button type="button" class="dv-card dv-card--interactive" data-i="${i}" style="padding:18px;text-align:center;color:inherit;font:inherit;cursor:pointer"><span class="dv-avatar dv-avatar--lg" data-status="${p[3]}" style="margin:0 auto">${initials(p[0])}</span><div style="margin-top:10px"><strong>${p[0]}</strong></div><div class="dv-muted" style="font-size:11px">${p[2]}</div><span class="dv-badge" style="margin-top:8px">${p[1]}</span></button>`)
-            .join("") || '<div class="dv-empty"><div class="dv-empty__title">No one matches</div></div>';
+            .join("") || '<div class="dv-empty"><div class="dv-empty__title">Nadie coincide</div></div>';
         };
         ctx.on(ctx.$("[data-deps]"), "click", (e) => {
           const b = e.target.closest("[data-d]");
@@ -1146,7 +1147,7 @@
           const c = e.target.closest("[data-i]");
           if (!c) return;
           const [name, d, role, status] = team[c.dataset.i];
-          ctx.$("[data-detail]").innerHTML = `<span class="dv-avatar" data-status="${status}" style="--_s:72px">${initials(name)}</span><h3 class="xp-title" style="margin:0">${name}</h3><span class="dv-muted">${role} · ${d}</span><dl class="xp-kv"><dt>Email</dt><dd>${name.split(" ")[0].toLowerCase()}@acme.dev</dd><dt>Status</dt><dd>${status}</dd><dt>Local time</dt><dd>${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</dd></dl><div class="dv-row"><button type="button" class="dv-btn dv-btn--primary dv-btn--sm" data-dv-close>Message</button><button type="button" class="dv-btn dv-btn--sm" data-dv-close>Close</button></div>`;
+          ctx.$("[data-detail]").innerHTML = `<span class="dv-avatar" data-status="${status}" style="--_s:72px">${initials(name)}</span><h3 class="xp-title" style="margin:0">${name}</h3><span class="dv-muted">${role} · ${d}</span><dl class="xp-kv"><dt>Correo</dt><dd>${name.split(" ")[0].toLowerCase()}@acme.dev</dd><dt>Estado</dt><dd>${statusEs[status]}</dd><dt>Hora local</dt><dd>${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</dd></dl><div class="dv-row"><button type="button" class="dv-btn dv-btn--primary dv-btn--sm" data-dv-close>Mensaje</button><button type="button" class="dv-btn dv-btn--sm" data-dv-close>Cerrar</button></div>`;
           ctx.$("#tg-drawer").showModal();
         });
         render();
@@ -1155,10 +1156,10 @@
 
     directory: {
       html: `
-        ${head("Profile · directory.tsx", "Contact directory", "Alphabetical list with a letter index, search and favourites; select a contact to see details.")}
+        ${head("Perfil · directory.tsx", "Directorio de contactos", "Lista alfabética con índice de letras, búsqueda y favoritos; selecciona un contacto para ver sus detalles.")}
         <div class="xp-split" style="--cols:320px minmax(0,1fr)">
-          <div class="xp-pane dv-stack" style="--gap:8px"><input class="dv-input" data-q placeholder="Search contacts…" aria-label="Search" /><div class="dv-row" style="--gap:2px" data-letters></div><div class="xp-scroll" style="--max:360px" data-list></div></div>
-          <div class="xp-pane" data-detail><div class="dv-empty"><div class="dv-empty__title">Select a contact</div></div></div>
+          <div class="xp-pane dv-stack" style="--gap:8px"><input class="dv-input" data-q placeholder="Buscar contactos…" aria-label="Buscar" /><div class="dv-row" style="--gap:2px" data-letters></div><div class="xp-scroll" style="--max:360px" data-list></div></div>
+          <div class="xp-pane" data-detail><div class="dv-empty"><div class="dv-empty__title">Selecciona un contacto</div></div></div>
         </div>`,
       setup(root, ctx) {
         const people = team.map((t) => t[0]).concat(["Ben Carter", "Iris Moreau", "Zoe Adams", "Hugo Silva", "Pablo Ortiz"]).sort((a, b) => a.split(" ")[1].localeCompare(b.split(" ")[1]));
@@ -1169,7 +1170,7 @@
           const rows = people.filter((p) => p.toLowerCase().includes(q));
           const letters = [...new Set(rows.map((p) => p.split(" ")[1][0]))];
           ctx.$("[data-letters]").innerHTML = letters.map((l) => `<button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-l="${l}" style="padding:0 6px">${l}</button>`).join("");
-          ctx.$("[data-list]").innerHTML = letters.map((l) => `<div class="dv-eyebrow" id="dir-${l}" style="margin:10px 0 4px">${l}</div><ul class="dv-list">${rows.filter((p) => p.split(" ")[1][0] === l).map((p) => `<li class="xp-select-item" data-p="${p}" aria-selected="${p === sel}"><span class="dv-avatar dv-avatar--sm">${initials(p)}</span><span style="flex:1">${p}</span><button type="button" class="dv-btn dv-btn--icon dv-btn--sm dv-btn--subtle" data-fav="${p}" aria-label="Favourite" aria-pressed="${favs.has(p)}">${favs.has(p) ? "★" : "☆"}</button></li>`).join("")}</ul>`).join("") || '<p class="dv-muted">No contacts.</p>';
+          ctx.$("[data-list]").innerHTML = letters.map((l) => `<div class="dv-eyebrow" id="dir-${l}" style="margin:10px 0 4px">${l}</div><ul class="dv-list">${rows.filter((p) => p.split(" ")[1][0] === l).map((p) => `<li class="xp-select-item" data-p="${p}" aria-selected="${p === sel}"><span class="dv-avatar dv-avatar--sm">${initials(p)}</span><span style="flex:1">${p}</span><button type="button" class="dv-btn dv-btn--icon dv-btn--sm dv-btn--subtle" data-fav="${p}" aria-label="Favorito" aria-pressed="${favs.has(p)}">${favs.has(p) ? "★" : "☆"}</button></li>`).join("")}</ul>`).join("") || '<p class="dv-muted">Sin contactos.</p>';
         };
         ctx.on(ctx.$("[data-q]"), "input", render);
         ctx.on(ctx.$("[data-letters]"), "click", (e) => {
@@ -1185,8 +1186,8 @@
           const li = e.target.closest("[data-p]");
           if (!li) return;
           sel = li.dataset.p;
-          const info = team.find((t) => t[0] === sel) || [sel, "External", "Partner", "offline"];
-          ctx.$("[data-detail]").innerHTML = `<div class="dv-stack"><span class="dv-avatar dv-avatar--lg" data-status="${info[3]}">${initials(sel)}</span><h3 class="xp-title" style="margin:0">${sel}${favs.has(sel) ? " ★" : ""}</h3><span class="dv-muted">${info[2]} · ${info[1]}</span><dl class="xp-kv"><dt>Email</dt><dd>${sel.split(" ")[0].toLowerCase()}@acme.dev</dd><dt>Phone</dt><dd>+52 55 ${String(sel.length * 731).padStart(4, "0")} 1200</dd></dl><div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-dv-copy="${sel.split(" ")[0].toLowerCase()}@acme.dev">Copy email</button></div></div>`;
+          const info = team.find((t) => t[0] === sel) || [sel, "Externo", "Socio", "offline"];
+          ctx.$("[data-detail]").innerHTML = `<div class="dv-stack"><span class="dv-avatar dv-avatar--lg" data-status="${info[3]}">${initials(sel)}</span><h3 class="xp-title" style="margin:0">${sel}${favs.has(sel) ? " ★" : ""}</h3><span class="dv-muted">${info[2]} · ${info[1]}</span><dl class="xp-kv"><dt>Correo</dt><dd>${sel.split(" ")[0].toLowerCase()}@acme.dev</dd><dt>Teléfono</dt><dd>+52 55 ${String(sel.length * 731).padStart(4, "0")} 1200</dd></dl><div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-dv-copy="${sel.split(" ")[0].toLowerCase()}@acme.dev">Copiar correo</button></div></div>`;
           render();
         });
         render();
@@ -1195,14 +1196,14 @@
 
     "compact-card": {
       html: `
-        ${head("Profile · compact-card.tsx", "Compact user card", "Set your status from the menu and add a custom message with an emoji and an auto-clear time.")}
+        ${head("Perfil · compact-card.tsx", "Tarjeta compacta de usuario", "Define tu estado desde el menú y añade un mensaje personalizado con un emoji y un tiempo de borrado automático.")}
         <div class="xp-center" style="min-height:0"><div class="dv-card" style="width:min(360px,100%)"><div class="dv-card__body dv-stack">
-          <div class="dv-row"><span class="dv-avatar" data-avatar data-status="online">LI</span><div style="flex:1"><strong>Luis Islas</strong><div class="dv-muted" style="font-size:11px" data-msg>No status message</div></div>
-            <dv-menu align="end" data-menu><button type="button" class="dv-btn dv-btn--sm" data-dv-trigger><span data-label>Online</span> ▾</button><div class="dv-menu__list"><button type="button" class="dv-menu__item" data-value="online"><span class="dv-dot dv-dot--success"></span> Online</button><button type="button" class="dv-menu__item" data-value="away"><span class="dv-dot dv-dot--warning"></span> Away</button><button type="button" class="dv-menu__item" data-value="busy"><span class="dv-dot dv-dot--danger"></span> Do not disturb</button><button type="button" class="dv-menu__item" data-value="offline"><span class="dv-dot"></span> Invisible</button></div></dv-menu></div>
-          <form class="dv-row" data-form style="flex-wrap:nowrap"><select class="dv-select" style="width:64px" data-emoji aria-label="Emoji"><option>💬</option><option>🌴</option><option>🎧</option><option>🍕</option><option>🤒</option></select><input class="dv-input" data-text placeholder="What's your status?" maxlength="40" aria-label="Status message" /><select class="dv-select" style="width:auto" data-clear aria-label="Clear after"><option value="0">Don't clear</option><option value="10">10 s</option><option value="60">1 min</option></select><button type="submit" class="dv-btn dv-btn--sm">Set</button></form>
+          <div class="dv-row"><span class="dv-avatar" data-avatar data-status="online">LI</span><div style="flex:1"><strong>Luis Islas</strong><div class="dv-muted" style="font-size:11px" data-msg>Sin mensaje de estado</div></div>
+            <dv-menu align="end" data-menu><button type="button" class="dv-btn dv-btn--sm" data-dv-trigger><span data-label>En línea</span> ▾</button><div class="dv-menu__list"><button type="button" class="dv-menu__item" data-value="online"><span class="dv-dot dv-dot--success"></span> En línea</button><button type="button" class="dv-menu__item" data-value="away"><span class="dv-dot dv-dot--warning"></span> Ausente</button><button type="button" class="dv-menu__item" data-value="busy"><span class="dv-dot dv-dot--danger"></span> No molestar</button><button type="button" class="dv-menu__item" data-value="offline"><span class="dv-dot"></span> Invisible</button></div></dv-menu></div>
+          <form class="dv-row" data-form style="flex-wrap:nowrap"><select class="dv-select" style="width:64px" data-emoji aria-label="Emoji"><option>💬</option><option>🌴</option><option>🎧</option><option>🍕</option><option>🤒</option></select><input class="dv-input" data-text placeholder="¿Cuál es tu estado?" maxlength="40" aria-label="Mensaje de estado" /><select class="dv-select" style="width:auto" data-clear aria-label="Borrar después de"><option value="0">No borrar</option><option value="10">10 s</option><option value="60">1 min</option></select><button type="submit" class="dv-btn dv-btn--sm">Definir</button></form>
         </div></div></div>`,
       setup(root, ctx) {
-        const labels = { online: "Online", away: "Away", busy: "Do not disturb", offline: "Invisible" };
+        const labels = { online: "En línea", away: "Ausente", busy: "No molestar", offline: "Invisible" };
         let clearTimer = 0;
         ctx.on(ctx.$("[data-menu]"), "dv-select", (e) => {
           ctx.$("[data-avatar]").dataset.status = e.detail.value;
@@ -1211,10 +1212,10 @@
         ctx.on(ctx.$("[data-form]"), "submit", (e) => {
           e.preventDefault();
           const text = ctx.$("[data-text]").value.trim();
-          ctx.$("[data-msg]").textContent = text ? `${ctx.$("[data-emoji]").value} ${text}` : "No status message";
+          ctx.$("[data-msg]").textContent = text ? `${ctx.$("[data-emoji]").value} ${text}` : "Sin mensaje de estado";
           clearTimeout(clearTimer);
           const secs = Number(ctx.$("[data-clear]").value);
-          if (secs && text) clearTimer = setTimeout(() => (ctx.$("[data-msg]").textContent = "No status message"), secs * 1000);
+          if (secs && text) clearTimer = setTimeout(() => (ctx.$("[data-msg]").textContent = "Sin mensaje de estado"), secs * 1000);
         });
         ctx.onCleanup(() => clearTimeout(clearTimer));
       }
@@ -1222,11 +1223,11 @@
 
     "org-chart": {
       html: `
-        ${head("Profile · org-chart.tsx", "Org chart", "Collapsible reporting tree with report counts. Search highlights a person and expands their chain of command.")}
-        <input class="dv-input xp-search" data-q placeholder="Find someone…" aria-label="Find someone" />
+        ${head("Perfil · org-chart.tsx", "Organigrama", "Árbol jerárquico plegable con conteo de reportes directos. La búsqueda resalta a una persona y expande su cadena de mando.")}
+        <input class="dv-input xp-search" data-q placeholder="Buscar a alguien…" aria-label="Buscar a alguien" />
         <div class="xp-panel" data-tree style="overflow:auto"></div>`,
       setup(root, ctx) {
-        const org = ["Luis Islas · CEO", [["Ana López · Design lead", [["Mia Chen · Brand", []], ["Omar Haddad · Product design", []]]], ["Leo Kim · CTO", [["Tom Weber · Frontend", []], ["Noah Patel · SRE", []], ["Kai Tanaka · Backend", []]]], ["Sara Ruiz · Head of Product", [["Lucía Gómez · Growth", [["Eva Novak · Content", []]]]]]]];
+        const org = ["Luis Islas · CEO", [["Ana López · Líder de diseño", [["Mia Chen · Marca", []], ["Omar Haddad · Diseño de producto", []]]], ["Leo Kim · CTO", [["Tom Weber · Frontend", []], ["Noah Patel · SRE", []], ["Kai Tanaka · Backend", []]]], ["Sara Ruiz · Directora de Producto", [["Lucía Gómez · Growth", [["Eva Novak · Contenido", []]]]]]]];
         const count = ([, kids]) => kids.reduce((s, k) => s + 1 + count(k), 0);
         const node = (n, q) => {
           const [label, kids] = n;
@@ -1244,13 +1245,13 @@
 
     skills: {
       html: `
-        ${head("Profile · skills.tsx", "Skills matrix", "Radar chart driven by the sliders; overlay the team average to compare.")}
+        ${head("Perfil · skills.tsx", "Matriz de habilidades", "Gráfico de radar controlado por los deslizadores; superpón el promedio del equipo para comparar.")}
         <div class="dv-grid" style="--min:300px;align-items:center">
           <svg viewBox="-130 -130 260 260" style="max-width:340px;margin:0 auto" data-radar></svg>
-          <div class="dv-stack" data-sliders><label class="dv-choice"><input type="checkbox" role="switch" class="dv-switch" data-team /> Show team average</label></div>
+          <div class="dv-stack" data-sliders><label class="dv-choice"><input type="checkbox" role="switch" class="dv-switch" data-team /> Mostrar promedio del equipo</label></div>
         </div>`,
       setup(root, ctx) {
-        const skills = [["Design", 8], ["Frontend", 9], ["Backend", 5], ["Writing", 7], ["Leadership", 6], ["Data", 4]];
+        const skills = [["Diseño", 8], ["Frontend", 9], ["Backend", 5], ["Redacción", 7], ["Liderazgo", 6], ["Datos", 4]];
         const avg = [6, 7, 7, 5, 6, 6];
         ctx.$("[data-sliders]").insertAdjacentHTML("afterbegin", skills.map(([s, v], i) => `<label class="dv-row" style="flex-wrap:nowrap"><span style="width:90px">${s}</span><input type="range" class="dv-range" min="0" max="10" value="${v}" data-i="${i}" aria-label="${s}" /><strong class="xp-mono" data-v="${i}">${v}</strong></label>`).join(""));
         const pt = (i, v) => {
@@ -1280,25 +1281,25 @@
 
     "presence-rail": {
       html: `
-        ${head("Profile · presence-rail.tsx", "Presence rail", "Who's online and in which voice room. Join or leave rooms, mute yourself and watch speaking indicators pulse.")}
+        ${head("Perfil · presence-rail.tsx", "Barra de presencia", "Quién está en línea y en qué sala de voz. Entra o sal de las salas, silénciate y mira pulsar los indicadores de quien habla.")}
         <div class="xp-split" style="--cols:260px minmax(0,1fr)">
-          <aside class="xp-pane dv-stack" style="--gap:6px"><span class="dv-eyebrow">Online · <span data-online></span></span><div data-people class="dv-stack" style="--gap:4px"></div></aside>
+          <aside class="xp-pane dv-stack" style="--gap:6px"><span class="dv-eyebrow">En línea · <span data-online></span></span><div data-people class="dv-stack" style="--gap:4px"></div></aside>
           <div class="xp-pane dv-stack" data-rooms></div>
         </div>`,
       setup(root, ctx) {
-        const rooms = { "Design huddle": ["Ana López", "Mia Chen"], "Eng standup": ["Leo Kim", "Noah Patel", "Tom Weber"], Lounge: [] };
+        const rooms = { "Sala de diseño": ["Ana López", "Mia Chen"], "Standup de ingeniería": ["Leo Kim", "Noah Patel", "Tom Weber"], "Sala de descanso": [] };
         let me = null;
         let muted = false;
         let speaking = new Set();
         const render = () => {
           const online = team.filter((t) => t[3] !== "offline");
           ctx.$("[data-online]").textContent = String(online.length + 1);
-          ctx.$("[data-people]").innerHTML = [["Luis Islas (you)", "", "", "online"]].concat(online).map(([n, , , s]) => `<div class="dv-row" style="--gap:8px"><span class="dv-avatar dv-avatar--sm" data-status="${s}">${initials(n)}</span><span style="font-size:12px">${n}</span></div>`).join("");
+          ctx.$("[data-people]").innerHTML = [["Luis Islas (tú)", "", "", "online"]].concat(online).map(([n, , , s]) => `<div class="dv-row" style="--gap:8px"><span class="dv-avatar dv-avatar--sm" data-status="${s}">${initials(n)}</span><span style="font-size:12px">${n}</span></div>`).join("");
           ctx.$("[data-rooms]").innerHTML = Object.entries(rooms)
             .map(([room, ppl]) => {
               const inside = me === room;
               const list = inside ? ppl.concat("Luis Islas") : ppl;
-              return `<div class="dv-card dv-card--flat" style="${inside ? "border-color:var(--xp-accent)" : ""}"><div class="dv-card__body dv-stack" style="--gap:8px;padding:14px"><div class="dv-row"><strong>🔊 ${room}</strong><span class="dv-muted">${list.length}</span><span class="dv-spacer"></span>${inside ? `<button type="button" class="dv-btn dv-btn--sm" data-mute>${muted ? "🔇 Unmute" : "🎙 Mute"}</button><button type="button" class="dv-btn dv-btn--sm dv-btn--danger" data-leave>Leave</button>` : `<button type="button" class="dv-btn dv-btn--sm" data-join="${room}">Join</button>`}</div><div class="dv-row">${list.map((p) => `<span class="dv-avatar dv-avatar--sm" style="${speaking.has(p) ? "box-shadow:0 0 0 2px var(--dv-success)" : ""}" title="${p}">${initials(p)}</span>`).join("") || '<span class="dv-muted">Empty — be the first</span>'}</div></div></div>`;
+              return `<div class="dv-card dv-card--flat" style="${inside ? "border-color:var(--xp-accent)" : ""}"><div class="dv-card__body dv-stack" style="--gap:8px;padding:14px"><div class="dv-row"><strong>🔊 ${room}</strong><span class="dv-muted">${list.length}</span><span class="dv-spacer"></span>${inside ? `<button type="button" class="dv-btn dv-btn--sm" data-mute>${muted ? "🔇 Activar micrófono" : "🎙 Silenciar"}</button><button type="button" class="dv-btn dv-btn--sm dv-btn--danger" data-leave>Salir</button>` : `<button type="button" class="dv-btn dv-btn--sm" data-join="${room}">Entrar</button>`}</div><div class="dv-row">${list.map((p) => `<span class="dv-avatar dv-avatar--sm" style="${speaking.has(p) ? "box-shadow:0 0 0 2px var(--dv-success)" : ""}" title="${p}">${initials(p)}</span>`).join("") || '<span class="dv-muted">Vacía: sé el primero</span>'}</div></div></div>`;
             })
             .join("");
         };
@@ -1321,16 +1322,16 @@
 
     introductions: {
       html: `
-        ${head("Profile · introductions.tsx", "Suggested intros", "Connect sends a request (pending → connected); skip pulls in the next suggestion.")}
-        <div class="dv-row"><span class="dv-badge dv-badge--accent" data-count>0 connections</span></div>
+        ${head("Perfil · introductions.tsx", "Presentaciones sugeridas", "Conectar envía una solicitud (pendiente → conectado); omitir trae la siguiente sugerencia.")}
+        <div class="dv-row"><span class="dv-badge dv-badge--accent" data-count>0 conexiones</span></div>
         <div class="dv-grid" style="--min:220px" data-grid></div>`,
       setup(root, ctx) {
         const pool = team.slice().reverse().map((t, i) => ({ name: t[0], role: t[2], mutual: 2 + ((i * 3) % 9), state: "new" }));
         let shown = pool.splice(0, 3);
         let connected = 0;
         const render = () => {
-          ctx.$("[data-count]").textContent = `${connected} connections`;
-          ctx.$("[data-grid]").innerHTML = shown.map((p, i) => `<div class="dv-card dv-card--flat"><div class="dv-card__body dv-stack" style="align-items:center;text-align:center"><span class="dv-avatar dv-avatar--lg">${initials(p.name)}</span><strong>${p.name}</strong><span class="dv-muted" style="font-size:11px">${p.role} · ${p.mutual} mutual</span><div class="dv-row">${p.state === "new" ? `<button type="button" class="dv-btn dv-btn--sm dv-btn--primary" data-c="${i}">Connect</button><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-s="${i}">Skip</button>` : p.state === "pending" ? '<span class="dv-badge dv-badge--warning">Pending…</span>' : '<span class="dv-badge dv-badge--success">✓ Connected</span>'}</div></div></div>`).join("") || '<div class="dv-empty"><div class="dv-empty__title">No more suggestions</div></div>';
+          ctx.$("[data-count]").textContent = `${connected} conexiones`;
+          ctx.$("[data-grid]").innerHTML = shown.map((p, i) => `<div class="dv-card dv-card--flat"><div class="dv-card__body dv-stack" style="align-items:center;text-align:center"><span class="dv-avatar dv-avatar--lg">${initials(p.name)}</span><strong>${p.name}</strong><span class="dv-muted" style="font-size:11px">${p.role} · ${p.mutual} en común</span><div class="dv-row">${p.state === "new" ? `<button type="button" class="dv-btn dv-btn--sm dv-btn--primary" data-c="${i}">Conectar</button><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-s="${i}">Omitir</button>` : p.state === "pending" ? '<span class="dv-badge dv-badge--warning">Pendiente…</span>' : '<span class="dv-badge dv-badge--success">✓ Conectado</span>'}</div></div></div>`).join("") || '<div class="dv-empty"><div class="dv-empty__title">No hay más sugerencias</div></div>';
         };
         ctx.on(ctx.$("[data-grid]"), "click", (e) => {
           const c = e.target.closest("[data-c]");
@@ -1356,12 +1357,12 @@
 
     credentials: {
       html: `
-        ${head("Profile · credentials.tsx", "Security credentials", "Add SSH public keys: the format is validated and a real SHA-256 fingerprint is computed in the browser.")}
+        ${head("Perfil · credentials.tsx", "Credenciales de seguridad", "Añade claves públicas SSH: se valida el formato y se calcula en el navegador una huella SHA-256 real.")}
         <ul class="dv-list" data-list></ul>
-        <form class="xp-panel dv-stack" data-form novalidate><label class="dv-field"><span class="dv-label">Title</span><input class="dv-input" data-title-in placeholder="Work laptop" /></label><label class="dv-field"><span class="dv-label">Public key</span><textarea class="dv-textarea xp-mono" data-key placeholder="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA… you@host" style="font-size:11.5px"></textarea></label><span class="dv-error" data-err></span><button type="submit" class="dv-btn dv-btn--primary" style="align-self:flex-start">Add SSH key</button></form>`,
+        <form class="xp-panel dv-stack" data-form novalidate><label class="dv-field"><span class="dv-label">Título</span><input class="dv-input" data-title-in placeholder="Laptop del trabajo" /></label><label class="dv-field"><span class="dv-label">Clave pública</span><textarea class="dv-textarea xp-mono" data-key placeholder="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA… tu@host" style="font-size:11.5px"></textarea></label><span class="dv-error" data-err></span><button type="submit" class="dv-btn dv-btn--primary" style="align-self:flex-start">Añadir clave SSH</button></form>`,
       setup(root, ctx) {
         const keys = [{ title: "MacBook Pro", type: "ED25519", fp: "SHA256:3Fq8o0vC1y6m1rGqk3c9lJxW0yZ2tq7e7mR9pLk4d2A", added: "2026-08-12" }];
-        const render = () => (ctx.$("[data-list]").innerHTML = keys.map((k, i) => `<li><span style="font-size:20px">🔑</span><div style="flex:1;min-width:0"><div class="dv-list__title">${esc(k.title)} <span class="dv-badge">${k.type}</span></div><div class="dv-list__desc xp-mono" style="overflow:hidden;text-overflow:ellipsis">${k.fp}</div><div class="dv-list__desc">Added ${k.added}</div></div><button type="button" class="dv-btn dv-btn--sm dv-btn--danger" data-rm="${i}">Delete</button></li>`).join("") || '<li class="dv-muted">No keys.</li>');
+        const render = () => (ctx.$("[data-list]").innerHTML = keys.map((k, i) => `<li><span style="font-size:20px">🔑</span><div style="flex:1;min-width:0"><div class="dv-list__title">${esc(k.title)} <span class="dv-badge">${k.type}</span></div><div class="dv-list__desc xp-mono" style="overflow:hidden;text-overflow:ellipsis">${k.fp}</div><div class="dv-list__desc">Añadida el ${k.added}</div></div><button type="button" class="dv-btn dv-btn--sm dv-btn--danger" data-rm="${i}">Eliminar</button></li>`).join("") || '<li class="dv-muted">Sin claves.</li>');
         ctx.on(ctx.$("[data-list]"), "click", (e) => {
           const b = e.target.closest("[data-rm]");
           if (!b) return;
@@ -1374,13 +1375,13 @@
           const m = /^(ssh-ed25519|ssh-rsa|ecdsa-sha2-nistp256)\s+([A-Za-z0-9+/]+={0,2})(\s+.*)?$/.exec(raw);
           let err = "";
           let bytes = null;
-          if (!m) err = "Expected “ssh-ed25519 | ssh-rsa | ecdsa-sha2-nistp256 <base64> [comment]”.";
+          if (!m) err = "Se esperaba “ssh-ed25519 | ssh-rsa | ecdsa-sha2-nistp256 <base64> [comentario]”.";
           else {
             try {
               bytes = Uint8Array.from(atob(m[2]), (c) => c.charCodeAt(0));
-              if (bytes.length < 32) err = "Key material is too short.";
+              if (bytes.length < 32) err = "El material de la clave es demasiado corto.";
             } catch (_) {
-              err = "Key body is not valid base64.";
+              err = "El cuerpo de la clave no es base64 válido.";
             }
           }
           ctx.$("[data-err]").textContent = err;
@@ -1391,11 +1392,11 @@
             const digest = await crypto.subtle.digest("SHA-256", bytes);
             fp = `SHA256:${btoa(String.fromCharCode(...new Uint8Array(digest))).replace(/=+$/, "")}`;
           } catch (_) {
-            fp = "SHA256:(needs https or localhost)";
+            fp = "SHA256:(requiere https o localhost)";
           }
-          keys.push({ title: ctx.$("[data-title-in]").value || (m[3] || "").trim() || "Untitled key", type: { "ssh-ed25519": "ED25519", "ssh-rsa": "RSA", "ecdsa-sha2-nistp256": "ECDSA" }[m[1]], fp, added: DEVL_XP.iso(new Date()) });
+          keys.push({ title: ctx.$("[data-title-in]").value || (m[3] || "").trim() || "Clave sin título", type: { "ssh-ed25519": "ED25519", "ssh-rsa": "RSA", "ecdsa-sha2-nistp256": "ECDSA" }[m[1]], fp, added: DEVL_XP.iso(new Date()) });
           e.target.reset();
-          ctx.toast({ title: "SSH key added", description: fp.slice(0, 24) + "…" });
+          ctx.toast({ title: "Clave SSH añadida", description: fp.slice(0, 24) + "…" });
           render();
         });
         render();
@@ -1404,21 +1405,21 @@
   });
 
   // ==========================================================================
-  // THREADS & COMMENTS
+  // HILOS Y COMENTARIOS
   // ==========================================================================
   X.addMany("threads", {
     "inline-thread": {
       html: `
-        ${head("Threads · inline-thread.tsx", "Inline thread", "Nested replies to any depth, collapsible branches and live reply counts.")}
+        ${head("Hilos · inline-thread.tsx", "Hilo en línea", "Respuestas anidadas a cualquier profundidad, ramas plegables y conteo de respuestas en vivo.")}
         <div class="dv-stack" data-root style="max-width:720px;width:100%"></div>
-        <form class="dv-row" data-new style="max-width:720px;width:100%;flex-wrap:nowrap"><input class="dv-input" placeholder="Start a new thread…" required aria-label="New comment" /><button type="submit" class="dv-btn dv-btn--primary">Comment</button></form>`,
+        <form class="dv-row" data-new style="max-width:720px;width:100%;flex-wrap:nowrap"><input class="dv-input" placeholder="Inicia un hilo nuevo…" required aria-label="Comentario nuevo" /><button type="submit" class="dv-btn dv-btn--primary">Comentar</button></form>`,
       setup(root, ctx) {
         let id = 0;
         const make = (who, text, replies = []) => ({ id: ++id, who, text, replies, open: true });
-        const data = [make("Ana", "Should the gallery default to dark mode?", [make("Leo", "Yes — it matches the docs.", [make("Ana", "Agreed, shipping it.")]), make("Sara", "Let's respect the OS setting too.")])];
+        const data = [make("Ana", "¿La galería debería usar el modo oscuro por defecto?", [make("Leo", "Sí, coincide con la documentación.", [make("Ana", "De acuerdo, lo publicamos.")]), make("Sara", "Respetemos también la configuración del sistema.")])];
         const count = (c) => c.replies.reduce((s, r) => s + 1 + count(r), 0);
         const find = (list, n) => list.reduce((f, c) => f || (c.id === n ? c : find(c.replies, n)), null);
-        const node = (c, depth) => `<div style="margin-left:${depth ? 18 : 0}px;${depth ? "border-left:1px solid var(--dv-border-strong);padding-left:12px" : ""}"><div class="dv-row" style="--gap:8px;padding:6px 0"><span class="dv-avatar dv-avatar--sm">${c.who[0]}</span><strong>${esc(c.who)}</strong><span style="flex:1">${esc(c.text)}</span><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-reply="${c.id}">Reply</button>${c.replies.length ? `<button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-toggle="${c.id}">${c.open ? "Hide" : `Show ${count(c)}`}</button>` : ""}</div><form class="dv-row" data-form="${c.id}" hidden style="flex-wrap:nowrap;margin:4px 0 8px 32px"><input class="dv-input" placeholder="Reply to ${esc(c.who)}…" required aria-label="Reply" /><button type="submit" class="dv-btn dv-btn--sm">Reply</button></form>${c.open ? c.replies.map((r) => node(r, depth + 1)).join("") : ""}</div>`;
+        const node = (c, depth) => `<div style="margin-left:${depth ? 18 : 0}px;${depth ? "border-left:1px solid var(--dv-border-strong);padding-left:12px" : ""}"><div class="dv-row" style="--gap:8px;padding:6px 0"><span class="dv-avatar dv-avatar--sm">${c.who[0]}</span><strong>${esc(c.who)}</strong><span style="flex:1">${esc(c.text)}</span><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-reply="${c.id}">Responder</button>${c.replies.length ? `<button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-toggle="${c.id}">${c.open ? "Ocultar" : `Mostrar ${count(c)}`}</button>` : ""}</div><form class="dv-row" data-form="${c.id}" hidden style="flex-wrap:nowrap;margin:4px 0 8px 32px"><input class="dv-input" placeholder="Responder a ${esc(c.who)}…" required aria-label="Respuesta" /><button type="submit" class="dv-btn dv-btn--sm">Responder</button></form>${c.open ? c.replies.map((r) => node(r, depth + 1)).join("") : ""}</div>`;
         const render = () => (ctx.$("[data-root]").innerHTML = data.map((c) => `<div class="xp-panel" style="padding:10px 14px">${node(c, 0)}</div>`).join(""));
         ctx.on(ctx.$("[data-root]"), "click", (e) => {
           const r = e.target.closest("[data-reply]");
@@ -1437,13 +1438,13 @@
         ctx.on(ctx.$("[data-root]"), "submit", (e) => {
           e.preventDefault();
           const c = find(data, Number(e.target.dataset.form));
-          c.replies.push(make("You", e.target.querySelector("input").value));
+          c.replies.push(make("Tú", e.target.querySelector("input").value));
           c.open = true;
           render();
         });
         ctx.on(ctx.$("[data-new]"), "submit", (e) => {
           e.preventDefault();
-          data.push(make("You", e.target.querySelector("input").value));
+          data.push(make("Tú", e.target.querySelector("input").value));
           e.target.reset();
           render();
         });
@@ -1453,11 +1454,11 @@
 
     "side-panel": {
       html: `
-        ${head("Threads · side-panel.tsx", "Side panel comments", "Select text in the document and click “Comment” to anchor a note. Clicking a highlight focuses its comment and vice versa.")}
+        ${head("Hilos · side-panel.tsx", "Comentarios en panel lateral", "Selecciona texto en el documento y haz clic en “Comentar” para anclar una nota. Al hacer clic en un resaltado se enfoca su comentario y viceversa.")}
         <div class="xp-split" style="--cols:minmax(0,1fr) 300px">
-          <div class="xp-pane xp-rel"><button type="button" class="dv-btn dv-btn--sm dv-btn--primary" data-add hidden style="position:absolute;z-index:3">💬 Comment</button><article data-doc style="line-height:1.9;font-size:14px;max-width:620px">
-            <p>devl-ui is a <mark class="xp-mark" data-c="1">zero-dependency</mark> component library. Every component is plain HTML, CSS tokens and a light layer of custom elements.</p>
-            <p>The gallery now renders functional experiments instead of static previews, and each one exposes its real source in the code drawer.</p>
+          <div class="xp-pane xp-rel"><button type="button" class="dv-btn dv-btn--sm dv-btn--primary" data-add hidden style="position:absolute;z-index:3">💬 Comentar</button><article data-doc style="line-height:1.9;font-size:14px;max-width:620px">
+            <p>devl-ui es una biblioteca de componentes <mark class="xp-mark" data-c="1">sin dependencias</mark>. Cada componente es HTML puro, tokens de CSS y una capa ligera de elementos personalizados.</p>
+            <p>La galería ahora muestra experimentos funcionales en lugar de vistas previas estáticas, y cada uno expone su código fuente real en el panel de código.</p>
           </article></div>
           <aside class="xp-pane dv-stack" data-side></aside>
         </div>`,
@@ -1465,11 +1466,11 @@
         const doc = ctx.$("[data-doc]");
         const add = ctx.$("[data-add]");
         let n = 1;
-        const comments = { 1: { who: "Ana", text: "Let's say “no runtime dependencies” to be precise." } };
+        const comments = { 1: { who: "Ana", text: "Digamos “sin dependencias en tiempo de ejecución” para ser precisos." } };
         let active = null;
         let range = null;
         const render = () => {
-          ctx.$("[data-side]").innerHTML = Object.entries(comments).map(([id, c]) => `<div class="dv-card dv-card--flat" data-cid="${id}" style="padding:12px;cursor:pointer;${Number(id) === active ? "border-color:var(--xp-accent)" : ""}"><div class="dv-row" style="--gap:6px"><span class="dv-avatar dv-avatar--sm">${c.who[0]}</span><strong>${esc(c.who)}</strong><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-resolve="${id}">Resolve</button></div><p style="margin-top:6px;font-size:12px">${esc(c.text)}</p></div>`).join("") || '<p class="dv-muted">No comments. Select text to add one.</p>';
+          ctx.$("[data-side]").innerHTML = Object.entries(comments).map(([id, c]) => `<div class="dv-card dv-card--flat" data-cid="${id}" style="padding:12px;cursor:pointer;${Number(id) === active ? "border-color:var(--xp-accent)" : ""}"><div class="dv-row" style="--gap:6px"><span class="dv-avatar dv-avatar--sm">${c.who[0]}</span><strong>${esc(c.who)}</strong><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-resolve="${id}">Resolver</button></div><p style="margin-top:6px;font-size:12px">${esc(c.text)}</p></div>`).join("") || '<p class="dv-muted">Sin comentarios. Selecciona texto para añadir uno.</p>';
           ctx.$$("[data-doc] mark").forEach((m) => (m.style.outline = Number(m.dataset.c) === active ? "2px solid var(--xp-accent)" : ""));
         };
         ctx.on(document, "selectionchange", () => {
@@ -1492,9 +1493,9 @@
           try {
             range.surroundContents(mark);
           } catch (_) {
-            return ctx.toast({ title: "Select text within one paragraph", variant: "warning" });
+            return ctx.toast({ title: "Selecciona texto dentro de un solo párrafo", variant: "warning" });
           }
-          comments[id] = { who: "You", text: `Comment on “${mark.textContent.slice(0, 40)}”` };
+          comments[id] = { who: "Tú", text: `Comentario sobre “${mark.textContent.slice(0, 40)}”` };
           active = id;
           add.hidden = true;
           document.getSelection().removeAllRanges();
@@ -1527,14 +1528,14 @@
 
     "comment-row": {
       html: `
-        ${head("Threads · comment-row.tsx", "Comment row", "Toggle reactions (counts update), add new ones from the picker, edit in place or delete with undo.")}
+        ${head("Hilos · comment-row.tsx", "Fila de comentario", "Alterna reacciones (los conteos se actualizan), añade nuevas desde el selector, edita en el mismo lugar o elimina con opción de deshacer.")}
         <div data-list class="dv-stack" style="max-width:640px;width:100%"></div>`,
       setup(root, ctx) {
         const picker = ["👍", "🎉", "❤️", "🚀", "👀", "😂"];
-        let comments = [{ who: "Ana", at: "2h", text: "The new **gallery** feels so much faster.", reacts: { "👍": [3, false], "🚀": [1, true] }, editing: false }, { who: "Leo", at: "1h", text: "Agreed. Let's ship this week.", reacts: { "🎉": [2, false] }, editing: false }];
+        let comments = [{ who: "Ana", at: "hace 2 h", text: "La nueva **galería** se siente mucho más rápida.", reacts: { "👍": [3, false], "🚀": [1, true] }, editing: false }, { who: "Leo", at: "hace 1 h", text: "De acuerdo. Publiquémosla esta semana.", reacts: { "🎉": [2, false] }, editing: false }];
         const render = () => {
           ctx.$("[data-list]").innerHTML = comments
-            .map((c, i) => `<div class="xp-panel dv-stack" style="--gap:8px;padding:12px 14px"><div class="dv-row" style="--gap:8px"><span class="dv-avatar dv-avatar--sm">${c.who[0]}</span><strong>${c.who}</strong><span class="dv-muted">${c.at} ago</span><span class="dv-spacer"></span>${c.who === "You" || i < 2 ? `<button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-edit="${i}">${c.editing ? "Cancel" : "Edit"}</button><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-del="${i}">Delete</button>` : ""}</div>${c.editing ? `<form class="dv-stack" data-save="${i}"><textarea class="dv-textarea" style="min-height:60px">${esc(c.text)}</textarea><button type="submit" class="dv-btn dv-btn--sm dv-btn--primary" style="align-self:flex-start">Save</button></form>` : `<p data-text style="line-height:1.6"></p>`}<div class="dv-row" style="--gap:4px">${Object.entries(c.reacts).filter(([, [n]]) => n > 0).map(([e, [n, mine]]) => `<button type="button" class="dv-chip" data-r="${i}" data-e="${e}" aria-pressed="${mine}">${e} ${n}</button>`).join("")}<dv-menu><button type="button" class="dv-chip" data-dv-trigger aria-label="Add reaction">＋☺</button><div class="dv-menu__list" style="min-width:0;display:flex;gap:2px">${picker.map((e) => `<button type="button" class="dv-menu__item" data-value="${e}" style="width:auto">${e}</button>`).join("")}</div></dv-menu></div></div>`)
+            .map((c, i) => `<div class="xp-panel dv-stack" style="--gap:8px;padding:12px 14px"><div class="dv-row" style="--gap:8px"><span class="dv-avatar dv-avatar--sm">${c.who[0]}</span><strong>${c.who}</strong><span class="dv-muted">${c.at}</span><span class="dv-spacer"></span>${c.who === "Tú" || i < 2 ? `<button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-edit="${i}">${c.editing ? "Cancelar" : "Editar"}</button><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-del="${i}">Eliminar</button>` : ""}</div>${c.editing ? `<form class="dv-stack" data-save="${i}"><textarea class="dv-textarea" style="min-height:60px">${esc(c.text)}</textarea><button type="submit" class="dv-btn dv-btn--sm dv-btn--primary" style="align-self:flex-start">Guardar</button></form>` : `<p data-text style="line-height:1.6"></p>`}<div class="dv-row" style="--gap:4px">${Object.entries(c.reacts).filter(([, [n]]) => n > 0).map(([e, [n, mine]]) => `<button type="button" class="dv-chip" data-r="${i}" data-e="${e}" aria-pressed="${mine}">${e} ${n}</button>`).join("")}<dv-menu><button type="button" class="dv-chip" data-dv-trigger aria-label="Añadir reacción">＋☺</button><div class="dv-menu__list" style="min-width:0;display:flex;gap:2px">${picker.map((e) => `<button type="button" class="dv-menu__item" data-value="${e}" style="width:auto">${e}</button>`).join("")}</div></dv-menu></div></div>`)
             .join("");
           ctx.$$("[data-text]").forEach((p, i) => {
             const c = comments.filter((x) => !x.editing)[i];
@@ -1562,7 +1563,7 @@
             const i = Number(d.dataset.del);
             const removed = comments.splice(i, 1)[0];
             render();
-            ctx.toast({ title: "Comment deleted", variant: "neutral", action: { label: "Undo", onClick: () => (comments.splice(i, 0, removed), render()) } });
+            ctx.toast({ title: "Comentario eliminado", variant: "neutral", action: { label: "Deshacer", onClick: () => (comments.splice(i, 0, removed), render()) } });
           }
         });
         ctx.on(ctx.$("[data-list]"), "submit", (e) => {
@@ -1570,7 +1571,7 @@
           const c = comments[e.target.dataset.save];
           c.text = e.target.querySelector("textarea").value;
           c.editing = false;
-          c.at = "just now —";
+          c.at = "editado ahora";
           render();
         });
         render();
@@ -1579,12 +1580,12 @@
 
     "mention-popover": {
       html: `
-        ${head("Threads · mention-popover.tsx", "@mention popover", "Type @ followed by a name: arrow keys move, Enter or Tab inserts. Mentioned people are listed below.")}
+        ${head("Hilos · mention-popover.tsx", "Popover de @menciones", "Escribe @ seguido de un nombre: las flechas se mueven, Enter o Tab insertan. Las personas mencionadas se listan abajo.")}
         <div class="xp-rel" style="max-width:640px;width:100%">
-          <textarea class="dv-textarea" data-text placeholder="Write a comment and @mention someone…" style="min-height:120px" aria-label="Comment"></textarea>
+          <textarea class="dv-textarea" data-text placeholder="Escribe un comentario y @menciona a alguien…" style="min-height:120px" aria-label="Comentario"></textarea>
           <div class="dv-menu__list" data-pop hidden style="top:auto;left:12px"></div>
         </div>
-        <div class="dv-row" data-mentioned><span class="dv-muted">No mentions yet.</span></div>`,
+        <div class="dv-row" data-mentioned><span class="dv-muted">Aún no hay menciones.</span></div>`,
       setup(root, ctx) {
         const ta = ctx.$("[data-text]");
         const pop = ctx.$("[data-pop]");
@@ -1618,7 +1619,7 @@
         };
         const sync = () => {
           const found = [...new Set((ta.value.match(/@(\w+)/g) || []).map((s) => s.slice(1)))].map((h) => users.find((u) => u.handle === h)).filter(Boolean);
-          ctx.$("[data-mentioned]").innerHTML = found.length ? found.map((u) => `<span class="dv-chip" style="color:var(--dv-fg)"><span class="dv-avatar dv-avatar--sm" style="--_s:18px">${initials(u.name)}</span> ${u.name}</span>`).join("") : '<span class="dv-muted">No mentions yet.</span>';
+          ctx.$("[data-mentioned]").innerHTML = found.length ? found.map((u) => `<span class="dv-chip" style="color:var(--dv-fg)"><span class="dv-avatar dv-avatar--sm" style="--_s:18px">${initials(u.name)}</span> ${u.name}</span>`).join("") : '<span class="dv-muted">Aún no hay menciones.</span>';
         };
         ctx.on(ta, "input", () => ((sel = 0), update(), sync()));
         ctx.on(ta, "click", update);
@@ -1647,22 +1648,22 @@
 
     resolved: {
       html: `
-        ${head("Threads · resolved.tsx", "Resolved thread", "Resolve collapses a thread into a one-line summary; reopen restores it. Toggle whether resolved threads are shown.")}
-        <div class="dv-row"><label class="dv-choice">Show resolved <input type="checkbox" role="switch" class="dv-switch" data-show checked /></label><span class="dv-badge" data-count></span></div>
+        ${head("Hilos · resolved.tsx", "Hilo resuelto", "Resolver colapsa un hilo en un resumen de una línea; reabrir lo restaura. Activa o desactiva la vista de hilos resueltos.")}
+        <div class="dv-row"><label class="dv-choice">Mostrar resueltos <input type="checkbox" role="switch" class="dv-switch" data-show checked /></label><span class="dv-badge" data-count></span></div>
         <div class="dv-stack" data-list style="max-width:700px;width:100%"></div>`,
       setup(root, ctx) {
         const threads = [
-          { title: "Button radius on mobile", msgs: [["Ana", "Should we go 10px?"], ["Leo", "9px matches tokens."], ["Ana", "OK, 9px it is."]], resolved: false },
-          { title: "Toast position", msgs: [["Sara", "Bottom-right?"], ["Tom", "Yes, consistent with OS."]], resolved: true },
-          { title: "Empty state copy", msgs: [["Mia", "“All caught up” feels friendlier."]], resolved: false }
+          { title: "Radio de los botones en móvil", msgs: [["Ana", "¿Usamos 10px?"], ["Leo", "9px coincide con los tokens."], ["Ana", "Listo, 9px."]], resolved: false },
+          { title: "Posición del toast", msgs: [["Sara", "¿Abajo a la derecha?"], ["Tom", "Sí, igual que en el sistema operativo."]], resolved: true },
+          { title: "Texto del estado vacío", msgs: [["Mia", "“Todo al día” se siente más amigable."]], resolved: false }
         ];
         const render = () => {
           const show = ctx.$("[data-show]").checked;
-          ctx.$("[data-count]").textContent = `${threads.filter((t) => !t.resolved).length} open · ${threads.filter((t) => t.resolved).length} resolved`;
+          ctx.$("[data-count]").textContent = `${threads.filter((t) => !t.resolved).length} abiertos · ${threads.filter((t) => t.resolved).length} resueltos`;
           ctx.$("[data-list]").innerHTML = threads
             .map((t, i) => (t.resolved && !show ? "" : t.resolved
-              ? `<div class="xp-panel dv-row" style="padding:10px 14px;opacity:.75"><span style="color:var(--dv-success)">✓</span><span style="flex:1"><strong>${esc(t.title)}</strong> <span class="dv-muted">· resolved · ${t.msgs.length} messages · last: “${esc(t.msgs[t.msgs.length - 1][1])}”</span></span><button type="button" class="dv-btn dv-btn--sm" data-reopen="${i}">Reopen</button></div>`
-              : `<div class="xp-panel dv-stack" style="--gap:8px"><div class="dv-row"><strong>${esc(t.title)}</strong><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm dv-btn--primary" data-resolve="${i}">✓ Resolve</button></div>${t.msgs.map(([w, m]) => `<div class="dv-row" style="--gap:8px"><span class="dv-avatar dv-avatar--sm">${w[0]}</span><strong style="font-size:12px">${w}</strong><span style="font-size:12px">${esc(m)}</span></div>`).join("")}<form class="dv-row" data-reply="${i}" style="flex-wrap:nowrap"><input class="dv-input" placeholder="Reply…" required aria-label="Reply" /><button type="submit" class="dv-btn dv-btn--sm">Send</button></form></div>`))
+              ? `<div class="xp-panel dv-row" style="padding:10px 14px;opacity:.75"><span style="color:var(--dv-success)">✓</span><span style="flex:1"><strong>${esc(t.title)}</strong> <span class="dv-muted">· resuelto · ${t.msgs.length} mensajes · último: “${esc(t.msgs[t.msgs.length - 1][1])}”</span></span><button type="button" class="dv-btn dv-btn--sm" data-reopen="${i}">Reabrir</button></div>`
+              : `<div class="xp-panel dv-stack" style="--gap:8px"><div class="dv-row"><strong>${esc(t.title)}</strong><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm dv-btn--primary" data-resolve="${i}">✓ Resolver</button></div>${t.msgs.map(([w, m]) => `<div class="dv-row" style="--gap:8px"><span class="dv-avatar dv-avatar--sm">${w[0]}</span><strong style="font-size:12px">${w}</strong><span style="font-size:12px">${esc(m)}</span></div>`).join("")}<form class="dv-row" data-reply="${i}" style="flex-wrap:nowrap"><input class="dv-input" placeholder="Responder…" required aria-label="Respuesta" /><button type="submit" class="dv-btn dv-btn--sm">Enviar</button></form></div>`))
             .join("");
         };
         ctx.on(ctx.$("[data-list]"), "click", (e) => {
@@ -1674,7 +1675,7 @@
         });
         ctx.on(ctx.$("[data-list]"), "submit", (e) => {
           e.preventDefault();
-          threads[e.target.dataset.reply].msgs.push(["You", e.target.querySelector("input").value]);
+          threads[e.target.dataset.reply].msgs.push(["Tú", e.target.querySelector("input").value]);
           render();
         });
         ctx.on(ctx.$("[data-show]"), "change", render);
@@ -1684,13 +1685,13 @@
 
     "compose-rich": {
       html: `
-        ${head("Threads · compose-rich.tsx", "Rich composer", "Markdown toolbar wraps your selection; the Preview tab renders it safely. ⌘/Ctrl+Enter posts.")}
+        ${head("Hilos · compose-rich.tsx", "Compositor enriquecido", "La barra de Markdown envuelve tu selección; la pestaña Vista previa la renderiza de forma segura. ⌘/Ctrl+Enter publica.")}
         <div class="dv-card" style="max-width:720px;width:100%">
           <div class="dv-card__body dv-stack">
-            <div class="dv-row" style="--gap:2px">${[["b", "B", "**", "**"], ["i", "I", "_", "_"], ["c", "</>", "`", "`"], ["l", "🔗", "[", "](https://)"], ["q", "❝", "> ", ""], ["u", "• List", "- ", ""]].map(([k, l]) => `<button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-fmt="${k}">${esc(l)}</button>`).join("")}<span class="dv-spacer"></span><dv-segmented value="write" data-mode><button class="dv-segmented__item" value="write">Write</button><button class="dv-segmented__item" value="preview">Preview</button></dv-segmented></div>
-            <textarea class="dv-textarea" data-text style="min-height:150px" aria-label="Message">**Release notes** for _v1.3_:\n- Functional gallery\n- \`dv-sparkline\` fix\n> Zero dependencies, as always.</textarea>
+            <div class="dv-row" style="--gap:2px">${[["b", "B", "**", "**"], ["i", "I", "_", "_"], ["c", "</>", "`", "`"], ["l", "🔗", "[", "](https://)"], ["q", "❝", "> ", ""], ["u", "• Lista", "- ", ""]].map(([k, l]) => `<button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-fmt="${k}">${esc(l)}</button>`).join("")}<span class="dv-spacer"></span><dv-segmented value="write" data-mode><button class="dv-segmented__item" value="write">Escribir</button><button class="dv-segmented__item" value="preview">Vista previa</button></dv-segmented></div>
+            <textarea class="dv-textarea" data-text style="min-height:150px" aria-label="Mensaje">**Notas de versión** de _v1.3_:\n- Galería funcional\n- Corrección de \`dv-sparkline\`\n> Cero dependencias, como siempre.</textarea>
             <div data-preview hidden class="xp-panel" style="min-height:150px;line-height:1.7"></div>
-            <div class="dv-row"><span class="dv-muted xp-mono" data-count></span><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--primary" data-post>Post</button></div>
+            <div class="dv-row"><span class="dv-muted xp-mono" data-count></span><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--primary" data-post>Publicar</button></div>
           </div>
         </div>
         <div class="dv-stack" data-posts style="max-width:720px;width:100%"></div>`,
@@ -1711,7 +1712,7 @@
               return `<div>${l || "&nbsp;"}</div>`;
             })
             .join("");
-        const count = () => (ctx.$("[data-count]").textContent = `${ta.value.length} chars`);
+        const count = () => (ctx.$("[data-count]").textContent = `${ta.value.length} caracteres`);
         ctx.on(ctx.$(".dv-card"), "click", (e) => {
           const b = e.target.closest("[data-fmt]");
           if (!b) return;
@@ -1719,9 +1720,9 @@
           const { selectionStart: s, selectionEnd: en, value } = ta;
           const lineStart = value.lastIndexOf("\n", s - 1) + 1;
           if (!post) ta.value = value.slice(0, lineStart) + pre + value.slice(lineStart);
-          else ta.value = value.slice(0, s) + pre + (value.slice(s, en) || "text") + post + value.slice(en);
+          else ta.value = value.slice(0, s) + pre + (value.slice(s, en) || "texto") + post + value.slice(en);
           ta.focus();
-          ta.setSelectionRange(s + pre.length, (en === s ? s + 4 : en) + pre.length);
+          ta.setSelectionRange(s + pre.length, (en === s ? s + 5 : en) + pre.length);
           count();
         });
         ctx.on(ctx.$("[data-mode]"), "dv-change", (e) => {
@@ -1732,7 +1733,7 @@
         });
         const post = () => {
           if (!ta.value.trim()) return;
-          ctx.$("[data-posts]").insertAdjacentHTML("afterbegin", `<div class="xp-panel"><div class="dv-row" style="--gap:8px;margin-bottom:6px"><span class="dv-avatar dv-avatar--sm">LI</span><strong>You</strong><span class="dv-muted">just now</span></div><div style="line-height:1.7">${md(ta.value)}</div></div>`);
+          ctx.$("[data-posts]").insertAdjacentHTML("afterbegin", `<div class="xp-panel"><div class="dv-row" style="--gap:8px;margin-bottom:6px"><span class="dv-avatar dv-avatar--sm">LI</span><strong>Tú</strong><span class="dv-muted">ahora</span></div><div style="line-height:1.7">${md(ta.value)}</div></div>`);
           ta.value = "";
           count();
         };
@@ -1745,32 +1746,32 @@
   });
 
   // ==========================================================================
-  // TOURS & COACHMARKS
+  // TOURS Y COACHMARKS
   // ==========================================================================
   const mockApp = `
     <div class="xp-panel xp-rel" data-app style="padding:0;overflow:hidden;min-height:340px">
-      <div class="dv-row" style="padding:10px 14px;border-bottom:1px solid var(--dv-border)"><strong data-t="logo">◆ Acme</strong><input class="dv-input" style="max-width:220px" placeholder="Search…" data-t="search" aria-label="Search" /><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm dv-btn--primary" data-t="new">+ New</button><span class="dv-avatar dv-avatar--sm" data-t="avatar">LI</span></div>
-      <div class="dv-row" style="align-items:stretch;--gap:0;min-height:290px"><nav class="dv-nav" style="width:180px;padding:10px;border-right:1px solid var(--dv-border)" data-t="nav"><span class="dv-nav__item" aria-current="page">Home</span><span class="dv-nav__item">Projects</span><span class="dv-nav__item">Reports</span></nav><div style="flex:1;padding:16px" class="dv-grid"><div class="dv-stat" data-t="stat"><span class="dv-eyebrow">Revenue</span><span class="dv-stat__value">$48k</span></div><div class="dv-stat"><span class="dv-eyebrow">Users</span><span class="dv-stat__value">1.2k</span></div></div></div>
+      <div class="dv-row" style="padding:10px 14px;border-bottom:1px solid var(--dv-border)"><strong data-t="logo">◆ Acme</strong><input class="dv-input" style="max-width:220px" placeholder="Buscar…" data-t="search" aria-label="Buscar" /><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm dv-btn--primary" data-t="new">+ Nuevo</button><span class="dv-avatar dv-avatar--sm" data-t="avatar">LI</span></div>
+      <div class="dv-row" style="align-items:stretch;--gap:0;min-height:290px"><nav class="dv-nav" style="width:180px;padding:10px;border-right:1px solid var(--dv-border)" data-t="nav"><span class="dv-nav__item" aria-current="page">Inicio</span><span class="dv-nav__item">Proyectos</span><span class="dv-nav__item">Informes</span></nav><div style="flex:1;padding:16px" class="dv-grid"><div class="dv-stat" data-t="stat"><span class="dv-eyebrow">Ingresos</span><span class="dv-stat__value">$48k</span></div><div class="dv-stat"><span class="dv-eyebrow">Usuarios</span><span class="dv-stat__value">1.2k</span></div></div></div>
     </div>`;
 
   X.addMany("tours", {
     "welcome-carousel": {
       html: `
-        ${head("Tours · welcome-carousel.tsx", "Welcome carousel", "What's-new slides with dots, arrows (also ←/→ when focused) and an autoplay toggle that pauses on hover.")}
+        ${head("Tours · welcome-carousel.tsx", "Carrusel de bienvenida", "Diapositivas de novedades con puntos, flechas (también ←/→ con foco) y un interruptor de reproducción automática que se pausa al pasar el cursor.")}
         <div class="dv-card" data-car tabindex="0" style="max-width:560px;width:100%;margin:0 auto;outline:none" aria-roledescription="carousel">
           <div style="overflow:hidden"><div data-track style="display:flex;transition:transform .45s var(--dv-ease)"></div></div>
           <div class="dv-card__footer" style="justify-content:space-between"><button type="button" class="dv-btn dv-btn--sm" data-prev>←</button><div class="dv-row" style="--gap:6px" data-dots></div><button type="button" class="dv-btn dv-btn--sm" data-next>→</button></div>
         </div>
-        <div class="dv-row" style="justify-content:center"><label class="dv-choice">Autoplay <input type="checkbox" role="switch" class="dv-switch" data-auto checked /></label></div>`,
+        <div class="dv-row" style="justify-content:center"><label class="dv-choice">Reproducción automática <input type="checkbox" role="switch" class="dv-switch" data-auto checked /></label></div>`,
       setup(root, ctx) {
-        const slides = [["✦", "Welcome to devl-ui", "43 components, zero dependencies."], ["⚡", "Functional gallery", "Every experiment is real, with copyable source."], ["🎨", "Your tokens", "Change --dv-accent and everything follows."], ["⌘K", "Keyboard first", "Palettes, menus and tabs are fully keyboard driven."]];
+        const slides = [["✦", "Te damos la bienvenida a devl-ui", "43 componentes, cero dependencias."], ["⚡", "Galería funcional", "Cada experimento es real, con código copiable."], ["🎨", "Tus tokens", "Cambia --dv-accent y todo lo demás lo sigue."], ["⌘K", "Teclado primero", "Paletas, menús y pestañas se controlan por completo con el teclado."]];
         let i = 0;
         let hover = false;
         ctx.$("[data-track]").innerHTML = slides.map(([ic, t, d]) => `<div style="flex:0 0 100%;padding:42px 28px;text-align:center"><div style="font-size:42px">${ic}</div><h3 class="xp-title">${t}</h3><p class="dv-muted">${d}</p></div>`).join("");
         const go = (n) => {
           i = (n + slides.length) % slides.length;
           ctx.$("[data-track]").style.transform = `translateX(-${i * 100}%)`;
-          ctx.$("[data-dots]").innerHTML = slides.map((_, k) => `<button type="button" data-d="${k}" aria-label="Slide ${k + 1}" aria-current="${k === i}" style="width:${k === i ? 20 : 8}px;height:8px;border-radius:4px;border:0;background:${k === i ? "var(--xp-accent)" : "var(--dv-border-strong)"};cursor:pointer;transition:width .2s"></button>`).join("");
+          ctx.$("[data-dots]").innerHTML = slides.map((_, k) => `<button type="button" data-d="${k}" aria-label="Diapositiva ${k + 1}" aria-current="${k === i}" style="width:${k === i ? 20 : 8}px;height:8px;border-radius:4px;border:0;background:${k === i ? "var(--xp-accent)" : "var(--dv-border-strong)"};cursor:pointer;transition:width .2s"></button>`).join("");
         };
         ctx.on(ctx.$("[data-prev]"), "click", () => go(i - 1));
         ctx.on(ctx.$("[data-next]"), "click", () => go(i + 1));
@@ -1785,12 +1786,12 @@
 
     spotlight: {
       html: `
-        ${head("Tours · spotlight.tsx", "Spotlight tour", "A dimming mask with a cut-out moves between real UI targets; the step card follows. Esc or Skip ends the tour.")}
-        <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-start>▶ Start tour</button></div>
+        ${head("Tours · spotlight.tsx", "Tour con foco", "Una máscara oscura con un recorte se mueve entre elementos reales de la interfaz y la tarjeta del paso lo sigue. Esc u Omitir termina el tour.")}
+        <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-start>▶ Iniciar tour</button></div>
         ${mockApp}`,
       setup(root, ctx) {
         const app = ctx.$("[data-app]");
-        const steps = [["logo", "Your workspace", "Switch organisations from the logo."], ["search", "Search everything", "Find projects, people and docs instantly."], ["new", "Create", "Start a new project from here."], ["nav", "Navigate", "All sections live in the sidebar."], ["stat", "Your metrics", "Key numbers update in real time."]];
+        const steps = [["logo", "Tu espacio de trabajo", "Cambia de organización desde el logo."], ["search", "Busca en todo", "Encuentra proyectos, personas y documentos al instante."], ["new", "Crear", "Inicia un proyecto nuevo desde aquí."], ["nav", "Navegar", "Todas las secciones están en la barra lateral."], ["stat", "Tus métricas", "Las cifras clave se actualizan en tiempo real."]];
         let i = -1;
         const hole = document.createElement("div");
         hole.style.cssText = "position:absolute;z-index:6;border-radius:10px;box-shadow:0 0 0 9999px rgba(0,0,0,.6);transition:all .35s var(--dv-ease);pointer-events:none";
@@ -1809,7 +1810,7 @@
           const a = app.getBoundingClientRect();
           const r = el.getBoundingClientRect();
           Object.assign(hole.style, { left: `${r.left - a.left - 6}px`, top: `${r.top - a.top - 6}px`, width: `${r.width + 12}px`, height: `${r.height + 12}px` });
-          card.innerHTML = `<div class="dv-card__body dv-stack" style="--gap:6px;padding:14px"><span class="dv-eyebrow">Step ${i + 1} of ${steps.length}</span><strong>${title}</strong><span class="dv-muted" style="font-size:12px">${desc}</span><div class="dv-row"><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-skip>Skip</button><span class="dv-spacer"></span>${i ? '<button type="button" class="dv-btn dv-btn--sm" data-back>Back</button>' : ""}<button type="button" class="dv-btn dv-btn--sm dv-btn--primary" data-go>${i === steps.length - 1 ? "Finish" : "Next"}</button></div></div>`;
+          card.innerHTML = `<div class="dv-card__body dv-stack" style="--gap:6px;padding:14px"><span class="dv-eyebrow">Paso ${i + 1} de ${steps.length}</span><strong>${title}</strong><span class="dv-muted" style="font-size:12px">${desc}</span><div class="dv-row"><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-skip>Omitir</button><span class="dv-spacer"></span>${i ? '<button type="button" class="dv-btn dv-btn--sm" data-back>Atrás</button>' : ""}<button type="button" class="dv-btn dv-btn--sm dv-btn--primary" data-go>${i === steps.length - 1 ? "Finalizar" : "Siguiente"}</button></div></div>`;
           const below = r.bottom - a.top + 14;
           Object.assign(card.style, { left: `${Math.max(8, Math.min(a.width - 270, r.left - a.left))}px`, top: `${below + 170 > a.height ? r.top - a.top - 170 : below}px` });
           app.append(hole, card);
@@ -1819,7 +1820,7 @@
           if (e.target.closest("[data-back]")) i--;
           if (e.target.closest("[data-go]")) {
             i++;
-            if (i >= steps.length) ctx.toast({ title: "Tour complete 🎉" });
+            if (i >= steps.length) ctx.toast({ title: "Tour completado 🎉" });
           }
           show();
         });
@@ -1838,23 +1839,23 @@
 
     "arrow-tooltip": {
       html: `
-        ${head("Tours · arrow-tooltip.tsx", "Arrow tooltip", "Coachmarks with an arrow pointing at their target, shown one at a time. “Got it” moves on; reset brings them back.")}
-        <div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-reset>Reset coachmarks</button><span class="dv-muted" data-left></span></div>
+        ${head("Tours · arrow-tooltip.tsx", "Tooltip con flecha", "Coachmarks con una flecha que apunta a su objetivo, mostrados de uno en uno. “Entendido” avanza; restablecer los trae de vuelta.")}
+        <div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-reset>Restablecer coachmarks</button><span class="dv-muted" data-left></span></div>
         ${mockApp}`,
       setup(root, ctx) {
         const app = ctx.$("[data-app]");
-        const marks = [["new", "Create your first project here."], ["avatar", "Your profile and settings live here."], ["stat", "Click any metric for details."]];
+        const marks = [["new", "Crea tu primer proyecto aquí."], ["avatar", "Tu perfil y configuración están aquí."], ["stat", "Haz clic en cualquier métrica para ver detalles."]];
         let i = 0;
         const tip = document.createElement("div");
         tip.style.cssText = "position:absolute;z-index:6;width:220px;padding:12px;border-radius:10px;background:var(--xp-accent);color:#fff;font-size:12px;box-shadow:var(--dv-shadow-lg)";
         const show = () => {
-          ctx.$("[data-left]").textContent = i < marks.length ? `${marks.length - i} tip${marks.length - i > 1 ? "s" : ""} left` : "All tips seen";
+          ctx.$("[data-left]").textContent = i < marks.length ? `${marks.length - i} ${marks.length - i > 1 ? "consejos restantes" : "consejo restante"}` : "Todos los consejos vistos";
           if (i >= marks.length) return tip.remove();
           const [t, text] = marks[i];
           const el = app.querySelector(`[data-t="${t}"]`);
           const a = app.getBoundingClientRect();
           const r = el.getBoundingClientRect();
-          tip.innerHTML = `<span data-arrow style="position:absolute;top:-6px;width:12px;height:12px;background:var(--xp-accent);transform:rotate(45deg)"></span><div></div><div class="dv-row" style="margin-top:8px"><span style="opacity:.8">${i + 1}/${marks.length}</span><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm" data-ok style="background:#fff;color:#111;border:0">Got it</button></div>`;
+          tip.innerHTML = `<span data-arrow style="position:absolute;top:-6px;width:12px;height:12px;background:var(--xp-accent);transform:rotate(45deg)"></span><div></div><div class="dv-row" style="margin-top:8px"><span style="opacity:.8">${i + 1}/${marks.length}</span><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--sm" data-ok style="background:#fff;color:#111;border:0">Entendido</button></div>`;
           tip.children[1].textContent = text;
           const left = Math.max(8, Math.min(a.width - 228, r.left - a.left + r.width / 2 - 110));
           tip.style.left = `${left}px`;
@@ -1871,12 +1872,12 @@
 
     beacon: {
       html: `
-        ${head("Tours · beacon.tsx", "Beacon hint", "Pulsing hotspots mark new features. Click one to learn about it — seen beacons stop pulsing.")}
-        <div class="dv-row"><span class="dv-badge dv-badge--accent" data-count></span><button type="button" class="dv-btn dv-btn--sm" data-reset>Reset</button></div>
+        ${head("Tours · beacon.tsx", "Indicador de novedad", "Puntos pulsantes marcan funciones nuevas. Haz clic en uno para conocerla; los ya vistos dejan de pulsar.")}
+        <div class="dv-row"><span class="dv-badge dv-badge--accent" data-count></span><button type="button" class="dv-btn dv-btn--sm" data-reset>Restablecer</button></div>
         ${mockApp}`,
       setup(root, ctx) {
         const app = ctx.$("[data-app]");
-        const beacons = [["search", "Search now understands natural language: “invoices last week”."], ["new", "New: start from 20+ templates."], ["stat", "Metrics now support custom ranges."]];
+        const beacons = [["search", "La búsqueda ahora entiende lenguaje natural: “facturas de la semana pasada”."], ["new", "Novedad: empieza con más de 20 plantillas."], ["stat", "Las métricas ahora admiten rangos personalizados."]];
         const seen = new Set();
         const pop = document.createElement("div");
         pop.className = "dv-card";
@@ -1889,12 +1890,12 @@
             const b = document.createElement("button");
             b.type = "button";
             b.dataset.beacon = String(i);
-            b.setAttribute("aria-label", "What's new");
+            b.setAttribute("aria-label", "Novedades");
             b.className = `dv-dot dv-dot--accent${seen.has(i) ? "" : " dv-dot--pulse"}`;
             b.style.cssText = `position:absolute;z-index:5;width:14px;height:14px;border:2px solid var(--dv-bg);cursor:pointer;left:${r.right - a.left - 6}px;top:${r.top - a.top - 6}px;opacity:${seen.has(i) ? 0.45 : 1}`;
             app.appendChild(b);
           });
-          ctx.$("[data-count]").textContent = `${beacons.length - seen.size} new`;
+          ctx.$("[data-count]").textContent = `${beacons.length - seen.size} nuevos`;
         };
         ctx.on(app, "click", (e) => {
           const b = e.target.closest("[data-beacon]");
@@ -1904,7 +1905,7 @@
           }
           const i = Number(b.dataset.beacon);
           seen.add(i);
-          pop.innerHTML = `<div class="dv-card__body dv-stack" style="--gap:6px;padding:12px"><span class="dv-badge dv-badge--accent dv-badge--upper" style="align-self:flex-start">New</span><span style="font-size:12px"></span><button type="button" class="dv-btn dv-btn--sm" style="align-self:flex-end" data-close>Close</button></div>`;
+          pop.innerHTML = `<div class="dv-card__body dv-stack" style="--gap:6px;padding:12px"><span class="dv-badge dv-badge--accent dv-badge--upper" style="align-self:flex-start">Nuevo</span><span style="font-size:12px"></span><button type="button" class="dv-btn dv-btn--sm" style="align-self:flex-end" data-close>Cerrar</button></div>`;
           pop.querySelector("span + span").textContent = beacons[i][1];
           pop.style.left = `${Math.min(app.clientWidth - 250, b.offsetLeft)}px`;
           pop.style.top = `${b.offsetTop + 20}px`;
@@ -1919,12 +1920,12 @@
 
     "inline-hint": {
       html: `
-        ${head("Tours · inline-hint.tsx", "Inline hint", "Contextual callouts with “don't show again” persisted in localStorage. Reset brings them all back.")}
-        <div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-reset>Reset hints</button><span class="dv-muted" data-count></span></div>
+        ${head("Tours · inline-hint.tsx", "Aviso en línea", "Avisos contextuales con “no volver a mostrar” guardado en localStorage. Restablecer los trae todos de vuelta.")}
+        <div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-reset>Restablecer avisos</button><span class="dv-muted" data-count></span></div>
         <div class="dv-stack" data-hints style="max-width:680px;width:100%"></div>`,
       setup(root, ctx) {
         const KEY = "devl-xp-hints";
-        const hints = [["kbd", "info", "Pro tip", "Press ⌘K anywhere to open the command palette."], ["tokens", "accent", "Theming", "Override --dv-accent once and every component follows."], ["code", "success", "Copy code", "Every experiment has an HTML/JS tab in the code drawer (press C)."]];
+        const hints = [["kbd", "info", "Consejo pro", "Pulsa ⌘K en cualquier lugar para abrir la paleta de comandos."], ["tokens", "accent", "Temas", "Sobrescribe --dv-accent una vez y todos los componentes lo siguen."], ["code", "success", "Copiar código", "Cada experimento tiene una pestaña HTML/JS en el panel de código (pulsa C)."]];
         const load = () => {
           try {
             return new Set(JSON.parse(localStorage.getItem(KEY) || "[]"));
@@ -1941,8 +1942,8 @@
         const session = new Set();
         const render = () => {
           const visible = hints.filter(([k]) => !hidden.has(k) && !session.has(k));
-          ctx.$("[data-count]").textContent = `${visible.length} of ${hints.length} visible`;
-          ctx.$("[data-hints]").innerHTML = visible.map(([k, v, t, d]) => `<div class="dv-alert dv-alert--${v}"><div style="flex:1"><div class="dv-alert__title">${t}</div><div class="dv-alert__desc">${d}</div><label class="dv-choice" style="margin-top:8px;font-size:11px"><input type="checkbox" class="dv-check" data-forever="${k}" /> Don't show again</label></div><button type="button" class="dv-btn dv-btn--icon dv-btn--sm dv-btn--subtle" data-dismiss="${k}" aria-label="Dismiss">✕</button></div>`).join("") || '<div class="dv-empty"><div class="dv-empty__title">No hints</div><p class="dv-empty__desc">You dismissed them all.</p></div>';
+          ctx.$("[data-count]").textContent = `${visible.length} de ${hints.length} visibles`;
+          ctx.$("[data-hints]").innerHTML = visible.map(([k, v, t, d]) => `<div class="dv-alert dv-alert--${v}"><div style="flex:1"><div class="dv-alert__title">${t}</div><div class="dv-alert__desc">${d}</div><label class="dv-choice" style="margin-top:8px;font-size:11px"><input type="checkbox" class="dv-check" data-forever="${k}" /> No volver a mostrar</label></div><button type="button" class="dv-btn dv-btn--icon dv-btn--sm dv-btn--subtle" data-dismiss="${k}" aria-label="Descartar">✕</button></div>`).join("") || '<div class="dv-empty"><div class="dv-empty__title">No hay avisos</div><p class="dv-empty__desc">Los descartaste todos.</p></div>';
         };
         ctx.on(ctx.$("[data-hints]"), "click", (e) => {
           const b = e.target.closest("[data-dismiss]");
@@ -1967,20 +1968,20 @@
 
     checklist: {
       html: `
-        ${head("Tours · checklist.tsx", "Onboarding checklist", "Complete tasks via their actions; the progress ring fills and you get a celebration at 100%.")}
+        ${head("Tours · checklist.tsx", "Lista de incorporación", "Completa las tareas con sus acciones; el anillo de progreso se llena y al llegar al 100% hay una celebración.")}
         <div class="dv-card" style="max-width:520px;width:100%;margin:0 auto"><div class="dv-card__body dv-stack">
-          <div class="dv-row"><svg viewBox="0 0 44 44" width="64" height="64" data-ring><circle cx="22" cy="22" r="18" fill="none" stroke="var(--dv-surface-strong)" stroke-width="5"/><circle cx="22" cy="22" r="18" fill="none" stroke="var(--xp-accent)" stroke-width="5" stroke-linecap="round" pathLength="100" stroke-dasharray="0 100" transform="rotate(-90 22 22)" data-arc style="transition:stroke-dasharray .4s"/><text x="22" y="26" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor" style="fill:var(--dv-fg)" data-pct>0%</text></svg><div><strong>Get started with Acme</strong><div class="dv-muted" data-left></div></div></div>
+          <div class="dv-row"><svg viewBox="0 0 44 44" width="64" height="64" data-ring><circle cx="22" cy="22" r="18" fill="none" stroke="var(--dv-surface-strong)" stroke-width="5"/><circle cx="22" cy="22" r="18" fill="none" stroke="var(--xp-accent)" stroke-width="5" stroke-linecap="round" pathLength="100" stroke-dasharray="0 100" transform="rotate(-90 22 22)" data-arc style="transition:stroke-dasharray .4s"/><text x="22" y="26" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor" style="fill:var(--dv-fg)" data-pct>0%</text></svg><div><strong>Empieza con Acme</strong><div class="dv-muted" data-left></div></div></div>
           <ul class="dv-list" data-list></ul>
-          <div data-done hidden class="dv-alert dv-alert--success"><div><div class="dv-alert__title">🎉 You're all set!</div><div class="dv-alert__desc">You earned the “Fast starter” badge.</div></div></div>
+          <div data-done hidden class="dv-alert dv-alert--success"><div><div class="dv-alert__title">🎉 ¡Todo listo!</div><div class="dv-alert__desc">Ganaste la insignia “Arranque veloz”.</div></div></div>
         </div></div>`,
       setup(root, ctx) {
-        const tasks = [["Create a workspace", "Create", true], ["Invite a teammate", "Invite"], ["Connect GitHub", "Connect"], ["Create your first project", "Create"], ["Customize your theme", "Open"]].map(([t, a, d]) => ({ t, a, done: !!d }));
+        const tasks = [["Crear un espacio de trabajo", "Crear", true], ["Invitar a un compañero", "Invitar"], ["Conectar GitHub", "Conectar"], ["Crear tu primer proyecto", "Crear"], ["Personalizar tu tema", "Abrir"]].map(([t, a, d]) => ({ t, a, done: !!d }));
         const render = () => {
           const n = tasks.filter((t) => t.done).length;
           const pct = Math.round((n / tasks.length) * 100);
           ctx.$("[data-arc]").setAttribute("stroke-dasharray", `${pct} 100`);
           ctx.$("[data-pct]").textContent = `${pct}%`;
-          ctx.$("[data-left]").textContent = `${tasks.length - n} of ${tasks.length} steps left`;
+          ctx.$("[data-left]").textContent = `${tasks.length - n} de ${tasks.length} pasos restantes`;
           ctx.$("[data-list]").innerHTML = tasks.map((t, i) => `<li><span style="width:20px;color:${t.done ? "var(--dv-success)" : "var(--dv-fg-subtle)"}">${t.done ? "✓" : "○"}</span><span style="flex:1;${t.done ? "text-decoration:line-through;color:var(--dv-fg-muted)" : ""}">${t.t}</span>${t.done ? "" : `<button type="button" class="dv-btn dv-btn--sm" data-i="${i}">${t.a}</button>`}</li>`).join("");
           ctx.$("[data-done]").hidden = pct < 100;
         };
@@ -1992,7 +1993,7 @@
             tasks[b.dataset.i].done = true;
             render();
             if (tasks.every((t) => t.done)) {
-              ctx.toast({ title: "Onboarding complete 🎉" });
+              ctx.toast({ title: "Incorporación completada 🎉" });
               const card = ctx.$(".dv-card");
               for (let k = 0; k < 18; k++) {
                 const s = document.createElement("span");

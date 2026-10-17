@@ -1,11 +1,11 @@
 // ============================================================================
-// devl.dev — Procedural Shaders (WebGL + Canvas 2D) & Web Audio UI Synthesizer
-// 100% Pure Custom Code — Zero External Dependencies
+// devl.dev — Shaders procedurales (WebGL + Canvas 2D) y sintetizador de audio para UI con Web Audio
+// Código 100% propio — cero dependencias externas
 // ============================================================================
 
 (function () {
   // --------------------------------------------------------------------------
-  // 1. Web Audio API Procedural Tactile Sound Engine
+  // 1. Motor procedural de sonidos táctiles con Web Audio API
   // --------------------------------------------------------------------------
   class TactileAudioEngine {
     constructor() {
@@ -40,7 +40,7 @@
         const now = this.ctx.currentTime;
 
         if (type === "tick") {
-          // Subtle high-end mechanical micro-tick on card hover / nav
+          // Micro-tic mecánico sutil y agudo al pasar sobre tarjetas o navegar
           const osc = this.ctx.createOscillator();
           const gain = this.ctx.createGain();
           osc.type = "triangle";
@@ -53,7 +53,7 @@
           osc.start(now);
           osc.stop(now + 0.02);
         } else if (type === "click") {
-          // Crisp keycap switch sound
+          // Sonido nítido de interruptor de tecla
           const osc = this.ctx.createOscillator();
           const gain = this.ctx.createGain();
           osc.type = "sine";
@@ -66,7 +66,7 @@
           osc.start(now);
           osc.stop(now + 0.038);
         } else if (type === "open") {
-          // Smooth harmonic rise for modal / sandbox open
+          // Subida armónica suave al abrir el modal o el sandbox
           const osc = this.ctx.createOscillator();
           const gain = this.ctx.createGain();
           osc.type = "sine";
@@ -106,7 +106,7 @@
           });
         }
       } catch (_) {
-        // Ignore audio errors before user gesture
+        // Ignorar errores de audio antes del primer gesto del usuario
       }
     }
   }
@@ -114,7 +114,7 @@
   window.DEVL_AUDIO = new TactileAudioEngine();
 
   // --------------------------------------------------------------------------
-  // 2. Ambient WebGL / Canvas2D Shader Field
+  // 2. Campo ambiental de shader WebGL / Canvas2D
   // --------------------------------------------------------------------------
   class AmbientShaderField {
     constructor(canvasId) {
@@ -176,7 +176,7 @@
         uniform float u_lightMode;
         uniform float u_blueprint;
 
-        // Hash & simplex-style 2D value noise
+        // Hash y ruido de valor 2D estilo simplex
         float hash(vec2 p) {
           p = fract(p * vec2(123.34, 456.21));
           p += dot(p, p + 45.32);
@@ -200,25 +200,25 @@
           vec2 p = vec2(uv.x * aspect, uv.y);
           vec2 m = vec2(u_mouse.x * aspect, 1.0 - u_mouse.y);
 
-          // Subtle organic wave field
+          // Campo de ondas orgánicas sutil
           float t = u_time * 0.18;
           float n1 = noise(p * 2.4 + vec2(t, -t * 0.6 + u_scroll * 0.0002));
           float n2 = noise(p * 4.8 - vec2(t * 0.7, t * 0.4));
           float field = n1 * 0.65 + n2 * 0.35;
 
-          // Mouse radial spotlight
+          // Foco radial que sigue al mouse
           float dist = length(p - m);
           float spot = exp(-dist * 2.6) * 0.55;
 
-          // Top hero horizon glow
+          // Resplandor de horizonte en la parte superior del hero
           float topGlow = exp(-pow((1.0 - uv.y) * 2.3, 2.0)) * 0.45;
 
-          // Fine blueprint grid when blueprint mode or near cursor
+          // Cuadrícula fina de plano en modo blueprint o cerca del cursor
           vec2 gridUV = fract(p * 28.0);
           float gridLine = step(0.965, gridUV.x) + step(0.965, gridUV.y);
           float gridMask = clamp(gridLine, 0.0, 1.0) * (spot * 0.65 + u_blueprint * 0.35);
 
-          // Colors
+          // Colores
           vec3 indigo = vec3(0.39, 0.40, 0.95);
           vec3 amber  = vec3(0.96, 0.62, 0.04);
           vec3 sky    = vec3(0.06, 0.65, 0.91);
@@ -226,7 +226,7 @@
           vec3 accentMix = mix(indigo, sky, sin(uv.x * 3.14159 + t) * 0.5 + 0.5);
           accentMix = mix(accentMix, amber, smoothstep(0.25, 0.85, n2) * 0.35);
 
-          // Grain
+          // Grano
           float grain = (hash(uv * u_resolution + fract(u_time)) - 0.5) * 0.025;
 
           float alpha = (topGlow * 0.14 + spot * 0.12 + field * 0.04 + gridMask * 0.12) + grain;
@@ -234,7 +234,7 @@
             alpha *= 0.65;
           }
 
-          // Canvas is premultiplied-alpha: scale colour by alpha or it composites as a bright wash
+          // El canvas usa alfa premultiplicado: hay que escalar el color por el alfa o se compone como un velo brillante
           float a = clamp(alpha, 0.0, 0.28);
           gl_FragColor = vec4(accentMix * a, a);
         }
@@ -320,11 +320,11 @@
     }
 
     loop(now) {
-      // Smooth spring-like interpolation for cursor tracking
+      // Interpolación suave tipo resorte para seguir el cursor
       this.mouseX += (this.targetMouseX - this.mouseX) * 0.08;
       this.mouseY += (this.targetMouseY - this.mouseY) * 0.08;
 
-      // Freeze the drifting noise field when the user prefers reduced motion
+      // Congelar el campo de ruido en movimiento si el usuario prefiere reducir el movimiento
       const t = this.reducedMotion?.matches ? 0 : (now - this.startTime) * 0.001;
       const isLight = document.documentElement.getAttribute("data-theme") === "light" ? 1.0 : 0.0;
       const isBlueprint = document.documentElement.hasAttribute("data-blueprint") ? 1.0 : 0.0;

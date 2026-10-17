@@ -1,8 +1,8 @@
 // ============================================================================
-// devl.dev — Functional experiment runtime
-// Every gallery experiment is { html, setup(root, ctx) } built on devl-ui.
-// ctx tracks intervals, animation frames and listeners so the sandbox can
-// tear an experiment down cleanly when navigating away.
+// devl.dev — Entorno de ejecución de los experimentos funcionales
+// Cada experimento de la galería es { html, setup(root, ctx) } construido sobre devl-ui.
+// ctx registra intervalos, fotogramas de animación y listeners para que el sandbox
+// pueda desmontar un experimento sin dejar residuos al navegar a otro.
 // ============================================================================
 
 (function () {
@@ -11,7 +11,7 @@
   const registry = new Map();
   const keyOf = (cat, slug) => `${cat}/${slug}`;
 
-  // -------------------------------------------------------------- Formatting
+  // -------------------------------------------------------------- Formato
   const esc = (s) =>
     String(s)
       .replace(/&/g, "&amp;")
@@ -19,13 +19,14 @@
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;");
 
+  // narrowSymbol evita el prefijo "USD" que es-MX añade a las divisas distintas del peso
   const money = (n, currency = "USD", digits = 2) =>
-    new Intl.NumberFormat("en-US", { style: "currency", currency, minimumFractionDigits: digits, maximumFractionDigits: digits }).format(n);
+    new Intl.NumberFormat("es-MX", { style: "currency", currency, currencyDisplay: "narrowSymbol", minimumFractionDigits: digits, maximumFractionDigits: digits }).format(n);
   const num = (n, digits = 0) =>
-    new Intl.NumberFormat("en-US", { minimumFractionDigits: digits, maximumFractionDigits: digits }).format(n);
+    new Intl.NumberFormat("es-MX", { minimumFractionDigits: digits, maximumFractionDigits: digits }).format(n);
   const pct = (n, digits = 1) => `${num(n, digits)}%`;
 
-  // Deterministic PRNG so generated data is stable between renders
+  // PRNG determinista: los datos generados se mantienen estables entre renderizados
   function rng(seed = 1) {
     let a = seed >>> 0;
     return function () {
@@ -59,7 +60,7 @@
         cleanups.push(() => clearTimeout(id));
         return id;
       },
-      // Calls fn(time, delta) every frame until disposed (or fn returns false)
+      // Llama a fn(time, delta) en cada fotograma hasta que se libere (o fn devuelva false)
       raf(fn) {
         let id = 0;
         let last = performance.now();
@@ -89,7 +90,7 @@
     return ctx;
   }
 
-  // -------------------------------------------------------------- Source utils
+  // -------------------------------------------------------------- Utilidades de código fuente
   function dedent(src) {
     const lines = String(src).replace(/\t/g, "  ").split("\n");
     while (lines.length && !lines[0].trim()) lines.shift();
@@ -109,7 +110,7 @@
     return lines.join("\n");
   }
 
-  // -------------------------------------------------------------- Registry
+  // -------------------------------------------------------------- Registro
   function add(cat, slug, def) {
     registry.set(keyOf(cat, slug), def);
   }
@@ -133,15 +134,15 @@
     if (!def) return { html: "", js: "" };
     const html = htmlOf(item);
     const js = def.setup
-      ? `// Requires lib/devl-ui.js + js/experiments/core.js (ctx helpers)\nconst root = document.querySelector('[data-xp="${item.categoryId}/${item.slug}"]');\nconst ctx = DEVL_XP.createCtx(root);\n\n(${fnSource(def.setup)})(root, ctx);`
-      : "// No JavaScript needed: pure HTML + lib/devl-ui.css";
+      ? `// Requiere lib/devl-ui.js + js/experiments/core.js (utilidades de ctx)\nconst root = document.querySelector('[data-xp="${item.categoryId}/${item.slug}"]');\nconst ctx = DEVL_XP.createCtx(root);\n\n(${fnSource(def.setup)})(root, ctx);`
+      : "// No hace falta JavaScript: solo HTML + lib/devl-ui.css";
     return {
       html: `<div class="xp" data-xp="${item.categoryId}/${item.slug}">\n${html.replace(/^/gm, "  ")}\n</div>`,
       js
     };
   }
 
-  /** Renders an experiment into `stage` and returns an unmount function. */
+  /** Renderiza un experimento en `stage` y devuelve una función para desmontarlo. */
   function mount(stage, item) {
     const def = get(item.categoryId, item.slug);
     if (!def) return null;
@@ -160,7 +161,7 @@
     return () => ctx.dispose();
   }
 
-  // -------------------------------------------------------------- HTML helpers
+  // -------------------------------------------------------------- Utilidades de HTML
   const head = (eyebrow, title, desc = "") => `
     <header class="xp-head">
       <span class="dv-eyebrow">${eyebrow}</span>
@@ -170,13 +171,13 @@
 
   const badge = (text, variant = "") => `<span class="dv-badge${variant ? ` dv-badge--${variant}` : ""}">${esc(text)}</span>`;
 
-  // -------------------------------------------------------------- Data table builder
+  // -------------------------------------------------------------- Constructor de tablas de datos
   /**
    * table({ eyebrow, title, desc, columns, rows, filterKey, filters, badges, bulk, rowAction, pageSize, search })
    * columns: [{ key, label, num, sort: "text"|"number", mono, render(row) }]
-   * badges: { columnKey: { value: "success"|"warning"|... } }
-   * bulk: [{ label, remove: true } | { label, set: "key=value" }]
-   * rowAction: { label, toast: "… {id} …", remove, set: "key=value" }
+   * badges: { claveDeColumna: { valor: "success"|"warning"|... } }
+   * bulk: [{ label, remove: true } | { label, set: "clave=valor" }]
+   * rowAction: { label, toast: "… {id} …", remove, set: "clave=valor" }
    */
   function table(cfg) {
     const cols = cfg.columns;
@@ -192,9 +193,9 @@
     const html = `
       ${head(cfg.eyebrow, cfg.title, cfg.desc)}
       <div class="dv-row xp-toolbar">
-        ${cfg.search === false ? "" : `<input class="dv-input xp-search" data-t-search placeholder="${esc(cfg.searchPlaceholder || "Search…")}" aria-label="Search rows" />`}
+        ${cfg.search === false ? "" : `<input class="dv-input xp-search" data-t-search placeholder="${esc(cfg.searchPlaceholder || "Buscar…")}" aria-label="Buscar filas" />`}
         ${filters.length ? `<div class="dv-row" style="--gap:6px">
-          <button type="button" class="dv-chip" data-t-filter="all" aria-pressed="true">All</button>
+          <button type="button" class="dv-chip" data-t-filter="all" aria-pressed="true">Todos</button>
           ${filters.map((f) => `<button type="button" class="dv-chip" data-t-filter="${esc(f)}" aria-pressed="false">${esc(f)}</button>`).join("")}
         </div>` : ""}
         <span class="dv-spacer"></span>
@@ -202,7 +203,7 @@
         ${cfg.toolbar || ""}
       </div>
       <div class="dv-row xp-bulk" data-t-bulk hidden>
-        <strong data-t-selected>0 selected</strong>
+        <strong data-t-selected>0 seleccionadas</strong>
         <span class="dv-spacer"></span>
         ${(cfg.bulk || [])
           .map((b) => `<button type="button" class="dv-btn dv-btn--sm${b.remove ? " dv-btn--danger" : ""}" data-t-action="${b.remove ? "remove" : "set"}"${b.set ? ` data-set="${esc(b.set)}"` : ""}>${esc(b.label)}</button>`)
@@ -211,7 +212,7 @@
       <div class="dv-table-wrap">
         <table class="dv-table" data-dv-sortable data-page-size="${cfg.pageSize || 0}" data-filter-key="${filterKey}" data-badges='${esc(JSON.stringify(badges))}'>
           <thead><tr>
-            <th style="width:36px"><input type="checkbox" class="dv-check" data-t-all aria-label="Select all" /></th>
+            <th style="width:36px"><input type="checkbox" class="dv-check" data-t-all aria-label="Seleccionar todo" /></th>
             ${cols.map((c) => `<th${c.sort ? ` data-sort="${c.sort}"` : ""}${c.num ? ' class="is-num"' : ""}>${esc(c.label)}</th>`).join("")}
             ${cfg.rowAction ? "<th></th>" : ""}
           </tr></thead>
@@ -219,7 +220,7 @@
             ${cfg.rows
               .map(
                 (r) => `<tr data-id="${esc(r.id)}" data-status="${esc(r[filterKey] || "")}">
-              <td><input type="checkbox" class="dv-check" data-t-row aria-label="Select ${esc(r.id)}" /></td>
+              <td><input type="checkbox" class="dv-check" data-t-row aria-label="Seleccionar ${esc(r.id)}" /></td>
               ${cols.map((c) => `<td data-f="${c.key}"${c.num ? ' class="is-num"' : ""}${c.mono ? ' style="font-family:var(--dv-font-mono)"' : ""}>${cell(r, c)}</td>`).join("")}
               ${cfg.rowAction ? `<td class="is-num"><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-t-row-action${cfg.rowAction.remove ? " data-remove" : ""}${cfg.rowAction.set ? ` data-set="${esc(cfg.rowAction.set)}"` : ""} data-toast="${esc(cfg.rowAction.toast || "")}">${esc(cfg.rowAction.label)}</button></td>` : ""}
             </tr>`
@@ -228,8 +229,8 @@
           </tbody>
         </table>
       </div>
-      <div class="dv-empty" data-t-empty hidden><div class="dv-empty__title">No matching rows</div><p class="dv-empty__desc">Try another search or filter.</p></div>
-      <nav class="dv-pagination" data-t-pager aria-label="Pagination"></nav>`;
+      <div class="dv-empty" data-t-empty hidden><div class="dv-empty__title">Sin filas coincidentes</div><p class="dv-empty__desc">Prueba con otra búsqueda o filtro.</p></div>
+      <nav class="dv-pagination" data-t-pager aria-label="Paginación"></nav>`;
     return { html, setup: tableSetup };
   }
 
@@ -272,7 +273,7 @@
     function syncSelection() {
       const selected = rows().filter((tr) => tr.querySelector("[data-t-row]").checked);
       bulk.hidden = selected.length === 0;
-      root.querySelector("[data-t-selected]").textContent = `${selected.length} selected`;
+      root.querySelector("[data-t-selected]").textContent = `${selected.length} seleccionadas`;
       const vis = visibleRows();
       all.checked = vis.length > 0 && vis.every((tr) => tr.querySelector("[data-t-row]").checked);
       all.indeterminate = !all.checked && selected.length > 0;
@@ -285,7 +286,7 @@
       page = Math.min(page, pages - 1);
       rows().forEach((tr) => (tr.hidden = true));
       vis.forEach((tr, i) => (tr.hidden = size ? Math.floor(i / size) !== page : false));
-      root.querySelector("[data-t-count]").textContent = `${vis.length} of ${rows().length}`;
+      root.querySelector("[data-t-count]").textContent = `${vis.length} de ${rows().length}`;
       root.querySelector("[data-t-empty]").hidden = vis.length > 0;
       pager.hidden = pages < 2;
       pager.innerHTML = "";
@@ -321,7 +322,7 @@
       syncSelection();
     });
     ctx.on(tbody, "change", syncSelection);
-    // devl-ui sorts on document click; re-paginate afterwards
+    // devl-ui ordena con el clic en el documento; se vuelve a paginar después
     ctx.on(table.tHead, "click", () => ctx.timeout(0, refresh));
 
     root.querySelectorAll("[data-t-action]").forEach((btn) =>
@@ -335,7 +336,7 @@
             tr.querySelector("[data-t-row]").checked = false;
           });
         }
-        ctx.toast({ title: `${btn.textContent.trim()}: ${selected.length} row${selected.length === 1 ? "" : "s"}` });
+        ctx.toast({ title: `${btn.textContent.trim()}: ${selected.length} fila${selected.length === 1 ? "" : "s"}` });
         refresh();
       })
     );
@@ -356,16 +357,16 @@
     refresh();
   }
 
-  // -------------------------------------------------------------- Form builder
+  // -------------------------------------------------------------- Constructor de formularios
   /**
-   * Generic validation for any <form data-xp-form> inside root:
+   * Validación genérica para cualquier <form data-xp-form> dentro de root:
    * required / type=email / minlength / data-match="otherName" / data-pattern-msg,
-   * password reveal ([data-pw-toggle]) and strength meters ([data-pw-strength]).
-   * On success: busy state, toast(data-success) and optional data-next panel swap.
+   * mostrar contraseña ([data-pw-toggle]) y medidores de seguridad ([data-pw-strength]).
+   * Si es válido: estado ocupado, toast(data-success) y cambio opcional al panel data-next.
    */
   function formSetup(root, ctx) {
     const scoreOf = (v) => [v.length >= 8, /[A-Z]/.test(v), /\d/.test(v), /[^A-Za-z0-9]/.test(v)].filter(Boolean).length;
-    const labels = ["Too weak", "Weak", "Fair", "Good", "Strong"];
+    const labels = ["Muy débil", "Débil", "Regular", "Buena", "Fuerte"];
     const colors = ["var(--dv-danger)", "var(--dv-danger)", "var(--dv-warning)", "var(--dv-info)", "var(--dv-success)"];
 
     root.querySelectorAll("[data-pw-toggle]").forEach((btn) =>
@@ -373,7 +374,7 @@
         const input = btn.parentElement.querySelector("input");
         const show = input.type === "password";
         input.type = show ? "text" : "password";
-        btn.textContent = show ? "Hide" : "Show";
+        btn.textContent = show ? "Ocultar" : "Mostrar";
       })
     );
 
@@ -406,13 +407,13 @@
       const validate = (input) => {
         const v = input.type === "checkbox" ? input.checked : input.value.trim();
         let msg = "";
-        if (input.required && !v) msg = input.dataset.requiredMsg || "This field is required.";
-        else if (v && input.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) msg = "Enter a valid email address.";
-        else if (v && input.minLength > 0 && String(v).length < input.minLength) msg = `Use at least ${input.minLength} characters.`;
-        else if (v && input.pattern && !new RegExp(`^(?:${input.pattern})$`).test(v)) msg = input.dataset.patternMsg || "Invalid format.";
+        if (input.required && !v) msg = input.dataset.requiredMsg || "Este campo es obligatorio.";
+        else if (v && input.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) msg = "Ingresa un correo electrónico válido.";
+        else if (v && input.minLength > 0 && String(v).length < input.minLength) msg = `Usa al menos ${input.minLength} caracteres.`;
+        else if (v && input.pattern && !new RegExp(`^(?:${input.pattern})$`).test(v)) msg = input.dataset.patternMsg || "Formato no válido.";
         else if (input.dataset.match) {
           const other = form.querySelector(`[name="${input.dataset.match}"]`);
-          if (other && other.value !== input.value) msg = "Values do not match.";
+          if (other && other.value !== input.value) msg = "Los valores no coinciden.";
         }
         input.setAttribute("aria-invalid", String(Boolean(msg)));
         if (input.type !== "checkbox" || msg) errorFor(input).textContent = msg;
@@ -440,7 +441,7 @@
         ctx.timeout(Number(form.dataset.delay || 700), () => {
           if (btn) btn.removeAttribute("aria-busy");
           const data = Object.fromEntries(new FormData(form));
-          const msg = (form.dataset.success || "Saved").replace(/\{(\w+)\}/g, (_, k) => data[k] || "");
+          const msg = (form.dataset.success || "Guardado").replace(/\{(\w+)\}/g, (_, k) => data[k] || "");
           ctx.toast({ title: msg });
           if (form.dataset.next) {
             const next = root.querySelector(form.dataset.next);
@@ -457,7 +458,7 @@
       });
     });
 
-    // [data-back] inside a success panel ([data-panel]) returns to the form
+    // [data-back] dentro de un panel de éxito ([data-panel]) regresa al formulario
     root.querySelectorAll("[data-back]").forEach((b) =>
       ctx.on(b, "click", () => {
         const panel = b.closest("[data-panel]");
@@ -467,7 +468,7 @@
     );
   }
 
-  // Field markup helper used by builders
+  // Utilidad de marcado de campos usada por los constructores
   function field(f) {
     const id = `f-${f.name}-${Math.random().toString(36).slice(2, 7)}`;
     const attrs = [
@@ -485,7 +486,7 @@
       .join(" ");
     const input =
       f.type === "password"
-        ? `<div class="dv-input-group"><input class="dv-input" ${attrs} /><button type="button" class="dv-btn dv-btn--subtle dv-btn--sm" data-pw-toggle style="margin:3px">Show</button></div>`
+        ? `<div class="dv-input-group"><input class="dv-input" ${attrs} /><button type="button" class="dv-btn dv-btn--subtle dv-btn--sm" data-pw-toggle style="margin:3px">Mostrar</button></div>`
         : `<input class="dv-input" ${attrs} />`;
     const strength = f.strength
       ? `<div class="dv-row" style="--gap:8px"><div class="dv-meter" data-pw-strength="${f.name}" style="flex:1;height:5px"><span></span><span></span><span></span><span></span></div><span class="dv-hint" data-pw-label></span></div>`
@@ -496,25 +497,25 @@
     return `<div class="dv-field">${labelRow}${input}${strength}${f.hint ? `<span class="dv-hint">${esc(f.hint)}</span>` : ""}</div>`;
   }
 
-  // -------------------------------------------------------------- SVG chart helpers
+  // -------------------------------------------------------------- Utilidades de gráficas SVG
   const chart = {
-    /** Linear scale: maps [d0,d1] → [r0,r1] */
+    /** Escala lineal: mapea [d0,d1] → [r0,r1] */
     scale(d0, d1, r0, r1) {
       const k = d1 === d0 ? 0 : (r1 - r0) / (d1 - d0);
       return (v) => r0 + (v - d0) * k;
     },
-    /** Rounds a max value up to a "nice" axis bound */
+    /** Redondea un máximo hacia arriba a un límite de eje "redondo" */
     niceMax(v) {
       if (v <= 0) return 1;
       const p = Math.pow(10, Math.floor(Math.log10(v)));
       const n = v / p;
       return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 5 ? 5 : 10) * p;
     },
-    /** "M x,y L …" path from [[x,y], …] */
+    /** Ruta "M x,y L …" a partir de [[x,y], …] */
     path(points) {
       return points.map((p, i) => `${i ? "L" : "M"}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" ");
     },
-    /** Horizontal gridlines + y labels for a plot box */
+    /** Líneas de cuadrícula horizontales + etiquetas del eje y para un área de gráfica */
     grid(box, max, ticks = 4, format = (v) => v) {
       let out = "";
       for (let i = 0; i <= ticks; i++) {
@@ -524,14 +525,14 @@
       }
       return out;
     },
-    /** Maps pointer x over `svg` to the nearest of `count` evenly spaced points in [x0,x1] (viewBox units) */
+    /** Mapea la x del puntero sobre `svg` al más cercano de `count` puntos equiespaciados en [x0,x1] (unidades del viewBox) */
     indexAt(svg, e, count, x0, x1) {
       const r = svg.getBoundingClientRect();
       const vb = svg.viewBox.baseVal;
       const x = ((e.clientX - r.left) / r.width) * vb.width;
       return Math.max(0, Math.min(count - 1, Math.round(((x - x0) / (x1 - x0)) * (count - 1))));
     },
-    /** Positions an absolutely positioned tooltip near the pointer inside its relative parent */
+    /** Posiciona un tooltip absoluto junto al puntero dentro de su padre relativo */
     tip(el, e, html) {
       const host = el.offsetParent || el.parentElement;
       const r = host.getBoundingClientRect();
@@ -544,8 +545,8 @@
   };
 
   /**
-   * Keeps a canvas' backing store matched to its CSS size × devicePixelRatio.
-   * Returns a live { w, h, dpr } object (CSS pixels) updated on resize.
+   * Mantiene el búfer de un canvas ajustado a su tamaño CSS × devicePixelRatio.
+   * Devuelve un objeto vivo { w, h, dpr } (píxeles CSS) que se actualiza al redimensionar.
    */
   function fitCanvas(ctx, canvas, onResize) {
     const size = { w: 0, h: 0, dpr: 1 };
@@ -567,14 +568,14 @@
     return size;
   }
 
-  /** Pointer position in CSS pixels relative to an element */
+  /** Posición del puntero en píxeles CSS relativa a un elemento */
   function pointer(el, e) {
     const r = el.getBoundingClientRect();
     return { x: e.clientX - r.left, y: e.clientY - r.top, w: r.width, h: r.height };
   }
 
-  // Streams `text` word by word into `el` (textContent) at ~`wps` words/second.
-  // Returns a stop() function. Timers are owned by ctx so they die with the experiment.
+  // Escribe `text` palabra por palabra en `el` (textContent) a ~`wps` palabras/segundo.
+  // Devuelve una función stop(). Los temporizadores pertenecen a ctx y terminan con el experimento.
   function stream(ctx, el, text, { wps = 22, onWord, onDone } = {}) {
     const words = text.split(/(\s+)/);
     let i = 0;

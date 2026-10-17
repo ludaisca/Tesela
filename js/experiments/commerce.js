@@ -1,6 +1,6 @@
 // ============================================================================
-// Functional experiments — Fintech & Treasury (8), Pricing (6), Toasts & banners (6),
-// Media & Creative Tools (8)
+// Experimentos funcionales — Fintech y Tesorería (8), Precios (6), Toasts y banners (6),
+// Medios y Herramientas Creativas (8)
 // ============================================================================
 
 (function () {
@@ -9,18 +9,18 @@
   const { head, esc, field } = X;
 
   // ==========================================================================
-  // FINTECH & TREASURY
+  // FINTECH Y TESORERÍA
   // ==========================================================================
   X.addMany("crypto-fintech", {
     "orderbook-depth-wall": {
       html: `
-        ${head("Fintech · orderbook-depth-wall.tsx", "Orderbook depth wall", "Live book with cumulative depth bars and a depth chart. Click a level to prefill the order form; your limit orders join the book.")}
+        ${head("Fintech · orderbook-depth-wall.tsx", "Muro de profundidad del libro de órdenes", "Libro en vivo con barras de profundidad acumulada y gráfica de profundidad. Haz clic en un nivel para rellenar el formulario; tus órdenes límite se suman al libro.")}
         <div class="dv-row"><strong class="xp-mono">DEVL/USD</strong><span class="xp-num xp-mono" style="font-size:22px" data-mid></span><span class="dv-badge" data-spread></span></div>
         <div class="dv-grid" style="--min:300px;align-items:start">
-          <div class="xp-panel" style="padding:8px"><table class="dv-table dv-table--compact"><thead><tr><th>Price</th><th class="is-num">Size</th><th class="is-num">Total</th></tr></thead><tbody data-asks></tbody><tbody data-bids></tbody></table></div>
+          <div class="xp-panel" style="padding:8px"><table class="dv-table dv-table--compact"><thead><tr><th>Precio</th><th class="is-num">Tamaño</th><th class="is-num">Total</th></tr></thead><tbody data-asks></tbody><tbody data-bids></tbody></table></div>
           <div class="dv-stack">
             <div class="xp-panel"><svg class="xp-chart" viewBox="0 0 400 180" data-depth></svg></div>
-            <form class="xp-panel dv-stack" data-form><dv-segmented value="buy" data-side><button class="dv-segmented__item" value="buy">Buy</button><button class="dv-segmented__item" value="sell">Sell</button></dv-segmented><div class="dv-row"><label class="dv-field" style="flex:1"><span class="dv-label">Limit price</span><input class="dv-input xp-mono" type="number" step="0.01" data-price required /></label><label class="dv-field" style="flex:1"><span class="dv-label">Size</span><input class="dv-input xp-mono" type="number" step="0.1" min="0.1" value="1" data-size required /></label></div><button type="submit" class="dv-btn dv-btn--primary">Place order</button></form>
+            <form class="xp-panel dv-stack" data-form><dv-segmented value="buy" data-side><button class="dv-segmented__item" value="buy">Comprar</button><button class="dv-segmented__item" value="sell">Vender</button></dv-segmented><div class="dv-row"><label class="dv-field" style="flex:1"><span class="dv-label">Precio límite</span><input class="dv-input xp-mono" type="number" step="0.01" data-price required /></label><label class="dv-field" style="flex:1"><span class="dv-label">Tamaño</span><input class="dv-input xp-mono" type="number" step="0.1" min="0.1" value="1" data-size required /></label></div><button type="submit" class="dv-btn dv-btn--primary">Colocar orden</button></form>
           </div>
         </div>`,
       setup(root, ctx) {
@@ -30,7 +30,7 @@
         let asks = levels("ask");
         let bids = levels("bid");
         const render = () => {
-          // Merge my resting orders into copies of the latest market levels
+          // Fusiona mis órdenes pendientes en copias de los últimos niveles del mercado
           const A = asks.map((l) => ({ ...l }));
           const B = bids.map((l) => ({ ...l }));
           mine.forEach((o) => {
@@ -50,7 +50,7 @@
           ctx.$("[data-bids]").innerHTML = B.slice(0, 10).map((l, i) => row(l, cb[i], "bid")).join("");
           const spread = A[0].p - B[0].p;
           ctx.$("[data-mid]").textContent = ((A[0].p + B[0].p) / 2).toFixed(2);
-          ctx.$("[data-spread]").textContent = `spread ${spread.toFixed(2)} (${((spread / mid) * 1e4).toFixed(1)} bps)`;
+          ctx.$("[data-spread]").textContent = `diferencial ${spread.toFixed(2)} (${((spread / mid) * 1e4).toFixed(1)} bps)`;
           const lo = B[9] ? B[9].p : mid - 1;
           const hi = A[9] ? A[9].p : mid + 1;
           const X0 = (p) => ((p - lo) / (hi - lo)) * 380 + 10;
@@ -77,10 +77,10 @@
           const s = Number(ctx.$("[data-size]").value);
           if (!(p > 0 && s > 0)) return;
           const crosses = side === "buy" ? p >= asks[0].p : p <= bids[0].p;
-          if (crosses) ctx.toast({ title: `Filled ${s} @ ${(side === "buy" ? asks[0].p : bids[0].p).toFixed(2)}`, description: "Order crossed the spread" });
+          if (crosses) ctx.toast({ title: `Ejecutada ${s} @ ${(side === "buy" ? asks[0].p : bids[0].p).toFixed(2)}`, description: "La orden cruzó el diferencial" });
           else {
             mine.push({ side, p, s });
-            ctx.toast({ title: `Limit ${side} ${s} @ ${p.toFixed(2)} placed`, variant: "info" });
+            ctx.toast({ title: `Orden límite de ${side === "buy" ? "compra" : "venta"} ${s} @ ${p.toFixed(2)} colocada`, variant: "info" });
           }
           render();
         });
@@ -91,18 +91,18 @@
 
     "virtual-card-vault": {
       html: `
-        ${head("Fintech · virtual-card-vault.tsx", "Virtual card vault", "Reveal details for 10 seconds, freeze the card, set a spend limit and lock merchants — then simulate purchases against those rules.")}
+        ${head("Fintech · virtual-card-vault.tsx", "Bóveda de tarjeta virtual", "Revela los datos por 10 segundos, congela la tarjeta, fija un límite de gasto y bloquea comercios; luego simula compras contra esas reglas.")}
         <div class="dv-grid" style="--min:300px;align-items:start">
           <div data-card style="aspect-ratio:1.586;border-radius:16px;padding:22px;color:#fff;background:linear-gradient(135deg,var(--xp-accent),#0ea5e9);box-shadow:var(--dv-shadow-lg);display:flex;flex-direction:column;justify-content:space-between;transition:filter .3s;max-width:400px">
-            <div class="dv-row"><strong>Acme · Ads budget</strong><span class="dv-spacer"></span><span data-frozen-tag hidden class="dv-badge" style="background:rgba(0,0,0,.3);color:#fff">❄ Frozen</span></div>
+            <div class="dv-row"><strong>Acme · Presupuesto de anuncios</strong><span class="dv-spacer"></span><span data-frozen-tag hidden class="dv-badge" style="background:rgba(0,0,0,.3);color:#fff">❄ Congelada</span></div>
             <div class="xp-mono" style="font-size:20px;letter-spacing:.12em" data-num>•••• •••• •••• 4821</div>
-            <div class="dv-row xp-mono" style="font-size:12px"><span>EXP <span data-exp>••/••</span></span><span>CVV <span data-cvv>•••</span></span><span class="dv-spacer"></span><strong>VISA</strong></div>
+            <div class="dv-row xp-mono" style="font-size:12px"><span>VENC <span data-exp>••/••</span></span><span>CVV <span data-cvv>•••</span></span><span class="dv-spacer"></span><strong>VISA</strong></div>
           </div>
           <div class="dv-stack">
-            <div class="dv-row"><button type="button" class="dv-btn" data-reveal>👁 Reveal</button><label class="dv-choice">Freeze <input type="checkbox" role="switch" class="dv-switch" data-freeze /></label><span class="dv-muted" data-timer></span></div>
-            <div class="xp-panel dv-stack" style="--gap:6px"><div class="dv-row"><span class="dv-label">Monthly limit</span><span class="dv-spacer"></span><strong class="xp-mono" id="vc-limit">$2,000</strong></div><input type="range" class="dv-range" min="100" max="10000" step="100" value="2000" data-limit aria-label="Monthly limit" /><div class="dv-meter"><span data-spent></span></div><span class="dv-hint" data-spent-t></span></div>
-            <div class="xp-panel dv-stack" style="--gap:6px"><span class="dv-label">Allowed merchants</span><div class="dv-row" data-merch>${["Google Ads", "Meta", "LinkedIn", "Amazon"].map((m, i) => `<button type="button" class="dv-chip" data-m="${m}" aria-pressed="${i < 2}">${m}</button>`).join("")}</div></div>
-            <div class="dv-row"><select class="dv-select" style="width:auto" data-buy-m aria-label="Merchant"><option>Google Ads</option><option>Meta</option><option>LinkedIn</option><option>Amazon</option></select><input class="dv-input xp-mono" type="number" value="250" style="width:110px" data-amt aria-label="Amount" /><button type="button" class="dv-btn dv-btn--primary" data-buy>Simulate purchase</button></div>
+            <div class="dv-row"><button type="button" class="dv-btn" data-reveal>👁 Revelar</button><label class="dv-choice">Congelar <input type="checkbox" role="switch" class="dv-switch" data-freeze /></label><span class="dv-muted" data-timer></span></div>
+            <div class="xp-panel dv-stack" style="--gap:6px"><div class="dv-row"><span class="dv-label">Límite mensual</span><span class="dv-spacer"></span><strong class="xp-mono" id="vc-limit">$2,000</strong></div><input type="range" class="dv-range" min="100" max="10000" step="100" value="2000" data-limit aria-label="Límite mensual" /><div class="dv-meter"><span data-spent></span></div><span class="dv-hint" data-spent-t></span></div>
+            <div class="xp-panel dv-stack" style="--gap:6px"><span class="dv-label">Comercios permitidos</span><div class="dv-row" data-merch>${["Google Ads", "Meta", "LinkedIn", "Amazon"].map((m, i) => `<button type="button" class="dv-chip" data-m="${m}" aria-pressed="${i < 2}">${m}</button>`).join("")}</div></div>
+            <div class="dv-row"><select class="dv-select" style="width:auto" data-buy-m aria-label="Comercio"><option>Google Ads</option><option>Meta</option><option>LinkedIn</option><option>Amazon</option></select><input class="dv-input xp-mono" type="number" value="250" style="width:110px" data-amt aria-label="Monto" /><button type="button" class="dv-btn dv-btn--primary" data-buy>Simular compra</button></div>
             <ul class="dv-list" data-log style="font-size:12px"></ul>
           </div>
         </div>`,
@@ -115,14 +115,14 @@
           const s = ctx.$("[data-spent]");
           s.style.setProperty("--w", `${Math.min(100, (spent / limit) * 100)}%`);
           s.style.setProperty("--c", spent > limit * 0.9 ? "var(--dv-danger)" : "var(--xp-accent)");
-          ctx.$("[data-spent-t]").textContent = `${ctx.fmt.money(spent, "USD", 0)} spent · ${ctx.fmt.money(Math.max(0, limit - spent), "USD", 0)} left`;
+          ctx.$("[data-spent-t]").textContent = `${ctx.fmt.money(spent, "USD", 0)} gastados · ${ctx.fmt.money(Math.max(0, limit - spent), "USD", 0)} disponibles`;
           const frozen = ctx.$("[data-freeze]").checked;
           ctx.$("[data-card]").style.filter = frozen ? "grayscale(1) brightness(.7)" : "";
           ctx.$("[data-frozen-tag]").hidden = !frozen;
           ctx.$("[data-num]").textContent = reveal ? "4532 7781 0934 4821" : "•••• •••• •••• 4821";
           ctx.$("[data-exp]").textContent = reveal ? "09/29" : "••/••";
           ctx.$("[data-cvv]").textContent = reveal ? "318" : "•••";
-          ctx.$("[data-timer]").textContent = reveal ? `Hiding in ${reveal}s` : "";
+          ctx.$("[data-timer]").textContent = reveal ? `Se ocultará en ${reveal}s` : "";
         };
         ctx.on(ctx.$("[data-reveal]"), "click", () => ((reveal = 10), sync()));
         ctx.every(1000, () => reveal && (reveal--, sync()));
@@ -137,11 +137,11 @@
           const amt = Number(ctx.$("[data-amt]").value) || 0;
           const allowed = ctx.$(`[data-m="${m}"]`).getAttribute("aria-pressed") === "true";
           let reason = "";
-          if (ctx.$("[data-freeze]").checked) reason = "card frozen";
-          else if (!allowed) reason = "merchant not allowed";
-          else if (spent + amt > Number(ctx.$("[data-limit]").value)) reason = "over monthly limit";
+          if (ctx.$("[data-freeze]").checked) reason = "tarjeta congelada";
+          else if (!allowed) reason = "comercio no permitido";
+          else if (spent + amt > Number(ctx.$("[data-limit]").value)) reason = "excede el límite mensual";
           if (!reason) spent += amt;
-          ctx.$("[data-log]").insertAdjacentHTML("afterbegin", `<li><span class="dv-badge dv-badge--${reason ? "danger" : "success"}">${reason ? "Declined" : "Approved"}</span><span>${esc(m)}</span><span class="xp-mono">${ctx.fmt.money(amt)}</span><span class="dv-list__end dv-muted">${reason}</span></li>`);
+          ctx.$("[data-log]").insertAdjacentHTML("afterbegin", `<li><span class="dv-badge dv-badge--${reason ? "danger" : "success"}">${reason ? "Rechazada" : "Aprobada"}</span><span>${esc(m)}</span><span class="xp-mono">${ctx.fmt.money(amt)}</span><span class="dv-list__end dv-muted">${reason}</span></li>`);
           sync();
         });
         sync();
@@ -150,15 +150,15 @@
 
     "fx-currency-swap": {
       html: `
-        ${head("Fintech · fx-currency-swap.tsx", "FX currency swap", "Live-ticking rates, swap direction, slippage tolerance and a 15-second locked quote that refreshes when it expires.")}
+        ${head("Fintech · fx-currency-swap.tsx", "Cambio de divisas FX", "Tasas en tiempo real, dirección del cambio, tolerancia de deslizamiento y una cotización bloqueada de 15 segundos que se renueva al expirar.")}
         <div class="dv-card" style="max-width:480px;width:100%;margin:0 auto"><div class="dv-card__body dv-stack">
-          <div class="dv-row" style="flex-wrap:nowrap"><input class="dv-input xp-mono" style="font-size:20px;height:48px" type="number" min="0" value="2500" data-amt aria-label="Amount" /><select class="dv-select" style="width:110px;height:48px" data-from aria-label="From">${["USD", "EUR", "MXN", "GBP", "JPY"].map((c) => `<option>${c}</option>`).join("")}</select></div>
-          <button type="button" class="dv-btn dv-btn--icon" style="align-self:center" data-swap aria-label="Swap direction">⇅</button>
-          <div class="dv-row" style="flex-wrap:nowrap"><div class="dv-input xp-mono" style="font-size:20px;height:48px;display:flex;align-items:center" data-out></div><select class="dv-select" style="width:110px;height:48px" data-to aria-label="To">${["EUR", "USD", "MXN", "GBP", "JPY"].map((c) => `<option>${c}</option>`).join("")}</select></div>
-          <div class="dv-row"><span class="dv-label">Slippage</span><dv-segmented value="0.5" data-slip><button class="dv-segmented__item" value="0.1">0.1%</button><button class="dv-segmented__item" value="0.5">0.5%</button><button class="dv-segmented__item" value="1">1%</button></dv-segmented></div>
+          <div class="dv-row" style="flex-wrap:nowrap"><input class="dv-input xp-mono" style="font-size:20px;height:48px" type="number" min="0" value="2500" data-amt aria-label="Monto" /><select class="dv-select" style="width:110px;height:48px" data-from aria-label="De">${["USD", "EUR", "MXN", "GBP", "JPY"].map((c) => `<option>${c}</option>`).join("")}</select></div>
+          <button type="button" class="dv-btn dv-btn--icon" style="align-self:center" data-swap aria-label="Invertir dirección">⇅</button>
+          <div class="dv-row" style="flex-wrap:nowrap"><div class="dv-input xp-mono" style="font-size:20px;height:48px;display:flex;align-items:center" data-out></div><select class="dv-select" style="width:110px;height:48px" data-to aria-label="A">${["EUR", "USD", "MXN", "GBP", "JPY"].map((c) => `<option>${c}</option>`).join("")}</select></div>
+          <div class="dv-row"><span class="dv-label">Deslizamiento</span><dv-segmented value="0.5" data-slip><button class="dv-segmented__item" value="0.1">0.1%</button><button class="dv-segmented__item" value="0.5">0.5%</button><button class="dv-segmented__item" value="1">1%</button></dv-segmented></div>
           <dl class="xp-kv xp-mono" data-quote></dl>
           <progress class="dv-progress" max="15" value="15" data-lock></progress>
-          <button type="button" class="dv-btn dv-btn--primary dv-btn--block" data-go>Swap</button>
+          <button type="button" class="dv-btn dv-btn--primary dv-btn--block" data-go>Cambiar</button>
         </div></div>`,
       setup(root, ctx) {
         const base = { USD: 1, EUR: 0.925, MXN: 18.42, GBP: 0.79, JPY: 149.8 };
@@ -173,9 +173,9 @@
           const fee = amt * 0.002;
           const out = (amt - fee) * r;
           const slip = Number(ctx.$("[data-slip]").value || 0.5) / 100;
-          const fmt = (v, c) => new Intl.NumberFormat("en-US", { style: "currency", currency: c, maximumFractionDigits: c === "JPY" ? 0 : 2 }).format(v);
+          const fmt = (v, c) => new Intl.NumberFormat("es-MX", { style: "currency", currency: c, currencyDisplay: "narrowSymbol", maximumFractionDigits: c === "JPY" ? 0 : 2 }).format(v);
           ctx.$("[data-out]").textContent = fmt(out, to);
-          ctx.$("[data-quote]").innerHTML = `<dt>Rate</dt><dd>1 ${from} = ${r.toFixed(4)} ${to}</dd><dt>Fee (0.2%)</dt><dd>${fmt(fee, from)}</dd><dt>Min. received</dt><dd>${fmt(out * (1 - slip), to)}</dd><dt>Quote</dt><dd>${left ? `locked · ${left}s` : "refreshing…"}</dd>`;
+          ctx.$("[data-quote]").innerHTML = `<dt>Tasa</dt><dd>1 ${from} = ${r.toFixed(4)} ${to}</dd><dt>Comisión (0.2%)</dt><dd>${fmt(fee, from)}</dd><dt>Mín. recibido</dt><dd>${fmt(out * (1 - slip), to)}</dd><dt>Cotización</dt><dd>${left ? `bloqueada · ${left}s` : "actualizando…"}</dd>`;
           ctx.$("[data-lock]").value = left;
         };
         ctx.every(1000, () => {
@@ -196,8 +196,8 @@
           render();
         });
         ctx.on(ctx.$("[data-go]"), "click", () => {
-          if (ctx.$("[data-from]").value === ctx.$("[data-to]").value) return ctx.toast({ title: "Pick two different currencies", variant: "warning" });
-          ctx.toast({ title: "Swap executed", description: `${ctx.$("[data-amt]").value} ${ctx.$("[data-from]").value} → ${ctx.$("[data-out]").textContent}` });
+          if (ctx.$("[data-from]").value === ctx.$("[data-to]").value) return ctx.toast({ title: "Elige dos divisas distintas", variant: "warning" });
+          ctx.toast({ title: "Cambio ejecutado", description: `${ctx.$("[data-amt]").value} ${ctx.$("[data-from]").value} → ${ctx.$("[data-out]").textContent}` });
         });
         render();
       }
@@ -205,16 +205,16 @@
 
     "treasury-runway-burn": {
       html: `
-        ${head("Fintech · treasury-runway-burn.tsx", "Treasury runway burn", "Month-by-month cash projection from revenue, costs and growth rates. See the runway and zero-cash date move as you change assumptions or pick a scenario.")}
-        <div class="dv-row" data-scen>${["Base", "Lean", "Hire 5", "Raise $2M"].map((s, i) => `<button type="button" class="dv-chip" data-s="${s}" aria-pressed="${!i}">${s}</button>`).join("")}</div>
+        ${head("Fintech · treasury-runway-burn.tsx", "Quema y runway de tesorería", "Proyección de caja mes a mes a partir de ingresos, costos y tasas de crecimiento. Mira cómo se mueven el runway y la fecha de caja cero al cambiar los supuestos o elegir un escenario.")}
+        <div class="dv-row" data-scen>${["Base", "Austero", "Contratar 5", "Levantar $2M"].map((s, i) => `<button type="button" class="dv-chip" data-s="${s}" aria-pressed="${!i}">${s}</button>`).join("")}</div>
         <div class="dv-grid" style="--min:300px;align-items:start">
           <div class="xp-panel dv-stack" data-form>
-            ${[["cash", "Cash in bank ($k)", 1800], ["rev", "Monthly revenue ($k)", 85], ["cost", "Monthly costs ($k)", 190], ["rg", "Revenue growth %/mo", 6], ["cg", "Cost growth %/mo", 1.5]].map(([k, l, v]) => `<label class="dv-row" style="justify-content:space-between"><span>${l}</span><input class="dv-input xp-mono" type="number" step="0.5" style="width:110px" data-k="${k}" value="${v}" /></label>`).join("")}
+            ${[["cash", "Efectivo en banco ($k)", 1800], ["rev", "Ingresos mensuales ($k)", 85], ["cost", "Costos mensuales ($k)", 190], ["rg", "Crecimiento de ingresos %/mes", 6], ["cg", "Crecimiento de costos %/mes", 1.5]].map(([k, l, v]) => `<label class="dv-row" style="justify-content:space-between"><span>${l}</span><input class="dv-input xp-mono" type="number" step="0.5" style="width:110px" data-k="${k}" value="${v}" /></label>`).join("")}
           </div>
-          <div class="dv-stack"><div class="dv-grid" style="--min:140px"><div class="dv-stat"><span class="dv-eyebrow">Runway</span><span class="dv-stat__value" data-runway></span></div><div class="dv-stat"><span class="dv-eyebrow">Zero-cash</span><span class="dv-stat__value" style="font-size:18px" data-zero></span></div><div class="dv-stat"><span class="dv-eyebrow">Net burn now</span><span class="dv-stat__value" data-burn></span></div></div><div class="xp-panel"><svg class="xp-chart" viewBox="0 0 400 180" data-chart></svg></div></div>
+          <div class="dv-stack"><div class="dv-grid" style="--min:140px"><div class="dv-stat"><span class="dv-eyebrow">Runway</span><span class="dv-stat__value" data-runway></span></div><div class="dv-stat"><span class="dv-eyebrow">Caja cero</span><span class="dv-stat__value" style="font-size:18px" data-zero></span></div><div class="dv-stat"><span class="dv-eyebrow">Quema neta actual</span><span class="dv-stat__value" data-burn></span></div></div><div class="xp-panel"><svg class="xp-chart" viewBox="0 0 400 180" data-chart></svg></div></div>
         </div>`,
       setup(root, ctx) {
-        const scen = { Base: { cash: 1800, rev: 85, cost: 190, rg: 6, cg: 1.5 }, Lean: { cash: 1800, rev: 85, cost: 140, rg: 5, cg: 0.5 }, "Hire 5": { cash: 1800, rev: 85, cost: 255, rg: 8, cg: 1.5 }, "Raise $2M": { cash: 3800, rev: 85, cost: 210, rg: 7, cg: 2 } };
+        const scen = { Base: { cash: 1800, rev: 85, cost: 190, rg: 6, cg: 1.5 }, Austero: { cash: 1800, rev: 85, cost: 140, rg: 5, cg: 0.5 }, "Contratar 5": { cash: 1800, rev: 85, cost: 255, rg: 8, cg: 1.5 }, "Levantar $2M": { cash: 3800, rev: 85, cost: 210, rg: 7, cg: 2 } };
         const render = () => {
           const v = Object.fromEntries(ctx.$$("[data-k]").map((i) => [i.dataset.k, Number(i.value) || 0]));
           let cash = v.cash;
@@ -230,15 +230,15 @@
             if (cash <= 0 && zero < 0) zero = m;
           }
           const profitable = zero < 0;
-          ctx.$("[data-runway]").textContent = profitable ? "∞" : `${zero} mo`;
-          ctx.$("[data-zero]").textContent = profitable ? "Default alive ✓" : new Date(new Date().getFullYear(), new Date().getMonth() + zero, 1).toLocaleDateString("en-US", { month: "short", year: "numeric" });
+          ctx.$("[data-runway]").textContent = profitable ? "∞" : `${zero} m`;
+          ctx.$("[data-zero]").textContent = profitable ? "Rentable por defecto ✓" : new Date(new Date().getFullYear(), new Date().getMonth() + zero, 1).toLocaleDateString("es-MX", { month: "short", year: "numeric" });
           ctx.$("[data-burn]").textContent = `$${Math.max(0, v.cost - v.rev).toFixed(0)}k`;
           const C = DEVL_XP.chart;
           const max = C.niceMax(Math.max(...pts));
           const min = Math.min(0, ...pts);
           const x = C.scale(0, 48, 30, 395);
           const y = C.scale(min, max, 165, 10);
-          ctx.$("[data-chart]").innerHTML = `<line x1="30" x2="395" y1="${y(0)}" y2="${y(0)}" stroke="var(--dv-danger)" stroke-dasharray="4 3" opacity=".6"/><path d="${C.path(pts.map((p, i) => [x(i), y(p)]))}" fill="none" stroke="var(--xp-accent)" stroke-width="2"/>${zero > 0 ? `<circle cx="${x(zero)}" cy="${y(0)}" r="4" fill="var(--dv-danger)"/><text x="${x(zero)}" y="${y(0) - 8}" text-anchor="middle">month ${zero}</text>` : ""}<text x="30" y="178">now</text><text x="395" y="178" text-anchor="end">+48 mo</text>`;
+          ctx.$("[data-chart]").innerHTML = `<line x1="30" x2="395" y1="${y(0)}" y2="${y(0)}" stroke="var(--dv-danger)" stroke-dasharray="4 3" opacity=".6"/><path d="${C.path(pts.map((p, i) => [x(i), y(p)]))}" fill="none" stroke="var(--xp-accent)" stroke-width="2"/>${zero > 0 ? `<circle cx="${x(zero)}" cy="${y(0)}" r="4" fill="var(--dv-danger)"/><text x="${x(zero)}" y="${y(0) - 8}" text-anchor="middle">mes ${zero}</text>` : ""}<text x="30" y="178">hoy</text><text x="395" y="178" text-anchor="end">+48 m</text>`;
         };
         ctx.on(ctx.$("[data-form]"), "input", render);
         ctx.on(ctx.$("[data-scen]"), "click", (e) => {
@@ -254,13 +254,13 @@
 
     "liquidity-pool-range": {
       html: `
-        ${head("Fintech · liquidity-pool-range.tsx", "Liquidity range concentrated", "Set a price range over the liquidity histogram. Narrower ranges earn more fees while in range — and nothing once price leaves it.")}
+        ${head("Fintech · liquidity-pool-range.tsx", "Rango de liquidez concentrada", "Define un rango de precios sobre el histograma de liquidez. Los rangos más estrechos ganan más comisiones mientras el precio esté dentro, y nada cuando sale.")}
         <div class="xp-panel"><svg class="xp-chart" viewBox="0 0 600 200" data-hist></svg></div>
         <div class="dv-grid" style="--min:240px">
-          <label class="dv-field"><span class="dv-label">Min price <strong class="xp-mono" id="lp-min">$1,700</strong></span><input type="range" class="dv-range" min="1000" max="3000" step="10" value="1700" data-min data-dv-output="#lp-min" aria-label="Min price" /></label>
-          <label class="dv-field"><span class="dv-label">Max price <strong class="xp-mono" id="lp-max">$2,300</strong></span><input type="range" class="dv-range" min="1000" max="3000" step="10" value="2300" data-max data-dv-output="#lp-max" aria-label="Max price" /></label>
+          <label class="dv-field"><span class="dv-label">Precio mín. <strong class="xp-mono" id="lp-min">$1,700</strong></span><input type="range" class="dv-range" min="1000" max="3000" step="10" value="1700" data-min data-dv-output="#lp-min" aria-label="Precio mínimo" /></label>
+          <label class="dv-field"><span class="dv-label">Precio máx. <strong class="xp-mono" id="lp-max">$2,300</strong></span><input type="range" class="dv-range" min="1000" max="3000" step="10" value="2300" data-max data-dv-output="#lp-max" aria-label="Precio máximo" /></label>
         </div>
-        <div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-drift>Simulate price move</button><div class="dv-grid" style="--min:150px;flex:1"><div class="dv-stat"><span class="dv-eyebrow">Status</span><span data-status></span></div><div class="dv-stat"><span class="dv-eyebrow">Est. APR</span><span class="dv-stat__value" data-apr></span></div><div class="dv-stat"><span class="dv-eyebrow">Capital efficiency</span><span class="dv-stat__value" data-eff></span></div></div></div>`,
+        <div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-drift>Simular movimiento de precio</button><div class="dv-grid" style="--min:150px;flex:1"><div class="dv-stat"><span class="dv-eyebrow">Estado</span><span data-status></span></div><div class="dv-stat"><span class="dv-eyebrow">APR est.</span><span class="dv-stat__value" data-apr></span></div><div class="dv-stat"><span class="dv-eyebrow">Eficiencia de capital</span><span class="dv-stat__value" data-eff></span></div></div></div>`,
       setup(root, ctx) {
         let price = 2000;
         const bins = Array.from({ length: 40 }, (_, i) => {
@@ -274,8 +274,8 @@
             hi = lo + 10;
             ctx.$("[data-max]").value = String(hi);
           }
-          ctx.$("#lp-min").textContent = `$${lo.toLocaleString("en-US")}`;
-          ctx.$("#lp-max").textContent = `$${hi.toLocaleString("en-US")}`;
+          ctx.$("#lp-min").textContent = `$${lo.toLocaleString("es-MX")}`;
+          ctx.$("#lp-max").textContent = `$${hi.toLocaleString("es-MX")}`;
           const max = Math.max(...bins.map((b) => b.l));
           const X0 = (p) => ((p - 1000) / 2000) * 580 + 10;
           ctx.$("[data-hist]").innerHTML =
@@ -284,7 +284,7 @@
             `<line x1="${X0(price)}" x2="${X0(price)}" y1="0" y2="180" stroke="var(--dv-warning)" stroke-width="2"/><text x="${X0(price)}" y="196" text-anchor="middle">$${price.toFixed(0)}</text>`;
           const inRange = price >= lo && price <= hi;
           const eff = Math.sqrt(hi / lo) / (Math.sqrt(hi / lo) - 1);
-          ctx.$("[data-status]").innerHTML = inRange ? '<span class="dv-badge dv-badge--success">In range · earning</span>' : '<span class="dv-badge dv-badge--danger">Out of range · 0 fees</span>';
+          ctx.$("[data-status]").innerHTML = inRange ? '<span class="dv-badge dv-badge--success">En rango · generando</span>' : '<span class="dv-badge dv-badge--danger">Fuera de rango · 0 comisiones</span>';
           ctx.$("[data-apr]").textContent = inRange ? `${Math.min(999, 4.2 * eff).toFixed(1)}%` : "0%";
           ctx.$("[data-eff]").textContent = `${eff.toFixed(1)}×`;
         };
@@ -307,15 +307,15 @@
 
     "wire-transfer-stepper": {
       html: `
-        ${head("Fintech · wire-transfer-stepper.tsx", "Wire transfer stepper", "Recipient → amount → review → sent. The IBAN is validated with the real ISO 13616 mod-97 checksum (try GB82 WEST 1234 5698 7654 32).")}
+        ${head("Fintech · wire-transfer-stepper.tsx", "Asistente de transferencia bancaria", "Destinatario → monto → revisión → enviada. El IBAN se valida con la suma de verificación real mod-97 de ISO 13616 (prueba GB82 WEST 1234 5698 7654 32).")}
         <div class="xp-panel dv-stack" style="max-width:560px;width:100%;margin:0 auto">
-          <ol class="dv-steps" data-steps><li aria-current="step">Recipient</li><li>Amount</li><li>Review</li><li>Sent</li></ol>
-          <section data-p="0" class="dv-stack"><label class="dv-field"><span class="dv-label">Beneficiary name</span><input class="dv-input" data-name value="Globex GmbH" /></label><label class="dv-field"><span class="dv-label">IBAN</span><input class="dv-input xp-mono" data-iban placeholder="DE89 3704 0044 0532 0130 00" /><span class="dv-hint" data-iban-hint></span></label><label class="dv-field"><span class="dv-label">BIC / SWIFT</span><input class="dv-input xp-mono" data-bic value="COBADEFFXXX" /></label></section>
-          <section data-p="1" class="dv-stack" hidden><div class="dv-row" style="flex-wrap:nowrap"><input class="dv-input xp-mono" type="number" min="1" value="12500" data-amt aria-label="Amount" style="font-size:18px" /><select class="dv-select" style="width:100px" data-cur aria-label="Currency"><option>EUR</option><option>USD</option><option>GBP</option></select></div><label class="dv-field"><span class="dv-label">Reference</span><input class="dv-input" data-ref value="INV-2094" /></label><dl class="xp-kv xp-mono" data-fees></dl></section>
-          <section data-p="2" class="dv-stack" hidden><dl class="xp-kv" data-review></dl><label class="dv-choice"><input type="checkbox" class="dv-check" data-confirm /> I confirm the details are correct</label></section>
-          <section data-p="3" class="dv-stack" hidden><div class="dv-alert dv-alert--success"><div><div class="dv-alert__title">Transfer submitted</div><div class="dv-alert__desc" data-done></div></div></div></section>
+          <ol class="dv-steps" data-steps><li aria-current="step">Destinatario</li><li>Monto</li><li>Revisión</li><li>Enviada</li></ol>
+          <section data-p="0" class="dv-stack"><label class="dv-field"><span class="dv-label">Nombre del beneficiario</span><input class="dv-input" data-name value="Globex GmbH" /></label><label class="dv-field"><span class="dv-label">IBAN</span><input class="dv-input xp-mono" data-iban placeholder="DE89 3704 0044 0532 0130 00" /><span class="dv-hint" data-iban-hint></span></label><label class="dv-field"><span class="dv-label">BIC / SWIFT</span><input class="dv-input xp-mono" data-bic value="COBADEFFXXX" /></label></section>
+          <section data-p="1" class="dv-stack" hidden><div class="dv-row" style="flex-wrap:nowrap"><input class="dv-input xp-mono" type="number" min="1" value="12500" data-amt aria-label="Monto" style="font-size:18px" /><select class="dv-select" style="width:100px" data-cur aria-label="Divisa"><option>EUR</option><option>USD</option><option>GBP</option></select></div><label class="dv-field"><span class="dv-label">Referencia</span><input class="dv-input" data-ref value="INV-2094" /></label><dl class="xp-kv xp-mono" data-fees></dl></section>
+          <section data-p="2" class="dv-stack" hidden><dl class="xp-kv" data-review></dl><label class="dv-choice"><input type="checkbox" class="dv-check" data-confirm /> Confirmo que los datos son correctos</label></section>
+          <section data-p="3" class="dv-stack" hidden><div class="dv-alert dv-alert--success"><div><div class="dv-alert__title">Transferencia enviada</div><div class="dv-alert__desc" data-done></div></div></div></section>
           <span class="dv-error" data-err></span>
-          <div class="dv-row"><button type="button" class="dv-btn" data-back disabled>Back</button><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--primary" data-next>Continue</button></div>
+          <div class="dv-row"><button type="button" class="dv-btn" data-back disabled>Atrás</button><span class="dv-spacer"></span><button type="button" class="dv-btn dv-btn--primary" data-next>Continuar</button></div>
         </div>`,
       setup(root, ctx) {
         let step = 0;
@@ -333,13 +333,13 @@
           const s = iban.value.replace(/\s+/g, "").toUpperCase();
           iban.value = s.replace(/(.{4})/g, "$1 ").trim();
           const ok = ibanOk(s);
-          ctx.$("[data-iban-hint]").innerHTML = s.length < 15 ? "" : ok ? '<span style="color:var(--dv-success)">✓ Valid checksum</span>' : '<span style="color:var(--dv-danger)">✕ Checksum failed</span>';
+          ctx.$("[data-iban-hint]").innerHTML = s.length < 15 ? "" : ok ? '<span style="color:var(--dv-success)">✓ Suma de verificación válida</span>' : '<span style="color:var(--dv-danger)">✕ Suma de verificación inválida</span>';
         });
         const fees = () => {
           const amt = Number(ctx.$("[data-amt]").value) || 0;
           const cur = ctx.$("[data-cur]").value;
           const fee = cur === "EUR" ? 0 : 15;
-          ctx.$("[data-fees]").innerHTML = `<dt>Transfer fee</dt><dd>${fee ? `${fee} ${cur} (SWIFT)` : "Free (SEPA)"}</dd><dt>Total debited</dt><dd>${(amt + fee).toLocaleString("en-US")} ${cur}</dd><dt>Arrives</dt><dd>${fee ? "1–2 business days" : "Today (SEPA Instant)"}</dd>`;
+          ctx.$("[data-fees]").innerHTML = `<dt>Comisión de transferencia</dt><dd>${fee ? `${fee} ${cur} (SWIFT)` : "Gratis (SEPA)"}</dd><dt>Total debitado</dt><dd>${(amt + fee).toLocaleString("es-MX")} ${cur}</dd><dt>Llega</dt><dd>${fee ? "1–2 días hábiles" : "Hoy (SEPA Instant)"}</dd>`;
         };
         ctx.on(ctx.$("[data-amt]"), "input", fees);
         ctx.on(ctx.$("[data-cur]"), "change", fees);
@@ -353,25 +353,25 @@
             if (i === n) li.setAttribute("aria-current", "step");
           });
           ctx.$("[data-back]").disabled = n === 0 || n === 3;
-          ctx.$("[data-next]").textContent = n === 2 ? "Send transfer" : n === 3 ? "New transfer" : "Continue";
+          ctx.$("[data-next]").textContent = n === 2 ? "Enviar transferencia" : n === 3 ? "Nueva transferencia" : "Continuar";
           ctx.$("[data-err]").textContent = "";
-          if (n === 2) ctx.$("[data-review]").innerHTML = `<dt>To</dt><dd>${esc(ctx.$("[data-name]").value)}</dd><dt>IBAN</dt><dd class="xp-mono">${esc(iban.value)}</dd><dt>BIC</dt><dd class="xp-mono">${esc(ctx.$("[data-bic]").value)}</dd><dt>Amount</dt><dd>${Number(ctx.$("[data-amt]").value).toLocaleString("en-US")} ${ctx.$("[data-cur]").value}</dd><dt>Reference</dt><dd>${esc(ctx.$("[data-ref]").value)}</dd>`;
+          if (n === 2) ctx.$("[data-review]").innerHTML = `<dt>Para</dt><dd>${esc(ctx.$("[data-name]").value)}</dd><dt>IBAN</dt><dd class="xp-mono">${esc(iban.value)}</dd><dt>BIC</dt><dd class="xp-mono">${esc(ctx.$("[data-bic]").value)}</dd><dt>Monto</dt><dd>${Number(ctx.$("[data-amt]").value).toLocaleString("es-MX")} ${ctx.$("[data-cur]").value}</dd><dt>Referencia</dt><dd>${esc(ctx.$("[data-ref]").value)}</dd>`;
           if (n === 1) fees();
         };
         ctx.on(ctx.$("[data-next]"), "click", (e) => {
           let err = "";
           if (step === 0) {
-            if (!ctx.$("[data-name]").value.trim()) err = "Enter the beneficiary name.";
-            else if (!ibanOk(iban.value)) err = "IBAN is invalid.";
-            else if (!/^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/.test(ctx.$("[data-bic]").value.toUpperCase())) err = "BIC must be 8 or 11 characters.";
-          } else if (step === 1 && !(Number(ctx.$("[data-amt]").value) > 0)) err = "Enter an amount.";
-          else if (step === 2 && !ctx.$("[data-confirm]").checked) err = "Please confirm the details.";
+            if (!ctx.$("[data-name]").value.trim()) err = "Ingresa el nombre del beneficiario.";
+            else if (!ibanOk(iban.value)) err = "El IBAN no es válido.";
+            else if (!/^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$/.test(ctx.$("[data-bic]").value.toUpperCase())) err = "El BIC debe tener 8 u 11 caracteres.";
+          } else if (step === 1 && !(Number(ctx.$("[data-amt]").value) > 0)) err = "Ingresa un monto.";
+          else if (step === 2 && !ctx.$("[data-confirm]").checked) err = "Confirma los datos.";
           if (err) return (ctx.$("[data-err]").textContent = err);
           if (step === 2) {
             e.target.setAttribute("aria-busy", "true");
             return ctx.timeout(900, () => {
               e.target.removeAttribute("aria-busy");
-              ctx.$("[data-done]").textContent = `Reference WT-${Date.now().toString(36).toUpperCase()} · track it in Transactions.`;
+              ctx.$("[data-done]").textContent = `Referencia WT-${Date.now().toString(36).toUpperCase()} · síguela en Transacciones.`;
               go(3);
             });
           }
@@ -388,10 +388,10 @@
 
     "tax-lot-harvester": {
       html: `
-        ${head("Fintech · tax-lot-harvester.tsx", "Tax lot harvester", "Choose a quantity and a lot-selection method (FIFO / LIFO / HIFO) or tick lots by hand; realized short- and long-term gains and estimated tax recompute.")}
-        <div class="dv-row"><span class="dv-label">Sell</span><input class="dv-input xp-mono" type="number" min="0" value="60" style="width:90px" data-qty aria-label="Quantity" /><span>shares at</span><input class="dv-input xp-mono" type="number" value="182" style="width:90px" data-price aria-label="Price" /><dv-segmented value="hifo" data-method><button class="dv-segmented__item" value="fifo">FIFO</button><button class="dv-segmented__item" value="lifo">LIFO</button><button class="dv-segmented__item" value="hifo">HIFO</button><button class="dv-segmented__item" value="manual">Manual</button></dv-segmented></div>
-        <div class="dv-table-wrap"><table class="dv-table"><thead><tr><th></th><th>Acquired</th><th class="is-num">Shares</th><th class="is-num">Cost/share</th><th>Term</th><th class="is-num">Sell</th><th class="is-num">Gain/loss</th></tr></thead><tbody data-lots></tbody></table></div>
-        <div class="dv-grid" style="--min:170px"><div class="dv-stat"><span class="dv-eyebrow">Short-term</span><span class="dv-stat__value" data-st></span></div><div class="dv-stat"><span class="dv-eyebrow">Long-term</span><span class="dv-stat__value" data-lt></span></div><div class="dv-stat"><span class="dv-eyebrow">Est. tax</span><span class="dv-stat__value" data-tax></span></div></div>`,
+        ${head("Fintech · tax-lot-harvester.tsx", "Cosecha de lotes fiscales", "Elige una cantidad y un método de selección de lotes (FIFO / LIFO / HIFO) o marca los lotes a mano; las ganancias realizadas a corto y largo plazo y el impuesto estimado se recalculan.")}
+        <div class="dv-row"><span class="dv-label">Vender</span><input class="dv-input xp-mono" type="number" min="0" value="60" style="width:90px" data-qty aria-label="Cantidad" /><span>acciones a</span><input class="dv-input xp-mono" type="number" value="182" style="width:90px" data-price aria-label="Precio" /><dv-segmented value="hifo" data-method><button class="dv-segmented__item" value="fifo">FIFO</button><button class="dv-segmented__item" value="lifo">LIFO</button><button class="dv-segmented__item" value="hifo">HIFO</button><button class="dv-segmented__item" value="manual">Manual</button></dv-segmented></div>
+        <div class="dv-table-wrap"><table class="dv-table"><thead><tr><th></th><th>Adquirido</th><th class="is-num">Acciones</th><th class="is-num">Costo/acción</th><th>Plazo</th><th class="is-num">Vender</th><th class="is-num">Ganancia/pérdida</th></tr></thead><tbody data-lots></tbody></table></div>
+        <div class="dv-grid" style="--min:170px"><div class="dv-stat"><span class="dv-eyebrow">Corto plazo</span><span class="dv-stat__value" data-st></span></div><div class="dv-stat"><span class="dv-eyebrow">Largo plazo</span><span class="dv-stat__value" data-lt></span></div><div class="dv-stat"><span class="dv-eyebrow">Impuesto est.</span><span class="dv-stat__value" data-tax></span></div></div>`,
       setup(root, ctx) {
         const today = new Date();
         const lots = [["2023-03-14", 40, 121], ["2024-01-08", 25, 168], ["2025-06-20", 30, 201], ["2025-11-02", 20, 155], ["2026-04-11", 35, 190]].map(([d, n, c]) => ({ d, n, c, pick: 0 }));
@@ -415,7 +415,7 @@
             .map((l, i) => {
               const g = (price - l.c) * l.pick;
               longTerm(l.d) ? (lt += g) : (st += g);
-              return `<tr><td><input type="checkbox" class="dv-check" data-i="${i}"${l.pick ? " checked" : ""}${method === "manual" ? "" : " disabled"} aria-label="Sell lot ${i + 1}" /></td><td class="xp-mono">${l.d}</td><td class="is-num">${l.n}</td><td class="is-num">$${l.c}</td><td><span class="dv-badge dv-badge--${longTerm(l.d) ? "success" : "warning"}">${longTerm(l.d) ? "Long" : "Short"}</span></td><td class="is-num">${l.pick}</td><td class="is-num" style="color:${g >= 0 ? "var(--dv-success)" : "var(--dv-danger)"}">${g ? ctx.fmt.money(g, "USD", 0) : "—"}</td></tr>`;
+              return `<tr><td><input type="checkbox" class="dv-check" data-i="${i}"${l.pick ? " checked" : ""}${method === "manual" ? "" : " disabled"} aria-label="Vender lote ${i + 1}" /></td><td class="xp-mono">${l.d}</td><td class="is-num">${l.n}</td><td class="is-num">$${l.c}</td><td><span class="dv-badge dv-badge--${longTerm(l.d) ? "success" : "warning"}">${longTerm(l.d) ? "Largo" : "Corto"}</span></td><td class="is-num">${l.pick}</td><td class="is-num" style="color:${g >= 0 ? "var(--dv-success)" : "var(--dv-danger)"}">${g ? ctx.fmt.money(g, "USD", 0) : "—"}</td></tr>`;
             })
             .join("");
           const color = (v) => `<span style="color:${v >= 0 ? "var(--dv-success)" : "var(--dv-danger)"}">${ctx.fmt.money(v, "USD", 0)}</span>`;
@@ -440,13 +440,13 @@
 
     "multi-sig-quorum": {
       html: `
-        ${head("Fintech · multi-sig-quorum.tsx", "Multi-sig quorum", "Collect signatures from hardware signers until the threshold is met, then execute. Change the threshold to see the policy react.")}
+        ${head("Fintech · multi-sig-quorum.tsx", "Quórum multifirma", "Reúne firmas de firmantes con hardware hasta alcanzar el umbral y luego ejecuta. Cambia el umbral para ver cómo reacciona la política.")}
         <div class="dv-grid" style="--min:300px;align-items:start">
-          <div class="xp-panel dv-stack"><span class="dv-eyebrow">Transaction · nonce <span data-nonce>41</span></span><dl class="xp-kv xp-mono"><dt>To</dt><dd>0x9F2a…71E0</dd><dt>Amount</dt><dd>25,000 USDC</dd><dt>Memo</dt><dd>Q4 payroll</dd></dl><div class="dv-row"><span class="dv-label">Threshold</span><div class="dv-number"><button type="button" data-step="-1" aria-label="Lower">−</button><input type="number" min="1" max="5" value="3" data-th aria-label="Threshold" /><button type="button" data-step="1" aria-label="Raise">+</button></div><span class="dv-muted">of 5</span></div><progress class="dv-progress" max="3" value="0" data-bar></progress><button type="button" class="dv-btn dv-btn--primary" data-exec disabled>Execute transaction</button></div>
+          <div class="xp-panel dv-stack"><span class="dv-eyebrow">Transacción · nonce <span data-nonce>41</span></span><dl class="xp-kv xp-mono"><dt>Para</dt><dd>0x9F2a…71E0</dd><dt>Monto</dt><dd>25,000 USDC</dd><dt>Concepto</dt><dd>Nómina T4</dd></dl><div class="dv-row"><span class="dv-label">Umbral</span><div class="dv-number"><button type="button" data-step="-1" aria-label="Reducir">−</button><input type="number" min="1" max="5" value="3" data-th aria-label="Umbral" /><button type="button" data-step="1" aria-label="Aumentar">+</button></div><span class="dv-muted">de 5</span></div><progress class="dv-progress" max="3" value="0" data-bar></progress><button type="button" class="dv-btn dv-btn--primary" data-exec disabled>Ejecutar transacción</button></div>
           <ul class="dv-list" data-signers></ul>
         </div>`,
       setup(root, ctx) {
-        const signers = [["Luis", "Ledger"], ["Ana", "Trezor"], ["Leo", "GridPlus"], ["Sara", "Ledger"], ["CFO vault", "HSM"]].map(([n, d]) => ({ n, d, state: "pending" }));
+        const signers = [["Luis", "Ledger"], ["Ana", "Trezor"], ["Leo", "GridPlus"], ["Sara", "Ledger"], ["Bóveda CFO", "HSM"]].map(([n, d]) => ({ n, d, state: "pending" }));
         let nonce = 41;
         const render = () => {
           const th = Math.max(1, Math.min(5, Number(ctx.$("[data-th]").value) || 1));
@@ -454,8 +454,8 @@
           ctx.$("[data-bar]").max = th;
           ctx.$("[data-bar]").value = Math.min(th, signed);
           ctx.$("[data-exec]").disabled = signed < th;
-          ctx.$("[data-exec]").textContent = signed < th ? `Need ${th - signed} more signature${th - signed > 1 ? "s" : ""}` : "Execute transaction";
-          ctx.$("[data-signers]").innerHTML = signers.map((s, i) => `<li><span class="dv-avatar dv-avatar--sm">${s.n[0]}</span><div style="flex:1"><div class="dv-list__title">${s.n}</div><div class="dv-list__desc">${s.d}</div></div>${s.state === "signed" ? '<span class="dv-badge dv-badge--success">✓ Signed</span>' : s.state === "signing" ? '<span class="dv-badge dv-badge--info"><span class="dv-spinner" style="--size:10px;margin-right:4px"></span>Confirm on device…</span>' : `<button type="button" class="dv-btn dv-btn--sm" data-sign="${i}">Sign</button>`}</li>`).join("");
+          ctx.$("[data-exec]").textContent = signed < th ? `Faltan ${th - signed} firma${th - signed > 1 ? "s" : ""}` : "Ejecutar transacción";
+          ctx.$("[data-signers]").innerHTML = signers.map((s, i) => `<li><span class="dv-avatar dv-avatar--sm">${s.n[0]}</span><div style="flex:1"><div class="dv-list__title">${s.n}</div><div class="dv-list__desc">${s.d}</div></div>${s.state === "signed" ? '<span class="dv-badge dv-badge--success">✓ Firmada</span>' : s.state === "signing" ? '<span class="dv-badge dv-badge--info"><span class="dv-spinner" style="--size:10px;margin-right:4px"></span>Confirma en el dispositivo…</span>' : `<button type="button" class="dv-btn dv-btn--sm" data-sign="${i}">Firmar</button>`}</li>`).join("");
           ctx.$("[data-nonce]").textContent = String(nonce);
         };
         ctx.on(ctx.$("[data-signers]"), "click", (e) => {
@@ -472,7 +472,7 @@
         ctx.on(ctx.$("[data-th]"), "input", render);
         ctx.on(root, "click", (e) => e.target.closest("[data-step]") && ctx.timeout(0, render));
         ctx.on(ctx.$("[data-exec]"), "click", () => {
-          ctx.toast({ title: "Transaction executed", description: `nonce ${nonce} · 25,000 USDC sent` });
+          ctx.toast({ title: "Transacción ejecutada", description: `nonce ${nonce} · 25,000 USDC enviados` });
           nonce++;
           signers.forEach((s) => (s.state = "pending"));
           render();
@@ -483,25 +483,25 @@
   });
 
   // ==========================================================================
-  // PRICING
+  // PRECIOS
   // ==========================================================================
   const currencies = { USD: 1, EUR: 0.93, MXN: 18 };
-  const fmtCur = (v, c) => new Intl.NumberFormat("en-US", { style: "currency", currency: c, maximumFractionDigits: 0 }).format(v * currencies[c]);
+  const fmtCur = (v, c) => new Intl.NumberFormat("es-MX", { style: "currency", currency: c, maximumFractionDigits: 0 }).format(v * currencies[c]);
   X.fmtCur = fmtCur;
 
   X.addMany("pricing", {
     "three-tier": {
       html: `
-        ${head("Pricing · three-tier.tsx", "Three-tier", "Hobby / Pro / Enterprise with billing toggle, currency switch and feature tooltips. CTAs act for real.")}
-        <div class="dv-row" style="justify-content:center"><dv-segmented value="year" data-period><button class="dv-segmented__item" value="month">Monthly</button><button class="dv-segmented__item" value="year">Yearly −20%</button></dv-segmented><select class="dv-select" style="width:auto" data-cur aria-label="Currency"><option>USD</option><option>EUR</option><option>MXN</option></select></div>
+        ${head("Pricing · three-tier.tsx", "Tres niveles", "Personal / Pro / Enterprise con selector de facturación, cambio de divisa y tooltips de funciones. Los botones funcionan de verdad.")}
+        <div class="dv-row" style="justify-content:center"><dv-segmented value="year" data-period><button class="dv-segmented__item" value="month">Mensual</button><button class="dv-segmented__item" value="year">Anual −20%</button></dv-segmented><select class="dv-select" style="width:auto" data-cur aria-label="Divisa"><option>USD</option><option>EUR</option><option>MXN</option></select></div>
         <div class="dv-grid" style="--min:230px;align-items:stretch" data-tiers></div>`,
       setup(root, ctx) {
-        const tiers = [["Hobby", 0, ["1 workspace", "3 projects", "Community support"], "Start free"], ["Pro", 24, ["Unlimited projects", "Custom domains", "Version history", "Priority support"], "Start trial"], ["Enterprise", null, ["SSO & SCIM", "Audit log", "99.99% SLA", "Dedicated CSM"], "Contact sales"]];
-        const tips = { "Custom domains": "Serve docs at docs.yourco.com", "Version history": "90 days of snapshots", "SSO & SCIM": "Okta, Azure AD, Google", "99.99% SLA": "Credits if we miss it" };
+        const tiers = [["Personal", 0, ["1 espacio de trabajo", "3 proyectos", "Soporte de la comunidad"], "Empieza gratis"], ["Pro", 24, ["Proyectos ilimitados", "Dominios personalizados", "Historial de versiones", "Soporte prioritario"], "Iniciar prueba"], ["Enterprise", null, ["SSO y SCIM", "Registro de auditoría", "SLA del 99.99%", "CSM dedicado"], "Contactar a ventas"]];
+        const tips = { "Dominios personalizados": "Sirve tu documentación en docs.tuempresa.com", "Historial de versiones": "90 días de respaldos", "SSO y SCIM": "Okta, Azure AD, Google", "SLA del 99.99%": "Créditos si no lo cumplimos" };
         const render = () => {
           const y = (ctx.$("[data-period]").value || "year") === "year";
           const c = ctx.$("[data-cur]").value;
-          ctx.$("[data-tiers]").innerHTML = tiers.map(([n, p, feats, cta], i) => `<div class="dv-card${i === 1 ? "" : " dv-card--flat"}" style="${i === 1 ? "border-color:var(--xp-accent)" : ""}"><div class="dv-card__body dv-stack" style="height:100%"><div class="dv-row"><span class="dv-eyebrow">${n}</span>${i === 1 ? '<span class="dv-badge dv-badge--accent">Most popular</span>' : ""}</div><div class="xp-num">${p === null ? "Custom" : fmtCur(y ? p * 0.8 : p, c)}${p ? '<span class="dv-muted" style="font-size:12px">/mo</span>' : ""}</div><span class="dv-hint">${p ? (y ? `${fmtCur(p * 0.8 * 12, c)} billed yearly` : "Billed monthly") : p === 0 ? "Free forever" : "Annual contract"}</span><ul class="dv-stack" style="--gap:6px;list-style:none;padding:0;font-size:12px;flex:1">${feats.map((f) => `<li>✓ ${tips[f] ? `<span data-dv-tooltip="${tips[f]}" style="border-bottom:1px dotted var(--dv-fg-subtle);cursor:help">${f}</span>` : f}</li>`).join("")}</ul><button type="button" class="dv-btn dv-btn--block ${i === 1 ? "dv-btn--primary" : ""}" data-cta="${n}">${cta}</button></div></div>`).join("");
+          ctx.$("[data-tiers]").innerHTML = tiers.map(([n, p, feats, cta], i) => `<div class="dv-card${i === 1 ? "" : " dv-card--flat"}" style="${i === 1 ? "border-color:var(--xp-accent)" : ""}"><div class="dv-card__body dv-stack" style="height:100%"><div class="dv-row"><span class="dv-eyebrow">${n}</span>${i === 1 ? '<span class="dv-badge dv-badge--accent">Más popular</span>' : ""}</div><div class="xp-num">${p === null ? "A medida" : fmtCur(y ? p * 0.8 : p, c)}${p ? '<span class="dv-muted" style="font-size:12px">/mes</span>' : ""}</div><span class="dv-hint">${p ? (y ? `${fmtCur(p * 0.8 * 12, c)} facturado anualmente` : "Facturado mensualmente") : p === 0 ? "Gratis para siempre" : "Contrato anual"}</span><ul class="dv-stack" style="--gap:6px;list-style:none;padding:0;font-size:12px;flex:1">${feats.map((f) => `<li>✓ ${tips[f] ? `<span data-dv-tooltip="${tips[f]}" style="border-bottom:1px dotted var(--dv-fg-subtle);cursor:help">${f}</span>` : f}</li>`).join("")}</ul><button type="button" class="dv-btn dv-btn--block ${i === 1 ? "dv-btn--primary" : ""}" data-cta="${n}">${cta}</button></div></div>`).join("");
         };
         ctx.on(ctx.$("[data-period]"), "dv-change", render);
         ctx.on(ctx.$("[data-cur]"), "change", render);
@@ -511,7 +511,7 @@
           b.setAttribute("aria-busy", "true");
           ctx.timeout(600, () => {
             b.removeAttribute("aria-busy");
-            ctx.toast({ title: b.dataset.cta === "Enterprise" ? "Sales will reach out within 24h" : `${b.dataset.cta} plan selected` });
+            ctx.toast({ title: b.dataset.cta === "Enterprise" ? "Ventas te contactará en menos de 24 h" : `Plan ${b.dataset.cta} seleccionado` });
           });
         });
         render();
@@ -520,20 +520,20 @@
 
     "comparison-table": {
       html: `
-        ${head("Pricing · comparison-table.tsx", "Feature matrix", "Sticky header, collapsible categories, “only differences” filter and a selectable plan column.")}
-        <div class="dv-row"><label class="dv-choice">Only show differences <input type="checkbox" role="switch" class="dv-switch" data-diff /></label><span class="dv-spacer"></span><span class="dv-badge dv-badge--accent" data-sel>Selected: Pro</span></div>
+        ${head("Pricing · comparison-table.tsx", "Matriz de funciones", "Encabezado fijo, categorías plegables, filtro de «solo diferencias» y una columna de plan seleccionable.")}
+        <div class="dv-row"><label class="dv-choice">Mostrar solo diferencias <input type="checkbox" role="switch" class="dv-switch" data-diff /></label><span class="dv-spacer"></span><span class="dv-badge dv-badge--accent" data-sel>Seleccionado: Pro</span></div>
         <div class="dv-table-wrap" style="max-height:440px;overflow:auto"><table class="dv-table" data-t></table></div>`,
       setup(root, ctx) {
-        const plans = ["Free", "Pro", "Team", "Enterprise"];
-        const cats = { Core: [["Projects", "3", "∞", "∞", "∞"], ["Members", "1", "5", "25", "∞"], ["Storage", "1 GB", "50 GB", "500 GB", "Custom"]], Collaboration: [["Comments", "✓", "✓", "✓", "✓"], ["Guest access", "—", "✓", "✓", "✓"], ["Version history", "7 days", "90 days", "1 year", "∞"]], Security: [["2FA", "✓", "✓", "✓", "✓"], ["SSO", "—", "—", "✓", "✓"], ["Audit log", "—", "—", "—", "✓"]] };
+        const plans = ["Gratis", "Pro", "Team", "Enterprise"];
+        const cats = { Básico: [["Proyectos", "3", "∞", "∞", "∞"], ["Miembros", "1", "5", "25", "∞"], ["Almacenamiento", "1 GB", "50 GB", "500 GB", "A medida"]], Colaboración: [["Comentarios", "✓", "✓", "✓", "✓"], ["Acceso de invitados", "—", "✓", "✓", "✓"], ["Historial de versiones", "7 días", "90 días", "1 año", "∞"]], Seguridad: [["2FA", "✓", "✓", "✓", "✓"], ["SSO", "—", "—", "✓", "✓"], ["Registro de auditoría", "—", "—", "—", "✓"]] };
         const closed = new Set();
         let sel = 1;
         const render = () => {
           const diff = ctx.$("[data-diff]").checked;
-          ctx.$("[data-t]").innerHTML = `<thead style="position:sticky;top:0;z-index:1"><tr><th>Feature</th>${plans.map((p, i) => `<th style="text-align:center;cursor:pointer;${i === sel ? "color:var(--xp-accent)" : ""}" data-plan="${i}">${p}</th>`).join("")}</tr></thead><tbody>${Object.entries(cats)
+          ctx.$("[data-t]").innerHTML = `<thead style="position:sticky;top:0;z-index:1"><tr><th>Función</th>${plans.map((p, i) => `<th style="text-align:center;cursor:pointer;${i === sel ? "color:var(--xp-accent)" : ""}" data-plan="${i}">${p}</th>`).join("")}</tr></thead><tbody>${Object.entries(cats)
             .map(([c, rows]) => `<tr><td colspan="5" style="background:var(--dv-surface)"><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-cat="${c}">${closed.has(c) ? "▸" : "▾"} ${c}</button></td></tr>${closed.has(c) ? "" : rows.filter((r) => !diff || new Set(r.slice(1)).size > 1).map((r) => `<tr><td>${r[0]}</td>${r.slice(1).map((v, i) => `<td style="text-align:center;${i === sel ? "background:color-mix(in srgb,var(--xp-accent) 9%,transparent)" : ""};color:${v === "—" ? "var(--dv-fg-subtle)" : v === "✓" ? "var(--dv-success)" : ""}">${v}</td>`).join("")}</tr>`).join("")}`)
             .join("")}</tbody>`;
-          ctx.$("[data-sel]").textContent = `Selected: ${plans[sel]}`;
+          ctx.$("[data-sel]").textContent = `Seleccionado: ${plans[sel]}`;
         };
         ctx.on(ctx.$("[data-t]"), "click", (e) => {
           const c = e.target.closest("[data-cat]");
@@ -549,12 +549,12 @@
 
     "slider-seats": {
       html: `
-        ${head("Pricing · slider-seats.tsx", "Seat slider", "Graduated volume pricing: each tier of seats has its own price. The breakdown and savings vs. list price update live.")}
+        ${head("Pricing · slider-seats.tsx", "Control deslizante de asientos", "Precio escalonado por volumen: cada tramo de asientos tiene su propio precio. El desglose y el ahorro frente al precio de lista se actualizan en vivo.")}
         <div class="xp-panel dv-stack" style="max-width:640px;width:100%;margin:0 auto">
-          <div class="dv-row"><span class="dv-label">Seats</span><strong class="xp-num" style="font-size:28px" data-n>25</strong><span class="dv-spacer"></span><label class="dv-choice">Annual (−15%) <input type="checkbox" role="switch" class="dv-switch" data-annual checked /></label></div>
-          <input type="range" class="dv-range" min="1" max="200" value="25" data-seats aria-label="Seats" />
+          <div class="dv-row"><span class="dv-label">Asientos</span><strong class="xp-num" style="font-size:28px" data-n>25</strong><span class="dv-spacer"></span><label class="dv-choice">Anual (−15%) <input type="checkbox" role="switch" class="dv-switch" data-annual checked /></label></div>
+          <input type="range" class="dv-range" min="1" max="200" value="25" data-seats aria-label="Asientos" />
           <table class="dv-table dv-table--compact" data-break></table>
-          <div class="dv-row"><span class="dv-badge dv-badge--success" data-save></span><span class="dv-spacer"></span><span class="dv-muted">Total / month</span><strong class="xp-num" style="font-size:26px" data-total></strong></div>
+          <div class="dv-row"><span class="dv-badge dv-badge--success" data-save></span><span class="dv-spacer"></span><span class="dv-muted">Total / mes</span><strong class="xp-num" style="font-size:26px" data-total></strong></div>
         </div>`,
       setup(root, ctx) {
         const tiers = [[1, 10, 12], [11, 50, 10], [51, 200, 8]];
@@ -566,11 +566,11 @@
           const rows = tiers.map(([a, b, p]) => {
             const q = Math.max(0, Math.min(n, b) - a + 1);
             total += q * p * k;
-            return `<tr style="opacity:${q ? 1 : 0.4}"><td>Seats ${a}–${b}</td><td class="is-num">${q} × $${(p * k).toFixed(2)}</td><td class="is-num">${ctx.fmt.money(q * p * k)}</td></tr>`;
+            return `<tr style="opacity:${q ? 1 : 0.4}"><td>Asientos ${a}–${b}</td><td class="is-num">${q} × $${(p * k).toFixed(2)}</td><td class="is-num">${ctx.fmt.money(q * p * k)}</td></tr>`;
           });
           ctx.$("[data-break]").innerHTML = rows.join("");
           ctx.$("[data-total]").textContent = ctx.fmt.money(total);
-          ctx.$("[data-save]").textContent = `You save ${ctx.fmt.money(n * 12 - total)} / mo vs list`;
+          ctx.$("[data-save]").textContent = `Ahorras ${ctx.fmt.money(n * 12 - total)} / mes vs. precio de lista`;
         };
         ctx.on(ctx.$("[data-seats]"), "input", render);
         ctx.on(ctx.$("[data-annual]"), "change", render);
@@ -580,24 +580,24 @@
 
     "simple-card": {
       html: `
-        ${head("Pricing · simple-card.tsx", "Single plan", "One plan with optional add-ons; the total updates and checkout opens a confirmation dialog.")}
+        ${head("Pricing · simple-card.tsx", "Plan único", "Un plan con complementos opcionales; el total se actualiza y el pago abre un diálogo de confirmación.")}
         <div class="xp-center" style="min-height:0"><div class="dv-card" style="width:min(400px,100%)"><div class="dv-card__body dv-stack">
-          <span class="dv-badge dv-badge--accent dv-badge--upper" style="align-self:flex-start">All-in-one</span><div class="xp-num" data-total>$29<span class="dv-muted" style="font-size:12px">/mo</span></div>
-          <ul class="dv-stack" style="--gap:6px;list-style:none;padding:0;font-size:12px"><li>✓ Unlimited projects</li><li>✓ All 43 components</li><li>✓ Email support</li></ul>
-          <div class="dv-divider">Add-ons</div>
-          ${[["Priority support", 15], ["Extra 100 GB", 8], ["White-label", 40]].map(([n, p]) => `<label class="dv-choice" style="justify-content:space-between;width:100%"><span><input type="checkbox" class="dv-check" data-add="${p}" data-n="${n}" /> ${n}</span><span class="dv-muted xp-mono">+$${p}</span></label>`).join("")}
-          <button type="button" class="dv-btn dv-btn--primary dv-btn--block" data-dv-open="sc-dlg">Checkout</button><span class="dv-hint" style="text-align:center">30-day money-back guarantee</span>
+          <span class="dv-badge dv-badge--accent dv-badge--upper" style="align-self:flex-start">Todo en uno</span><div class="xp-num" data-total>$29<span class="dv-muted" style="font-size:12px">/mes</span></div>
+          <ul class="dv-stack" style="--gap:6px;list-style:none;padding:0;font-size:12px"><li>✓ Proyectos ilimitados</li><li>✓ Los 43 componentes</li><li>✓ Soporte por correo</li></ul>
+          <div class="dv-divider">Complementos</div>
+          ${[["Soporte prioritario", 15], ["100 GB extra", 8], ["Marca blanca", 40]].map(([n, p]) => `<label class="dv-choice" style="justify-content:space-between;width:100%"><span><input type="checkbox" class="dv-check" data-add="${p}" data-n="${n}" /> ${n}</span><span class="dv-muted xp-mono">+$${p}</span></label>`).join("")}
+          <button type="button" class="dv-btn dv-btn--primary dv-btn--block" data-dv-open="sc-dlg">Pagar</button><span class="dv-hint" style="text-align:center">Garantía de devolución de 30 días</span>
         </div></div></div>
-        <dialog class="dv-dialog" id="sc-dlg"><div class="dv-dialog__header"><h3 class="dv-dialog__title">Confirm subscription</h3></div><div class="dv-dialog__body"><dl class="xp-kv" data-summary></dl></div><div class="dv-dialog__footer"><button type="button" class="dv-btn" data-dv-close>Back</button><button type="button" class="dv-btn dv-btn--primary" data-dv-close="ok">Subscribe</button></div></dialog>`,
+        <dialog class="dv-dialog" id="sc-dlg"><div class="dv-dialog__header"><h3 class="dv-dialog__title">Confirmar suscripción</h3></div><div class="dv-dialog__body"><dl class="xp-kv" data-summary></dl></div><div class="dv-dialog__footer"><button type="button" class="dv-btn" data-dv-close>Atrás</button><button type="button" class="dv-btn dv-btn--primary" data-dv-close="ok">Suscribirme</button></div></dialog>`,
       setup(root, ctx) {
         const total = () => 29 + ctx.$$("[data-add]:checked").reduce((s, c) => s + Number(c.dataset.add), 0);
         const render = () => {
-          ctx.$("[data-total]").innerHTML = `$${total()}<span class="dv-muted" style="font-size:12px">/mo</span>`;
-          ctx.$("[data-summary]").innerHTML = `<dt>Plan</dt><dd>All-in-one · $29</dd>${ctx.$$("[data-add]:checked").map((c) => `<dt>${c.dataset.n}</dt><dd>+$${c.dataset.add}</dd>`).join("")}<dt><strong>Total</strong></dt><dd><strong>$${total()}/mo</strong></dd>`;
+          ctx.$("[data-total]").innerHTML = `$${total()}<span class="dv-muted" style="font-size:12px">/mes</span>`;
+          ctx.$("[data-summary]").innerHTML = `<dt>Plan</dt><dd>Todo en uno · $29</dd>${ctx.$$("[data-add]:checked").map((c) => `<dt>${c.dataset.n}</dt><dd>+$${c.dataset.add}</dd>`).join("")}<dt><strong>Total</strong></dt><dd><strong>$${total()}/mo</strong></dd>`;
         };
         ctx.$$("[data-add]").forEach((c) => ctx.on(c, "change", render));
         ctx.on(ctx.$("#sc-dlg"), "close", (e) => {
-          if (e.target.returnValue === "ok") ctx.toast({ title: "Subscribed 🎉", description: `$${total()}/month` });
+          if (e.target.returnValue === "ok") ctx.toast({ title: "Suscripción confirmada 🎉", description: `$${total()}/mes` });
           e.target.returnValue = "";
         });
         render();
@@ -606,23 +606,23 @@
 
     "contact-sales": {
       html: () => `
-        ${head("Pricing · contact-sales.tsx", "Contact sales", "Work emails only (free domains are rejected); after submitting you can pick a call slot.")}
+        ${head("Pricing · contact-sales.tsx", "Contactar a ventas", "Solo correos de trabajo (se rechazan los dominios gratuitos); al enviar podrás elegir un horario de llamada.")}
         <div class="dv-grid" style="--min:300px;align-items:start">
-          <form class="xp-panel dv-stack" data-xp-form data-success="Thanks {fullname}! Pick a slot." data-next="[data-slots]" novalidate>
-            ${field({ name: "fullname", label: "Full name" })}
-            ${field({ name: "email", label: "Work email", type: "email", placeholder: "you@company.com" })}
-            <label class="dv-field"><span class="dv-label">Company size</span><select class="dv-select" name="size"><option>1–50</option><option>51–200</option><option>201–1000</option><option>1000+</option></select></label>
-            <label class="dv-field"><span class="dv-label">What do you need?</span><textarea class="dv-textarea" name="msg" required minlength="10"></textarea></label>
-            <button type="submit" class="dv-btn dv-btn--primary">Talk to sales</button>
+          <form class="xp-panel dv-stack" data-xp-form data-success="¡Gracias {fullname}! Elige un horario." data-next="[data-slots]" novalidate>
+            ${field({ name: "fullname", label: "Nombre completo" })}
+            ${field({ name: "email", label: "Correo de trabajo", type: "email", placeholder: "tu@empresa.com" })}
+            <label class="dv-field"><span class="dv-label">Tamaño de la empresa</span><select class="dv-select" name="size"><option>1–50</option><option>51–200</option><option>201–1000</option><option>1000+</option></select></label>
+            <label class="dv-field"><span class="dv-label">¿Qué necesitas?</span><textarea class="dv-textarea" name="msg" required minlength="10"></textarea></label>
+            <button type="submit" class="dv-btn dv-btn--primary">Hablar con ventas</button>
           </form>
-          <div class="xp-panel dv-stack" data-slots data-panel hidden><strong>Pick a time</strong><div class="dv-grid" style="--min:110px" data-grid></div><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-back>← Edit details</button></div>
-          <div class="dv-stack"><span class="dv-eyebrow">Why teams choose us</span><ul class="dv-list"><li>🔒 SOC 2 Type II</li><li>⚡ 99.99% uptime SLA</li><li>🤝 Dedicated success manager</li></ul></div>
+          <div class="xp-panel dv-stack" data-slots data-panel hidden><strong>Elige un horario</strong><div class="dv-grid" style="--min:110px" data-grid></div><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-back>← Editar datos</button></div>
+          <div class="dv-stack"><span class="dv-eyebrow">Por qué los equipos nos eligen</span><ul class="dv-list"><li>🔒 SOC 2 Type II</li><li>⚡ SLA de disponibilidad del 99.99%</li><li>🤝 Gerente de éxito dedicado</li></ul></div>
         </div>`,
       setup(root, ctx) {
         DEVL_XP.formSetup(root, ctx);
         const email = ctx.$('[name="email"]');
         const free = ["gmail.com", "yahoo.com", "hotmail.com", "outlook.com", "icloud.com"];
-        // Runs before the generic validator (capture phase) to reject free email providers
+        // Se ejecuta antes del validador genérico (fase de captura) para rechazar proveedores de correo gratuitos
         ctx.on(ctx.$("form"), "submit", (e) => {
           const domain = (email.value.split("@")[1] || "").toLowerCase();
           if (!free.includes(domain)) return;
@@ -635,33 +635,33 @@
             err.className = "dv-error";
             email.closest(".dv-field").appendChild(err);
           }
-          err.textContent = "Please use your work email.";
+          err.textContent = "Usa tu correo de trabajo.";
           email.focus();
         }, true);
         const days = Array.from({ length: 6 }, (_, i) => new Date(Date.now() + (i + 1) * 864e5));
-        ctx.$("[data-grid]").innerHTML = days.map((d, i) => `<button type="button" class="dv-btn dv-btn--sm" data-slot="${i}">${d.toLocaleDateString("en-US", { weekday: "short", day: "numeric" })} · ${["10:00", "13:30", "16:00"][i % 3]}</button>`).join("");
+        ctx.$("[data-grid]").innerHTML = days.map((d, i) => `<button type="button" class="dv-btn dv-btn--sm" data-slot="${i}">${d.toLocaleDateString("es-MX", { weekday: "short", day: "numeric" })} · ${["10:00", "13:30", "16:00"][i % 3]}</button>`).join("");
         ctx.on(ctx.$("[data-grid]"), "click", (e) => {
           const b = e.target.closest("[data-slot]");
           if (!b) return;
           ctx.$$("[data-slot]").forEach((x) => (x.className = `dv-btn dv-btn--sm${x === b ? " dv-btn--primary" : ""}`));
-          ctx.toast({ title: "Call booked", description: b.textContent });
+          ctx.toast({ title: "Llamada agendada", description: b.textContent });
         });
       }
     },
 
     "monthly-yearly": {
       html: `
-        ${head("Pricing · monthly-yearly.tsx", "Billing toggle", "A pill switch with a sliding thumb; prices count up/down to their new values and savings badges appear.")}
+        ${head("Pricing · monthly-yearly.tsx", "Selector de facturación", "Un interruptor tipo píldora con control deslizante; los precios suben o bajan hasta sus nuevos valores y aparecen insignias de ahorro.")}
         <div class="xp-center" style="min-height:0"><div class="dv-stack" style="align-items:center;--gap:24px">
-          <button type="button" role="switch" aria-checked="false" data-sw style="position:relative;display:flex;width:240px;padding:4px;border-radius:999px;border:1px solid var(--dv-border);background:var(--dv-surface);cursor:pointer;font:inherit;color:inherit"><span data-thumb style="position:absolute;top:4px;left:4px;width:calc(50% - 4px);height:calc(100% - 8px);border-radius:999px;background:var(--dv-fg);transition:transform .3s var(--dv-ease)"></span><span data-l1 style="position:relative;flex:1;padding:8px;font-size:12px;color:var(--dv-bg);transition:color .3s">Monthly</span><span data-l2 style="position:relative;flex:1;padding:8px;font-size:12px;transition:color .3s">Yearly</span></button>
+          <button type="button" role="switch" aria-checked="false" data-sw style="position:relative;display:flex;width:240px;padding:4px;border-radius:999px;border:1px solid var(--dv-border);background:var(--dv-surface);cursor:pointer;font:inherit;color:inherit"><span data-thumb style="position:absolute;top:4px;left:4px;width:calc(50% - 4px);height:calc(100% - 8px);border-radius:999px;background:var(--dv-fg);transition:transform .3s var(--dv-ease)"></span><span data-l1 style="position:relative;flex:1;padding:8px;font-size:12px;color:var(--dv-bg);transition:color .3s">Mensual</span><span data-l2 style="position:relative;flex:1;padding:8px;font-size:12px;transition:color .3s">Anual</span></button>
           <div class="dv-grid" style="--min:180px;width:min(640px,100%)" data-cards></div>
         </div></div>`,
       setup(root, ctx) {
-        const plans = [["Starter", 9], ["Pro", 29], ["Team", 79]];
+        const plans = [["Inicial", 9], ["Pro", 29], ["Team", 79]];
         let yearly = false;
         const shown = plans.map(([, p]) => p);
         ctx.$("[data-cards]").innerHTML = plans.map(([n], i) => `<div class="dv-stat" style="align-items:center;text-align:center"><span class="dv-eyebrow">${n}</span><span class="xp-num" data-p="${i}"></span><span class="dv-badge dv-badge--success" data-b="${i}" hidden></span></div>`).join("");
-        const paint = () => shown.forEach((v, i) => (ctx.$(`[data-p="${i}"]`).innerHTML = `$${v.toFixed(0)}<span class="dv-muted" style="font-size:12px">/mo</span>`));
+        const paint = () => shown.forEach((v, i) => (ctx.$(`[data-p="${i}"]`).innerHTML = `$${v.toFixed(0)}<span class="dv-muted" style="font-size:12px">/mes</span>`));
         const toggle = () => {
           yearly = !yearly;
           const sw = ctx.$("[data-sw]");
@@ -681,7 +681,7 @@
           plans.forEach(([, p], i) => {
             const b = ctx.$(`[data-b="${i}"]`);
             b.hidden = !yearly;
-            b.textContent = `Save $${(p * 0.2 * 12).toFixed(0)}/yr`;
+            b.textContent = `Ahorra $${(p * 0.2 * 12).toFixed(0)}/año`;
           });
         };
         ctx.on(ctx.$("[data-sw]"), "click", toggle);
@@ -691,9 +691,9 @@
   });
 
   // ==========================================================================
-  // TOASTS & BANNERS
+  // TOASTS Y BANNERS
   // ==========================================================================
-  // Experiment-owned toast host (for custom toasts DevlUI.toast can't render)
+  // Contenedor de toasts propio del experimento (para toasts personalizados que DevlUI.toast no puede renderizar)
   X.toastHost = function (ctx) {
     const host = document.createElement("div");
     host.className = "dv-toast-region";
@@ -707,18 +707,18 @@
   X.addMany("toasts", {
     success: {
       html: `
-        ${head("Toasts · success.tsx", "Success toast", "Fire stacked success toasts; tune duration (0 = sticky) and watch them pause while hovered.")}
+        ${head("Toasts · success.tsx", "Toast de éxito", "Lanza toasts de éxito apilados; ajusta la duración (0 = fijo) y mira cómo se pausan al pasar el cursor.")}
         <div class="xp-panel dv-stack" style="max-width:520px">
-          <label class="dv-row"><span class="dv-label">Duration</span><input type="range" class="dv-range" min="0" max="8000" step="500" value="3000" data-dur style="flex:1" data-dv-output="#t-dur" data-dv-suffix=" ms" aria-label="Duration" /><strong class="xp-mono" id="t-dur">3000 ms</strong></label>
-          <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-fire>Save changes</button><button type="button" class="dv-btn" data-burst>Fire 3</button><span class="dv-muted" data-count>0 fired</span></div>
+          <label class="dv-row"><span class="dv-label">Duración</span><input type="range" class="dv-range" min="0" max="8000" step="500" value="3000" data-dur style="flex:1" data-dv-output="#t-dur" data-dv-suffix=" ms" aria-label="Duración" /><strong class="xp-mono" id="t-dur">3000 ms</strong></label>
+          <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-fire>Guardar cambios</button><button type="button" class="dv-btn" data-burst>Lanzar 3</button><span class="dv-muted" data-count>0 lanzados</span></div>
         </div>`,
       setup(root, ctx) {
         let n = 0;
-        const msgs = ["Changes saved", "Project published", "Invite sent", "Deployment ready", "Settings updated"];
+        const msgs = ["Cambios guardados", "Proyecto publicado", "Invitación enviada", "Deploy listo", "Ajustes actualizados"];
         const fire = () => {
           n++;
-          ctx.$("[data-count]").textContent = `${n} fired`;
-          ctx.toast({ title: msgs[n % msgs.length], description: `#${n} · ${new Date().toLocaleTimeString()}`, duration: Number(ctx.$("[data-dur]").value) });
+          ctx.$("[data-count]").textContent = `${n} lanzados`;
+          ctx.toast({ title: msgs[n % msgs.length], description: `#${n} · ${new Date().toLocaleTimeString("es-MX")}`, duration: Number(ctx.$("[data-dur]").value) });
         };
         ctx.on(ctx.$("[data-fire]"), "click", fire);
         ctx.on(ctx.$("[data-burst]"), "click", () => [0, 150, 300].forEach((t) => ctx.timeout(t, fire)));
@@ -727,15 +727,15 @@
 
     "error-retry": {
       html: `
-        ${head("Toasts · error-retry.tsx", "Error with retry", "A flaky request fails with a toast offering Retry (with exponential backoff) and a copyable trace ID. It succeeds after a few tries.")}
-        <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-go>Sync data</button><span class="dv-badge" data-state>idle</span></div>
+        ${head("Toasts · error-retry.tsx", "Error con reintento", "Una solicitud inestable falla y muestra un toast con Reintentar (con backoff exponencial) y un ID de traza copiable. Tiene éxito tras unos intentos.")}
+        <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-go>Sincronizar datos</button><span class="dv-badge" data-state>inactivo</span></div>
         <ol class="dv-timeline" data-log></ol>`,
       setup(root, ctx) {
         let attempt = 0;
         const log = (t, c) => {
           const li = document.createElement("li");
           li.style.setProperty("--c", c);
-          li.innerHTML = `<span></span><div class="dv-timeline__meta">${new Date().toLocaleTimeString()}</div>`;
+          li.innerHTML = `<span></span><div class="dv-timeline__meta">${new Date().toLocaleTimeString("es-MX")}</div>`;
           li.firstChild.textContent = t;
           ctx.$("[data-log]").prepend(li);
         };
@@ -743,21 +743,21 @@
           attempt++;
           const state = ctx.$("[data-state]");
           state.className = "dv-badge dv-badge--info";
-          state.textContent = `attempt ${attempt}…`;
+          state.textContent = `intento ${attempt}…`;
           ctx.timeout(700, () => {
             if (attempt < 3) {
               const trace = `trc_${Math.random().toString(16).slice(2, 10)}`;
               const wait = 2 ** attempt;
               state.className = "dv-badge dv-badge--danger";
-              state.textContent = "failed";
-              log(`Attempt ${attempt} failed: 503 upstream (${trace})`, "var(--dv-danger)");
-              ctx.toast({ title: "Sync failed", description: `503 · ${trace} · retry in ${wait}s`, variant: "danger", duration: 0, action: { label: "Retry", onClick: () => ctx.timeout(wait * 1000, run) } });
+              state.textContent = "falló";
+              log(`El intento ${attempt} falló: 503 upstream (${trace})`, "var(--dv-danger)");
+              ctx.toast({ title: "Falló la sincronización", description: `503 · ${trace} · reintento en ${wait}s`, variant: "danger", duration: 0, action: { label: "Reintentar", onClick: () => ctx.timeout(wait * 1000, run) } });
               DevlUI.copy(trace);
             } else {
               state.className = "dv-badge dv-badge--success";
-              state.textContent = "synced";
-              log(`Attempt ${attempt} succeeded`, "var(--dv-success)");
-              ctx.toast({ title: "Data synced", description: `after ${attempt} attempts` });
+              state.textContent = "sincronizado";
+              log(`El intento ${attempt} tuvo éxito`, "var(--dv-success)");
+              ctx.toast({ title: "Datos sincronizados", description: `tras ${attempt} intentos` });
               attempt = 0;
             }
           });
@@ -768,18 +768,18 @@
 
     "info-banner": {
       html: `
-        ${head("Toasts · info-banner.tsx", "System banner", "Top-of-page banners for info, warnings and promos with a live countdown. Dismissals last for this session; reset to bring them back.")}
+        ${head("Toasts · info-banner.tsx", "Banner del sistema", "Banners en la parte superior para información, avisos y promociones con cuenta regresiva en vivo. Al cerrarlos se ocultan durante esta sesión; restablece para recuperarlos.")}
         <div class="dv-stack" data-banners></div>
-        <div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-reset>Show all banners again</button></div>`,
+        <div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-reset>Mostrar todos los banners de nuevo</button></div>`,
       setup(root, ctx) {
-        const banners = [["promo", "✦ Launch week: 30% off Pro — ends in <strong data-cd></strong>", "Claim offer"], ["info", "New: the gallery is fully functional. Press C to view source.", "Learn more"], ["warning", "Scheduled maintenance Sunday 02:00 UTC.", "Details"]];
+        const banners = [["promo", "✦ Semana de lanzamiento: 30% de descuento en Pro — termina en <strong data-cd></strong>", "Aprovechar oferta"], ["info", "Novedad: la galería es totalmente funcional. Presiona C para ver el código fuente.", "Más información"], ["warning", "Mantenimiento programado el domingo a las 02:00 UTC.", "Detalles"]];
         const closed = new Set();
         const end = Date.now() + 3 * 3600e3 + 12 * 60e3;
         const render = () => {
           ctx.$("[data-banners]").innerHTML = banners
             .filter(([k]) => !closed.has(k))
-            .map(([k, html, cta]) => `<div class="${k === "promo" ? "dv-banner" : `dv-alert dv-alert--${k}`}" style="border-radius:var(--dv-radius);justify-content:space-between"><span>${html}</span><span class="dv-row" style="--gap:6px"><button type="button" class="dv-btn dv-btn--sm" data-cta="${k}">${cta}</button><button type="button" class="dv-btn dv-btn--icon dv-btn--sm dv-btn--subtle" data-x="${k}" aria-label="Dismiss" style="${k === "promo" ? "color:inherit" : ""}">✕</button></span></div>`)
-            .join("") || '<p class="dv-muted">All banners dismissed.</p>';
+            .map(([k, html, cta]) => `<div class="${k === "promo" ? "dv-banner" : `dv-alert dv-alert--${k}`}" style="border-radius:var(--dv-radius);justify-content:space-between"><span>${html}</span><span class="dv-row" style="--gap:6px"><button type="button" class="dv-btn dv-btn--sm" data-cta="${k}">${cta}</button><button type="button" class="dv-btn dv-btn--icon dv-btn--sm dv-btn--subtle" data-x="${k}" aria-label="Descartar" style="${k === "promo" ? "color:inherit" : ""}">✕</button></span></div>`)
+            .join("") || '<p class="dv-muted">Todos los banners fueron descartados.</p>';
           tick();
         };
         const tick = () => {
@@ -803,8 +803,8 @@
 
     progress: {
       html: `
-        ${head("Toasts · progress.tsx", "Progress toast", "Long-running uploads get a toast with a live progress bar, speed, ETA and a cancel button.")}
-        <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-go>Upload 3 files</button><button type="button" class="dv-btn" data-fail>Upload (will fail)</button></div>`,
+        ${head("Toasts · progress.tsx", "Toast de progreso", "Las cargas largas muestran un toast con barra de progreso en vivo, velocidad, tiempo estimado y un botón para cancelar.")}
+        <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-go>Subir 3 archivos</button><button type="button" class="dv-btn" data-fail>Subir (fallará)</button></div>`,
       setup(root, ctx) {
         const host = DEVL_XP.toastHost(ctx);
         const start = (fail) => {
@@ -812,23 +812,23 @@
           let done = 0;
           const el = document.createElement("div");
           el.className = "dv-toast dv-toast--info";
-          el.innerHTML = `<div class="dv-toast__body"><div class="dv-toast__title">Uploading 3 files…</div><progress class="dv-progress" max="${total}" value="0" style="margin:6px 0"></progress><div class="dv-toast__desc xp-mono" data-meta></div></div><button type="button" class="dv-btn dv-btn--sm dv-toast__action">Cancel</button>`;
+          el.innerHTML = `<div class="dv-toast__body"><div class="dv-toast__title">Subiendo 3 archivos…</div><progress class="dv-progress" max="${total}" value="0" style="margin:6px 0"></progress><div class="dv-toast__desc xp-mono" data-meta></div></div><button type="button" class="dv-btn dv-btn--sm dv-toast__action">Cancelar</button>`;
           host.appendChild(el);
           const bar = el.querySelector("progress");
           const id = ctx.every(150, () => {
             done = Math.min(total, done + 0.6 + Math.random() * 1.4);
             bar.value = done;
-            el.querySelector("[data-meta]").textContent = `${done.toFixed(1)} / ${total} MB · ${(8 + Math.random() * 4).toFixed(1)} MB/s · ${Math.ceil((total - done) / 10)}s left`;
+            el.querySelector("[data-meta]").textContent = `${done.toFixed(1)} / ${total} MB · ${(8 + Math.random() * 4).toFixed(1)} MB/s · ${Math.ceil((total - done) / 10)}s restantes`;
             if (fail && done > total * 0.6) {
               clearInterval(id);
               el.className = "dv-toast dv-toast--danger";
-              el.querySelector(".dv-toast__title").textContent = "Upload failed — connection lost";
-              el.querySelector(".dv-toast__action").textContent = "Dismiss";
+              el.querySelector(".dv-toast__title").textContent = "Falló la subida: se perdió la conexión";
+              el.querySelector(".dv-toast__action").textContent = "Descartar";
             } else if (done >= total) {
               clearInterval(id);
               el.className = "dv-toast dv-toast--success";
-              el.querySelector(".dv-toast__title").textContent = "3 files uploaded";
-              el.querySelector(".dv-toast__action").textContent = "Done";
+              el.querySelector(".dv-toast__title").textContent = "3 archivos subidos";
+              el.querySelector(".dv-toast__action").textContent = "Listo";
               ctx.timeout(2500, () => el.remove());
             }
           });
@@ -844,13 +844,13 @@
 
     undo: {
       html: `
-        ${head("Toasts · undo.tsx", "Undo toast", "Delete any item: it disappears immediately and a toast counts down 5 seconds to undo (or press ⌘/Ctrl+Z).")}
+        ${head("Toasts · undo.tsx", "Toast para deshacer", "Elimina cualquier elemento: desaparece de inmediato y un toast cuenta 5 segundos para deshacer (o presiona ⌘/Ctrl+Z).")}
         <ul class="dv-list" data-list style="max-width:520px;width:100%"></ul>`,
       setup(root, ctx) {
         const host = DEVL_XP.toastHost(ctx);
-        let items = ["Q3 roadmap.pdf", "Brand guidelines", "Onboarding flow", "Pricing experiment", "Launch checklist"];
+        let items = ["Hoja de ruta T3.pdf", "Guía de marca", "Flujo de incorporación", "Experimento de precios", "Lista de lanzamiento"];
         const stack = [];
-        const render = () => (ctx.$("[data-list]").innerHTML = items.map((t, i) => `<li><span style="flex:1">${esc(t)}</span><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-del="${i}">Delete</button></li>`).join("") || '<li class="dv-muted">Nothing left.</li>');
+        const render = () => (ctx.$("[data-list]").innerHTML = items.map((t, i) => `<li><span style="flex:1">${esc(t)}</span><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-del="${i}">Eliminar</button></li>`).join("") || '<li class="dv-muted">No queda nada.</li>');
         const undo = (entry) => {
           if (!entry || entry.done) return;
           entry.done = true;
@@ -868,14 +868,14 @@
           render();
           entry.el = document.createElement("div");
           entry.el.className = "dv-toast dv-toast--neutral";
-          entry.el.innerHTML = `<div class="dv-toast__body"><div class="dv-toast__title"></div><div class="dv-toast__desc">Deleted</div></div><button type="button" class="dv-btn dv-btn--sm dv-toast__action">Undo (5)</button>`;
+          entry.el.innerHTML = `<div class="dv-toast__body"><div class="dv-toast__title"></div><div class="dv-toast__desc">Eliminado</div></div><button type="button" class="dv-btn dv-btn--sm dv-toast__action">Deshacer (5)</button>`;
           entry.el.querySelector(".dv-toast__title").textContent = entry.item;
           entry.el.querySelector("button").addEventListener("click", () => undo(entry));
           host.appendChild(entry.el);
           stack.push(entry);
           entry.timer = setInterval(() => {
             entry.left--;
-            entry.el.querySelector("button").textContent = `Undo (${entry.left})`;
+            entry.el.querySelector("button").textContent = `Deshacer (${entry.left})`;
             if (entry.left <= 0) {
               clearInterval(entry.timer);
               entry.done = true;
@@ -897,19 +897,19 @@
 
     rich: {
       html: `
-        ${head("Toasts · rich.tsx", "Rich toast", "Message notifications with avatar, preview and an inline reply box — answer without leaving the page.")}
-        <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-go>Simulate incoming message</button></div>
+        ${head("Toasts · rich.tsx", "Toast enriquecido", "Notificaciones de mensajes con avatar, vista previa y un cuadro de respuesta integrado: responde sin salir de la página.")}
+        <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-go>Simular mensaje entrante</button></div>
         <ol class="dv-timeline" data-sent></ol>`,
       setup(root, ctx) {
         const host = DEVL_XP.toastHost(ctx);
-        const msgs = [["Ana López", "Can you review the tokens PR before 5?"], ["Leo Kim", "Deploy is green, want me to announce it?"], ["Sara Ruiz", "Roadmap sync moved to 3pm"]];
+        const msgs = [["Ana López", "¿Puedes revisar el PR de los tokens antes de las 5?"], ["Leo Kim", "El deploy está en verde, ¿lo anuncio?"], ["Sara Ruiz", "La sincronización del roadmap pasó a las 3 pm"]];
         let k = 0;
         ctx.on(ctx.$("[data-go]"), "click", () => {
           const [who, text] = msgs[k++ % msgs.length];
           const el = document.createElement("div");
           el.className = "dv-toast dv-toast--neutral";
           el.style.flexWrap = "wrap";
-          el.innerHTML = `<span class="dv-avatar dv-avatar--sm">${who.split(" ").map((w) => w[0]).join("")}</span><div class="dv-toast__body"><div class="dv-toast__title"></div><div class="dv-toast__desc"></div></div><button type="button" class="dv-toast__close" aria-label="Dismiss">✕</button><form class="dv-row" style="flex-basis:100%;flex-wrap:nowrap;margin-top:6px"><input class="dv-input" style="height:28px" placeholder="Reply…" aria-label="Reply" required /><button type="submit" class="dv-btn dv-btn--sm dv-btn--primary">Send</button></form>`;
+          el.innerHTML = `<span class="dv-avatar dv-avatar--sm">${who.split(" ").map((w) => w[0]).join("")}</span><div class="dv-toast__body"><div class="dv-toast__title"></div><div class="dv-toast__desc"></div></div><button type="button" class="dv-toast__close" aria-label="Descartar">✕</button><form class="dv-row" style="flex-basis:100%;flex-wrap:nowrap;margin-top:6px"><input class="dv-input" style="height:28px" placeholder="Responder…" aria-label="Responder" required /><button type="submit" class="dv-btn dv-btn--sm dv-btn--primary">Enviar</button></form>`;
           el.querySelector(".dv-toast__title").textContent = who;
           el.querySelector(".dv-toast__desc").textContent = text;
           el.querySelector(".dv-toast__close").addEventListener("click", () => el.remove());
@@ -918,9 +918,9 @@
             const reply = e.target.querySelector("input").value;
             const li = document.createElement("li");
             li.style.setProperty("--c", "var(--xp-accent)");
-            li.textContent = `You → ${who}: ${reply}`;
+            li.textContent = `Tú → ${who}: ${reply}`;
             ctx.$("[data-sent]").prepend(li);
-            el.innerHTML = `<div class="dv-toast__body"><div class="dv-toast__title">Reply sent to ${esc(who)}</div></div>`;
+            el.innerHTML = `<div class="dv-toast__body"><div class="dv-toast__title">Respuesta enviada a ${esc(who)}</div></div>`;
             el.className = "dv-toast dv-toast--success";
             setTimeout(() => el.remove(), 1500);
           });
@@ -932,19 +932,19 @@
   });
 
   // ==========================================================================
-  // MEDIA & CREATIVE TOOLS
+  // MEDIOS Y HERRAMIENTAS CREATIVAS
   // ==========================================================================
   X.addMany("media-audio", {
     "bezier-easing-editor": {
       html: `
-        ${head("Media · bezier-easing-editor.tsx", "Cubic-bezier editor", "Drag the two handles (y can overshoot for springy curves), pick a preset, copy the CSS and preview it on the ball.")}
+        ${head("Media · bezier-easing-editor.tsx", "Editor de cubic-bezier", "Arrastra los dos controles (y puede sobrepasar el rango para curvas elásticas), elige un preajuste, copia el CSS y previsualízalo en la pelota.")}
         <div class="dv-grid" style="--min:300px;align-items:start">
           <svg viewBox="-20 -80 340 460" style="max-width:360px;touch-action:none" data-svg></svg>
           <div class="dv-stack">
             <div class="dv-row" data-presets>${[["ease", ".25,.1,.25,1"], ["ease-in-out", ".42,0,.58,1"], ["out-expo", ".16,1,.3,1"], ["back-out", ".34,1.56,.64,1"], ["anticipate", ".68,-0.6,.32,1.6"]].map(([n, v]) => `<button type="button" class="dv-chip" data-v="${v}">${n}</button>`).join("")}</div>
-            <div class="dv-input-group"><input class="dv-input xp-mono" readonly id="bz-out" data-out aria-label="CSS easing" /><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" style="margin:3px" data-dv-copy data-dv-copy-target="#bz-out">Copy</button></div>
+            <div class="dv-input-group"><input class="dv-input xp-mono" readonly id="bz-out" data-out aria-label="Easing CSS" /><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" style="margin:3px" data-dv-copy data-dv-copy-target="#bz-out">Copiar</button></div>
             <div class="xp-panel" style="position:relative;height:70px"><span data-ball style="position:absolute;left:10px;top:20px;width:30px;height:30px;border-radius:50%;background:var(--xp-accent)"></span></div>
-            <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-play>▶ Play</button><label class="dv-choice">Duration <input type="range" class="dv-range" min="200" max="2000" step="100" value="900" data-dur style="width:140px" aria-label="Duration" /></label></div>
+            <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-play>▶ Reproducir</button><label class="dv-choice">Duración <input type="range" class="dv-range" min="200" max="2000" step="100" value="900" data-dur style="width:140px" aria-label="Duración" /></label></div>
           </div>
         </div>`,
       setup(root, ctx) {
@@ -1000,16 +1000,16 @@
 
     "synth-step-sequencer": {
       html: `
-        ${head("Media · synth-step-sequencer.tsx", "16-step synth sequencer", "A real Web Audio drum machine with look-ahead scheduling: kick, snare, hat and bass voices synthesized from oscillators and noise.")}
-        <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-play>▶ Play</button><label class="dv-choice">BPM <input type="range" class="dv-range" min="60" max="180" value="112" data-bpm style="width:140px" data-dv-output="#seq-bpm" aria-label="BPM" /><strong class="xp-mono" id="seq-bpm">112</strong></label><button type="button" class="dv-btn dv-btn--sm" data-rand>Randomize</button><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-clear>Clear</button></div>
+        ${head("Media · synth-step-sequencer.tsx", "Secuenciador de sintetizador de 16 pasos", "Una caja de ritmos real con Web Audio y programación anticipada: bombo, caja, hi-hat y bajo sintetizados con osciladores y ruido.")}
+        <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-play>▶ Reproducir</button><label class="dv-choice">BPM <input type="range" class="dv-range" min="60" max="180" value="112" data-bpm style="width:140px" data-dv-output="#seq-bpm" aria-label="BPM" /><strong class="xp-mono" id="seq-bpm">112</strong></label><button type="button" class="dv-btn dv-btn--sm" data-rand>Aleatorizar</button><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-clear>Borrar</button></div>
         <div class="xp-panel dv-stack" style="--gap:6px;overflow:auto" data-grid></div>`,
       setup(root, ctx) {
-        const rows = ["Kick", "Snare", "Hat", "Bass"];
+        const rows = ["Bombo", "Caja", "Hi-hat", "Bajo"];
         const pattern = [[0, 4, 8, 12], [4, 12], [0, 2, 4, 6, 8, 10, 12, 14], [0, 3, 7, 10]].map((on) => Array.from({ length: 16 }, (_, i) => on.includes(i)));
         const grid = ctx.$("[data-grid]");
         let current = -1;
         const render = () => {
-          grid.innerHTML = rows.map((r, ri) => `<div class="dv-row" style="flex-wrap:nowrap;--gap:4px"><span style="width:50px;font-size:11px" class="dv-muted">${r}</span>${pattern[ri].map((on, si) => `<button type="button" data-r="${ri}" data-s="${si}" aria-pressed="${on}" aria-label="${r} step ${si + 1}" style="flex:0 0 30px;height:30px;border-radius:5px;border:1px solid ${si === current ? "var(--dv-fg)" : "var(--dv-border)"};background:${on ? "var(--xp-accent)" : si % 4 === 0 ? "var(--dv-surface-strong)" : "var(--dv-surface)"};cursor:pointer"></button>`).join("")}</div>`).join("");
+          grid.innerHTML = rows.map((r, ri) => `<div class="dv-row" style="flex-wrap:nowrap;--gap:4px"><span style="width:50px;font-size:11px" class="dv-muted">${r}</span>${pattern[ri].map((on, si) => `<button type="button" data-r="${ri}" data-s="${si}" aria-pressed="${on}" aria-label="${r} paso ${si + 1}" style="flex:0 0 30px;height:30px;border-radius:5px;border:1px solid ${si === current ? "var(--dv-fg)" : "var(--dv-border)"};background:${on ? "var(--xp-accent)" : si % 4 === 0 ? "var(--dv-surface-strong)" : "var(--dv-surface)"};cursor:pointer"></button>`).join("")}</div>`).join("");
         };
         ctx.on(grid, "click", (e) => {
           const b = e.target.closest("[data-r]");
@@ -1079,13 +1079,13 @@
           if (ac) ac.close();
           ac = null;
           current = -1;
-          ctx.$("[data-play]").textContent = "▶ Play";
+          ctx.$("[data-play]").textContent = "▶ Reproducir";
           render();
         };
         ctx.on(ctx.$("[data-play]"), "click", () => {
           if (ac) return stop();
           const AC = window.AudioContext || window.webkitAudioContext;
-          if (!AC) return ctx.toast({ title: "Web Audio not supported", variant: "warning" });
+          if (!AC) return ctx.toast({ title: "Web Audio no es compatible", variant: "warning" });
           ac = new AC();
           noise = ac.createBuffer(1, ac.sampleRate * 0.3, ac.sampleRate);
           const d = noise.getChannelData(0);
@@ -1093,7 +1093,7 @@
           next = ac.currentTime + 0.05;
           step = 0;
           timer = setInterval(schedule, 25);
-          ctx.$("[data-play]").textContent = "■ Stop";
+          ctx.$("[data-play]").textContent = "■ Detener";
         });
         ctx.on(ctx.$("[data-rand]"), "click", () => {
           pattern.forEach((row, r) => row.forEach((_, i) => (row[i] = Math.random() < [0.3, 0.2, 0.55, 0.3][r])));
@@ -1107,9 +1107,9 @@
 
     "waveform-scrubber": {
       html: `
-        ${head("Media · waveform-scrubber.tsx", "Waveform scrubber", "A melody is synthesized into a real AudioBuffer, drawn as peaks. Click or drag to seek, play it, and drop markers at the playhead.")}
+        ${head("Media · waveform-scrubber.tsx", "Explorador de forma de onda", "Una melodía se sintetiza en un AudioBuffer real y se dibuja como picos. Haz clic o arrastra para buscar, reprodúcela y coloca marcadores en el cabezal.")}
         <div class="xp-panel xp-rel" style="padding:0;overflow:hidden"><canvas class="xp-canvas" data-wave style="height:140px;border:0;cursor:pointer"></canvas></div>
-        <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-play>▶ Play</button><span class="xp-mono" data-time>0:00.0 / 0:00.0</span><button type="button" class="dv-btn dv-btn--sm" data-mark>+ Marker</button><span class="dv-spacer"></span><div class="dv-row" data-markers></div></div>`,
+        <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-play>▶ Reproducir</button><span class="xp-mono" data-time>0:00.0 / 0:00.0</span><button type="button" class="dv-btn dv-btn--sm" data-mark>+ Marcador</button><span class="dv-spacer"></span><div class="dv-row" data-markers></div></div>`,
       setup(root, ctx) {
         const cv = ctx.$("[data-wave]");
         const g = cv.getContext("2d");
@@ -1165,12 +1165,12 @@
           playing = false;
           if (src) src.stop();
           src = null;
-          ctx.$("[data-play]").textContent = "▶ Play";
+          ctx.$("[data-play]").textContent = "▶ Reproducir";
         };
         const play = () => {
           if (!ac) {
             const AC = window.AudioContext || window.webkitAudioContext;
-            if (!AC) return ctx.toast({ title: "Web Audio not supported", variant: "warning" });
+            if (!AC) return ctx.toast({ title: "Web Audio no es compatible", variant: "warning" });
             ac = new AC();
             ctx.onCleanup(() => ac.close());
           }
@@ -1183,7 +1183,7 @@
           src.start(0, pos);
           startedAt = ac.currentTime - pos;
           playing = true;
-          ctx.$("[data-play]").textContent = "❚❚ Pause";
+          ctx.$("[data-play]").textContent = "❚❚ Pausar";
         };
         ctx.on(ctx.$("[data-play]"), "click", () => (playing ? stop() : play()));
         let scrub = false;
@@ -1212,17 +1212,17 @@
 
     "color-oklch-picker": {
       html: `
-        ${head("Media · color-oklch-picker.tsx", "OKLCH color space", "Perceptual lightness, chroma and hue with a real OKLCH → sRGB conversion, gamut warning and a generated tint/shade scale.")}
+        ${head("Media · color-oklch-picker.tsx", "Espacio de color OKLCH", "Luminosidad, croma y matiz perceptuales con conversión real de OKLCH a sRGB, aviso de gamut y una escala generada de tintes y sombras.")}
         <div class="dv-grid" style="--min:300px;align-items:start">
           <div class="dv-stack">
             <div data-swatch style="height:160px;border-radius:var(--dv-radius);border:1px solid var(--dv-border)"></div>
-            ${[["l", "Lightness", 0, 1, 0.01, 0.65], ["c", "Chroma", 0, 0.37, 0.005, 0.18], ["h", "Hue", 0, 360, 1, 265]].map(([k, l, a, b, s, v]) => `<label class="dv-row" style="flex-wrap:nowrap"><span style="width:80px">${l}</span><input type="range" class="dv-range" min="${a}" max="${b}" step="${s}" value="${v}" data-${k} aria-label="${l}" /><span class="xp-mono" style="width:56px;text-align:right" data-${k}v></span></label>`).join("")}
+            ${[["l", "Luminosidad", 0, 1, 0.01, 0.65], ["c", "Croma", 0, 0.37, 0.005, 0.18], ["h", "Matiz", 0, 360, 1, 265]].map(([k, l, a, b, s, v]) => `<label class="dv-row" style="flex-wrap:nowrap"><span style="width:96px">${l}</span><input type="range" class="dv-range" min="${a}" max="${b}" step="${s}" value="${v}" data-${k} aria-label="${l}" /><span class="xp-mono" style="width:56px;text-align:right" data-${k}v></span></label>`).join("")}
           </div>
           <div class="dv-stack">
             <dl class="xp-kv xp-mono" data-out></dl>
-            <span class="dv-badge dv-badge--warning" data-gamut hidden>⚠ Out of sRGB gamut — clamped</span>
+            <span class="dv-badge dv-badge--warning" data-gamut hidden>⚠ Fuera del gamut sRGB: recortado</span>
             <div class="dv-row" style="--gap:0;border-radius:var(--dv-radius);overflow:hidden" data-scale></div>
-            <div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-copy="oklch">Copy oklch()</button><button type="button" class="dv-btn dv-btn--sm" data-copy="hex">Copy HEX</button><button type="button" class="dv-btn dv-btn--sm" data-apply>Use as accent</button></div>
+            <div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-copy="oklch">Copiar oklch()</button><button type="button" class="dv-btn dv-btn--sm" data-copy="hex">Copiar HEX</button><button type="button" class="dv-btn dv-btn--sm" data-apply>Usar como acento</button></div>
           </div>
         </div>`,
       setup(root, ctx) {
@@ -1253,7 +1253,7 @@
           cur = { oklch: `oklch(${(L * 100).toFixed(1)}% ${C.toFixed(3)} ${H})`, hex: hex(rgb) };
           ctx.$("[data-swatch]").style.background = cur.hex;
           ctx.$("[data-gamut]").hidden = !out;
-          ctx.$("[data-out]").innerHTML = `<dt>OKLCH</dt><dd>${cur.oklch}</dd><dt>HEX</dt><dd>${cur.hex}</dd><dt>RGB</dt><dd>rgb(${rgb.join(", ")})</dd><dt>Text</dt><dd>${L > 0.62 ? "use dark text" : "use light text"}</dd>`;
+          ctx.$("[data-out]").innerHTML = `<dt>OKLCH</dt><dd>${cur.oklch}</dd><dt>HEX</dt><dd>${cur.hex}</dd><dt>RGB</dt><dd>rgb(${rgb.join(", ")})</dd><dt>Texto</dt><dd>${L > 0.62 ? "usar texto oscuro" : "usar texto claro"}</dd>`;
           ctx.$("[data-scale]").innerHTML = [0.95, 0.85, 0.75, 0.65, 0.55, 0.45, 0.35, 0.25].map((l) => {
             const hx = hex(toRgb(l, Math.min(C, 0.37 * (1 - Math.abs(l - 0.6))), H).rgb);
             return `<button type="button" data-hx="${hx}" title="${hx}" style="flex:1;height:44px;border:0;background:${hx};cursor:pointer"></button>`;
@@ -1263,8 +1263,8 @@
         ctx.on(root, "click", (e) => {
           const c = e.target.closest("[data-copy]");
           const hx = e.target.closest("[data-hx]");
-          if (c) DevlUI.copy(cur[c.dataset.copy]).then(() => ctx.toast({ title: `Copied ${cur[c.dataset.copy]}` }));
-          if (hx) DevlUI.copy(hx.dataset.hx).then(() => ctx.toast({ title: `Copied ${hx.dataset.hx}` }));
+          if (c) DevlUI.copy(cur[c.dataset.copy]).then(() => ctx.toast({ title: `Copiado ${cur[c.dataset.copy]}` }));
+          if (hx) DevlUI.copy(hx.dataset.hx).then(() => ctx.toast({ title: `Copiado ${hx.dataset.hx}` }));
           if (e.target.closest("[data-apply]")) {
             root.style.setProperty("--xp-accent", cur.hex);
             root.style.setProperty("--dv-accent", cur.hex);
@@ -1276,7 +1276,7 @@
 
     "video-timeline-trimmer": {
       html: `
-        ${head("Media · video-timeline-trimmer.tsx", "Video timeline trimmer", "Drag the in/out handles to trim, scrub the playhead, and play the selection in a loop. Timecodes are frame-accurate at 30 fps.")}
+        ${head("Media · video-timeline-trimmer.tsx", "Recortador de línea de tiempo de video", "Arrastra los controles de entrada y salida para recortar, mueve el cabezal y reproduce la selección en bucle. Los códigos de tiempo tienen precisión de fotograma a 30 fps.")}
         <div data-screen style="height:200px;border-radius:var(--dv-radius);display:grid;place-items:center;font-size:42px;color:#fff;font-family:var(--dv-font-mono)"></div>
         <div class="xp-rel" data-track style="height:64px;border-radius:8px;overflow:hidden;background:var(--dv-surface);touch-action:none;user-select:none">
           <div data-thumbs style="display:flex;height:100%"></div>
@@ -1284,7 +1284,7 @@
           <div data-h="in" style="position:absolute;top:0;bottom:0;width:12px;margin-left:-6px;background:var(--dv-warning);border-radius:4px;cursor:ew-resize"></div><div data-h="out" style="position:absolute;top:0;bottom:0;width:12px;margin-left:-6px;background:var(--dv-warning);border-radius:4px;cursor:ew-resize"></div>
           <div data-ph style="position:absolute;top:-4px;bottom:-4px;width:2px;background:#fff;pointer-events:none"></div>
         </div>
-        <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-play>▶ Play selection</button><span class="xp-mono" data-tc></span><span class="dv-spacer"></span><span class="dv-badge" data-dur></span><button type="button" class="dv-btn dv-btn--sm" data-export>Export clip</button></div>`,
+        <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-play>▶ Reproducir selección</button><span class="xp-mono" data-tc></span><span class="dv-spacer"></span><span class="dv-badge" data-dur></span><button type="button" class="dv-btn dv-btn--sm" data-export>Exportar clip</button></div>`,
       setup(root, ctx) {
         const LEN = 12;
         const FPS = 30;
@@ -1306,7 +1306,7 @@
           ctx.$("[data-shade-r]").style.width = `${100 - (b / LEN) * 100}%`;
           ctx.$("[data-ph]").style.left = pct(t);
           ctx.$("[data-tc]").textContent = `${tc(t)}  [${tc(a)} → ${tc(b)}]`;
-          ctx.$("[data-dur]").textContent = `${(b - a).toFixed(2)}s · ${Math.round((b - a) * FPS)} frames`;
+          ctx.$("[data-dur]").textContent = `${(b - a).toFixed(2)}s · ${Math.round((b - a) * FPS)} fotogramas`;
           ctx.$("[data-screen]").style.background = `linear-gradient(135deg,hsl(${(t / LEN) * 336} 70% 45%),hsl(${(t / LEN) * 336 + 40} 70% 30%))`;
           ctx.$("[data-screen]").textContent = tc(t);
         };
@@ -1331,7 +1331,7 @@
         ctx.on(track, "pointerup", () => (drag = null));
         ctx.on(ctx.$("[data-play]"), "click", (e) => {
           playing = !playing;
-          e.target.textContent = playing ? "❚❚ Pause" : "▶ Play selection";
+          e.target.textContent = playing ? "❚❚ Pausar" : "▶ Reproducir selección";
         });
         ctx.raf((now, dt) => {
           if (!playing) return;
@@ -1339,16 +1339,16 @@
           if (t > b) t = a;
           render();
         });
-        ctx.on(ctx.$("[data-export]"), "click", () => ctx.toast({ title: "Clip exported", description: `${tc(a)} → ${tc(b)} · ${(b - a).toFixed(2)}s` }));
+        ctx.on(ctx.$("[data-export]"), "click", () => ctx.toast({ title: "Clip exportado", description: `${tc(a)} → ${tc(b)} · ${(b - a).toFixed(2)}s` }));
         render();
       }
     },
 
     "spatial-eq-parametric": {
       html: `
-        ${head("Media · spatial-eq-parametric.tsx", "Parametric EQ curve", "Four peaking bands computed with the real biquad magnitude response. Drag nodes (frequency × gain), scroll to change Q, and listen through Web Audio filters.")}
+        ${head("Media · spatial-eq-parametric.tsx", "Curva de EQ paramétrico", "Cuatro bandas de pico calculadas con la respuesta de magnitud biquad real. Arrastra los nodos (frecuencia × ganancia), usa la rueda para cambiar Q y escucha con filtros de Web Audio.")}
         <div class="xp-panel"><svg viewBox="0 0 700 260" class="xp-chart" data-eq style="touch-action:none"></svg></div>
-        <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-listen>▶ Listen (pink noise)</button><span class="dv-badge" data-sel>Band 1</span><label class="dv-choice">Q <input type="range" class="dv-range" min="0.3" max="10" step="0.1" value="1" data-q style="width:140px" aria-label="Q" /><span class="xp-mono" data-qv></span></label><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-flat>Flatten</button></div>`,
+        <div class="dv-row"><button type="button" class="dv-btn dv-btn--primary" data-listen>▶ Escuchar (ruido rosa)</button><span class="dv-badge" data-sel>Banda 1</span><label class="dv-choice">Q <input type="range" class="dv-range" min="0.3" max="10" step="0.1" value="1" data-q style="width:140px" aria-label="Q" /><span class="xp-mono" data-qv></span></label><button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-flat>Aplanar</button></div>`,
       setup(root, ctx) {
         const SR = 48000;
         const bands = [[80, 3, 1], [400, -2, 1.2], [2500, 4, 0.9], [9000, -3, 1.5]].map(([f, g, q]) => ({ f, g, q }));
@@ -1384,7 +1384,7 @@
             [50, 100, 500, 1000, 5000, 10000].map((f) => `<line x1="${fx(f)}" x2="${fx(f)}" y1="10" y2="${H - 10}" stroke="currentColor" stroke-opacity="0.08"/><text x="${fx(f)}" y="${H - 2}" text-anchor="middle">${f >= 1000 ? `${f / 1000}k` : f}</text>`).join("") +
             `<path d="${DEVL_XP.chart.path(pts)} L${W - 10},${H / 2} L30,${H / 2} Z" fill="var(--xp-accent)" opacity=".15"/><path d="${DEVL_XP.chart.path(pts)}" fill="none" stroke="var(--xp-accent)" stroke-width="2.5"/>` +
             bands.map((b, i) => `<circle data-b="${i}" cx="${fx(b.f)}" cy="${gy(b.g)}" r="${i === sel ? 10 : 8}" fill="${["#6366f1", "#10b981", "#f59e0b", "#ec4899"][i]}" stroke="var(--dv-bg)" stroke-width="2" style="cursor:grab"/><text x="${fx(b.f)}" y="${gy(b.g) - 14}" text-anchor="middle">${b.f >= 1000 ? `${(b.f / 1000).toFixed(1)}k` : Math.round(b.f)} · ${b.g > 0 ? "+" : ""}${b.g.toFixed(1)}dB</text>`).join("");
-          ctx.$("[data-sel]").textContent = `Band ${sel + 1}`;
+          ctx.$("[data-sel]").textContent = `Banda ${sel + 1}`;
           ctx.$("[data-q]").value = String(bands[sel].q);
           ctx.$("[data-qv]").textContent = bands[sel].q.toFixed(1);
           if (filters) filters.forEach((fl, i) => {
@@ -1428,11 +1428,11 @@
             ac.close();
             ac = null;
             filters = null;
-            e.target.textContent = "▶ Listen (pink noise)";
+            e.target.textContent = "▶ Escuchar (ruido rosa)";
             return;
           }
           const AC = window.AudioContext || window.webkitAudioContext;
-          if (!AC) return ctx.toast({ title: "Web Audio not supported", variant: "warning" });
+          if (!AC) return ctx.toast({ title: "Web Audio no es compatible", variant: "warning" });
           ac = new AC();
           const buf = ac.createBuffer(1, ac.sampleRate * 2, ac.sampleRate);
           const d = buf.getChannelData(0);
@@ -1456,7 +1456,7 @@
           });
           filters.reduce((n, f) => n.connect(f), src).connect(ac.destination);
           src.start();
-          e.target.textContent = "■ Stop";
+          e.target.textContent = "■ Detener";
           render();
         });
         ctx.onCleanup(() => ac && ac.close());
@@ -1466,13 +1466,13 @@
 
     "sprite-frame-inspector": {
       html: `
-        ${head("Media · sprite-frame-inspector.tsx", "Sprite frame inspector", "A procedurally drawn 8-frame run cycle. Play at any FPS, step frames, toggle onion skin and hitboxes, or click a frame in the strip.")}
+        ${head("Media · sprite-frame-inspector.tsx", "Inspector de fotogramas de sprite", "Un ciclo de carrera de 8 fotogramas dibujado de forma procedural. Reprodúcelo a cualquier FPS, avanza fotograma a fotograma, activa el onion skin y las hitboxes, o haz clic en un fotograma de la tira.")}
         <div class="dv-grid" style="--min:280px;align-items:start">
           <canvas class="xp-canvas" data-stage style="height:260px;image-rendering:pixelated"></canvas>
           <div class="dv-stack">
-            <div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-step="-1">◀</button><button type="button" class="dv-btn dv-btn--primary dv-btn--sm" data-play>❚❚ Pause</button><button type="button" class="dv-btn dv-btn--sm" data-step="1">▶</button><span class="xp-mono" data-f></span></div>
+            <div class="dv-row"><button type="button" class="dv-btn dv-btn--sm" data-step="-1">◀</button><button type="button" class="dv-btn dv-btn--primary dv-btn--sm" data-play>❚❚ Pausar</button><button type="button" class="dv-btn dv-btn--sm" data-step="1">▶</button><span class="xp-mono" data-f></span></div>
             <label class="dv-choice">FPS <input type="range" class="dv-range" min="1" max="24" value="10" data-fps style="width:140px" data-dv-output="#sp-fps" aria-label="FPS" /><strong class="xp-mono" id="sp-fps">10</strong></label>
-            <label class="dv-choice">Onion skin <input type="checkbox" role="switch" class="dv-switch" data-onion checked /></label>
+            <label class="dv-choice">Piel de cebolla <input type="checkbox" role="switch" class="dv-switch" data-onion checked /></label>
             <label class="dv-choice">Hitbox <input type="checkbox" role="switch" class="dv-switch" data-hit /></label>
           </div>
         </div>
@@ -1512,7 +1512,7 @@
         let frame = 0;
         let playing = true;
         let acc = 0;
-        ctx.$("[data-strip]").innerHTML = Array.from({ length: N }, (_, i) => `<button type="button" data-i="${i}" aria-label="Frame ${i + 1}" style="width:56px;height:56px;border-radius:6px;border:2px solid var(--dv-border);background:var(--dv-bg-elevated);padding:0;cursor:pointer"><canvas width="${FW}" height="${FH}" style="width:100%;height:100%;image-rendering:pixelated"></canvas></button>`).join("");
+        ctx.$("[data-strip]").innerHTML = Array.from({ length: N }, (_, i) => `<button type="button" data-i="${i}" aria-label="Fotograma ${i + 1}" style="width:56px;height:56px;border-radius:6px;border:2px solid var(--dv-border);background:var(--dv-bg-elevated);padding:0;cursor:pointer"><canvas width="${FW}" height="${FH}" style="width:100%;height:100%;image-rendering:pixelated"></canvas></button>`).join("");
         ctx.$$("[data-strip] canvas").forEach((c, i) => c.getContext("2d").drawImage(sheet, i * FW, 0, FW, FH, 0, 0, FW, FH));
         const draw = () => {
           const { w, h, dpr } = size;
@@ -1533,7 +1533,7 @@
             g.lineWidth = 2;
             g.strokeRect(x + 11 * scale, y + 1 * scale, 10 * scale, 27 * scale);
           }
-          ctx.$("[data-f]").textContent = `frame ${frame + 1}/${N}`;
+          ctx.$("[data-f]").textContent = `fotograma ${frame + 1}/${N}`;
           ctx.$$("[data-strip] button").forEach((b, i) => (b.style.borderColor = i === frame ? "var(--xp-accent)" : "var(--dv-border)"));
         };
         ctx.raf((t, dt) => {
@@ -1549,14 +1549,14 @@
         });
         ctx.on(ctx.$("[data-play]"), "click", (e) => {
           playing = !playing;
-          e.target.textContent = playing ? "❚❚ Pause" : "▶ Play";
+          e.target.textContent = playing ? "❚❚ Pausar" : "▶ Reproducir";
         });
-        ctx.$$("[data-step]").forEach((b) => ctx.on(b, "click", () => ((playing = false), (ctx.$("[data-play]").textContent = "▶ Play"), (frame = (frame + Number(b.dataset.step) + N) % N))));
+        ctx.$$("[data-step]").forEach((b) => ctx.on(b, "click", () => ((playing = false), (ctx.$("[data-play]").textContent = "▶ Reproducir"), (frame = (frame + Number(b.dataset.step) + N) % N))));
         ctx.on(ctx.$("[data-strip]"), "click", (e) => {
           const b = e.target.closest("[data-i]");
           if (!b) return;
           playing = false;
-          ctx.$("[data-play]").textContent = "▶ Play";
+          ctx.$("[data-play]").textContent = "▶ Reproducir";
           frame = Number(b.dataset.i);
         });
       }
@@ -1564,16 +1564,16 @@
 
     "camera-pip-controller": {
       html: `
-        ${head("Media · camera-pip-controller.tsx", "Camera PiP HUD", "Draggable picture-in-picture that snaps to corners, optional real camera, a recording timer with mic level and a scrolling teleprompter.")}
+        ${head("Media · camera-pip-controller.tsx", "HUD de cámara PiP", "Imagen en imagen arrastrable que se ajusta a las esquinas, cámara real opcional, temporizador de grabación con nivel de micrófono y un teleprompter con desplazamiento.")}
         <div class="xp-board" data-stage style="height:420px;background:linear-gradient(160deg,var(--dv-bg-elevated),var(--dv-bg))">
-          <div data-prompter style="position:absolute;inset:20px 20px 80px;overflow:hidden;font-size:22px;line-height:1.6;text-align:center;color:var(--dv-fg)"><div data-text style="padding-top:260px">Hi everyone — today I'm showing the new devl-ui gallery. Every experiment is now a real, working component. You can open the code drawer to copy the HTML and JavaScript, change tokens to restyle everything, and drop the library into any project. No dependencies, just the platform.</div></div>
+          <div data-prompter style="position:absolute;inset:20px 20px 80px;overflow:hidden;font-size:22px;line-height:1.6;text-align:center;color:var(--dv-fg)"><div data-text style="padding-top:260px">Hola a todos: hoy les presento la nueva galería de devl-ui. Cada experimento ahora es un componente real y funcional. Pueden abrir el panel de código para copiar el HTML y el JavaScript, cambiar los tokens para rediseñarlo todo e incorporar la biblioteca en cualquier proyecto. Sin dependencias, solo la plataforma.</div></div>
           <div data-pip style="position:absolute;width:200px;height:130px;right:16px;bottom:16px;border-radius:14px;overflow:hidden;box-shadow:var(--dv-shadow-lg);border:2px solid var(--dv-border-strong);cursor:grab;touch-action:none;transition:left .25s var(--dv-ease),top .25s var(--dv-ease)">
             <video data-video autoplay muted playsinline style="width:100%;height:100%;object-fit:cover;display:none"></video>
             <div data-fallback style="width:100%;height:100%;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,var(--xp-accent),#111);color:#fff;font-size:30px">🙂</div>
             <span data-rec hidden class="dv-badge dv-badge--danger" style="position:absolute;top:6px;left:6px"><span class="dv-dot dv-dot--danger dv-dot--pulse" style="--_c:#fff"></span> <span data-time>00:00</span></span>
           </div>
         </div>
-        <div class="dv-row"><button type="button" class="dv-btn" data-cam>📷 Use camera</button><button type="button" class="dv-btn dv-btn--danger" data-record>● Record</button><label class="dv-choice">Prompter speed <input type="range" class="dv-range" min="0" max="60" value="20" data-speed style="width:120px" aria-label="Prompter speed" /></label><label class="dv-choice">Mic <div class="dv-meter" style="width:100px;height:8px"><span data-level style="--w:0%;--c:var(--dv-success)"></span></div></label></div>`,
+        <div class="dv-row"><button type="button" class="dv-btn" data-cam>📷 Usar cámara</button><button type="button" class="dv-btn dv-btn--danger" data-record>● Grabar</button><label class="dv-choice">Velocidad del teleprompter <input type="range" class="dv-range" min="0" max="60" value="20" data-speed style="width:120px" aria-label="Velocidad del teleprompter" /></label><label class="dv-choice">Micrófono <div class="dv-meter" style="width:100px;height:8px"><span data-level style="--w:0%;--c:var(--dv-success)"></span></div></label></div>`,
       setup(root, ctx) {
         const stage = ctx.$("[data-stage]");
         const pip = ctx.$("[data-pip]");
@@ -1621,7 +1621,7 @@
             });
             e.target.disabled = true;
           } catch (_) {
-            ctx.toast({ title: "Camera unavailable", description: "Permission denied or no device — using the placeholder.", variant: "warning" });
+            ctx.toast({ title: "Cámara no disponible", description: "Permiso denegado o sin dispositivo; se usa el marcador de posición.", variant: "warning" });
           }
         });
         let rec = false;
@@ -1630,8 +1630,8 @@
           rec = !rec;
           if (rec) secs = 0;
           ctx.$("[data-rec]").hidden = !rec;
-          e.target.textContent = rec ? "■ Stop" : "● Record";
-          if (!rec) ctx.toast({ title: "Recording saved", description: `${secs}s · take-${Date.now().toString(36)}.webm` });
+          e.target.textContent = rec ? "■ Detener" : "● Grabar";
+          if (!rec) ctx.toast({ title: "Grabación guardada", description: `${secs}s · toma-${Date.now().toString(36)}.webm` });
         });
         ctx.every(1000, () => {
           if (!rec) return;

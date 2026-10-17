@@ -1,6 +1,6 @@
 // ============================================================================
-// devl.dev — Tiny HTML / JS syntax highlighter shared by the gallery and docs
-// Output uses .tok-tag .tok-attr .tok-str .tok-com .tok-kw classes.
+// devl.dev — Resaltador de sintaxis HTML / JS minimalista compartido por la galería y la documentación
+// La salida usa las clases .tok-tag .tok-attr .tok-str .tok-com .tok-kw.
 // ============================================================================
 
 (function () {

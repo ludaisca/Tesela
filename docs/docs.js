@@ -1,13 +1,13 @@
 // ============================================================================
-// devl-ui docs — builds live demos, code views and navigation for components.html
-// Each <section class="doc"> holds a <template> (demo HTML, shown as source)
-// and optionally a <script type="text/plain" data-doc-js> (shown and executed).
+// Documentación de devl-ui — genera demos en vivo, vistas de código y navegación para components.html
+// Cada <section class="doc"> contiene un <template> (HTML de la demo, mostrado como código)
+// y opcionalmente un <script type="text/plain" data-doc-js> (mostrado y ejecutado).
 // ============================================================================
 
 (function () {
   "use strict";
 
-  // ---------------------------------------------------------------- Source utils
+  // ---------------------------------------------------------------- Utilidades de código fuente
   function dedent(src) {
     const lines = src.replace(/\t/g, "  ").split("\n");
     while (lines.length && !lines[0].trim()) lines.shift();
@@ -18,17 +18,17 @@
     return lines.map((l) => l.slice(indent)).join("\n");
   }
 
-  // Template serialisation turns boolean attributes into attr="" — restore them
+  // La serialización del template convierte los atributos booleanos en attr=""; se restauran
   const BOOLEAN_ATTRS = ["hidden", "disabled", "checked", "open", "multiple", "fill", "selected", "readonly", "required", "indeterminate"];
   function tidyHTML(src) {
     return src.replace(new RegExp(` (${BOOLEAN_ATTRS.join("|")})=""`, "g"), " $1");
   }
 
-  // Shared highlighter (js/highlight.js)
+  // Resaltador compartido (js/highlight.js)
   const highlightHTML = window.DEVL_HIGHLIGHT.html;
   const highlightJS = window.DEVL_HIGHLIGHT.js;
 
-  // ---------------------------------------------------------------- Demo frames
+  // ---------------------------------------------------------------- Marcos de demo
   function buildDoc(section) {
     const tpl = section.querySelector(":scope > template");
     if (!tpl) return;
@@ -41,13 +41,13 @@
 
     const bar = document.createElement("div");
     bar.className = "doc-frame-bar";
-    const views = [["preview", "Preview"], ["html", "HTML"]];
+    const views = [["preview", "Vista previa"], ["html", "HTML"]];
     if (js) views.push(["js", "JS"]);
     bar.innerHTML = `
       <dv-segmented class="dv-segmented" value="preview" aria-label="View">
         ${views.map(([v, l]) => `<button class="dv-segmented__item" value="${v}">${l}</button>`).join("")}
       </dv-segmented>
-      <button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-doc-copy>Copy</button>`;
+      <button type="button" class="dv-btn dv-btn--sm dv-btn--subtle" data-doc-copy>Copiar</button>`;
 
     const demo = document.createElement("div");
     demo.className = "doc-demo";
@@ -78,7 +78,7 @@
     bar.querySelector("[data-doc-copy]").addEventListener("click", () => {
       const text = view === "js" ? js : html;
       DevlUI.copy(text).then((ok) =>
-        DevlUI.toast(ok ? { title: `Copied ${view === "js" ? "JS" : "HTML"}`, description: section.querySelector("h2").textContent } : { title: "Copy failed", variant: "danger" })
+        DevlUI.toast(ok ? { title: `${view === "js" ? "JS" : "HTML"} copiado`, description: section.querySelector("h2").textContent } : { title: "Error al copiar", variant: "danger" })
       );
     });
 
@@ -92,12 +92,12 @@
     }
   }
 
-  // ---------------------------------------------------------------- Sidebar nav
+  // ---------------------------------------------------------------- Navegación lateral
   function buildNav(sections) {
     const nav = document.getElementById("docs-nav");
     const groups = [];
     sections.forEach((s) => {
-      const g = s.dataset.group || "Other";
+      const g = s.dataset.group || "Otros";
       let group = groups.find((x) => x.name === g);
       if (!group) groups.push((group = { name: g, items: [] }));
       group.items.push(s);
@@ -111,7 +111,7 @@
           .map((s) => `<a class="dv-nav__item" href="#${s.id}" data-nav-item data-search="${(s.querySelector("h2").textContent + " " + (s.dataset.keywords || "")).toLowerCase()}">${s.querySelector("h2").textContent}</a>`)
           .join("")}`
       )
-      .join("") + `<div class="docs-empty-search" hidden>No matches</div>`;
+      .join("") + `<div class="docs-empty-search" hidden>Sin coincidencias</div>`;
 
     const count = document.getElementById("docs-count");
     const NON_COMPONENT_GROUPS = ["Inicio", "Patrones"];
@@ -157,7 +157,7 @@
     sections.forEach((s) => spy.observe(s));
   }
 
-  // ---------------------------------------------------------------- Token controls
+  // ---------------------------------------------------------------- Controles de tokens
   function storageGet(k) {
     try {
       return localStorage.getItem(k);
@@ -207,11 +207,11 @@
       const cs = getComputedStyle(root);
       const names = ["--dv-accent", "--dv-radius", "--dv-radius-sm", "--dv-radius-xs"];
       const css = `:root {\n${names.map((n) => `  ${n}: ${cs.getPropertyValue(n).trim()};`).join("\n")}\n}`;
-      DevlUI.copy(css).then(() => DevlUI.toast({ title: "Token overrides copied", description: "Paste after devl-ui.css" }));
+      DevlUI.copy(css).then(() => DevlUI.toast({ title: "Tokens copiados", description: "Pégalos después de devl-ui.css" }));
     });
   }
 
-  // ---------------------------------------------------------------- Boot
+  // ---------------------------------------------------------------- Arranque
   document.addEventListener("DOMContentLoaded", () => {
     const sections = Array.from(document.querySelectorAll("section.doc[id]"));
     sections.forEach(buildDoc);

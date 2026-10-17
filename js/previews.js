@@ -1,6 +1,6 @@
 // ============================================================================
-// devl.dev — Procedural SVG Miniature UI Engine (24 Folder Badges + 212 Slug-Specific Live Previews)
-// 100% Pure Custom Vector Code — Theme-Adaptive, Slug-Tailored & Hover-Animated
+// devl.dev — Motor procedural de miniaturas UI en SVG (24 insignias de carpeta + 212 vistas previas en vivo por slug)
+// Código vectorial 100% propio: adaptable al tema, a la medida de cada slug y animado al pasar el cursor
 // ============================================================================
 
 (function () {
@@ -14,7 +14,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 1. 24 Category Header Miniature Icons (80x60 bespoke micro-window SVGs)
+  // 1. 24 iconos en miniatura para los encabezados de categoría (SVG de micro-ventanas a medida, 80x60)
   // --------------------------------------------------------------------------
   function getCategoryIcon(catId) {
     const frame = (inner) => `<svg viewBox="0 0 80 60" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="cat-mini-svg">
@@ -57,7 +57,7 @@
           <rect x="23" y="22" width="15" height="5" rx="1" class="op-40"/>
           <rect x="42" y="22" width="15" height="5" rx="1" class="op-40"/>
           <line x1="23" y1="31" x2="35" y2="31" class="op-25"/>
-          <text x="40" y="32.5" text-anchor="middle" font-size="4.2" fill="currentColor" stroke="none" class="op-55">or</text>
+          <text x="40" y="32.5" text-anchor="middle" font-size="4.2" fill="currentColor" stroke="none" class="op-55">o</text>
           <line x1="45" y1="31" x2="57" y2="31" class="op-25"/>
           <rect x="23" y="36" width="34" height="5.5" rx="1" class="op-40"/>
           <rect x="23" y="44.5" width="34" height="5.5" rx="1" fill="currentColor" class="op-85" stroke="none"/>
@@ -251,7 +251,7 @@
   }
 
   // --------------------------------------------------------------------------
-  // 2. 212 Slug-Specific Miniature Card Previews (320x200 SVG Micro-Interfaces)
+  // 2. 212 vistas previas en miniatura de tarjetas por slug (micro-interfaces SVG de 320x200)
   // --------------------------------------------------------------------------
   function generatePreviewSVG(catId, item, idx) {
     const slug = item.slug;
@@ -287,13 +287,13 @@
     };
 
     // ========================================================================
-    // NEW CATEGORY A: AI & AGENTS (10 bespoke compositions)
+    // NUEVA CATEGORÍA A: IA Y AGENTES (10 composiciones a medida)
     // ========================================================================
     if (catId === "ai-agents") {
       if (slug === "agent-handoff-graph") {
         return windowChrome(`
           <rect x="28" y="76" width="64" height="36" rx="6" fill="${acc}" class="op-22" stroke="${acc}" stroke-width="1.5"/>
-          <text x="60" y="97" text-anchor="middle" font-size="7" fill="currentColor" class="op-90">ORCHESTRATOR</text>
+          <text x="60" y="97" text-anchor="middle" font-size="7" fill="currentColor" class="op-90">ORQUESTADOR</text>
           <path d="M92 94 C118 94, 118 54, 144 54 M92 94 C118 94, 118 94, 144 94 M92 94 C118 94, 118 134, 144 134" stroke="${acc}" stroke-width="1.5" stroke-dasharray="3 3" class="anim-draw"/>
           ${[38, 78, 118].map((y, i) => `
             <rect x="144" y="${y}" width="72" height="32" rx="5" fill="var(--bg)" stroke="currentColor" class="op-45 anim-slide-x"/>
@@ -306,7 +306,7 @@
       if (slug === "token-budget-meter" || slug === "context-window-stack") {
         return windowChrome(`
           <rect x="24" y="34" width="272" height="148" rx="7" fill="var(--bg)" stroke="currentColor" class="op-28"/>
-          <text x="38" y="54" font-size="7.5" font-weight="600" fill="currentColor" class="op-85">CONTEXT WINDOW · 94.2k / 128k TOKENS</text>
+          <text x="38" y="54" font-size="7.5" font-weight="600" fill="currentColor" class="op-85">VENTANA DE CONTEXTO · 94.2k / 128k TOKENS</text>
           <rect x="38" y="64" width="244" height="14" rx="4" fill="currentColor" class="op-10"/>
           <rect x="38" y="64" width="96" height="14" rx="4" fill="${acc}" class="op-90"/>
           <rect x="136" y="64" width="64" height="14" fill="var(--accent-sky)" class="op-85"/>
@@ -354,7 +354,7 @@
     }
 
     // ========================================================================
-    // NEW CATEGORY B: SHADERS & CANVAS (10 bespoke compositions)
+    // NUEVA CATEGORÍA B: SHADERS Y CANVAS (10 composiciones a medida)
     // ========================================================================
     if (catId === "shaders-canvas") {
       if (slug === "magnetic-cursor-grid" || slug === "ascii-matrix-field") {
@@ -389,7 +389,7 @@
     }
 
     // ========================================================================
-    // NEW CATEGORY C: DEVTOOLS & LOGS (9 bespoke compositions)
+    // NUEVA CATEGORÍA C: HERRAMIENTAS DE DESARROLLO Y LOGS (9 composiciones a medida)
     // ========================================================================
     if (catId === "devtools") {
       if (slug === "network-waterfall" || slug === "flamegraph-profiler") {
@@ -411,7 +411,7 @@
       }
       return windowChrome(`
         <rect x="14" y="28" width="292" height="158" rx="5" fill="currentColor" class="op-04" stroke="currentColor" stroke-opacity="0.24"/>
-        <text x="26" y="48" font-size="7.5" fill="${acc}">▼ { "workspace": "argon-v2", "nodes": 212,</text>
+        <text x="26" y="48" font-size="7.5" fill="${acc}">▼ { "workspace": "biblioteca", "nodes": 212,</text>
         <text x="38" y="66" font-size="7.5" fill="currentColor" class="op-80">  "shaderEngine": "webgl-fragment-fp16",</text>
         <text x="38" y="84" font-size="7.5" fill="var(--accent-emerald)">  "externalDependencies": 0,</text>
         <text x="38" y="102" font-size="7.5" fill="var(--accent-amber)">  "latencyMs": [1.2, 0.8, 1.4, 0.9],</text>
@@ -422,7 +422,7 @@
     }
 
     // ========================================================================
-    // NEW CATEGORY D: COMMAND & MENUS (9 bespoke compositions)
+    // NUEVA CATEGORÍA D: COMANDOS Y MENÚS (9 composiciones a medida)
     // ========================================================================
     if (catId === "command-menus") {
       if (slug === "radial-pie-menu") {
@@ -451,7 +451,7 @@
     }
 
     // ========================================================================
-    // NEW CATEGORY E: MEDIA & CREATIVE TOOLS (8 bespoke compositions)
+    // NUEVA CATEGORÍA E: MEDIOS Y HERRAMIENTAS CREATIVAS (8 composiciones a medida)
     // ========================================================================
     if (catId === "media-audio") {
       if (slug === "bezier-easing-editor") {
@@ -478,7 +478,7 @@
     }
 
     // ========================================================================
-    // NEW CATEGORY F: FINTECH & TREASURY (8 bespoke compositions)
+    // NUEVA CATEGORÍA F: FINTECH Y TESORERÍA (8 composiciones a medida)
     // ========================================================================
     if (catId === "crypto-fintech") {
       if (slug === "orderbook-depth-wall") {
@@ -493,7 +493,7 @@
       return windowChrome(`
         <g class="anim-float">
           <rect x="52" y="36" width="216" height="138" rx="10" fill="var(--bg)" stroke="${acc}" stroke-width="1.6"/>
-          <text x="72" y="60" font-size="8" font-weight="700" fill="${acc}">TREASURY VAULT · MULTI-SIG 3/5</text>
+          <text x="72" y="60" font-size="8" font-weight="700" fill="${acc}">BÓVEDA DE TESORERÍA · MULTIFIRMA 3/5</text>
           <text x="72" y="92" font-size="18" font-weight="700" fill="currentColor">$2,840,910.00</text>
           <rect x="72" y="114" width="176" height="8" rx="4" fill="currentColor" class="op-12"/>
           <rect x="72" y="114" width="132" height="8" rx="4" fill="var(--accent-emerald)" class="op-90"/>
@@ -504,7 +504,7 @@
     }
 
     // ========================================================================
-    // 1. LAYOUTS (12 distinct compositions)
+    // 1. LAYOUTS (12 composiciones distintas)
     // ========================================================================
     if (catId === "layouts") {
       switch (slug) {
@@ -620,7 +620,7 @@
             <circle cx="120" cy="88" r="3.5" fill="${acc}"/>
             <circle cx="174" cy="90" r="3.5" fill="${acc}"/>
           `);
-        default: // bottom-nav
+        default: // navegación inferior
           return windowChrome(`
             <rect x="98" y="26" width="124" height="166" rx="12" stroke="currentColor" stroke-width="1.5" class="op-45"/>
             <rect x="110" y="42" width="100" height="52" rx="5" fill="currentColor" class="op-06"/>
@@ -632,7 +632,7 @@
     }
 
     // ========================================================================
-    // 2. FORMS (4 distinct compositions)
+    // 2. FORMULARIOS (4 composiciones distintas)
     // ========================================================================
     if (catId === "forms") {
       if (slug === "invite-teammates") {
@@ -680,7 +680,7 @@
     }
 
     // ========================================================================
-    // 3. AUTH & ONBOARDING (14 distinct compositions)
+    // 3. AUTENTICACIÓN E INICIO (14 composiciones distintas)
     // ========================================================================
     if (catId === "auth") {
       if (slug === "otp-verify" || slug === "two-factor") {
@@ -749,7 +749,7 @@
     }
 
     // ========================================================================
-    // 4. DASHBOARDS (9 distinct compositions)
+    // 4. PANELES (9 composiciones distintas)
     // ========================================================================
     if (catId === "dashboards") {
       if (slug === "usage") {
@@ -798,7 +798,7 @@
     }
 
     // ========================================================================
-    // 5. TABLES (9 distinct compositions)
+    // 5. TABLAS (9 composiciones distintas)
     // ========================================================================
     if (catId === "tables") {
       if (slug === "logs") {
@@ -864,7 +864,7 @@
     }
 
     // ========================================================================
-    // 6. FILTERS (4 distinct compositions)
+    // 6. FILTROS (4 composiciones distintas)
     // ========================================================================
     if (catId === "filters") {
       if (slug === "toolbar") {
@@ -901,7 +901,7 @@
     }
 
     // ========================================================================
-    // 7. EMPTY STATES (10 distinct compositions)
+    // 7. ESTADOS VACÍOS (10 composiciones distintas)
     // ========================================================================
     if (catId === "empty-states") {
       if (slug === "first-project") {
@@ -936,7 +936,7 @@
     }
 
     // ========================================================================
-    // 8. SETTINGS (12 distinct compositions)
+    // 8. AJUSTES (12 composiciones distintas)
     // ========================================================================
     if (catId === "settings") {
       if (slug === "appearance") {
@@ -986,7 +986,7 @@
     }
 
     // ========================================================================
-    // 9. CARDS (10 distinct compositions)
+    // 9. TARJETAS (10 composiciones distintas)
     // ========================================================================
     if (catId === "cards") {
       if (slug === "payment-method") {
@@ -1030,7 +1030,7 @@
     }
 
     // ========================================================================
-    // 10. MODALS (10 distinct compositions)
+    // 10. MODALES (10 composiciones distintas)
     // ========================================================================
     if (catId === "modals") {
       if (slug === "shortcuts") {
@@ -1057,7 +1057,7 @@
     }
 
     // ========================================================================
-    // 11. CHARTS (9 distinct SVG chart compositions)
+    // 11. GRÁFICOS (9 composiciones distintas)
     // ========================================================================
     if (catId === "charts") {
       if (slug === "cohort-heatmap") {
@@ -1113,7 +1113,7 @@
     }
 
     // ========================================================================
-    // 12. TIMELINES (12 distinct compositions)
+    // 12. LÍNEAS DE TIEMPO (12 composiciones distintas)
     // ========================================================================
     if (catId === "timelines") {
       if (slug === "status-page" || slug === "pr-ops-console") {
@@ -1138,7 +1138,7 @@
     }
 
     // ========================================================================
-    // 13. CALENDARS (9 distinct compositions)
+    // 13. CALENDARIOS (9 composiciones distintas)
     // ========================================================================
     if (catId === "calendars") {
       if (slug === "year-heatmap") {
@@ -1175,7 +1175,7 @@
     }
 
     // ========================================================================
-    // 14. PROFILE (10 distinct compositions)
+    // 14. PERFIL (10 composiciones distintas)
     // ========================================================================
     if (catId === "profile") {
       if (slug === "org-chart") {
@@ -1209,7 +1209,7 @@
     }
 
     // ========================================================================
-    // 15. TOASTS & BANNERS (6 distinct compositions)
+    // 15. TOASTS Y BANNERS (6 composiciones distintas)
     // ========================================================================
     if (catId === "toasts") {
       if (slug === "info-banner") {
@@ -1235,7 +1235,7 @@
     }
 
     // ========================================================================
-    // 16. PRICING (6 distinct compositions)
+    // 16. PRECIOS (6 composiciones distintas)
     // ========================================================================
     if (catId === "pricing") {
       if (slug === "slider-seats") {
@@ -1261,7 +1261,7 @@
     }
 
     // ========================================================================
-    // 17. TOURS & COACHMARKS (6 distinct compositions)
+    // 17. TOURS Y GUÍAS (6 composiciones distintas)
     // ========================================================================
     if (catId === "tours") {
       if (slug === "checklist") {
@@ -1288,7 +1288,7 @@
     }
 
     // ========================================================================
-    // 18. THREADS & COMMENTS (6 distinct compositions)
+    // 18. HILOS Y COMENTARIOS (6 composiciones distintas)
     // ========================================================================
     if (slug === "mention-popover") {
       return windowChrome(`

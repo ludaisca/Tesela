@@ -1,5 +1,5 @@
 /* ============================================================================
-   devl-ui docs — layout for components.html (uses devl-ui.css tokens)
+   devl-ui docs — diseño de components.html (usa los tokens de devl-ui.css)
    ============================================================================ */
 
 *,
@@ -222,7 +222,7 @@ p {
   border: 1px solid var(--dv-border);
 }
 
-/* Frame stays overflow:visible so menus/tooltips are not clipped */
+/* El marco mantiene overflow:visible para que los menús y tooltips no se recorten */
 .doc-frame > :first-child {
   border-radius: calc(var(--dv-radius) - 1px) calc(var(--dv-radius) - 1px) 0 0;
 }
@@ -293,7 +293,7 @@ p {
   color: var(--dv-fg-subtle);
 }
 
-/* Demo-only helpers */
+/* Utilidades solo para las demos */
 .demo-max {
   max-width: 420px;
 }
