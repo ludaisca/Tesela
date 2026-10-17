@@ -1,0 +1,79 @@
+/* ----------------------------------------------------------------------------
+   16. Menús: <tsl-menu>
+   ---------------------------------------------------------------------------- */
+tsl-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.tsl-menu__list {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 70;
+  min-width: 190px;
+  padding: 5px;
+  border-radius: var(--tsl-radius);
+  border: 1px solid var(--tsl-border-strong);
+  background: var(--tsl-bg-elevated);
+  box-shadow: var(--tsl-shadow-lg);
+  transform-origin: top left;
+  animation: tsl-pop 140ms var(--tsl-ease);
+}
+
+tsl-menu[align="end"] .tsl-menu__list {
+  left: auto;
+  right: 0;
+  transform-origin: top right;
+}
+
+.tsl-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 7px 9px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--tsl-fg);
+  font: inherit;
+  font-size: 12px;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.tsl-menu__item:hover,
+.tsl-menu__item:focus-visible {
+  background: var(--tsl-surface-strong);
+  box-shadow: none;
+}
+
+.tsl-menu__item .tsl-kbd {
+  margin-left: auto;
+}
+
+.tsl-menu__item:disabled,
+.tsl-menu__item[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.tsl-menu__item--danger {
+  color: var(--tsl-danger);
+}
+
+.tsl-menu__sep {
+  height: 1px;
+  margin: 5px -5px;
+  background: var(--tsl-border);
+}
+
+.tsl-menu__label {
+  padding: 6px 9px 4px;
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tsl-fg-subtle);
+}

@@ -4,9 +4,11 @@
   "private": true,
   "description": "Biblioteca de componentes sin dependencias (HTML + CSS + Custom Elements) y galería de experimentos",
   "scripts": {
+    "build": "node scripts/build.js",
     "test": "node tests/run.js"
   },
   "devDependencies": {
-    "playwright": "^1.50.0"
+    "esbuild": "^0.28.2",
+    "playwright": "1.63.0"
   }
 }

@@ -32,11 +32,31 @@ Copia la carpeta `lib/` a tu proyecto:
 - **Accesibilidad:** roles ARIA, navegación por teclado, `<dialog>` nativo y soporte de `prefers-reduced-motion`.
 - **Textos por defecto en español** (etiquetas ARIA, placeholders, "Copiado"…); se pueden cambiar con atributos (`label`, `placeholder`, `empty`).
 
+## Código fuente y compilación
+
+El código vive en `src/` (módulos ES, uno por componente) y `lib/` es la salida compilada, lista para copiar o servir:
+
+```bash
+npm run build     # src/ → lib/ (bundle IIFE, minificado, módulos ESM y CSS por secciones)
+```
+
+| Ruta | Contenido |
+|---|---|
+| `src/core/` | Base de los Custom Elements, posicionamiento y campos de formulario compartidos |
+| `src/components/` | Un módulo por componente (`tabs.js`, `select.js`, `chart.js`…) que se registra a sí mismo |
+| `src/api/` | `toast`, `confirm`, `copy` y tema |
+| `src/css/` | Una hoja por sección; se concatenan en `lib/tesela-ui.css` |
+| `lib/tesela-ui.js`, `.min.js` | Bundle completo para `<script src>` (expone `window.TeselaUI`) |
+| `lib/esm/` | Bundle ESM y un módulo por componente para importar solo lo necesario |
+| `lib/css/` | El CSS por secciones |
+
+`tests/package.test.js` falla si `lib/` queda desfasado respecto a `src/`: ejecuta `npm run build` y confirma ambos.
+
 ## Estructura
 
 | Ruta | Contenido |
 |---|---|
-| `lib/tesela-ui.css`, `lib/tesela-ui.js` | La biblioteca (lo único que necesitas copiar) |
+| `lib/` | La biblioteca compilada (lo único que necesitas copiar) |
 | `components.html`, `docs/` | Documentación interactiva de la biblioteca |
 | `index.html`, `css/`, `js/` | Galería de experimentos |
 | `js/data.js` | Catálogo de carpetas y experimentos |
@@ -78,6 +98,7 @@ Las pruebas corren en un Chromium real con Playwright e incluyen teclado, arrast
 | `tests/inputs.test.js` | slider, rating, color, contraseña, textarea, menciones, toggle group, estructura |
 | `tests/data.test.js` | tree, lista virtual, ordenables, kanban, tabla de datos, gráficas |
 | `tests/gallery.test.js` | los 212 experimentos de la galería montan sin errores |
+| `tests/package.test.js` | `lib/` al día con `src/`, módulos ESM independientes y bundle minificado |
 
 ```bash
 npm install                        # solo la primera vez (instala Playwright)

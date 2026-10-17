@@ -1,0 +1,133 @@
+/* ----------------------------------------------------------------------------
+   21h. Tabla de datos
+   ---------------------------------------------------------------------------- */
+tsl-data-table {
+  display: block;
+  font-size: 12px;
+}
+
+.tsl-dt__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.tsl-dt__search {
+  width: min(260px, 100%);
+}
+
+.tsl-dt__selinfo {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding-left: 10px;
+  color: var(--tsl-fg);
+}
+
+.tsl-dt__colmenu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 180px;
+}
+
+.tsl-dt__wrap {
+  overflow: auto;
+  border-radius: var(--tsl-radius);
+  border: 1px solid var(--tsl-border);
+}
+
+.tsl-dt__wrap .tsl-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--tsl-bg-elevated);
+  box-shadow: 0 1px 0 var(--tsl-border);
+}
+
+.tsl-dt__table th,
+.tsl-dt__table td {
+  padding-block: 10px;
+}
+
+tsl-data-table[density="compact"] .tsl-dt__table th,
+tsl-data-table[density="compact"] .tsl-dt__table td {
+  padding-block: 5px;
+}
+
+tsl-data-table[density="comfortable"] .tsl-dt__table th,
+tsl-data-table[density="comfortable"] .tsl-dt__table td {
+  padding-block: 16px;
+}
+
+.tsl-dt__select {
+  width: 36px;
+  padding-inline: 12px 0 !important;
+}
+
+.tsl-dt__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+.tsl-dt__sort:hover {
+  color: var(--tsl-fg);
+}
+
+.tsl-dt__sort:focus-visible {
+  outline: none;
+  box-shadow: var(--tsl-ring);
+  border-radius: 4px;
+}
+
+.tsl-dt__sorticon {
+  opacity: 0.4;
+}
+
+th[aria-sort="ascending"] .tsl-dt__sorticon,
+th[aria-sort="descending"] .tsl-dt__sorticon {
+  opacity: 1;
+  color: var(--tsl-accent);
+}
+
+.tsl-dt__table tr.is-selected {
+  background: color-mix(in srgb, var(--tsl-accent) 9%, transparent);
+}
+
+.tsl-dt__empty {
+  padding: 36px 14px !important;
+  text-align: center !important;
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-dt__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.tsl-dt__size {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-dt__size .tsl-select {
+  width: 68px;
+  height: 28px;
+  font-size: 11px;
+}

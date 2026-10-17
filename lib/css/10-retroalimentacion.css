@@ -1,0 +1,79 @@
+/* ----------------------------------------------------------------------------
+   10. Retroalimentación: progreso, medidor, spinner y skeleton
+   ---------------------------------------------------------------------------- */
+.tsl-progress {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 6px;
+  border: 0;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--tsl-surface-strong);
+  color: var(--tsl-accent);
+}
+
+.tsl-progress::-webkit-progress-bar {
+  background: var(--tsl-surface-strong);
+  border-radius: 999px;
+}
+
+.tsl-progress::-webkit-progress-value {
+  background: var(--tsl-accent);
+  border-radius: 999px;
+  transition: width 300ms var(--tsl-ease);
+}
+
+.tsl-progress::-moz-progress-bar {
+  background: var(--tsl-accent);
+  border-radius: 999px;
+}
+
+.tsl-progress:indeterminate {
+  background: linear-gradient(90deg, transparent, var(--tsl-accent), transparent) 0 0 / 40% 100% no-repeat, var(--tsl-surface-strong);
+  animation: tsl-indeterminate 1.2s ease-in-out infinite;
+}
+
+.tsl-progress:indeterminate::-webkit-progress-bar {
+  background: transparent;
+}
+
+.tsl-meter {
+  display: flex;
+  gap: 2px;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--tsl-surface-strong);
+}
+
+.tsl-meter > span {
+  width: var(--w, 0%);
+  background: var(--c, var(--tsl-accent));
+}
+
+.tsl-spinner {
+  display: inline-block;
+  width: var(--size, 16px);
+  height: var(--size, 16px);
+  flex: none;
+  border-radius: 50%;
+  border: 2px solid var(--tsl-border-strong);
+  border-top-color: var(--tsl-fg);
+  animation: tsl-spin 700ms linear infinite;
+}
+
+.tsl-skeleton {
+  display: block;
+  height: var(--h, 12px);
+  width: var(--w, 100%);
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--tsl-surface-strong) 0%, var(--tsl-surface-hover) 40%, var(--tsl-surface-strong) 80%) 0 0 / 300% 100%;
+  animation: tsl-shimmer 1.4s ease-in-out infinite;
+}
+
+.tsl-skeleton--circle {
+  width: var(--h, 36px);
+  height: var(--h, 36px);
+  border-radius: 50%;
+}

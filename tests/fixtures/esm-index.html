@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Fixture ESM: índice completo</title>
+  <link rel="stylesheet" href="../../lib/tesela-ui.css" />
+</head>
+<body class="tsl">
+  <tsl-select id="s" name="x" value="b"><option value="a">A</option><option value="b">B</option></tsl-select>
+  <script type="module">
+    import { VERSION, toast, confirm, position } from "../../lib/esm/index.mjs";
+    window.__api = { VERSION, toast: typeof toast, confirm: typeof confirm, position: typeof position, global: typeof window.TeselaUI };
+    window.__listo = true;
+  </script>
+</body>
+</html>

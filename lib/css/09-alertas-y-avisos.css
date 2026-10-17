@@ -1,0 +1,57 @@
+/* ----------------------------------------------------------------------------
+   9. Alertas y avisos destacados
+   ---------------------------------------------------------------------------- */
+.tsl-alert {
+  --_c: var(--tsl-fg-muted);
+  display: flex;
+  gap: 12px;
+  padding: 13px 15px;
+  border-radius: var(--tsl-radius);
+  border: 1px solid color-mix(in srgb, var(--_c) 35%, var(--tsl-border));
+  background: color-mix(in srgb, var(--_c) 8%, transparent);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.tsl-alert::before {
+  content: "";
+  flex: none;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--_c);
+}
+
+.tsl-alert__title {
+  font-weight: 600;
+  color: var(--tsl-fg);
+}
+
+.tsl-alert__desc {
+  margin-top: 2px;
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-alert--info { --_c: var(--tsl-info); }
+.tsl-alert--success { --_c: var(--tsl-success); }
+.tsl-alert--warning { --_c: var(--tsl-warning); }
+.tsl-alert--danger { --_c: var(--tsl-danger); }
+.tsl-alert--accent { --_c: var(--tsl-accent); }
+
+.tsl-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 9px 16px;
+  background: var(--tsl-fg);
+  color: var(--tsl-bg);
+  font-size: 12px;
+}
+
+.tsl-banner a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

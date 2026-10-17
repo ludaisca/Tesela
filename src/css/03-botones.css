@@ -1,0 +1,170 @@
+/* ----------------------------------------------------------------------------
+   3. Botones
+   ---------------------------------------------------------------------------- */
+.tsl-btn {
+  --_h: 32px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: var(--_h);
+  padding: 0 13px;
+  border-radius: var(--tsl-radius-sm);
+  border: 1px solid var(--tsl-border);
+  background: var(--tsl-surface);
+  color: var(--tsl-fg);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease, transform 120ms ease, opacity 140ms ease;
+}
+
+.tsl-btn:hover {
+  border-color: var(--tsl-border-strong);
+  background: var(--tsl-surface-hover);
+}
+
+.tsl-btn:active {
+  transform: translateY(1px);
+}
+
+.tsl-btn:focus-visible,
+.tsl-input:focus-visible,
+.tsl-textarea:focus-visible,
+.tsl-select:focus-visible,
+.tsl-check:focus-visible,
+.tsl-switch:focus-visible,
+.tsl-range:focus-visible,
+.tsl-chip:focus-visible,
+.tsl-menu__item:focus-visible,
+.tsl-tabs__tab:focus-visible,
+.tsl-segmented__item:focus-visible {
+  outline: none;
+  box-shadow: var(--tsl-ring);
+}
+
+.tsl-btn:disabled,
+.tsl-btn[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.tsl-btn--primary {
+  background: var(--tsl-fg);
+  border-color: var(--tsl-fg);
+  color: var(--tsl-bg);
+}
+
+.tsl-btn--primary:hover {
+  background: color-mix(in srgb, var(--tsl-fg) 88%, var(--tsl-bg));
+  border-color: transparent;
+}
+
+.tsl-btn--accent {
+  background: var(--tsl-accent);
+  border-color: var(--tsl-accent);
+  color: var(--tsl-accent-fg);
+}
+
+.tsl-btn--accent:hover {
+  background: color-mix(in srgb, var(--tsl-accent) 86%, #fff);
+  border-color: transparent;
+}
+
+.tsl-btn--subtle {
+  border-color: transparent;
+  background: transparent;
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-btn--subtle:hover {
+  color: var(--tsl-fg);
+  border-color: transparent;
+}
+
+.tsl-btn--danger {
+  background: var(--tsl-danger);
+  border-color: var(--tsl-danger);
+  color: #fff;
+}
+
+.tsl-btn--danger:hover {
+  background: color-mix(in srgb, var(--tsl-danger) 86%, #000);
+  border-color: transparent;
+}
+
+.tsl-btn--sm {
+  --_h: 26px;
+  padding: 0 9px;
+  font-size: 11px;
+  border-radius: 6px;
+}
+
+.tsl-btn--lg {
+  --_h: 40px;
+  padding: 0 18px;
+  font-size: 13px;
+}
+
+.tsl-btn--icon {
+  width: var(--_h);
+  padding: 0;
+}
+
+.tsl-btn--block {
+  width: 100%;
+}
+
+.tsl-btn--pill {
+  border-radius: 999px;
+}
+
+.tsl-btn[aria-busy="true"] {
+  color: transparent !important;
+  pointer-events: none;
+}
+
+.tsl-btn[aria-busy="true"]::after {
+  content: "";
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-color: var(--tsl-fg-muted) transparent var(--tsl-fg-muted) transparent;
+  animation: tsl-spin 700ms linear infinite;
+}
+
+.tsl-btn--primary[aria-busy="true"]::after {
+  border-color: var(--tsl-bg) transparent var(--tsl-bg) transparent;
+}
+
+.tsl-btn-group {
+  display: inline-flex;
+}
+
+.tsl-btn-group > .tsl-btn {
+  border-radius: 0;
+}
+
+.tsl-btn-group > .tsl-btn + .tsl-btn {
+  margin-left: -1px;
+}
+
+.tsl-btn-group > .tsl-btn:first-child {
+  border-radius: var(--tsl-radius-sm) 0 0 var(--tsl-radius-sm);
+}
+
+.tsl-btn-group > .tsl-btn:last-child {
+  border-radius: 0 var(--tsl-radius-sm) var(--tsl-radius-sm) 0;
+}
+
+.tsl-btn-group > .tsl-btn:hover {
+  z-index: 1;
+}

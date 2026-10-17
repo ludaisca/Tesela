@@ -1,0 +1,50 @@
+/* ----------------------------------------------------------------------------
+   23. Keyframes y preferencias de movimiento
+   ---------------------------------------------------------------------------- */
+@keyframes tsl-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes tsl-pulse {
+  70% { box-shadow: 0 0 0 7px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+@keyframes tsl-shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
+}
+
+@keyframes tsl-indeterminate {
+  0% { background-position: -40% 0, 0 0; }
+  100% { background-position: 140% 0, 0 0; }
+}
+
+@keyframes tsl-pop {
+  from { opacity: 0; transform: scale(0.97) translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes tsl-slide-in {
+  from { transform: translateX(24px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+@keyframes tsl-toast-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [class^="tsl-"],
+  [class*=" tsl-"],
+  [class^="tsl-"]::before,
+  [class*=" tsl-"]::before,
+  [class^="tsl-"]::after,
+  [class*=" tsl-"]::after,
+  [data-tsl-tooltip]::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

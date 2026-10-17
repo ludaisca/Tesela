@@ -1,0 +1,25 @@
+/* ----------------------------------------------------------------------------
+   22. Utilidades de diseño
+   ---------------------------------------------------------------------------- */
+.tsl-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap, 12px);
+}
+
+.tsl-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap, 8px);
+}
+
+.tsl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--min, 200px), 1fr));
+  gap: var(--gap, 12px);
+}
+
+.tsl-spacer {
+  flex: 1;
+}

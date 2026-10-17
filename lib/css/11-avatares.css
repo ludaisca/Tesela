@@ -1,0 +1,59 @@
+/* ----------------------------------------------------------------------------
+   11. Avatares
+   ---------------------------------------------------------------------------- */
+.tsl-avatar {
+  --_s: 32px;
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: var(--_s);
+  height: var(--_s);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--tsl-accent) 22%, var(--tsl-bg-elevated));
+  color: var(--tsl-fg);
+  font-size: calc(var(--_s) * 0.38);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.tsl-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+}
+
+.tsl-avatar--sm { --_s: 24px; }
+.tsl-avatar--lg { --_s: 44px; }
+.tsl-avatar--square { border-radius: var(--tsl-radius-sm); }
+
+.tsl-avatar[data-status]::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: 30%;
+  height: 30%;
+  min-width: 8px;
+  min-height: 8px;
+  border-radius: 50%;
+  border: 2px solid var(--tsl-bg);
+  background: var(--tsl-fg-subtle);
+}
+
+.tsl-avatar[data-status="online"]::after { background: var(--tsl-success); }
+.tsl-avatar[data-status="busy"]::after { background: var(--tsl-danger); }
+.tsl-avatar[data-status="away"]::after { background: var(--tsl-warning); }
+
+.tsl-avatar-group {
+  display: inline-flex;
+}
+
+.tsl-avatar-group > .tsl-avatar {
+  box-shadow: 0 0 0 2px var(--tsl-bg);
+}
+
+.tsl-avatar-group > .tsl-avatar + .tsl-avatar {
+  margin-left: calc(var(--_s) * -0.28);
+}

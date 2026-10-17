@@ -1,0 +1,171 @@
+/* ----------------------------------------------------------------------------
+   13. Navegación: migas de pan, paginación, navegación lateral y pasos
+   ---------------------------------------------------------------------------- */
+.tsl-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--tsl-fg-muted);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tsl-breadcrumb li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tsl-breadcrumb li + li::before {
+  content: "/";
+  color: var(--tsl-fg-subtle);
+}
+
+.tsl-breadcrumb a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.tsl-breadcrumb a:hover,
+.tsl-breadcrumb [aria-current="page"] {
+  color: var(--tsl-fg);
+}
+
+.tsl-pagination {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tsl-pagination > * {
+  display: inline-grid;
+  place-items: center;
+  min-width: 30px;
+  height: 30px;
+  padding: 0 8px;
+  border-radius: var(--tsl-radius-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--tsl-fg-muted);
+  font: inherit;
+  font-size: 12px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.tsl-pagination > a:hover,
+.tsl-pagination > button:hover {
+  color: var(--tsl-fg);
+  border-color: var(--tsl-border);
+}
+
+.tsl-pagination > [aria-current="page"] {
+  background: var(--tsl-fg);
+  color: var(--tsl-bg);
+  font-weight: 600;
+}
+
+.tsl-pagination > span {
+  cursor: default;
+}
+
+.tsl-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tsl-nav__label {
+  margin: 14px 10px 6px;
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--tsl-fg-subtle);
+}
+
+.tsl-nav__item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 10px;
+  border-radius: var(--tsl-radius-sm);
+  border: 0;
+  background: transparent;
+  color: var(--tsl-fg-muted);
+  font: inherit;
+  font-size: 12px;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.tsl-nav__item:hover {
+  color: var(--tsl-fg);
+  background: var(--tsl-surface-hover);
+}
+
+.tsl-nav__item[aria-current="page"] {
+  color: var(--tsl-fg);
+  background: var(--tsl-surface-strong);
+}
+
+.tsl-nav__item .tsl-badge,
+.tsl-nav__meta {
+  margin-left: auto;
+}
+
+.tsl-nav__meta {
+  font-size: 10px;
+  color: var(--tsl-fg-subtle);
+}
+
+.tsl-steps {
+  display: flex;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: tsl-step;
+}
+
+.tsl-steps > li {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--tsl-fg-subtle);
+  counter-increment: tsl-step;
+}
+
+.tsl-steps > li::before {
+  content: "";
+  height: 3px;
+  border-radius: 3px;
+  background: var(--tsl-surface-strong);
+  transition: background-color 200ms ease;
+}
+
+.tsl-steps > li::after {
+  content: "0" counter(tsl-step);
+  order: -1;
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+}
+
+.tsl-steps > li[data-state="done"],
+.tsl-steps > li[aria-current="step"] {
+  color: var(--tsl-fg);
+}
+
+.tsl-steps > li[data-state="done"]::before {
+  background: var(--tsl-fg);
+}
+
+.tsl-steps > li[aria-current="step"]::before {
+  background: var(--tsl-accent);
+}

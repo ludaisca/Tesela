@@ -1,0 +1,89 @@
+/* ----------------------------------------------------------------------------
+   7. Control segmentado y pestañas
+   ---------------------------------------------------------------------------- */
+.tsl-segmented {
+  display: inline-flex;
+  padding: 3px;
+  gap: 2px;
+  border-radius: 8px;
+  border: 1px solid var(--tsl-border);
+  background: var(--tsl-surface);
+}
+
+.tsl-segmented__item {
+  padding: 5px 11px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--tsl-fg-muted);
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background-color 140ms ease, color 140ms ease;
+}
+
+.tsl-segmented__item:hover {
+  color: var(--tsl-fg);
+}
+
+.tsl-segmented__item[aria-checked="true"] {
+  background: var(--tsl-fg);
+  color: var(--tsl-bg);
+}
+
+tsl-tabs {
+  display: block;
+}
+
+.tsl-tabs__list {
+  display: flex;
+  gap: 18px;
+  border-bottom: 1px solid var(--tsl-border);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tsl-tabs__tab {
+  position: relative;
+  padding: 10px 2px;
+  border: 0;
+  background: transparent;
+  color: var(--tsl-fg-muted);
+  font: inherit;
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+  border-radius: 4px 4px 0 0;
+}
+
+.tsl-tabs__tab:hover {
+  color: var(--tsl-fg);
+}
+
+.tsl-tabs__tab[aria-selected="true"] {
+  color: var(--tsl-fg);
+}
+
+.tsl-tabs__tab[aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--tsl-fg);
+}
+
+.tsl-tabs__panel {
+  padding-top: 16px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-tabs__panel:focus-visible {
+  outline: none;
+  box-shadow: var(--tsl-ring);
+  border-radius: 4px;
+}

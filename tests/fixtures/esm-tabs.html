@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Fixture ESM: solo tabs</title>
+  <link rel="stylesheet" href="../../lib/tesela-ui.css" />
+</head>
+<body class="tsl">
+  <tsl-tabs id="t">
+    <div class="tsl-tabs__list"><button class="tsl-tabs__tab" data-tab="a">Uno</button><button class="tsl-tabs__tab" data-tab="b">Dos</button></div>
+    <div class="tsl-tabs__panel" data-panel="a">Panel uno</div>
+    <div class="tsl-tabs__panel" data-panel="b">Panel dos</div>
+  </tsl-tabs>
+  <tsl-select id="s" name="x"><option value="a">A</option></tsl-select>
+  <script type="module">
+    import "../../lib/esm/components/tabs.mjs";
+    window.__listo = true;
+  </script>
+</body>
+</html>

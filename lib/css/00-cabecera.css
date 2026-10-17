@@ -1,0 +1,6 @@
+/* ============================================================================
+   tesela-ui — Biblioteca de componentes sin dependencias (CSS)
+   Inspirada en la estética de devl.dev. Todas las clases llevan el prefijo `tsl-`.
+   Uso: <link rel="stylesheet" href="lib/tesela-ui.css"> + <script src="lib/tesela-ui.js" defer>
+   Temas: oscuro por defecto; agrega data-theme="light" en <html> (o en cualquier ancestro).
+   ============================================================================ */

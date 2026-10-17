@@ -1,0 +1,96 @@
+/* ----------------------------------------------------------------------------
+   5. Tarjetas y superficies
+   ---------------------------------------------------------------------------- */
+.tsl-card {
+  position: relative;
+  border-radius: var(--tsl-radius);
+  border: 1px solid var(--tsl-border);
+  background: var(--tsl-surface);
+  box-shadow: var(--tsl-shadow);
+  overflow: hidden;
+}
+
+.tsl-card--flat {
+  box-shadow: none;
+}
+
+.tsl-card--interactive {
+  transition: transform 220ms var(--tsl-ease), border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.tsl-card--interactive::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(260px circle at var(--tsl-mx, 50%) var(--tsl-my, 50%), color-mix(in srgb, var(--tsl-accent) 14%, transparent), transparent 70%);
+  transition: opacity 200ms ease;
+}
+
+.tsl-card--interactive:hover {
+  transform: translateY(-2px);
+  border-color: var(--tsl-border-strong);
+  box-shadow: var(--tsl-shadow-lg);
+}
+
+.tsl-card--interactive:hover::before {
+  opacity: 1;
+}
+
+.tsl-card__header,
+.tsl-card__body,
+.tsl-card__footer {
+  position: relative;
+  padding: 18px 20px;
+}
+
+.tsl-card__header + .tsl-card__body {
+  padding-top: 0;
+}
+
+.tsl-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  border-top: 1px solid var(--tsl-border);
+  background: var(--tsl-surface);
+}
+
+.tsl-card__title {
+  font-family: var(--tsl-font-heading);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.tsl-card__desc {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--tsl-fg-subtle);
+}
+
+.tsl-divider::before,
+.tsl-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--tsl-border);
+}
+
+.tsl-divider:empty {
+  gap: 0;
+}

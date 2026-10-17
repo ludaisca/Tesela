@@ -1,0 +1,82 @@
+/* ----------------------------------------------------------------------------
+   17. Diálogos y paneles laterales (<dialog class="tsl-dialog"> nativo)
+   ---------------------------------------------------------------------------- */
+.tsl-dialog {
+  width: min(460px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
+  margin: auto;
+  padding: 0;
+  border-radius: 12px;
+  border: 1px solid var(--tsl-border-strong);
+  background: var(--tsl-bg-elevated);
+  color: var(--tsl-fg);
+  box-shadow: var(--tsl-shadow-lg);
+  overflow: auto;
+}
+
+.tsl-dialog[open] {
+  animation: tsl-pop 180ms var(--tsl-ease);
+}
+
+.tsl-dialog::backdrop {
+  background: var(--tsl-backdrop);
+  backdrop-filter: blur(3px);
+}
+
+.tsl-dialog__header {
+  padding: 20px 22px 0;
+}
+
+.tsl-dialog__title {
+  font-family: var(--tsl-font-heading);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.tsl-dialog__desc {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-dialog__body {
+  padding: 18px 22px;
+  font-size: 12px;
+}
+
+.tsl-dialog__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 14px 22px;
+  border-top: 1px solid var(--tsl-border);
+  background: var(--tsl-surface);
+}
+
+.tsl-dialog__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.tsl-dialog--drawer {
+  width: min(400px, 100vw);
+  height: 100vh;
+  max-height: none;
+  margin: 0 0 0 auto;
+  border-radius: 0;
+  border-width: 0 0 0 1px;
+}
+
+.tsl-dialog--drawer[open] {
+  display: flex;
+  flex-direction: column;
+  animation: tsl-slide-in 240ms var(--tsl-ease);
+}
+
+.tsl-dialog--drawer .tsl-dialog__footer {
+  position: sticky;
+  bottom: 0;
+  margin-top: auto;
+}

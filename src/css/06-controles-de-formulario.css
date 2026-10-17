@@ -1,0 +1,443 @@
+/* ----------------------------------------------------------------------------
+   6. Controles de formulario
+   ---------------------------------------------------------------------------- */
+.tsl-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tsl-label {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-hint {
+  font-size: 11px;
+  color: var(--tsl-fg-subtle);
+}
+
+.tsl-error {
+  font-size: 11px;
+  color: var(--tsl-danger);
+}
+
+.tsl-input,
+.tsl-textarea,
+.tsl-select {
+  width: 100%;
+  height: 34px;
+  padding: 0 12px;
+  border-radius: var(--tsl-radius-sm);
+  border: 1px solid var(--tsl-border);
+  background: var(--tsl-bg);
+  color: var(--tsl-fg);
+  font: inherit;
+  font-size: 12px;
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.tsl-input::placeholder,
+.tsl-textarea::placeholder {
+  color: var(--tsl-fg-subtle);
+}
+
+.tsl-input:hover,
+.tsl-textarea:hover,
+.tsl-select:hover {
+  border-color: var(--tsl-border-strong);
+}
+
+.tsl-input[aria-invalid="true"],
+.tsl-textarea[aria-invalid="true"] {
+  border-color: var(--tsl-danger);
+}
+
+.tsl-input:disabled,
+.tsl-textarea:disabled,
+.tsl-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tsl-textarea {
+  height: auto;
+  min-height: 84px;
+  padding: 10px 12px;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+.tsl-select {
+  appearance: none;
+  padding-right: 32px;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238e8e96' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 11px center;
+}
+
+.tsl-input-group {
+  display: flex;
+  align-items: stretch;
+  border-radius: var(--tsl-radius-sm);
+  border: 1px solid var(--tsl-border);
+  background: var(--tsl-bg);
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.tsl-input-group:hover {
+  border-color: var(--tsl-border-strong);
+}
+
+.tsl-input-group:focus-within {
+  box-shadow: var(--tsl-ring);
+}
+
+.tsl-input-group > .tsl-input {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  min-width: 0;
+}
+
+.tsl-input-group__addon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  font-size: 11px;
+  color: var(--tsl-fg-muted);
+  white-space: nowrap;
+}
+
+.tsl-input-group__addon:first-child {
+  border-right: 1px solid var(--tsl-border);
+}
+
+.tsl-input-group__addon:last-child {
+  border-left: 1px solid var(--tsl-border);
+}
+
+/* Casilla y radio: <input type="checkbox|radio" class="tsl-check"> */
+.tsl-check {
+  appearance: none;
+  flex: none;
+  display: inline-grid;
+  place-content: center;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  border-radius: 4px;
+  border: 1px solid var(--tsl-border-strong);
+  background: var(--tsl-bg);
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.tsl-check[type="radio"] {
+  border-radius: 50%;
+}
+
+.tsl-check::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  transform: scale(0);
+  transition: transform 140ms var(--tsl-ease);
+  background: var(--tsl-bg);
+  clip-path: polygon(14% 44%, 0 59%, 40% 100%, 100% 22%, 86% 8%, 39% 68%);
+}
+
+.tsl-check[type="radio"]::before {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  clip-path: none;
+}
+
+.tsl-check:checked,
+.tsl-check:indeterminate {
+  background: var(--tsl-fg);
+  border-color: var(--tsl-fg);
+}
+
+.tsl-check:checked::before {
+  transform: scale(1);
+}
+
+.tsl-check:indeterminate::before {
+  transform: scale(1);
+  height: 2px;
+  clip-path: none;
+}
+
+.tsl-check:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.tsl-choice {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* Interruptor: <input type="checkbox" role="switch" class="tsl-switch"> */
+.tsl-switch {
+  appearance: none;
+  flex: none;
+  position: relative;
+  width: 36px;
+  height: 20px;
+  margin: 0;
+  border-radius: 999px;
+  background: var(--tsl-border-strong);
+  cursor: pointer;
+  transition: background-color 160ms ease;
+}
+
+.tsl-switch::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--tsl-fg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: transform 180ms var(--tsl-ease);
+}
+
+.tsl-switch:checked {
+  background: var(--tsl-accent);
+}
+
+.tsl-switch:checked::before {
+  transform: translateX(16px);
+  background: #fff;
+}
+
+.tsl-switch:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Rango: <input type="range" class="tsl-range"> (el relleno lo define JS mediante --tsl-fill) */
+.tsl-range {
+  appearance: none;
+  width: 100%;
+  height: 18px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 999px;
+}
+
+.tsl-range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--tsl-accent) var(--tsl-fill, 50%), var(--tsl-border-strong) var(--tsl-fill, 50%));
+}
+
+.tsl-range::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--tsl-border-strong);
+}
+
+.tsl-range::-moz-range-progress {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--tsl-accent);
+}
+
+.tsl-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: -6px;
+  border-radius: 50%;
+  border: 2px solid var(--tsl-accent);
+  background: var(--tsl-bg);
+  transition: transform 120ms ease;
+}
+
+.tsl-range::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--tsl-accent);
+  background: var(--tsl-bg);
+}
+
+.tsl-range:active::-webkit-slider-thumb {
+  transform: scale(1.15);
+}
+
+/* Selector numérico: <div class="tsl-number" data-tsl-number> */
+.tsl-number {
+  display: inline-flex;
+  align-items: stretch;
+  height: 32px;
+  border-radius: var(--tsl-radius-sm);
+  border: 1px solid var(--tsl-border);
+  background: var(--tsl-bg);
+  overflow: hidden;
+}
+
+.tsl-number:focus-within {
+  box-shadow: var(--tsl-ring);
+}
+
+.tsl-number > button {
+  width: 30px;
+  border: 0;
+  background: var(--tsl-surface);
+  color: var(--tsl-fg-muted);
+  font: inherit;
+  cursor: pointer;
+}
+
+.tsl-number > button:hover {
+  color: var(--tsl-fg);
+  background: var(--tsl-surface-hover);
+}
+
+.tsl-number > input {
+  width: 52px;
+  border: 0;
+  border-left: 1px solid var(--tsl-border);
+  border-right: 1px solid var(--tsl-border);
+  background: transparent;
+  color: var(--tsl-fg);
+  font: inherit;
+  font-size: 12px;
+  text-align: center;
+  outline: none;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.tsl-number > input::-webkit-inner-spin-button,
+.tsl-number > input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* OTP: <tsl-otp length="6"> */
+tsl-otp {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.tsl-otp__cell {
+  width: 40px;
+  height: 46px;
+  border-radius: var(--tsl-radius-sm);
+  border: 1px solid var(--tsl-border);
+  background: var(--tsl-bg);
+  color: var(--tsl-fg);
+  font: inherit;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  caret-color: var(--tsl-accent);
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.tsl-otp__cell:focus {
+  outline: none;
+  border-color: var(--tsl-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tsl-accent) 25%, transparent);
+}
+
+/* Campo de etiquetas: <tsl-tags> */
+tsl-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 4px 6px;
+  border-radius: var(--tsl-radius-sm);
+  border: 1px solid var(--tsl-border);
+  background: var(--tsl-bg);
+  cursor: text;
+}
+
+tsl-tags:focus-within {
+  box-shadow: var(--tsl-ring);
+}
+
+tsl-tags .tsl-chip {
+  cursor: default;
+  padding: 2px 8px;
+  color: var(--tsl-fg);
+}
+
+.tsl-tags__input {
+  flex: 1;
+  min-width: 90px;
+  height: 24px;
+  border: 0;
+  background: transparent;
+  color: var(--tsl-fg);
+  font: inherit;
+  font-size: 12px;
+  outline: none;
+}
+
+/* Zona de carga: <tsl-dropzone> */
+tsl-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 28px 20px;
+  border-radius: var(--tsl-radius);
+  border: 1.5px dashed var(--tsl-border-strong);
+  background: var(--tsl-surface);
+  text-align: center;
+  font-size: 12px;
+  color: var(--tsl-fg-muted);
+  cursor: pointer;
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+tsl-dropzone:hover,
+tsl-dropzone[data-dragging] {
+  border-color: var(--tsl-accent);
+  background: color-mix(in srgb, var(--tsl-accent) 7%, transparent);
+}
+
+tsl-dropzone:focus-visible {
+  outline: none;
+  box-shadow: var(--tsl-ring);
+}
+
+.tsl-dropzone__files {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  margin-top: 6px;
+}
+
+.tsl-dropzone__file {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--tsl-border);
+  background: var(--tsl-bg);
+  font-size: 11px;
+  color: var(--tsl-fg);
+}

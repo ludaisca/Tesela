@@ -1,0 +1,172 @@
+/* ----------------------------------------------------------------------------
+   21f. Estructura: collapsible, scroll area, paneles redimensionables,
+        separator y aspect ratio
+   ---------------------------------------------------------------------------- */
+tsl-collapsible {
+  display: block;
+}
+
+.tsl-collapsible__content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 220ms var(--tsl-ease);
+}
+
+tsl-collapsible[open] > .tsl-collapsible__content {
+  grid-template-rows: 1fr;
+}
+
+.tsl-collapsible__inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+tsl-collapsible > [data-tsl-trigger][aria-expanded] .tsl-collapsible__chevron,
+.tsl-collapsible__chevron {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 200ms var(--tsl-ease);
+}
+
+[aria-expanded="true"] > .tsl-collapsible__chevron,
+[aria-expanded="true"] .tsl-collapsible__chevron {
+  transform: rotate(45deg);
+}
+
+tsl-scroll-area {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--tsl-radius);
+  border: 1px solid var(--tsl-border);
+}
+
+.tsl-scroll-area__viewport {
+  width: 100%;
+  height: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: var(--tsl-border-strong) transparent;
+  --tsl-fade-t: 0px;
+  --tsl-fade-b: 0px;
+  --tsl-fade-l: 0px;
+  --tsl-fade-r: 0px;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 var(--tsl-fade-t), #000 calc(100% - var(--tsl-fade-b)), transparent), linear-gradient(to right, transparent, #000 var(--tsl-fade-l), #000 calc(100% - var(--tsl-fade-r)), transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to bottom, transparent, #000 var(--tsl-fade-t), #000 calc(100% - var(--tsl-fade-b)), transparent), linear-gradient(to right, transparent, #000 var(--tsl-fade-l), #000 calc(100% - var(--tsl-fade-r)), transparent);
+  mask-composite: intersect;
+}
+
+tsl-scroll-area[data-top] > .tsl-scroll-area__viewport { --tsl-fade-t: 28px; }
+tsl-scroll-area[data-bottom] > .tsl-scroll-area__viewport { --tsl-fade-b: 28px; }
+tsl-scroll-area[data-left] > .tsl-scroll-area__viewport { --tsl-fade-l: 28px; }
+tsl-scroll-area[data-right] > .tsl-scroll-area__viewport { --tsl-fade-r: 28px; }
+
+.tsl-scroll-area__viewport:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--tsl-accent) 70%, transparent);
+}
+
+tsl-resizable {
+  display: flex;
+  min-height: 0;
+  border-radius: var(--tsl-radius);
+  border: 1px solid var(--tsl-border);
+  overflow: hidden;
+}
+
+tsl-resizable[data-direction="vertical"] {
+  flex-direction: column;
+}
+
+.tsl-resizable__panel {
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+}
+
+.tsl-resizable__handle {
+  position: relative;
+  flex: none;
+  background: var(--tsl-border);
+  touch-action: none;
+  transition: background-color 120ms ease;
+}
+
+tsl-resizable[data-direction="horizontal"] > .tsl-resizable__handle {
+  width: 1px;
+  cursor: col-resize;
+}
+
+tsl-resizable[data-direction="vertical"] > .tsl-resizable__handle {
+  height: 1px;
+  cursor: row-resize;
+}
+
+/* Zona de agarre más ancha que la línea visible */
+.tsl-resizable__handle::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+tsl-resizable[data-direction="horizontal"] > .tsl-resizable__handle::before {
+  left: -5px;
+  right: -5px;
+}
+
+tsl-resizable[data-direction="vertical"] > .tsl-resizable__handle::before {
+  top: -5px;
+  bottom: -5px;
+}
+
+.tsl-resizable__handle:hover,
+.tsl-resizable__handle:focus-visible,
+tsl-resizable.is-resizing > .tsl-resizable__handle {
+  outline: none;
+  background: var(--tsl-accent);
+}
+
+tsl-resizable.is-resizing {
+  user-select: none;
+}
+
+.tsl-separator {
+  flex: none;
+  align-self: stretch;
+  width: auto;
+  height: 1px;
+  margin: 0;
+  border: 0;
+  background: var(--tsl-border);
+}
+
+.tsl-separator--vertical {
+  width: 1px;
+  height: auto;
+  min-height: 1em;
+}
+
+.tsl-aspect {
+  position: relative;
+  aspect-ratio: var(--ratio, 16 / 9);
+  overflow: hidden;
+  border-radius: var(--tsl-radius);
+  background: var(--tsl-surface-strong);
+}
+
+.tsl-aspect > img,
+.tsl-aspect > video,
+.tsl-aspect > iframe,
+.tsl-aspect > svg,
+.tsl-aspect > .tsl-aspect__fill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 0;
+}

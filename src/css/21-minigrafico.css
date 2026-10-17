@@ -1,0 +1,16 @@
+/* ----------------------------------------------------------------------------
+   21. Minigráfico: <tsl-sparkline values="4,8,6,12">
+   ---------------------------------------------------------------------------- */
+tsl-sparkline {
+  display: inline-block;
+  width: var(--w, 120px);
+  height: var(--h, 32px);
+  color: var(--tsl-accent);
+}
+
+tsl-sparkline svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}

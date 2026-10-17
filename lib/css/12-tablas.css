@@ -1,0 +1,78 @@
+/* ----------------------------------------------------------------------------
+   12. Tablas
+   ---------------------------------------------------------------------------- */
+.tsl-table-wrap {
+  overflow-x: auto;
+  border-radius: var(--tsl-radius);
+  border: 1px solid var(--tsl-border);
+}
+
+.tsl-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.tsl-table th,
+.tsl-table td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--tsl-border);
+  white-space: nowrap;
+}
+
+.tsl-table th {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tsl-fg-muted);
+  background: var(--tsl-surface);
+}
+
+.tsl-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.tsl-table tbody tr {
+  transition: background-color 120ms ease;
+}
+
+.tsl-table tbody tr:hover {
+  background: var(--tsl-surface-hover);
+}
+
+.tsl-table .is-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.tsl-table--compact th,
+.tsl-table--compact td {
+  padding: 6px 12px;
+}
+
+.tsl-table th[data-sort] {
+  cursor: pointer;
+  user-select: none;
+}
+
+.tsl-table th[data-sort]:hover {
+  color: var(--tsl-fg);
+}
+
+.tsl-table th[data-sort]::after {
+  content: "↕";
+  margin-left: 6px;
+  opacity: 0.35;
+}
+
+.tsl-table th[aria-sort="ascending"]::after {
+  content: "↑";
+  opacity: 1;
+}
+
+.tsl-table th[aria-sort="descending"]::after {
+  content: "↓";
+  opacity: 1;
+}

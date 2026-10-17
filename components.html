@@ -78,12 +78,43 @@
             <tbody>
               <tr><td>TeselaUI.toast(opts)</td><td>Notificación efímera. <code>{ title, description, variant, duration, action }</code>. Devuelve una función para cerrarla.</td></tr>
               <tr><td>TeselaUI.copy(text)</td><td>Copia al portapapeles (con respaldo para <code>file://</code>). Promise&lt;boolean&gt;.</td></tr>
+              <tr><td>TeselaUI.confirm(opts)</td><td>Diálogo de confirmación modal. Devuelve <code>Promise&lt;boolean&gt;</code>.</td></tr>
+              <tr><td>TeselaUI.position(ancla, el, opts)</td><td>Posiciona un elemento flotante junto a un ancla o punto, con volteo y ajuste a la ventana.</td></tr>
               <tr><td>TeselaUI.setTheme(t) / getTheme()</td><td>"dark" | "light". Se guarda en <code>localStorage</code>.</td></tr>
               <tr><td>TeselaUI.init(root)</td><td>Inicializa ayudantes estáticos (rangos, tablas) tras insertar HTML dinámico.</td></tr>
               <tr><td>Eventos</td><td>Todos los componentes emiten eventos <code>tsl-*</code> que burbujean: <code>tsl-change</code>, <code>tsl-select</code>, <code>tsl-complete</code>, <code>tsl-copy</code>, <code>tsl-theme</code>.</td></tr>
             </tbody>
           </table>
         </div>
+      </section>
+
+      <section class="doc" id="packaging" data-group="Inicio" data-keywords="modulos esm import npm build bundle minificado tree shaking empaquetado css secciones">
+        <h2><a href="#packaging">Módulos y empaquetado</a></h2>
+        <p>La carpeta <code>lib/</code> trae el mismo código en varios formatos; elige el que encaje con tu proyecto. Todo se genera desde <code>src/</code> con <code>npm run build</code> (solo el desarrollo usa <code>esbuild</code>; la biblioteca no tiene dependencias).</p>
+        <div class="tsl-table-wrap">
+          <table class="tsl-table">
+            <thead><tr><th>Archivo</th><th>Para qué sirve</th></tr></thead>
+            <tbody>
+              <tr><td>lib/tesela-ui.js · .min.js</td><td>Bundle completo para <code>&lt;script src&gt;</code>. Registra todos los elementos y expone <code>window.TeselaUI</code>.</td></tr>
+              <tr><td>lib/esm/index.mjs</td><td>Bundle ESM: <code>import { toast, confirm } from "./lib/esm/index.mjs"</code>. Registra todos los elementos.</td></tr>
+              <tr><td>lib/esm/components/*.mjs</td><td>Un módulo por componente: importarlo registra solo ese elemento (y los que necesite).</td></tr>
+              <tr><td>lib/esm/api/*.mjs</td><td>Funciones sueltas: <code>toast</code>, <code>confirm</code>, <code>copy</code>, <code>theme</code>.</td></tr>
+              <tr><td>lib/tesela-ui.css · .min.css</td><td>Hoja completa.</td></tr>
+              <tr><td>lib/css/*.css</td><td>Una hoja por sección (tokens, botones, tablas…) para cargar solo lo necesario.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="doc-frame" style="margin-top:14px">
+          <pre class="tsl-code" style="border:0"><code>&lt;!-- Solo los componentes que usas --&gt;
+&lt;link rel="stylesheet" href="lib/css/01-tokens.css" /&gt;
+&lt;link rel="stylesheet" href="lib/css/03-botones.css" /&gt;
+&lt;script type="module"&gt;
+  import "./lib/esm/components/tabs.mjs";
+  import "./lib/esm/components/select.mjs";
+  import { toast } from "./lib/esm/api/toast.mjs";
+&lt;/script&gt;</code></pre>
+        </div>
+        <p class="tsl-muted" style="margin-top:10px">El servidor debe enviar los <code>.mjs</code> como <code>text/javascript</code> (en <code>deploy/nginx.conf</code> hay un ejemplo para nginx).</p>
       </section>
 
       <section class="doc" id="tokens" data-group="Inicio" data-keywords="colors colores theme tema variables">

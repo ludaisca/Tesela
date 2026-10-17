@@ -1,0 +1,233 @@
+/* ----------------------------------------------------------------------------
+   21i. Gráficas
+   ---------------------------------------------------------------------------- */
+tsl-chart {
+  display: block;
+  position: relative;
+  border-radius: var(--tsl-radius);
+  color: var(--tsl-fg);
+}
+
+tsl-chart:focus-visible {
+  outline: none;
+  box-shadow: var(--tsl-ring);
+}
+
+.tsl-chart__caption {
+  margin-bottom: 8px;
+  font-family: var(--tsl-font-heading);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.tsl-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-bottom: 8px;
+}
+
+.tsl-chart__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 4px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--tsl-fg-muted);
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.tsl-chart__legend-item[aria-pressed="false"] {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+
+.tsl-chart__legend-item:hover {
+  color: var(--tsl-fg);
+}
+
+.tsl-chart__legend-item:focus-visible {
+  outline: none;
+  box-shadow: var(--tsl-ring);
+}
+
+.tsl-chart__dot {
+  flex: none;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.tsl-chart__stage {
+  position: relative;
+}
+
+tsl-chart svg {
+  display: block;
+  overflow: visible;
+}
+
+.tsl-chart__grid {
+  stroke: var(--tsl-border);
+  stroke-width: 1;
+}
+
+.tsl-chart__axis {
+  stroke: var(--tsl-border-strong);
+  stroke-width: 1;
+}
+
+.tsl-chart__tick {
+  fill: var(--tsl-fg-subtle);
+  font-family: var(--tsl-font-mono);
+  font-size: 10px;
+}
+
+.tsl-chart__line {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tsl-chart__area {
+  opacity: 0.14;
+}
+
+.tsl-chart__point {
+  stroke: var(--tsl-bg);
+  stroke-width: 1.5;
+}
+
+.tsl-chart__cross {
+  stroke: var(--tsl-border-strong);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.tsl-chart__hot {
+  stroke: var(--tsl-bg);
+  stroke-width: 2;
+}
+
+.tsl-chart__hl {
+  fill: var(--tsl-fg);
+  opacity: 0.06;
+}
+
+.tsl-chart__cell-hl {
+  fill: none;
+  stroke: var(--tsl-fg);
+  stroke-width: 1.5;
+}
+
+.tsl-chart__seg {
+  transition: transform 140ms var(--tsl-ease);
+}
+
+.tsl-chart__center-value {
+  fill: var(--tsl-fg);
+  font-family: var(--tsl-font-heading);
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.tsl-chart__center-label {
+  fill: var(--tsl-fg-muted);
+  font-size: 11px;
+}
+
+.tsl-chart__track {
+  fill: none;
+  stroke: var(--tsl-surface-strong);
+  stroke-linecap: round;
+}
+
+.tsl-chart__band-arc {
+  fill: none;
+  opacity: 0.28;
+}
+
+.tsl-chart__value-arc {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.tsl-chart__cell.is-empty {
+  fill: none;
+  stroke: var(--tsl-border);
+  stroke-dasharray: 2 3;
+}
+
+.tsl-chart__tip {
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 110px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--tsl-border-strong);
+  background: var(--tsl-bg-elevated);
+  box-shadow: var(--tsl-shadow);
+  font-size: 11px;
+  pointer-events: none;
+}
+
+.tsl-chart__tip-title {
+  font-weight: 600;
+  color: var(--tsl-fg);
+}
+
+.tsl-chart__tip-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-chart__tip-row strong {
+  margin-left: auto;
+  padding-left: 12px;
+  color: var(--tsl-fg);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Animación de entrada (solo la primera vez, respeta prefers-reduced-motion) */
+tsl-chart.is-animating .tsl-chart__line,
+tsl-chart.is-animating .tsl-chart__value-arc {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: tsl-chart-draw 800ms var(--tsl-ease) forwards;
+}
+
+tsl-chart.is-animating .tsl-chart__bar {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  animation: tsl-chart-grow 600ms var(--tsl-ease) both;
+}
+
+tsl-chart.is-animating .tsl-chart__area,
+tsl-chart.is-animating .tsl-chart__seg,
+tsl-chart.is-animating .tsl-chart__cell {
+  animation: tsl-chart-fade 700ms ease both;
+}
+
+@keyframes tsl-chart-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes tsl-chart-grow {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+@keyframes tsl-chart-fade {
+  from { opacity: 0; }
+}

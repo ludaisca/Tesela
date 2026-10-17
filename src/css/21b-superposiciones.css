@@ -1,0 +1,121 @@
+/* ----------------------------------------------------------------------------
+   21b. Superposiciones: popover, hover card, menú contextual, sheets
+   ---------------------------------------------------------------------------- */
+tsl-popover,
+tsl-hovercard {
+  display: inline-block;
+}
+
+tsl-context-menu {
+  display: block;
+}
+
+/* Evita el parpadeo antes de que el JS convierta el panel en popover */
+tsl-popover > .tsl-popover__panel:not([popover]),
+tsl-hovercard > .tsl-popover__panel:not([popover]),
+tsl-context-menu > .tsl-menu__list:not([popover]) {
+  display: none;
+}
+
+.tsl-popover__panel {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  min-width: 200px;
+  max-width: min(360px, calc(100vw - 16px));
+  padding: 14px;
+  overflow: auto;
+  border-radius: var(--tsl-radius);
+  border: 1px solid var(--tsl-border-strong);
+  background: var(--tsl-bg-elevated);
+  color: var(--tsl-fg);
+  box-shadow: var(--tsl-shadow-lg);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.tsl-popover__panel:popover-open {
+  animation: tsl-pop 140ms var(--tsl-ease);
+}
+
+.tsl-popover__title {
+  font-family: var(--tsl-font-heading);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.tsl-menu__list[popover] {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  overflow: visible;
+  color: var(--tsl-fg);
+}
+
+.tsl-context-zone {
+  display: grid;
+  place-items: center;
+  min-height: 120px;
+  padding: 20px;
+  border-radius: var(--tsl-radius);
+  border: 1.5px dashed var(--tsl-border-strong);
+  background: var(--tsl-surface);
+  color: var(--tsl-fg-muted);
+  font-size: 12px;
+  text-align: center;
+  user-select: none;
+}
+
+.tsl-context-zone:focus-visible {
+  outline: none;
+  box-shadow: var(--tsl-ring);
+}
+
+/* Sheet inferior y drawer izquierdo (se suman a .tsl-dialog) */
+.tsl-dialog--sheet {
+  width: min(640px, 100vw);
+  max-height: 85vh;
+  margin: auto auto 0;
+  border-radius: 16px 16px 0 0;
+  border-width: 1px 1px 0;
+  transition: transform 200ms var(--tsl-ease);
+}
+
+.tsl-dialog--sheet[open] {
+  animation: tsl-sheet-in 260ms var(--tsl-ease);
+}
+
+.tsl-sheet__handle {
+  display: grid;
+  place-items: center;
+  height: 22px;
+  cursor: grab;
+  touch-action: none;
+}
+
+.tsl-sheet__handle::before {
+  content: "";
+  width: 36px;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--tsl-border-strong);
+}
+
+.tsl-dialog--drawer-start {
+  margin: 0 auto 0 0;
+  border-width: 0 1px 0 0;
+}
+
+.tsl-dialog--drawer-start[open] {
+  animation: tsl-slide-in-start 240ms var(--tsl-ease);
+}
+
+@keyframes tsl-sheet-in {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+@keyframes tsl-slide-in-start {
+  from { transform: translateX(-24px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}

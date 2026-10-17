@@ -1,0 +1,102 @@
+/* ----------------------------------------------------------------------------
+   4. Insignias, chips y puntos de estado
+   ---------------------------------------------------------------------------- */
+.tsl-badge {
+  --_c: var(--tsl-fg-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: nowrap;
+  color: var(--_c);
+  background: color-mix(in srgb, var(--_c) 15%, transparent);
+}
+
+.tsl-badge--outline {
+  background: transparent;
+  border: 1px solid var(--tsl-border);
+}
+
+.tsl-badge--success { --_c: var(--tsl-success); }
+.tsl-badge--warning { --_c: var(--tsl-warning); }
+.tsl-badge--danger { --_c: var(--tsl-danger); }
+.tsl-badge--info { --_c: var(--tsl-info); }
+.tsl-badge--accent { --_c: var(--tsl-accent); }
+
+.tsl-badge--upper {
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.tsl-dot {
+  --_c: var(--tsl-fg-muted);
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--_c);
+}
+
+.tsl-dot--success { --_c: var(--tsl-success); }
+.tsl-dot--warning { --_c: var(--tsl-warning); }
+.tsl-dot--danger { --_c: var(--tsl-danger); }
+.tsl-dot--info { --_c: var(--tsl-info); }
+.tsl-dot--accent { --_c: var(--tsl-accent); }
+
+.tsl-dot--pulse {
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--_c) 55%, transparent);
+  animation: tsl-pulse 1.8s ease-out infinite;
+}
+
+.tsl-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--tsl-border);
+  background: var(--tsl-surface);
+  font: inherit;
+  font-size: 11px;
+  color: var(--tsl-fg-muted);
+  cursor: pointer;
+  transition: all 140ms ease;
+}
+
+.tsl-chip:hover {
+  color: var(--tsl-fg);
+  border-color: var(--tsl-border-strong);
+}
+
+.tsl-chip[aria-pressed="true"],
+.tsl-chip.is-active {
+  background: var(--tsl-fg);
+  border-color: var(--tsl-fg);
+  color: var(--tsl-bg);
+}
+
+.tsl-chip__remove {
+  display: inline-grid;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+  margin-right: -4px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font-size: 10px;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.tsl-chip__remove:hover {
+  opacity: 1;
+  background: var(--tsl-surface-strong);
+}

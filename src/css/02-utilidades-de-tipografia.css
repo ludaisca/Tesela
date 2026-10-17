@@ -1,0 +1,41 @@
+/* ----------------------------------------------------------------------------
+   2. Utilidades de tipografía
+   ---------------------------------------------------------------------------- */
+.tsl-eyebrow {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-heading {
+  font-family: var(--tsl-font-heading);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.tsl-muted {
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-mono {
+  font-family: var(--tsl-font-mono);
+}
+
+.tsl-kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  padding: 2px 5px;
+  font-size: 10px;
+  font-family: var(--tsl-font-sans);
+  font-weight: 500;
+  line-height: 1.2;
+  border-radius: 4px;
+  background: rgba(128, 128, 136, 0.16);
+  border: 1px solid var(--tsl-border);
+  color: var(--tsl-fg-muted);
+}
