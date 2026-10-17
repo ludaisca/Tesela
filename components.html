@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="devl-ui — biblioteca de componentes sin dependencias con el estilo de devl.dev: HTML + CSS + Custom Elements." />
-  <title>devl-ui — Component Library</title>
+  <title>devl-ui — Biblioteca de componentes</title>
   <link rel="stylesheet" href="lib/devl-ui.css" />
   <link rel="stylesheet" href="docs/docs.css" />
 </head>
@@ -12,7 +12,7 @@
   <header class="docs-topbar">
     <button type="button" class="dv-btn dv-btn--icon dv-btn--subtle docs-menu-btn" aria-label="Abrir índice">☰</button>
     <a class="docs-brand" href="#top"><span class="docs-brand-dot"></span>devl-ui</a>
-    <span class="dv-badge dv-badge--outline docs-hide-sm">v1.0.0</span>
+    <span class="dv-badge dv-badge--outline docs-hide-sm">v1.3.0</span>
     <span class="dv-spacer"></span>
     <a class="dv-btn dv-btn--sm dv-btn--subtle docs-hide-sm" href="index.html">← Galería</a>
     <button type="button" class="dv-btn dv-btn--sm" data-dv-open="docs-cmd">
@@ -27,16 +27,16 @@
       <nav class="dv-nav" id="docs-nav"></nav>
 
       <div class="docs-tokens">
-        <span class="dv-eyebrow">Accent token</span>
+        <span class="dv-eyebrow">Token de acento</span>
         <div class="docs-swatches">
-          <button type="button" class="docs-swatch" style="--c:#6366f1" data-accent="#6366f1" aria-label="Indigo"></button>
-          <button type="button" class="docs-swatch" style="--c:#10b981" data-accent="#10b981" aria-label="Emerald"></button>
-          <button type="button" class="docs-swatch" style="--c:#f59e0b" data-accent="#f59e0b" aria-label="Amber"></button>
-          <button type="button" class="docs-swatch" style="--c:#0ea5e9" data-accent="#0ea5e9" aria-label="Sky"></button>
-          <button type="button" class="docs-swatch" style="--c:#ec4899" data-accent="#ec4899" aria-label="Rose"></button>
-          <button type="button" class="docs-swatch" style="--c:#a855f7" data-accent="#a855f7" aria-label="Violet"></button>
+          <button type="button" class="docs-swatch" style="--c:#6366f1" data-accent="#6366f1" aria-label="Índigo"></button>
+          <button type="button" class="docs-swatch" style="--c:#10b981" data-accent="#10b981" aria-label="Esmeralda"></button>
+          <button type="button" class="docs-swatch" style="--c:#f59e0b" data-accent="#f59e0b" aria-label="Ámbar"></button>
+          <button type="button" class="docs-swatch" style="--c:#0ea5e9" data-accent="#0ea5e9" aria-label="Cielo"></button>
+          <button type="button" class="docs-swatch" style="--c:#ec4899" data-accent="#ec4899" aria-label="Rosa"></button>
+          <button type="button" class="docs-swatch" style="--c:#a855f7" data-accent="#a855f7" aria-label="Violeta"></button>
         </div>
-        <span class="dv-eyebrow">Radius</span>
+        <span class="dv-eyebrow">Radio</span>
         <dv-segmented id="docs-radius" value="9" style="margin:10px 0 14px">
           <button class="dv-segmented__item" value="2">2</button>
           <button class="dv-segmented__item" value="9">9</button>
@@ -47,7 +47,7 @@
     </aside>
 
     <main class="docs-main" id="top">
-      <!-- ================================================================ Intro -->
+      <!-- ================================================================ Introducción -->
       <section class="docs-hero">
         <span class="dv-eyebrow">Biblioteca de componentes · <span id="docs-count">0</span> componentes</span>
         <h1>devl-ui.</h1>
@@ -67,7 +67,7 @@
         <h2><a href="#install">Instalación</a></h2>
         <p>Copia la carpeta <code>lib/</code> a tu proyecto. El CSS funciona solo; el JS añade interactividad (Custom Elements y atributos <code>data-dv-*</code>). Pon la clase <code>dv</code> en <code>&lt;body&gt;</code> para heredar fuente y colores. Tema oscuro por defecto; <code>data-theme="light"</code> en <code>&lt;html&gt;</code> para claro.</p>
         <div class="doc-frame">
-          <pre class="dv-code" style="border:0"><button type="button" class="dv-btn dv-btn--sm" data-dv-copy data-dv-copy-target="#install-snippet">Copy</button><code id="install-snippet">&lt;link rel="stylesheet" href="lib/devl-ui.css" /&gt;
+          <pre class="dv-code" style="border:0"><button type="button" class="dv-btn dv-btn--sm" data-dv-copy data-dv-copy-target="#install-snippet">Copiar</button><code id="install-snippet">&lt;link rel="stylesheet" href="lib/devl-ui.css" /&gt;
 &lt;script src="lib/devl-ui.js" defer&gt;&lt;/script&gt;
 
 &lt;body class="dv"&gt; … &lt;/body&gt;</code></pre>
@@ -105,33 +105,33 @@
         <p>Mono por defecto, sans para titulares. Utilidades: <code>dv-eyebrow</code>, <code>dv-heading</code>, <code>dv-muted</code>, <code>dv-kbd</code>.</p>
         <template>
           <div class="dv-stack">
-            <span class="dv-eyebrow">Folder 01 · Layouts</span>
-            <h3 class="dv-heading" style="font-size:32px">Designs.</h3>
+            <span class="dv-eyebrow">Carpeta 01 · Layouts</span>
+            <h3 class="dv-heading" style="font-size:32px">Diseños.</h3>
             <p class="dv-muted">Pulsa <kbd class="dv-kbd">⌘</kbd> <kbd class="dv-kbd">K</kbd> para buscar.</p>
           </div>
         </template>
       </section>
 
-      <!-- ================================================================ Actions -->
+      <!-- ================================================================ Acciones -->
       <section class="doc" id="button" data-group="Acciones" data-keywords="btn boton cta loading">
-        <h2><a href="#button">Button</a></h2>
+        <h2><a href="#button">Botón</a></h2>
         <p>Variantes <code>--primary</code>, <code>--accent</code>, <code>--subtle</code>, <code>--danger</code>; tamaños <code>--sm</code>, <code>--lg</code>, <code>--icon</code>, <code>--block</code>, <code>--pill</code>. <code>aria-busy="true"</code> muestra un spinner.</p>
         <template>
           <div class="dv-stack">
             <div class="dv-row">
-              <button type="button" class="dv-btn dv-btn--primary">Primary</button>
-              <button type="button" class="dv-btn">Default</button>
-              <button type="button" class="dv-btn dv-btn--accent">Accent</button>
-              <button type="button" class="dv-btn dv-btn--subtle">Subtle</button>
-              <button type="button" class="dv-btn dv-btn--danger">Delete</button>
-              <button type="button" class="dv-btn" disabled>Disabled</button>
+              <button type="button" class="dv-btn dv-btn--primary">Principal</button>
+              <button type="button" class="dv-btn">Predeterminado</button>
+              <button type="button" class="dv-btn dv-btn--accent">Acento</button>
+              <button type="button" class="dv-btn dv-btn--subtle">Sutil</button>
+              <button type="button" class="dv-btn dv-btn--danger">Eliminar</button>
+              <button type="button" class="dv-btn" disabled>Deshabilitado</button>
             </div>
             <div class="dv-row">
-              <button type="button" class="dv-btn dv-btn--sm">Small</button>
-              <button type="button" class="dv-btn dv-btn--lg dv-btn--pill">Large pill</button>
-              <button type="button" class="dv-btn dv-btn--icon" aria-label="Add">+</button>
-              <button type="button" class="dv-btn dv-btn--primary" aria-busy="true">Saving</button>
-              <button type="button" class="dv-btn" id="demo-busy">Click to load</button>
+              <button type="button" class="dv-btn dv-btn--sm">Pequeño</button>
+              <button type="button" class="dv-btn dv-btn--lg dv-btn--pill">Píldora grande</button>
+              <button type="button" class="dv-btn dv-btn--icon" aria-label="Añadir">+</button>
+              <button type="button" class="dv-btn dv-btn--primary" aria-busy="true">Guardando</button>
+              <button type="button" class="dv-btn" id="demo-busy">Clic para cargar</button>
             </div>
           </div>
         </template>
@@ -145,78 +145,78 @@
       </section>
 
       <section class="doc" id="button-group" data-group="Acciones" data-keywords="group grupo toolbar">
-        <h2><a href="#button-group">Button group</a></h2>
+        <h2><a href="#button-group">Grupo de botones</a></h2>
         <p>Une botones adyacentes en un solo control.</p>
         <template>
           <div class="dv-btn-group">
-            <button type="button" class="dv-btn">Day</button>
-            <button type="button" class="dv-btn">Week</button>
-            <button type="button" class="dv-btn">Month</button>
+            <button type="button" class="dv-btn">Día</button>
+            <button type="button" class="dv-btn">Semana</button>
+            <button type="button" class="dv-btn">Mes</button>
           </div>
         </template>
       </section>
 
       <section class="doc" id="menu" data-group="Acciones" data-tall="300px" data-keywords="dropdown desplegable menu acciones">
-        <h2><a href="#menu">Dropdown menu</a></h2>
+        <h2><a href="#menu">Menú desplegable</a></h2>
         <p><code>&lt;dv-menu&gt;</code> con navegación por teclado (↑ ↓ Home End Esc), cierre al hacer clic fuera y evento <code>dv-select</code>. <code>align="end"</code> lo alinea a la derecha.</p>
         <template>
           <dv-menu id="demo-menu">
-            <button type="button" class="dv-btn" data-dv-trigger>Options ▾</button>
+            <button type="button" class="dv-btn" data-dv-trigger>Opciones ▾</button>
             <div class="dv-menu__list">
-              <div class="dv-menu__label">Workspace</div>
-              <button type="button" class="dv-menu__item" data-value="rename">Rename <kbd class="dv-kbd">R</kbd></button>
-              <button type="button" class="dv-menu__item" data-value="duplicate">Duplicate <kbd class="dv-kbd">⌘D</kbd></button>
-              <button type="button" class="dv-menu__item" data-value="share">Share…</button>
+              <div class="dv-menu__label">Espacio de trabajo</div>
+              <button type="button" class="dv-menu__item" data-value="rename">Renombrar <kbd class="dv-kbd">R</kbd></button>
+              <button type="button" class="dv-menu__item" data-value="duplicate">Duplicar <kbd class="dv-kbd">⌘D</kbd></button>
+              <button type="button" class="dv-menu__item" data-value="share">Compartir…</button>
               <div class="dv-menu__sep"></div>
-              <button type="button" class="dv-menu__item dv-menu__item--danger" data-value="delete">Delete</button>
+              <button type="button" class="dv-menu__item dv-menu__item--danger" data-value="delete">Eliminar</button>
             </div>
           </dv-menu>
         </template>
         <script type="text/plain" data-doc-js>
           document.querySelector("#demo-menu").addEventListener("dv-select", (e) => {
-            DevlUI.toast({ title: `Selected: ${e.detail.value}`, variant: "info" });
+            DevlUI.toast({ title: `Seleccionado: ${e.detail.value}`, variant: "info" });
           });
         </script>
       </section>
 
       <section class="doc" id="chip" data-group="Acciones" data-keywords="toggle filtro pill pressed">
-        <h2><a href="#chip">Chip / toggle</a></h2>
+        <h2><a href="#chip">Chip / interruptor</a></h2>
         <p>Chips de filtro. Con <code>data-dv-toggle</code> alternan <code>aria-pressed</code> y emiten <code>dv-change</code>.</p>
         <template>
           <div class="dv-row">
-            <button type="button" class="dv-chip" data-dv-toggle aria-pressed="true">Design</button>
-            <button type="button" class="dv-chip" data-dv-toggle aria-pressed="false">Engineering</button>
-            <button type="button" class="dv-chip" data-dv-toggle aria-pressed="false">Growth</button>
-            <span class="dv-chip">Removable <button type="button" class="dv-chip__remove" aria-label="Remove">✕</button></span>
+            <button type="button" class="dv-chip" data-dv-toggle aria-pressed="true">Diseño</button>
+            <button type="button" class="dv-chip" data-dv-toggle aria-pressed="false">Ingeniería</button>
+            <button type="button" class="dv-chip" data-dv-toggle aria-pressed="false">Crecimiento</button>
+            <span class="dv-chip">Removible <button type="button" class="dv-chip__remove" aria-label="Quitar">✕</button></span>
           </div>
         </template>
       </section>
 
       <section class="doc" id="copy" data-group="Acciones" data-keywords="clipboard portapapeles copiar">
-        <h2><a href="#copy">Copy button</a></h2>
+        <h2><a href="#copy">Botón de copiar</a></h2>
         <p><code>data-dv-copy="texto"</code> copia un valor fijo; <code>data-dv-copy-target="#id"</code> copia el contenido de otro elemento.</p>
         <template>
           <div class="dv-input-group demo-max">
-            <input class="dv-input dv-mono" id="demo-key" value="devl_live_98f2a4c71e09b3d841a2" readonly aria-label="API key" />
-            <button type="button" class="dv-btn dv-btn--subtle" data-dv-copy data-dv-copy-target="#demo-key">Copy</button>
+            <input class="dv-input dv-mono" id="demo-key" value="devl_live_98f2a4c71e09b3d841a2" readonly aria-label="Clave de API" />
+            <button type="button" class="dv-btn dv-btn--subtle" data-dv-copy data-dv-copy-target="#demo-key">Copiar</button>
           </div>
         </template>
       </section>
 
-      <!-- ================================================================ Forms -->
+      <!-- ================================================================ Formularios -->
       <section class="doc" id="input" data-group="Formularios" data-keywords="text field campo label error hint">
-        <h2><a href="#input">Input &amp; field</a></h2>
+        <h2><a href="#input">Input y campo</a></h2>
         <p><code>dv-field</code> agrupa <code>dv-label</code>, control, <code>dv-hint</code> y <code>dv-error</code>. Usa <code>aria-invalid="true"</code> para el estado de error.</p>
         <template>
           <div class="dv-stack demo-max">
             <label class="dv-field">
-              <span class="dv-label">Workspace name</span>
-              <input class="dv-input" placeholder="Acme inc." />
+              <span class="dv-label">Nombre del espacio de trabajo</span>
+              <input class="dv-input" placeholder="Acme S.A." />
               <span class="dv-hint">Visible para todo el equipo.</span>
             </label>
             <label class="dv-field">
-              <span class="dv-label">Email</span>
-              <input class="dv-input" type="email" value="not-an-email" aria-invalid="true" />
+              <span class="dv-label">Correo electrónico</span>
+              <input class="dv-input" type="email" value="correo-no-valido" aria-invalid="true" />
               <span class="dv-error">Introduce un email válido.</span>
             </label>
           </div>
@@ -224,18 +224,18 @@
       </section>
 
       <section class="doc" id="input-group" data-group="Formularios" data-keywords="addon prefijo sufijo url">
-        <h2><a href="#input-group">Input group</a></h2>
+        <h2><a href="#input-group">Grupo de inputs</a></h2>
         <p>Añade prefijos/sufijos con <code>dv-input-group__addon</code>.</p>
         <template>
           <div class="dv-stack demo-max">
             <div class="dv-input-group">
               <span class="dv-input-group__addon">https://</span>
-              <input class="dv-input" value="acme" aria-label="Subdomain" />
+              <input class="dv-input" value="acme" aria-label="Subdominio" />
               <span class="dv-input-group__addon">.devl.dev</span>
             </div>
             <div class="dv-input-group">
               <span class="dv-input-group__addon">⌕</span>
-              <input class="dv-input" placeholder="Search…" aria-label="Search" />
+              <input class="dv-input" placeholder="Buscar…" aria-label="Buscar" />
               <span class="dv-input-group__addon"><kbd class="dv-kbd">⌘K</kbd></span>
             </div>
           </div>
@@ -243,12 +243,12 @@
       </section>
 
       <section class="doc" id="select" data-group="Formularios" data-keywords="textarea select dropdown nativo">
-        <h2><a href="#select">Select &amp; textarea</a></h2>
+        <h2><a href="#select">Select y textarea</a></h2>
         <p>Controles nativos con el estilo de la biblioteca.</p>
         <template>
           <div class="dv-stack demo-max">
             <label class="dv-field">
-              <span class="dv-label">Region</span>
+              <span class="dv-label">Región</span>
               <select class="dv-select">
                 <option>US-East-1</option>
                 <option>EU-Central</option>
@@ -256,141 +256,442 @@
               </select>
             </label>
             <label class="dv-field">
-              <span class="dv-label">Feedback</span>
-              <textarea class="dv-textarea" placeholder="What can we improve?"></textarea>
+              <span class="dv-label">Comentarios</span>
+              <textarea class="dv-textarea" placeholder="¿Qué podemos mejorar?"></textarea>
             </label>
           </div>
         </template>
       </section>
 
       <section class="doc" id="checkbox" data-group="Formularios" data-keywords="radio check casilla">
-        <h2><a href="#checkbox">Checkbox &amp; radio</a></h2>
+        <h2><a href="#checkbox">Casilla y radio</a></h2>
         <p><code>&lt;input type="checkbox|radio" class="dv-check"&gt;</code>, envuelto en <code>dv-choice</code> para la etiqueta. Soporta <code>indeterminate</code>.</p>
         <template>
           <div class="dv-row" style="--gap:24px">
             <div class="dv-stack" style="--gap:10px">
-              <label class="dv-choice"><input type="checkbox" class="dv-check" checked /> Email digest</label>
-              <label class="dv-choice"><input type="checkbox" class="dv-check" /> Push notifications</label>
+              <label class="dv-choice"><input type="checkbox" class="dv-check" checked /> Resumen por correo</label>
+              <label class="dv-choice"><input type="checkbox" class="dv-check" /> Notificaciones push</label>
               <label class="dv-choice"><input type="checkbox" class="dv-check" disabled /> SMS (Pro)</label>
             </div>
             <div class="dv-stack" style="--gap:10px">
-              <label class="dv-choice"><input type="radio" name="demo-plan" class="dv-check" checked /> Monthly</label>
-              <label class="dv-choice"><input type="radio" name="demo-plan" class="dv-check" /> Yearly (-20%)</label>
+              <label class="dv-choice"><input type="radio" name="demo-plan" class="dv-check" checked /> Mensual</label>
+              <label class="dv-choice"><input type="radio" name="demo-plan" class="dv-check" /> Anual (-20%)</label>
             </div>
           </div>
         </template>
       </section>
 
       <section class="doc" id="switch" data-group="Formularios" data-keywords="toggle interruptor">
-        <h2><a href="#switch">Switch</a></h2>
+        <h2><a href="#switch">Interruptor</a></h2>
         <p>Checkbox nativo con <code>role="switch"</code>: accesible y compatible con formularios.</p>
         <template>
           <div class="dv-stack demo-max" style="--gap:14px">
-            <label class="dv-choice" style="justify-content:space-between;width:100%">Micro-interaction physics <input type="checkbox" role="switch" class="dv-switch" checked /></label>
-            <label class="dv-choice" style="justify-content:space-between;width:100%">Strict focus ring <input type="checkbox" role="switch" class="dv-switch" /></label>
+            <label class="dv-choice" style="justify-content:space-between;width:100%">Físicas de microinteracción <input type="checkbox" role="switch" class="dv-switch" checked /></label>
+            <label class="dv-choice" style="justify-content:space-between;width:100%">Anillo de foco estricto <input type="checkbox" role="switch" class="dv-switch" /></label>
           </div>
         </template>
       </section>
 
       <section class="doc" id="range" data-group="Formularios" data-keywords="slider deslizador">
-        <h2><a href="#range">Range slider</a></h2>
+        <h2><a href="#range">Control deslizante</a></h2>
         <p>Relleno de color automático. <code>data-dv-output="#id"</code> muestra el valor; <code>data-dv-suffix</code> añade unidad.</p>
         <template>
           <div class="dv-stack demo-max">
             <div class="dv-row" style="justify-content:space-between">
-              <span class="dv-label">Team seats</span>
+              <span class="dv-label">Asientos del equipo</span>
               <strong class="dv-mono" id="demo-range-out">12</strong>
             </div>
-            <input type="range" class="dv-range" min="1" max="100" value="12" data-dv-output="#demo-range-out" data-dv-suffix=" seats" aria-label="Team seats" />
+            <input type="range" class="dv-range" min="1" max="100" value="12" data-dv-output="#demo-range-out" data-dv-suffix=" asientos" aria-label="Asientos del equipo" />
           </div>
         </template>
       </section>
 
       <section class="doc" id="number" data-group="Formularios" data-keywords="stepper cantidad incrementar">
-        <h2><a href="#number">Number stepper</a></h2>
+        <h2><a href="#number">Selector numérico</a></h2>
         <p>Botones con <code>data-step="-1|1"</code> que respetan <code>min</code>, <code>max</code> y <code>step</code> del input.</p>
         <template>
           <div class="dv-number">
-            <button type="button" data-step="-1" aria-label="Decrease">−</button>
-            <input type="number" value="2" min="0" max="10" aria-label="Quantity" />
-            <button type="button" data-step="1" aria-label="Increase">+</button>
+            <button type="button" data-step="-1" aria-label="Disminuir">−</button>
+            <input type="number" value="2" min="0" max="10" aria-label="Cantidad" />
+            <button type="button" data-step="1" aria-label="Aumentar">+</button>
           </div>
         </template>
       </section>
 
       <section class="doc" id="segmented" data-group="Formularios" data-keywords="radio group selector vista">
-        <h2><a href="#segmented">Segmented control</a></h2>
+        <h2><a href="#segmented">Control segmentado</a></h2>
         <p><code>&lt;dv-segmented value="…"&gt;</code> con <code>role="radiogroup"</code>, flechas ← → y evento <code>dv-change</code>.</p>
         <template>
           <dv-segmented value="30d" id="demo-seg">
             <button class="dv-segmented__item" value="7d">7D</button>
             <button class="dv-segmented__item" value="30d">30D</button>
             <button class="dv-segmented__item" value="90d">90D</button>
-            <button class="dv-segmented__item" value="1y">1Y</button>
+            <button class="dv-segmented__item" value="1y">1A</button>
           </dv-segmented>
         </template>
         <script type="text/plain" data-doc-js>
           document.querySelector("#demo-seg").addEventListener("dv-change", (e) => {
-            DevlUI.toast({ title: `Range: ${e.detail.value}`, variant: "neutral", duration: 1500 });
+            DevlUI.toast({ title: `Rango: ${e.detail.value}`, variant: "neutral", duration: 1500 });
           });
         </script>
       </section>
 
       <section class="doc" id="otp" data-group="Formularios" data-keywords="pin codigo verificacion 2fa">
-        <h2><a href="#otp">OTP input</a></h2>
+        <h2><a href="#otp">Campo OTP</a></h2>
         <p><code>&lt;dv-otp length="6" name="code"&gt;</code>: avance automático, retroceso, pegado y evento <code>dv-complete</code>. <code>mode="text"</code> acepta letras.</p>
         <template>
           <dv-otp length="6" name="code" id="demo-otp"></dv-otp>
         </template>
         <script type="text/plain" data-doc-js>
           document.querySelector("#demo-otp").addEventListener("dv-complete", (e) => {
-            DevlUI.toast({ title: "Code complete", description: e.detail.value });
+            DevlUI.toast({ title: "Código completo", description: e.detail.value });
           });
         </script>
       </section>
 
       <section class="doc" id="tags" data-group="Formularios" data-keywords="tag input etiquetas chips multiple">
-        <h2><a href="#tags">Tag input</a></h2>
+        <h2><a href="#tags">Campo de etiquetas</a></h2>
         <p><code>&lt;dv-tags&gt;</code>: Enter o coma para añadir, Retroceso para borrar. Atributos <code>value</code>, <code>name</code>, <code>max</code>, <code>placeholder</code>.</p>
         <template>
-          <dv-tags class="demo-max" value="design,frontend" name="labels" placeholder="Add label…"></dv-tags>
+          <dv-tags class="demo-max" value="diseño,frontend" name="labels" placeholder="Añadir etiqueta…"></dv-tags>
         </template>
       </section>
 
       <section class="doc" id="dropzone" data-group="Formularios" data-keywords="upload archivos subir file drag drop">
-        <h2><a href="#dropzone">Dropzone</a></h2>
+        <h2><a href="#dropzone">Zona de carga</a></h2>
         <p><code>&lt;dv-dropzone accept multiple name&gt;</code>: arrastrar o hacer clic; lista los archivos y emite <code>dv-change</code> con <code>files</code>.</p>
         <template>
           <dv-dropzone class="demo-max" multiple>
-            <strong>Drop files here</strong>
-            <span>or click to browse · PNG, PDF up to 10 MB</span>
+            <strong>Suelta los archivos aquí</strong>
+            <span>o haz clic para explorar · PNG, PDF hasta 10 MB</span>
           </dv-dropzone>
         </template>
       </section>
 
       <section class="doc" id="calendar" data-group="Formularios" data-keywords="date picker fecha calendario mes">
-        <h2><a href="#calendar">Calendar</a></h2>
-        <p><code>&lt;dv-calendar value="YYYY-MM-DD"&gt;</code> con nombres localizados (<code>locale</code>, por defecto el <code>lang</code> del documento), <code>week-start</code> y navegación con flechas.</p>
+        <h2><a href="#calendar">Calendario</a></h2>
+        <p><code>&lt;dv-calendar value="YYYY-MM-DD"&gt;</code> con nombres localizados (<code>locale</code>, por defecto el <code>lang</code> del documento), <code>week-start</code> y navegación con flechas (PgUp/PgDn cambian de mes). Opciones: <code>min</code> y <code>max</code> deshabilitan días, <code>mode="range"</code> selecciona un intervalo (<code>value="inicio/fin"</code>) y <code>months="2"</code> muestra varios meses. Para un campo desplegable usa <a href="#date-picker"><code>&lt;dv-date-picker&gt;</code></a>.</p>
         <template>
           <dv-calendar value="2026-10-14" id="demo-cal"></dv-calendar>
         </template>
         <script type="text/plain" data-doc-js>
           document.querySelector("#demo-cal").addEventListener("dv-change", (e) => {
-            DevlUI.toast({ title: "Date selected", description: e.detail.value, variant: "info" });
+            DevlUI.toast({ title: "Fecha seleccionada", description: e.detail.value, variant: "info" });
           });
         </script>
       </section>
 
-      <!-- ================================================================ Navigation -->
+      <section class="doc" id="select-custom" data-group="Formularios" data-tall="340px" data-keywords="select personalizado listbox desplegable buscador searchable multiple multiselect creatable">
+        <h2><a href="#select-custom">Select personalizado</a></h2>
+        <p><code>&lt;dv-select&gt;</code> reemplaza al <code>&lt;select&gt;</code> nativo con listbox accesible (<code>aria-activedescendant</code>), teclado completo (↑ ↓ Home End Enter Esc, búsqueda al teclear) y panel posicionado automáticamente. Se declara con <code>&lt;option&gt;</code> y <code>&lt;optgroup&gt;</code>. Atributos: <code>searchable</code>, <code>multiple</code>, <code>creatable</code>, <code>clearable</code>, <code>placeholder</code>, <code>required</code>, <code>disabled</code>. Participa en <code>&lt;form&gt;</code> (FormData, reset, validación). Evento <code>dv-change</code> con <code>{ value, values }</code>; <code>setOptions([...])</code> carga opciones dinámicas.</p>
+        <template>
+          <div class="dv-grid demo-grid" style="--min:230px">
+            <div class="dv-field">
+              <span class="dv-label" id="sel1-l">Rol</span>
+              <dv-select name="rol" value="editor" label="Rol" aria-labelledby="sel1-l">
+                <option value="admin" data-hint="Todo">Administrador</option>
+                <option value="editor" data-hint="Escribir">Editor</option>
+                <option value="viewer" data-hint="Leer">Lector</option>
+                <option value="guest" disabled>Invitado</option>
+              </dv-select>
+            </div>
+            <div class="dv-field">
+              <span class="dv-label">País (con buscador)</span>
+              <dv-select name="pais" searchable clearable placeholder="Elige un país" label="País">
+                <optgroup label="América">
+                  <option value="mx">México</option><option value="co">Colombia</option><option value="ar">Argentina</option><option value="cl">Chile</option>
+                </optgroup>
+                <optgroup label="Europa">
+                  <option value="es">España</option><option value="pt">Portugal</option><option value="de">Alemania</option>
+                </optgroup>
+              </dv-select>
+            </div>
+            <div class="dv-field">
+              <span class="dv-label">Equipos (múltiple)</span>
+              <dv-select name="equipos" multiple clearable placeholder="Elige equipos" label="Equipos" value="dis,ing">
+                <option value="dis">Diseño</option><option value="ing">Ingeniería</option><option value="prod">Producto</option><option value="cre">Crecimiento</option><option value="ven">Ventas</option>
+              </dv-select>
+            </div>
+          </div>
+        </template>
+      </section>
+
+      <section class="doc" id="combobox" data-group="Formularios" data-tall="300px" data-keywords="combobox autocomplete autocompletar filtrar escribir creatable sugerencias">
+        <h2><a href="#combobox">Combobox / Autocomplete</a></h2>
+        <p><code>&lt;dv-combobox&gt;</code> (o <code>&lt;dv-select autocomplete&gt;</code>) es un campo de texto que filtra las opciones mientras escribes (sin distinguir acentos). Con <code>creatable</code> ofrece «Crear …» para añadir un valor nuevo. Si sales sin elegir, se restaura la selección anterior. Con <code>multiple</code> acumula varias opciones.</p>
+        <template>
+          <div class="dv-grid demo-grid" style="--min:230px">
+            <div class="dv-field">
+              <span class="dv-label">Framework</span>
+              <dv-combobox name="fw" placeholder="Escribe para buscar…" label="Framework" clearable>
+                <option value="react">React</option><option value="vue">Vue</option><option value="svelte">Svelte</option><option value="angular">Angular</option><option value="solid">Solid</option><option value="lit">Lit</option><option value="astro">Astro</option>
+              </dv-combobox>
+            </div>
+            <div class="dv-field">
+              <span class="dv-label">Etiqueta (se puede crear)</span>
+              <dv-combobox name="etiqueta" creatable placeholder="Elige o crea…" label="Etiqueta">
+                <option value="bug">bug</option><option value="mejora">mejora</option><option value="docs">documentación</option>
+              </dv-combobox>
+            </div>
+          </div>
+        </template>
+      </section>
+
+      <section class="doc" id="date-picker" data-group="Formularios" data-tall="420px" data-keywords="date picker selector fecha calendario desplegable min max">
+        <h2><a href="#date-picker">Selector de fecha</a></h2>
+        <p><code>&lt;dv-date-picker&gt;</code> muestra la fecha formateada con <code>Intl</code> y abre un calendario en un popover. Atributos: <code>value</code> (ISO), <code>min</code>, <code>max</code>, <code>locale</code>, <code>week-start</code>, <code>date-style</code> (<code>short|medium|long|full</code>), <code>clearable</code>, <code>required</code>. El valor enviado en el formulario es la fecha ISO (<code>2026-10-14</code>). Teclado en el calendario: flechas, <kbd class="dv-kbd">PgUp</kbd>/<kbd class="dv-kbd">PgDn</kbd> (mes) y con Shift (año).</p>
+        <template>
+          <div class="dv-grid demo-grid" style="--min:230px">
+            <div class="dv-field">
+              <span class="dv-label">Fecha de entrega</span>
+              <dv-date-picker name="entrega" value="2026-10-14" min="2026-10-01" max="2026-12-31" clearable label="Fecha de entrega"></dv-date-picker>
+              <span class="dv-hint">Entre octubre y diciembre de 2026.</span>
+            </div>
+            <div class="dv-field">
+              <span class="dv-label">Nacimiento</span>
+              <dv-date-picker name="nacimiento" date-style="long" placeholder="Elige tu fecha" label="Fecha de nacimiento"></dv-date-picker>
+            </div>
+          </div>
+        </template>
+      </section>
+
+      <section class="doc" id="date-range" data-group="Formularios" data-tall="440px" data-keywords="date range rango fechas intervalo desde hasta">
+        <h2><a href="#date-range">Rango de fechas</a></h2>
+        <p>Con el atributo <code>range</code>, <code>&lt;dv-date-picker&gt;</code> elige un intervalo: dos meses a la vez, vista previa del rango al mover el cursor y cierre automático al completarlo. El valor es un intervalo ISO 8601 <code>inicio/fin</code>; el evento <code>dv-change</code> trae <code>{ value, start, end }</code>. El <code>&lt;dv-calendar&gt;</code> también acepta <code>mode="range"</code>, <code>months</code>, <code>min</code> y <code>max</code> directamente.</p>
+        <template>
+          <div class="dv-stack" style="--gap:12px;max-width:380px">
+            <div class="dv-field">
+              <span class="dv-label">Periodo del informe</span>
+              <dv-date-picker id="demo-daterange" name="periodo" range value="2026-10-05/2026-10-12" clearable label="Periodo del informe"></dv-date-picker>
+            </div>
+            <span class="dv-muted" id="demo-daterange-out">5 oct → 12 oct</span>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const picker = document.querySelector("#demo-daterange");
+          const out = document.querySelector("#demo-daterange-out");
+          picker.addEventListener("dv-change", (e) => {
+            out.textContent = e.detail.start ? `${e.detail.start} → ${e.detail.end}` : "Sin periodo";
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="time-picker" data-group="Formularios" data-tall="360px" data-keywords="time picker hora minutos selector reloj 12h 24h">
+        <h2><a href="#time-picker">Selector de hora</a></h2>
+        <p><code>&lt;dv-time-picker&gt;</code> ofrece columnas de hora y minutos (y AM/PM con <code>hour12</code>). Atributos: <code>value</code> (<code>HH:MM</code>), <code>step</code> (minutos entre opciones), <code>min</code>, <code>max</code>, <code>clearable</code>, <code>required</code>. El valor siempre se envía en 24 h. En el panel: ↑ ↓ cambian el valor, ← → cambian de columna, Enter confirma.</p>
+        <template>
+          <div class="dv-grid demo-grid" style="--min:200px">
+            <div class="dv-field">
+              <span class="dv-label">Inicio (24 h)</span>
+              <dv-time-picker name="inicio" value="09:30" step="15" min="08:00" max="18:00" label="Hora de inicio"></dv-time-picker>
+            </div>
+            <div class="dv-field">
+              <span class="dv-label">Recordatorio (12 h)</span>
+              <dv-time-picker name="recordatorio" hour12 step="5" clearable locale="en-US" label="Recordatorio"></dv-time-picker>
+            </div>
+          </div>
+        </template>
+      </section>
+
+      <section class="doc" id="form-fields" data-group="Formularios" data-tall="460px" data-keywords="formulario form formdata validacion required reset integracion elementinternals">
+        <h2><a href="#form-fields">Campos dentro de un formulario</a></h2>
+        <p>Los campos de esta sección (<code>dv-select</code>, <code>dv-combobox</code>, <code>dv-date-picker</code>, <code>dv-time-picker</code>) son <em>form-associated</em>: sus valores aparecen en <code>new FormData(form)</code>, respetan <code>required</code> en la validación nativa, se restablecen con <code>form.reset()</code> y se deshabilitan con un <code>&lt;fieldset disabled&gt;</code>.</p>
+        <template>
+          <form id="demo-form" class="dv-stack" style="--gap:12px;max-width:420px" novalidate>
+            <div class="dv-field">
+              <span class="dv-label">Prioridad *</span>
+              <dv-select name="prioridad" required label="Prioridad" placeholder="Selecciona…">
+                <option value="alta">Alta</option><option value="media">Media</option><option value="baja">Baja</option>
+              </dv-select>
+            </div>
+            <div class="dv-field">
+              <span class="dv-label">Equipos</span>
+              <dv-select name="equipos" multiple label="Equipos" placeholder="Elige equipos">
+                <option value="dis">Diseño</option><option value="ing">Ingeniería</option><option value="prod">Producto</option>
+              </dv-select>
+            </div>
+            <div class="dv-row" style="flex-wrap:nowrap;align-items:flex-start">
+              <div class="dv-field" style="flex:1"><span class="dv-label">Fecha *</span><dv-date-picker name="fecha" required label="Fecha"></dv-date-picker></div>
+              <div class="dv-field" style="flex:1"><span class="dv-label">Hora</span><dv-time-picker name="hora" step="30" label="Hora"></dv-time-picker></div>
+            </div>
+            <div class="dv-row">
+              <button type="submit" class="dv-btn dv-btn--primary">Enviar</button>
+              <button type="reset" class="dv-btn">Restablecer</button>
+            </div>
+            <pre class="dv-code" id="demo-form-out" aria-live="polite">{ }</pre>
+          </form>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const form = document.querySelector("#demo-form");
+          const out = document.querySelector("#demo-form-out");
+          form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            if (!form.checkValidity()) {
+              out.textContent = "Faltan campos obligatorios (*)";
+              form.reportValidity();
+              return;
+            }
+            const data = new FormData(form);
+            const obj = {};
+            for (const [k, v] of data) obj[k] = k in obj ? [].concat(obj[k], v) : v;
+            out.textContent = JSON.stringify(obj, null, 2);
+          });
+          form.addEventListener("reset", () => (out.textContent = "{ }"));
+        </script>
+      </section>
+
+      <section class="doc" id="slider" data-group="Formularios" data-tall="150px" data-keywords="slider deslizador rango doble range precio valores">
+        <h2><a href="#slider">Slider y rango doble</a></h2>
+        <p><code>&lt;dv-slider&gt;</code> con uno o dos pulgares (<code>range</code> o <code>value="20,80"</code>); los pulgares no se cruzan y muestran su valor al arrastrar o enfocar. Atributos: <code>min</code>, <code>max</code>, <code>step</code>, <code>prefix</code>, <code>suffix</code>. Teclado: ← → (±paso), PgUp/PgDn (±10 pasos), Home/End. Eventos <code>dv-input</code> (en vivo) y <code>dv-change</code> (al soltar). En un formulario, el rango envía dos entradas con el mismo <code>name</code>.</p>
+        <template>
+          <div class="dv-stack" style="--gap:22px;max-width:420px">
+            <div class="dv-field">
+              <div class="dv-row" style="justify-content:space-between"><span class="dv-label">Volumen</span><span class="dv-mono" id="demo-slider-out">40%</span></div>
+              <dv-slider id="demo-slider" name="volumen" value="40" suffix="%" label="Volumen"></dv-slider>
+            </div>
+            <div class="dv-field">
+              <div class="dv-row" style="justify-content:space-between"><span class="dv-label">Precio</span><span class="dv-mono" id="demo-range2-out">$200 – $800</span></div>
+              <dv-slider id="demo-range2" name="precio" range min="0" max="1000" step="50" value="200,800" prefix="$" label="Precio"></dv-slider>
+            </div>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          document.querySelector("#demo-slider").addEventListener("dv-input", (e) => {
+            document.querySelector("#demo-slider-out").textContent = `${e.detail.value}%`;
+          });
+          document.querySelector("#demo-range2").addEventListener("dv-input", (e) => {
+            const [a, b] = e.detail.values;
+            document.querySelector("#demo-range2-out").textContent = `$${a} – $${b}`;
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="rating" data-group="Formularios" data-keywords="rating estrellas valoracion calificacion puntuacion media estrella">
+        <h2><a href="#rating">Valoración (rating)</a></h2>
+        <p><code>&lt;dv-rating&gt;</code> es un único control <code>role="slider"</code>: ← → cambian el valor, Home/End saltan a los extremos y Supr lo borra (con <code>clearable</code>). Atributos: <code>max</code>, <code>value</code>, <code>half</code> (medias estrellas), <code>readonly</code>, <code>size="sm|lg"</code>.</p>
+        <template>
+          <div class="dv-stack" style="--gap:14px">
+            <div class="dv-row"><dv-rating id="demo-rating" name="nota" value="3" clearable label="Tu valoración"></dv-rating><span class="dv-muted" id="demo-rating-out">3 de 5</span></div>
+            <div class="dv-row"><dv-rating half value="3.5" size="lg" label="Valoración con medias estrellas"></dv-rating><span class="dv-muted">con medias estrellas</span></div>
+            <div class="dv-row"><dv-rating readonly value="4.5" half size="sm" label="Nota media"></dv-rating><span class="dv-muted">solo lectura (4.5)</span></div>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          document.querySelector("#demo-rating").addEventListener("dv-change", (e) => {
+            document.querySelector("#demo-rating-out").textContent = e.detail.value ? `${e.detail.value} de 5` : "Sin valorar";
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="color-picker" data-group="Formularios" data-tall="440px" data-keywords="color picker selector color hex hsv tono opacidad alpha cuentagotas">
+        <h2><a href="#color-picker">Selector de color</a></h2>
+        <p><code>&lt;dv-color-picker&gt;</code> con área de saturación/brillo, tono, opacidad (<code>alpha</code>), campo hexadecimal, muestras (<code>swatches="#f00,#0f0"</code>) y cuentagotas donde el navegador lo soporta. Valor <code>#rrggbb</code> (o <code>#rrggbbaa</code> con opacidad). Cada control se maneja con flechas (Shift = ×10). Eventos <code>dv-input</code> (al arrastrar) y <code>dv-change</code>.</p>
+        <template>
+          <div class="dv-grid" style="--min:220px">
+            <div class="dv-field"><span class="dv-label">Color de marca</span><dv-color-picker id="demo-color" name="marca" value="#6366f1" label="Color de marca"></dv-color-picker></div>
+            <div class="dv-field"><span class="dv-label">Sombra (con opacidad)</span><dv-color-picker name="sombra" value="#10b981cc" alpha label="Color de sombra"></dv-color-picker></div>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          document.querySelector("#demo-color").addEventListener("dv-input", (e) => {
+            document.documentElement.style.setProperty("--dv-accent", e.detail.value);
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="password" data-group="Formularios" data-keywords="password contraseña clave medidor seguridad fuerza mostrar ocultar">
+        <h2><a href="#password">Contraseña con medidor</a></h2>
+        <p><code>&lt;dv-password&gt;</code> añade a un <code>&lt;input&gt;</code> el botón mostrar/ocultar y, con <code>meter</code>, un medidor de seguridad (longitud mínima con <code>min-length</code>, mayúsculas y minúsculas, números y símbolos). El input real sigue dentro de tu formulario. Evento <code>dv-change</code> con <code>{ value, score }</code> (0 a 4).</p>
+        <template>
+          <div class="dv-field" style="max-width:360px">
+            <label class="dv-label" for="demo-pw">Nueva contraseña</label>
+            <dv-password meter min-length="10"><input id="demo-pw" name="clave" placeholder="Mínimo 10 caracteres" autocomplete="new-password" /></dv-password>
+            <span class="dv-hint">Prueba: <code>hola</code>, <code>Hola1234</code>, <code>Hola1234!xy</code></span>
+          </div>
+        </template>
+      </section>
+
+      <section class="doc" id="textarea-autosize" data-group="Formularios" data-keywords="textarea autoajuste autosize contador caracteres maxlength altura">
+        <h2><a href="#textarea-autosize">Textarea autoajustable y contador</a></h2>
+        <p>Atributos sobre un <code>&lt;textarea class="dv-textarea"&gt;</code>: <code>data-dv-autosize</code> crece con el contenido hasta <code>data-max-rows</code> filas (luego aparece scroll) y <code>data-dv-count="#id"</code> muestra la cuenta de caracteres, usando <code>maxlength</code> como tope.</p>
+        <template>
+          <div class="dv-field" style="max-width:420px">
+            <label class="dv-label" for="demo-ta">Mensaje</label>
+            <textarea id="demo-ta" class="dv-textarea" rows="2" maxlength="160" data-dv-autosize data-max-rows="6" data-dv-count="#demo-ta-count" placeholder="Escribe varias líneas…"></textarea>
+            <div class="dv-row" style="justify-content:space-between"><span class="dv-hint">Crece hasta 6 filas.</span><span class="dv-counter" id="demo-ta-count">0 / 160</span></div>
+          </div>
+        </template>
+      </section>
+
+      <section class="doc" id="mention" data-group="Formularios" data-tall="320px" data-keywords="mention mencion arroba usuarios autocompletar etiquetar caret">
+        <h2><a href="#mention">Menciones (@)</a></h2>
+        <p><code>&lt;dv-mention&gt;</code> envuelve un <code>&lt;textarea&gt;</code> (o input) y ofrece usuarios al escribir <code>@</code> (carácter configurable con <code>trigger</code>), en un panel junto al cursor. ↑ ↓ eligen, Enter o Tab insertan, Esc cierra. Las opciones se declaran con <code>&lt;option&gt;</code> o se asignan con <code>element.users = [{ value, label, hint }]</code>. Evento <code>dv-mention</code>.</p>
+        <template>
+          <dv-mention id="demo-mention" style="max-width:420px" label="Usuarios">
+            <textarea class="dv-textarea" rows="3" name="comentario" aria-label="Comentario" placeholder="Escribe @ para mencionar…"></textarea>
+            <option value="luis" data-hint="Diseño">Luis Islas</option>
+            <option value="lucia" data-hint="Producto">Lucía Fernández</option>
+            <option value="marta" data-hint="Ingeniería">Marta Ríos</option>
+            <option value="mateo" data-hint="Ventas">Mateo Soto</option>
+          </dv-mention>
+        </template>
+        <script type="text/plain" data-doc-js>
+          document.querySelector("#demo-mention").addEventListener("dv-mention", (e) => {
+            DevlUI.toast({ title: `Mencionaste a ${e.detail.user.label}`, variant: "info" });
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="choice-card" data-group="Formularios" data-keywords="choice card tarjeta radio checkbox seleccion plan opcion">
+        <h2><a href="#choice-card">Tarjetas de elección</a></h2>
+        <p>CSS puro: un <code>&lt;label class="dv-choice-card"&gt;</code> con un <code>dv-check</code> (radio o checkbox) dentro. El estado marcado, el foco y el deshabilitado se reflejan en toda la tarjeta mediante <code>:has()</code>.</p>
+        <template>
+          <div class="dv-grid" style="--min:200px;--gap:10px" role="radiogroup" aria-label="Plan">
+            <label class="dv-choice-card"><input class="dv-check" type="radio" name="plan" value="free" /><span><span class="dv-choice-card__title">Gratis</span><span class="dv-choice-card__desc" style="display:block">Para empezar.</span></span><span class="dv-choice-card__end">$0</span></label>
+            <label class="dv-choice-card"><input class="dv-check" type="radio" name="plan" value="pro" checked /><span><span class="dv-choice-card__title">Pro</span><span class="dv-choice-card__desc" style="display:block">Equipos pequeños.</span></span><span class="dv-choice-card__end">$12</span></label>
+            <label class="dv-choice-card"><input class="dv-check" type="radio" name="plan" value="ent" disabled /><span><span class="dv-choice-card__title">Enterprise</span><span class="dv-choice-card__desc" style="display:block">Próximamente.</span></span><span class="dv-choice-card__end">—</span></label>
+          </div>
+        </template>
+      </section>
+
+      <section class="doc" id="toggle-group" data-group="Formularios" data-keywords="toggle group botones alternar negrita cursiva formato barra herramientas">
+        <h2><a href="#toggle-group">Toggle group</a></h2>
+        <p><code>&lt;dv-toggle-group type="single|multiple"&gt;</code> agrupa botones con <code>aria-pressed</code>. En <code>single</code> volver a pulsar deselecciona (salvo con <code>required</code>); en <code>multiple</code> se combinan. ← → mueven el foco con tabulación itinerante. Evento <code>dv-change</code>.</p>
+        <template>
+          <div class="dv-row" style="--gap:16px">
+            <dv-toggle-group id="demo-tg-multi" type="multiple" value="negrita" aria-label="Formato">
+              <button class="dv-toggle-group__item" value="negrita" aria-label="Negrita"><b>B</b></button>
+              <button class="dv-toggle-group__item" value="cursiva" aria-label="Cursiva"><i>I</i></button>
+              <button class="dv-toggle-group__item" value="subrayado" aria-label="Subrayado"><u>U</u></button>
+            </dv-toggle-group>
+            <dv-toggle-group id="demo-tg-single" type="single" required value="centro" aria-label="Alineación">
+              <button class="dv-toggle-group__item" value="izq">Izq.</button>
+              <button class="dv-toggle-group__item" value="centro">Centro</button>
+              <button class="dv-toggle-group__item" value="der">Der.</button>
+            </dv-toggle-group>
+            <span class="dv-muted" id="demo-tg-out">negrita · centro</span>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const multi = document.querySelector("#demo-tg-multi");
+          const single = document.querySelector("#demo-tg-single");
+          const out = document.querySelector("#demo-tg-out");
+          const show = () => (out.textContent = [...multi.value, single.value].filter(Boolean).join(" · ") || "ninguno");
+          multi.addEventListener("dv-change", show);
+          single.addEventListener("dv-change", show);
+        </script>
+      </section>
+
+      <!-- ================================================================ Navegación -->
       <section class="doc" id="tabs" data-group="Navegación" data-keywords="pestañas tab panel">
-        <h2><a href="#tabs">Tabs</a></h2>
+        <h2><a href="#tabs">Pestañas</a></h2>
         <p><code>&lt;dv-tabs&gt;</code> enlaza <code>data-tab</code> con <code>data-panel</code> y añade los roles ARIA y la navegación con flechas.</p>
         <template>
           <dv-tabs class="demo-wide">
             <div class="dv-tabs__list">
-              <button class="dv-tabs__tab" data-tab="overview">Overview</button>
-              <button class="dv-tabs__tab" data-tab="activity">Activity</button>
-              <button class="dv-tabs__tab" data-tab="settings">Settings</button>
+              <button class="dv-tabs__tab" data-tab="overview">Resumen</button>
+              <button class="dv-tabs__tab" data-tab="activity">Actividad</button>
+              <button class="dv-tabs__tab" data-tab="settings">Ajustes</button>
             </div>
             <div class="dv-tabs__panel" data-panel="overview">Resumen del proyecto, métricas clave y próximos hitos.</div>
             <div class="dv-tabs__panel" data-panel="activity">Últimos despliegues, comentarios y cambios del equipo.</div>
@@ -400,140 +701,211 @@
       </section>
 
       <section class="doc" id="breadcrumb" data-group="Navegación" data-keywords="ruta migas path">
-        <h2><a href="#breadcrumb">Breadcrumb</a></h2>
+        <h2><a href="#breadcrumb">Migas de pan</a></h2>
         <p>Lista ordenada con separadores automáticos; marca la página actual con <code>aria-current="page"</code>.</p>
         <template>
-          <nav aria-label="Breadcrumb">
+          <nav aria-label="Migas de pan">
             <ol class="dv-breadcrumb">
               <li><a href="#breadcrumb">Acme</a></li>
-              <li><a href="#breadcrumb">Projects</a></li>
-              <li><span aria-current="page">Onboarding redesign</span></li>
+              <li><a href="#breadcrumb">Proyectos</a></li>
+              <li><span aria-current="page">Rediseño de incorporación</span></li>
             </ol>
           </nav>
         </template>
       </section>
 
       <section class="doc" id="pagination" data-group="Navegación" data-keywords="paginas paginacion">
-        <h2><a href="#pagination">Pagination</a></h2>
+        <h2><a href="#pagination">Paginación</a></h2>
         <p>Enlaces o botones; la página activa usa <code>aria-current="page"</code>.</p>
         <template>
-          <nav class="dv-pagination" aria-label="Pagination">
-            <a href="#pagination" aria-label="Previous">‹</a>
+          <nav class="dv-pagination" aria-label="Paginación">
+            <a href="#pagination" aria-label="Anterior">‹</a>
             <a href="#pagination">1</a>
             <a href="#pagination" aria-current="page">2</a>
             <a href="#pagination">3</a>
             <span>…</span>
             <a href="#pagination">12</a>
-            <a href="#pagination" aria-label="Next">›</a>
+            <a href="#pagination" aria-label="Siguiente">›</a>
           </nav>
         </template>
       </section>
 
       <section class="doc" id="nav" data-group="Navegación" data-keywords="sidebar barra lateral app shell">
-        <h2><a href="#nav">Sidebar nav</a></h2>
+        <h2><a href="#nav">Navegación lateral</a></h2>
         <p>Navegación vertical para app shells: <code>dv-nav</code>, <code>dv-nav__label</code>, <code>dv-nav__item</code>.</p>
         <template>
           <div class="demo-shell">
             <aside>
               <nav class="dv-nav">
-                <a class="dv-nav__item" href="#nav" aria-current="page">⌂ Home</a>
-                <a class="dv-nav__item" href="#nav">✉ Inbox <span class="dv-badge dv-badge--accent">4</span></a>
-                <a class="dv-nav__item" href="#nav">⚡ Activity</a>
-                <div class="dv-nav__label">Teams</div>
-                <a class="dv-nav__item" href="#nav"># design <span class="dv-nav__meta">6</span></a>
-                <a class="dv-nav__item" href="#nav"># engineering <span class="dv-nav__meta">24</span></a>
+                <a class="dv-nav__item" href="#nav" aria-current="page">⌂ Inicio</a>
+                <a class="dv-nav__item" href="#nav">✉ Bandeja <span class="dv-badge dv-badge--accent">4</span></a>
+                <a class="dv-nav__item" href="#nav">⚡ Actividad</a>
+                <div class="dv-nav__label">Equipos</div>
+                <a class="dv-nav__item" href="#nav"># diseño <span class="dv-nav__meta">6</span></a>
+                <a class="dv-nav__item" href="#nav"># ingeniería <span class="dv-nav__meta">24</span></a>
               </nav>
             </aside>
             <div>
-              <span class="dv-eyebrow">Main pane</span>
-              <h3 class="dv-heading" style="margin-top:6px;font-size:18px">Home</h3>
+              <span class="dv-eyebrow">Panel principal</span>
+              <h3 class="dv-heading" style="margin-top:6px;font-size:18px">Inicio</h3>
             </div>
           </div>
         </template>
       </section>
 
       <section class="doc" id="steps" data-group="Navegación" data-keywords="stepper wizard pasos progreso onboarding">
-        <h2><a href="#steps">Steps</a></h2>
+        <h2><a href="#steps">Pasos</a></h2>
         <p>Progreso por pasos: <code>data-state="done"</code> y <code>aria-current="step"</code>.</p>
         <template>
           <ol class="dv-steps demo-wide">
-            <li data-state="done">Account</li>
-            <li data-state="done">Workspace</li>
-            <li aria-current="step">Invite team</li>
-            <li>Billing</li>
+            <li data-state="done">Cuenta</li>
+            <li data-state="done">Espacio de trabajo</li>
+            <li aria-current="step">Invitar al equipo</li>
+            <li>Facturación</li>
           </ol>
         </template>
       </section>
 
       <section class="doc" id="command" data-group="Navegación" data-keywords="command palette cmdk buscador spotlight">
-        <h2><a href="#command">Command palette</a></h2>
+        <h2><a href="#command">Paleta de comandos</a></h2>
         <p><code>&lt;dv-command hotkey="k"&gt;</code> crea un <code>&lt;dialog&gt;</code> nativo con búsqueda difusa, grupos (<code>data-group</code>), palabras clave (<code>data-keywords</code>) y evento <code>dv-select</code>. Ábrelo con <code>data-dv-open="id"</code> o <code>⌘K</code>.</p>
         <template>
-          <button type="button" class="dv-btn" data-dv-open="docs-cmd">Open palette <kbd class="dv-kbd">⌘K</kbd></button>
+          <button type="button" class="dv-btn" data-dv-open="docs-cmd">Abrir paleta <kbd class="dv-kbd">⌘K</kbd></button>
         </template>
       </section>
 
-      <!-- ================================================================ Feedback -->
-      <section class="doc" id="alert" data-group="Feedback" data-keywords="callout aviso mensaje">
-        <h2><a href="#alert">Alert</a></h2>
+      <!-- ================================================================ Retroalimentación -->
+      <section class="doc" id="menubar" data-group="Navegación" data-tall="320px" data-keywords="menubar barra menu aplicacion archivo editar submenu atajos checkbox">
+        <h2><a href="#menubar">Barra de menús</a></h2>
+        <p><code>&lt;dv-menubar&gt;</code> es la barra de menús de una aplicación: cada elemento abre un menú; con uno abierto, pasar el cursor o pulsar ← → cambia de menú. Soporta submenús (<code>.dv-menu__sub</code> + <code>data-submenu</code>), ítems marcables (<code>data-check</code> + <code>aria-checked</code>), atajos con <code>dv-kbd</code> y deshabilitados. Teclado: ← → entre menús, ↓ ↑ entre ítems, → abre submenú, Esc cierra. Evento <code>dv-select</code> con <code>{ value, checked }</code>.</p>
+        <template>
+          <dv-menubar id="demo-menubar">
+            <div class="dv-bar__item">
+              <button type="button" data-dv-trigger>Archivo</button>
+              <div class="dv-menu__list">
+                <button type="button" class="dv-menu__item" data-value="nuevo">Nuevo <kbd class="dv-kbd">⌘N</kbd></button>
+                <button type="button" class="dv-menu__item" data-value="abrir">Abrir… <kbd class="dv-kbd">⌘O</kbd></button>
+                <div class="dv-menu__sub">
+                  <button type="button" class="dv-menu__item" data-submenu>Compartir</button>
+                  <div class="dv-menu__list">
+                    <button type="button" class="dv-menu__item" data-value="correo">Por correo</button>
+                    <button type="button" class="dv-menu__item" data-value="enlace">Copiar enlace</button>
+                  </div>
+                </div>
+                <div class="dv-menu__sep"></div>
+                <button type="button" class="dv-menu__item" data-value="imprimir" disabled>Imprimir</button>
+              </div>
+            </div>
+            <div class="dv-bar__item">
+              <button type="button" data-dv-trigger>Ver</button>
+              <div class="dv-menu__list">
+                <button type="button" class="dv-menu__item" data-check aria-checked="true" data-value="cuadricula">Cuadrícula</button>
+                <button type="button" class="dv-menu__item" data-check aria-checked="false" data-value="reglas">Reglas</button>
+                <div class="dv-menu__sep"></div>
+                <button type="button" class="dv-menu__item" data-value="zoom">Ajustar zoom</button>
+              </div>
+            </div>
+            <a class="dv-bar__item" href="#menubar">Ayuda</a>
+          </dv-menubar>
+        </template>
+        <script type="text/plain" data-doc-js>
+          document.querySelector("#demo-menubar").addEventListener("dv-select", (e) => {
+            const extra = e.detail.checked === undefined ? "" : e.detail.checked ? " (activado)" : " (desactivado)";
+            DevlUI.toast({ title: `${e.detail.value}${extra}`, variant: "info" });
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="nav-menu" data-group="Navegación" data-tall="340px" data-keywords="navigation menu mega menu navegacion cabecera dropdown rico">
+        <h2><a href="#nav-menu">Menú de navegación</a></h2>
+        <p><code>&lt;dv-nav-menu&gt;</code> es el menú de cabecera de un sitio: los paneles (<code>.dv-bar__panel</code>) llevan contenido libre (tarjetas, enlaces, imágenes) y se abren al pasar el cursor con retardo (<code>hover-delay</code>), al hacer clic o con ↓. Cambiar entre elementos con el panel abierto es inmediato. Esc cierra y devuelve el foco.</p>
+        <template>
+          <dv-nav-menu aria-label="Principal">
+            <div class="dv-bar__item">
+              <button type="button" data-dv-trigger>Producto</button>
+              <div class="dv-bar__panel">
+                <div class="dv-navmenu__grid">
+                  <a class="dv-navmenu__card" href="#nav-menu"><strong>Componentes</strong><span>48 piezas listas para usar.</span></a>
+                  <a class="dv-navmenu__card" href="#nav-menu"><strong>Temas</strong><span>Tokens, acentos y modo oscuro.</span></a>
+                  <a class="dv-navmenu__card" href="#nav-menu"><strong>Accesibilidad</strong><span>ARIA y teclado de serie.</span></a>
+                  <a class="dv-navmenu__card" href="#nav-menu"><strong>Galería</strong><span>212 experimentos reales.</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="dv-bar__item">
+              <button type="button" data-dv-trigger>Recursos</button>
+              <div class="dv-bar__panel">
+                <div class="dv-navmenu__grid" style="grid-template-columns:1fr;min-width:240px">
+                  <a class="dv-navmenu__card" href="#nav-menu"><strong>Documentación</strong><span>Guías y referencia.</span></a>
+                  <a class="dv-navmenu__card" href="#nav-menu"><strong>Changelog</strong><span>Qué hay de nuevo.</span></a>
+                </div>
+              </div>
+            </div>
+            <a class="dv-bar__item" href="#nav-menu">Precios</a>
+          </dv-nav-menu>
+        </template>
+      </section>
+
+      <section class="doc" id="alert" data-group="Retroalimentación" data-keywords="callout aviso mensaje">
+        <h2><a href="#alert">Alerta</a></h2>
         <p>Variantes <code>--info</code>, <code>--success</code>, <code>--warning</code>, <code>--danger</code>, <code>--accent</code>.</p>
         <template>
           <div class="dv-stack demo-wide">
-            <div class="dv-alert dv-alert--info" role="status"><div><div class="dv-alert__title">Scheduled maintenance</div><div class="dv-alert__desc">Sunday 02:00–03:00 UTC. API will be read-only.</div></div></div>
-            <div class="dv-alert dv-alert--success" role="status"><div><div class="dv-alert__title">Deployment succeeded</div><div class="dv-alert__desc">f8a92c1 is live on production.</div></div></div>
-            <div class="dv-alert dv-alert--warning" role="status"><div><div class="dv-alert__title">Approaching quota</div><div class="dv-alert__desc">You have used 85% of your monthly requests.</div></div></div>
-            <div class="dv-alert dv-alert--danger" role="alert"><div><div class="dv-alert__title">Payment failed</div><div class="dv-alert__desc">Update your card to avoid service interruption.</div></div></div>
+            <div class="dv-alert dv-alert--info" role="status"><div><div class="dv-alert__title">Mantenimiento programado</div><div class="dv-alert__desc">Domingo 02:00–03:00 UTC. La API estará en modo de solo lectura.</div></div></div>
+            <div class="dv-alert dv-alert--success" role="status"><div><div class="dv-alert__title">Despliegue exitoso</div><div class="dv-alert__desc">f8a92c1 ya está en producción.</div></div></div>
+            <div class="dv-alert dv-alert--warning" role="status"><div><div class="dv-alert__title">Cerca de la cuota</div><div class="dv-alert__desc">Has usado el 85% de tus solicitudes mensuales.</div></div></div>
+            <div class="dv-alert dv-alert--danger" role="alert"><div><div class="dv-alert__title">Pago fallido</div><div class="dv-alert__desc">Actualiza tu tarjeta para evitar la interrupción del servicio.</div></div></div>
           </div>
         </template>
       </section>
 
-      <section class="doc" id="banner" data-group="Feedback" data-keywords="anuncio top bar">
+      <section class="doc" id="banner" data-group="Retroalimentación" data-keywords="anuncio top bar">
         <h2><a href="#banner">Banner</a></h2>
         <p>Barra de anuncio a ancho completo.</p>
         <template>
-          <div class="dv-banner">✦ devl-ui 1.0 is out — 40+ zero-dependency components. <a href="#install">Read the docs</a></div>
+          <div class="dv-banner">✦ Ya salió devl-ui 1.0: más de 40 componentes sin dependencias. <a href="#install">Lee la documentación</a></div>
         </template>
       </section>
 
-      <section class="doc" id="toast" data-group="Feedback" data-keywords="notificacion snackbar mensaje">
+      <section class="doc" id="toast" data-group="Retroalimentación" data-keywords="notificacion snackbar mensaje">
         <h2><a href="#toast">Toast</a></h2>
         <p><code>DevlUI.toast()</code> apila notificaciones abajo a la derecha. Se pausan al pasar el ratón; <code>duration: 0</code> las deja fijas; <code>action</code> añade un botón.</p>
         <template>
           <div class="dv-row">
-            <button type="button" class="dv-btn" id="demo-toast-ok">Success</button>
-            <button type="button" class="dv-btn" id="demo-toast-warn">Warning</button>
+            <button type="button" class="dv-btn" id="demo-toast-ok">Éxito</button>
+            <button type="button" class="dv-btn" id="demo-toast-warn">Advertencia</button>
             <button type="button" class="dv-btn" id="demo-toast-err">Error</button>
-            <button type="button" class="dv-btn" id="demo-toast-undo">With action</button>
+            <button type="button" class="dv-btn" id="demo-toast-undo">Con acción</button>
           </div>
         </template>
         <script type="text/plain" data-doc-js>
           document.querySelector("#demo-toast-ok").addEventListener("click", () =>
-            DevlUI.toast({ title: "Deployment #4829 succeeded", description: "Built in 1.4s" })
+            DevlUI.toast({ title: "El despliegue #4829 fue exitoso", description: "Compilado en 1.4 s" })
           );
           document.querySelector("#demo-toast-warn").addEventListener("click", () =>
-            DevlUI.toast({ title: "Rate limit approaching", description: "85% of quota used", variant: "warning" })
+            DevlUI.toast({ title: "Cerca del límite de uso", description: "85% de la cuota usada", variant: "warning" })
           );
           document.querySelector("#demo-toast-err").addEventListener("click", () =>
-            DevlUI.toast({ title: "Could not save changes", variant: "danger" })
+            DevlUI.toast({ title: "No se pudieron guardar los cambios", variant: "danger" })
           );
           document.querySelector("#demo-toast-undo").addEventListener("click", () =>
             DevlUI.toast({
-              title: "Message archived",
+              title: "Mensaje archivado",
               variant: "neutral",
-              action: { label: "Undo", onClick: () => DevlUI.toast("Restored") }
+              action: { label: "Deshacer", onClick: () => DevlUI.toast("Restaurado") }
             })
           );
         </script>
       </section>
 
-      <section class="doc" id="progress" data-group="Feedback" data-keywords="barra progreso meter cuota uso">
-        <h2><a href="#progress">Progress &amp; meter</a></h2>
+      <section class="doc" id="progress" data-group="Retroalimentación" data-keywords="barra progreso meter cuota uso">
+        <h2><a href="#progress">Progreso y medidor</a></h2>
         <p><code>&lt;progress class="dv-progress"&gt;</code> nativo (sin <code>value</code> = indeterminado) y <code>dv-meter</code> por segmentos con <code>--w</code> y <code>--c</code>.</p>
         <template>
           <div class="dv-stack demo-wide">
-            <progress class="dv-progress" value="64" max="100" aria-label="Upload progress">64%</progress>
-            <progress class="dv-progress" aria-label="Loading"></progress>
-            <div class="dv-meter" role="img" aria-label="Context window: 45% system, 18% RAG, 11% reasoning">
+            <progress class="dv-progress" value="64" max="100" aria-label="Progreso de carga">64%</progress>
+            <progress class="dv-progress" aria-label="Cargando"></progress>
+            <div class="dv-meter" role="img" aria-label="Ventana de contexto: 45% sistema, 18% RAG, 11% razonamiento">
               <span style="--w:45%"></span>
               <span style="--w:18%;--c:var(--dv-info)"></span>
               <span style="--w:11%;--c:var(--dv-warning)"></span>
@@ -542,12 +914,12 @@
         </template>
       </section>
 
-      <section class="doc" id="loading" data-group="Feedback" data-keywords="spinner skeleton cargando placeholder">
-        <h2><a href="#loading">Spinner &amp; skeleton</a></h2>
+      <section class="doc" id="loading" data-group="Retroalimentación" data-keywords="spinner skeleton cargando placeholder">
+        <h2><a href="#loading">Spinner y skeleton</a></h2>
         <p>Estados de carga. Tamaño con <code>--size</code> (spinner) o <code>--w</code>/<code>--h</code> (skeleton).</p>
         <template>
           <div class="dv-row" style="--gap:28px;align-items:flex-start">
-            <div class="dv-row"><span class="dv-spinner" role="status" aria-label="Loading"></span><span class="dv-spinner" style="--size:24px" aria-hidden="true"></span></div>
+            <div class="dv-row"><span class="dv-spinner" role="status" aria-label="Cargando"></span><span class="dv-spinner" style="--size:24px" aria-hidden="true"></span></div>
             <div class="dv-row" style="flex-wrap:nowrap;width:300px">
               <span class="dv-skeleton dv-skeleton--circle"></span>
               <div class="dv-stack" style="flex:1;--gap:8px">
@@ -559,36 +931,36 @@
         </template>
       </section>
 
-      <section class="doc" id="tooltip" data-group="Feedback" data-keywords="hint ayuda title">
+      <section class="doc" id="tooltip" data-group="Retroalimentación" data-keywords="hint ayuda title">
         <h2><a href="#tooltip">Tooltip</a></h2>
         <p>Solo CSS: <code>data-dv-tooltip="texto"</code> y opcionalmente <code>data-dv-placement="bottom"</code>. Aparece con hover y foco de teclado.</p>
         <template>
           <div class="dv-row">
-            <button type="button" class="dv-btn" data-dv-tooltip="Copy link (⌘C)">Hover me</button>
-            <button type="button" class="dv-btn dv-btn--icon" data-dv-tooltip="Settings" data-dv-placement="bottom" aria-label="Settings">⚙</button>
+            <button type="button" class="dv-btn" data-dv-tooltip="Copiar enlace (⌘C)">Pasa el cursor</button>
+            <button type="button" class="dv-btn dv-btn--icon" data-dv-tooltip="Ajustes" data-dv-placement="bottom" aria-label="Ajustes">⚙</button>
           </div>
         </template>
       </section>
 
-      <section class="doc" id="dialog" data-group="Feedback" data-keywords="modal confirmar popup">
-        <h2><a href="#dialog">Dialog</a></h2>
+      <section class="doc" id="dialog" data-group="Retroalimentación" data-keywords="modal confirmar popup">
+        <h2><a href="#dialog">Diálogo</a></h2>
         <p><code>&lt;dialog class="dv-dialog"&gt;</code> nativo: atrapa el foco y cierra con Esc. <code>data-dv-open="id"</code> lo abre, <code>data-dv-close</code> lo cierra, clic en el fondo también (desactívalo con <code>data-dv-static</code>).</p>
         <template>
-          <button type="button" class="dv-btn dv-btn--danger" data-dv-open="demo-dialog">Delete workspace…</button>
+          <button type="button" class="dv-btn dv-btn--danger" data-dv-open="demo-dialog">Eliminar espacio de trabajo…</button>
           <dialog class="dv-dialog" id="demo-dialog" aria-labelledby="demo-dialog-title">
             <div class="dv-dialog__header">
-              <h3 class="dv-dialog__title" id="demo-dialog-title">Delete workspace?</h3>
-              <p class="dv-dialog__desc">This permanently removes all projects, members and billing history. This action cannot be undone.</p>
+              <h3 class="dv-dialog__title" id="demo-dialog-title">¿Eliminar el espacio de trabajo?</h3>
+              <p class="dv-dialog__desc">Esto elimina de forma permanente todos los proyectos, miembros e historial de facturación. Esta acción no se puede deshacer.</p>
             </div>
             <div class="dv-dialog__body">
               <label class="dv-field">
-                <span class="dv-label">Type acme to confirm</span>
+                <span class="dv-label">Escribe acme para confirmar</span>
                 <input class="dv-input" id="demo-dialog-input" autocomplete="off" />
               </label>
             </div>
             <div class="dv-dialog__footer">
-              <button type="button" class="dv-btn" data-dv-close>Cancel</button>
-              <button type="button" class="dv-btn dv-btn--danger" id="demo-dialog-confirm" disabled data-dv-close="confirm">Delete</button>
+              <button type="button" class="dv-btn" data-dv-close>Cancelar</button>
+              <button type="button" class="dv-btn dv-btn--danger" id="demo-dialog-confirm" disabled data-dv-close="confirm">Eliminar</button>
             </div>
           </dialog>
         </template>
@@ -598,56 +970,172 @@
           const confirmBtn = document.querySelector("#demo-dialog-confirm");
           input.addEventListener("input", () => (confirmBtn.disabled = input.value !== "acme"));
           dialog.addEventListener("close", () => {
-            if (dialog.returnValue === "confirm") DevlUI.toast({ title: "Workspace deleted", variant: "danger" });
+            if (dialog.returnValue === "confirm") DevlUI.toast({ title: "Espacio de trabajo eliminado", variant: "danger" });
             input.value = "";
             confirmBtn.disabled = true;
           });
         </script>
       </section>
 
-      <section class="doc" id="drawer" data-group="Feedback" data-keywords="sheet panel lateral slide over">
-        <h2><a href="#drawer">Drawer</a></h2>
+      <section class="doc" id="drawer" data-group="Retroalimentación" data-keywords="sheet panel lateral slide over">
+        <h2><a href="#drawer">Panel lateral</a></h2>
         <p>Variante lateral del diálogo: añade <code>dv-dialog--drawer</code>.</p>
         <template>
-          <button type="button" class="dv-btn" data-dv-open="demo-drawer">Open drawer</button>
+          <button type="button" class="dv-btn" data-dv-open="demo-drawer">Abrir panel lateral</button>
           <dialog class="dv-dialog dv-dialog--drawer" id="demo-drawer" aria-labelledby="demo-drawer-title">
-            <button type="button" class="dv-btn dv-btn--subtle dv-btn--icon dv-btn--sm dv-dialog__close" data-dv-close aria-label="Close">✕</button>
+            <button type="button" class="dv-btn dv-btn--subtle dv-btn--icon dv-btn--sm dv-dialog__close" data-dv-close aria-label="Cerrar">✕</button>
             <div class="dv-dialog__header">
               <span class="dv-eyebrow">INV-2094</span>
-              <h3 class="dv-dialog__title" id="demo-drawer-title">Argon Security Cluster</h3>
-              <p class="dv-dialog__desc">Pending · EU-Central · $6,400.00</p>
+              <h3 class="dv-dialog__title" id="demo-drawer-title">Clúster de seguridad</h3>
+              <p class="dv-dialog__desc">Pendiente · EU-Central · $6,400.00</p>
             </div>
             <div class="dv-dialog__body dv-stack">
-              <label class="dv-field"><span class="dv-label">Owner</span><input class="dv-input" value="Finance team" /></label>
-              <label class="dv-field"><span class="dv-label">Notes</span><textarea class="dv-textarea">Net 30. Send reminder on Oct 20.</textarea></label>
+              <label class="dv-field"><span class="dv-label">Responsable</span><input class="dv-input" value="Equipo de finanzas" /></label>
+              <label class="dv-field"><span class="dv-label">Notas</span><textarea class="dv-textarea">Neto a 30 días. Enviar recordatorio el 20 de oct.</textarea></label>
             </div>
             <div class="dv-dialog__footer">
-              <button type="button" class="dv-btn" data-dv-close>Cancel</button>
-              <button type="button" class="dv-btn dv-btn--primary" data-dv-close>Save</button>
+              <button type="button" class="dv-btn" data-dv-close>Cancelar</button>
+              <button type="button" class="dv-btn dv-btn--primary" data-dv-close>Guardar</button>
             </div>
           </dialog>
         </template>
       </section>
 
-      <!-- ================================================================ Data display -->
+      <!-- ================================================================ Presentación de datos -->
+      <section class="doc" id="popover" data-group="Superposiciones" data-tall="260px" data-keywords="popover panel flotante floating anchor posicion">
+        <h2><a href="#popover">Popover</a></h2>
+        <p><code>&lt;dv-popover&gt;</code> usa la API nativa <code>popover</code> (capa superior, cierre con Esc y clic fuera). Se posiciona junto al disparador, se voltea si no cabe y sigue al scroll. Atributos: <code>placement</code> (<code>top|bottom|left|right</code> + <code>-start|-end</code>), <code>offset</code>, <code>manual</code>. Métodos <code>open()</code>, <code>close()</code>, <code>toggle()</code>; eventos <code>dv-open</code> y <code>dv-close</code>. Cualquier <code>data-dv-close</code> dentro del panel lo cierra.</p>
+        <template>
+          <dv-popover placement="bottom-start">
+            <button type="button" class="dv-btn" data-dv-trigger>Dimensiones ▾</button>
+            <div class="dv-popover__panel">
+              <div class="dv-stack" style="--gap:10px">
+                <div class="dv-popover__title">Dimensiones</div>
+                <div class="dv-field"><label class="dv-label" for="pop-w">Ancho</label><input id="pop-w" class="dv-input" value="100%" /></div>
+                <div class="dv-field"><label class="dv-label" for="pop-h">Alto</label><input id="pop-h" class="dv-input" value="25px" /></div>
+                <button type="button" class="dv-btn dv-btn--sm dv-btn--primary" data-dv-close>Aplicar</button>
+              </div>
+            </div>
+          </dv-popover>
+        </template>
+      </section>
+
+      <section class="doc" id="hovercard" data-group="Superposiciones" data-tall="260px" data-keywords="hover card tarjeta flotante perfil preview">
+        <h2><a href="#hovercard">Hover card</a></h2>
+        <p><code>&lt;dv-hovercard&gt;</code> muestra una vista previa al pasar el cursor o enfocar con el teclado, con retardos configurables (<code>open-delay</code>, <code>close-delay</code>). El panel sigue abierto mientras el cursor esté sobre él, y Esc lo cierra. Reutiliza <code>.dv-popover__panel</code>.</p>
+        <template>
+          <dv-hovercard>
+            <a href="#hovercard" data-dv-trigger>@luis</a>
+            <div class="dv-popover__panel" style="width:280px">
+              <div class="dv-row" style="align-items:flex-start;flex-wrap:nowrap;--gap:12px">
+                <span class="dv-avatar dv-avatar--lg">LI</span>
+                <div class="dv-stack" style="--gap:4px">
+                  <div class="dv-popover__title">Luis Islas</div>
+                  <div class="dv-muted">Construye la biblioteca de componentes devl-ui.</div>
+                  <div class="dv-row"><span class="dv-badge dv-badge--success">En línea</span><span class="dv-muted">24 repositorios</span></div>
+                </div>
+              </div>
+            </div>
+          </dv-hovercard>
+        </template>
+      </section>
+
+      <section class="doc" id="context-menu" data-group="Superposiciones" data-tall="220px" data-keywords="contextual clic derecho right click menu">
+        <h2><a href="#context-menu">Menú contextual</a></h2>
+        <p><code>&lt;dv-context-menu&gt;</code> se abre con clic derecho, con la tecla de menú contextual (o <kbd class="dv-kbd">Shift</kbd>+<kbd class="dv-kbd">F10</kbd>) y con pulsación larga en pantallas táctiles. Se abre en el punto del cursor, navega con ↑ ↓ Home End y emite <code>dv-select</code>.</p>
+        <template>
+          <dv-context-menu id="demo-ctx">
+            <div class="dv-context-zone" tabindex="0">Haz clic derecho aquí<br /><span class="dv-muted">o enfoca y pulsa Shift+F10</span></div>
+            <div class="dv-menu__list">
+              <button type="button" class="dv-menu__item" data-value="copy">Copiar <kbd class="dv-kbd">⌘C</kbd></button>
+              <button type="button" class="dv-menu__item" data-value="paste">Pegar <kbd class="dv-kbd">⌘V</kbd></button>
+              <button type="button" class="dv-menu__item" data-value="duplicate" disabled>Duplicar</button>
+              <div class="dv-menu__sep"></div>
+              <button type="button" class="dv-menu__item dv-menu__item--danger" data-value="delete">Eliminar</button>
+            </div>
+          </dv-context-menu>
+        </template>
+        <script type="text/plain" data-doc-js>
+          document.querySelector("#demo-ctx").addEventListener("dv-select", (e) => {
+            DevlUI.toast({ title: `Acción: ${e.detail.value}`, variant: "info" });
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="alert-dialog" data-group="Superposiciones" data-keywords="confirmar confirm alertdialog destructivo eliminar promesa">
+        <h2><a href="#alert-dialog">Diálogo de confirmación</a></h2>
+        <p><code>DevlUI.confirm(opciones)</code> abre un <code>alertdialog</code> modal y devuelve una <code>Promise&lt;boolean&gt;</code>. Esc o «Cancelar» resuelven <code>false</code>; el clic en el fondo no lo cierra. Con <code>variant: "danger"</code> el foco inicial queda en «Cancelar». Con <code>cancelLabel: null</code> funciona como alerta simple.</p>
+        <template>
+          <div class="dv-row">
+            <button type="button" class="dv-btn dv-btn--danger" id="demo-confirm-del">Eliminar proyecto…</button>
+            <button type="button" class="dv-btn" id="demo-confirm-alert">Mostrar alerta</button>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          document.querySelector("#demo-confirm-del").addEventListener("click", async () => {
+            const ok = await DevlUI.confirm({
+              title: "¿Eliminar el proyecto?",
+              description: "Se borrarán todos los archivos. Esta acción no se puede deshacer.",
+              confirmLabel: "Eliminar",
+              variant: "danger"
+            });
+            DevlUI.toast({ title: ok ? "Proyecto eliminado" : "Cancelado", variant: ok ? "danger" : "neutral" });
+          });
+          document.querySelector("#demo-confirm-alert").addEventListener("click", () => {
+            DevlUI.confirm({ title: "Sesión caducada", description: "Vuelve a iniciar sesión para continuar.", cancelLabel: null, confirmLabel: "Entendido" });
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="sheet" data-group="Superposiciones" data-keywords="sheet bottom inferior movil drawer izquierdo lateral">
+        <h2><a href="#sheet">Sheet y drawer izquierdo</a></h2>
+        <p>Variantes de <code>&lt;dialog class="dv-dialog"&gt;</code>: <code>dv-dialog--sheet</code> (panel inferior, ideal en móvil; el asa <code>.dv-sheet__handle</code> se arrastra hacia abajo para cerrar) y <code>dv-dialog--drawer dv-dialog--drawer-start</code> (drawer por la izquierda).</p>
+        <template>
+          <div class="dv-row">
+            <button type="button" class="dv-btn" data-dv-open="demo-sheet">Abrir sheet</button>
+            <button type="button" class="dv-btn" data-dv-open="demo-drawer-start">Drawer izquierdo</button>
+          </div>
+          <dialog class="dv-dialog dv-dialog--sheet" id="demo-sheet" aria-labelledby="demo-sheet-title">
+            <div class="dv-sheet__handle" aria-hidden="true"></div>
+            <div class="dv-dialog__header">
+              <h3 class="dv-dialog__title" id="demo-sheet-title">Compartir</h3>
+              <p class="dv-dialog__desc">Arrastra el asa hacia abajo o pulsa Esc para cerrar.</p>
+            </div>
+            <div class="dv-dialog__body dv-stack">
+              <button type="button" class="dv-btn dv-btn--block" data-dv-copy="https://devl.example/p/123">Copiar enlace</button>
+              <button type="button" class="dv-btn dv-btn--block">Enviar por correo</button>
+            </div>
+          </dialog>
+          <dialog class="dv-dialog dv-dialog--drawer dv-dialog--drawer-start" id="demo-drawer-start" aria-labelledby="demo-drawer-start-title">
+            <div class="dv-dialog__header">
+              <h3 class="dv-dialog__title" id="demo-drawer-start-title">Navegación</h3>
+            </div>
+            <div class="dv-dialog__body">
+              <nav class="dv-nav"><a class="dv-nav__item" href="#sheet" aria-current="page">Inicio</a><a class="dv-nav__item" href="#sheet">Proyectos</a><a class="dv-nav__item" href="#sheet">Ajustes</a></nav>
+            </div>
+            <div class="dv-dialog__footer"><button type="button" class="dv-btn" data-dv-close>Cerrar</button></div>
+          </dialog>
+        </template>
+      </section>
+
       <section class="doc" id="card" data-group="Datos" data-keywords="tarjeta panel surface">
-        <h2><a href="#card">Card</a></h2>
+        <h2><a href="#card">Tarjeta</a></h2>
         <p><code>dv-card</code> con <code>__header</code>, <code>__body</code>, <code>__footer</code>. <code>--interactive</code> añade elevación y spotlight que sigue al cursor.</p>
         <template>
           <div class="dv-grid" style="--min:260px">
             <article class="dv-card">
               <div class="dv-card__header">
-                <h3 class="dv-card__title">Invite teammates</h3>
-                <p class="dv-card__desc">Collaborate on projects in real time.</p>
+                <h3 class="dv-card__title">Invitar compañeros</h3>
+                <p class="dv-card__desc">Colabora en proyectos en tiempo real.</p>
               </div>
-              <div class="dv-card__body"><input class="dv-input" placeholder="name@company.com" aria-label="Email" /></div>
-              <div class="dv-card__footer"><button type="button" class="dv-btn dv-btn--sm">Cancel</button><button type="button" class="dv-btn dv-btn--sm dv-btn--primary">Send invite</button></div>
+              <div class="dv-card__body"><input class="dv-input" placeholder="nombre@empresa.com" aria-label="Correo electrónico" /></div>
+              <div class="dv-card__footer"><button type="button" class="dv-btn dv-btn--sm">Cancelar</button><button type="button" class="dv-btn dv-btn--sm dv-btn--primary">Enviar invitación</button></div>
             </article>
             <article class="dv-card dv-card--interactive">
               <div class="dv-card__body">
-                <span class="dv-eyebrow">Starter kit</span>
-                <h3 class="dv-card__title" style="margin-top:8px">Like what you see?</h3>
-                <p class="dv-card__desc">Hover me — the spotlight follows the cursor.</p>
+                <span class="dv-eyebrow">Kit inicial</span>
+                <h3 class="dv-card__title" style="margin-top:8px">¿Te gusta lo que ves?</h3>
+                <p class="dv-card__desc">Pasa el cursor: el foco lo sigue.</p>
               </div>
             </article>
           </div>
@@ -655,44 +1143,44 @@
       </section>
 
       <section class="doc" id="stat" data-group="Datos" data-keywords="kpi metrica sparkline grafica tendencia">
-        <h2><a href="#stat">Stat &amp; sparkline</a></h2>
+        <h2><a href="#stat">Métrica y minigráfico</a></h2>
         <p><code>dv-stat</code> para KPIs y <code>&lt;dv-sparkline values="…" fill&gt;</code> que dibuja un SVG con el color actual (cámbialo con <code>color</code>).</p>
         <template>
           <div class="dv-grid" style="--min:200px">
             <div class="dv-stat">
-              <span class="dv-eyebrow">Net revenue</span>
+              <span class="dv-eyebrow">Ingresos netos</span>
               <span class="dv-stat__value">$148,920</span>
               <dv-sparkline values="12 14 13 18 17 22 21 26 30" fill style="--w:100%"></dv-sparkline>
-              <span class="dv-stat__delta is-up">+24.8% vs last period</span>
+              <span class="dv-stat__delta is-up">+24.8% vs. periodo anterior</span>
             </div>
             <div class="dv-stat">
-              <span class="dv-eyebrow">Churn</span>
+              <span class="dv-eyebrow">Cancelaciones</span>
               <span class="dv-stat__value">2.1%</span>
               <dv-sparkline values="4 3.8 3.9 3.1 2.8 2.6 2.1" style="--w:100%;color:var(--dv-danger)"></dv-sparkline>
               <span class="dv-stat__delta is-down">-0.4 pts</span>
             </div>
             <div class="dv-stat">
-              <span class="dv-eyebrow">P95 latency</span>
+              <span class="dv-eyebrow">Latencia P95</span>
               <span class="dv-stat__value">38ms</span>
               <dv-sparkline values="52 48 50 44 41 40 38" fill style="--w:100%;color:var(--dv-info)"></dv-sparkline>
-              <span class="dv-stat__delta">-14ms faster</span>
+              <span class="dv-stat__delta">14 ms más rápido</span>
             </div>
           </div>
         </template>
       </section>
 
       <section class="doc" id="badge" data-group="Datos" data-keywords="etiqueta status estado dot punto">
-        <h2><a href="#badge">Badge &amp; dot</a></h2>
+        <h2><a href="#badge">Insignia y punto</a></h2>
         <p>Estados compactos. <code>dv-dot--pulse</code> anima un indicador en vivo.</p>
         <template>
           <div class="dv-row">
-            <span class="dv-badge">Draft</span>
-            <span class="dv-badge dv-badge--success">Paid</span>
-            <span class="dv-badge dv-badge--warning">Pending</span>
-            <span class="dv-badge dv-badge--danger">Failed</span>
+            <span class="dv-badge">Borrador</span>
+            <span class="dv-badge dv-badge--success">Pagado</span>
+            <span class="dv-badge dv-badge--warning">Pendiente</span>
+            <span class="dv-badge dv-badge--danger">Fallido</span>
             <span class="dv-badge dv-badge--info">Beta</span>
-            <span class="dv-badge dv-badge--accent dv-badge--upper">New</span>
-            <span class="dv-badge dv-badge--outline"><span class="dv-dot dv-dot--success dv-dot--pulse"></span> Live</span>
+            <span class="dv-badge dv-badge--accent dv-badge--upper">Nuevo</span>
+            <span class="dv-badge dv-badge--outline"><span class="dv-dot dv-dot--success dv-dot--pulse"></span> En vivo</span>
           </div>
         </template>
       </section>
@@ -717,24 +1205,24 @@
       </section>
 
       <section class="doc" id="table" data-group="Datos" data-keywords="tabla datos sort ordenar grid">
-        <h2><a href="#table">Table</a></h2>
+        <h2><a href="#table">Tabla</a></h2>
         <p>Tabla con hover y números tabulares (<code>is-num</code>). Con <code>data-dv-sortable</code> y <code>th[data-sort="text|number"]</code> se ordena por clic o teclado.</p>
         <template>
           <div class="dv-table-wrap">
             <table class="dv-table" data-dv-sortable>
               <thead>
                 <tr>
-                  <th data-sort="text">Invoice</th>
-                  <th data-sort="text">Customer</th>
-                  <th>Status</th>
-                  <th data-sort="number" class="is-num">Amount</th>
+                  <th data-sort="text">Factura</th>
+                  <th data-sort="text">Cliente</th>
+                  <th>Estado</th>
+                  <th data-sort="number" class="is-num">Monto</th>
                 </tr>
               </thead>
               <tbody>
-                <tr><td class="dv-mono">INV-2091</td><td>Linear Orbit</td><td><span class="dv-badge dv-badge--success">Paid</span></td><td class="is-num">$4,200.00</td></tr>
-                <tr><td class="dv-mono">INV-2092</td><td>Team Scheduling</td><td><span class="dv-badge dv-badge--info">Active</span></td><td class="is-num">$1,850.00</td></tr>
-                <tr><td class="dv-mono">INV-2093</td><td>Design System Pro</td><td><span class="dv-badge dv-badge--success">Paid</span></td><td class="is-num">$890.00</td></tr>
-                <tr><td class="dv-mono">INV-2094</td><td>Argon Security</td><td><span class="dv-badge dv-badge--warning">Pending</span></td><td class="is-num">$6,400.00</td></tr>
+                <tr><td class="dv-mono">INV-2091</td><td>Proveedor Alfa</td><td><span class="dv-badge dv-badge--success">Pagado</span></td><td class="is-num">$4,200.00</td></tr>
+                <tr><td class="dv-mono">INV-2092</td><td>Agenda de equipo</td><td><span class="dv-badge dv-badge--info">Activo</span></td><td class="is-num">$1,850.00</td></tr>
+                <tr><td class="dv-mono">INV-2093</td><td>Sistema de diseño Pro</td><td><span class="dv-badge dv-badge--success">Pagado</span></td><td class="is-num">$890.00</td></tr>
+                <tr><td class="dv-mono">INV-2094</td><td>Proveedor Beta</td><td><span class="dv-badge dv-badge--warning">Pendiente</span></td><td class="is-num">$6,400.00</td></tr>
               </tbody>
             </table>
           </div>
@@ -742,48 +1230,48 @@
       </section>
 
       <section class="doc" id="list" data-group="Datos" data-keywords="lista items filas settings">
-        <h2><a href="#list">List</a></h2>
+        <h2><a href="#list">Lista</a></h2>
         <p>Filas con título, descripción y acciones al final (<code>dv-list__end</code>).</p>
         <template>
           <ul class="dv-list demo-wide">
-            <li><span class="dv-avatar dv-avatar--sm">GH</span><div><div class="dv-list__title">GitHub</div><div class="dv-list__desc">Sync issues and pull requests</div></div><div class="dv-list__end"><span class="dv-badge dv-badge--success">Connected</span></div></li>
-            <li><span class="dv-avatar dv-avatar--sm" style="--dv-accent:#f59e0b">SL</span><div><div class="dv-list__title">Slack</div><div class="dv-list__desc">Post updates to channels</div></div><div class="dv-list__end"><button type="button" class="dv-btn dv-btn--sm">Connect</button></div></li>
+            <li><span class="dv-avatar dv-avatar--sm">GH</span><div><div class="dv-list__title">GitHub</div><div class="dv-list__desc">Sincroniza incidencias y pull requests</div></div><div class="dv-list__end"><span class="dv-badge dv-badge--success">Conectado</span></div></li>
+            <li><span class="dv-avatar dv-avatar--sm" style="--dv-accent:#f59e0b">SL</span><div><div class="dv-list__title">Slack</div><div class="dv-list__desc">Publica novedades en los canales</div></div><div class="dv-list__end"><button type="button" class="dv-btn dv-btn--sm">Conectar</button></div></li>
           </ul>
         </template>
       </section>
 
       <section class="doc" id="timeline" data-group="Datos" data-keywords="actividad historial feed eventos changelog">
-        <h2><a href="#timeline">Timeline</a></h2>
+        <h2><a href="#timeline">Línea de tiempo</a></h2>
         <p>Historial vertical; colorea cada nodo con <code>--c</code>.</p>
         <template>
           <ol class="dv-timeline demo-wide">
-            <li style="--c:var(--dv-success)"><strong>Deployed f8a92c1</strong> to production<div class="dv-timeline__meta">2m ago · Luis</div></li>
-            <li style="--c:var(--dv-accent)"><strong>Merged</strong> #482 Command palette<div class="dv-timeline__meta">18m ago · Bot</div></li>
-            <li><strong>Opened</strong> issue “Dark mode contrast”<div class="dv-timeline__meta">1h ago · Ana</div></li>
+            <li style="--c:var(--dv-success)"><strong>Se desplegó f8a92c1</strong> a producción<div class="dv-timeline__meta">hace 2 min · Luis</div></li>
+            <li style="--c:var(--dv-accent)"><strong>Se fusionó</strong> #482 Paleta de comandos<div class="dv-timeline__meta">hace 18 min · Bot</div></li>
+            <li><strong>Se abrió</strong> la incidencia «Contraste del modo oscuro»<div class="dv-timeline__meta">hace 1 h · Ana</div></li>
           </ol>
         </template>
       </section>
 
       <section class="doc" id="empty" data-group="Datos" data-keywords="vacio sin resultados zero state">
-        <h2><a href="#empty">Empty state</a></h2>
+        <h2><a href="#empty">Estado vacío</a></h2>
         <p>Estado vacío con icono, título, descripción y acción.</p>
         <template>
           <div class="dv-empty demo-wide">
             <div class="dv-empty__icon">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
             </div>
-            <div class="dv-empty__title">No projects yet</div>
-            <p class="dv-empty__desc">Create your first project or start from a template.</p>
+            <div class="dv-empty__title">Aún no hay proyectos</div>
+            <p class="dv-empty__desc">Crea tu primer proyecto o parte de una plantilla.</p>
             <div class="dv-row" style="justify-content:center;margin-top:6px">
-              <button type="button" class="dv-btn dv-btn--primary">New project</button>
-              <button type="button" class="dv-btn">Browse templates</button>
+              <button type="button" class="dv-btn dv-btn--primary">Nuevo proyecto</button>
+              <button type="button" class="dv-btn">Explorar plantillas</button>
             </div>
           </div>
         </template>
       </section>
 
       <section class="doc" id="accordion" data-group="Datos" data-keywords="faq colapsable details acordeon">
-        <h2><a href="#accordion">Accordion</a></h2>
+        <h2><a href="#accordion">Acordeón</a></h2>
         <p>Basado en <code>&lt;details&gt;</code> nativo: accesible sin JS. Usa el mismo <code>name</code> en los details para que solo uno quede abierto.</p>
         <template>
           <div class="dv-accordion demo-wide">
@@ -804,30 +1292,30 @@
       </section>
 
       <section class="doc" id="code" data-group="Datos" data-keywords="snippet bloque codigo pre">
-        <h2><a href="#code">Code block</a></h2>
+        <h2><a href="#code">Bloque de código</a></h2>
         <p><code>dv-code</code> sobre <code>&lt;pre&gt;</code>; añade un botón de copiar con <code>data-dv-copy</code>.</p>
         <template>
-          <pre class="dv-code demo-wide"><button type="button" class="dv-btn dv-btn--sm" data-dv-copy="npm run dev">Copy</button>$ npm run dev
-  ready in 182 ms
+          <pre class="dv-code demo-wide"><button type="button" class="dv-btn dv-btn--sm" data-dv-copy="npm run dev">Copiar</button>$ npm run dev
+  listo en 182 ms
   ➜ Local: http://localhost:5173/</pre>
         </template>
       </section>
 
       <section class="doc" id="divider" data-group="Datos" data-keywords="separador linea hr">
-        <h2><a href="#divider">Divider</a></h2>
+        <h2><a href="#divider">Divisor</a></h2>
         <p>Separador con o sin etiqueta.</p>
         <template>
           <div class="demo-max">
-            <button type="button" class="dv-btn dv-btn--block">Continue with GitHub</button>
-            <div class="dv-divider">or</div>
-            <button type="button" class="dv-btn dv-btn--block dv-btn--primary">Continue with email</button>
+            <button type="button" class="dv-btn dv-btn--block">Continuar con GitHub</button>
+            <div class="dv-divider">o</div>
+            <button type="button" class="dv-btn dv-btn--block dv-btn--primary">Continuar con correo</button>
           </div>
         </template>
       </section>
 
-      <!-- ================================================================ Layout -->
-      <section class="doc" id="layout" data-group="Layout" data-keywords="stack row grid flex espaciado">
-        <h2><a href="#layout">Layout helpers</a></h2>
+      <!-- ================================================================ Diseño -->
+      <section class="doc" id="layout" data-group="Diseño" data-keywords="stack row grid flex espaciado">
+        <h2><a href="#layout">Utilidades de diseño</a></h2>
         <p><code>dv-stack</code> (vertical), <code>dv-row</code> (horizontal con wrap) y <code>dv-grid</code> (auto-fit). Ajusta con <code>--gap</code> y <code>--min</code>; <code>dv-spacer</code> empuja elementos.</p>
         <template>
           <div class="dv-stack">
@@ -839,66 +1327,140 @@
         </template>
       </section>
 
-      <!-- ================================================================ Patterns -->
+      <section class="doc" id="collapsible" data-group="Diseño" data-keywords="collapsible colapsable plegable desplegar detalles animado disclosure">
+        <h2><a href="#collapsible">Collapsible</a></h2>
+        <p><code>&lt;dv-collapsible open&gt;</code> muestra u oculta contenido con altura animada. El disparador recibe <code>aria-expanded</code> y <code>aria-controls</code>; el contenido cerrado queda <code>inert</code> (no se enfoca ni se lee). Métodos <code>toggle()</code>, <code>open()</code>, <code>close()</code> y evento <code>dv-toggle</code>. A diferencia del acordeón, es un único bloque independiente.</p>
+        <template>
+          <dv-collapsible id="demo-collapsible" style="max-width:420px" open>
+            <button type="button" class="dv-btn dv-btn--block" data-dv-trigger style="justify-content:space-between">Ver detalles del pedido <span class="dv-collapsible__chevron"></span></button>
+            <div class="dv-collapsible__content">
+              <ul class="dv-list" style="margin-top:8px">
+                <li><span class="dv-list__title">Camiseta básica</span><span class="dv-list__end dv-mono">$24</span></li>
+                <li><span class="dv-list__title">Gorra</span><span class="dv-list__end dv-mono">$18</span></li>
+                <li><span class="dv-list__title">Envío</span><span class="dv-list__end dv-mono">$5</span></li>
+              </ul>
+            </div>
+          </dv-collapsible>
+        </template>
+      </section>
+
+      <section class="doc" id="scroll-area" data-group="Diseño" data-keywords="scroll area desplazable scrollbar barra desplazamiento degradado fade">
+        <h2><a href="#scroll-area">Scroll area</a></h2>
+        <p><code>&lt;dv-scroll-area&gt;</code> da a una zona de altura fija una barra discreta y un degradado en los bordes que aún tienen contenido (expone <code>data-top</code>, <code>data-bottom</code>, <code>data-left</code> y <code>data-right</code>). El área es enfocable para desplazarla con el teclado. <code>orientation="vertical|horizontal|both"</code>.</p>
+        <template>
+          <dv-scroll-area style="height:170px;max-width:420px" label="Registro de actividad">
+            <ul class="dv-timeline" style="padding:14px 16px 14px 36px">
+              <li>Despliegue completado<div class="dv-timeline__meta">hace 2 min</div></li>
+              <li>Revisión aprobada<div class="dv-timeline__meta">hace 14 min</div></li>
+              <li>Pruebas superadas<div class="dv-timeline__meta">hace 31 min</div></li>
+              <li>Rama actualizada<div class="dv-timeline__meta">hace 1 h</div></li>
+              <li>Solicitud abierta<div class="dv-timeline__meta">hace 2 h</div></li>
+              <li>Proyecto creado<div class="dv-timeline__meta">ayer</div></li>
+            </ul>
+          </dv-scroll-area>
+        </template>
+      </section>
+
+      <section class="doc" id="resizable" data-group="Diseño" data-tall="300px" data-keywords="resizable paneles redimensionables splitter divisor arrastrar split layout">
+        <h2><a href="#resizable">Paneles redimensionables</a></h2>
+        <p><code>&lt;dv-resizable&gt;</code> inserta separadores arrastrables entre paneles (<code>.dv-resizable__panel</code>) con tamaño inicial (<code>data-size</code>), mínimo y máximo (<code>data-min</code>, <code>data-max</code>, en %). Admite varios paneles y anidación (<code>direction="vertical"</code>). Teclado: flechas (Shift ×5), Home/End; doble clic restablece. Con <code>storage-key</code> recuerda los tamaños. Evento <code>dv-resize</code>.</p>
+        <template>
+          <dv-resizable style="height:240px" storage-key="docs-demo">
+            <div class="dv-resizable__panel" data-size="28" data-min="15" data-max="50"><div style="padding:14px"><div class="dv-eyebrow">Barra lateral</div><p class="dv-muted" style="margin-top:8px">Arrastra el borde.</p></div></div>
+            <div class="dv-resizable__panel" data-size="72">
+              <dv-resizable direction="vertical" style="height:100%;border:0;border-radius:0">
+                <div class="dv-resizable__panel" data-size="60"><div style="padding:14px"><div class="dv-eyebrow">Editor</div></div></div>
+                <div class="dv-resizable__panel" data-size="40" data-min="20"><div style="padding:14px"><div class="dv-eyebrow">Consola</div></div></div>
+              </dv-resizable>
+            </div>
+          </dv-resizable>
+        </template>
+      </section>
+
+      <section class="doc" id="separator" data-group="Diseño" data-keywords="separator separador linea divisor vertical horizontal hr">
+        <h2><a href="#separator">Separator</a></h2>
+        <p><code>&lt;div class="dv-separator" role="separator"&gt;</code> (línea horizontal) y <code>dv-separator--vertical</code> para barras de herramientas. Es un separador puro, sin texto; para uno con etiqueta usa <a href="#divider"><code>dv-divider</code></a>.</p>
+        <template>
+          <div class="dv-stack" style="--gap:14px;max-width:360px">
+            <div><strong>devl-ui</strong><div class="dv-muted">Biblioteca sin dependencias</div></div>
+            <div class="dv-separator" role="separator"></div>
+            <div class="dv-row" style="height:20px;--gap:12px;flex-wrap:nowrap"><span>Docs</span><div class="dv-separator dv-separator--vertical" role="separator" aria-orientation="vertical"></div><span>Galería</span><div class="dv-separator dv-separator--vertical" role="separator" aria-orientation="vertical"></div><span>Código</span></div>
+          </div>
+        </template>
+      </section>
+
+      <section class="doc" id="aspect-ratio" data-group="Diseño" data-keywords="aspect ratio relacion aspecto imagen video 16:9 proporcion">
+        <h2><a href="#aspect-ratio">Aspect ratio</a></h2>
+        <p><code>.dv-aspect</code> mantiene una proporción con la variable <code>--ratio</code> (por defecto <code>16 / 9</code>). Los hijos <code>img</code>, <code>video</code>, <code>iframe</code>, <code>svg</code> o <code>.dv-aspect__fill</code> la rellenan.</p>
+        <template>
+          <div class="dv-grid" style="--min:160px;--gap:12px;max-width:520px">
+            <div class="dv-aspect"><div class="dv-aspect__fill dv-empty" style="border:0"><span class="dv-muted">16 / 9</span></div></div>
+            <div class="dv-aspect" style="--ratio:1"><div class="dv-aspect__fill dv-empty" style="border:0"><span class="dv-muted">1 / 1</span></div></div>
+            <div class="dv-aspect" style="--ratio:4 / 5"><div class="dv-aspect__fill dv-empty" style="border:0"><span class="dv-muted">4 / 5</span></div></div>
+          </div>
+        </template>
+      </section>
+
+      <!-- ================================================================ Patrones -->
       <section class="doc" id="pattern-login" data-group="Patrones" data-keywords="login signin auth formulario ejemplo">
-        <h2><a href="#pattern-login">Login</a></h2>
+        <h2><a href="#pattern-login">Inicio de sesión</a></h2>
         <p>Ejemplo de composición: card + fields + divider + botones.</p>
         <template>
           <form class="dv-card" style="max-width:360px" onsubmit="return false">
             <div class="dv-card__header">
-              <span class="dv-eyebrow">Acme inc.</span>
-              <h3 class="dv-card__title" style="margin-top:8px">Sign in to your workspace</h3>
+              <span class="dv-eyebrow">Acme S.A.</span>
+              <h3 class="dv-card__title" style="margin-top:8px">Inicia sesión en tu espacio de trabajo</h3>
             </div>
             <div class="dv-card__body dv-stack">
-              <label class="dv-field"><span class="dv-label">Email</span><input class="dv-input" type="email" placeholder="you@company.com" /></label>
-              <label class="dv-field"><span class="dv-label">Password</span><input class="dv-input" type="password" /></label>
-              <label class="dv-choice"><input type="checkbox" class="dv-check" /> Remember me</label>
-              <button type="submit" class="dv-btn dv-btn--primary dv-btn--block">Sign in</button>
-              <div class="dv-divider">or</div>
-              <button type="button" class="dv-btn dv-btn--block">Continue with SSO</button>
+              <label class="dv-field"><span class="dv-label">Correo electrónico</span><input class="dv-input" type="email" placeholder="tu@empresa.com" /></label>
+              <label class="dv-field"><span class="dv-label">Contraseña</span><input class="dv-input" type="password" /></label>
+              <label class="dv-choice"><input type="checkbox" class="dv-check" /> Recuérdame</label>
+              <button type="submit" class="dv-btn dv-btn--primary dv-btn--block">Iniciar sesión</button>
+              <div class="dv-divider">o</div>
+              <button type="button" class="dv-btn dv-btn--block">Continuar con SSO</button>
             </div>
           </form>
         </template>
       </section>
 
       <section class="doc" id="pattern-settings" data-group="Patrones" data-keywords="settings ajustes preferencias ejemplo">
-        <h2><a href="#pattern-settings">Settings panel</a></h2>
+        <h2><a href="#pattern-settings">Panel de ajustes</a></h2>
         <p>Tabs + lista + switches + acciones.</p>
         <template>
           <div class="dv-card demo-wide">
             <div class="dv-card__body">
               <dv-tabs>
                 <div class="dv-tabs__list">
-                  <button class="dv-tabs__tab" data-tab="notif">Notifications</button>
-                  <button class="dv-tabs__tab" data-tab="security">Security</button>
+                  <button class="dv-tabs__tab" data-tab="notif">Notificaciones</button>
+                  <button class="dv-tabs__tab" data-tab="security">Seguridad</button>
                 </div>
                 <div class="dv-tabs__panel" data-panel="notif">
                   <ul class="dv-list">
-                    <li><div><div class="dv-list__title">Email digest</div><div class="dv-list__desc">Weekly summary every Monday</div></div><div class="dv-list__end"><input type="checkbox" role="switch" class="dv-switch" checked aria-label="Email digest" /></div></li>
-                    <li><div><div class="dv-list__title">Mentions</div><div class="dv-list__desc">When someone @mentions you</div></div><div class="dv-list__end"><input type="checkbox" role="switch" class="dv-switch" checked aria-label="Mentions" /></div></li>
+                    <li><div><div class="dv-list__title">Resumen por correo</div><div class="dv-list__desc">Resumen semanal cada lunes</div></div><div class="dv-list__end"><input type="checkbox" role="switch" class="dv-switch" checked aria-label="Resumen por correo" /></div></li>
+                    <li><div><div class="dv-list__title">Menciones</div><div class="dv-list__desc">Cuando alguien te @menciona</div></div><div class="dv-list__end"><input type="checkbox" role="switch" class="dv-switch" checked aria-label="Menciones" /></div></li>
                   </ul>
                 </div>
                 <div class="dv-tabs__panel" data-panel="security">
-                  <div class="dv-alert dv-alert--warning"><div><div class="dv-alert__title">2FA disabled</div><div class="dv-alert__desc">Enable two-factor authentication to protect your account.</div></div></div>
+                  <div class="dv-alert dv-alert--warning"><div><div class="dv-alert__title">2FA desactivada</div><div class="dv-alert__desc">Activa la autenticación de dos factores para proteger tu cuenta.</div></div></div>
                 </div>
               </dv-tabs>
             </div>
-            <div class="dv-card__footer"><button type="button" class="dv-btn dv-btn--sm">Reset</button><button type="button" class="dv-btn dv-btn--sm dv-btn--primary">Save changes</button></div>
+            <div class="dv-card__footer"><button type="button" class="dv-btn dv-btn--sm">Restablecer</button><button type="button" class="dv-btn dv-btn--sm dv-btn--primary">Guardar cambios</button></div>
           </div>
         </template>
       </section>
     </main>
   </div>
 
-  <!-- Global command palette (docs navigation + demo) -->
+  <!-- Paleta de comandos global (navegación de la documentación + demo) -->
   <dv-command id="docs-cmd" hotkey="k" placeholder="Buscar componentes o acciones…" empty="Sin resultados." label="Buscar en devl-ui">
-    <button class="dv-command__item" data-group="Comandos" data-value="theme" data-keywords="dark light modo">Cambiar tema <kbd class="dv-kbd">◐</kbd></button>
-    <button class="dv-command__item" data-group="Comandos" data-value="toast" data-keywords="notification">Mostrar un toast</button>
+    <button class="dv-command__item" data-group="Comandos" data-value="theme" data-keywords="dark light modo oscuro claro">Cambiar tema <kbd class="dv-kbd">◐</kbd></button>
+    <button class="dv-command__item" data-group="Comandos" data-value="toast" data-keywords="notification notificación">Mostrar un toast</button>
     <button class="dv-command__item" data-group="Comandos" data-value="gallery" data-keywords="home index">Ir a la galería</button>
   </dv-command>
 
   <script>
-    // Add one palette entry per documented section before devl-ui.js upgrades <dv-command>
+    // Agrega una entrada de paleta por cada sección documentada antes de que devl-ui.js actualice <dv-command>
     (function () {
       const cmd = document.getElementById("docs-cmd");
       document.querySelectorAll("section.doc[id]").forEach((s) => {

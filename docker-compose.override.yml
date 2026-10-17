@@ -1,0 +1,5 @@
+services:
+  # Único puerto expuesto al host (accesible por IP de Tailscale)
+  web:
+    ports:
+      - "24100:80"
