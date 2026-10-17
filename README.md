@@ -45,12 +45,40 @@ npm run build     # src/ → lib/ (bundle IIFE, minificado, módulos ESM y CSS p
 | `src/core/` | Base de los Custom Elements, posicionamiento y campos de formulario compartidos |
 | `src/components/` | Un módulo por componente (`tabs.js`, `select.js`, `chart.js`…) que se registra a sí mismo |
 | `src/api/` | `toast`, `confirm`, `copy` y tema |
+| `src/meta/` | Descripción de la API de cada elemento (genera tipos, manifiesto y la pestaña «API») |
 | `src/css/` | Una hoja por sección; se concatenan en `lib/tesela-ui.css` |
 | `lib/tesela-ui.js`, `.min.js` | Bundle completo para `<script src>` (expone `window.TeselaUI`) |
 | `lib/esm/` | Bundle ESM y un módulo por componente para importar solo lo necesario |
 | `lib/css/` | El CSS por secciones |
+| `lib/types/`, `lib/custom-elements.json` | Tipos de TypeScript y manifiesto (ver más abajo) |
 
 `tests/package.test.js` falla si `lib/` queda desfasado respecto a `src/`: ejecuta `npm run build` y confirma ambos.
+
+## Tipos y autocompletado
+
+Los tipos y la descripción de la API se generan desde `src/meta/elements.js` (una sola fuente de verdad, validada por `tests/api.test.js` contra el código):
+
+| Archivo | Para qué |
+|---|---|
+| `lib/types/tesela-ui.d.ts` | Tipos de TypeScript: cada elemento sale tipado en `querySelector`/`createElement`, los eventos `tsl-*` tienen su `detail` tipado y `window.TeselaUI` está declarado |
+| `lib/custom-elements.json` | Manifiesto estándar (Custom Elements Manifest 1.0) para Storybook, documentación y herramientas |
+| `lib/vscode.html-custom-data.json` | Autocompletado de etiquetas y atributos en VS Code |
+
+```ts
+import { toast, confirm } from "tesela-ui";
+import type { TslSelectElement } from "tesela-ui";
+
+const tabs = document.querySelector("tsl-tabs")!;          // TslTabsElement
+tabs.addEventListener("tsl-change", (e) => e.detail.value); // string
+```
+
+Para el autocompletado en VS Code, añade a `.vscode/settings.json`:
+
+```json
+{ "html.customData": ["./lib/vscode.html-custom-data.json"] }
+```
+
+En `components.html` cada componente tiene una pestaña **API** con sus atributos, propiedades, métodos y eventos, generada desde el mismo manifiesto.
 
 ## Estructura
 
@@ -98,7 +126,9 @@ Las pruebas corren en un Chromium real con Playwright e incluyen teclado, arrast
 | `tests/inputs.test.js` | slider, rating, color, contraseña, textarea, menciones, toggle group, estructura |
 | `tests/data.test.js` | tree, lista virtual, ordenables, kanban, tabla de datos, gráficas |
 | `tests/gallery.test.js` | los 212 experimentos de la galería montan sin errores |
-| `tests/package.test.js` | `lib/` al día con `src/`, módulos ESM independientes y bundle minificado |
+| `tests/package.test.js` | `lib/` al día con `src/`, módulos ESM independientes, rutas de `package.json` y que ningún elemento pise miembros nativos de `HTMLElement` |
+| `tests/api.test.js` | la descripción de la API coincide con el código; los tipos compilan con `tsc --strict` |
+| `tests/docs.test.js` | la pestaña «API» de la documentación |
 
 ```bash
 npm install                        # solo la primera vez (instala Playwright)

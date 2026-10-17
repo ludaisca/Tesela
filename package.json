@@ -2,13 +2,48 @@
   "name": "tesela-ui",
   "version": "1.4.0",
   "private": true,
-  "description": "Biblioteca de componentes sin dependencias (HTML + CSS + Custom Elements) y galería de experimentos",
+  "description": "Tesela — biblioteca de componentes sin dependencias (HTML + CSS + Custom Elements) y galería de experimentos",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ludaisca/tesela.git"
+  },
+  "main": "lib/tesela-ui.js",
+  "module": "lib/esm/index.mjs",
+  "types": "lib/types/tesela-ui.d.ts",
+  "customElements": "lib/custom-elements.json",
+  "style": "lib/tesela-ui.css",
+  "exports": {
+    ".": {
+      "types": "./lib/types/tesela-ui.d.ts",
+      "import": "./lib/esm/index.mjs",
+      "default": "./lib/tesela-ui.js"
+    },
+    "./components/*": {
+      "import": "./lib/esm/components/*.mjs"
+    },
+    "./api/*": {
+      "import": "./lib/esm/api/*.mjs"
+    },
+    "./css": "./lib/tesela-ui.css",
+    "./css/*": "./lib/css/*",
+    "./custom-elements.json": "./lib/custom-elements.json",
+    "./vscode.html-custom-data.json": "./lib/vscode.html-custom-data.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "src",
+    "README.md"
+  ],
+  "sideEffects": true,
   "scripts": {
     "build": "node scripts/build.js",
     "test": "node tests/run.js"
   },
   "devDependencies": {
     "esbuild": "^0.28.2",
-    "playwright": "1.63.0"
+    "playwright": "1.63.0",
+    "typescript": "^7.0.2"
   }
 }

@@ -28,6 +28,102 @@
   const highlightHTML = window.TESELA_HIGHLIGHT.html;
   const highlightJS = window.TESELA_HIGHLIGHT.js;
 
+  // ---------------------------------------------------------------- Pestaña API (desde lib/custom-elements.json)
+  let apiBySection = new Map();
+
+  // Texto con `código` en línea, sin interpretar HTML
+  function inlineCode(parent, text) {
+    String(text).split("`").forEach((part, i) => {
+      if (!part) return;
+      if (i % 2) {
+        const c = document.createElement("code");
+        c.textContent = part;
+        parent.appendChild(c);
+      } else parent.appendChild(document.createTextNode(part));
+    });
+  }
+
+  function apiTable(title, head, rows) {
+    if (!rows.length) return null;
+    const box = document.createElement("div");
+    box.className = "doc-apipane__group";
+    const h = document.createElement("h4");
+    h.textContent = title;
+    const wrap = document.createElement("div");
+    wrap.className = "tsl-table-wrap doc-api";
+    const table = document.createElement("table");
+    table.className = "tsl-table";
+    const tr = document.createElement("tr");
+    head.forEach((t) => {
+      const th = document.createElement("th");
+      th.textContent = t;
+      tr.appendChild(th);
+    });
+    const thead = document.createElement("thead");
+    thead.appendChild(tr);
+    const tbody = document.createElement("tbody");
+    rows.forEach((cells) => {
+      const row = document.createElement("tr");
+      cells.forEach((c, i) => {
+        const td = document.createElement("td");
+        if (c && c.code !== undefined) {
+          const code = document.createElement("code");
+          code.textContent = c.code;
+          td.appendChild(code);
+          // Los valores cortos (boolean, string…) no se parten; los largos (firmas) sí
+          if (c.code.length <= 24) td.classList.add("doc-api__nowrap");
+        } else inlineCode(td, c || "");
+        if (i === 0) td.className = "doc-api__name";
+        row.appendChild(td);
+      });
+      tbody.appendChild(row);
+    });
+    table.append(thead, tbody);
+    wrap.appendChild(table);
+    box.append(h, wrap);
+    return box;
+  }
+
+  function buildApiPane(decls) {
+    const pane = document.createElement("div");
+    pane.className = "doc-apipane";
+    decls.forEach((d) => {
+      const head = document.createElement("div");
+      head.className = "doc-apipane__head";
+      const tag = document.createElement("code");
+      tag.className = "doc-apipane__tag";
+      tag.textContent = `<${d.tagName}>`;
+      head.appendChild(tag);
+      if (d["x-formAssociated"]) {
+        const b = document.createElement("span");
+        b.className = "tsl-badge tsl-badge--accent";
+        b.textContent = "campo de formulario";
+        head.appendChild(b);
+      }
+      const p = document.createElement("p");
+      p.className = "tsl-muted";
+      inlineCode(p, d.description || "");
+      pane.append(head, p);
+      const fields = (d.members || []).filter((m) => m.kind === "field");
+      const methods = (d.members || []).filter((m) => m.kind === "method");
+      [
+        apiTable("Atributos", ["Atributo", "Tipo", "Por defecto", "Descripción"], (d.attributes || []).map((a) => [{ code: a.name }, { code: a.type.text }, a.default !== undefined ? { code: String(a.default) } : "—", a.description])),
+        apiTable("Atributos de los hijos", ["Atributo", "Descripción"], (d["x-itemAttributes"] || []).map((a) => [{ code: a.name }, a.description])),
+        apiTable("Propiedades", ["Propiedad", "Tipo", "Descripción"], fields.map((f) => [{ code: f.name }, { code: `${f.readonly ? "readonly " : ""}${f.type.text}` }, f.description])),
+        apiTable("Métodos", ["Método", "Descripción"], methods.map((m) => [{ code: `${m.name}(${(m.parameters || []).map((x) => `${x.name}${x.optional ? "?" : ""}: ${x.type.text}`).join(", ")}): ${m.return.type.text}` }, m.description])),
+        apiTable("Eventos", ["Evento", "Detalle (event.detail)", "Descripción"], (d.events || []).map((e) => [{ code: e.name }, { code: e.type.text.replace(/^CustomEvent<(.*)>$/, "$1") }, e.description])),
+        apiTable("Propiedades CSS", ["Propiedad", "Por defecto", "Descripción"], (d.cssProperties || []).map((c) => [{ code: c.name }, c.default ? { code: c.default } : "—", c.description]))
+      ].filter(Boolean).forEach((g) => pane.appendChild(g));
+      if (!(d.attributes || []).length && !(d["x-itemAttributes"] || []).length && !fields.length && !methods.length && !(d.events || []).length) {
+        const none = document.createElement("p");
+        none.className = "tsl-muted";
+        none.textContent = "Sin atributos propios: se comporta como el elemento del que hereda.";
+        pane.appendChild(none);
+      }
+    });
+    return pane;
+  }
+
   // ---------------------------------------------------------------- Marcos de demo
   function buildDoc(section) {
     const tpl = section.querySelector(":scope > template");
@@ -41,8 +137,10 @@
 
     const bar = document.createElement("div");
     bar.className = "doc-frame-bar";
+    const decls = apiBySection.get(section.id) || [];
     const views = [["preview", "Vista previa"], ["html", "HTML"]];
     if (js) views.push(["js", "JS"]);
+    if (decls.length) views.push(["api", "API"]);
     bar.innerHTML = `
       <tsl-segmented class="tsl-segmented" value="preview" aria-label="View">
         ${views.map(([v, l]) => `<button class="tsl-segmented__item" value="${v}">${l}</button>`).join("")}
@@ -64,8 +162,12 @@
     codeJS.hidden = true;
     codeJS.innerHTML = highlightJS(js);
 
+    const apiPane = decls.length ? buildApiPane(decls) : null;
+    if (apiPane) apiPane.hidden = true;
+
     frame.append(bar, demo, codeHTML);
     if (js) frame.appendChild(codeJS);
+    if (apiPane) frame.appendChild(apiPane);
     tpl.replaceWith(frame);
 
     let view = "preview";
@@ -74,6 +176,8 @@
       demo.hidden = view !== "preview";
       codeHTML.hidden = view !== "html";
       codeJS.hidden = view !== "js";
+      if (apiPane) apiPane.hidden = view !== "api";
+      bar.querySelector("[data-doc-copy]").hidden = view === "api";
     });
     bar.querySelector("[data-doc-copy]").addEventListener("click", () => {
       const text = view === "js" ? js : html;
@@ -212,7 +316,17 @@
   }
 
   // ---------------------------------------------------------------- Arranque
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", async () => {
+    // La API sale del manifiesto generado; si no se puede leer (p. ej. file://) se omite la pestaña
+    try {
+      const res = await fetch("lib/custom-elements.json");
+      const manifest = await res.json();
+      manifest.modules.flatMap((m) => m.declarations).filter((d) => d.tagName && d["x-docs"]).forEach((d) => {
+        d["x-docs"].forEach((id) => apiBySection.set(id, (apiBySection.get(id) || []).concat(d)));
+      });
+    } catch (_) {
+      apiBySection = new Map();
+    }
     const sections = Array.from(document.querySelectorAll("section.doc[id]"));
     sections.forEach(buildDoc);
     buildNav(sections);

@@ -320,3 +320,71 @@ p {
 .demo-shell > div {
   padding: 18px;
 }
+
+/* Pestaña «API» generada desde custom-elements.json */
+.doc-apipane {
+  padding: 18px 20px 8px;
+  border-top: 1px solid var(--tsl-border);
+}
+
+.doc-apipane__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.doc-apipane__head:first-child {
+  margin-top: 0;
+}
+
+.doc-apipane__tag {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--tsl-fg);
+}
+
+.doc-apipane > p {
+  margin: 6px 0 14px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.doc-apipane__group {
+  margin-bottom: 18px;
+}
+
+.doc-apipane__group h4 {
+  margin: 0 0 8px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tsl-fg-muted);
+}
+
+.doc-apipane .tsl-table th,
+.doc-apipane .tsl-table td {
+  white-space: normal;
+  vertical-align: top;
+  line-height: 1.55;
+}
+
+.doc-apipane .tsl-table td code {
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+.doc-apipane .doc-api__name {
+  white-space: nowrap;
+}
+
+.doc-apipane .doc-api__name code {
+  color: var(--tsl-accent);
+}
+
+.doc-apipane .doc-api__nowrap,
+.doc-apipane .doc-api__nowrap code {
+  white-space: nowrap;
+  overflow-wrap: normal;
+}

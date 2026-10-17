@@ -7,9 +7,11 @@
 //   tesela-ui.css / .min.css CSS completo
 //   esm/index.mjs            bundle ESM y un módulo por componente (esm/components/*.mjs, esm/api/*.mjs)
 //   css/*.css                una hoja por sección, para cargar solo lo necesario
+//   types/, custom-elements.json, vscode.html-custom-data.json   ver scripts/build-meta.js
 const esbuild = require("esbuild");
 const fs = require("fs");
 const path = require("path");
+const { buildMeta } = require("./build-meta");
 
 const root = path.resolve(__dirname, "..");
 const pkg = require(path.join(root, "package.json"));
@@ -43,10 +45,13 @@ async function main() {
   fs.mkdirSync(path.join(out, "css"), { recursive: true });
   parts.forEach((f) => fs.copyFileSync(rel("src/css", f), path.join(out, "css", f)));
 
+  const n = await buildMeta(root, out, pkg.version);
+
   const kb = (f) => `${(fs.statSync(path.join(out, f)).size / 1024).toFixed(1)} KB`;
   console.log(`Tesela UI ${pkg.version} → ${path.relative(root, out) || "."}`);
   ["tesela-ui.js", "tesela-ui.min.js", "tesela-ui.css", "tesela-ui.min.css"].forEach((f) => console.log(`  ${f.padEnd(20)} ${kb(f)}`));
   console.log(`  esm/                 ${entries.length} entradas`);
+  console.log(`  tipos y manifiesto   ${n} elementos (types/, custom-elements.json, vscode.html-custom-data.json)`);
 }
 
 main().catch((e) => {

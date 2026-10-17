@@ -40,8 +40,9 @@ export class TslScrollArea extends TslElement {
     set("data-right", v.scrollLeft + v.clientWidth < v.scrollWidth - 1);
   }
 
-  scrollTo(opts) {
-    this.viewport.scrollTo(opts);
+  // Misma firma que Element.scrollTo: (opciones) o (x, y); se aplica al área desplazable
+  scrollTo(...args) {
+    this.viewport.scrollTo(...args);
   }
 }
 

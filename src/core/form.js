@@ -38,6 +38,15 @@ export class TslFormElement extends TslElement {
     return this.internals ? this.internals.reportValidity() : true;
   }
 
+  // Propiedad que refleja el atributo `disabled`
+  get disabled() {
+    return this.hasAttribute("disabled");
+  }
+
+  set disabled(value) {
+    this.toggleAttribute("disabled", Boolean(value));
+  }
+
   get isDisabled() {
     return this.hasAttribute("disabled") || Boolean(this.formDisabled);
   }

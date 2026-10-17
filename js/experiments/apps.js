@@ -2077,7 +2077,7 @@
           const emails = tags.value.filter((v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v));
           if (!emails.length) return ctx.toast({ title: "Agrega un correo válido", variant: "warning" });
           emails.forEach((e) => people.push([e, "Lector"]));
-          tags.value.forEach((v) => tags.remove(v, false));
+          tags.value.forEach((v) => tags.removeTag(v, false));
           ctx.toast({ title: `Invitados: ${emails.length}` });
           render();
         });

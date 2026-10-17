@@ -289,5 +289,8 @@ export class TslBar extends TslElement {
   }
 }
 
-define("tsl-menubar", TslBar);
-define("tsl-nav-menu", class extends TslBar {});
+export class TslMenubar extends TslBar {}
+export class TslNavMenu extends TslBar {}
+
+define("tsl-menubar", TslMenubar);
+define("tsl-nav-menu", TslNavMenu);

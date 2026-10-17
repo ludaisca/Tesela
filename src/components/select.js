@@ -225,7 +225,7 @@ export class TslSelect extends TslFormElement {
   }
 
   // ---- Lista --------------------------------------------------------------
-  matches() {
+  filteredOptions() {
     const q = normalize(this.query.trim());
     const list = this.options.filter((o) => !q || normalize(`${o.label} ${o.hint}`).includes(q));
     const exact = this.options.some((o) => normalize(o.label) === q);
@@ -236,7 +236,7 @@ export class TslSelect extends TslFormElement {
   }
 
   renderList() {
-    this.visible = this.matches();
+    this.visible = this.filteredOptions();
     this.list.textContent = "";
     let group = null;
     this.visible.forEach((rec, i) => {

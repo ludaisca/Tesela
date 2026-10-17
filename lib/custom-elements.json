@@ -1,0 +1,4780 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "README.md",
+  "x-version": "1.4.0",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/tabs.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslTabs",
+          "tagName": "tsl-tabs",
+          "customElement": true,
+          "description": "Pestañas accesibles con teclado (← → Inicio Fin).",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "`data-tab` de la pestaña activa al iniciar (por defecto, la primera)."
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Pestaña activa."
+            },
+            {
+              "kind": "method",
+              "name": "select",
+              "description": "Activa una pestaña; con `fire` emite `tsl-change`.",
+              "parameters": [
+                {
+                  "name": "key",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "fire",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-change",
+              "type": {
+                "text": "CustomEvent<{ value: string }>"
+              },
+              "description": "El usuario cambió de pestaña."
+            }
+          ],
+          "x-docs": [
+            "tabs"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslTabs",
+          "declaration": {
+            "name": "TslTabs",
+            "module": "esm/components/tabs.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-tabs",
+          "declaration": {
+            "name": "TslTabs",
+            "module": "esm/components/tabs.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/segmented.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslSegmented",
+          "tagName": "tsl-segmented",
+          "customElement": true,
+          "description": "Control segmentado (radiogroup) con teclado.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Valor seleccionado al iniciar."
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Valor seleccionado."
+            },
+            {
+              "kind": "method",
+              "name": "select",
+              "description": "Selecciona un valor; con `fire` emite `tsl-change`.",
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "fire",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-change",
+              "type": {
+                "text": "CustomEvent<{ value: string }>"
+              },
+              "description": "El usuario eligió otra opción."
+            }
+          ],
+          "x-docs": [
+            "segmented"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslSegmented",
+          "declaration": {
+            "name": "TslSegmented",
+            "module": "esm/components/segmented.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-segmented",
+          "declaration": {
+            "name": "TslSegmented",
+            "module": "esm/components/segmented.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/menu.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslMenu",
+          "tagName": "tsl-menu",
+          "customElement": true,
+          "description": "Menú desplegable con navegación por teclado y cierre al hacer clic fuera.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [],
+          "members": [
+            {
+              "kind": "method",
+              "name": "open",
+              "description": "Abre el menú y enfoca el primer o el último ítem.",
+              "parameters": [
+                {
+                  "name": "focus",
+                  "type": {
+                    "text": "\"first\" | \"last\""
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "description": "Cierra el menú.",
+              "parameters": [
+                {
+                  "name": "returnFocus",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-select",
+              "type": {
+                "text": "CustomEvent<{ value: string; item: HTMLElement }>"
+              },
+              "description": "Se eligió un ítem (`data-value` o su texto)."
+            }
+          ],
+          "x-itemAttributes": [
+            {
+              "name": "aria-disabled",
+              "description": "Ítem deshabilitado (también vale `disabled`)."
+            }
+          ],
+          "x-docs": [
+            "menu"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslMenu",
+          "declaration": {
+            "name": "TslMenu",
+            "module": "esm/components/menu.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-menu",
+          "declaration": {
+            "name": "TslMenu",
+            "module": "esm/components/menu.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/command.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslCommand",
+          "tagName": "tsl-command",
+          "customElement": true,
+          "description": "Paleta de comandos en un `<dialog>` modal, con búsqueda difusa y grupos.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "hotkey",
+              "type": {
+                "text": "string"
+              },
+              "description": "Letra que, con Ctrl/⌘, abre la paleta."
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto del campo de búsqueda."
+            },
+            {
+              "name": "empty",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto cuando no hay resultados.",
+              "default": "Sin resultados."
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible del diálogo."
+            }
+          ],
+          "members": [
+            {
+              "kind": "method",
+              "name": "open",
+              "description": "Abre la paleta.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "description": "La cierra.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-select",
+              "type": {
+                "text": "CustomEvent<{ value: string; item: HTMLElement }>"
+              },
+              "description": "Se eligió un comando."
+            }
+          ],
+          "x-docs": [
+            "command"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslCommand",
+          "declaration": {
+            "name": "TslCommand",
+            "module": "esm/components/command.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-command",
+          "declaration": {
+            "name": "TslCommand",
+            "module": "esm/components/command.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/popover.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslPopover",
+          "tagName": "tsl-popover",
+          "customElement": true,
+          "description": "Panel flotante anclado a un disparador, con la API nativa `popover`.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "placement",
+              "type": {
+                "text": "\"top\" | \"bottom\" | \"left\" | \"right\" | `${\"top\" | \"bottom\" | \"left\" | \"right\"}-${\"start\" | \"end\"}`"
+              },
+              "description": "Lado preferido; se voltea si no cabe.",
+              "default": "bottom-start"
+            },
+            {
+              "name": "offset",
+              "type": {
+                "text": "number"
+              },
+              "description": "Separación en píxeles respecto al disparador.",
+              "default": "6"
+            },
+            {
+              "name": "manual",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Solo se cierra con código o con Esc (no al hacer clic fuera)."
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible del panel."
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "isOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Indica si está abierto.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "open",
+              "description": "Abre el panel.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "description": "Lo cierra.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "toggle",
+              "description": "Alterna.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reposition",
+              "description": "Recalcula la posición.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-open",
+              "type": {
+                "text": "CustomEvent<{}>"
+              },
+              "description": "El panel se abrió."
+            },
+            {
+              "name": "tsl-close",
+              "type": {
+                "text": "CustomEvent<{}>"
+              },
+              "description": "El panel se cerró."
+            }
+          ],
+          "x-docs": [
+            "popover"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslPopover",
+          "declaration": {
+            "name": "TslPopover",
+            "module": "esm/components/popover.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-popover",
+          "declaration": {
+            "name": "TslPopover",
+            "module": "esm/components/popover.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/hovercard.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslHoverCard",
+          "tagName": "tsl-hovercard",
+          "customElement": true,
+          "description": "Vista previa que aparece al pasar el cursor o enfocar con teclado.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "placement",
+              "type": {
+                "text": "string"
+              },
+              "description": "Lado preferido (igual que `tsl-popover`).",
+              "default": "bottom-start"
+            },
+            {
+              "name": "offset",
+              "type": {
+                "text": "number"
+              },
+              "description": "Separación en píxeles.",
+              "default": "8"
+            },
+            {
+              "name": "open-delay",
+              "type": {
+                "text": "number"
+              },
+              "description": "Milisegundos antes de abrir.",
+              "default": "300"
+            },
+            {
+              "name": "close-delay",
+              "type": {
+                "text": "number"
+              },
+              "description": "Milisegundos antes de cerrar.",
+              "default": "150"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "isOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Indica si está abierta.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "open",
+              "description": "Abre la tarjeta.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "description": "La cierra.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-open",
+              "type": {
+                "text": "CustomEvent<{}>"
+              },
+              "description": "El panel se abrió."
+            },
+            {
+              "name": "tsl-close",
+              "type": {
+                "text": "CustomEvent<{}>"
+              },
+              "description": "El panel se cerró."
+            }
+          ],
+          "x-docs": [
+            "hovercard"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslHoverCard",
+          "declaration": {
+            "name": "TslHoverCard",
+            "module": "esm/components/hovercard.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-hovercard",
+          "declaration": {
+            "name": "TslHoverCard",
+            "module": "esm/components/hovercard.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/context-menu.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslContextMenu",
+          "tagName": "tsl-context-menu",
+          "customElement": true,
+          "description": "Menú contextual (clic derecho, tecla de menú, Mayús+F10 y pulsación larga).",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [],
+          "members": [
+            {
+              "kind": "method",
+              "name": "openAt",
+              "description": "Abre el menú en unas coordenadas del viewport.",
+              "parameters": [
+                {
+                  "name": "x",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "y",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "description": "Lo cierra.",
+              "parameters": [
+                {
+                  "name": "returnFocus",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-select",
+              "type": {
+                "text": "CustomEvent<{ value: string; item: HTMLElement }>"
+              },
+              "description": "Se eligió un ítem."
+            }
+          ],
+          "x-itemAttributes": [
+            {
+              "name": "aria-disabled",
+              "description": "Ítem deshabilitado (también vale `disabled`)."
+            }
+          ],
+          "x-docs": [
+            "context-menu"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslContextMenu",
+          "declaration": {
+            "name": "TslContextMenu",
+            "module": "esm/components/context-menu.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-context-menu",
+          "declaration": {
+            "name": "TslContextMenu",
+            "module": "esm/components/context-menu.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/bar.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslBar",
+          "description": "Base común de la barra de menús y del menú de navegación.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          }
+        },
+        {
+          "kind": "class",
+          "name": "TslMenubar",
+          "tagName": "tsl-menubar",
+          "customElement": true,
+          "description": "Barra de menús estilo aplicación, con submenús, ítems marcables y teclado completo.",
+          "superclass": {
+            "name": "TslBar",
+            "module": "esm/components/bar.mjs"
+          },
+          "attributes": [],
+          "members": [
+            {
+              "kind": "method",
+              "name": "closeAll",
+              "description": "Cierra el menú abierto (y sus submenús).",
+              "parameters": [
+                {
+                  "name": "returnFocus",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-select",
+              "type": {
+                "text": "CustomEvent<{ value: string; item: HTMLElement; checked?: boolean }>"
+              },
+              "description": "Se eligió un ítem."
+            },
+            {
+              "name": "tsl-open",
+              "type": {
+                "text": "CustomEvent<{ item: string }>"
+              },
+              "description": "Se abrió un menú."
+            },
+            {
+              "name": "tsl-close",
+              "type": {
+                "text": "CustomEvent<{}>"
+              },
+              "description": "Se cerró el menú."
+            }
+          ],
+          "x-itemAttributes": [
+            {
+              "name": "data-check",
+              "description": "Ítem marcable: alterna `aria-checked` al elegirlo."
+            },
+            {
+              "name": "data-submenu",
+              "description": "Ítem que abre un submenú (el siguiente `.tsl-menu__list`)."
+            }
+          ],
+          "x-docs": [
+            "menubar"
+          ]
+        },
+        {
+          "kind": "class",
+          "name": "TslNavMenu",
+          "tagName": "tsl-nav-menu",
+          "customElement": true,
+          "description": "Menú de navegación de cabecera: los paneles llevan contenido libre y se abren al pasar el cursor.",
+          "superclass": {
+            "name": "TslBar",
+            "module": "esm/components/bar.mjs"
+          },
+          "attributes": [
+            {
+              "name": "hover-delay",
+              "type": {
+                "text": "number"
+              },
+              "description": "Milisegundos antes de abrir al pasar el cursor.",
+              "default": "120"
+            }
+          ],
+          "members": [
+            {
+              "kind": "method",
+              "name": "closeAll",
+              "description": "Cierra el panel abierto.",
+              "parameters": [
+                {
+                  "name": "returnFocus",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-select",
+              "type": {
+                "text": "CustomEvent<{ value: string }>"
+              },
+              "description": "Se eligió un enlace del panel."
+            },
+            {
+              "name": "tsl-open",
+              "type": {
+                "text": "CustomEvent<{ item: string }>"
+              },
+              "description": "Se abrió un panel."
+            },
+            {
+              "name": "tsl-close",
+              "type": {
+                "text": "CustomEvent<{}>"
+              },
+              "description": "Se cerró el panel."
+            }
+          ],
+          "x-docs": [
+            "nav-menu"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslMenubar",
+          "declaration": {
+            "name": "TslMenubar",
+            "module": "esm/components/bar.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-menubar",
+          "declaration": {
+            "name": "TslMenubar",
+            "module": "esm/components/bar.mjs"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "TslNavMenu",
+          "declaration": {
+            "name": "TslNavMenu",
+            "module": "esm/components/bar.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-nav-menu",
+          "declaration": {
+            "name": "TslNavMenu",
+            "module": "esm/components/bar.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/otp.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslOtp",
+          "tagName": "tsl-otp",
+          "customElement": true,
+          "description": "Código de un solo uso en celdas separadas, con pegado y autoavance.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "length",
+              "type": {
+                "text": "number"
+              },
+              "description": "Número de celdas.",
+              "default": "6"
+            },
+            {
+              "name": "mode",
+              "type": {
+                "text": "\"numeric\" | \"text\""
+              },
+              "description": "Tipo de carácter admitido.",
+              "default": "numeric"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre del campo oculto que viaja en el formulario."
+            },
+            {
+              "name": "aria-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible del grupo.",
+              "default": "Código de verificación"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Código escrito.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "clear",
+              "description": "Vacía todas las celdas.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-change",
+              "type": {
+                "text": "CustomEvent<{ value: string }>"
+              },
+              "description": "Cambió el contenido."
+            },
+            {
+              "name": "tsl-complete",
+              "type": {
+                "text": "CustomEvent<{ value: string }>"
+              },
+              "description": "Se rellenaron todas las celdas."
+            }
+          ],
+          "x-docs": [
+            "otp"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslOtp",
+          "declaration": {
+            "name": "TslOtp",
+            "module": "esm/components/otp.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-otp",
+          "declaration": {
+            "name": "TslOtp",
+            "module": "esm/components/otp.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/tags.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslTags",
+          "tagName": "tsl-tags",
+          "customElement": true,
+          "description": "Campo de etiquetas: Enter o coma añaden, Retroceso borra la última.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Etiquetas iniciales separadas por comas."
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre del campo oculto (valor separado por comas)."
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto del campo.",
+              "default": "Añadir…"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible del campo.",
+              "default": "Añadir etiqueta"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "description": "Máximo de etiquetas (0 = sin límite).",
+              "default": "0"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string[]"
+              },
+              "description": "Etiquetas actuales.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "addTag",
+              "description": "Añade una etiqueta.",
+              "parameters": [
+                {
+                  "name": "tag",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "fire",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "removeTag",
+              "description": "Quita una etiqueta.",
+              "parameters": [
+                {
+                  "name": "tag",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "fire",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-change",
+              "type": {
+                "text": "CustomEvent<{ value: string[] }>"
+              },
+              "description": "Cambió la lista."
+            }
+          ],
+          "x-docs": [
+            "tags"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslTags",
+          "declaration": {
+            "name": "TslTags",
+            "module": "esm/components/tags.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-tags",
+          "declaration": {
+            "name": "TslTags",
+            "module": "esm/components/tags.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/dropzone.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslDropzone",
+          "tagName": "tsl-dropzone",
+          "customElement": true,
+          "description": "Zona para arrastrar o elegir archivos, con lista de los seleccionados.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "accept",
+              "type": {
+                "text": "string"
+              },
+              "description": "Tipos admitidos (igual que `<input accept>`)."
+            },
+            {
+              "name": "multiple",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Permite varios archivos."
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre del `<input type=file>` interno."
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "files",
+              "type": {
+                "text": "File[]"
+              },
+              "description": "Archivos seleccionados.",
+              "readonly": true
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-change",
+              "type": {
+                "text": "CustomEvent<{ files: File[] }>"
+              },
+              "description": "Cambió la selección."
+            }
+          ],
+          "x-docs": [
+            "dropzone"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslDropzone",
+          "declaration": {
+            "name": "TslDropzone",
+            "module": "esm/components/dropzone.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-dropzone",
+          "declaration": {
+            "name": "TslDropzone",
+            "module": "esm/components/dropzone.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/calendar.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslCalendar",
+          "tagName": "tsl-calendar",
+          "customElement": true,
+          "description": "Calendario con teclado (flechas, PgUp/PgDn), rango, varios meses y días deshabilitados.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Fecha ISO (`2026-10-14`) o intervalo `inicio/fin` con `mode=\"range\"`."
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "description": "Idioma de los nombres (por defecto, el `lang` del documento)."
+            },
+            {
+              "name": "week-start",
+              "type": {
+                "text": "number"
+              },
+              "description": "Primer día de la semana (0 = domingo).",
+              "default": "1"
+            },
+            {
+              "name": "min",
+              "type": {
+                "text": "string"
+              },
+              "description": "Fecha ISO mínima seleccionable."
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "string"
+              },
+              "description": "Fecha ISO máxima seleccionable."
+            },
+            {
+              "name": "mode",
+              "type": {
+                "text": "\"single\" | \"range\""
+              },
+              "description": "Selección de un día o de un intervalo.",
+              "default": "single"
+            },
+            {
+              "name": "months",
+              "type": {
+                "text": "number"
+              },
+              "description": "Meses visibles a la vez.",
+              "default": "1"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Fecha o intervalo ISO seleccionado."
+            },
+            {
+              "kind": "method",
+              "name": "pick",
+              "description": "Selecciona un día como si se hiciera clic.",
+              "parameters": [
+                {
+                  "name": "date",
+                  "type": {
+                    "text": "Date"
+                  }
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "shift",
+              "description": "Avanza o retrocede meses.",
+              "parameters": [
+                {
+                  "name": "months",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-change",
+              "type": {
+                "text": "CustomEvent<{ value: string; date?: Date; start?: string; end?: string | null; complete?: boolean }>"
+              },
+              "description": "Cambió la selección (en rango, `complete` indica que ya hay inicio y fin)."
+            }
+          ],
+          "x-docs": [
+            "calendar"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslCalendar",
+          "declaration": {
+            "name": "TslCalendar",
+            "module": "esm/components/calendar.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-calendar",
+          "declaration": {
+            "name": "TslCalendar",
+            "module": "esm/components/calendar.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/sparkline.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslSparkline",
+          "tagName": "tsl-sparkline",
+          "customElement": true,
+          "description": "Minigráfica de línea SVG que se adapta al tamaño del elemento.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "values",
+              "type": {
+                "text": "string"
+              },
+              "description": "Números separados por comas o espacios."
+            },
+            {
+              "name": "fill",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Rellena el área bajo la línea."
+            },
+            {
+              "name": "aria-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Descripción accesible (por defecto, la serie de valores)."
+            }
+          ],
+          "members": [],
+          "events": [],
+          "cssProperties": [
+            {
+              "name": "--w",
+              "description": "Ancho del elemento.",
+              "default": "120px"
+            },
+            {
+              "name": "--h",
+              "description": "Alto del elemento.",
+              "default": "32px"
+            }
+          ],
+          "x-docs": [
+            "stat"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslSparkline",
+          "declaration": {
+            "name": "TslSparkline",
+            "module": "esm/components/sparkline.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-sparkline",
+          "declaration": {
+            "name": "TslSparkline",
+            "module": "esm/components/sparkline.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/select.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslSelect",
+          "tagName": "tsl-select",
+          "customElement": true,
+          "description": "Select personalizado con listbox accesible, buscador, selección múltiple y creación de opciones.",
+          "superclass": {
+            "name": "TslFormElement",
+            "module": "esm/core/form.mjs"
+          },
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre con el que el valor viaja en el formulario."
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Obliga a tener valor: aplica la validación nativa del formulario."
+            },
+            {
+              "name": "required-message",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación cuando falta el valor.",
+              "default": "Completa este campo."
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Valor inicial (con `multiple`, valores separados por comas)."
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto cuando no hay selección.",
+              "default": "Selecciona…"
+            },
+            {
+              "name": "searchable",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Añade un buscador dentro del panel."
+            },
+            {
+              "name": "multiple",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Permite elegir varias opciones."
+            },
+            {
+              "name": "creatable",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Ofrece crear una opción nueva con el texto buscado."
+            },
+            {
+              "name": "clearable",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Muestra un botón para limpiar la selección."
+            },
+            {
+              "name": "autocomplete",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Convierte el disparador en un campo de texto (combobox)."
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible del campo."
+            },
+            {
+              "name": "search-placeholder",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto del buscador.",
+              "default": "Buscar…"
+            },
+            {
+              "name": "empty",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto cuando no hay coincidencias.",
+              "default": "Sin resultados"
+            },
+            {
+              "name": "create-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Prefijo de la opción de crear.",
+              "default": "Crear"
+            },
+            {
+              "name": "clear-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible del botón de limpiar.",
+              "default": "Limpiar selección"
+            },
+            {
+              "name": "max-chips",
+              "type": {
+                "text": "number"
+              },
+              "description": "Chips visibles con `multiple` antes del «+N».",
+              "default": "3"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string | string[]"
+              },
+              "description": "Valor seleccionado (arreglo con `multiple`)."
+            },
+            {
+              "kind": "field",
+              "name": "isOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Indica si el panel está abierto.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Refleja el atributo `disabled`."
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "description": "Formulario al que pertenece.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "type": {
+                "text": "ValidityState"
+              },
+              "description": "Estado de validación.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación actual.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "setOptions",
+              "description": "Reemplaza las opciones (útil con datos asíncronos).",
+              "parameters": [
+                {
+                  "name": "options",
+                  "type": {
+                    "text": "Array<{ value: string; label?: string; disabled?: boolean; hint?: string; group?: string }>"
+                  }
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "open",
+              "description": "Abre el panel.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "description": "Cierra el panel.",
+              "parameters": [
+                {
+                  "name": "returnFocus",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reset",
+              "description": "Restablece el valor inicial.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "description": "Indica si el campo es válido.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "description": "Valida y muestra el aviso nativo si no lo es.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-change",
+              "type": {
+                "text": "CustomEvent<{ value: string | string[]; values: string[] }>"
+              },
+              "description": "Cambió la selección."
+            },
+            {
+              "name": "tsl-open",
+              "type": {
+                "text": "CustomEvent<{}>"
+              },
+              "description": "El panel se abrió."
+            },
+            {
+              "name": "tsl-close",
+              "type": {
+                "text": "CustomEvent<{}>"
+              },
+              "description": "El panel se cerró."
+            }
+          ],
+          "x-itemAttributes": [
+            {
+              "name": "value",
+              "description": "Valor de la `<option>`."
+            },
+            {
+              "name": "disabled",
+              "description": "Opción deshabilitada."
+            },
+            {
+              "name": "selected",
+              "description": "Opción seleccionada al iniciar."
+            },
+            {
+              "name": "data-hint",
+              "description": "Texto secundario a la derecha de la opción."
+            }
+          ],
+          "x-docs": [
+            "select-custom"
+          ],
+          "x-formAssociated": true
+        },
+        {
+          "kind": "class",
+          "name": "TslCombobox",
+          "tagName": "tsl-combobox",
+          "customElement": true,
+          "description": "Campo de texto que filtra opciones mientras se escribe (`<tsl-select autocomplete>`).",
+          "superclass": {
+            "name": "TslSelect",
+            "module": "esm/components/select.mjs"
+          },
+          "attributes": [],
+          "members": [],
+          "events": [],
+          "x-docs": [
+            "combobox"
+          ],
+          "x-formAssociated": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslSelect",
+          "declaration": {
+            "name": "TslSelect",
+            "module": "esm/components/select.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-select",
+          "declaration": {
+            "name": "TslSelect",
+            "module": "esm/components/select.mjs"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "TslCombobox",
+          "declaration": {
+            "name": "TslCombobox",
+            "module": "esm/components/select.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-combobox",
+          "declaration": {
+            "name": "TslCombobox",
+            "module": "esm/components/select.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/date-picker.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslDatePicker",
+          "tagName": "tsl-date-picker",
+          "customElement": true,
+          "description": "Selector de fecha o de intervalo de fechas en un popover con calendario.",
+          "superclass": {
+            "name": "TslFormElement",
+            "module": "esm/core/form.mjs"
+          },
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre con el que el valor viaja en el formulario."
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Obliga a tener valor: aplica la validación nativa del formulario."
+            },
+            {
+              "name": "required-message",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación cuando falta el valor.",
+              "default": "Completa este campo."
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Fecha ISO o intervalo `inicio/fin` con `range`."
+            },
+            {
+              "name": "min",
+              "type": {
+                "text": "string"
+              },
+              "description": "Fecha ISO mínima."
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "string"
+              },
+              "description": "Fecha ISO máxima."
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "description": "Idioma del formato y del calendario."
+            },
+            {
+              "name": "week-start",
+              "type": {
+                "text": "number"
+              },
+              "description": "Primer día de la semana.",
+              "default": "1"
+            },
+            {
+              "name": "range",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Selecciona un intervalo (dos meses visibles por defecto)."
+            },
+            {
+              "name": "months",
+              "type": {
+                "text": "number"
+              },
+              "description": "Meses visibles.",
+              "default": "1 (2 con `range`)"
+            },
+            {
+              "name": "date-style",
+              "type": {
+                "text": "\"short\" | \"medium\" | \"long\" | \"full\""
+              },
+              "description": "Formato de la fecha mostrada.",
+              "default": "medium"
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto cuando no hay fecha."
+            },
+            {
+              "name": "clearable",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Muestra un botón para limpiar."
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible del panel."
+            },
+            {
+              "name": "clear-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible del botón de limpiar.",
+              "default": "Limpiar fecha"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Fecha o intervalo ISO."
+            },
+            {
+              "kind": "field",
+              "name": "start",
+              "type": {
+                "text": "string"
+              },
+              "description": "Inicio del intervalo (o la fecha).",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "end",
+              "type": {
+                "text": "string"
+              },
+              "description": "Fin del intervalo (vacío sin `range`).",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "isOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Indica si el calendario está abierto.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Refleja el atributo `disabled`."
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "description": "Formulario al que pertenece.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "type": {
+                "text": "ValidityState"
+              },
+              "description": "Estado de validación.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación actual.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "open",
+              "description": "Abre el calendario.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "description": "Lo cierra.",
+              "parameters": [
+                {
+                  "name": "returnFocus",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reset",
+              "description": "Restablece el valor inicial.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "description": "Indica si el campo es válido.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "description": "Valida y muestra el aviso nativo si no lo es.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-change",
+              "type": {
+                "text": "CustomEvent<{ value: string; start: string; end: string }>"
+              },
+              "description": "Cambió la fecha o el intervalo."
+            },
+            {
+              "name": "tsl-open",
+              "type": {
+                "text": "CustomEvent<{}>"
+              },
+              "description": "El panel se abrió."
+            },
+            {
+              "name": "tsl-close",
+              "type": {
+                "text": "CustomEvent<{}>"
+              },
+              "description": "El panel se cerró."
+            }
+          ],
+          "x-docs": [
+            "date-picker",
+            "date-range"
+          ],
+          "x-formAssociated": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslDatePicker",
+          "declaration": {
+            "name": "TslDatePicker",
+            "module": "esm/components/date-picker.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-date-picker",
+          "declaration": {
+            "name": "TslDatePicker",
+            "module": "esm/components/date-picker.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/time-picker.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslTimePicker",
+          "tagName": "tsl-time-picker",
+          "customElement": true,
+          "description": "Selector de hora con columnas de hora y minutos (y AM/PM con `hour12`).",
+          "superclass": {
+            "name": "TslFormElement",
+            "module": "esm/core/form.mjs"
+          },
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre con el que el valor viaja en el formulario."
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Obliga a tener valor: aplica la validación nativa del formulario."
+            },
+            {
+              "name": "required-message",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación cuando falta el valor.",
+              "default": "Completa este campo."
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Hora inicial en formato `HH:MM` (24 h)."
+            },
+            {
+              "name": "step",
+              "type": {
+                "text": "number"
+              },
+              "description": "Minutos entre opciones.",
+              "default": "5"
+            },
+            {
+              "name": "hour12",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Muestra la hora en formato de 12 horas con AM/PM."
+            },
+            {
+              "name": "min",
+              "type": {
+                "text": "string"
+              },
+              "description": "Hora mínima (`HH:MM`)."
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "string"
+              },
+              "description": "Hora máxima (`HH:MM`)."
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "description": "Idioma del formato mostrado."
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto cuando no hay hora."
+            },
+            {
+              "name": "clearable",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Muestra un botón para limpiar."
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible del panel."
+            },
+            {
+              "name": "clear-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible del botón de limpiar.",
+              "default": "Limpiar hora"
+            },
+            {
+              "name": "hour-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible de la columna de horas.",
+              "default": "Hora"
+            },
+            {
+              "name": "minute-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible de la columna de minutos.",
+              "default": "Minutos"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Hora `HH:MM` (24 h) o cadena vacía."
+            },
+            {
+              "kind": "field",
+              "name": "isOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Indica si el panel está abierto.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Refleja el atributo `disabled`."
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "description": "Formulario al que pertenece.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "type": {
+                "text": "ValidityState"
+              },
+              "description": "Estado de validación.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación actual.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "open",
+              "description": "Abre el panel.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "description": "Lo cierra.",
+              "parameters": [
+                {
+                  "name": "returnFocus",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reset",
+              "description": "Restablece el valor inicial.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "description": "Indica si el campo es válido.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "description": "Valida y muestra el aviso nativo si no lo es.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-change",
+              "type": {
+                "text": "CustomEvent<{ value: string }>"
+              },
+              "description": "Cambió la hora."
+            },
+            {
+              "name": "tsl-open",
+              "type": {
+                "text": "CustomEvent<{}>"
+              },
+              "description": "El panel se abrió."
+            },
+            {
+              "name": "tsl-close",
+              "type": {
+                "text": "CustomEvent<{}>"
+              },
+              "description": "El panel se cerró."
+            }
+          ],
+          "x-docs": [
+            "time-picker"
+          ],
+          "x-formAssociated": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslTimePicker",
+          "declaration": {
+            "name": "TslTimePicker",
+            "module": "esm/components/time-picker.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-time-picker",
+          "declaration": {
+            "name": "TslTimePicker",
+            "module": "esm/components/time-picker.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/slider.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslSlider",
+          "tagName": "tsl-slider",
+          "customElement": true,
+          "description": "Slider de uno o dos pulgares (rango) con tooltip y teclado.",
+          "superclass": {
+            "name": "TslFormElement",
+            "module": "esm/core/form.mjs"
+          },
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre con el que el valor viaja en el formulario."
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Obliga a tener valor: aplica la validación nativa del formulario."
+            },
+            {
+              "name": "required-message",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación cuando falta el valor.",
+              "default": "Completa este campo."
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Valor inicial; con dos valores (`20,80`) es un rango."
+            },
+            {
+              "name": "min",
+              "type": {
+                "text": "number"
+              },
+              "description": "Valor mínimo.",
+              "default": "0"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "description": "Valor máximo.",
+              "default": "100"
+            },
+            {
+              "name": "step",
+              "type": {
+                "text": "number"
+              },
+              "description": "Incremento.",
+              "default": "1"
+            },
+            {
+              "name": "range",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Dos pulgares que no se cruzan."
+            },
+            {
+              "name": "prefix",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto antes del valor mostrado."
+            },
+            {
+              "name": "suffix",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto después del valor mostrado."
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible.",
+              "default": "Valor"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Valor (o `min,max` en un rango)."
+            },
+            {
+              "kind": "field",
+              "name": "values",
+              "type": {
+                "text": "number[]"
+              },
+              "description": "Valores numéricos.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Refleja el atributo `disabled`."
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "description": "Formulario al que pertenece.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "type": {
+                "text": "ValidityState"
+              },
+              "description": "Estado de validación.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación actual.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "reset",
+              "description": "Restablece el valor inicial.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "description": "Indica si el campo es válido.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "description": "Valida y muestra el aviso nativo si no lo es.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-input",
+              "type": {
+                "text": "CustomEvent<{ value: string; values: number[] }>"
+              },
+              "description": "Cambia mientras se arrastra."
+            },
+            {
+              "name": "tsl-change",
+              "type": {
+                "text": "CustomEvent<{ value: string; values: number[] }>"
+              },
+              "description": "Se soltó el pulgar o cambió con el teclado."
+            }
+          ],
+          "x-docs": [
+            "slider"
+          ],
+          "x-formAssociated": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslSlider",
+          "declaration": {
+            "name": "TslSlider",
+            "module": "esm/components/slider.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-slider",
+          "declaration": {
+            "name": "TslSlider",
+            "module": "esm/components/slider.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/rating.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslRating",
+          "tagName": "tsl-rating",
+          "customElement": true,
+          "description": "Valoración con estrellas (también medias estrellas) como único control `slider`.",
+          "superclass": {
+            "name": "TslFormElement",
+            "module": "esm/core/form.mjs"
+          },
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre con el que el valor viaja en el formulario."
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Obliga a tener valor: aplica la validación nativa del formulario."
+            },
+            {
+              "name": "required-message",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación cuando falta el valor.",
+              "default": "Completa este campo."
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "number"
+              },
+              "description": "Valoración inicial.",
+              "default": "0"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "description": "Número de estrellas.",
+              "default": "5"
+            },
+            {
+              "name": "half",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Admite medias estrellas."
+            },
+            {
+              "name": "clearable",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Volver a elegir el mismo valor (o pulsar Supr) lo borra."
+            },
+            {
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Solo lectura."
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible.",
+              "default": "Valoración"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "number"
+              },
+              "description": "Valoración actual."
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Refleja el atributo `disabled`."
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "description": "Formulario al que pertenece.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "type": {
+                "text": "ValidityState"
+              },
+              "description": "Estado de validación.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación actual.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "reset",
+              "description": "Restablece el valor inicial.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "description": "Indica si el campo es válido.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "description": "Valida y muestra el aviso nativo si no lo es.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-change",
+              "type": {
+                "text": "CustomEvent<{ value: number }>"
+              },
+              "description": "Cambió la valoración."
+            }
+          ],
+          "x-docs": [
+            "rating"
+          ],
+          "x-formAssociated": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslRating",
+          "declaration": {
+            "name": "TslRating",
+            "module": "esm/components/rating.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-rating",
+          "declaration": {
+            "name": "TslRating",
+            "module": "esm/components/rating.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/color-picker.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslColorPicker",
+          "tagName": "tsl-color-picker",
+          "customElement": true,
+          "description": "Selector de color con área de saturación/brillo, tono, opacidad, hexadecimal y cuentagotas.",
+          "superclass": {
+            "name": "TslFormElement",
+            "module": "esm/core/form.mjs"
+          },
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre con el que el valor viaja en el formulario."
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Obliga a tener valor: aplica la validación nativa del formulario."
+            },
+            {
+              "name": "required-message",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación cuando falta el valor.",
+              "default": "Completa este campo."
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Color inicial (`#rrggbb` o `#rrggbbaa`).",
+              "default": "#6366f1"
+            },
+            {
+              "name": "alpha",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Añade el control de opacidad."
+            },
+            {
+              "name": "swatches",
+              "type": {
+                "text": "string"
+              },
+              "description": "Colores de muestra separados por comas (vacío = sin muestras)."
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible."
+            },
+            {
+              "name": "area-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible del área.",
+              "default": "Saturación y brillo"
+            },
+            {
+              "name": "hue-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible del tono.",
+              "default": "Tono"
+            },
+            {
+              "name": "alpha-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible de la opacidad.",
+              "default": "Opacidad"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Color `#rrggbb` o `#rrggbbaa`."
+            },
+            {
+              "kind": "field",
+              "name": "isOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Indica si el panel está abierto.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Refleja el atributo `disabled`."
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "description": "Formulario al que pertenece.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "type": {
+                "text": "ValidityState"
+              },
+              "description": "Estado de validación.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación actual.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "open",
+              "description": "Abre el panel.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "description": "Lo cierra.",
+              "parameters": [
+                {
+                  "name": "returnFocus",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reset",
+              "description": "Restablece el valor inicial.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "description": "Indica si el campo es válido.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "description": "Valida y muestra el aviso nativo si no lo es.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-input",
+              "type": {
+                "text": "CustomEvent<{ value: string }>"
+              },
+              "description": "Cambia mientras se arrastra."
+            },
+            {
+              "name": "tsl-change",
+              "type": {
+                "text": "CustomEvent<{ value: string }>"
+              },
+              "description": "Se confirmó el color."
+            },
+            {
+              "name": "tsl-open",
+              "type": {
+                "text": "CustomEvent<{}>"
+              },
+              "description": "El panel se abrió."
+            },
+            {
+              "name": "tsl-close",
+              "type": {
+                "text": "CustomEvent<{}>"
+              },
+              "description": "El panel se cerró."
+            }
+          ],
+          "x-docs": [
+            "color-picker"
+          ],
+          "x-formAssociated": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslColorPicker",
+          "declaration": {
+            "name": "TslColorPicker",
+            "module": "esm/components/color-picker.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-color-picker",
+          "declaration": {
+            "name": "TslColorPicker",
+            "module": "esm/components/color-picker.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/password.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslPassword",
+          "tagName": "tsl-password",
+          "customElement": true,
+          "description": "Envuelve un `<input>` con botón mostrar/ocultar y medidor de seguridad opcional.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "meter",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Muestra el medidor de seguridad."
+            },
+            {
+              "name": "min-length",
+              "type": {
+                "text": "number"
+              },
+              "description": "Longitud mínima que cuenta para el medidor.",
+              "default": "8"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre del `<input>` si el elemento lo crea."
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto del `<input>` si el elemento lo crea."
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Campo obligatorio (si el elemento crea el `<input>`)."
+            },
+            {
+              "name": "autocomplete",
+              "type": {
+                "text": "string"
+              },
+              "description": "Valor de `autocomplete` del `<input>`.",
+              "default": "new-password"
+            },
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "description": "Identificador que se traslada al `<input>` creado."
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible del `<input>` creado."
+            },
+            {
+              "name": "show-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto del botón para mostrar.",
+              "default": "Mostrar"
+            },
+            {
+              "name": "hide-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto del botón para ocultar.",
+              "default": "Ocultar"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto escrito.",
+              "readonly": true
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-change",
+              "type": {
+                "text": "CustomEvent<{ value: string; score: number }>"
+              },
+              "description": "Cambió el texto; `score` va de 0 a 4."
+            }
+          ],
+          "x-docs": [
+            "password"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslPassword",
+          "declaration": {
+            "name": "TslPassword",
+            "module": "esm/components/password.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-password",
+          "declaration": {
+            "name": "TslPassword",
+            "module": "esm/components/password.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/mention.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslMention",
+          "tagName": "tsl-mention",
+          "customElement": true,
+          "description": "Menciones al escribir `@` (o el carácter elegido) en un textarea o input.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "trigger",
+              "type": {
+                "text": "string"
+              },
+              "description": "Carácter que abre la lista.",
+              "default": "@"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "description": "Máximo de sugerencias.",
+              "default": "6"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible de la lista.",
+              "default": "Menciones"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "users",
+              "type": {
+                "text": "Array<{ value: string; label: string; hint?: string }>"
+              },
+              "description": "Usuarios sugeribles (se leen de las `<option>` hijas)."
+            },
+            {
+              "kind": "field",
+              "name": "isOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Indica si la lista está abierta.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "description": "Cierra la lista.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-mention",
+              "type": {
+                "text": "CustomEvent<{ user: { value: string; label: string; hint?: string }; value: string }>"
+              },
+              "description": "Se insertó una mención."
+            }
+          ],
+          "x-itemAttributes": [
+            {
+              "name": "value",
+              "description": "Identificador que se inserta tras el carácter."
+            },
+            {
+              "name": "data-hint",
+              "description": "Texto secundario."
+            }
+          ],
+          "x-docs": [
+            "mention"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslMention",
+          "declaration": {
+            "name": "TslMention",
+            "module": "esm/components/mention.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-mention",
+          "declaration": {
+            "name": "TslMention",
+            "module": "esm/components/mention.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/toggle-group.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslToggleGroup",
+          "tagName": "tsl-toggle-group",
+          "customElement": true,
+          "description": "Grupo de botones con `aria-pressed`, de selección única o múltiple.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "type",
+              "type": {
+                "text": "\"single\" | \"multiple\""
+              },
+              "description": "Un solo botón activo o varios.",
+              "default": "single"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Valores activos iniciales separados por comas."
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "En `single`, impide deseleccionar."
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string | string[]"
+              },
+              "description": "Valor activo (arreglo con `multiple`)."
+            },
+            {
+              "kind": "method",
+              "name": "toggle",
+              "description": "Alterna un valor.",
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-change",
+              "type": {
+                "text": "CustomEvent<{ value: string | string[] }>"
+              },
+              "description": "Cambió la selección."
+            }
+          ],
+          "x-docs": [
+            "toggle-group"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslToggleGroup",
+          "declaration": {
+            "name": "TslToggleGroup",
+            "module": "esm/components/toggle-group.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-toggle-group",
+          "declaration": {
+            "name": "TslToggleGroup",
+            "module": "esm/components/toggle-group.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/collapsible.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslCollapsible",
+          "tagName": "tsl-collapsible",
+          "customElement": true,
+          "description": "Bloque que se muestra u oculta con altura animada (el contenido cerrado queda `inert`).",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Abierto."
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "isOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Estado abierto/cerrado."
+            },
+            {
+              "kind": "method",
+              "name": "toggle",
+              "description": "Alterna o fuerza un estado.",
+              "parameters": [
+                {
+                  "name": "force",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "open",
+              "description": "Abre.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "description": "Cierra.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-toggle",
+              "type": {
+                "text": "CustomEvent<{ open: boolean }>"
+              },
+              "description": "Cambió el estado."
+            }
+          ],
+          "x-docs": [
+            "collapsible"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslCollapsible",
+          "declaration": {
+            "name": "TslCollapsible",
+            "module": "esm/components/collapsible.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-collapsible",
+          "declaration": {
+            "name": "TslCollapsible",
+            "module": "esm/components/collapsible.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/scroll-area.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslScrollArea",
+          "tagName": "tsl-scroll-area",
+          "customElement": true,
+          "description": "Zona desplazable con degradado en los bordes que aún tienen contenido (`data-top|bottom|left|right`). `scrollTo()` se aplica al área desplazable.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "orientation",
+              "type": {
+                "text": "\"vertical\" | \"horizontal\" | \"both\""
+              },
+              "description": "Ejes con scroll.",
+              "default": "vertical"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible de la región.",
+              "default": "Contenido desplazable"
+            }
+          ],
+          "members": [],
+          "events": [],
+          "x-docs": [
+            "scroll-area"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslScrollArea",
+          "declaration": {
+            "name": "TslScrollArea",
+            "module": "esm/components/scroll-area.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-scroll-area",
+          "declaration": {
+            "name": "TslScrollArea",
+            "module": "esm/components/scroll-area.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/resizable.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslResizable",
+          "tagName": "tsl-resizable",
+          "customElement": true,
+          "description": "Paneles con separadores arrastrables (puntero y teclado), anidables y con tamaños persistentes.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "direction",
+              "type": {
+                "text": "\"horizontal\" | \"vertical\""
+              },
+              "description": "Disposición de los paneles.",
+              "default": "horizontal"
+            },
+            {
+              "name": "storage-key",
+              "type": {
+                "text": "string"
+              },
+              "description": "Si se indica, recuerda los tamaños en `localStorage`."
+            },
+            {
+              "name": "handle-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible de los separadores.",
+              "default": "Cambiar tamaño"
+            }
+          ],
+          "members": [],
+          "events": [
+            {
+              "name": "tsl-resize",
+              "type": {
+                "text": "CustomEvent<{ sizes: number[] }>"
+              },
+              "description": "Cambiaron los tamaños (porcentajes)."
+            }
+          ],
+          "x-itemAttributes": [
+            {
+              "name": "data-size",
+              "description": "Tamaño inicial del panel en %."
+            },
+            {
+              "name": "data-min",
+              "description": "Tamaño mínimo en %."
+            },
+            {
+              "name": "data-max",
+              "description": "Tamaño máximo en %."
+            }
+          ],
+          "x-docs": [
+            "resizable"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslResizable",
+          "declaration": {
+            "name": "TslResizable",
+            "module": "esm/components/resizable.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-resizable",
+          "declaration": {
+            "name": "TslResizable",
+            "module": "esm/components/resizable.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/tree.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslTree",
+          "tagName": "tsl-tree",
+          "customElement": true,
+          "description": "Árbol accesible a partir de una lista anidada, con selección y casillas de estado mixto.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "selection",
+              "type": {
+                "text": "\"single\" | \"multiple\" | \"none\""
+              },
+              "description": "Modo de selección.",
+              "default": "single"
+            },
+            {
+              "name": "checkable",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Añade casillas con estado mixto en los padres."
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible del árbol."
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string | string[]"
+              },
+              "description": "Nodo(s) seleccionado(s)."
+            },
+            {
+              "kind": "field",
+              "name": "checkedValues",
+              "type": {
+                "text": "string[]"
+              },
+              "description": "Nodos con la casilla marcada.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "expand",
+              "description": "Expande o colapsa un nodo.",
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "on",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "expandAll",
+              "description": "Expande (o colapsa) todos.",
+              "parameters": [
+                {
+                  "name": "on",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "collapseAll",
+              "description": "Colapsa todos.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "focusItem",
+              "description": "Enfoca un nodo.",
+              "parameters": [
+                {
+                  "name": "item",
+                  "type": {
+                    "text": "HTMLLIElement | null"
+                  }
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-select",
+              "type": {
+                "text": "CustomEvent<{ value: string; values: string[] }>"
+              },
+              "description": "Se seleccionó un nodo."
+            },
+            {
+              "name": "tsl-toggle",
+              "type": {
+                "text": "CustomEvent<{ value: string; expanded: boolean }>"
+              },
+              "description": "Se expandió o colapsó un nodo."
+            },
+            {
+              "name": "tsl-check",
+              "type": {
+                "text": "CustomEvent<{ values: string[] }>"
+              },
+              "description": "Cambiaron las casillas marcadas."
+            }
+          ],
+          "x-itemAttributes": [
+            {
+              "name": "data-value",
+              "description": "Valor del nodo (por defecto, su texto)."
+            },
+            {
+              "name": "data-expanded",
+              "description": "Nodo expandido al iniciar."
+            },
+            {
+              "name": "data-selected",
+              "description": "Nodo seleccionado al iniciar."
+            },
+            {
+              "name": "data-checked",
+              "description": "Casilla marcada al iniciar (con `checkable`)."
+            }
+          ],
+          "x-docs": [
+            "tree"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslTree",
+          "declaration": {
+            "name": "TslTree",
+            "module": "esm/components/tree.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-tree",
+          "declaration": {
+            "name": "TslTree",
+            "module": "esm/components/tree.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/virtual-list.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslVirtualList",
+          "tagName": "tsl-virtual-list",
+          "customElement": true,
+          "description": "Lista virtualizada de alto de fila fijo: solo dibuja las filas visibles.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "item-height",
+              "type": {
+                "text": "number"
+              },
+              "description": "Alto de cada fila en píxeles.",
+              "default": "36"
+            },
+            {
+              "name": "height",
+              "type": {
+                "text": "string"
+              },
+              "description": "Alto del contenedor (CSS).",
+              "default": "320px"
+            },
+            {
+              "name": "overscan",
+              "type": {
+                "text": "number"
+              },
+              "description": "Filas extra que se dibujan fuera de la vista.",
+              "default": "6"
+            },
+            {
+              "name": "selectable",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Convierte la lista en un `listbox` navegable con teclado."
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible.",
+              "default": "Lista"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "items",
+              "type": {
+                "text": "unknown[]"
+              },
+              "description": "Elementos de la lista."
+            },
+            {
+              "kind": "field",
+              "name": "renderItem",
+              "type": {
+                "text": "((item: any, index: number) => Node | string) | undefined"
+              },
+              "description": "Cómo dibujar un elemento (un string se muestra como texto)."
+            },
+            {
+              "kind": "field",
+              "name": "activeIndex",
+              "type": {
+                "text": "number"
+              },
+              "description": "Índice activo (−1 si ninguno).",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "scrollToIndex",
+              "description": "Desplaza hasta un elemento.",
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "align",
+                  "type": {
+                    "text": "\"start\" | \"center\" | \"end\" | \"nearest\""
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "activate",
+              "description": "Activa un elemento (y lo desplaza a la vista).",
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "fire",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-select",
+              "type": {
+                "text": "CustomEvent<{ item: unknown; index: number }>"
+              },
+              "description": "Se eligió un elemento."
+            }
+          ],
+          "x-docs": [
+            "virtual-list"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslVirtualList",
+          "declaration": {
+            "name": "TslVirtualList",
+            "module": "esm/components/virtual-list.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-virtual-list",
+          "declaration": {
+            "name": "TslVirtualList",
+            "module": "esm/components/virtual-list.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/sortable.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslSortable",
+          "tagName": "tsl-sortable",
+          "customElement": true,
+          "description": "Lista reordenable con puntero y teclado, también entre listas del mismo grupo (kanban).",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "group",
+              "type": {
+                "text": "string"
+              },
+              "description": "Las listas con el mismo grupo intercambian elementos."
+            },
+            {
+              "name": "direction",
+              "type": {
+                "text": "\"vertical\" | \"horizontal\" | \"grid\""
+              },
+              "description": "Disposición de los elementos.",
+              "default": "vertical"
+            },
+            {
+              "name": "handle",
+              "type": {
+                "text": "string"
+              },
+              "description": "Selector CSS del asa; si se indica, solo ella arrastra."
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre de la lista (se usa en los anuncios)."
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "itemEls",
+              "type": {
+                "text": "HTMLElement[]"
+              },
+              "description": "Elementos `.tsl-sortable__item` de la lista.",
+              "readonly": true
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-sort",
+              "type": {
+                "text": "CustomEvent<{ item: HTMLElement; from: { container: HTMLElement; index: number }; to: { container: HTMLElement; index: number } }>"
+              },
+              "description": "Un elemento cambió de posición (se emite en la lista de destino)."
+            }
+          ],
+          "x-docs": [
+            "sortable",
+            "kanban"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslSortable",
+          "declaration": {
+            "name": "TslSortable",
+            "module": "esm/components/sortable.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-sortable",
+          "declaration": {
+            "name": "TslSortable",
+            "module": "esm/components/sortable.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/data-table.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslDataTable",
+          "tagName": "tsl-data-table",
+          "customElement": true,
+          "description": "Tabla con búsqueda, orden, selección, columnas visibles, densidad, paginación y exportación CSV.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "page-size",
+              "type": {
+                "text": "number"
+              },
+              "description": "Filas por página.",
+              "default": "10"
+            },
+            {
+              "name": "page-size-options",
+              "type": {
+                "text": "string"
+              },
+              "description": "Tamaños de página disponibles, separados por comas.",
+              "default": "5,10,20,50"
+            },
+            {
+              "name": "selectable",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Añade casillas de selección."
+            },
+            {
+              "name": "searchable",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Añade el campo de búsqueda."
+            },
+            {
+              "name": "exportable",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Añade el botón de exportar CSV."
+            },
+            {
+              "name": "height",
+              "type": {
+                "text": "string"
+              },
+              "description": "Alto máximo de la tabla (cabecera fija)."
+            },
+            {
+              "name": "density",
+              "type": {
+                "text": "\"compact\" | \"normal\" | \"comfortable\""
+              },
+              "description": "Densidad de filas.",
+              "default": "normal"
+            },
+            {
+              "name": "loading",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Muestra esqueletos en lugar de las filas."
+            },
+            {
+              "name": "caption",
+              "type": {
+                "text": "string"
+              },
+              "description": "Título accesible de la tabla."
+            },
+            {
+              "name": "empty-text",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto sin datos.",
+              "default": "Sin datos"
+            },
+            {
+              "name": "no-match-text",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto sin coincidencias de búsqueda.",
+              "default": "Sin resultados para"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "description": "Idioma de los números y las fechas."
+            },
+            {
+              "name": "density-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Etiqueta del botón de densidad.",
+              "default": "Densidad"
+            },
+            {
+              "name": "select-all-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible de la casilla de cabecera.",
+              "default": "Seleccionar la página"
+            },
+            {
+              "name": "select-row-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Prefijo del nombre accesible de cada casilla de fila.",
+              "default": "Seleccionar fila"
+            },
+            {
+              "name": "selected-one",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto de «1 seleccionada».",
+              "default": "seleccionada"
+            },
+            {
+              "name": "selected-many",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto de «N seleccionadas».",
+              "default": "seleccionadas"
+            },
+            {
+              "name": "search-placeholder",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto del buscador.",
+              "default": "Buscar…"
+            },
+            {
+              "name": "clear-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto del botón de limpiar la selección.",
+              "default": "Limpiar"
+            },
+            {
+              "name": "columns-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto del menú de columnas.",
+              "default": "Columnas"
+            },
+            {
+              "name": "export-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto del botón de exportar.",
+              "default": "Exportar CSV"
+            },
+            {
+              "name": "rows-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Etiqueta del selector de filas por página.",
+              "default": "Filas"
+            },
+            {
+              "name": "pager-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible de la paginación.",
+              "default": "Paginación"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "columns",
+              "type": {
+                "text": "Array<{ key: string; label: string; sort?: \"text\" | \"number\" | \"date\"; align?: \"end\"; width?: string; hidden?: boolean; format?: (value: any, row: any) => string; render?: (row: any) => Node | string }>"
+              },
+              "description": "Definición de columnas."
+            },
+            {
+              "kind": "field",
+              "name": "rows",
+              "type": {
+                "text": "Array<{ id: string | number; [key: string]: any }>"
+              },
+              "description": "Filas de datos."
+            },
+            {
+              "kind": "field",
+              "name": "loading",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Refleja el atributo `loading`."
+            },
+            {
+              "kind": "field",
+              "name": "selectedIds",
+              "type": {
+                "text": "string[]"
+              },
+              "description": "Identificadores de las filas seleccionadas.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "selectedRows",
+              "type": {
+                "text": "Array<{ id: string | number; [key: string]: any }>"
+              },
+              "description": "Filas seleccionadas.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "clearSelection",
+              "description": "Deselecciona todo.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "sortBy",
+              "description": "Alterna el orden de una columna (asc → desc → ninguno).",
+              "parameters": [
+                {
+                  "name": "key",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "toCSV",
+              "description": "Devuelve el CSV de las filas filtradas y ordenadas.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "exportCsv",
+              "description": "Descarga el CSV.",
+              "parameters": [
+                {
+                  "name": "filename",
+                  "type": {
+                    "text": "string"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-sort",
+              "type": {
+                "text": "CustomEvent<{ key: string; dir: \"asc\" | \"desc\" | null }>"
+              },
+              "description": "Cambió el orden."
+            },
+            {
+              "name": "tsl-page",
+              "type": {
+                "text": "CustomEvent<{ page: number; pageSize: number }>"
+              },
+              "description": "Cambió la página o su tamaño."
+            },
+            {
+              "name": "tsl-selection",
+              "type": {
+                "text": "CustomEvent<{ ids: string[]; rows: Array<{ id: string | number; [key: string]: any }> }>"
+              },
+              "description": "Cambió la selección."
+            },
+            {
+              "name": "tsl-row-click",
+              "type": {
+                "text": "CustomEvent<{ row: { id: string | number; [key: string]: any } }>"
+              },
+              "description": "Se hizo clic en una fila."
+            }
+          ],
+          "x-docs": [
+            "data-table"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslDataTable",
+          "declaration": {
+            "name": "TslDataTable",
+            "module": "esm/components/data-table.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-data-table",
+          "declaration": {
+            "name": "TslDataTable",
+            "module": "esm/components/data-table.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/chart.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslChart",
+          "tagName": "tsl-chart",
+          "customElement": true,
+          "description": "Gráficas SVG: línea, área, barras, dona, gauge y mapa de calor, con tooltip, leyenda y teclado.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "type",
+              "type": {
+                "text": "\"line\" | \"area\" | \"bar\" | \"donut\" | \"gauge\" | \"heatmap\""
+              },
+              "description": "Tipo de gráfica.",
+              "default": "line"
+            },
+            {
+              "name": "data",
+              "type": {
+                "text": "string"
+              },
+              "description": "Datos en JSON (alternativa a la propiedad `data`)."
+            },
+            {
+              "name": "height",
+              "type": {
+                "text": "number"
+              },
+              "description": "Alto en píxeles.",
+              "default": "240"
+            },
+            {
+              "name": "caption",
+              "type": {
+                "text": "string"
+              },
+              "description": "Título visible y nombre accesible."
+            },
+            {
+              "name": "legend",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Fuerza la leyenda (`legend=\"false\"` la oculta)."
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "description": "Idioma de los números."
+            },
+            {
+              "name": "prefix",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto antes de los valores (`$`)."
+            },
+            {
+              "name": "suffix",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto después de los valores (`%`)."
+            },
+            {
+              "name": "stacked",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Barras apiladas."
+            },
+            {
+              "name": "horizontal",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Barras horizontales."
+            },
+            {
+              "name": "smooth",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Curvas suavizadas en línea y área."
+            },
+            {
+              "name": "center-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto bajo el total en la dona.",
+              "default": "Total"
+            },
+            {
+              "name": "thickness",
+              "type": {
+                "text": "number"
+              },
+              "description": "Grosor del anillo de la dona (0–1).",
+              "default": "0.3"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "data",
+              "type": {
+                "text": "unknown"
+              },
+              "description": "Datos (el formato depende del tipo)."
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "string"
+              },
+              "description": "Tipo de gráfica.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "height",
+              "type": {
+                "text": "number"
+              },
+              "description": "Alto en píxeles.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "render",
+              "description": "Vuelve a dibujar la gráfica.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-chart-hover",
+              "type": {
+                "text": "CustomEvent<{ index: number; label: string; values: Array<{ name: string; value: unknown; color: string; percent?: number }> }>"
+              },
+              "description": "Cambió el punto activo."
+            },
+            {
+              "name": "tsl-chart-click",
+              "type": {
+                "text": "CustomEvent<{ index: number; label: string; values: Array<{ name: string; value: unknown; color: string; percent?: number }> }>"
+              },
+              "description": "Se pulsó el punto activo."
+            }
+          ],
+          "x-docs": [
+            "chart-line",
+            "chart-bar",
+            "chart-donut",
+            "chart-heatmap"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslChart",
+          "declaration": {
+            "name": "TslChart",
+            "module": "esm/components/chart.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-chart",
+          "declaration": {
+            "name": "TslChart",
+            "module": "esm/components/chart.mjs"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1887 @@
+{
+  "version": 1.1,
+  "tags": [
+    {
+      "name": "tsl-tabs",
+      "description": {
+        "kind": "markdown",
+        "value": "Pestañas accesibles con teclado (← → Inicio Fin)."
+      },
+      "attributes": [
+        {
+          "name": "value",
+          "description": {
+            "kind": "markdown",
+            "value": "`data-tab` de la pestaña activa al iniciar (por defecto, la primera)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-segmented",
+      "description": {
+        "kind": "markdown",
+        "value": "Control segmentado (radiogroup) con teclado."
+      },
+      "attributes": [
+        {
+          "name": "value",
+          "description": {
+            "kind": "markdown",
+            "value": "Valor seleccionado al iniciar."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-menu",
+      "description": {
+        "kind": "markdown",
+        "value": "Menú desplegable con navegación por teclado y cierre al hacer clic fuera."
+      },
+      "attributes": [
+        {
+          "name": "aria-disabled",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Ítem deshabilitado (también vale `disabled`)."
+          },
+          "valueSet": "v"
+        }
+      ]
+    },
+    {
+      "name": "tsl-command",
+      "description": {
+        "kind": "markdown",
+        "value": "Paleta de comandos en un `<dialog>` modal, con búsqueda difusa y grupos."
+      },
+      "attributes": [
+        {
+          "name": "hotkey",
+          "description": {
+            "kind": "markdown",
+            "value": "Letra que, con Ctrl/⌘, abre la paleta."
+          }
+        },
+        {
+          "name": "placeholder",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto del campo de búsqueda."
+          }
+        },
+        {
+          "name": "empty",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto cuando no hay resultados. Por defecto: `Sin resultados.`."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del diálogo."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-popover",
+      "description": {
+        "kind": "markdown",
+        "value": "Panel flotante anclado a un disparador, con la API nativa `popover`."
+      },
+      "attributes": [
+        {
+          "name": "placement",
+          "description": {
+            "kind": "markdown",
+            "value": "Lado preferido; se voltea si no cabe. Por defecto: `bottom-start`."
+          }
+        },
+        {
+          "name": "offset",
+          "description": {
+            "kind": "markdown",
+            "value": "Separación en píxeles respecto al disparador. Por defecto: `6`."
+          }
+        },
+        {
+          "name": "manual",
+          "description": {
+            "kind": "markdown",
+            "value": "Solo se cierra con código o con Esc (no al hacer clic fuera)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del panel."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-hovercard",
+      "description": {
+        "kind": "markdown",
+        "value": "Vista previa que aparece al pasar el cursor o enfocar con teclado."
+      },
+      "attributes": [
+        {
+          "name": "placement",
+          "description": {
+            "kind": "markdown",
+            "value": "Lado preferido (igual que `tsl-popover`). Por defecto: `bottom-start`."
+          }
+        },
+        {
+          "name": "offset",
+          "description": {
+            "kind": "markdown",
+            "value": "Separación en píxeles. Por defecto: `8`."
+          }
+        },
+        {
+          "name": "open-delay",
+          "description": {
+            "kind": "markdown",
+            "value": "Milisegundos antes de abrir. Por defecto: `300`."
+          }
+        },
+        {
+          "name": "close-delay",
+          "description": {
+            "kind": "markdown",
+            "value": "Milisegundos antes de cerrar. Por defecto: `150`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-context-menu",
+      "description": {
+        "kind": "markdown",
+        "value": "Menú contextual (clic derecho, tecla de menú, Mayús+F10 y pulsación larga)."
+      },
+      "attributes": [
+        {
+          "name": "aria-disabled",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Ítem deshabilitado (también vale `disabled`)."
+          },
+          "valueSet": "v"
+        }
+      ]
+    },
+    {
+      "name": "tsl-menubar",
+      "description": {
+        "kind": "markdown",
+        "value": "Barra de menús estilo aplicación, con submenús, ítems marcables y teclado completo."
+      },
+      "attributes": [
+        {
+          "name": "data-check",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Ítem marcable: alterna `aria-checked` al elegirlo."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "data-submenu",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Ítem que abre un submenú (el siguiente `.tsl-menu__list`)."
+          },
+          "valueSet": "v"
+        }
+      ]
+    },
+    {
+      "name": "tsl-nav-menu",
+      "description": {
+        "kind": "markdown",
+        "value": "Menú de navegación de cabecera: los paneles llevan contenido libre y se abren al pasar el cursor."
+      },
+      "attributes": [
+        {
+          "name": "hover-delay",
+          "description": {
+            "kind": "markdown",
+            "value": "Milisegundos antes de abrir al pasar el cursor. Por defecto: `120`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-otp",
+      "description": {
+        "kind": "markdown",
+        "value": "Código de un solo uso en celdas separadas, con pegado y autoavance."
+      },
+      "attributes": [
+        {
+          "name": "length",
+          "description": {
+            "kind": "markdown",
+            "value": "Número de celdas. Por defecto: `6`."
+          }
+        },
+        {
+          "name": "mode",
+          "description": {
+            "kind": "markdown",
+            "value": "Tipo de carácter admitido. Por defecto: `numeric`."
+          },
+          "values": [
+            {
+              "name": "numeric"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre del campo oculto que viaja en el formulario."
+          }
+        },
+        {
+          "name": "aria-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del grupo. Por defecto: `Código de verificación`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-tags",
+      "description": {
+        "kind": "markdown",
+        "value": "Campo de etiquetas: Enter o coma añaden, Retroceso borra la última."
+      },
+      "attributes": [
+        {
+          "name": "value",
+          "description": {
+            "kind": "markdown",
+            "value": "Etiquetas iniciales separadas por comas."
+          }
+        },
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre del campo oculto (valor separado por comas)."
+          }
+        },
+        {
+          "name": "placeholder",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto del campo. Por defecto: `Añadir…`."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del campo. Por defecto: `Añadir etiqueta`."
+          }
+        },
+        {
+          "name": "max",
+          "description": {
+            "kind": "markdown",
+            "value": "Máximo de etiquetas (0 = sin límite). Por defecto: `0`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-dropzone",
+      "description": {
+        "kind": "markdown",
+        "value": "Zona para arrastrar o elegir archivos, con lista de los seleccionados."
+      },
+      "attributes": [
+        {
+          "name": "accept",
+          "description": {
+            "kind": "markdown",
+            "value": "Tipos admitidos (igual que `<input accept>`)."
+          }
+        },
+        {
+          "name": "multiple",
+          "description": {
+            "kind": "markdown",
+            "value": "Permite varios archivos."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre del `<input type=file>` interno."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-calendar",
+      "description": {
+        "kind": "markdown",
+        "value": "Calendario con teclado (flechas, PgUp/PgDn), rango, varios meses y días deshabilitados."
+      },
+      "attributes": [
+        {
+          "name": "value",
+          "description": {
+            "kind": "markdown",
+            "value": "Fecha ISO (`2026-10-14`) o intervalo `inicio/fin` con `mode=\"range\"`."
+          }
+        },
+        {
+          "name": "locale",
+          "description": {
+            "kind": "markdown",
+            "value": "Idioma de los nombres (por defecto, el `lang` del documento)."
+          }
+        },
+        {
+          "name": "week-start",
+          "description": {
+            "kind": "markdown",
+            "value": "Primer día de la semana (0 = domingo). Por defecto: `1`."
+          }
+        },
+        {
+          "name": "min",
+          "description": {
+            "kind": "markdown",
+            "value": "Fecha ISO mínima seleccionable."
+          }
+        },
+        {
+          "name": "max",
+          "description": {
+            "kind": "markdown",
+            "value": "Fecha ISO máxima seleccionable."
+          }
+        },
+        {
+          "name": "mode",
+          "description": {
+            "kind": "markdown",
+            "value": "Selección de un día o de un intervalo. Por defecto: `single`."
+          },
+          "values": [
+            {
+              "name": "single"
+            },
+            {
+              "name": "range"
+            }
+          ]
+        },
+        {
+          "name": "months",
+          "description": {
+            "kind": "markdown",
+            "value": "Meses visibles a la vez. Por defecto: `1`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-sparkline",
+      "description": {
+        "kind": "markdown",
+        "value": "Minigráfica de línea SVG que se adapta al tamaño del elemento."
+      },
+      "attributes": [
+        {
+          "name": "values",
+          "description": {
+            "kind": "markdown",
+            "value": "Números separados por comas o espacios."
+          }
+        },
+        {
+          "name": "fill",
+          "description": {
+            "kind": "markdown",
+            "value": "Rellena el área bajo la línea."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "aria-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Descripción accesible (por defecto, la serie de valores)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-select",
+      "description": {
+        "kind": "markdown",
+        "value": "Select personalizado con listbox accesible, buscador, selección múltiple y creación de opciones."
+      },
+      "attributes": [
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre con el que el valor viaja en el formulario."
+          }
+        },
+        {
+          "name": "disabled",
+          "description": {
+            "kind": "markdown",
+            "value": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required",
+          "description": {
+            "kind": "markdown",
+            "value": "Obliga a tener valor: aplica la validación nativa del formulario."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required-message",
+          "description": {
+            "kind": "markdown",
+            "value": "Mensaje de validación cuando falta el valor. Por defecto: `Completa este campo.`."
+          }
+        },
+        {
+          "name": "value",
+          "description": {
+            "kind": "markdown",
+            "value": "Valor inicial (con `multiple`, valores separados por comas)."
+          }
+        },
+        {
+          "name": "placeholder",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto cuando no hay selección. Por defecto: `Selecciona…`."
+          }
+        },
+        {
+          "name": "searchable",
+          "description": {
+            "kind": "markdown",
+            "value": "Añade un buscador dentro del panel."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "multiple",
+          "description": {
+            "kind": "markdown",
+            "value": "Permite elegir varias opciones."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "creatable",
+          "description": {
+            "kind": "markdown",
+            "value": "Ofrece crear una opción nueva con el texto buscado."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "clearable",
+          "description": {
+            "kind": "markdown",
+            "value": "Muestra un botón para limpiar la selección."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "autocomplete",
+          "description": {
+            "kind": "markdown",
+            "value": "Convierte el disparador en un campo de texto (combobox)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del campo."
+          }
+        },
+        {
+          "name": "search-placeholder",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto del buscador. Por defecto: `Buscar…`."
+          }
+        },
+        {
+          "name": "empty",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto cuando no hay coincidencias. Por defecto: `Sin resultados`."
+          }
+        },
+        {
+          "name": "create-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Prefijo de la opción de crear. Por defecto: `Crear`."
+          }
+        },
+        {
+          "name": "clear-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del botón de limpiar. Por defecto: `Limpiar selección`."
+          }
+        },
+        {
+          "name": "max-chips",
+          "description": {
+            "kind": "markdown",
+            "value": "Chips visibles con `multiple` antes del «+N». Por defecto: `3`."
+          }
+        },
+        {
+          "name": "selected",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Opción seleccionada al iniciar."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "data-hint",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Texto secundario a la derecha de la opción."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-combobox",
+      "description": {
+        "kind": "markdown",
+        "value": "Campo de texto que filtra opciones mientras se escribe (`<tsl-select autocomplete>`)."
+      },
+      "attributes": []
+    },
+    {
+      "name": "tsl-date-picker",
+      "description": {
+        "kind": "markdown",
+        "value": "Selector de fecha o de intervalo de fechas en un popover con calendario."
+      },
+      "attributes": [
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre con el que el valor viaja en el formulario."
+          }
+        },
+        {
+          "name": "disabled",
+          "description": {
+            "kind": "markdown",
+            "value": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required",
+          "description": {
+            "kind": "markdown",
+            "value": "Obliga a tener valor: aplica la validación nativa del formulario."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required-message",
+          "description": {
+            "kind": "markdown",
+            "value": "Mensaje de validación cuando falta el valor. Por defecto: `Completa este campo.`."
+          }
+        },
+        {
+          "name": "value",
+          "description": {
+            "kind": "markdown",
+            "value": "Fecha ISO o intervalo `inicio/fin` con `range`."
+          }
+        },
+        {
+          "name": "min",
+          "description": {
+            "kind": "markdown",
+            "value": "Fecha ISO mínima."
+          }
+        },
+        {
+          "name": "max",
+          "description": {
+            "kind": "markdown",
+            "value": "Fecha ISO máxima."
+          }
+        },
+        {
+          "name": "locale",
+          "description": {
+            "kind": "markdown",
+            "value": "Idioma del formato y del calendario."
+          }
+        },
+        {
+          "name": "week-start",
+          "description": {
+            "kind": "markdown",
+            "value": "Primer día de la semana. Por defecto: `1`."
+          }
+        },
+        {
+          "name": "range",
+          "description": {
+            "kind": "markdown",
+            "value": "Selecciona un intervalo (dos meses visibles por defecto)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "months",
+          "description": {
+            "kind": "markdown",
+            "value": "Meses visibles. Por defecto: `1 (2 con `range`)`."
+          }
+        },
+        {
+          "name": "date-style",
+          "description": {
+            "kind": "markdown",
+            "value": "Formato de la fecha mostrada. Por defecto: `medium`."
+          },
+          "values": [
+            {
+              "name": "short"
+            },
+            {
+              "name": "medium"
+            },
+            {
+              "name": "long"
+            },
+            {
+              "name": "full"
+            }
+          ]
+        },
+        {
+          "name": "placeholder",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto cuando no hay fecha."
+          }
+        },
+        {
+          "name": "clearable",
+          "description": {
+            "kind": "markdown",
+            "value": "Muestra un botón para limpiar."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del panel."
+          }
+        },
+        {
+          "name": "clear-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del botón de limpiar. Por defecto: `Limpiar fecha`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-time-picker",
+      "description": {
+        "kind": "markdown",
+        "value": "Selector de hora con columnas de hora y minutos (y AM/PM con `hour12`)."
+      },
+      "attributes": [
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre con el que el valor viaja en el formulario."
+          }
+        },
+        {
+          "name": "disabled",
+          "description": {
+            "kind": "markdown",
+            "value": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required",
+          "description": {
+            "kind": "markdown",
+            "value": "Obliga a tener valor: aplica la validación nativa del formulario."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required-message",
+          "description": {
+            "kind": "markdown",
+            "value": "Mensaje de validación cuando falta el valor. Por defecto: `Completa este campo.`."
+          }
+        },
+        {
+          "name": "value",
+          "description": {
+            "kind": "markdown",
+            "value": "Hora inicial en formato `HH:MM` (24 h)."
+          }
+        },
+        {
+          "name": "step",
+          "description": {
+            "kind": "markdown",
+            "value": "Minutos entre opciones. Por defecto: `5`."
+          }
+        },
+        {
+          "name": "hour12",
+          "description": {
+            "kind": "markdown",
+            "value": "Muestra la hora en formato de 12 horas con AM/PM."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "min",
+          "description": {
+            "kind": "markdown",
+            "value": "Hora mínima (`HH:MM`)."
+          }
+        },
+        {
+          "name": "max",
+          "description": {
+            "kind": "markdown",
+            "value": "Hora máxima (`HH:MM`)."
+          }
+        },
+        {
+          "name": "locale",
+          "description": {
+            "kind": "markdown",
+            "value": "Idioma del formato mostrado."
+          }
+        },
+        {
+          "name": "placeholder",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto cuando no hay hora."
+          }
+        },
+        {
+          "name": "clearable",
+          "description": {
+            "kind": "markdown",
+            "value": "Muestra un botón para limpiar."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del panel."
+          }
+        },
+        {
+          "name": "clear-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del botón de limpiar. Por defecto: `Limpiar hora`."
+          }
+        },
+        {
+          "name": "hour-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible de la columna de horas. Por defecto: `Hora`."
+          }
+        },
+        {
+          "name": "minute-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible de la columna de minutos. Por defecto: `Minutos`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-slider",
+      "description": {
+        "kind": "markdown",
+        "value": "Slider de uno o dos pulgares (rango) con tooltip y teclado."
+      },
+      "attributes": [
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre con el que el valor viaja en el formulario."
+          }
+        },
+        {
+          "name": "disabled",
+          "description": {
+            "kind": "markdown",
+            "value": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required",
+          "description": {
+            "kind": "markdown",
+            "value": "Obliga a tener valor: aplica la validación nativa del formulario."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required-message",
+          "description": {
+            "kind": "markdown",
+            "value": "Mensaje de validación cuando falta el valor. Por defecto: `Completa este campo.`."
+          }
+        },
+        {
+          "name": "value",
+          "description": {
+            "kind": "markdown",
+            "value": "Valor inicial; con dos valores (`20,80`) es un rango."
+          }
+        },
+        {
+          "name": "min",
+          "description": {
+            "kind": "markdown",
+            "value": "Valor mínimo. Por defecto: `0`."
+          }
+        },
+        {
+          "name": "max",
+          "description": {
+            "kind": "markdown",
+            "value": "Valor máximo. Por defecto: `100`."
+          }
+        },
+        {
+          "name": "step",
+          "description": {
+            "kind": "markdown",
+            "value": "Incremento. Por defecto: `1`."
+          }
+        },
+        {
+          "name": "range",
+          "description": {
+            "kind": "markdown",
+            "value": "Dos pulgares que no se cruzan."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "prefix",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto antes del valor mostrado."
+          }
+        },
+        {
+          "name": "suffix",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto después del valor mostrado."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible. Por defecto: `Valor`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-rating",
+      "description": {
+        "kind": "markdown",
+        "value": "Valoración con estrellas (también medias estrellas) como único control `slider`."
+      },
+      "attributes": [
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre con el que el valor viaja en el formulario."
+          }
+        },
+        {
+          "name": "disabled",
+          "description": {
+            "kind": "markdown",
+            "value": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required",
+          "description": {
+            "kind": "markdown",
+            "value": "Obliga a tener valor: aplica la validación nativa del formulario."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required-message",
+          "description": {
+            "kind": "markdown",
+            "value": "Mensaje de validación cuando falta el valor. Por defecto: `Completa este campo.`."
+          }
+        },
+        {
+          "name": "value",
+          "description": {
+            "kind": "markdown",
+            "value": "Valoración inicial. Por defecto: `0`."
+          }
+        },
+        {
+          "name": "max",
+          "description": {
+            "kind": "markdown",
+            "value": "Número de estrellas. Por defecto: `5`."
+          }
+        },
+        {
+          "name": "half",
+          "description": {
+            "kind": "markdown",
+            "value": "Admite medias estrellas."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "clearable",
+          "description": {
+            "kind": "markdown",
+            "value": "Volver a elegir el mismo valor (o pulsar Supr) lo borra."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "readonly",
+          "description": {
+            "kind": "markdown",
+            "value": "Solo lectura."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible. Por defecto: `Valoración`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-color-picker",
+      "description": {
+        "kind": "markdown",
+        "value": "Selector de color con área de saturación/brillo, tono, opacidad, hexadecimal y cuentagotas."
+      },
+      "attributes": [
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre con el que el valor viaja en el formulario."
+          }
+        },
+        {
+          "name": "disabled",
+          "description": {
+            "kind": "markdown",
+            "value": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required",
+          "description": {
+            "kind": "markdown",
+            "value": "Obliga a tener valor: aplica la validación nativa del formulario."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required-message",
+          "description": {
+            "kind": "markdown",
+            "value": "Mensaje de validación cuando falta el valor. Por defecto: `Completa este campo.`."
+          }
+        },
+        {
+          "name": "value",
+          "description": {
+            "kind": "markdown",
+            "value": "Color inicial (`#rrggbb` o `#rrggbbaa`). Por defecto: `#6366f1`."
+          }
+        },
+        {
+          "name": "alpha",
+          "description": {
+            "kind": "markdown",
+            "value": "Añade el control de opacidad."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "swatches",
+          "description": {
+            "kind": "markdown",
+            "value": "Colores de muestra separados por comas (vacío = sin muestras)."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible."
+          }
+        },
+        {
+          "name": "area-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del área. Por defecto: `Saturación y brillo`."
+          }
+        },
+        {
+          "name": "hue-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del tono. Por defecto: `Tono`."
+          }
+        },
+        {
+          "name": "alpha-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible de la opacidad. Por defecto: `Opacidad`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-password",
+      "description": {
+        "kind": "markdown",
+        "value": "Envuelve un `<input>` con botón mostrar/ocultar y medidor de seguridad opcional."
+      },
+      "attributes": [
+        {
+          "name": "meter",
+          "description": {
+            "kind": "markdown",
+            "value": "Muestra el medidor de seguridad."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "min-length",
+          "description": {
+            "kind": "markdown",
+            "value": "Longitud mínima que cuenta para el medidor. Por defecto: `8`."
+          }
+        },
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre del `<input>` si el elemento lo crea."
+          }
+        },
+        {
+          "name": "placeholder",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto del `<input>` si el elemento lo crea."
+          }
+        },
+        {
+          "name": "required",
+          "description": {
+            "kind": "markdown",
+            "value": "Campo obligatorio (si el elemento crea el `<input>`)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "autocomplete",
+          "description": {
+            "kind": "markdown",
+            "value": "Valor de `autocomplete` del `<input>`. Por defecto: `new-password`."
+          }
+        },
+        {
+          "name": "id",
+          "description": {
+            "kind": "markdown",
+            "value": "Identificador que se traslada al `<input>` creado."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del `<input>` creado."
+          }
+        },
+        {
+          "name": "show-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto del botón para mostrar. Por defecto: `Mostrar`."
+          }
+        },
+        {
+          "name": "hide-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto del botón para ocultar. Por defecto: `Ocultar`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-mention",
+      "description": {
+        "kind": "markdown",
+        "value": "Menciones al escribir `@` (o el carácter elegido) en un textarea o input."
+      },
+      "attributes": [
+        {
+          "name": "trigger",
+          "description": {
+            "kind": "markdown",
+            "value": "Carácter que abre la lista. Por defecto: `@`."
+          }
+        },
+        {
+          "name": "max",
+          "description": {
+            "kind": "markdown",
+            "value": "Máximo de sugerencias. Por defecto: `6`."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible de la lista. Por defecto: `Menciones`."
+          }
+        },
+        {
+          "name": "value",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Identificador que se inserta tras el carácter."
+          }
+        },
+        {
+          "name": "data-hint",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Texto secundario."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-toggle-group",
+      "description": {
+        "kind": "markdown",
+        "value": "Grupo de botones con `aria-pressed`, de selección única o múltiple."
+      },
+      "attributes": [
+        {
+          "name": "type",
+          "description": {
+            "kind": "markdown",
+            "value": "Un solo botón activo o varios. Por defecto: `single`."
+          },
+          "values": [
+            {
+              "name": "single"
+            },
+            {
+              "name": "multiple"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": {
+            "kind": "markdown",
+            "value": "Valores activos iniciales separados por comas."
+          }
+        },
+        {
+          "name": "required",
+          "description": {
+            "kind": "markdown",
+            "value": "En `single`, impide deseleccionar."
+          },
+          "valueSet": "v"
+        }
+      ]
+    },
+    {
+      "name": "tsl-collapsible",
+      "description": {
+        "kind": "markdown",
+        "value": "Bloque que se muestra u oculta con altura animada (el contenido cerrado queda `inert`)."
+      },
+      "attributes": [
+        {
+          "name": "open",
+          "description": {
+            "kind": "markdown",
+            "value": "Abierto."
+          },
+          "valueSet": "v"
+        }
+      ]
+    },
+    {
+      "name": "tsl-scroll-area",
+      "description": {
+        "kind": "markdown",
+        "value": "Zona desplazable con degradado en los bordes que aún tienen contenido (`data-top|bottom|left|right`). `scrollTo()` se aplica al área desplazable."
+      },
+      "attributes": [
+        {
+          "name": "orientation",
+          "description": {
+            "kind": "markdown",
+            "value": "Ejes con scroll. Por defecto: `vertical`."
+          },
+          "values": [
+            {
+              "name": "vertical"
+            },
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "both"
+            }
+          ]
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible de la región. Por defecto: `Contenido desplazable`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-resizable",
+      "description": {
+        "kind": "markdown",
+        "value": "Paneles con separadores arrastrables (puntero y teclado), anidables y con tamaños persistentes."
+      },
+      "attributes": [
+        {
+          "name": "direction",
+          "description": {
+            "kind": "markdown",
+            "value": "Disposición de los paneles. Por defecto: `horizontal`."
+          },
+          "values": [
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "vertical"
+            }
+          ]
+        },
+        {
+          "name": "storage-key",
+          "description": {
+            "kind": "markdown",
+            "value": "Si se indica, recuerda los tamaños en `localStorage`."
+          }
+        },
+        {
+          "name": "handle-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible de los separadores. Por defecto: `Cambiar tamaño`."
+          }
+        },
+        {
+          "name": "data-size",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Tamaño inicial del panel en %."
+          }
+        },
+        {
+          "name": "data-min",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Tamaño mínimo en %. Por defecto: `10`."
+          }
+        },
+        {
+          "name": "data-max",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Tamaño máximo en %. Por defecto: `90`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-tree",
+      "description": {
+        "kind": "markdown",
+        "value": "Árbol accesible a partir de una lista anidada, con selección y casillas de estado mixto."
+      },
+      "attributes": [
+        {
+          "name": "selection",
+          "description": {
+            "kind": "markdown",
+            "value": "Modo de selección. Por defecto: `single`."
+          },
+          "values": [
+            {
+              "name": "single"
+            },
+            {
+              "name": "multiple"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "checkable",
+          "description": {
+            "kind": "markdown",
+            "value": "Añade casillas con estado mixto en los padres."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del árbol."
+          }
+        },
+        {
+          "name": "data-value",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Valor del nodo (por defecto, su texto)."
+          }
+        },
+        {
+          "name": "data-expanded",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Nodo expandido al iniciar."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "data-selected",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Nodo seleccionado al iniciar."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "data-checked",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Casilla marcada al iniciar (con `checkable`)."
+          },
+          "valueSet": "v"
+        }
+      ]
+    },
+    {
+      "name": "tsl-virtual-list",
+      "description": {
+        "kind": "markdown",
+        "value": "Lista virtualizada de alto de fila fijo: solo dibuja las filas visibles."
+      },
+      "attributes": [
+        {
+          "name": "item-height",
+          "description": {
+            "kind": "markdown",
+            "value": "Alto de cada fila en píxeles. Por defecto: `36`."
+          }
+        },
+        {
+          "name": "height",
+          "description": {
+            "kind": "markdown",
+            "value": "Alto del contenedor (CSS). Por defecto: `320px`."
+          }
+        },
+        {
+          "name": "overscan",
+          "description": {
+            "kind": "markdown",
+            "value": "Filas extra que se dibujan fuera de la vista. Por defecto: `6`."
+          }
+        },
+        {
+          "name": "selectable",
+          "description": {
+            "kind": "markdown",
+            "value": "Convierte la lista en un `listbox` navegable con teclado."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible. Por defecto: `Lista`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-sortable",
+      "description": {
+        "kind": "markdown",
+        "value": "Lista reordenable con puntero y teclado, también entre listas del mismo grupo (kanban)."
+      },
+      "attributes": [
+        {
+          "name": "group",
+          "description": {
+            "kind": "markdown",
+            "value": "Las listas con el mismo grupo intercambian elementos."
+          }
+        },
+        {
+          "name": "direction",
+          "description": {
+            "kind": "markdown",
+            "value": "Disposición de los elementos. Por defecto: `vertical`."
+          },
+          "values": [
+            {
+              "name": "vertical"
+            },
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "grid"
+            }
+          ]
+        },
+        {
+          "name": "handle",
+          "description": {
+            "kind": "markdown",
+            "value": "Selector CSS del asa; si se indica, solo ella arrastra."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre de la lista (se usa en los anuncios)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-data-table",
+      "description": {
+        "kind": "markdown",
+        "value": "Tabla con búsqueda, orden, selección, columnas visibles, densidad, paginación y exportación CSV."
+      },
+      "attributes": [
+        {
+          "name": "page-size",
+          "description": {
+            "kind": "markdown",
+            "value": "Filas por página. Por defecto: `10`."
+          }
+        },
+        {
+          "name": "page-size-options",
+          "description": {
+            "kind": "markdown",
+            "value": "Tamaños de página disponibles, separados por comas. Por defecto: `5,10,20,50`."
+          }
+        },
+        {
+          "name": "selectable",
+          "description": {
+            "kind": "markdown",
+            "value": "Añade casillas de selección."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "searchable",
+          "description": {
+            "kind": "markdown",
+            "value": "Añade el campo de búsqueda."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "exportable",
+          "description": {
+            "kind": "markdown",
+            "value": "Añade el botón de exportar CSV."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "height",
+          "description": {
+            "kind": "markdown",
+            "value": "Alto máximo de la tabla (cabecera fija)."
+          }
+        },
+        {
+          "name": "density",
+          "description": {
+            "kind": "markdown",
+            "value": "Densidad de filas. Por defecto: `normal`."
+          },
+          "values": [
+            {
+              "name": "compact"
+            },
+            {
+              "name": "normal"
+            },
+            {
+              "name": "comfortable"
+            }
+          ]
+        },
+        {
+          "name": "loading",
+          "description": {
+            "kind": "markdown",
+            "value": "Muestra esqueletos en lugar de las filas."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "caption",
+          "description": {
+            "kind": "markdown",
+            "value": "Título accesible de la tabla."
+          }
+        },
+        {
+          "name": "empty-text",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto sin datos. Por defecto: `Sin datos`."
+          }
+        },
+        {
+          "name": "no-match-text",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto sin coincidencias de búsqueda. Por defecto: `Sin resultados para`."
+          }
+        },
+        {
+          "name": "locale",
+          "description": {
+            "kind": "markdown",
+            "value": "Idioma de los números y las fechas."
+          }
+        },
+        {
+          "name": "density-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Etiqueta del botón de densidad. Por defecto: `Densidad`."
+          }
+        },
+        {
+          "name": "select-all-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible de la casilla de cabecera. Por defecto: `Seleccionar la página`."
+          }
+        },
+        {
+          "name": "select-row-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Prefijo del nombre accesible de cada casilla de fila. Por defecto: `Seleccionar fila`."
+          }
+        },
+        {
+          "name": "selected-one",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto de «1 seleccionada». Por defecto: `seleccionada`."
+          }
+        },
+        {
+          "name": "selected-many",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto de «N seleccionadas». Por defecto: `seleccionadas`."
+          }
+        },
+        {
+          "name": "search-placeholder",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto del buscador. Por defecto: `Buscar…`."
+          }
+        },
+        {
+          "name": "clear-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto del botón de limpiar la selección. Por defecto: `Limpiar`."
+          }
+        },
+        {
+          "name": "columns-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto del menú de columnas. Por defecto: `Columnas`."
+          }
+        },
+        {
+          "name": "export-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto del botón de exportar. Por defecto: `Exportar CSV`."
+          }
+        },
+        {
+          "name": "rows-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Etiqueta del selector de filas por página. Por defecto: `Filas`."
+          }
+        },
+        {
+          "name": "pager-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible de la paginación. Por defecto: `Paginación`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-chart",
+      "description": {
+        "kind": "markdown",
+        "value": "Gráficas SVG: línea, área, barras, dona, gauge y mapa de calor, con tooltip, leyenda y teclado."
+      },
+      "attributes": [
+        {
+          "name": "type",
+          "description": {
+            "kind": "markdown",
+            "value": "Tipo de gráfica. Por defecto: `line`."
+          },
+          "values": [
+            {
+              "name": "line"
+            },
+            {
+              "name": "area"
+            },
+            {
+              "name": "bar"
+            },
+            {
+              "name": "donut"
+            },
+            {
+              "name": "gauge"
+            },
+            {
+              "name": "heatmap"
+            }
+          ]
+        },
+        {
+          "name": "data",
+          "description": {
+            "kind": "markdown",
+            "value": "Datos en JSON (alternativa a la propiedad `data`)."
+          }
+        },
+        {
+          "name": "height",
+          "description": {
+            "kind": "markdown",
+            "value": "Alto en píxeles. Por defecto: `240`."
+          }
+        },
+        {
+          "name": "caption",
+          "description": {
+            "kind": "markdown",
+            "value": "Título visible y nombre accesible."
+          }
+        },
+        {
+          "name": "legend",
+          "description": {
+            "kind": "markdown",
+            "value": "Fuerza la leyenda (`legend=\"false\"` la oculta)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "locale",
+          "description": {
+            "kind": "markdown",
+            "value": "Idioma de los números."
+          }
+        },
+        {
+          "name": "prefix",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto antes de los valores (`$`)."
+          }
+        },
+        {
+          "name": "suffix",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto después de los valores (`%`)."
+          }
+        },
+        {
+          "name": "stacked",
+          "description": {
+            "kind": "markdown",
+            "value": "Barras apiladas."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "horizontal",
+          "description": {
+            "kind": "markdown",
+            "value": "Barras horizontales."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "smooth",
+          "description": {
+            "kind": "markdown",
+            "value": "Curvas suavizadas en línea y área."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "center-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto bajo el total en la dona. Por defecto: `Total`."
+          }
+        },
+        {
+          "name": "thickness",
+          "description": {
+            "kind": "markdown",
+            "value": "Grosor del anillo de la dona (0–1). Por defecto: `0.3`."
+          }
+        }
+      ]
+    }
+  ],
+  "valueSets": [
+    {
+      "name": "v",
+      "values": []
+    }
+  ]
+}

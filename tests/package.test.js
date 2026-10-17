@@ -25,6 +25,14 @@ const walk = (d, base = d) => fs.readdirSync(d, { withFileTypes: true }).flatMap
   ok(banner.includes(`v${pkg.version}`), `la versión del bundle coincide con package.json (${pkg.version})`);
   const min = fs.statSync(path.join(root, 'lib/tesela-ui.min.js')).size, full = fs.statSync(path.join(root, 'lib/tesela-ui.js')).size;
   ok(min < full * 0.75, `el bundle minificado es mucho menor (${(min / 1024).toFixed(0)} KB frente a ${(full / 1024).toFixed(0)} KB)`);
+  // Las rutas de package.json (main, module, types, exports…) apuntan a archivos reales
+  const refs = [pkg.main, pkg.module, pkg.types, pkg.customElements, pkg.style];
+  const walkExports = (v) => (typeof v === 'string' ? [v] : Object.values(v).flatMap(walkExports));
+  walkExports(pkg.exports).forEach(v => refs.push(v));
+  const dead = refs.filter(r => !r.includes('*') && !fs.existsSync(path.join(root, r)));
+  const globs = refs.filter(r => r.includes('*')).filter(r => { const dir = path.join(root, path.dirname(r)); const ext = path.extname(r); return !fs.existsSync(dir) || !fs.readdirSync(dir).some(f => f.endsWith(ext)); });
+  ok(dead.length === 0 && globs.length === 0, `package.json: ${refs.length} rutas (main, module, types, exports…) apuntan a archivos que existen` + (dead.length + globs.length ? ` (rotas: ${[...dead, ...globs]})` : ''));
+  ok(pkg.private === true, 'package.json: sigue marcado como private (no se publica por accidente)');
   const cssFiles = fs.readdirSync(path.join(root, 'lib/css')).length;
   ok(cssFiles >= 30, `hay una hoja CSS por sección (${cssFiles})`);
   const parts = fs.readdirSync(path.join(root, 'lib/css')).sort().map(f => fs.readFileSync(path.join(root, 'lib/css', f), 'utf8').trim()).join('\n\n');
@@ -55,7 +63,60 @@ const walk = (d, base = d) => fs.readdirSync(d, { withFileTypes: true }).flatMap
   await p.locator('#s .tsl-trigger').click();
   ok(await p.locator('#s .tsl-select__panel').isVisible(), 'ESM: <tsl-select> funciona desde el índice completo');
 
-  // 3) El bundle IIFE minificado equivale al normal
+  // 3) Ningún elemento pisa miembros nativos de HTMLElement (p. ej. remove(), matches()), salvo con la misma firma
+  await p.goto(`${base}/tests/fixtures/esm-index.html`); await p.waitForFunction(() => window.__listo);
+  const clashes = await p.evaluate(() => {
+    const life = new Set(['constructor', 'connectedCallback', 'disconnectedCallback', 'attributeChangedCallback', 'formResetCallback', 'formDisabledCallback']);
+    const out = {};
+    ['tsl-tabs', 'tsl-segmented', 'tsl-menu', 'tsl-command', 'tsl-otp', 'tsl-tags', 'tsl-dropzone', 'tsl-calendar', 'tsl-sparkline', 'tsl-popover', 'tsl-hovercard', 'tsl-context-menu', 'tsl-select', 'tsl-combobox', 'tsl-date-picker', 'tsl-time-picker', 'tsl-menubar', 'tsl-nav-menu', 'tsl-slider', 'tsl-rating', 'tsl-color-picker', 'tsl-password', 'tsl-mention', 'tsl-toggle-group', 'tsl-collapsible', 'tsl-scroll-area', 'tsl-resizable', 'tsl-tree', 'tsl-virtual-list', 'tsl-sortable', 'tsl-data-table', 'tsl-chart'].forEach((t) => {
+      const bad = [];
+      for (let k = customElements.get(t); k && k !== HTMLElement; k = Object.getPrototypeOf(k)) {
+        Object.getOwnPropertyNames(k.prototype).forEach((n) => { if (!life.has(n) && n in HTMLElement.prototype) bad.push(n); });
+      }
+      if (bad.length) out[t] = [...new Set(bad)];
+    });
+    return out;
+  });
+  // scrollTo de <tsl-scroll-area> conserva la firma nativa y reenvía al área desplazable
+  const allowed = { 'tsl-scroll-area': ['scrollTo'] };
+  const real = Object.fromEntries(Object.entries(clashes).map(([t, ns]) => [t, ns.filter((n) => !(allowed[t] || []).includes(n))]).filter(([, ns]) => ns.length));
+  ok(Object.keys(real).length === 0, 'los 32 elementos no sobrescriben miembros nativos de HTMLElement' + (Object.keys(real).length ? `: ${JSON.stringify(real)}` : ''));
+  const natives = await p.evaluate(async () => {
+    const host = document.createElement('div');
+    document.body.appendChild(host);
+    const sel = document.createElement('tsl-select');
+    sel.innerHTML = '<option value="a">A</option>';
+    const tags = document.createElement('tsl-tags');
+    tags.setAttribute('value', 'uno,dos');
+    const area = document.createElement('tsl-scroll-area');
+    area.style.cssText = 'height:40px;display:block';
+    area.innerHTML = '<div style="height:400px">alto</div>';
+    host.append(sel, tags, area);
+    await new Promise((r) => setTimeout(r, 80));
+    const r = {};
+    r.matches = sel.matches('tsl-select');
+    sel.disabled = true; await new Promise((x) => setTimeout(x, 30));
+    r.disabledProp = sel.querySelector('.tsl-trigger').disabled && sel.hasAttribute('disabled');
+    sel.disabled = false; await new Promise((x) => setTimeout(x, 30));
+    r.enabledAgain = !sel.querySelector('.tsl-trigger').disabled;
+    tags.addTag('tres', true);
+    r.tags = tags.value.join(',');
+    tags.removeTag('uno', true);
+    r.tagsAfter = tags.value.join(',');
+    area.scrollTo(0, 60); area.scrollTo({ top: 90 });
+    r.scrolled = area.querySelector('.tsl-scroll-area__viewport').scrollTop;
+    tags.remove();
+    r.removedFromDom = !tags.isConnected;
+    host.remove();
+    return r;
+  });
+  ok(natives.matches === true, 'select.matches(selector) mantiene su comportamiento nativo');
+  ok(natives.removedFromDom === true, 'tags.remove() vuelve a quitar el elemento del DOM');
+  ok(natives.tags === 'uno,dos,tres' && natives.tagsAfter === 'dos,tres', 'tags.addTag()/removeTag() añaden y quitan etiquetas');
+  ok(natives.scrolled === 90, 'scroll-area.scrollTo(x, y) y scrollTo({ top }) llegan al área desplazable (' + natives.scrolled + ')');
+  ok(natives.disabledProp === true && natives.enabledAgain === true, 'la propiedad disabled de los campos refleja el atributo y deshabilita/habilita el control');
+
+  // 4) El bundle IIFE minificado equivale al normal
   await p.goto(`${base}/tests/fixtures/esm-tabs.html`);
   const tags = await p.evaluate(async (u) => { const r = await fetch(u); return (await r.text()).match(/define\("tsl-[a-z-]+"/g)?.length || (await (await fetch(u)).text()).match(/"tsl-[a-z-]+"/g)?.length; }, `${base}/lib/tesela-ui.min.js`);
   ok(tags >= 30, `el bundle minificado define los elementos (${tags} registros)`);
