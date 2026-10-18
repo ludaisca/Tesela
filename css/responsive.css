@@ -20,11 +20,6 @@ body {
 }
 
 /* Áreas seguras (muescas, esquinas redondeadas y barra de gestos) */
-.header-inner {
-  padding-left: max(24px, env(safe-area-inset-left));
-  padding-right: max(24px, env(safe-area-inset-right));
-}
-
 .sandbox-hud {
   right: max(16px, env(safe-area-inset-right));
   bottom: max(16px, env(safe-area-inset-bottom));
@@ -32,65 +27,6 @@ body {
 
 /* ---------------------------------------------------------------- Menos de 768 px */
 @media (max-width: 767px) {
-  /* Cabecera: la marca arriba y los controles debajo, en una fila que se reparte el ancho */
-  .site-header {
-    height: auto;
-  }
-
-  .header-inner {
-    height: auto;
-    flex-wrap: wrap;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    padding-left: max(16px, env(safe-area-inset-left));
-    padding-right: max(16px, env(safe-area-inset-right));
-    row-gap: 8px;
-  }
-
-  .header-controls {
-    flex-wrap: wrap;
-    width: 100%;
-    gap: 6px;
-  }
-
-  #btn-cmdk {
-    flex: 1 1 130px;
-    min-width: 0;
-  }
-
-  #btn-cmdk .kbd-badge {
-    display: none;
-  }
-
-  .header-pill-btn,
-  .header-icon-action,
-  .icon-btn {
-    min-height: 36px; /* objetivo táctil cómodo */
-  }
-
-  .icon-btn {
-    min-width: 34px;
-  }
-
-  .header-icon-action {
-    min-width: 36px;
-  }
-
-  /* Bloque de presentación y listas */
-  .hero-section {
-    padding-left: max(16px, env(safe-area-inset-left));
-    padding-right: max(16px, env(safe-area-inset-right));
-  }
-
-  .hero-filter-pills {
-    flex-wrap: wrap;
-  }
-
-  .site-footer {
-    padding: 24px 16px 40px;
-    justify-content: flex-start;
-  }
-
   /* Vista de detalle: barra superior compacta */
   .sandbox-topbar {
     height: auto;
@@ -240,17 +176,6 @@ body {
   }
 }
 
-/* ---------------------------------------------------------------- Pantallas muy pequeñas */
-@media (max-width: 380px) {
-  .brand-title {
-    letter-spacing: 0.12em;
-  }
-
-  .hero-heading {
-    font-size: clamp(2.6rem, 17vw, 4rem);
-  }
-}
-
 /* ---------------------------------------------------------------- Experimentos en pantallas táctiles
    Los controles pequeños de algunos experimentos (nodos, puntos, asas) amplían su zona de pulsación
    con un pseudo-elemento: no cambia lo que se ve. */
@@ -326,27 +251,6 @@ body {
 @media (max-width: 480px) {
   .xp-panel:has(> [data-months]) { --gap: 6px !important; padding: 12px; }
   [data-months] { --gap: 12px !important; }
-}
-
-/* El minimapa de carpetas (fijo a la derecha desde 1440 px) se pliega a una columna de números y se despliega al pasar el cursor
-   o enfocar; el contenido reserva ese carril estrecho y ya no queda debajo de él */
-@media (min-width: 1440px) {
-  .hero-section,
-  .gallery-main {
-    padding-inline-end: max(24px, calc(64px - max(0px, (100vw - 1600px) / 2)));
-  }
-}
-
-@media (min-width: 1440px) {
-  .folder-minimap:not(:hover):not(:focus-within) .minimap-label,
-  .folder-minimap:not(:hover):not(:focus-within) .minimap-count {
-    display: none;
-  }
-
-  .folder-minimap .minimap-idx {
-    opacity: 0.75;
-    font-size: 10px;
-  }
 }
 
 /* Lanzadores de diálogos de la galería: un botón centrado sin un hueco enorme alrededor */

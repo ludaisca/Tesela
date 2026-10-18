@@ -9,46 +9,9 @@ window.TESELA_DATA = {
     title: "TESELA",
     totalFiles: 212,
     totalFolders: 24,
-    heading: "Diseños.",
     description:
       "212 experimentos de diseño en 24 carpetas. Construidos desde cero con tokens CSS, shaders WebGL, SVG procedurales, síntesis de audio en vivo y canvas interactivos. Cero librerías externas."
   },
-
-  heroCards: [
-    {
-      id: "primitivos",
-      badge: "PRIMITIVOS Y TOKENS",
-      title: "tesela-ui",
-      description:
-        "Primitivos de UI sin dependencias, con contraste dinámico OKLCH, físicas de resorte y código HTML/JS listo para copiar.",
-      cta: "EXPLORAR LAYOUTS",
-      targetCat: "layouts",
-      accent: "indigo",
-      accentHex: "#6366f1"
-    },
-    {
-      id: "ia",
-      badge: "IA Y SHADERS",
-      title: "Laboratorio IA y Shaders",
-      description:
-        "54 experimentos nuevos: trazas de agentes IA en streaming, canvas WebGL interactivos, editores bezier y flamegraphs.",
-      cta: "IR A IA Y SHADERS",
-      targetCat: "ai-agents",
-      accent: "amber",
-      accentHex: "#f59e0b"
-    },
-    {
-      id: "hud",
-      badge: "DEVTOOLS Y FINTECH",
-      title: "HUD de precisión",
-      description:
-        "Interfaces de ingeniería de alta densidad: cascadas de red, profundidad de órdenes, secuenciadores y cuadrículas temporales.",
-      cta: "ABRIR DEVTOOLS",
-      targetCat: "devtools",
-      accent: "sky",
-      accentHex: "#0ea5e9"
-    }
-  ],
 
   categories: [
     {

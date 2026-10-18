@@ -32,12 +32,7 @@
     theme: window.TeselaUI ? window.TeselaUI.getTheme() : "dark", // "dark" | "light"
     blueprint: false,
     // Indexado por ruta completa: los slugs se repiten entre carpetas (p. ej. "profile", "two-factor")
-    favorites: loadFavorites([
-      "/c/layouts/workspace-rail",
-      "/c/charts/revenue-area",
-      "/c/modals/command-palette",
-      "/c/pricing/three-tier"
-    ]),
+    favorites: loadFavorites([]),
     cmdkOpen: false,
     cmdkQuery: "",
     cmdkIndex: 0,
@@ -54,10 +49,10 @@
   // --------------------------------------------------------------------------
   function init() {
     syncCatalogCounts();
-    new window.TESELA_SHADER("ambient-canvas");
-    renderHeroCards();
+    renderWall();
     renderFolderRail();
     renderGallery();
+    bindWall();
     bindGlobalEvents();
     setupScrollSpy();
     handleHashRoute();
@@ -73,64 +68,215 @@
   }
 
   // --------------------------------------------------------------------------
-  // 2. Renderizar las tarjetas interactivas del hero (primitivos, IA, HUD + widgets en vivo)
+  // 2. La pared: una tesela por experimento (212), en el orden del catálogo
   // --------------------------------------------------------------------------
-  function renderHeroCards() {
-    const container = document.getElementById("hero-cards-grid");
-    if (!container) return;
+  const CATS = new Map(DATA.categories.map((c) => [c.id, c]));
+  const pad3 = (n) => String(n).padStart(3, "0");
 
-    container.innerHTML = DATA.heroCards
-      .map((card) => {
-        let microWidget = "";
-        if (card.id === "primitivos") {
-          microWidget = `
-            <div class="hero-micro-ui" aria-label="Vista previa interactiva">
-              <button type="button" class="hero-pill-toggle is-on" data-hero-toggle title="Alternar">
-                <span class="hero-pill-dot"></span><span>tesela-ui</span>
-              </button>
-              <button type="button" class="hero-pill-toggle" data-hero-toggle title="Alternar">
-                <span class="hero-pill-dot"></span><span>OKLCH</span>
-              </button>
-              <span class="hero-micro-badge">v4.2</span>
-            </div>`;
-        } else if (card.id === "ia") {
-          microWidget = `
-            <div class="hero-micro-ui" aria-label="Estado de servicios">
-              <span class="hero-status-chip"><i class="dot-emerald"></i> Acceso</span>
-              <span class="hero-status-chip"><i class="dot-amber"></i> Pagos</span>
-              <span class="hero-status-chip"><i class="dot-sky"></i> Correo</span>
-            </div>`;
-        } else if (card.id === "hud") {
-          microWidget = `
-            <div class="hero-micro-ui" aria-label="Selector de horario">
-              <button type="button" class="hero-slot-btn is-selected" data-hero-slot>09:30</button>
-              <button type="button" class="hero-slot-btn" data-hero-slot>11:00</button>
-              <button type="button" class="hero-slot-btn" data-hero-slot>14:30</button>
-            </div>`;
-        }
+  // Un experimento cumple el filtro activo (lo usan la pared y la galería)
+  function matchesFilter(cat, item) {
+    if (state.filterMode === "new") return Boolean(cat.isNew);
+    if (state.filterMode === "ready") return !item.wip;
+    if (state.filterMode === "wip") return item.wip;
+    if (state.filterMode === "favs") return state.favorites.has(`/c/${cat.id}/${item.slug}`);
+    return true;
+  }
 
-        return `
-          <div class="hero-promo-card accent-${card.accent}" data-hero-card="${card.id}">
-            <div class="hero-promo-glow"></div>
-            <div class="hero-promo-inner">
-              <div class="hero-promo-top">
-                <div class="hero-promo-eyebrow">
-                  <span class="hero-promo-dot"></span>
-                  <span>${card.badge}</span>
-                </div>
-                ${microWidget}
-              </div>
-              <h2 class="hero-promo-title">${card.title}</h2>
-              <p class="hero-promo-desc">${card.description}</p>
-              <a href="#cat-${card.targetCat || (card.id === "primitivos" ? "layouts" : card.id === "ia" ? "ai-agents" : "devtools")}" class="hero-promo-cta">
-                <span>${card.cta}</span>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
-              </a>
-            </div>
-          </div>
-        `;
-      })
-      .join("");
+  function renderWall() {
+    const wall = document.getElementById("wall");
+    if (!wall) return;
+    wall.innerHTML = FLAT.map((it, i) => {
+      const cat = CATS.get(it.categoryId);
+      // Variación de luminosidad fija por pieza (0–8 %): la pared se lee como piedra, no como un píxel repetido
+      const jitter = Math.imul(i + 1, 2654435761) >>> 0;
+      const n = pad3(i + 1);
+      return `<a class="tile" href="#${it.path}" data-open-path="${it.path}" data-n="${n}" data-i="${i}" data-cat="${it.categoryId}" tabindex="${i === 0 ? 0 : -1}" style="--tile:${cat.accent};--j:${jitter % 9};--i:${i}" aria-label="N.º ${n}: ${it.title}, carpeta ${it.categoryTitle}"></a>`;
+    }).join("");
+    updateWall();
+  }
+
+  // Atenúa lo que el filtro excluye y dora los favoritos; también actualiza los contadores de los filtros
+  function updateWall() {
+    document.querySelectorAll("#wall .tile").forEach((tile) => {
+      const it = FLAT[Number(tile.dataset.i)];
+      const cat = CATS.get(it.categoryId);
+      tile.dataset.match = String(matchesFilter(cat, it));
+      tile.classList.toggle("is-fav", state.favorites.has(it.path));
+    });
+    const set = (id, n) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = String(n);
+    };
+    set("count-all", FLAT.length);
+    set("count-new", FLAT.filter((it) => CATS.get(it.categoryId).isNew).length);
+    set("count-favs", FLAT.filter((it) => state.favorites.has(it.path)).length);
+  }
+
+  function markCurrentTile() {
+    document.querySelectorAll("#wall .tile.is-current").forEach((t) => t.classList.remove("is-current"));
+    if (!state.activeItem) return;
+    const t = document.querySelector(`#wall .tile[data-open-path="${state.activeItem.path}"]`);
+    if (t) t.classList.add("is-current");
+  }
+
+  // Interacción de la pared: rótulo, navegación con flechas (un solo punto de tabulación) y vínculos con el índice y la galería
+  function bindWall() {
+    const wall = document.getElementById("wall");
+    const tip = document.getElementById("wall-tip");
+    if (!wall || !tip) return;
+    const tiles = () => Array.from(wall.children);
+
+    const hot = (catId, on) => {
+      const item = document.querySelector(`.minimap-item[data-minimap-cat="${catId}"]`);
+      if (item) item.classList.toggle("is-hot", on);
+    };
+
+    const showTip = (tile) => {
+      const it = FLAT[Number(tile.dataset.i)];
+      tip.innerHTML = `<b><code>${tile.dataset.n}</code>${it.title}</b><span>${it.categoryTitle} · ${it.file}</span>`;
+      tip.setAttribute("data-open", "");
+      const r = tile.getBoundingClientRect();
+      const w = tip.offsetWidth;
+      const h = tip.offsetHeight;
+      const x = Math.max(8, Math.min(window.innerWidth - w - 8, r.left + r.width / 2 - w / 2));
+      const above = r.top - h - 10 >= 8;
+      tip.style.left = `${Math.round(x)}px`;
+      tip.style.top = `${Math.round(above ? r.top - h - 10 : r.bottom + 10)}px`;
+      hot(it.categoryId, true);
+    };
+    const hideTip = (tile) => {
+      tip.removeAttribute("data-open");
+      if (tile) hot(tile.dataset.cat, false);
+    };
+
+    wall.addEventListener("pointerover", (e) => {
+      const t = e.target.closest(".tile");
+      if (t) showTip(t);
+    });
+    wall.addEventListener("pointerout", (e) => {
+      const t = e.target.closest(".tile");
+      if (t && !t.contains(e.relatedTarget)) hideTip(t);
+    });
+    wall.addEventListener("focusin", (e) => {
+      const t = e.target.closest(".tile");
+      if (t) showTip(t);
+    });
+    wall.addEventListener("focusout", (e) => hideTip(e.target.closest(".tile")));
+
+    wall.addEventListener("keydown", (e) => {
+      const t = e.target.closest(".tile");
+      if (!t) return;
+      const list = tiles();
+      const i = Number(t.dataset.i);
+      const rows = parseInt(getComputedStyle(document.getElementById("wall-frame")).getPropertyValue("--rows"), 10) || 8;
+      const rtl = getComputedStyle(wall).direction === "rtl";
+      let next = null;
+      if (e.key === "ArrowDown") next = i % rows < rows - 1 ? i + 1 : null;
+      else if (e.key === "ArrowUp") next = i % rows > 0 ? i - 1 : null;
+      else if (e.key === (rtl ? "ArrowLeft" : "ArrowRight")) next = i + rows < list.length ? i + rows : null;
+      else if (e.key === (rtl ? "ArrowRight" : "ArrowLeft")) next = i - rows >= 0 ? i - rows : null;
+      else if (e.key === "Home") next = 0;
+      else if (e.key === "End") next = list.length - 1;
+      else if (e.key === " ") {
+        e.preventDefault();
+        t.click();
+        return;
+      }
+      if (next === null) return;
+      e.preventDefault();
+      t.tabIndex = -1;
+      list[next].tabIndex = 0;
+      list[next].focus();
+    });
+
+    // La galería de abajo señala su pieza en la pared
+    const gallery = document.getElementById("gallery-root");
+    const tileOf = (card) => wall.querySelector(`.tile[data-open-path="/c/${card.dataset.cat}/${card.dataset.slug}"]`);
+    gallery.addEventListener("pointerover", (e) => {
+      const card = e.target.closest(".exp-card-item");
+      const t = card && tileOf(card);
+      if (t) t.classList.add("is-linked");
+    });
+    gallery.addEventListener("pointerout", (e) => {
+      const card = e.target.closest(".exp-card-item");
+      const t = card && tileOf(card);
+      if (t && !card.contains(e.relatedTarget)) t.classList.remove("is-linked");
+    });
+  }
+
+  // --------------------------------------------------------------------------
+  // 2b. Dirección numérica: teclear el número (1–212) de una pieza la abre
+  // --------------------------------------------------------------------------
+  const address = { buf: "", timer: 0 };
+
+  function paintAddress() {
+    const hud = document.getElementById("address-hud");
+    if (!hud) return;
+    if (!address.buf) {
+      hud.removeAttribute("data-open");
+      return;
+    }
+    const n = parseInt(address.buf, 10);
+    const it = FLAT[n - 1];
+    // El nombre solo se muestra cuando el número ya no puede crecer (tres cifras o ninguna ampliación posible)
+    const final = address.buf.length === 3 || n * 10 > FLAT.length;
+    document.getElementById("address-num").innerHTML = `${address.buf}${"<i>·</i>".repeat(3 - address.buf.length)}`;
+    document.getElementById("address-name").innerHTML = it
+      ? final ? `<b>${it.title}</b> · ${it.categoryTitle}` : "Sigue tecleando o pulsa Intro"
+      : n === 0 && address.buf.length < 3 ? `Teclea un número del 1 al ${FLAT.length}` : `No existe esa pieza: hay ${FLAT.length}`;
+    hud.setAttribute("data-open", "");
+  }
+
+  function clearAddress() {
+    clearTimeout(address.timer);
+    address.buf = "";
+    paintAddress();
+  }
+
+  function commitAddress() {
+    const it = FLAT[parseInt(address.buf, 10) - 1];
+    clearAddress();
+    if (it) openSandbox(it.path);
+  }
+
+  // Devuelve true si la tecla se consumió
+  function handleAddressKey(e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return false;
+    if (/^[0-9]$/.test(e.key)) {
+      e.preventDefault();
+      if (address.buf.length >= 3) address.buf = "";
+      address.buf += e.key;
+      clearTimeout(address.timer);
+      paintAddress();
+      const n = parseInt(address.buf, 10);
+      // Una pieza completa se abre enseguida; un número inexistente se queda visible el tiempo de leerlo
+      const exists = n >= 1 && n <= FLAT.length;
+      if (!exists) address.timer = setTimeout(clearAddress, 1400);
+      else if (address.buf.length === 3) address.timer = setTimeout(commitAddress, 160);
+      else if (n * 10 > FLAT.length) address.timer = setTimeout(commitAddress, 900);
+      else address.timer = setTimeout(commitAddress, 1100);
+      return true;
+    }
+    if (!address.buf) return false;
+    if (e.key === "Backspace") {
+      e.preventDefault();
+      address.buf = address.buf.slice(0, -1);
+      clearTimeout(address.timer);
+      paintAddress();
+      if (address.buf) address.timer = setTimeout(commitAddress, 1100);
+      return true;
+    }
+    if (e.key === "Enter") {
+      e.preventDefault();
+      commitAddress();
+      return true;
+    }
+    if (e.key === "Escape") {
+      e.preventDefault();
+      clearAddress();
+      return true;
+    }
+    return false;
   }
 
   // --------------------------------------------------------------------------
@@ -144,7 +290,8 @@
       .map(
         (cat, i) => `
         <li>
-          <a href="#cat-${cat.id}" class="minimap-item ${i === 0 ? "is-active" : ""}" data-minimap-cat="${cat.id}" title="${cat.title} (${cat.items.length} files)">
+          <a href="#cat-${cat.id}" class="minimap-item ${i === 0 ? "is-active" : ""}" data-minimap-cat="${cat.id}" title="${cat.title} (${cat.items.length} experimentos)" aria-label="${cat.title}, ${cat.items.length} experimentos">
+            <span class="minimap-tile" style="--tile:${cat.accent}"></span>
             <span class="minimap-idx">${String(i + 1).padStart(2, "0")}</span>
             <span class="minimap-label">${cat.title}</span>
             <span class="minimap-count">${String(cat.items.length).padStart(2, "0")}</span>
@@ -166,56 +313,48 @@
     let totalRendered = 0;
     const html = DATA.categories
       .map((cat, catIdx) => {
-        const filteredItems = cat.items.filter((item) => {
-          if (state.filterMode === "new") return Boolean(cat.isNew);
-          if (state.filterMode === "ready") return !item.wip;
-          if (state.filterMode === "wip") return item.wip;
-          if (state.filterMode === "favs") return state.favorites.has(`/c/${cat.id}/${item.slug}`);
-          return true;
-        });
+        const filteredItems = cat.items.filter((item) => matchesFilter(cat, item));
 
         if (filteredItems.length === 0) return "";
         totalRendered += filteredItems.length;
+        const numberOf = (item) => FLAT.findIndex((x) => x.path === `/c/${cat.id}/${item.slug}`) + 1;
+        const firstN = numberOf(filteredItems[0]);
+        const lastN = numberOf(filteredItems[filteredItems.length - 1]);
 
-        const fileCountStr = String(filteredItems.length).padStart(2, "0");
-        const iconMarkup = PREVIEWS.getCategoryIcon(cat.id);
-
+        
         const cardsHtml = filteredItems
           .map((item, idx) => {
             const path = `/c/${cat.id}/${item.slug}`;
             const isFav = state.favorites.has(path);
             const svgPreview = PREVIEWS.generatePreviewSVG(cat.id, item, idx);
 
+            const n = pad3(item.globalIndex !== undefined ? item.globalIndex + 1 : FLAT.findIndex((x) => x.path === path) + 1);
+
             return `
               <li class="exp-card-item" data-cat="${cat.id}" data-slug="${item.slug}">
                 <a href="#${path}" class="exp-card-link" data-open-path="${path}">
                   <div class="exp-card-frame">
                     ${svgPreview}
-                    <div class="exp-card-overlay">
-                      <span class="exp-hover-pill" data-quick-code="${path}" title="Ver código HTML y JS">&lt;/&gt; Código</span>
-                      <span class="exp-hover-pill">Abrir en vivo ↗</span>
-                    </div>
                     <div class="exp-blueprint-coords" aria-hidden="true">320×200 · ${cat.id}/${item.slug}</div>
                   </div>
                   <div class="exp-card-meta">
                     <div class="exp-card-title-row">
                       <span class="exp-card-title">${item.title}</span>
-                      ${cat.isNew ? `<span class="exp-new-badge">NEW</span>` : item.wip ? `<span class="exp-wip-badge">WIP</span>` : ""}
+                      ${item.wip ? `<span class="exp-wip-badge">En desarrollo</span>` : ""}
                     </div>
                     <div class="exp-card-file-row">
                       <span class="exp-card-filename">${item.file}</span>
-                      <button type="button" class="exp-fav-btn ${isFav ? "is-fav" : ""}" data-toggle-fav="${path}" title="Marcar favorito">
-                        ★
-                      </button>
+                      <span class="exp-card-addr" title="Número de la pieza: teclea ${Number(n)} para abrirla">N.º ${n}</span>
                     </div>
-                    ${
-                      state.viewMode === "stack"
-                        ? `<p class="exp-stack-desc">${cat.description} Implementación interactiva sin dependencias, con atajos de teclado e inspector de código en vivo.</p>
-                           <div class="exp-stack-tags">${item.tags.map((t) => `<span>#${t}</span>`).join("")}</div>`
-                        : ""
-                    }
+                    ${state.viewMode === "stack" ? `<div class="exp-stack-tags">${item.tags.map((t) => `<span>#${t}</span>`).join("")}</div>` : ""}
                   </div>
                 </a>
+                <div class="exp-card-actions">
+                  <button type="button" class="exp-code-btn" data-quick-code="${path}" title="Ver código HTML y JS de ${item.title}" aria-label="Ver el código de ${item.title}">&lt;/&gt;</button>
+                  <button type="button" class="exp-fav-btn ${isFav ? "is-fav" : ""}" data-toggle-fav="${path}" title="${isFav ? "Quitar de favoritos" : "Marcar como favorito"}" aria-label="${isFav ? "Quitar de favoritos" : "Marcar como favorito"}: ${item.title}" aria-pressed="${isFav}">
+                    <svg width="14" height="14" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>
+                  </button>
+                </div>
               </li>
             `;
           })
@@ -225,25 +364,14 @@
           <section class="cat-section" id="cat-${cat.id}" data-category-section="${cat.id}">
             <div class="cat-divider" aria-hidden="true"></div>
             <header class="cat-header">
-              <div class="cat-header-left">
-                <div class="cat-icon-box" style="--cat-accent:${cat.accent}">
-                  ${iconMarkup}
-                </div>
-                <div class="cat-title-group">
-                  <div class="cat-title-line">
-                    <h2 class="cat-title">${cat.title}</h2>
-                    <span class="cat-index-pill">FOLDER ${String(catIdx + 1).padStart(2, "0")}</span>
-                    ${cat.isNew ? `<span class="cat-new-pill">NEW v2</span>` : ""}
-                  </div>
-                  <p class="cat-subtitle">
-                    ${cat.description}
-                    <span class="cat-file-count">· ${fileCountStr} ${filteredItems.length === 1 ? "file" : "files"}</span>
-                  </p>
-                </div>
+              <div class="cat-title-group">
+                <h2 class="cat-title"><span class="cat-tile" style="--cat-accent:${cat.accent}" aria-hidden="true"></span>${cat.title}${cat.isNew ? `<span class="cat-new-pill">Nueva</span>` : ""}</h2>
+                <p class="cat-subtitle">${cat.description}</p>
+                <p class="cat-range">N.º ${pad3(firstN)}${filteredItems.length > 1 ? ` – ${pad3(lastN)}` : ""} · ${filteredItems.length} ${filteredItems.length === 1 ? "experimento" : "experimentos"}</p>
               </div>
               <button type="button" class="cat-open-first-btn" data-open-path="/c/${cat.id}/${filteredItems[0].slug}">
                 <span>Abrir carpeta</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
               </button>
             </header>
             <ul class="exp-grid">
@@ -257,43 +385,17 @@
     main.innerHTML =
       html ||
       `<div class="empty-filter-state">
-        <p>Ningún diseño coincide con el filtro.</p>
-        <button type="button" class="sb-btn-primary" id="reset-filter-btn">Mostrar los ${FLAT.length} archivos</button>
+        <p>${state.filterMode === "favs" ? "Aún no marcaste favoritos: usa la estrella de cualquier tarjeta y la tesela se dorará en la pared." : "Ningún experimento coincide con el filtro."}</p>
+        <button type="button" class="sb-btn-primary" id="reset-filter-btn">Ver los ${FLAT.length} experimentos</button>
       </div>`;
 
     const counterEl = document.getElementById("header-count-text");
     if (counterEl) {
-      counterEl.textContent = `${totalRendered} FILES · ${DATA.categories.length} FOLDERS`;
+      const folders = document.querySelectorAll("[data-category-section]").length;
+      counterEl.textContent = `${totalRendered} ${totalRendered === 1 ? "experimento" : "experimentos"} · ${folders} ${folders === 1 ? "carpeta" : "carpetas"}`;
     }
 
-    bindCardSpotlightEffects();
-  }
-
-  // --------------------------------------------------------------------------
-  // 5. Foco radial que sigue al mouse e inclinación 3D sutil en las tarjetas
-  // --------------------------------------------------------------------------
-  function bindCardSpotlightEffects() {
-    const cards = document.querySelectorAll(".hero-promo-card, .exp-card-frame");
-    cards.forEach((card) => {
-      card.addEventListener(
-        "pointermove",
-        (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          card.style.setProperty("--mx", `${x}px`);
-          card.style.setProperty("--my", `${y}px`);
-        },
-        { passive: true }
-      );
-      card.addEventListener(
-        "pointerenter",
-        () => {
-          AUDIO.play("tick");
-        },
-        { passive: true }
-      );
-    });
+    updateWall();
   }
 
   // --------------------------------------------------------------------------
@@ -303,7 +405,9 @@
     const item = FLAT.find((it) => it.path === path);
     if (!item) return;
 
+    if (!state.activeItem) state.returnFocus = document.activeElement;
     state.activeItem = item;
+    markCurrentTile();
     if (pushHash && window.location.hash !== `#${path}`) {
       history.pushState(null, "", `#${path}`);
     }
@@ -327,7 +431,7 @@
         <span class="sb-bc-sep">/</span>
         <strong class="sb-bc-title">${item.title}</strong>
         <span class="sb-bc-file">${item.file}</span>
-        <span class="sb-bc-index">(${item.globalIndex + 1} of ${FLAT.length})</span>
+        <span class="sb-bc-index">(${item.globalIndex + 1} de ${FLAT.length})</span>
       `;
     }
 
@@ -369,7 +473,9 @@
 
   function closeSandbox(pushHash = true) {
     if (!state.activeItem) return;
+    const closing = state.activeItem;
     state.activeItem = null;
+    markCurrentTile();
     state.codeDrawerOpen = false;
     unmountExperiment();
     const stageEl = document.getElementById("sandbox-stage");
@@ -386,6 +492,17 @@
 
     if (pushHash && window.location.hash.startsWith("#/c/")) {
       history.pushState(null, "", window.location.pathname);
+    }
+
+    // El foco vuelve a donde estaba (o a la tesela del experimento) para no perder el sitio con el teclado
+    const back = state.returnFocus && state.returnFocus.isConnected && state.returnFocus !== document.body ? state.returnFocus : document.querySelector(`#wall .tile[data-open-path="${closing.path}"]`);
+    state.returnFocus = null;
+    if (back) {
+      if (back.classList.contains("tile")) {
+        document.querySelectorAll("#wall .tile").forEach((t) => (t.tabIndex = -1));
+        back.tabIndex = 0;
+      }
+      back.focus({ preventScroll: true });
     }
   }
 
@@ -596,8 +713,10 @@
   // --------------------------------------------------------------------------
   // 9. Scroll-spy del minimapa de carpetas
   // --------------------------------------------------------------------------
+  let spy = null;
   function setupScrollSpy() {
-    const observer = new IntersectionObserver(
+    if (spy) spy.disconnect();
+    const observer = (spy = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -609,7 +728,7 @@
         });
       },
       { rootMargin: "-20% 0px -65% 0px", threshold: 0 }
-    );
+    ));
 
     document.querySelectorAll("[data-category-section]").forEach((sec) => observer.observe(sec));
   }
@@ -645,13 +764,20 @@
         if (state.favorites.has(favPath)) {
           state.favorites.delete(favPath);
           favBtn.classList.remove("is-fav");
+          favBtn.setAttribute("aria-pressed", "false");
           showToast(`${label} quitado de favoritos`);
           saveFavorites();
         } else {
           state.favorites.add(favPath);
           favBtn.classList.add("is-fav");
-          showToast(`${label} guardado en favoritos ★`);
+          favBtn.setAttribute("aria-pressed", "true");
+          showToast(`${label} guardado en favoritos`);
           saveFavorites();
+        }
+        updateWall();
+        if (state.filterMode === "favs") {
+          renderGallery();
+          setupScrollSpy();
         }
         AUDIO.play("click");
         return;
@@ -699,24 +825,6 @@
       if (openLink) {
         e.preventDefault();
         openSandbox(openLink.getAttribute("data-open-path"));
-        return;
-      }
-
-      // Interruptores interactivos del hero y franjas horarias
-      const heroToggle = target.closest("[data-hero-toggle]");
-      if (heroToggle) {
-        e.preventDefault();
-        heroToggle.classList.toggle("is-on");
-        AUDIO.play("click");
-        return;
-      }
-      const heroSlot = target.closest("[data-hero-slot]");
-      if (heroSlot) {
-        e.preventDefault();
-        heroSlot.parentElement.querySelectorAll("[data-hero-slot]").forEach((b) => b.classList.remove("is-selected"));
-        heroSlot.classList.add("is-selected");
-        AUDIO.play("click");
-        showToast(`Horario seleccionado: ${heroSlot.textContent}`);
         return;
       }
 
@@ -800,6 +908,10 @@
 
     document.getElementById("btn-cmdk")?.addEventListener("click", openCmdK);
     document.getElementById("hero-cmdk-trigger")?.addEventListener("click", openCmdK);
+    document.getElementById("hero-explore")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      document.getElementById("gallery-root")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    });
     document.getElementById("btn-random")?.addEventListener("click", openRandomDesign);
     document.getElementById("btn-theme")?.addEventListener("click", toggleTheme);
     document.getElementById("btn-blueprint")?.addEventListener("click", toggleBlueprint);
@@ -887,6 +999,9 @@
       }
 
       if (isInput) return;
+
+      // Dirección numérica en la portada: teclear el número de una pieza la abre
+      if (!state.activeItem && handleAddressKey(e)) return;
 
       // Los experimentos controlan el teclado mientras el foco esté dentro de ellos o haya un diálogo abierto
       const stageEl = document.getElementById("sandbox-stage");

@@ -13,21 +13,20 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   p.on('pageerror', e => errs.push(String(e)));
   await p.goto(`${base}/index.html`); await p.waitForLoadState('networkidle'); await p.waitForTimeout(500);
 
-  // ---- Minimapa ----
+  // ---- Índice de carpetas (carril lateral) ----
   const mm = await p.evaluate(() => {
     const m = document.querySelector('.folder-minimap').getBoundingClientRect();
-    const cards = [...document.querySelectorAll('.hero-promo-card, .gallery-main a, .gallery-main article')].map(c => c.getBoundingClientRect()).filter(r => r.width > 40);
-    const heroRight = Math.max(...[...document.querySelectorAll('.hero-promo-card')].map(c => c.getBoundingClientRect().right));
-    return { left: m.left, width: m.width, heroRight, labelShown: getComputedStyle(document.querySelector('.minimap-label')).display !== 'none' };
+    const frame = document.getElementById('wall-frame').getBoundingClientRect();
+    return { left: m.left, width: m.width, wallRight: frame.right, labelShown: getComputedStyle(document.querySelector('.minimap-label')).display !== 'none' };
   });
-  ok(mm.heroRight <= mm.left - 4, `el minimapa no tapa las tarjetas destacadas (tarjetas hasta ${Math.round(mm.heroRight)}, minimapa desde ${Math.round(mm.left)})`);
-  ok(mm.width < 60 && !mm.labelShown, `el minimapa está plegado a una columna de números (${Math.round(mm.width)} px)`);
+  ok(mm.wallRight <= mm.left - 4, `el índice de carpetas no tapa la pared (pared hasta ${Math.round(mm.wallRight)}, índice desde ${Math.round(mm.left)})`);
+  ok(mm.width < 60 && !mm.labelShown, `el índice está plegado a una columna de teselas (${Math.round(mm.width)} px)`);
   await p.hover('.minimap-item');
   const open = await p.evaluate(() => ({ label: getComputedStyle(document.querySelector('.minimap-label')).display !== 'none', w: document.querySelector('.folder-minimap').getBoundingClientRect().width }));
   ok(open.label && open.w > 100, `al pasar el cursor se despliegan los nombres (${Math.round(open.w)} px)`);
   await p.mouse.move(5, 300);
-  const sides = await p.evaluate(() => { const r = document.querySelector('.hero-promo-card').getBoundingClientRect(); const e = [...document.querySelectorAll('.hero-promo-card')].pop().getBoundingClientRect(); return { l: r.left, r: innerWidth - e.right }; });
-  ok(Math.abs(sides.l - sides.r) < 40, `el contenido queda casi simétrico (margen izquierdo ${Math.round(sides.l)}, derecho ${Math.round(sides.r)})`);
+  const sides = await p.evaluate(() => { const r = document.getElementById('wall-frame').getBoundingClientRect(); return { l: r.left, r: innerWidth - r.right }; });
+  ok(Math.abs(sides.l - sides.r) < 40, `la pared queda casi simétrica (margen izquierdo ${Math.round(sides.l)}, derecho ${Math.round(sides.r)})`);
 
   // ---- Escenario del sandbox ----
   const open2 = async (path) => { await p.evaluate(h => { location.hash = '#' + h; }, path); await p.waitForTimeout(250); return p.evaluate(measureBalance); };

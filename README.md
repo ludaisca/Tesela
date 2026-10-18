@@ -152,6 +152,7 @@ Las pruebas corren en un Chromium real con Playwright e incluyen teclado, arrast
 | `tests/carousel.test.js` | carrusel: snap, botones, puntos, teclado, bucle, varias a la vez, avance automático y RTL |
 | `tests/estilos.test.js` | componentes solo de CSS (item) |
 | `tests/rtl.test.js` | derecha a izquierda: API, guardado, posiciones y teclado espejados y sin desbordes |
+| `tests/portada.test.js` | portada de la galería: pared de 212 teselas, flechas, dirección numérica, filtros, favoritos, cifras verificables y tamaños de 320 a 950 px |
 | `tests/gallery-layout.test.js` | minimapa sin tapar contenido, escenario del sandbox centrado, 212 miniaturas equilibradas y muestras de la documentación centradas en su marco |
 | `tests/conversacion.test.js` | mensaje, marcador, zona con seguimiento, adjunto, traza, bloque de código y cuestionario |
 
