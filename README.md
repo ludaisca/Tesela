@@ -7,7 +7,7 @@ Biblioteca de componentes **sin dependencias** (HTML + CSS + Custom Elements) y 
 
 ## Tesela (`tesela-ui`)
 
-78 componentes (botones, formularios, OTP, tags, dropzone, calendario, tabs, menús, paleta de comandos, diálogos, drawers, toasts, tablas ordenables, sparklines, popover, hover card, menú contextual, confirmación, sheets, select, combobox, selector de fecha, rango de fechas, selector de hora, barra de menús, menú de navegación, slider de rango, rating, selector de color, contraseña con medidor, textarea autoajustable, menciones, toggle group, collapsible, scroll area, paneles redimensionables, tree view, lista virtualizada, listas ordenables, kanban, tabla de datos y gráficas de línea, área, barras, dona, gauge y mapa de calor…) más patrones de ejemplo.
+88 secciones de componentes (botones, formularios, OTP, tags, dropzone, calendario, tabs, menús, paleta de comandos, diálogos, drawers, toasts, tablas ordenables, sparklines, popover, hover card, menú contextual, confirmación, sheets, select, combobox, selector de fecha, rango de fechas, selector de hora, barra de menús, menú de navegación, slider de rango, rating, selector de color, contraseña con medidor, textarea autoajustable, menciones, toggle group, collapsible, scroll area, paneles redimensionables, tree view, lista virtualizada, listas ordenables, kanban, tabla de datos, gráficas de línea, área, barras, dona, gauge y mapa de calor, barra lateral, grupo de radios, carrusel, item y la familia de conversación: mensaje, burbuja, adjunto, traza, bloque de código, zona con seguimiento y cuestionario…) más patrones de ejemplo.
 
 ### Uso
 
@@ -146,6 +146,15 @@ Las pruebas corren en un Chromium real con Playwright e incluyen teclado, arrast
 | `tests/api.test.js` | la descripción de la API coincide con el código; los tipos compilan con `tsc --strict` |
 | `tests/docs.test.js` | la pestaña «API», la galería de presets y el comprobador de contraste |
 | `tests/tokens.test.js` | tokens, contraste WCAG de los presets, archivos exportados, modos, presets y API de temas |
+| `tests/responsive.test.js` | sin desborde de 320 a 2560 px (15 tamaños), los 212 experimentos en móvil, 20 paneles flotantes dentro de la pantalla y ergonomía táctil |
+| `tests/sidebar.test.js` | barra lateral: modo de iconos, cajón en móvil, teclado, persistencia y submenús |
+| `tests/radio-group.test.js` | grupo de radios: teclado, ARIA, formularios, validación y `fieldset disabled` |
+| `tests/carousel.test.js` | carrusel: snap, botones, puntos, teclado, bucle, varias a la vez, avance automático y RTL |
+| `tests/estilos.test.js` | componentes solo de CSS (item) |
+| `tests/rtl.test.js` | derecha a izquierda: API, guardado, posiciones y teclado espejados y sin desbordes |
+| `tests/conversacion.test.js` | mensaje, marcador, zona con seguimiento, adjunto, traza, bloque de código y cuestionario |
+
+`scripts/audit-responsive.js` y `scripts/audit-experiments.js` imprimen el detalle de los desbordes y de los objetivos táctiles pequeños (los usa `tests/responsive.test.js`).
 
 ```bash
 npm install                        # solo la primera vez (instala Playwright)
