@@ -39,6 +39,7 @@ import "./components/virtual-list.js";
 import "./components/sortable.js";
 import "./components/data-table.js";
 import "./components/chart.js";
+import "./components/sidebar.js";
 
 export { VERSION, getTheme, getResolvedTheme, setTheme, getPreset, setPreset, setAccent, presets, toast, copy, confirmDialog as confirm, position, init };
 

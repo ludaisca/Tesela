@@ -676,6 +676,37 @@ export interface TslCollapsibleElement extends HTMLElement {
 }
 export declare const TslCollapsible: { new (): TslCollapsibleElement; prototype: TslCollapsibleElement };
 
+export interface TslSidebarEventMap {
+  /** Cambió el estado de la barra. */
+  "tsl-toggle": CustomEvent<{ collapsed: boolean; open: boolean; mobile: boolean }>;
+}
+/** Barra lateral de navegación dentro de `.tsl-sidebar-layout`: completa, solo iconos u oculta; en pantallas estrechas se vuelve un cajón con fondo, Esc y devolución del foco. */
+export interface TslSidebarElement extends HTMLElement {
+  /** Contraída en escritorio. */
+  collapsed: boolean;
+  /** Está en modo cajón. */
+  readonly isMobile: boolean;
+  /** El cajón está abierto. */
+  readonly mobileOpen: boolean;
+  /** Contrae/expande (o abre/cierra el cajón en móvil); con `true` la muestra y con `false` la oculta. */
+  toggle(show?: boolean): void;
+  /** Contrae. */
+  collapse(): void;
+  /** Expande. */
+  expand(): void;
+  /** Abre el cajón (solo en modo estrecho). */
+  openMobile(): void;
+  /** Cierra el cajón. */
+  closeMobile(): void;
+  addEventListener<K extends keyof TslSidebarEventMap>(type: K, listener: (this: TslSidebarElement, ev: TslSidebarEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslSidebarElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+  removeEventListener<K extends keyof TslSidebarEventMap>(type: K, listener: (this: TslSidebarElement, ev: TslSidebarEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslSidebarElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+}
+export declare const TslSidebar: { new (): TslSidebarElement; prototype: TslSidebarElement };
+
 /** Zona desplazable con degradado en los bordes que aún tienen contenido (`data-top|bottom|left|right`). `scrollTo()` se aplica al área desplazable. */
 export interface TslScrollAreaElement extends HTMLElement {
 
@@ -861,6 +892,7 @@ declare global {
     "tsl-mention": TslMentionElement;
     "tsl-toggle-group": TslToggleGroupElement;
     "tsl-collapsible": TslCollapsibleElement;
+    "tsl-sidebar": TslSidebarElement;
     "tsl-scroll-area": TslScrollAreaElement;
     "tsl-resizable": TslResizableElement;
     "tsl-tree": TslTreeElement;

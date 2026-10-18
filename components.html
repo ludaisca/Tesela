@@ -943,6 +943,48 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         </template>
       </section>
 
+      <section class="doc" id="sidebar" data-group="Navegación" data-tall="360px" data-keywords="sidebar barra lateral navegación menú lateral colapsable iconos cajón drawer app shell">
+        <h2><a href="#sidebar">Barra lateral</a></h2>
+        <p><code>&lt;tsl-sidebar&gt;</code> va dentro de <code>.tsl-sidebar-layout</code> junto a <code>.tsl-sidebar-inset</code>. Con <code>collapsible="icon"</code> se contrae a una columna de iconos (el nombre pasa a <code>title</code>); con <code>offcanvas</code> desaparece. Cuando el contenedor mide menos de <code>breakpoint</code> (720 px) se convierte en un cajón con fondo, <kbd>Esc</kbd> y devolución del foco. Cualquier <code>[data-tsl-sidebar-toggle]</code> la alterna sin código, <code>shortcut="b"</code> añade Ctrl/⌘+B y <code>storage-key</code> recuerda el estado. Submenús con un botón <code>aria-expanded</code> seguido de <code>.tsl-sidebar__sub</code>. Evento <code>tsl-toggle</code>.</p>
+        <template>
+          <div class="tsl-sidebar-layout" style="height:320px;border:1px solid var(--tsl-border);border-radius:var(--tsl-radius)">
+            <tsl-sidebar id="demo-sidebar" collapsible="icon" shortcut="b" label="Navegación de la aplicación">
+              <div class="tsl-sidebar__header"><span class="tsl-avatar">T</span><strong class="tsl-sidebar__hide-rail">Tesela</strong></div>
+              <div class="tsl-sidebar__content">
+                <div class="tsl-sidebar__group">
+                  <div class="tsl-sidebar__label">Plataforma</div>
+                  <ul class="tsl-sidebar__menu">
+                    <li><a class="tsl-sidebar__item" href="#sidebar" aria-current="page"><span class="tsl-sidebar__icon" aria-hidden="true">⌂</span><span class="tsl-sidebar__text">Inicio</span></a></li>
+                    <li><a class="tsl-sidebar__item" href="#sidebar"><span class="tsl-sidebar__icon" aria-hidden="true">✉</span><span class="tsl-sidebar__text">Bandeja</span><span class="tsl-badge tsl-sidebar__badge">4</span></a></li>
+                    <li>
+                      <button type="button" class="tsl-sidebar__item" aria-expanded="true"><span class="tsl-sidebar__icon" aria-hidden="true">▤</span><span class="tsl-sidebar__text">Proyectos</span></button>
+                      <ul class="tsl-sidebar__sub">
+                        <li><a class="tsl-sidebar__item" href="#sidebar"><span class="tsl-sidebar__text">Tesela</span></a></li>
+                        <li><a class="tsl-sidebar__item" href="#sidebar"><span class="tsl-sidebar__text">Documentación</span></a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+                <div class="tsl-sidebar__group">
+                  <div class="tsl-sidebar__label">Cuenta</div>
+                  <ul class="tsl-sidebar__menu">
+                    <li><a class="tsl-sidebar__item" href="#sidebar"><span class="tsl-sidebar__icon" aria-hidden="true">⚙</span><span class="tsl-sidebar__text">Ajustes</span></a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="tsl-sidebar__footer"><span class="tsl-avatar">LI</span><span class="tsl-muted tsl-sidebar__hide-rail">Luis Islas</span></div>
+            </tsl-sidebar>
+            <div class="tsl-sidebar-inset">
+              <div class="tsl-sidebar-inset__bar">
+                <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--icon tsl-btn--subtle" data-tsl-sidebar-toggle aria-label="Alternar barra lateral">☰</button>
+                <strong>Inicio</strong>
+              </div>
+              <div style="padding:16px"><p class="tsl-muted">Contenido de la página. Reduce el ancho del navegador para ver el cajón.</p></div>
+            </div>
+          </div>
+        </template>
+      </section>
+
       <section class="doc" id="alert" data-group="Retroalimentación" data-keywords="callout aviso mensaje">
         <h2><a href="#alert">Alerta</a></h2>
         <p>Variantes <code>--info</code>, <code>--success</code>, <code>--warning</code>, <code>--danger</code>, <code>--accent</code>.</p>

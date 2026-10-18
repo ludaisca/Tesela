@@ -3640,6 +3640,199 @@
     },
     {
       "kind": "javascript-module",
+      "path": "esm/components/sidebar.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslSidebar",
+          "tagName": "tsl-sidebar",
+          "customElement": true,
+          "description": "Barra lateral de navegación dentro de `.tsl-sidebar-layout`: completa, solo iconos u oculta; en pantallas estrechas se vuelve un cajón con fondo, Esc y devolución del foco.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "collapsible",
+              "type": {
+                "text": "\"icon\" | \"offcanvas\""
+              },
+              "description": "Cómo se contrae en escritorio: a una columna de iconos o por completo.",
+              "default": "icon"
+            },
+            {
+              "name": "collapsed",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Contraída."
+            },
+            {
+              "name": "side",
+              "type": {
+                "text": "\"start\" | \"end\""
+              },
+              "description": "Lado del diseño en que se coloca.",
+              "default": "start"
+            },
+            {
+              "name": "breakpoint",
+              "type": {
+                "text": "number"
+              },
+              "description": "Ancho del contenedor (px) por debajo del cual pasa a cajón.",
+              "default": "720"
+            },
+            {
+              "name": "storage-key",
+              "type": {
+                "text": "string"
+              },
+              "description": "Si se indica, recuerda si está contraída en `localStorage`."
+            },
+            {
+              "name": "shortcut",
+              "type": {
+                "text": "string"
+              },
+              "description": "Letra que, con Ctrl/⌘, la alterna (p. ej. `b`)."
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible de la navegación.",
+              "default": "Barra lateral"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "collapsed",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Contraída en escritorio."
+            },
+            {
+              "kind": "field",
+              "name": "isMobile",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Está en modo cajón.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "mobileOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "El cajón está abierto.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "toggle",
+              "description": "Contrae/expande (o abre/cierra el cajón en móvil); con `true` la muestra y con `false` la oculta.",
+              "parameters": [
+                {
+                  "name": "show",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "collapse",
+              "description": "Contrae.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "expand",
+              "description": "Expande.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "openMobile",
+              "description": "Abre el cajón (solo en modo estrecho).",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "closeMobile",
+              "description": "Cierra el cajón.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-toggle",
+              "type": {
+                "text": "CustomEvent<{ collapsed: boolean; open: boolean; mobile: boolean }>"
+              },
+              "description": "Cambió el estado de la barra."
+            }
+          ],
+          "x-docs": [
+            "sidebar"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslSidebar",
+          "declaration": {
+            "name": "TslSidebar",
+            "module": "esm/components/sidebar.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-sidebar",
+          "declaration": {
+            "name": "TslSidebar",
+            "module": "esm/components/sidebar.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "esm/components/scroll-area.mjs",
       "declarations": [
         {

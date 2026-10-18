@@ -450,6 +450,30 @@ export const elements = [
     events: [event("tsl-toggle", "{ open: boolean }", "Cambió el estado.")]
   },
   {
+    tag: "tsl-sidebar", cls: "TslSidebar", module: "components/sidebar", docs: ["sidebar"],
+    summary: "Barra lateral de navegación dentro de `.tsl-sidebar-layout`: completa, solo iconos u oculta; en pantallas estrechas se vuelve un cajón con fondo, Esc y devolución del foco.",
+    attributes: [
+      attr("collapsible", '"icon" | "offcanvas"', "Cómo se contrae en escritorio: a una columna de iconos o por completo.", "icon"),
+      attr("collapsed", "boolean", "Contraída."),
+      attr("side", '"start" | "end"', "Lado del diseño en que se coloca.", "start"),
+      attr("breakpoint", "number", "Ancho del contenedor (px) por debajo del cual pasa a cajón.", "720"),
+      attr("storage-key", "string", "Si se indica, recuerda si está contraída en `localStorage`."),
+      attr("shortcut", "string", "Letra que, con Ctrl/⌘, la alterna (p. ej. `b`)."),
+      attr("label", "string", "Nombre accesible de la navegación.", "Barra lateral")
+    ],
+    properties: [
+      prop("collapsed", "boolean", "Contraída en escritorio."),
+      prop("isMobile", "boolean", "Está en modo cajón.", true),
+      prop("mobileOpen", "boolean", "El cajón está abierto.", true)
+    ],
+    methods: [
+      method("toggle", [param("show", "boolean", true)], "void", "Contrae/expande (o abre/cierra el cajón en móvil); con `true` la muestra y con `false` la oculta."),
+      method("collapse", [], "void", "Contrae."), method("expand", [], "void", "Expande."),
+      method("openMobile", [], "void", "Abre el cajón (solo en modo estrecho)."), method("closeMobile", [], "void", "Cierra el cajón.")
+    ],
+    events: [event("tsl-toggle", "{ collapsed: boolean; open: boolean; mobile: boolean }", "Cambió el estado de la barra.")]
+  },
+  {
     tag: "tsl-scroll-area", cls: "TslScrollArea", module: "components/scroll-area", docs: ["scroll-area"],
     summary: "Zona desplazable con degradado en los bordes que aún tienen contenido (`data-top|bottom|left|right`). `scrollTo()` se aplica al área desplazable.",
     attributes: [
