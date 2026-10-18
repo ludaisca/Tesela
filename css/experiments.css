@@ -420,6 +420,6 @@
   max-width: calc(max(var(--xp-col), 480px) + 48px);
 }
 
-.sandbox-stage > .xp[style*="--xp-col"] > * {
+.sandbox-stage > .xp[style*="--xp-col"] > *:not(dialog):not([popover]) {
   margin-inline: 0;
 }

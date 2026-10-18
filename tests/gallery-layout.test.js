@@ -44,6 +44,16 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   const edge = await p.evaluate(() => { const xp = document.querySelector('#sandbox-stage .xp'); return { head: xp.querySelector('.xp-head').getBoundingClientRect().left, kid: [...xp.children].find(c => !c.matches('.xp-head')).getBoundingClientRect().left }; });
   ok(Math.abs(edge.head - edge.kid) < 2, `cabecera y muestra estrecha comparten el borde de inicio (${Math.round(edge.head)} / ${Math.round(edge.kid)})`);
 
+  // ---- Diálogos modales: centrados en la ventana ----
+  for (const [path, opener] of [['/c/modals/confirm-delete', 'button:has-text("Eliminar")'], ['/c/modals/share-link', '[data-tsl-open]'], ['/c/modals/upload-files', '[data-tsl-open]'], ['/c/modals/two-factor', '[data-tsl-open]']]) {
+    await p.evaluate(h => { location.hash = '#' + h; }, path); await p.waitForTimeout(500);
+    await p.locator(opener).first().click(); await p.waitForTimeout(400);
+    const r = await p.evaluate(() => { const d = document.querySelector('dialog[open]'); if (!d) return null; const b = d.getBoundingClientRect(); return { l: Math.round(b.left), r: Math.round(innerWidth - b.right), t: Math.round(b.top), bt: Math.round(innerHeight - b.bottom) }; });
+    ok(r && Math.abs(r.l - r.r) <= 2 && r.l > 100 && Math.abs(r.t - r.bt) <= 2, `${path}: el diálogo se abre centrado (izquierda ${r && r.l}, derecha ${r && r.r}, arriba ${r && r.t}, abajo ${r && r.bt})`);
+    await p.keyboard.press('Escape'); await p.waitForTimeout(250);
+    await p.keyboard.press('Escape'); await p.waitForTimeout(250);
+  }
+
   // ---- Miniaturas ----
   const paths = await p.evaluate(() => window.TESELA_FLAT_ITEMS.map(i => i.path));
   const skip = new Set(['layouts/workspace-rail', 'layouts/mini-rail', 'layouts/inbox-rail', 'charts/gauges', 'charts/donut']);
