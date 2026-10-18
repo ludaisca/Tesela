@@ -378,6 +378,25 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         </template>
       </section>
 
+      <section class="doc" id="radio-group" data-group="Formularios" data-keywords="radio group grupo de radios opciones selección única radiogroup tarjetas">
+        <h2><a href="#radio-group">Grupo de radios</a></h2>
+        <p><code>&lt;tsl-radio-group&gt;</code> agrupa opciones <code>button.tsl-radio</code> con etiqueta y descripción. Tiene un solo punto de tabulación: las flechas mueven y seleccionan (respetando RTL y saltando las deshabilitadas), Espacio selecciona y Inicio/Fin saltan a los extremos. Participa en formularios (<code>name</code>, <code>required</code>, <code>reset</code>, <code>fieldset disabled</code>), con <code>orientation="horizontal"</code> y la variante <code>.tsl-radio-group--cards</code>. Evento <code>tsl-change</code>.</p>
+        <template>
+          <form class="tsl-stack demo-max" style="--gap:18px" onsubmit="event.preventDefault()">
+            <tsl-radio-group id="demo-radios" name="plan" value="pro" label="Plan de suscripción" class="tsl-radio-group--cards">
+              <button type="button" class="tsl-radio" value="free"><span class="tsl-radio__body"><span class="tsl-radio__label">Gratis</span><span class="tsl-radio__desc">Para empezar, sin tarjeta.</span></span></button>
+              <button type="button" class="tsl-radio" value="pro"><span class="tsl-radio__body"><span class="tsl-radio__label">Pro</span><span class="tsl-radio__desc">Equipos pequeños, $12 al mes.</span></span></button>
+              <button type="button" class="tsl-radio" value="ent" disabled><span class="tsl-radio__body"><span class="tsl-radio__label">Enterprise</span><span class="tsl-radio__desc">Próximamente.</span></span></button>
+            </tsl-radio-group>
+            <tsl-radio-group id="demo-radios-h" name="ciclo" orientation="horizontal" label="Ciclo de facturación" required required-message="Elige un ciclo.">
+              <button type="button" class="tsl-radio" value="mensual"><span class="tsl-radio__body"><span class="tsl-radio__label">Mensual</span></span></button>
+              <button type="button" class="tsl-radio" value="anual"><span class="tsl-radio__body"><span class="tsl-radio__label">Anual (−20 %)</span></span></button>
+            </tsl-radio-group>
+            <button type="submit" class="tsl-btn tsl-btn--primary">Continuar</button>
+          </form>
+        </template>
+      </section>
+
       <section class="doc" id="switch" data-group="Formularios" data-keywords="toggle interruptor">
         <h2><a href="#switch">Interruptor</a></h2>
         <p>Checkbox nativo con <code>role="switch"</code>: accesible y compatible con formularios.</p>

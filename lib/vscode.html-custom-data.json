@@ -1040,6 +1040,74 @@
       ]
     },
     {
+      "name": "tsl-radio-group",
+      "description": {
+        "kind": "markdown",
+        "value": "Grupo de radios con un solo punto de tabulación: las flechas mueven y seleccionan. Opciones `button.tsl-radio` con etiqueta y descripción; participa en formularios."
+      },
+      "attributes": [
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre con el que el valor viaja en el formulario."
+          }
+        },
+        {
+          "name": "disabled",
+          "description": {
+            "kind": "markdown",
+            "value": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required",
+          "description": {
+            "kind": "markdown",
+            "value": "Obliga a tener valor: aplica la validación nativa del formulario."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required-message",
+          "description": {
+            "kind": "markdown",
+            "value": "Mensaje de validación cuando falta el valor. Por defecto: `Completa este campo.`."
+          }
+        },
+        {
+          "name": "value",
+          "description": {
+            "kind": "markdown",
+            "value": "Valor seleccionado al iniciar."
+          }
+        },
+        {
+          "name": "orientation",
+          "description": {
+            "kind": "markdown",
+            "value": "Disposición de las opciones. Por defecto: `vertical`."
+          },
+          "values": [
+            {
+              "name": "vertical"
+            },
+            {
+              "name": "horizontal"
+            }
+          ]
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del grupo. Por defecto: `Opciones`."
+          }
+        }
+      ]
+    },
+    {
       "name": "tsl-color-picker",
       "description": {
         "kind": "markdown",

@@ -2917,6 +2917,205 @@
     },
     {
       "kind": "javascript-module",
+      "path": "esm/components/radio-group.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslRadioGroup",
+          "tagName": "tsl-radio-group",
+          "customElement": true,
+          "description": "Grupo de radios con un solo punto de tabulación: las flechas mueven y seleccionan. Opciones `button.tsl-radio` con etiqueta y descripción; participa en formularios.",
+          "superclass": {
+            "name": "TslFormElement",
+            "module": "esm/core/form.mjs"
+          },
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre con el que el valor viaja en el formulario."
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Obliga a tener valor: aplica la validación nativa del formulario."
+            },
+            {
+              "name": "required-message",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación cuando falta el valor.",
+              "default": "Completa este campo."
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Valor seleccionado al iniciar."
+            },
+            {
+              "name": "orientation",
+              "type": {
+                "text": "\"vertical\" | \"horizontal\""
+              },
+              "description": "Disposición de las opciones.",
+              "default": "vertical"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible del grupo.",
+              "default": "Opciones"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Valor seleccionado (cadena vacía si no hay)."
+            },
+            {
+              "kind": "field",
+              "name": "orientation",
+              "type": {
+                "text": "\"vertical\" | \"horizontal\""
+              },
+              "description": "Disposición.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Refleja el atributo `disabled`."
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "description": "Formulario al que pertenece.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "type": {
+                "text": "ValidityState"
+              },
+              "description": "Estado de validación.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación actual.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "reset",
+              "description": "Restablece la selección inicial.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "description": "Indica si el campo es válido.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "description": "Valida y muestra el aviso nativo si no lo es.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-change",
+              "type": {
+                "text": "CustomEvent<{ value: string }>"
+              },
+              "description": "El usuario eligió otra opción."
+            }
+          ],
+          "x-itemAttributes": [
+            {
+              "name": "value",
+              "description": "Valor de la opción."
+            },
+            {
+              "name": "disabled",
+              "description": "Opción deshabilitada."
+            }
+          ],
+          "x-docs": [
+            "radio-group"
+          ],
+          "x-formAssociated": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslRadioGroup",
+          "declaration": {
+            "name": "TslRadioGroup",
+            "module": "esm/components/radio-group.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-radio-group",
+          "declaration": {
+            "name": "TslRadioGroup",
+            "module": "esm/components/radio-group.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "esm/components/color-picker.mjs",
       "declarations": [
         {

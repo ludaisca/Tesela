@@ -366,6 +366,23 @@ export const elements = [
     events: [event("tsl-change", "{ value: number }", "Cambió la valoración.")]
   },
   {
+    tag: "tsl-radio-group", cls: "TslRadioGroup", module: "components/radio-group", docs: ["radio-group"], formAssociated: true,
+    summary: "Grupo de radios con un solo punto de tabulación: las flechas mueven y seleccionan. Opciones `button.tsl-radio` con etiqueta y descripción; participa en formularios.",
+    attributes: [
+      ...formAttrs,
+      attr("value", "string", "Valor seleccionado al iniciar."),
+      attr("orientation", '"vertical" | "horizontal"', "Disposición de las opciones.", "vertical"),
+      attr("label", "string", "Nombre accesible del grupo.", "Opciones")
+    ],
+    itemAttributes: [
+      attr("value", "string", "Valor de la opción."),
+      attr("disabled", "boolean", "Opción deshabilitada.")
+    ],
+    properties: [prop("value", "string", "Valor seleccionado (cadena vacía si no hay)."), prop("orientation", '"vertical" | "horizontal"', "Disposición.", true), ...formProps],
+    methods: [method("reset", [], "void", "Restablece la selección inicial."), ...formMethods],
+    events: [event("tsl-change", "{ value: string }", "El usuario eligió otra opción.")]
+  },
+  {
     tag: "tsl-color-picker", cls: "TslColorPicker", module: "components/color-picker", docs: ["color-picker"], formAssociated: true,
     summary: "Selector de color con área de saturación/brillo, tono, opacidad, hexadecimal y cuentagotas.",
     attributes: [

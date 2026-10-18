@@ -553,6 +553,39 @@ export interface TslRatingElement extends HTMLElement {
 }
 export declare const TslRating: { new (): TslRatingElement; prototype: TslRatingElement };
 
+export interface TslRadioGroupEventMap {
+  /** El usuario eligió otra opción. */
+  "tsl-change": CustomEvent<{ value: string }>;
+}
+/** Grupo de radios con un solo punto de tabulación: las flechas mueven y seleccionan. Opciones `button.tsl-radio` con etiqueta y descripción; participa en formularios. */
+export interface TslRadioGroupElement extends HTMLElement {
+  /** Valor seleccionado (cadena vacía si no hay). */
+  value: string;
+  /** Disposición. */
+  readonly orientation: "vertical" | "horizontal";
+  /** Refleja el atributo `disabled`. */
+  disabled: boolean;
+  /** Formulario al que pertenece. */
+  readonly form: HTMLFormElement | null;
+  /** Estado de validación. */
+  readonly validity: ValidityState;
+  /** Mensaje de validación actual. */
+  readonly validationMessage: string;
+  /** Restablece la selección inicial. */
+  reset(): void;
+  /** Indica si el campo es válido. */
+  checkValidity(): boolean;
+  /** Valida y muestra el aviso nativo si no lo es. */
+  reportValidity(): boolean;
+  addEventListener<K extends keyof TslRadioGroupEventMap>(type: K, listener: (this: TslRadioGroupElement, ev: TslRadioGroupEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslRadioGroupElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+  removeEventListener<K extends keyof TslRadioGroupEventMap>(type: K, listener: (this: TslRadioGroupElement, ev: TslRadioGroupEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslRadioGroupElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+}
+export declare const TslRadioGroup: { new (): TslRadioGroupElement; prototype: TslRadioGroupElement };
+
 export interface TslColorPickerEventMap {
   /** Cambia mientras se arrastra. */
   "tsl-input": CustomEvent<{ value: string }>;
@@ -887,6 +920,7 @@ declare global {
     "tsl-time-picker": TslTimePickerElement;
     "tsl-slider": TslSliderElement;
     "tsl-rating": TslRatingElement;
+    "tsl-radio-group": TslRadioGroupElement;
     "tsl-color-picker": TslColorPickerElement;
     "tsl-password": TslPasswordElement;
     "tsl-mention": TslMentionElement;
