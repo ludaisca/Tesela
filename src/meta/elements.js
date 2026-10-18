@@ -513,6 +513,53 @@ export const elements = [
     events: [event("tsl-change", "{ index: number; count: number }", "Cambió la diapositiva visible.")]
   },
   {
+    tag: "tsl-message-scroller", cls: "TslMessageScroller", module: "components/message-scroller", docs: ["message-scroller"],
+    summary: "Zona de conversación con altura propia: sigue el final mientras llegan o crecen mensajes y, si la persona sube, deja de seguirlo y ofrece «Ir al final». El contenido es una región `log`.",
+    attributes: [
+      attr("label", "string", "Nombre accesible de la región desplazable.", "Conversación"),
+      attr("threshold", "number", "Píxeles al final dentro de los cuales se considera «al final».", "48"),
+      attr("end-label", "string", "Texto del botón para volver al final.", "↓ Ir al final"),
+      attr("manual", "boolean", "No sigue el final automáticamente (el botón sigue funcionando).")
+    ],
+    properties: [prop("atEnd", "boolean", "El visor está al final.", true)],
+    methods: [
+      method("scrollToEnd", [param("smooth", "boolean", true)], "void", "Baja al último mensaje y vuelve a seguir el final."),
+      method("scrollToStart", [param("smooth", "boolean", true)], "void", "Sube al principio.")
+    ],
+    events: [event("tsl-scroll-state", "{ atEnd: boolean }", "La persona llegó o se alejó del final.")]
+  },
+  {
+    tag: "tsl-questionnaire", cls: "TslQuestionnaire", module: "components/questionnaire", docs: ["questionnaire"],
+    summary: "Formulario de una pregunta por pantalla: obligatorias, omitibles, condicionales, atajos 1-9 y progreso. Los datos son campos nativos de un `<form>`.",
+    attributes: [
+      attr("shortcuts", '"off"', "Con `off` desactiva las teclas 1-9 (por defecto están activas)."),
+      attr("progress-label", "string", "Texto del progreso con `{n}` y `{total}`.", "Pregunta {n} de {total}")
+    ],
+    itemAttributes: [
+      attr("data-required", "boolean", "La pregunta debe responderse para avanzar."),
+      attr("data-when", "string", "Solo aplica si otra respuesta coincide: `nombre=valor` o `nombre=a|b`."),
+      attr("data-error", "string", "Mensaje cuando falta la respuesta.", "Elige una respuesta para continuar."),
+      attr("data-name", "string", "Nombre de la pregunta que se informa en `tsl-step`.")
+    ],
+    properties: [
+      prop("answers", "Record<string, FormDataEntryValue | FormDataEntryValue[]>", "Respuestas de las preguntas que aplican.", true),
+      prop("activeIndex", "number", "Posición de la pregunta actual entre las que aplican.", true),
+      prop("count", "number", "Número de preguntas que aplican.", true)
+    ],
+    methods: [
+      method("next", [], "boolean", "Avanza si la actual está respondida (o no es obligatoria)."),
+      method("prev", [], "void", "Retrocede."),
+      method("skip", [], "void", "Omite la pregunta actual (solo si no es obligatoria)."),
+      method("goTo", [param("index", "number"), param("focus", "boolean", true)], "void", "Va a una pregunta."),
+      method("submit", [], "boolean", "Valida todas las obligatorias y emite `tsl-submit`."),
+      method("reset", [], "void", "Borra las respuestas y vuelve a la primera.")
+    ],
+    events: [
+      event("tsl-step", "{ index: number; count: number; name: string }", "Cambió la pregunta visible."),
+      event("tsl-submit", "{ answers: Record<string, FormDataEntryValue | FormDataEntryValue[]> }", "Se enviaron las respuestas.")
+    ]
+  },
+  {
     tag: "tsl-scroll-area", cls: "TslScrollArea", module: "components/scroll-area", docs: ["scroll-area"],
     summary: "Zona desplazable con degradado en los bordes que aún tienen contenido (`data-top|bottom|left|right`). `scrollTo()` se aplica al área desplazable.",
     attributes: [

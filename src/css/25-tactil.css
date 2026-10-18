@@ -73,6 +73,11 @@
     min-height: 40px;
   }
 
+  .tsl-questionnaire__choices .tsl-choice,
+  .tsl-trace__line {
+    min-height: 44px;
+  }
+
   .tsl-radio {
     min-height: 32px;
     align-items: center;

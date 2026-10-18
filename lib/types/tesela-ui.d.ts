@@ -775,6 +775,62 @@ export interface TslCarouselElement extends HTMLElement {
 }
 export declare const TslCarousel: { new (): TslCarouselElement; prototype: TslCarouselElement };
 
+export interface TslMessageScrollerEventMap {
+  /** La persona llegó o se alejó del final. */
+  "tsl-scroll-state": CustomEvent<{ atEnd: boolean }>;
+}
+/** Zona de conversación con altura propia: sigue el final mientras llegan o crecen mensajes y, si la persona sube, deja de seguirlo y ofrece «Ir al final». El contenido es una región `log`. */
+export interface TslMessageScrollerElement extends HTMLElement {
+  /** El visor está al final. */
+  readonly atEnd: boolean;
+  /** Baja al último mensaje y vuelve a seguir el final. */
+  scrollToEnd(smooth?: boolean): void;
+  /** Sube al principio. */
+  scrollToStart(smooth?: boolean): void;
+  addEventListener<K extends keyof TslMessageScrollerEventMap>(type: K, listener: (this: TslMessageScrollerElement, ev: TslMessageScrollerEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslMessageScrollerElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+  removeEventListener<K extends keyof TslMessageScrollerEventMap>(type: K, listener: (this: TslMessageScrollerElement, ev: TslMessageScrollerEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslMessageScrollerElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+}
+export declare const TslMessageScroller: { new (): TslMessageScrollerElement; prototype: TslMessageScrollerElement };
+
+export interface TslQuestionnaireEventMap {
+  /** Cambió la pregunta visible. */
+  "tsl-step": CustomEvent<{ index: number; count: number; name: string }>;
+  /** Se enviaron las respuestas. */
+  "tsl-submit": CustomEvent<{ answers: Record<string, FormDataEntryValue | FormDataEntryValue[]> }>;
+}
+/** Formulario de una pregunta por pantalla: obligatorias, omitibles, condicionales, atajos 1-9 y progreso. Los datos son campos nativos de un `<form>`. */
+export interface TslQuestionnaireElement extends HTMLElement {
+  /** Respuestas de las preguntas que aplican. */
+  readonly answers: Record<string, FormDataEntryValue | FormDataEntryValue[]>;
+  /** Posición de la pregunta actual entre las que aplican. */
+  readonly activeIndex: number;
+  /** Número de preguntas que aplican. */
+  readonly count: number;
+  /** Avanza si la actual está respondida (o no es obligatoria). */
+  next(): boolean;
+  /** Retrocede. */
+  prev(): void;
+  /** Omite la pregunta actual (solo si no es obligatoria). */
+  skip(): void;
+  /** Va a una pregunta. */
+  goTo(index: number, focus?: boolean): void;
+  /** Valida todas las obligatorias y emite `tsl-submit`. */
+  submit(): boolean;
+  /** Borra las respuestas y vuelve a la primera. */
+  reset(): void;
+  addEventListener<K extends keyof TslQuestionnaireEventMap>(type: K, listener: (this: TslQuestionnaireElement, ev: TslQuestionnaireEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslQuestionnaireElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+  removeEventListener<K extends keyof TslQuestionnaireEventMap>(type: K, listener: (this: TslQuestionnaireElement, ev: TslQuestionnaireEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslQuestionnaireElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+}
+export declare const TslQuestionnaire: { new (): TslQuestionnaireElement; prototype: TslQuestionnaireElement };
+
 /** Zona desplazable con degradado en los bordes que aún tienen contenido (`data-top|bottom|left|right`). `scrollTo()` se aplica al área desplazable. */
 export interface TslScrollAreaElement extends HTMLElement {
 
@@ -963,6 +1019,8 @@ declare global {
     "tsl-collapsible": TslCollapsibleElement;
     "tsl-sidebar": TslSidebarElement;
     "tsl-carousel": TslCarouselElement;
+    "tsl-message-scroller": TslMessageScrollerElement;
+    "tsl-questionnaire": TslQuestionnaireElement;
     "tsl-scroll-area": TslScrollAreaElement;
     "tsl-resizable": TslResizableElement;
     "tsl-tree": TslTreeElement;

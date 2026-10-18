@@ -1760,6 +1760,156 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
       </section>
 
       <!-- ================================================================ Diseño -->
+      <section class="doc" id="message" data-group="Conversación" data-keywords="mensaje burbuja chat conversación asistente ia marcador separador bubble marker">
+        <h2><a href="#message">Mensaje, burbuja y marcador</a></h2>
+        <p><code>.tsl-message</code> ordena avatar, cabecera, burbuja y pie; <code>--end</code> lo alinea al lado de quien escribe (el acento hace de fondo). <code>.tsl-message-group</code> apila mensajes seguidos (deja un <code>.tsl-message__avatar</code> vacío en los anteriores para mantener la alineación). <code>.tsl-marker</code> son notas de sistema en línea, con borde (<code>--border</code>) o como separador con etiqueta (<code>--separator</code>); con <code>role="status"</code> se anuncian. <code>.tsl-shimmer</code> anima el texto de lo que aún se está generando. Todo usa propiedades lógicas, así que se espeja en RTL.</p>
+        <template>
+          <div class="tsl-stack demo-max" style="--gap:12px">
+            <div class="tsl-marker tsl-marker--separator">Hoy</div>
+            <div class="tsl-message-group">
+              <div class="tsl-message">
+                <div class="tsl-message__avatar"></div>
+                <div class="tsl-message__content"><div class="tsl-bubble">¿Puedes revisar el contraste del tema claro?</div></div>
+              </div>
+              <div class="tsl-message">
+                <span class="tsl-message__avatar"><span class="tsl-avatar">AS</span></span>
+                <div class="tsl-message__content">
+                  <div class="tsl-message__header">Asistente</div>
+                  <div class="tsl-bubble">Claro: todos los presets cumplen AA, y «alto-contraste» llega a AAA.</div>
+                  <div class="tsl-message__footer">14:02 · Leído</div>
+                </div>
+              </div>
+            </div>
+            <div class="tsl-message tsl-message--end">
+              <div class="tsl-message__content"><div class="tsl-bubble">Perfecto, gracias.</div><div class="tsl-message__footer">14:03</div></div>
+            </div>
+            <div class="tsl-marker" role="status"><span class="tsl-marker__icon" aria-hidden="true">✓</span><span>Exploró 4 archivos</span></div>
+            <div class="tsl-marker" role="status"><span class="tsl-marker__icon" aria-hidden="true">…</span><span class="tsl-shimmer">Escribiendo la respuesta</span></div>
+          </div>
+        </template>
+      </section>
+
+      <section class="doc" id="message-scroller" data-group="Conversación" data-keywords="scroller conversación chat seguir final autoscroll log mensajes streaming">
+        <h2><a href="#message-scroller">Zona de conversación</a></h2>
+        <p><code>&lt;tsl-message-scroller&gt;</code> envuelve una conversación de altura propia. Mientras la persona está al final, sigue los mensajes nuevos (y el texto que crece en streaming); si sube con la rueda, el dedo o el teclado deja de seguirlos y aparece «Ir al final». El contenido es una región <code>role="log"</code> y el visor es enfocable. <code>scrollToEnd()</code>, <code>scrollToStart()</code>, <code>atEnd</code>, <code>manual</code> y el evento <code>tsl-scroll-state</code>.</p>
+        <template>
+          <div class="tsl-stack demo-max" style="--gap:10px">
+            <tsl-message-scroller id="demo-scroller" label="Conversación de ejemplo" style="height:220px;border:1px solid var(--tsl-border);border-radius:var(--tsl-radius)">
+              <div class="tsl-message-scroller__content" id="demo-scroller-log">
+                <div class="tsl-message"><div class="tsl-message__content"><div class="tsl-bubble">Mensaje 1</div></div></div>
+                <div class="tsl-message tsl-message--end"><div class="tsl-message__content"><div class="tsl-bubble">Mensaje 2</div></div></div>
+                <div class="tsl-message"><div class="tsl-message__content"><div class="tsl-bubble">Mensaje 3</div></div></div>
+                <div class="tsl-message tsl-message--end"><div class="tsl-message__content"><div class="tsl-bubble">Mensaje 4</div></div></div>
+                <div class="tsl-message"><div class="tsl-message__content"><div class="tsl-bubble">Mensaje 5</div></div></div>
+                <div class="tsl-message tsl-message--end"><div class="tsl-message__content"><div class="tsl-bubble">Mensaje 6</div></div></div>
+              </div>
+            </tsl-message-scroller>
+            <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--sm" id="demo-scroller-add">Añadir mensaje</button></div>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          let n = 6;
+          document.querySelector("#demo-scroller-add").addEventListener("click", () => {
+            n += 1;
+            document.querySelector("#demo-scroller-log").insertAdjacentHTML("beforeend", `<div class="tsl-message${n % 2 ? "" : " tsl-message--end"}"><div class="tsl-message__content"><div class="tsl-bubble">Mensaje ${n}</div></div></div>`);
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="attachment" data-group="Conversación" data-keywords="adjunto archivo fichero imagen subida estado error chip upload attachment">
+        <h2><a href="#attachment">Adjunto</a></h2>
+        <p><code>.tsl-attachment</code> muestra un archivo con medio (<code>__media</code>: icono o imagen), título y descripción, y acciones. <code>data-state="uploading|processing|error"</code> anima el título o marca el error (deja el motivo en la descripción); tamaños <code>--sm</code> y <code>--xs</code> (chip) y <code>--vertical</code>. Un <code>.tsl-attachment__trigger</code> convierte toda la tarjeta en enlace o botón sin tapar las acciones, y <code>.tsl-attachment-group</code> las ordena en una fila desplazable.</p>
+        <template>
+          <div class="tsl-attachment-group demo-max">
+            <div class="tsl-attachment"><div class="tsl-attachment__media" aria-hidden="true">📄</div><div class="tsl-attachment__content"><div class="tsl-attachment__title">informe-q3.pdf</div><div class="tsl-attachment__desc">PDF · 2,4 MB</div></div><div class="tsl-attachment__actions"><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Quitar informe-q3.pdf">✕</button></div></div>
+            <div class="tsl-attachment" data-state="uploading"><div class="tsl-attachment__media" aria-hidden="true">🖼</div><div class="tsl-attachment__content"><div class="tsl-attachment__title">captura-pantalla.png</div><div class="tsl-attachment__desc">Subiendo… 62 %</div></div></div>
+            <div class="tsl-attachment" data-state="error"><div class="tsl-attachment__media" aria-hidden="true">⚠</div><div class="tsl-attachment__content"><div class="tsl-attachment__title">datos.csv</div><div class="tsl-attachment__desc">No se pudo subir: supera 10 MB</div></div><div class="tsl-attachment__actions"><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Reintentar datos.csv">↻</button></div></div>
+            <div class="tsl-attachment tsl-attachment--xs"><span class="tsl-attachment__media" aria-hidden="true">📎</span><span class="tsl-attachment__title">notas.txt</span></div>
+          </div>
+        </template>
+      </section>
+
+      <section class="doc" id="trace" data-group="Conversación" data-keywords="trace traza pasos agente herramientas razonamiento fuentes plan ia ejecución">
+        <h2><a href="#trace">Traza de pasos</a></h2>
+        <p><code>.tsl-trace</code> lista los pasos de un agente: herramientas, razonamiento, fuentes. Cada <code>.tsl-trace__line</code> lleva icono, título (se trunca) y descripción (duración, cantidad). <code>data-status="running"</code> anima el título, <code>pending</code> lo atenúa y <code>error</code> lo marca; una línea que sea <code>&lt;button&gt;</code> o <code>&lt;a&gt;</code> es interactiva. Combina con <code>&lt;tsl-collapsible&gt;</code> para mostrar el detalle de cada paso.</p>
+        <template>
+          <ul class="tsl-trace demo-max">
+            <li><span class="tsl-trace__line"><span class="tsl-trace__icon" aria-hidden="true">✓</span><span class="tsl-trace__title">Leyó 4 archivos</span><span class="tsl-trace__desc">0,8 s</span></span></li>
+            <li>
+              <tsl-collapsible id="demo-trace-open" open>
+                <button type="button" class="tsl-trace__line" data-tsl-trigger><span class="tsl-trace__icon" aria-hidden="true">›_</span><span class="tsl-trace__title">Ejecutando npm run build</span><span class="tsl-trace__desc">14 s</span><span class="tsl-collapsible__chevron"></span></button>
+                <div class="tsl-collapsible__content"><div class="tsl-trace__detail tsl-muted">Compilando 37 componentes…</div></div>
+              </tsl-collapsible>
+            </li>
+            <li><span class="tsl-trace__line" data-status="running"><span class="tsl-trace__icon" aria-hidden="true">◌</span><span class="tsl-trace__title">Ejecutando las pruebas</span></span></li>
+            <li><span class="tsl-trace__line" data-status="error"><span class="tsl-trace__icon" aria-hidden="true">✕</span><span class="tsl-trace__title">Falló la publicación</span><span class="tsl-trace__desc">sin permisos</span></span></li>
+            <li><span class="tsl-trace__line" data-status="pending"><span class="tsl-trace__icon" aria-hidden="true">○</span><span class="tsl-trace__title">Resumir los cambios</span></span></li>
+          </ul>
+        </template>
+      </section>
+
+      <section class="doc" id="code-block" data-group="Conversación" data-keywords="bloque codigo codeblock terminal log diff líneas numeradas copiar añadido eliminado resaltado">
+        <h2><a href="#code-block">Bloque de código completo</a></h2>
+        <p><code>.tsl-codeblock</code> amplía <code>tsl-code</code>: cabecera con título y acciones, números de línea (<code>data-numbers</code>, <code>--tsl-start</code> cambia el primero), ajuste de línea (<code>data-wrap</code>), líneas <code>added</code>, <code>removed</code> y <code>highlighted</code> con su marca (que no se copia ni se selecciona) y pie. El botón copia el texto que le pases en <code>data-tsl-copy</code>, sin números ni marcas. El contenido es enfocable y siempre va de izquierda a derecha, también en RTL.</p>
+        <template>
+          <div class="tsl-codeblock demo-wide">
+            <div class="tsl-codeblock__header"><span class="tsl-codeblock__title">src/tema.js</span><div class="tsl-codeblock__actions"><button type="button" class="tsl-btn tsl-btn--sm" data-tsl-copy="TeselaUI.setPreset('esmeralda');">Copiar</button></div></div>
+            <pre class="tsl-codeblock__content" data-numbers tabindex="0" aria-label="Contenido de src/tema.js"><span class="tsl-codeblock__line">import { setPreset } from "tesela-ui";</span>
+<span class="tsl-codeblock__line" data-variant="removed">setPreset("tesela");</span>
+<span class="tsl-codeblock__line" data-variant="added">setPreset("esmeralda");</span>
+<span class="tsl-codeblock__line" data-variant="highlighted">// el cambio se guarda en localStorage</span></pre>
+          </div>
+        </template>
+      </section>
+
+      <section class="doc" id="questionnaire" data-group="Conversación" data-keywords="cuestionario questionnaire preguntas pasos encuesta wizard formulario condicional omitir obligatoria">
+        <h2><a href="#questionnaire">Cuestionario</a></h2>
+        <p><code>&lt;tsl-questionnaire&gt;</code> muestra una pregunta por pantalla dentro de un <code>&lt;form&gt;</code> normal. Las preguntas son <code>fieldset.tsl-questionnaire__item</code>: <code>data-required</code> obliga a responder (con aviso accesible), las demás se pueden omitir, y <code>data-when="rol=dev|ops"</code> las hace depender de una respuesta anterior (el progreso solo cuenta las que aplican). Las teclas <kbd class="tsl-kbd">1</kbd>–<kbd class="tsl-kbd">9</kbd> eligen una opción y Enter avanza desde un campo de texto. Al terminar emite <code>tsl-submit</code> con <code>answers</code>; <code>tsl-step</code> informa cada cambio de pregunta.</p>
+        <template>
+          <tsl-questionnaire id="demo-q" class="demo-max">
+            <form>
+              <div data-progress></div>
+              <fieldset class="tsl-questionnaire__item" data-required data-name="rol">
+                <legend>¿Cuál es tu rol?</legend>
+                <p class="tsl-questionnaire__desc">Elige la opción que mejor te describa.</p>
+                <div class="tsl-questionnaire__choices">
+                  <label class="tsl-choice"><input class="tsl-check" type="radio" name="rol" value="dev" /> Desarrollo</label>
+                  <label class="tsl-choice"><input class="tsl-check" type="radio" name="rol" value="design" /> Diseño</label>
+                  <label class="tsl-choice"><input class="tsl-check" type="radio" name="rol" value="otro" /> Otro</label>
+                </div>
+                <div class="tsl-questionnaire__error"></div>
+              </fieldset>
+              <fieldset class="tsl-questionnaire__item" data-when="rol=dev" data-name="stack">
+                <legend>¿Qué usas para construir interfaces?</legend>
+                <p class="tsl-questionnaire__desc">Opcional: puedes marcar varias u omitirla.</p>
+                <div class="tsl-questionnaire__choices">
+                  <label class="tsl-choice"><input class="tsl-check" type="checkbox" name="stack" value="react" /> React</label>
+                  <label class="tsl-choice"><input class="tsl-check" type="checkbox" name="stack" value="vue" /> Vue</label>
+                  <label class="tsl-choice"><input class="tsl-check" type="checkbox" name="stack" value="wc" /> Web Components</label>
+                </div>
+                <div class="tsl-questionnaire__error"></div>
+              </fieldset>
+              <fieldset class="tsl-questionnaire__item" data-name="comentario">
+                <legend>¿Algo más que quieras contarnos?</legend>
+                <div class="tsl-questionnaire__choices"><input class="tsl-input" type="text" name="comentario" placeholder="Escribe aquí…" aria-label="Comentario" /></div>
+                <div class="tsl-questionnaire__error"></div>
+              </fieldset>
+              <div class="tsl-questionnaire__actions">
+                <button type="button" class="tsl-btn" data-prev>Anterior</button>
+                <button type="button" class="tsl-btn tsl-btn--subtle" data-skip>Omitir</button>
+                <button type="button" class="tsl-btn tsl-btn--primary" data-next>Siguiente</button>
+                <button type="submit" class="tsl-btn tsl-btn--primary" data-submit>Enviar</button>
+              </div>
+            </form>
+          </tsl-questionnaire>
+        </template>
+        <script type="text/plain" data-doc-js>
+          document.querySelector("#demo-q").addEventListener("tsl-submit", (e) => {
+            TeselaUI.toast({ title: "Respuestas enviadas", description: JSON.stringify(e.detail.answers), variant: "success" });
+          });
+        </script>
+      </section>
+
       <section class="doc" id="layout" data-group="Diseño" data-keywords="stack row grid flex espaciado">
         <h2><a href="#layout">Utilidades de diseño</a></h2>
         <p><code>tsl-stack</code> (vertical), <code>tsl-row</code> (horizontal con wrap) y <code>tsl-grid</code> (auto-fit). Ajusta con <code>--gap</code> y <code>--min</code>; <code>tsl-spacer</code> empuja elementos.</p>

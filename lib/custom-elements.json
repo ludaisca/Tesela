@@ -4201,6 +4201,333 @@
     },
     {
       "kind": "javascript-module",
+      "path": "esm/components/message-scroller.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslMessageScroller",
+          "tagName": "tsl-message-scroller",
+          "customElement": true,
+          "description": "Zona de conversación con altura propia: sigue el final mientras llegan o crecen mensajes y, si la persona sube, deja de seguirlo y ofrece «Ir al final». El contenido es una región `log`.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible de la región desplazable.",
+              "default": "Conversación"
+            },
+            {
+              "name": "threshold",
+              "type": {
+                "text": "number"
+              },
+              "description": "Píxeles al final dentro de los cuales se considera «al final».",
+              "default": "48"
+            },
+            {
+              "name": "end-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto del botón para volver al final.",
+              "default": "↓ Ir al final"
+            },
+            {
+              "name": "manual",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "No sigue el final automáticamente (el botón sigue funcionando)."
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "atEnd",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "El visor está al final.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "scrollToEnd",
+              "description": "Baja al último mensaje y vuelve a seguir el final.",
+              "parameters": [
+                {
+                  "name": "smooth",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "scrollToStart",
+              "description": "Sube al principio.",
+              "parameters": [
+                {
+                  "name": "smooth",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-scroll-state",
+              "type": {
+                "text": "CustomEvent<{ atEnd: boolean }>"
+              },
+              "description": "La persona llegó o se alejó del final."
+            }
+          ],
+          "x-docs": [
+            "message-scroller"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslMessageScroller",
+          "declaration": {
+            "name": "TslMessageScroller",
+            "module": "esm/components/message-scroller.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-message-scroller",
+          "declaration": {
+            "name": "TslMessageScroller",
+            "module": "esm/components/message-scroller.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/questionnaire.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslQuestionnaire",
+          "tagName": "tsl-questionnaire",
+          "customElement": true,
+          "description": "Formulario de una pregunta por pantalla: obligatorias, omitibles, condicionales, atajos 1-9 y progreso. Los datos son campos nativos de un `<form>`.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "shortcuts",
+              "type": {
+                "text": "\"off\""
+              },
+              "description": "Con `off` desactiva las teclas 1-9 (por defecto están activas)."
+            },
+            {
+              "name": "progress-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto del progreso con `{n}` y `{total}`.",
+              "default": "Pregunta {n} de {total}"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "answers",
+              "type": {
+                "text": "Record<string, FormDataEntryValue | FormDataEntryValue[]>"
+              },
+              "description": "Respuestas de las preguntas que aplican.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "activeIndex",
+              "type": {
+                "text": "number"
+              },
+              "description": "Posición de la pregunta actual entre las que aplican.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "count",
+              "type": {
+                "text": "number"
+              },
+              "description": "Número de preguntas que aplican.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "next",
+              "description": "Avanza si la actual está respondida (o no es obligatoria).",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "prev",
+              "description": "Retrocede.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "skip",
+              "description": "Omite la pregunta actual (solo si no es obligatoria).",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "goTo",
+              "description": "Va a una pregunta.",
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "focus",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "submit",
+              "description": "Valida todas las obligatorias y emite `tsl-submit`.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reset",
+              "description": "Borra las respuestas y vuelve a la primera.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-step",
+              "type": {
+                "text": "CustomEvent<{ index: number; count: number; name: string }>"
+              },
+              "description": "Cambió la pregunta visible."
+            },
+            {
+              "name": "tsl-submit",
+              "type": {
+                "text": "CustomEvent<{ answers: Record<string, FormDataEntryValue | FormDataEntryValue[]> }>"
+              },
+              "description": "Se enviaron las respuestas."
+            }
+          ],
+          "x-itemAttributes": [
+            {
+              "name": "data-required",
+              "description": "La pregunta debe responderse para avanzar."
+            },
+            {
+              "name": "data-when",
+              "description": "Solo aplica si otra respuesta coincide: `nombre=valor` o `nombre=a|b`."
+            },
+            {
+              "name": "data-error",
+              "description": "Mensaje cuando falta la respuesta."
+            },
+            {
+              "name": "data-name",
+              "description": "Nombre de la pregunta que se informa en `tsl-step`."
+            }
+          ],
+          "x-docs": [
+            "questionnaire"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslQuestionnaire",
+          "declaration": {
+            "name": "TslQuestionnaire",
+            "module": "esm/components/questionnaire.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-questionnaire",
+          "declaration": {
+            "name": "TslQuestionnaire",
+            "module": "esm/components/questionnaire.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "esm/components/scroll-area.mjs",
       "declarations": [
         {

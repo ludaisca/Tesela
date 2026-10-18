@@ -1514,6 +1514,101 @@
       ]
     },
     {
+      "name": "tsl-message-scroller",
+      "description": {
+        "kind": "markdown",
+        "value": "Zona de conversación con altura propia: sigue el final mientras llegan o crecen mensajes y, si la persona sube, deja de seguirlo y ofrece «Ir al final». El contenido es una región `log`."
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible de la región desplazable. Por defecto: `Conversación`."
+          }
+        },
+        {
+          "name": "threshold",
+          "description": {
+            "kind": "markdown",
+            "value": "Píxeles al final dentro de los cuales se considera «al final». Por defecto: `48`."
+          }
+        },
+        {
+          "name": "end-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto del botón para volver al final. Por defecto: `↓ Ir al final`."
+          }
+        },
+        {
+          "name": "manual",
+          "description": {
+            "kind": "markdown",
+            "value": "No sigue el final automáticamente (el botón sigue funcionando)."
+          },
+          "valueSet": "v"
+        }
+      ]
+    },
+    {
+      "name": "tsl-questionnaire",
+      "description": {
+        "kind": "markdown",
+        "value": "Formulario de una pregunta por pantalla: obligatorias, omitibles, condicionales, atajos 1-9 y progreso. Los datos son campos nativos de un `<form>`."
+      },
+      "attributes": [
+        {
+          "name": "shortcuts",
+          "description": {
+            "kind": "markdown",
+            "value": "Con `off` desactiva las teclas 1-9 (por defecto están activas)."
+          },
+          "values": [
+            {
+              "name": "off"
+            }
+          ]
+        },
+        {
+          "name": "progress-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto del progreso con `{n}` y `{total}`. Por defecto: `Pregunta {n} de {total}`."
+          }
+        },
+        {
+          "name": "data-required",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) La pregunta debe responderse para avanzar."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "data-when",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Solo aplica si otra respuesta coincide: `nombre=valor` o `nombre=a|b`."
+          }
+        },
+        {
+          "name": "data-error",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Mensaje cuando falta la respuesta. Por defecto: `Elige una respuesta para continuar.`."
+          }
+        },
+        {
+          "name": "data-name",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Nombre de la pregunta que se informa en `tsl-step`."
+          }
+        }
+      ]
+    },
+    {
       "name": "tsl-scroll-area",
       "description": {
         "kind": "markdown",
