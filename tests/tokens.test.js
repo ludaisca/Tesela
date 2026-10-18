@@ -140,7 +140,7 @@ const { contrast, parse } = require('../scripts/lib/color');
   await p.reload(); await p.waitForLoadState('networkidle');
   const api0 = await p.evaluate(() => ({ theme: TeselaUI.getTheme(), preset: TeselaUI.getPreset(), names: TeselaUI.presets.map(x => x.name), hasLabels: TeselaUI.presets.every(x => x.label && x.description) }));
   ok(api0.theme === 'dark' && api0.preset === 'tesela' && JSON.stringify(api0.names) === JSON.stringify(presetNames) && api0.hasLabels, 'API: tema «dark» y preset «tesela» por defecto; presets coincide con presets.json');
-  const exportsOk = await p.evaluate(() => ['setTheme', 'getTheme', 'getResolvedTheme', 'setPreset', 'getPreset', 'setAccent', 'toast', 'copy', 'confirm', 'position', 'init'].every(f => typeof TeselaUI[f] === 'function'));
+  const exportsOk = await p.evaluate(() => ['setTheme', 'getTheme', 'getResolvedTheme', 'setPreset', 'getPreset', 'setAccent', 'setDirection', 'getDirection', 'toast', 'copy', 'confirm', 'position', 'init'].every(f => typeof TeselaUI[f] === 'function'));
   ok(exportsOk, 'API: window.TeselaUI expone todas las funciones de temas');
 
   await p.evaluate(() => { window.__ev = []; document.addEventListener('tsl-preset', e => __ev.push(['preset', e.detail.preset])); document.addEventListener('tsl-theme', e => __ev.push(['theme', e.detail.theme, e.detail.resolved])); document.addEventListener('tsl-accent', e => __ev.push(['accent', e.detail.accent, e.detail.fg])); });
@@ -158,7 +158,7 @@ const { contrast, parse } = require('../scripts/lib/color');
   ok(st.r === 'system' && st.theme === 'system' && st.res === 'light' && st.bg === T.byPath.get('color.bg').light && st.stored === 'system', 'setTheme("system") con el sistema en claro: tema efectivo «light» y colores claros');
   await p.evaluate(() => (window.__ev.length = 0));
   await p.emulateMedia({ colorScheme: 'dark' });
-  await p.waitForTimeout(150);
+  await p.waitForFunction(() => window.__ev.some(e => e[0] === 'theme'), null, { timeout: 5000 }).catch(() => {});
   const sysEv = await p.evaluate(() => ({ ev: window.__ev.filter(e => e[0] === 'theme').map(e => e.slice(1).join('/')), res: TeselaUI.getResolvedTheme() }));
   ok(sysEv.res === 'dark' && sysEv.ev.includes('system/dark'), 'con el tema «system», un cambio del sistema operativo emite tsl-theme con el tema efectivo (' + sysEv.ev + ')');
   ok((await p.evaluate(() => TeselaUI.setTheme('azul'))) === 'dark', 'setTheme(desconocido) vuelve a «dark»');

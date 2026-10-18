@@ -21,9 +21,9 @@ tsl-tree li[role="treeitem"][aria-expanded="false"] > ul {
 }
 
 tsl-tree ul[role="group"] {
-  margin-left: 11px;
-  padding-left: 8px;
-  border-left: 1px solid var(--tsl-border);
+  margin-inline-start: 11px;
+  padding-inline-start: 8px;
+  border-inline-start: 1px solid var(--tsl-border);
 }
 
 .tsl-tree__row {
@@ -65,7 +65,7 @@ li[role="treeitem"]:focus-visible > .tsl-tree__row {
   content: "";
   width: 6px;
   height: 6px;
-  border-right: 1.5px solid currentColor;
+  border-inline-end: 1.5px solid currentColor;
   border-bottom: 1.5px solid currentColor;
   transform: rotate(-45deg);
   transition: transform 160ms var(--tsl-ease);
@@ -118,8 +118,8 @@ tsl-virtual-list {
 .tsl-vlist__row {
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -254,4 +254,13 @@ body.tsl-is-sorting {
   gap: 6px;
   padding: 10px 12px;
   font-size: 12px;
+}
+
+/* Derecha a izquierda: el chevron del árbol cerrado apunta hacia el inicio de lectura */
+.tsl-tree__chevron:not(.is-leaf):dir(rtl)::before {
+  transform: rotate(135deg);
+}
+
+li[aria-expanded="true"] > .tsl-tree__row > .tsl-tree__chevron:dir(rtl)::before {
+  transform: rotate(45deg);
 }

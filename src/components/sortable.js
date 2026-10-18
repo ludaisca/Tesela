@@ -1,4 +1,4 @@
-import { TslElement, announce, define, emit, nextId } from "../core/base.js";
+import { TslElement, announce, define, emit, isRtl, nextId } from "../core/base.js";
 
 /**
  * <tsl-sortable group="tablero" direction="vertical|horizontal|grid" handle=".asa" label="Por hacer">
@@ -210,8 +210,9 @@ export class TslSortable extends TslElement {
     const items = this.itemEls;
     const i = items.indexOf(item);
     const vertical = this.axis !== "horizontal";
-    const prevKey = vertical ? "ArrowUp" : "ArrowLeft";
-    const nextKey = vertical ? "ArrowDown" : "ArrowRight";
+    const rtl = !vertical && isRtl(this);
+    const prevKey = vertical ? "ArrowUp" : rtl ? "ArrowRight" : "ArrowLeft";
+    const nextKey = vertical ? "ArrowDown" : rtl ? "ArrowLeft" : "ArrowRight";
     const grabbed = this.kb && this.kb.item === item;
 
     if (k === " " || k === "Enter") {

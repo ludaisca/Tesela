@@ -16,7 +16,7 @@
 .tsl-table th,
 .tsl-table td {
   padding: 10px 14px;
-  text-align: left;
+  text-align: start;
   border-bottom: 1px solid var(--tsl-border);
   white-space: nowrap;
 }
@@ -43,7 +43,7 @@
 }
 
 .tsl-table .is-num {
-  text-align: right;
+  text-align: end;
   font-variant-numeric: tabular-nums;
 }
 
@@ -63,7 +63,7 @@
 
 .tsl-table th[data-sort]::after {
   content: "↕";
-  margin-left: 6px;
+  margin-inline-start: 6px;
   opacity: 0.35;
 }
 

@@ -318,7 +318,15 @@
       });
     }
 
+    const dir = document.getElementById("docs-dir");
+    if (dir) {
+      dir.value = TeselaUI.getDirection();
+      dir.addEventListener("tsl-change", (e) => TeselaUI.setDirection(e.detail.value));
+      document.addEventListener("tsl-direction", (e) => (dir.value = e.detail.direction));
+    }
+
     document.getElementById("docs-reset")?.addEventListener("click", () => {
+      TeselaUI.setDirection("ltr");
       TeselaUI.setAccent(null);
       ["--tsl-radius", "--tsl-radius-sm", "--tsl-radius-xs"].forEach((v) => root.style.removeProperty(v));
       storageSet("tsl-docs-radius", "");

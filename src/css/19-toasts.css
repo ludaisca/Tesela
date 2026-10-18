@@ -3,7 +3,7 @@
    ---------------------------------------------------------------------------- */
 .tsl-toast-region {
   position: fixed;
-  right: 20px;
+  inset-inline-end: 20px;
   bottom: 20px;
   z-index: 1000;
   display: flex;

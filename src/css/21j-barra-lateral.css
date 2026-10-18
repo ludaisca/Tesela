@@ -265,3 +265,11 @@ tsl-sidebar[data-mobile][data-open] {
     transition: none;
   }
 }
+
+tsl-sidebar .tsl-sidebar__item[aria-expanded]:dir(rtl)::after {
+  transform: rotate(135deg);
+}
+
+tsl-sidebar .tsl-sidebar__item[aria-expanded="true"]:dir(rtl)::after {
+  transform: rotate(45deg);
+}

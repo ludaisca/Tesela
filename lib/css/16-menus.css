@@ -9,7 +9,7 @@ tsl-menu {
 .tsl-menu__list {
   position: absolute;
   top: calc(100% + 6px);
-  left: 0;
+  inset-inline-start: 0;
   z-index: 70;
   min-width: 190px;
   padding: 5px;
@@ -22,8 +22,8 @@ tsl-menu {
 }
 
 tsl-menu[align="end"] .tsl-menu__list {
-  left: auto;
-  right: 0;
+  inset-inline-start: auto;
+  inset-inline-end: 0;
   transform-origin: top right;
 }
 
@@ -39,7 +39,7 @@ tsl-menu[align="end"] .tsl-menu__list {
   color: var(--tsl-fg);
   font: inherit;
   font-size: 12px;
-  text-align: left;
+  text-align: start;
   text-decoration: none;
   cursor: pointer;
 }
@@ -51,7 +51,7 @@ tsl-menu[align="end"] .tsl-menu__list {
 }
 
 .tsl-menu__item .tsl-kbd {
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 
 .tsl-menu__item:disabled,

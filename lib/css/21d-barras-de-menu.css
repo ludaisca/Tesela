@@ -59,7 +59,7 @@ tsl-nav-menu .tsl-bar__item > [data-tsl-trigger][aria-haspopup]::after {
   content: "";
   width: 6px;
   height: 6px;
-  border-right: 1.5px solid currentColor;
+  border-inline-end: 1.5px solid currentColor;
   border-bottom: 1.5px solid currentColor;
   transform: rotate(45deg) translateY(-2px);
   transition: transform 160ms var(--tsl-ease);
@@ -134,7 +134,7 @@ tsl-nav-menu .tsl-bar__item > [data-tsl-trigger][aria-expanded="true"]::after {
 
 .tsl-menu__item[data-submenu]::after {
   content: "›";
-  margin-left: auto;
+  margin-inline-start: auto;
   color: var(--tsl-fg-muted);
 }
 

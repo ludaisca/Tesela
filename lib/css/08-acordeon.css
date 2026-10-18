@@ -33,7 +33,7 @@
   width: 7px;
   height: 7px;
   flex: none;
-  border-right: 1.5px solid var(--tsl-fg-muted);
+  border-inline-end: 1.5px solid var(--tsl-fg-muted);
   border-bottom: 1.5px solid var(--tsl-fg-muted);
   transform: rotate(45deg) translateY(-2px);
   transition: transform 200ms var(--tsl-ease);

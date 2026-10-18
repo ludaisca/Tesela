@@ -53,6 +53,11 @@
           <button class="tsl-segmented__item" value="9">9</button>
           <button class="tsl-segmented__item" value="16">16</button>
         </tsl-segmented>
+        <span class="tsl-eyebrow">Dirección</span>
+        <tsl-segmented id="docs-dir" value="ltr" aria-label="Dirección de escritura" style="margin:10px 0 14px">
+          <button class="tsl-segmented__item" value="ltr">LTR</button>
+          <button class="tsl-segmented__item" value="rtl">RTL</button>
+        </tsl-segmented>
         <div class="tsl-stack" style="--gap:8px">
           <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--block" id="docs-export">Copiar overrides CSS</button>
           <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle tsl-btn--block" id="docs-reset">Restablecer</button>
@@ -181,6 +186,17 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
             </tbody>
           </table>
         </div>
+      </section>
+
+      <section class="doc" id="rtl" data-group="Inicio" data-keywords="rtl derecha a izquierda direccion dir árabe hebreo bidireccional lógico espejo">
+        <h2><a href="#rtl">Derecha a izquierda (RTL)</a></h2>
+        <p><code>TeselaUI.setDirection("rtl")</code> pone <code>dir="rtl"</code> en <code>&lt;html&gt;</code> (se guarda y <code>theme-init.js</code> lo aplica antes de pintar); también sirve <code>dir="rtl"</code> en cualquier contenedor. El CSS usa propiedades lógicas (<code>inline-start</code>, <code>inline-end</code>), así que márgenes, bordes, iconos y paneles se espejan solos. El comportamiento también: las flechas ← → se invierten en pestañas, menús, árbol, calendario, slider, valoración, radios, carrusel y paneles redimensionables; los paneles flotantes se anclan al borde de inicio y «derecha»/«izquierda» de <code>position()</code> significan fin/inicio. Se mantienen de izquierda a derecha las gráficas, los minigráficos, los selectores de color y el OTP. Prueba el cambio con el selector «Dirección» del panel lateral. Evento <code>tsl-direction</code>.</p>
+        <template>
+          <div class="tsl-row" style="--gap:12px">
+            <button type="button" class="tsl-btn" id="demo-dir-rtl" onclick="TeselaUI.setDirection('rtl')">Pasar a RTL</button>
+            <button type="button" class="tsl-btn tsl-btn--subtle" id="demo-dir-ltr" onclick="TeselaUI.setDirection('ltr')">Volver a LTR</button>
+          </div>
+        </template>
       </section>
 
       <section class="doc" id="tokens" data-group="Inicio" data-keywords="colors colores theme tema variables">

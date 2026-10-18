@@ -193,8 +193,8 @@ tsl-chart svg {
 }
 
 .tsl-chart__tip-row strong {
-  margin-left: auto;
-  padding-left: 12px;
+  margin-inline-start: auto;
+  padding-inline-start: 12px;
   color: var(--tsl-fg);
   font-variant-numeric: tabular-nums;
 }

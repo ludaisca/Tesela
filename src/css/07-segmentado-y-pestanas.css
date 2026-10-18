@@ -67,8 +67,8 @@ tsl-tabs {
 .tsl-tabs__tab[aria-selected="true"]::after {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
   bottom: -1px;
   height: 2px;
   border-radius: 2px;

@@ -65,7 +65,8 @@ Todo el estilo sale de 36 tokens definidos una sola vez en `src/tokens/tokens.js
 | Preset | `data-preset="esmeralda"` cambia colores, radios y tipografías de una vez. Hay 11: `tesela` (por defecto), `esmeralda`, `ambar`, `cielo`, `rosa`, `violeta`, `medianoche`, `papel`, `alto-contraste`, `brutalista` y `suave` |
 | Acento | `TeselaUI.setAccent("#10b981")` cambia el acento y elige solo un texto legible (blanco o casi negro) |
 | API | `TeselaUI.setTheme()`, `getTheme()`, `getResolvedTheme()`, `setPreset()`, `getPreset()`, `setAccent()`, `presets` y los eventos `tsl-theme`, `tsl-preset` y `tsl-accent` |
-| Sin parpadeo | `<script src="lib/theme-init.js"></script>` en `<head>` aplica lo guardado antes del primer pintado |
+| Dirección | `TeselaUI.setDirection("rtl")` (o `dir="rtl"` en `<html>`/un contenedor) espeja los componentes: el CSS usa propiedades lógicas y el teclado, el puntero y el posicionamiento respetan el sentido de lectura. Gráficas, minigráficos, selectores de color y OTP conservan la orientación izquierda-derecha. Evento `tsl-direction` |
+| Sin parpadeo | `<script src="lib/theme-init.js"></script>` en `<head>` aplica lo guardado (tema, preset, acento y dirección) antes del primer pintado |
 
 Todos los presets cumplen el contraste WCAG en ambos modos (texto AAA, atenuado AA, texto del acento AA, insignias AA) y `alto-contraste` llega a AAA; `tests/tokens.test.js` lo comprueba con los valores reales del navegador. Los archivos exportados están en `lib/tokens/` (`tokens.json`, `tokens.css`, `tokens.scss`, `tokens.mjs`, `tailwind.preset.cjs`) y hay un CSS por preset en `lib/themes/`.
 

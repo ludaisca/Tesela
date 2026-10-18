@@ -49,6 +49,10 @@ export declare function setPreset(name: PresetName): PresetName;
 export declare function getPreset(): PresetName;
 /** Cambia el acento (`#rgb` o `#rrggbb`) y elige solo el color de texto legible; `null` lo restablece. Devuelve ese color de texto. */
 export declare function setAccent(color: string | null): string | null;
+/** Cambia la dirección de escritura del documento (atributo `dir` de `<html>`) y la guarda; los componentes se espejan. Devuelve la dirección activa. */
+export declare function setDirection(dir: "ltr" | "rtl"): "ltr" | "rtl";
+/** Dirección de escritura actual. */
+export declare function getDirection(): "ltr" | "rtl";
 /** Inicializa los ayudantes estáticos tras insertar HTML dinámico. */
 export declare function init(root?: ParentNode): void;
 export interface TeselaUIGlobal {
@@ -75,6 +79,10 @@ export interface TeselaUIGlobal {
   getPreset: typeof getPreset;
   /** Cambia el acento (`#rgb` o `#rrggbb`) y elige solo el color de texto legible; `null` lo restablece. Devuelve ese color de texto. */
   setAccent: typeof setAccent;
+  /** Cambia la dirección de escritura del documento (atributo `dir` de `<html>`) y la guarda; los componentes se espejan. Devuelve la dirección activa. */
+  setDirection: typeof setDirection;
+  /** Dirección de escritura actual. */
+  getDirection: typeof getDirection;
   /** Inicializa los ayudantes estáticos tras insertar HTML dinámico. */
   init: typeof init;
 }

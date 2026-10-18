@@ -1,4 +1,4 @@
-import { clamp, define, emit } from "../core/base.js";
+import { clamp, define, emit, isRtl } from "../core/base.js";
 import { TslFormElement } from "../core/form.js";
 
 const STAR = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.5 2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 17.5l-5.9 3.2 1.2-6.6L2.5 9.5l6.6-.9z"/></svg>`;
@@ -47,8 +47,10 @@ export class TslRating extends TslFormElement {
       if (!this.interactive) return;
       const k = e.key;
       let next = null;
-      if (k === "ArrowRight" || k === "ArrowUp") next = this.val + this.stepSize;
-      else if (k === "ArrowLeft" || k === "ArrowDown") next = this.val - this.stepSize;
+      const up = isRtl(this) ? "ArrowLeft" : "ArrowRight";
+      const down = isRtl(this) ? "ArrowRight" : "ArrowLeft";
+      if (k === up || k === "ArrowUp") next = this.val + this.stepSize;
+      else if (k === down || k === "ArrowDown") next = this.val - this.stepSize;
       else if (k === "Home") next = this.hasAttribute("clearable") ? 0 : this.stepSize;
       else if (k === "End") next = this.max;
       else if ((k === "Delete" || k === "Backspace") && this.hasAttribute("clearable")) next = 0;
@@ -71,10 +73,11 @@ export class TslRating extends TslFormElement {
   }
 
   valueAt(clientX) {
+    const rtl = isRtl(this);
     for (let i = 0; i < this.stars.length; i++) {
       const r = this.stars[i].getBoundingClientRect();
-      if (clientX <= r.right) {
-        const frac = clamp((clientX - r.left) / r.width, 0, 1);
+      if (rtl ? clientX >= r.left : clientX <= r.right) {
+        const frac = clamp(rtl ? (r.right - clientX) / r.width : (clientX - r.left) / r.width, 0, 1);
         return i + (this.half && frac <= 0.5 ? 0.5 : 1);
       }
     }

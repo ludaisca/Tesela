@@ -701,6 +701,8 @@ export const api = {
     { name: "setPreset", params: [param("name", "PresetName")], returns: "PresetName", description: "Aplica un preset de tema (se ignora un nombre desconocido) y lo guarda. Devuelve el preset activo." },
     { name: "getPreset", params: [], returns: "PresetName", description: "Preset activo." },
     { name: "setAccent", params: [param("color", "string | null")], returns: "string | null", description: "Cambia el acento (`#rgb` o `#rrggbb`) y elige solo el color de texto legible; `null` lo restablece. Devuelve ese color de texto." },
+    { name: "setDirection", params: [param("dir", '"ltr" | "rtl"')], returns: '"ltr" | "rtl"', description: "Cambia la dirección de escritura del documento (atributo `dir` de `<html>`) y la guarda; los componentes se espejan. Devuelve la dirección activa." },
+    { name: "getDirection", params: [], returns: '"ltr" | "rtl"', description: "Dirección de escritura actual." },
     { name: "init", params: [param("root", "ParentNode", true)], returns: "void", description: "Inicializa los ayudantes estáticos tras insertar HTML dinámico." }
   ]
 };

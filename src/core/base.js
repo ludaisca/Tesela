@@ -43,10 +43,14 @@ export const define = (name, ctor) => {
   if (!customElements.get(name)) customElements.define(name, ctor);
 };
 
-// Roving focus for lists of items driven by arrow keys
+// Dirección de escritura efectiva de un elemento (atributo `dir` o CSS heredados)
+export const isRtl = (el) => getComputedStyle(el || document.documentElement).direction === "rtl";
+
+// Roving focus for lists of items driven by arrow keys (en RTL las flechas horizontales se invierten)
 export function moveFocus(items, current, key, { horizontal = false } = {}) {
-  const prevKey = horizontal ? "ArrowLeft" : "ArrowUp";
-  const nextKey = horizontal ? "ArrowRight" : "ArrowDown";
+  const rtl = horizontal && current && isRtl(current);
+  const prevKey = horizontal ? (rtl ? "ArrowRight" : "ArrowLeft") : "ArrowUp";
+  const nextKey = horizontal ? (rtl ? "ArrowLeft" : "ArrowRight") : "ArrowDown";
   const idx = items.indexOf(current);
   let next = null;
   if (key === nextKey) next = items[(idx + 1) % items.length];
