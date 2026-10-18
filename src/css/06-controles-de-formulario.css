@@ -159,7 +159,7 @@
 }
 
 .tsl-check:checked,
-.tsl-check:indeterminate {
+.tsl-check[type="checkbox"]:indeterminate {
   background: var(--tsl-fg);
   border-color: var(--tsl-fg);
 }
@@ -168,7 +168,7 @@
   transform: scale(1);
 }
 
-.tsl-check:indeterminate::before {
+.tsl-check[type="checkbox"]:indeterminate::before {
   transform: scale(1);
   height: 2px;
   clip-path: none;

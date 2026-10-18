@@ -334,10 +334,30 @@
     stage.style.maxWidth = state.viewportSize;
     unmountExperiment();
     state.unmountXp = XP.mount(stage, item);
+    fitColumn(stage);
     const wrap = stage.closest(".sandbox-viewport-wrap");
     if (wrap) wrap.scrollTop = 0;
 
     updateCodeDrawer();
+  }
+
+  // Si todas las muestras declaran un ancho máximo en px, la composición se estrecha a esa columna (y se centra)
+  function fitColumn(stage) {
+    const xp = stage.querySelector(".xp");
+    if (!xp) return;
+    xp.style.removeProperty("--xp-col");
+    let col = 0;
+    for (const k of xp.children) {
+      if (k.matches(".xp-head, template") || getComputedStyle(k).display === "none") continue;
+      if (k.matches(".xp-center")) {
+        col = Math.max(col, 560); // lanzadores de diálogos: un botón centrado bajo la cabecera
+        continue;
+      }
+      const mw = getComputedStyle(k).maxWidth;
+      if (!mw.endsWith("px")) return;
+      col = Math.max(col, parseFloat(mw));
+    }
+    if (col) xp.style.setProperty("--xp-col", `${col}px`);
   }
 
   function unmountExperiment() {

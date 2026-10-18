@@ -31,16 +31,15 @@ export class TslCarousel extends TslElement {
       s.setAttribute("aria-label", `${i + 1} de ${this.slides.length}`);
     });
 
+    // Los controles viven en una barra bajo el carrusel (anterior, puntos, siguiente, pausa): nunca tapan el contenido
+    this.bar = document.createElement("div");
+    this.bar.className = "tsl-carousel__bar";
+    this.appendChild(this.bar);
     this.prevBtn = this.control("prev", "Anterior", "‹");
+    if (this.hasAttribute("dots")) this.buildDots();
     this.nextBtn = this.control("next", "Siguiente", "›");
     this.prevBtn.addEventListener("click", () => this.prev());
     this.nextBtn.addEventListener("click", () => this.next());
-    if (this.hasAttribute("dots") || this.hasAttribute("autoplay")) {
-      this.bar = document.createElement("div");
-      this.bar.className = "tsl-carousel__bar";
-      this.appendChild(this.bar);
-    }
-    if (this.hasAttribute("dots")) this.buildDots();
     if (this.hasAttribute("autoplay")) this.buildAutoplay();
 
     this.track.addEventListener("scroll", () => {
@@ -108,7 +107,7 @@ export class TslCarousel extends TslElement {
       btn.type = "button";
       btn.className = `tsl-btn tsl-btn--icon tsl-carousel__nav tsl-carousel__${kind}`;
       btn.textContent = glyph;
-      this.appendChild(btn);
+      this.bar.appendChild(btn);
     }
     btn.setAttribute("aria-label", label);
     btn.setAttribute("aria-controls", this.track.id);

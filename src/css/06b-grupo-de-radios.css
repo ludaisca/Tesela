@@ -92,7 +92,7 @@ tsl-radio-group[aria-disabled] {
   opacity: 0.6;
 }
 
-tsl-radio-group:invalid .tsl-radio__mark {
+tsl-radio-group[data-invalid] .tsl-radio__mark {
   border-color: var(--tsl-danger);
 }
 

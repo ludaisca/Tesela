@@ -590,7 +590,7 @@ ul {
    ============================================================================ */
 .folder-minimap {
   position: fixed;
-  right: 14px;
+  inset-inline-end: 14px;
   top: 50%;
   transform: translateY(-50%);
   z-index: 30;
@@ -645,7 +645,7 @@ ul {
 }
 
 .minimap-count {
-  margin-left: auto;
+  margin-inline-start: auto;
   font-size: 9px;
   opacity: 0.45;
 }

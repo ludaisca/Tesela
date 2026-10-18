@@ -16,6 +16,7 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   ok(await g.getAttribute('role') === 'radiogroup' && await g.getAttribute('aria-label') === 'Plan de suscripción', 'rol radiogroup y nombre accesible');
   ok(await g.locator('[role=radio]').count() === 3, 'cada opción tiene role=radio');
   ok(await checked(g) === 'pro' && await g.locator('[value=pro]').getAttribute('aria-checked') === 'true', 'value inicial seleccionado');
+  ok(await h.evaluate(e => !e.hasAttribute('data-invalid')) && await h.locator('.tsl-radio__mark').first().evaluate(e => getComputedStyle(e).borderTopColor) === await g.locator('.tsl-radio__mark').first().evaluate(e => getComputedStyle(e).borderTopColor), 'un grupo obligatorio vacío no muestra error antes de validar');
   const tabs = await g.locator('.tsl-radio').evaluateAll(a => a.map(x => x.tabIndex));
   ok(JSON.stringify(tabs) === '[-1,0,-1]', 'un solo punto de tabulación (la opción marcada)');
   ok(await h.getAttribute('aria-orientation') === 'horizontal' && await g.getAttribute('aria-orientation') === 'vertical', 'aria-orientation según el atributo');
@@ -57,8 +58,9 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   ok(await checked(h) === '' && !('ciclo' in await fd()), 'reset() sin valor inicial deja el grupo vacío y fuera del formulario');
   ok(await h.evaluate(e => !e.checkValidity() && e.validationMessage === 'Elige un ciclo.'), 'required: inválido con el mensaje propio');
   ok(await h.evaluate(e => e.validity.valueMissing), 'validity.valueMissing activo');
+  ok(await h.evaluate(e => e.hasAttribute('data-invalid')) && await h.locator('.tsl-radio__mark').first().evaluate(e => getComputedStyle(e).borderTopColor) !== await g.locator('.tsl-radio__mark').first().evaluate(e => getComputedStyle(e).borderTopColor), 'tras validar, el grupo vacío muestra el borde de error');
   await h.locator('[value=anual]').click();
-  ok(await h.evaluate(e => e.checkValidity()), 'al elegir una opción pasa a válido');
+  ok(await h.evaluate(e => e.checkValidity() && !e.hasAttribute('data-invalid')), 'al elegir una opción pasa a válido y se quita el borde de error');
   const tabsH = await h.locator('.tsl-radio').evaluateAll(a => a.map(x => x.tabIndex));
   await p.evaluate(() => { const e = document.getElementById('demo-radios-h'); e.value = ''; });
   ok(JSON.stringify(await h.locator('.tsl-radio').evaluateAll(a => a.map(x => x.tabIndex))) === '[0,-1]' && JSON.stringify(tabsH) === '[-1,0]', 'sin selección la primera opción es enfocable');

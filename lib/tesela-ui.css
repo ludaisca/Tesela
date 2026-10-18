@@ -845,7 +845,7 @@ button.tsl-item {
 }
 
 .tsl-check:checked,
-.tsl-check:indeterminate {
+.tsl-check[type="checkbox"]:indeterminate {
   background: var(--tsl-fg);
   border-color: var(--tsl-fg);
 }
@@ -854,7 +854,7 @@ button.tsl-item {
   transform: scale(1);
 }
 
-.tsl-check:indeterminate::before {
+.tsl-check[type="checkbox"]:indeterminate::before {
   transform: scale(1);
   height: 2px;
   clip-path: none;
@@ -1222,7 +1222,7 @@ tsl-radio-group[aria-disabled] {
   opacity: 0.6;
 }
 
-tsl-radio-group:invalid .tsl-radio__mark {
+tsl-radio-group[data-invalid] .tsl-radio__mark {
   border-color: var(--tsl-danger);
 }
 
@@ -4693,36 +4693,8 @@ tsl-carousel[orientation="vertical"] .tsl-carousel__slide {
 }
 
 .tsl-carousel__nav {
-  position: absolute;
-  top: 50%;
-  z-index: 2;
-  transform: translateY(-50%);
+  flex: none;
   border-radius: 50%;
-  background: var(--tsl-bg-elevated);
-  box-shadow: var(--tsl-shadow);
-}
-
-.tsl-carousel__prev {
-  inset-inline-start: 8px;
-}
-
-.tsl-carousel__next {
-  inset-inline-end: 8px;
-}
-
-tsl-carousel[orientation="vertical"] .tsl-carousel__nav {
-  inset-inline: auto;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-tsl-carousel[orientation="vertical"] .tsl-carousel__prev {
-  top: 8px;
-}
-
-tsl-carousel[orientation="vertical"] .tsl-carousel__next {
-  top: auto;
-  bottom: 8px;
 }
 
 .tsl-carousel__nav:dir(rtl) {
@@ -4730,8 +4702,7 @@ tsl-carousel[orientation="vertical"] .tsl-carousel__next {
 }
 
 .tsl-carousel__nav:disabled {
-  opacity: 0;
-  pointer-events: none;
+  opacity: 0.35;
 }
 
 .tsl-carousel__bar {

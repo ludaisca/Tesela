@@ -152,9 +152,10 @@ Las pruebas corren en un Chromium real con Playwright e incluyen teclado, arrast
 | `tests/carousel.test.js` | carrusel: snap, botones, puntos, teclado, bucle, varias a la vez, avance automático y RTL |
 | `tests/estilos.test.js` | componentes solo de CSS (item) |
 | `tests/rtl.test.js` | derecha a izquierda: API, guardado, posiciones y teclado espejados y sin desbordes |
+| `tests/gallery-layout.test.js` | minimapa sin tapar contenido, escenario del sandbox centrado, 212 miniaturas equilibradas y muestras de la documentación centradas en su marco |
 | `tests/conversacion.test.js` | mensaje, marcador, zona con seguimiento, adjunto, traza, bloque de código y cuestionario |
 
-`scripts/audit-responsive.js` y `scripts/audit-experiments.js` imprimen el detalle de los desbordes y de los objetivos táctiles pequeños (los usa `tests/responsive.test.js`).
+`scripts/audit-layout.js` (equilibrio de cada experimento), `scripts/audit-previews.js` (centrado de las miniaturas), `scripts/audit-responsive.js` y `scripts/audit-experiments.js` imprimen el detalle de los desbordes y de los objetivos táctiles pequeños (los usa `tests/responsive.test.js`).
 
 ```bash
 npm install                        # solo la primera vez (instala Playwright)

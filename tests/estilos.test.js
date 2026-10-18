@@ -43,6 +43,17 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   });
   ok(r.over === 0 && r.scroll && r.w === 240, 'en 240 px nada se sale del item (el título largo se parte)');
 
+  // Un grupo de radios sin selección es :indeterminate; no debe pintarse como casilla mixta
+  await p.evaluate(() => document.getElementById('questionnaire').scrollIntoView({ block: 'center' }));
+  await p.waitForTimeout(400);
+  const radios = await p.evaluate(() => {
+    const radio = document.querySelector('#demo-q input[type=radio]');
+    const box = document.querySelector('#checkbox input[type=checkbox]:not(:checked)');
+    const cs = (e) => getComputedStyle(e).backgroundColor;
+    return { indet: radio.matches(':indeterminate'), radio: cs(radio), box: cs(box) };
+  });
+  ok(radios.indet && radios.radio === radios.box, `radio sin selección (:indeterminate) se ve vacío: fondo ${radios.radio} igual al de una casilla sin marcar (${radios.box})`);
+
   ok(errs.length === 0, 'sin errores de página' + (errs.length ? ': ' + errs[0] : ''));
   await b.close();
   console.log(fails ? `\n${fails} FALLOS` : '\nTODO OK');

@@ -24,6 +24,8 @@ export class TslRadioGroup extends TslFormElement {
       item.addEventListener("click", () => this.choose(item.value, true));
       item.addEventListener("keydown", (e) => this.onKey(e, item));
     });
+    // El borde de error aparece cuando el formulario intenta validar (no antes de que la persona interactúe)
+    this.addEventListener("invalid", () => this.toggleAttribute("data-invalid", true));
     this.choose(this.initial, false);
     this.syncDisabled();
   }
@@ -73,6 +75,7 @@ export class TslRadioGroup extends TslFormElement {
     if (value && !target) return;
     const changed = (target ? target.value : "") !== this.value;
     this.val = target ? target.value : "";
+    if (this.val) this.removeAttribute("data-invalid");
     this.paint();
     if (fire && changed) emit(this, "tsl-change", { value: this.val });
   }
