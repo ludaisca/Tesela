@@ -104,6 +104,28 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   const pv = await car.locator('.tsl-carousel__prev').boundingBox(), nx = await car.locator('.tsl-carousel__next').boundingBox();
   ok(pv.x > nx.x, 'carrusel: «Anterior» queda a la derecha y «Siguiente» a la izquierda');
 
+  // Chevron plegable: un solo espejo (el borde lógico ya cambia de lado, el giro se compensa)
+  await show('collapsible'); await p.waitForTimeout(200);
+  const pointing = (sel) => p.evaluate((s) => {
+    const e = document.querySelector(s), c = getComputedStyle(e);
+    const m = new DOMMatrix(c.transform);
+    const vx = parseFloat(c.borderRightWidth) > 0 ? 1 : -1, vy = parseFloat(c.borderBottomWidth) > 0 ? 1 : -1;
+    const x = m.a * vx + m.c * vy, y = m.b * vx + m.d * vy;
+    return Math.abs(x) < 0.1 ? (y > 0 ? 'abajo' : 'arriba') : Math.abs(y) < 0.1 ? (x > 0 ? 'derecha' : 'izquierda') : `${x.toFixed(2)},${y.toFixed(2)}`;
+  }, sel);
+  const col = '#demo-collapsible';
+  const was = await p.locator(`${col} [data-tsl-trigger]`).getAttribute('aria-expanded');
+  if (was === 'true') { await p.locator(`${col} [data-tsl-trigger]`).click(); await p.waitForTimeout(250); }
+  const closed = await pointing(`${col} .tsl-collapsible__chevron`);
+  await p.locator(`${col} [data-tsl-trigger]`).click(); await p.waitForTimeout(250);
+  const opened = await pointing(`${col} .tsl-collapsible__chevron`);
+  ok(closed === 'izquierda' && opened === 'abajo', `collapsible: el chevron cerrado apunta a la izquierda y el abierto hacia abajo (${closed}, ${opened})`);
+
+  // Contador de versiones: «2 de 2» conserva su orden
+  await show('branch');
+  const order = await p.evaluate(() => { const t = document.querySelector('#demo-branch .tsl-branch__count').firstChild; const x = (i) => { const r = document.createRange(); r.setStart(t, i); r.setEnd(t, i + 1); return r.getBoundingClientRect().left; }; return x(0) < x(2) && x(2) < x(t.length - 1); });
+  ok(order, 'versiones: el contador «2 de 2» se lee en su orden dentro de una página RTL');
+
   // Sin errores
   ok(p.__errs.length === 0, 'sin errores de página' + (p.__errs.length ? ': ' + p.__errs[0] : ''));
   await p.close();

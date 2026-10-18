@@ -44,6 +44,10 @@ import "./components/radio-group.js";
 import "./components/carousel.js";
 import "./components/message-scroller.js";
 import "./components/questionnaire.js";
+import "./components/prompt-input.js";
+import "./components/reasoning.js";
+import "./components/branch.js";
+import "./components/context.js";
 
 export { VERSION, getTheme, getResolvedTheme, setTheme, getPreset, setPreset, setAccent, setDirection, getDirection, presets, toast, copy, confirmDialog as confirm, position, init };
 

@@ -831,6 +831,124 @@ export interface TslQuestionnaireElement extends HTMLElement {
 }
 export declare const TslQuestionnaire: { new (): TslQuestionnaireElement; prototype: TslQuestionnaireElement };
 
+export interface TslPromptInputEventMap {
+  /** Envío con el texto, los adjuntos y los demás campos del formulario (p. ej. el modelo). Cancelable: `preventDefault()` conserva el contenido. */
+  "tsl-submit": CustomEvent<{ text: string; files: File[]; values: Record<string, FormDataEntryValue | FormDataEntryValue[]> }>;
+  /** Se pulsó «Detener» durante una respuesta. */
+  "tsl-stop": CustomEvent<{}>;
+  /** Cambiaron los adjuntos. */
+  "tsl-files": CustomEvent<{ files: File[] }>;
+  /** Se rechazó un archivo (también se anuncia). */
+  "tsl-error": CustomEvent<{ file: File; reason: "type" | "size" | "count"; message: string }>;
+  /** Una sugerencia `[data-tsl-suggest]` rellenó la caja (lo emite el botón). */
+  "tsl-select": CustomEvent<{ value: string }>;
+}
+/** Caja de entrada de un chat sobre un `<form>`: crece con el texto, Enter envía y Mayús+Enter salta de línea (respeta el IME), adjuntos por botón `[data-attach]`, pegado o arrastre, y el botón `[data-submit]` pasa a «Detener» mientras hay respuesta en curso. */
+export interface TslPromptInputElement extends HTMLElement {
+  /** Texto escrito. */
+  value: string;
+  /** Archivos adjuntos. */
+  readonly files: File[];
+  /** Refleja el atributo `status`. */
+  status: string;
+  /** Hay una respuesta en curso (`submitted` o `streaming`). */
+  readonly busy: boolean;
+  /** Hay texto o adjuntos y no está deshabilitado ni ocupado. */
+  readonly canSubmit: boolean;
+  /** Emite `tsl-submit`; si nadie lo cancela, vacía la caja. */
+  submit(): boolean;
+  /** Emite `tsl-stop`. */
+  stop(): void;
+  /** Vacía el texto y los adjuntos. */
+  clear(): void;
+  /** Añade archivos validando tipo, tamaño y cantidad. */
+  addFiles(files: FileList | File[]): void;
+  /** Quita un adjunto. */
+  removeFile(index: number): void;
+  /** Abre el selector de archivos. */
+  openFilePicker(): void;
+  /** Enfoca el texto. */
+  focus(options?: FocusOptions): void;
+  addEventListener<K extends keyof TslPromptInputEventMap>(type: K, listener: (this: TslPromptInputElement, ev: TslPromptInputEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslPromptInputElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+  removeEventListener<K extends keyof TslPromptInputEventMap>(type: K, listener: (this: TslPromptInputElement, ev: TslPromptInputEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslPromptInputElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+}
+export declare const TslPromptInput: { new (): TslPromptInputElement; prototype: TslPromptInputElement };
+
+export interface TslReasoningEventMap {
+  /** La persona abrió o plegó el razonamiento. */
+  "tsl-toggle": CustomEvent<{ open: boolean }>;
+  /** Terminó el razonamiento (se quitó `streaming`). */
+  "tsl-complete": CustomEvent<{ duration: number }>;
+}
+/** Razonamiento plegable de un asistente: con `streaming` se abre, muestra «Pensando…» y cuenta el tiempo; al terminar dice cuánto pensó y se pliega solo si la persona no lo tocó. */
+export interface TslReasoningElement extends HTMLElement {
+  /** El contenido está visible. */
+  readonly isOpen: boolean;
+  /** Tiene `streaming`. */
+  readonly isStreaming: boolean;
+  /** Segundos que duró (o lleva). */
+  readonly duration: number;
+  /** Abre o pliega. */
+  toggle(force?: boolean): void;
+  /** Abre el contenido. */
+  open(): void;
+  /** Pliega el contenido. */
+  close(): void;
+  addEventListener<K extends keyof TslReasoningEventMap>(type: K, listener: (this: TslReasoningElement, ev: TslReasoningEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslReasoningElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+  removeEventListener<K extends keyof TslReasoningEventMap>(type: K, listener: (this: TslReasoningElement, ev: TslReasoningEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslReasoningElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+}
+export declare const TslReasoning: { new (): TslReasoningElement; prototype: TslReasoningElement };
+
+export interface TslBranchEventMap {
+  /** La persona cambió de versión. */
+  "tsl-change": CustomEvent<{ index: number; count: number }>;
+}
+/** Versiones alternativas de un mensaje (`.tsl-branch__item`): muestra una con el selector «‹ 2 de 3 ›», empieza en la última y salta a cada versión nueva que llegue. */
+export interface TslBranchElement extends HTMLElement {
+  /** Versión visible, desde 0. */
+  index: number;
+  /** Número de versiones. */
+  readonly count: number;
+  /** Muestra una versión (da la vuelta en los extremos). */
+  goTo(index: number, fire?: boolean): void;
+  /** Versión siguiente. */
+  next(): void;
+  /** Versión anterior. */
+  prev(): void;
+  addEventListener<K extends keyof TslBranchEventMap>(type: K, listener: (this: TslBranchElement, ev: TslBranchEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslBranchElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+  removeEventListener<K extends keyof TslBranchEventMap>(type: K, listener: (this: TslBranchElement, ev: TslBranchEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslBranchElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+}
+export declare const TslBranch: { new (): TslBranchElement; prototype: TslBranchElement };
+
+/** Medidor del contexto de un modelo: anillo con el porcentaje usado que abre un panel con barra, desglose de tokens y coste. Pasa a aviso desde el 75 % y a peligro desde el 90 % (`data-level`). */
+export interface TslContextElement extends HTMLElement {
+  /** Tokens usados. */
+  readonly used: number;
+  /** Tamaño de la ventana. */
+  readonly max: number;
+  /** Fracción usada, entre 0 y 1. */
+  readonly ratio: number;
+  /** Nivel según el uso. */
+  readonly level: "ok" | "warn" | "danger";
+  /** Abre el panel. */
+  open(): void;
+  /** Cierra el panel. */
+  close(): void;
+}
+export declare const TslContext: { new (): TslContextElement; prototype: TslContextElement };
+
 /** Zona desplazable con degradado en los bordes que aún tienen contenido (`data-top|bottom|left|right`). `scrollTo()` se aplica al área desplazable. */
 export interface TslScrollAreaElement extends HTMLElement {
 
@@ -1021,6 +1139,10 @@ declare global {
     "tsl-carousel": TslCarouselElement;
     "tsl-message-scroller": TslMessageScrollerElement;
     "tsl-questionnaire": TslQuestionnaireElement;
+    "tsl-prompt-input": TslPromptInputElement;
+    "tsl-reasoning": TslReasoningElement;
+    "tsl-branch": TslBranchElement;
+    "tsl-context": TslContextElement;
     "tsl-scroll-area": TslScrollAreaElement;
     "tsl-resizable": TslResizableElement;
     "tsl-tree": TslTreeElement;

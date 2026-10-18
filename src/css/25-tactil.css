@@ -74,8 +74,25 @@
   }
 
   .tsl-questionnaire__choices .tsl-choice,
-  .tsl-trace__line {
+  .tsl-trace__line,
+  .tsl-reasoning__trigger,
+  .tsl-sources__trigger,
+  .tsl-source {
     min-height: 44px;
+  }
+
+  .tsl-suggestion {
+    min-height: 40px;
+  }
+
+  .tsl-branch__selector .tsl-btn--icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .tsl-prompt-input__submit {
+    width: 40px;
+    height: 40px;
   }
 
   .tsl-radio {

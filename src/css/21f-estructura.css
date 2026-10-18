@@ -28,8 +28,12 @@ tsl-collapsible > [data-tsl-trigger][aria-expanded] .tsl-collapsible__chevron,
   height: 7px;
   border-inline-end: 1.5px solid currentColor;
   border-bottom: 1.5px solid currentColor;
-  transform: rotate(-45deg);
   transition: transform 200ms var(--tsl-ease);
+}
+
+/* El giro va aparte y con especificidad baja: así el estado abierto siempre puede sobrescribirlo */
+.tsl-collapsible__chevron {
+  transform: rotate(-45deg);
 }
 
 [aria-expanded="true"] > .tsl-collapsible__chevron,
@@ -171,12 +175,13 @@ tsl-resizable.is-resizing {
   border: 0;
 }
 
-/* Derecha a izquierda: el chevron de «cerrado» apunta hacia el inicio de lectura */
+/* Derecha a izquierda: el borde lógico ya pasa a la izquierda, así que el giro se invierte para que
+   «cerrado» apunte hacia donde avanza la lectura (izquierda) y «abierto», hacia abajo */
 .tsl-collapsible__chevron:dir(rtl) {
-  transform: rotate(135deg);
+  transform: rotate(45deg);
 }
 
 [aria-expanded="true"] > .tsl-collapsible__chevron:dir(rtl),
 [aria-expanded="true"] .tsl-collapsible__chevron:dir(rtl) {
-  transform: rotate(45deg);
+  transform: rotate(-45deg);
 }

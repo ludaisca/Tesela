@@ -1910,6 +1910,186 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         </script>
       </section>
 
+      <section class="doc" id="prompt-input" data-group="Conversación" data-keywords="prompt entrada chat composer mensaje enviar detener adjuntar archivos modelo textarea ia asistente">
+        <h2><a href="#prompt-input">Entrada de prompt</a></h2>
+        <p><code>&lt;tsl-prompt-input&gt;</code> convierte un <code>&lt;form&gt;</code> con un <code>&lt;textarea&gt;</code> en la caja de un chat: crece con el texto, <kbd class="tsl-kbd">Enter</kbd> envía y <kbd class="tsl-kbd">Mayús</kbd>+<kbd class="tsl-kbd">Enter</kbd> salta de línea (sin cortar la composición de un IME). Los archivos llegan por el botón <code>[data-attach]</code>, pegándolos o arrastrándolos sobre la caja, y se validan con <code>accept</code>, <code>max-size</code> y <code>max-files</code>. Con <code>status="submitted"</code> el botón muestra espera y con <code>streaming</code> se convierte en «Detener» (<code>tsl-stop</code>). <code>tsl-submit</code> trae <code>text</code>, <code>files</code> y los demás campos del formulario, como el modelo elegido.</p>
+        <template>
+          <tsl-prompt-input id="demo-prompt" class="demo-max" accept="image/*,.pdf,.txt,.csv,.md" max-files="4" max-size="10MB">
+            <form>
+              <textarea name="prompt" placeholder="Pregunta lo que quieras…" aria-label="Mensaje para el asistente"></textarea>
+              <div class="tsl-prompt-input__toolbar">
+                <div class="tsl-prompt-input__tools">
+                  <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" data-attach aria-label="Adjuntar archivos" style="font-size:18px">+</button>
+                  <select class="tsl-select" name="modelo" aria-label="Modelo">
+                    <option value="rapido">Rápido</option>
+                    <option value="equilibrado" selected>Equilibrado</option>
+                    <option value="profundo">Profundo</option>
+                  </select>
+                </div>
+                <button type="submit" class="tsl-btn tsl-btn--primary" data-submit></button>
+              </div>
+            </form>
+          </tsl-prompt-input>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const prompt = document.querySelector("#demo-prompt");
+          let timer;
+          prompt.addEventListener("tsl-submit", (e) => {
+            const { text, files, values } = e.detail;
+            TeselaUI.toast({ title: `Enviado a «${values.modelo}»`, description: `${text || "(sin texto)"} · ${files.length} adjunto(s)` });
+            prompt.status = "submitted";
+            timer = setTimeout(() => {
+              prompt.status = "streaming";
+              timer = setTimeout(() => (prompt.status = "ready"), 2500);
+            }, 800);
+          });
+          prompt.addEventListener("tsl-stop", () => {
+            clearTimeout(timer);
+            prompt.status = "ready";
+            TeselaUI.toast({ title: "Respuesta detenida" });
+          });
+          prompt.addEventListener("tsl-error", (e) => TeselaUI.toast({ title: "Archivo rechazado", description: e.detail.message, variant: "error" }));
+        </script>
+      </section>
+
+      <section class="doc" id="suggestion" data-group="Conversación" data-keywords="sugerencias suggestion prompts ejemplo chips arranque conversación vacía">
+        <h2><a href="#suggestion">Sugerencias</a></h2>
+        <p><code>.tsl-suggestions</code> es una fila desplazable de <code>.tsl-suggestion</code> (<code>--wrap</code> la deja en varias líneas). Con <code>data-tsl-suggest="#id"</code> un botón rellena esa entrada de prompt con su texto (o con <code>data-value</code>) y la enfoca; con <code>data-send</code> además la envía.</p>
+        <template>
+          <div class="tsl-stack demo-max" style="--gap:10px">
+            <div class="tsl-suggestions" role="group" aria-label="Sugerencias">
+              <button type="button" class="tsl-suggestion" data-tsl-suggest="#demo-suggest-prompt">Resume este documento</button>
+              <button type="button" class="tsl-suggestion" data-tsl-suggest="#demo-suggest-prompt" data-value="Escribe una prueba para el componente de calendario">Escribe una prueba</button>
+              <button type="button" class="tsl-suggestion" data-tsl-suggest="#demo-suggest-prompt">Explica el contraste WCAG</button>
+              <button type="button" class="tsl-suggestion" data-tsl-suggest="#demo-suggest-prompt" data-send>¿Qué temas hay?</button>
+            </div>
+            <tsl-prompt-input id="demo-suggest-prompt">
+              <form>
+                <textarea name="prompt" placeholder="O escribe tu propia pregunta…" aria-label="Mensaje"></textarea>
+                <div class="tsl-prompt-input__toolbar"><button type="submit" class="tsl-btn tsl-btn--primary" data-submit></button></div>
+              </form>
+            </tsl-prompt-input>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          document.querySelector("#demo-suggest-prompt").addEventListener("tsl-submit", (e) => {
+            TeselaUI.toast({ title: "Enviado", description: e.detail.text, variant: "success" });
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="reasoning" data-group="Conversación" data-keywords="razonamiento reasoning pensando thinking cadena de pensamiento ia asistente plegable">
+        <h2><a href="#reasoning">Razonamiento</a></h2>
+        <p><code>&lt;tsl-reasoning&gt;</code> pliega el razonamiento de un asistente. Mientras tiene <code>streaming</code> se abre, anuncia «Pensando…» con brillo y cuenta los segundos; al quitarlo pasa a «Pensó durante N s», emite <code>tsl-complete</code> y se pliega tras <code>close-delay</code>, salvo que la persona lo haya abierto o cerrado a mano. <code>duration</code> sirve para razonamientos ya terminados y los textos se cambian con <code>thinking-label</code> y <code>done-label</code>.</p>
+        <template>
+          <div class="tsl-stack demo-max" style="--gap:14px">
+            <tsl-reasoning duration="12">
+              <p>La persona pide comparar los presets. Primero miro el contraste de cada uno en modo claro y oscuro.</p>
+              <p>«alto-contraste» llega a AAA en texto; el resto, a AA. Conviene mencionarlo primero.</p>
+            </tsl-reasoning>
+            <tsl-reasoning id="demo-reasoning" close-delay="1500">
+              <p id="demo-reasoning-text">Pulsa «Simular» para ver el razonamiento en curso.</p>
+            </tsl-reasoning>
+            <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--sm" id="demo-reasoning-run">Simular razonamiento</button></div>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const r = document.querySelector("#demo-reasoning");
+          const text = document.querySelector("#demo-reasoning-text");
+          const steps = ["Leo la pregunta y el código adjunto.", " El fallo aparece al cambiar de mes.", " Viene de comparar fechas como texto.", " Propongo usar toISO() en ambos lados."];
+          document.querySelector("#demo-reasoning-run").addEventListener("click", (e) => {
+            e.currentTarget.disabled = true;
+            text.textContent = "";
+            r.removeAttribute("duration");
+            r.setAttribute("streaming", "");
+            steps.forEach((s, i) => setTimeout(() => (text.textContent += s), 500 + i * 700));
+            setTimeout(() => {
+              r.removeAttribute("streaming");
+              e.target.disabled = false;
+            }, 3400);
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="sources" data-group="Conversación" data-keywords="fuentes citas citation sources referencias enlaces búsqueda web ia hovercard">
+        <h2><a href="#sources">Fuentes y citas</a></h2>
+        <p><code>.tsl-sources</code> es un <code>&lt;tsl-collapsible&gt;</code> con un disparador <code>.tsl-sources__trigger</code> y una lista de <code>.tsl-source</code> (icono o inicial, título que se trunca y dominio). <code>.tsl-citation</code> es la cita en línea dentro del texto; envuelta en <code>&lt;tsl-hovercard class="tsl-citation-card"&gt;</code> muestra al pasar o enfocar una tarjeta <code>.tsl-citation__panel</code> con dominio, título y fragmento citado.</p>
+        <template>
+          <div class="tsl-stack demo-max" style="--gap:12px">
+            <tsl-collapsible class="tsl-sources">
+              <button type="button" class="tsl-sources__trigger" data-tsl-trigger>Usó 3 fuentes <span class="tsl-collapsible__chevron"></span></button>
+              <div class="tsl-collapsible__content">
+                <ul class="tsl-sources__list">
+                  <li><a class="tsl-source" href="#sources"><span class="tsl-source__icon" aria-hidden="true">W</span><span class="tsl-source__title">Web Content Accessibility Guidelines (WCAG) 2.2</span><span class="tsl-source__host">w3.org</span></a></li>
+                  <li><a class="tsl-source" href="#sources"><span class="tsl-source__icon" aria-hidden="true">M</span><span class="tsl-source__title">color-mix() — CSS: Cascading Style Sheets</span><span class="tsl-source__host">developer.mozilla.org</span></a></li>
+                  <li><a class="tsl-source" href="#sources"><span class="tsl-source__icon" aria-hidden="true">T</span><span class="tsl-source__title">Temas, presets y tokens de Tesela</span><span class="tsl-source__host">tesela.dev</span></a></li>
+                </ul>
+              </div>
+            </tsl-collapsible>
+            <div style="line-height:1.7">El texto normal debe tener un contraste mínimo de 4,5:1 frente al fondo<tsl-hovercard class="tsl-citation-card" open-delay="150"><a class="tsl-citation" href="#sources" data-tsl-trigger>w3.org</a><div class="tsl-popover__panel tsl-citation__panel"><span class="tsl-citation__host"><span class="tsl-source__icon" aria-hidden="true">W</span>w3.org</span><span class="tsl-citation__title">Understanding Success Criterion 1.4.3: Contrast (Minimum)</span><p class="tsl-citation__quote">The visual presentation of text has a contrast ratio of at least 4.5:1…</p></div></tsl-hovercard> y <code>color-mix()</code> permite derivar los tonos atenuados sin perderlo<tsl-hovercard class="tsl-citation-card" open-delay="150"><a class="tsl-citation" href="#sources" data-tsl-trigger>mdn +1</a><div class="tsl-popover__panel tsl-citation__panel"><span class="tsl-citation__host"><span class="tsl-source__icon" aria-hidden="true">M</span>developer.mozilla.org</span><span class="tsl-citation__title">color-mix()</span><p class="tsl-citation__quote">Takes two color values and returns the result of mixing them in a given colorspace.</p></div></tsl-hovercard>.</div>
+          </div>
+        </template>
+      </section>
+
+      <section class="doc" id="branch" data-group="Conversación" data-keywords="branch versiones respuestas regenerar alternativas editar mensaje anterior siguiente acciones copiar valorar">
+        <h2><a href="#branch">Versiones y acciones de un mensaje</a></h2>
+        <p><code>&lt;tsl-branch&gt;</code> guarda varias versiones de un mensaje (<code>.tsl-branch__item</code>), muestra una y añade el selector «‹ 2 de 3 ›» (dentro de un <code>.tsl-branch__selector</code> propio si lo pones, por ejemplo en el pie). Empieza en la última, da la vuelta en los extremos y, si llega una versión nueva, salta a ella. <code>.tsl-message__actions</code> agrupa copiar, repetir o valorar: aparecen al pasar por el mensaje o al llegar con el teclado, y en pantallas táctiles siempre (<code>--visible</code> las fija).</p>
+        <template>
+          <div class="tsl-message demo-max">
+            <span class="tsl-message__avatar"><span class="tsl-avatar">AS</span></span>
+            <div class="tsl-message__content">
+              <tsl-branch id="demo-branch">
+                <div class="tsl-branch__item"><div class="tsl-bubble">Puedes cambiar el acento con <code>TeselaUI.setAccent("#e5484d")</code>.</div></div>
+                <div class="tsl-branch__item"><div class="tsl-bubble">Usa <code>setAccent()</code>: recalcula el color del texto sobre el acento para que mantenga el contraste.</div></div>
+                <div class="tsl-message__footer tsl-row" style="--gap:4px">
+                  <div class="tsl-branch__selector"></div>
+                  <div class="tsl-message__actions">
+                    <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Copiar" data-tsl-copy="TeselaUI.setAccent()">⧉</button>
+                    <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Regenerar" id="demo-branch-retry">↻</button>
+                    <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Buena respuesta" aria-pressed="false" data-tsl-toggle>👍</button>
+                    <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Mala respuesta" aria-pressed="false" data-tsl-toggle>👎</button>
+                  </div>
+                </div>
+              </tsl-branch>
+            </div>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const branch = document.querySelector("#demo-branch");
+          let n = 2;
+          document.querySelector("#demo-branch-retry").addEventListener("click", () => {
+            n += 1;
+            const item = document.createElement("div");
+            item.className = "tsl-branch__item";
+            item.innerHTML = `<div class="tsl-bubble">Versión ${n}: <code>setAccent()</code> guarda el color y lo aplica también al recargar.</div>`;
+            branch.insertBefore(item, branch.querySelector(".tsl-message__footer"));
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="context" data-group="Conversación" data-keywords="contexto tokens ventana uso medidor coste modelo límite ia anillo">
+        <h2><a href="#context">Uso de contexto</a></h2>
+        <p><code>&lt;tsl-context&gt;</code> mide cuánto de la ventana de contexto se ha usado (<code>used</code> de <code>max</code>). El anillo muestra el porcentaje y, al pulsarlo, un panel con la barra (<code>role="meter"</code>), el desglose de <code>input</code>, <code>output</code>, <code>reasoning</code> y <code>cached</code> (solo las filas que reciba) y el coste en la moneda de <code>currency</code>. Desde el 75 % pasa a aviso y desde el 90 % a peligro. Las cifras se abrevian con el idioma de la página.</p>
+        <template>
+          <div class="tsl-stack demo-max" style="--gap:12px">
+            <div class="tsl-row" style="--gap:8px">
+              <tsl-context id="demo-context" model="Equilibrado" used="48200" max="200000" input="36000" output="9000" reasoning="3200" cached="12000" cost="0.0874"></tsl-context>
+              <tsl-context used="158000" max="200000"></tsl-context>
+              <tsl-context used="191500" max="200000" cost="1.92" currency="EUR"></tsl-context>
+            </div>
+            <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--sm" id="demo-context-add">+20 mil tokens</button></div>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const ctx = document.querySelector("#demo-context");
+          document.querySelector("#demo-context-add").addEventListener("click", () => {
+            const used = Math.min(200000, Number(ctx.getAttribute("used")) + 20000);
+            ctx.setAttribute("used", used);
+            ctx.setAttribute("output", Number(ctx.getAttribute("output")) + 20000);
+          });
+        </script>
+      </section>
+
       <section class="doc" id="layout" data-group="Diseño" data-keywords="stack row grid flex espaciado">
         <h2><a href="#layout">Utilidades de diseño</a></h2>
         <p><code>tsl-stack</code> (vertical), <code>tsl-row</code> (horizontal con wrap) y <code>tsl-grid</code> (auto-fit). Ajusta con <code>--gap</code> y <code>--min</code>; <code>tsl-spacer</code> empuja elementos.</p>

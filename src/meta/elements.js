@@ -560,6 +560,132 @@ export const elements = [
     ]
   },
   {
+    tag: "tsl-prompt-input", cls: "TslPromptInput", module: "components/prompt-input", docs: ["prompt-input", "suggestion"],
+    summary: "Caja de entrada de un chat sobre un `<form>`: crece con el texto, Enter envía y Mayús+Enter salta de línea (respeta el IME), adjuntos por botón `[data-attach]`, pegado o arrastre, y el botón `[data-submit]` pasa a «Detener» mientras hay respuesta en curso.",
+    attributes: [
+      attr("status", '"ready" | "submitted" | "streaming" | "error"', "Estado de la respuesta: con `submitted` el botón muestra espera y con `streaming` un cuadrado; en ambos detiene en vez de enviar.", "ready"),
+      attr("disabled", "boolean", "Deshabilita el texto, los adjuntos y el envío."),
+      attr("accept", "string", "Tipos de archivo admitidos, como el `accept` nativo (`image/*,.pdf`)."),
+      attr("max-files", "number", "Máximo de adjuntos."),
+      attr("max-size", "string", "Tamaño máximo por archivo (`10MB`, `500KB` o bytes)."),
+      attr("max-rows", "number", "Filas que crece el texto antes de desplazarse.", "8"),
+      attr("submit-key", '"enter" | "mod-enter"', "Con `mod-enter` se envía con Ctrl/⌘+Enter y Enter salta de línea.", "enter"),
+      attr("label", "string", "Nombre accesible del texto si no tiene `<label>`.", "Mensaje"),
+      attr("attachments-label", "string", "Nombre accesible de la lista de adjuntos.", "Adjuntos"),
+      attr("submit-label", "string", "Nombre del botón al enviar.", "Enviar"),
+      attr("stop-label", "string", "Nombre del botón mientras hay respuesta en curso.", "Detener")
+    ],
+    itemAttributes: [
+      attr("data-tsl-suggest", "string", "En cualquier botón de la página: selector de la caja que rellena con su texto (o con `data-value`)."),
+      attr("data-value", "string", "Texto que pone la sugerencia, si no es el visible."),
+      attr("data-send", "boolean", "La sugerencia además envía.")
+    ],
+    properties: [
+      prop("value", "string", "Texto escrito."),
+      prop("files", "File[]", "Archivos adjuntos.", true),
+      prop("status", "string", "Refleja el atributo `status`."),
+      prop("busy", "boolean", "Hay una respuesta en curso (`submitted` o `streaming`).", true),
+      prop("canSubmit", "boolean", "Hay texto o adjuntos y no está deshabilitado ni ocupado.", true)
+    ],
+    methods: [
+      method("submit", [], "boolean", "Emite `tsl-submit`; si nadie lo cancela, vacía la caja."),
+      method("stop", [], "void", "Emite `tsl-stop`."),
+      method("clear", [], "void", "Vacía el texto y los adjuntos."),
+      method("addFiles", [param("files", "FileList | File[]")], "void", "Añade archivos validando tipo, tamaño y cantidad."),
+      method("removeFile", [param("index", "number")], "void", "Quita un adjunto."),
+      method("openFilePicker", [], "void", "Abre el selector de archivos."),
+      method("focus", [param("options", "FocusOptions", true)], "void", "Enfoca el texto.")
+    ],
+    events: [
+      event("tsl-submit", "{ text: string; files: File[]; values: Record<string, FormDataEntryValue | FormDataEntryValue[]> }", "Envío con el texto, los adjuntos y los demás campos del formulario (p. ej. el modelo). Cancelable: `preventDefault()` conserva el contenido."),
+      event("tsl-stop", "{}", "Se pulsó «Detener» durante una respuesta."),
+      event("tsl-files", "{ files: File[] }", "Cambiaron los adjuntos."),
+      event("tsl-error", '{ file: File; reason: "type" | "size" | "count"; message: string }', "Se rechazó un archivo (también se anuncia)."),
+      event("tsl-select", "{ value: string }", "Una sugerencia `[data-tsl-suggest]` rellenó la caja (lo emite el botón).")
+    ]
+  },
+  {
+    tag: "tsl-reasoning", cls: "TslReasoning", module: "components/reasoning", docs: ["reasoning"],
+    summary: "Razonamiento plegable de un asistente: con `streaming` se abre, muestra «Pensando…» y cuenta el tiempo; al terminar dice cuánto pensó y se pliega solo si la persona no lo tocó.",
+    attributes: [
+      attr("streaming", "boolean", "El razonamiento está en curso."),
+      attr("open", "boolean", "Muestra el contenido."),
+      attr("duration", "number", "Segundos de un razonamiento ya terminado."),
+      attr("close-delay", "number", "Milisegundos tras terminar antes de plegarse (`-1` no lo pliega).", "1000"),
+      attr("thinking-label", "string", "Texto mientras piensa.", "Pensando…"),
+      attr("done-label", "string", "Texto al terminar, con `{s}`.", "Pensó durante {s} s"),
+      attr("instant-label", "string", "Texto si duró menos de un segundo.", "Pensó unos instantes")
+    ],
+    properties: [
+      prop("isOpen", "boolean", "El contenido está visible.", true),
+      prop("isStreaming", "boolean", "Tiene `streaming`.", true),
+      prop("duration", "number", "Segundos que duró (o lleva).", true)
+    ],
+    methods: [
+      method("toggle", [param("force", "boolean", true)], "void", "Abre o pliega."),
+      method("open", [], "void", "Abre el contenido."),
+      method("close", [], "void", "Pliega el contenido.")
+    ],
+    events: [
+      event("tsl-toggle", "{ open: boolean }", "La persona abrió o plegó el razonamiento."),
+      event("tsl-complete", "{ duration: number }", "Terminó el razonamiento (se quitó `streaming`).")
+    ]
+  },
+  {
+    tag: "tsl-branch", cls: "TslBranch", module: "components/branch", docs: ["branch"],
+    summary: "Versiones alternativas de un mensaje (`.tsl-branch__item`): muestra una con el selector «‹ 2 de 3 ›», empieza en la última y salta a cada versión nueva que llegue.",
+    attributes: [
+      attr("index", "number", "Versión visible al iniciar, desde 0 (por defecto, la última)."),
+      attr("label", "string", "Nombre accesible del selector.", "Versiones"),
+      attr("count-label", "string", "Texto del contador con `{n}` y `{total}`.", "{n} de {total}"),
+      attr("prev-label", "string", "Nombre del botón anterior.", "Versión anterior"),
+      attr("next-label", "string", "Nombre del botón siguiente.", "Versión siguiente")
+    ],
+    properties: [
+      prop("index", "number", "Versión visible, desde 0."),
+      prop("count", "number", "Número de versiones.", true)
+    ],
+    methods: [
+      method("goTo", [param("index", "number"), param("fire", "boolean", true)], "void", "Muestra una versión (da la vuelta en los extremos)."),
+      method("next", [], "void", "Versión siguiente."),
+      method("prev", [], "void", "Versión anterior.")
+    ],
+    events: [event("tsl-change", "{ index: number; count: number }", "La persona cambió de versión.")]
+  },
+  {
+    tag: "tsl-context", cls: "TslContext", module: "components/context", docs: ["context"],
+    summary: "Medidor del contexto de un modelo: anillo con el porcentaje usado que abre un panel con barra, desglose de tokens y coste. Pasa a aviso desde el 75 % y a peligro desde el 90 % (`data-level`).",
+    attributes: [
+      attr("used", "number", "Tokens usados."),
+      attr("max", "number", "Tokens de la ventana de contexto."),
+      attr("input", "number", "Tokens de entrada (fila opcional)."),
+      attr("output", "number", "Tokens de salida (fila opcional)."),
+      attr("reasoning", "number", "Tokens de razonamiento (fila opcional)."),
+      attr("cached", "number", "Tokens servidos desde caché (fila opcional)."),
+      attr("cost", "number", "Coste estimado (fila opcional)."),
+      attr("currency", "string", "Moneda del coste (ISO 4217).", "USD"),
+      attr("model", "string", "Nombre del modelo en la cabecera del panel."),
+      attr("label", "string", "Nombre del medidor.", "Contexto"),
+      attr("placement", "string", "Posición del panel.", "top-start"),
+      attr("input-label", "string", "Etiqueta de la fila de entrada.", "Entrada"),
+      attr("output-label", "string", "Etiqueta de la fila de salida.", "Salida"),
+      attr("reasoning-label", "string", "Etiqueta de la fila de razonamiento.", "Razonamiento"),
+      attr("cached-label", "string", "Etiqueta de la fila de caché.", "En caché"),
+      attr("cost-label", "string", "Etiqueta del coste.", "Coste estimado")
+    ],
+    properties: [
+      prop("used", "number", "Tokens usados.", true),
+      prop("max", "number", "Tamaño de la ventana.", true),
+      prop("ratio", "number", "Fracción usada, entre 0 y 1.", true),
+      prop("level", '"ok" | "warn" | "danger"', "Nivel según el uso.", true)
+    ],
+    methods: [
+      method("open", [], "void", "Abre el panel."),
+      method("close", [], "void", "Cierra el panel.")
+    ],
+    events: []
+  },
+  {
     tag: "tsl-scroll-area", cls: "TslScrollArea", module: "components/scroll-area", docs: ["scroll-area"],
     summary: "Zona desplazable con degradado en los bordes que aún tienen contenido (`data-top|bottom|left|right`). `scrollTo()` se aplica al área desplazable.",
     attributes: [

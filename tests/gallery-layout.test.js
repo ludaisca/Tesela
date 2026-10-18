@@ -96,7 +96,8 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   ok(!table.pad, 'una muestra que ya llena el marco (tabla de datos) no cambia');
   await d.setViewportSize({ width: 375, height: 800 }); await d.waitForTimeout(500);
   rows = await measureDemos();
-  ok(rows.filter(x => x.pad).every(x => Math.abs(x.left - x.right) <= 10) && rows.every(x => x.left >= -1 && x.right >= -1), 'en móvil las muestras centradas siguen equilibradas y ninguna se sale del marco');
+  const uneven = rows.filter(x => (x.pad && Math.abs(x.left - x.right) > 10) || x.left < -1 || x.right < -1);
+  ok(uneven.length === 0, 'en móvil las muestras centradas siguen equilibradas y ninguna se sale del marco' + (uneven.length ? ` (${uneven.map(x => `${x.id} ${x.left}|${x.right}`).join(', ')})` : ''));
   await d.setViewportSize({ width: 1440, height: 900 }); await d.waitForTimeout(500);
   rows = await measureDemos();
   ok(rows.find(x => x.id === 'pattern-login').pad !== '', 'al ensanchar de nuevo se vuelve a centrar');

@@ -1609,6 +1609,362 @@
       ]
     },
     {
+      "name": "tsl-prompt-input",
+      "description": {
+        "kind": "markdown",
+        "value": "Caja de entrada de un chat sobre un `<form>`: crece con el texto, Enter envía y Mayús+Enter salta de línea (respeta el IME), adjuntos por botón `[data-attach]`, pegado o arrastre, y el botón `[data-submit]` pasa a «Detener» mientras hay respuesta en curso."
+      },
+      "attributes": [
+        {
+          "name": "status",
+          "description": {
+            "kind": "markdown",
+            "value": "Estado de la respuesta: con `submitted` el botón muestra espera y con `streaming` un cuadrado; en ambos detiene en vez de enviar. Por defecto: `ready`."
+          },
+          "values": [
+            {
+              "name": "ready"
+            },
+            {
+              "name": "submitted"
+            },
+            {
+              "name": "streaming"
+            },
+            {
+              "name": "error"
+            }
+          ]
+        },
+        {
+          "name": "disabled",
+          "description": {
+            "kind": "markdown",
+            "value": "Deshabilita el texto, los adjuntos y el envío."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "accept",
+          "description": {
+            "kind": "markdown",
+            "value": "Tipos de archivo admitidos, como el `accept` nativo (`image/*,.pdf`)."
+          }
+        },
+        {
+          "name": "max-files",
+          "description": {
+            "kind": "markdown",
+            "value": "Máximo de adjuntos."
+          }
+        },
+        {
+          "name": "max-size",
+          "description": {
+            "kind": "markdown",
+            "value": "Tamaño máximo por archivo (`10MB`, `500KB` o bytes)."
+          }
+        },
+        {
+          "name": "max-rows",
+          "description": {
+            "kind": "markdown",
+            "value": "Filas que crece el texto antes de desplazarse. Por defecto: `8`."
+          }
+        },
+        {
+          "name": "submit-key",
+          "description": {
+            "kind": "markdown",
+            "value": "Con `mod-enter` se envía con Ctrl/⌘+Enter y Enter salta de línea. Por defecto: `enter`."
+          },
+          "values": [
+            {
+              "name": "enter"
+            },
+            {
+              "name": "mod-enter"
+            }
+          ]
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del texto si no tiene `<label>`. Por defecto: `Mensaje`."
+          }
+        },
+        {
+          "name": "attachments-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible de la lista de adjuntos. Por defecto: `Adjuntos`."
+          }
+        },
+        {
+          "name": "submit-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre del botón al enviar. Por defecto: `Enviar`."
+          }
+        },
+        {
+          "name": "stop-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre del botón mientras hay respuesta en curso. Por defecto: `Detener`."
+          }
+        },
+        {
+          "name": "data-tsl-suggest",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) En cualquier botón de la página: selector de la caja que rellena con su texto (o con `data-value`)."
+          }
+        },
+        {
+          "name": "data-value",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Texto que pone la sugerencia, si no es el visible."
+          }
+        },
+        {
+          "name": "data-send",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) La sugerencia además envía."
+          },
+          "valueSet": "v"
+        }
+      ]
+    },
+    {
+      "name": "tsl-reasoning",
+      "description": {
+        "kind": "markdown",
+        "value": "Razonamiento plegable de un asistente: con `streaming` se abre, muestra «Pensando…» y cuenta el tiempo; al terminar dice cuánto pensó y se pliega solo si la persona no lo tocó."
+      },
+      "attributes": [
+        {
+          "name": "streaming",
+          "description": {
+            "kind": "markdown",
+            "value": "El razonamiento está en curso."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "open",
+          "description": {
+            "kind": "markdown",
+            "value": "Muestra el contenido."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "duration",
+          "description": {
+            "kind": "markdown",
+            "value": "Segundos de un razonamiento ya terminado."
+          }
+        },
+        {
+          "name": "close-delay",
+          "description": {
+            "kind": "markdown",
+            "value": "Milisegundos tras terminar antes de plegarse (`-1` no lo pliega). Por defecto: `1000`."
+          }
+        },
+        {
+          "name": "thinking-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto mientras piensa. Por defecto: `Pensando…`."
+          }
+        },
+        {
+          "name": "done-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto al terminar, con `{s}`. Por defecto: `Pensó durante {s} s`."
+          }
+        },
+        {
+          "name": "instant-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto si duró menos de un segundo. Por defecto: `Pensó unos instantes`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-branch",
+      "description": {
+        "kind": "markdown",
+        "value": "Versiones alternativas de un mensaje (`.tsl-branch__item`): muestra una con el selector «‹ 2 de 3 ›», empieza en la última y salta a cada versión nueva que llegue."
+      },
+      "attributes": [
+        {
+          "name": "index",
+          "description": {
+            "kind": "markdown",
+            "value": "Versión visible al iniciar, desde 0 (por defecto, la última)."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del selector. Por defecto: `Versiones`."
+          }
+        },
+        {
+          "name": "count-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto del contador con `{n}` y `{total}`. Por defecto: `{n} de {total}`."
+          }
+        },
+        {
+          "name": "prev-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre del botón anterior. Por defecto: `Versión anterior`."
+          }
+        },
+        {
+          "name": "next-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre del botón siguiente. Por defecto: `Versión siguiente`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-context",
+      "description": {
+        "kind": "markdown",
+        "value": "Medidor del contexto de un modelo: anillo con el porcentaje usado que abre un panel con barra, desglose de tokens y coste. Pasa a aviso desde el 75 % y a peligro desde el 90 % (`data-level`)."
+      },
+      "attributes": [
+        {
+          "name": "used",
+          "description": {
+            "kind": "markdown",
+            "value": "Tokens usados."
+          }
+        },
+        {
+          "name": "max",
+          "description": {
+            "kind": "markdown",
+            "value": "Tokens de la ventana de contexto."
+          }
+        },
+        {
+          "name": "input",
+          "description": {
+            "kind": "markdown",
+            "value": "Tokens de entrada (fila opcional)."
+          }
+        },
+        {
+          "name": "output",
+          "description": {
+            "kind": "markdown",
+            "value": "Tokens de salida (fila opcional)."
+          }
+        },
+        {
+          "name": "reasoning",
+          "description": {
+            "kind": "markdown",
+            "value": "Tokens de razonamiento (fila opcional)."
+          }
+        },
+        {
+          "name": "cached",
+          "description": {
+            "kind": "markdown",
+            "value": "Tokens servidos desde caché (fila opcional)."
+          }
+        },
+        {
+          "name": "cost",
+          "description": {
+            "kind": "markdown",
+            "value": "Coste estimado (fila opcional)."
+          }
+        },
+        {
+          "name": "currency",
+          "description": {
+            "kind": "markdown",
+            "value": "Moneda del coste (ISO 4217). Por defecto: `USD`."
+          }
+        },
+        {
+          "name": "model",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre del modelo en la cabecera del panel."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre del medidor. Por defecto: `Contexto`."
+          }
+        },
+        {
+          "name": "placement",
+          "description": {
+            "kind": "markdown",
+            "value": "Posición del panel. Por defecto: `top-start`."
+          }
+        },
+        {
+          "name": "input-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Etiqueta de la fila de entrada. Por defecto: `Entrada`."
+          }
+        },
+        {
+          "name": "output-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Etiqueta de la fila de salida. Por defecto: `Salida`."
+          }
+        },
+        {
+          "name": "reasoning-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Etiqueta de la fila de razonamiento. Por defecto: `Razonamiento`."
+          }
+        },
+        {
+          "name": "cached-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Etiqueta de la fila de caché. Por defecto: `En caché`."
+          }
+        },
+        {
+          "name": "cost-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Etiqueta del coste. Por defecto: `Coste estimado`."
+          }
+        }
+      ]
+    },
+    {
       "name": "tsl-scroll-area",
       "description": {
         "kind": "markdown",

@@ -4528,6 +4528,880 @@
     },
     {
       "kind": "javascript-module",
+      "path": "esm/components/prompt-input.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslPromptInput",
+          "tagName": "tsl-prompt-input",
+          "customElement": true,
+          "description": "Caja de entrada de un chat sobre un `<form>`: crece con el texto, Enter envía y Mayús+Enter salta de línea (respeta el IME), adjuntos por botón `[data-attach]`, pegado o arrastre, y el botón `[data-submit]` pasa a «Detener» mientras hay respuesta en curso.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "status",
+              "type": {
+                "text": "\"ready\" | \"submitted\" | \"streaming\" | \"error\""
+              },
+              "description": "Estado de la respuesta: con `submitted` el botón muestra espera y con `streaming` un cuadrado; en ambos detiene en vez de enviar.",
+              "default": "ready"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Deshabilita el texto, los adjuntos y el envío."
+            },
+            {
+              "name": "accept",
+              "type": {
+                "text": "string"
+              },
+              "description": "Tipos de archivo admitidos, como el `accept` nativo (`image/*,.pdf`)."
+            },
+            {
+              "name": "max-files",
+              "type": {
+                "text": "number"
+              },
+              "description": "Máximo de adjuntos."
+            },
+            {
+              "name": "max-size",
+              "type": {
+                "text": "string"
+              },
+              "description": "Tamaño máximo por archivo (`10MB`, `500KB` o bytes)."
+            },
+            {
+              "name": "max-rows",
+              "type": {
+                "text": "number"
+              },
+              "description": "Filas que crece el texto antes de desplazarse.",
+              "default": "8"
+            },
+            {
+              "name": "submit-key",
+              "type": {
+                "text": "\"enter\" | \"mod-enter\""
+              },
+              "description": "Con `mod-enter` se envía con Ctrl/⌘+Enter y Enter salta de línea.",
+              "default": "enter"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible del texto si no tiene `<label>`.",
+              "default": "Mensaje"
+            },
+            {
+              "name": "attachments-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible de la lista de adjuntos.",
+              "default": "Adjuntos"
+            },
+            {
+              "name": "submit-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre del botón al enviar.",
+              "default": "Enviar"
+            },
+            {
+              "name": "stop-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre del botón mientras hay respuesta en curso.",
+              "default": "Detener"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto escrito."
+            },
+            {
+              "kind": "field",
+              "name": "files",
+              "type": {
+                "text": "File[]"
+              },
+              "description": "Archivos adjuntos.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "status",
+              "type": {
+                "text": "string"
+              },
+              "description": "Refleja el atributo `status`."
+            },
+            {
+              "kind": "field",
+              "name": "busy",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Hay una respuesta en curso (`submitted` o `streaming`).",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "canSubmit",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Hay texto o adjuntos y no está deshabilitado ni ocupado.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "submit",
+              "description": "Emite `tsl-submit`; si nadie lo cancela, vacía la caja.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "stop",
+              "description": "Emite `tsl-stop`.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "clear",
+              "description": "Vacía el texto y los adjuntos.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "addFiles",
+              "description": "Añade archivos validando tipo, tamaño y cantidad.",
+              "parameters": [
+                {
+                  "name": "files",
+                  "type": {
+                    "text": "FileList | File[]"
+                  }
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "removeFile",
+              "description": "Quita un adjunto.",
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "openFilePicker",
+              "description": "Abre el selector de archivos.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "description": "Enfoca el texto.",
+              "parameters": [
+                {
+                  "name": "options",
+                  "type": {
+                    "text": "FocusOptions"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-submit",
+              "type": {
+                "text": "CustomEvent<{ text: string; files: File[]; values: Record<string, FormDataEntryValue | FormDataEntryValue[]> }>"
+              },
+              "description": "Envío con el texto, los adjuntos y los demás campos del formulario (p. ej. el modelo). Cancelable: `preventDefault()` conserva el contenido."
+            },
+            {
+              "name": "tsl-stop",
+              "type": {
+                "text": "CustomEvent<{}>"
+              },
+              "description": "Se pulsó «Detener» durante una respuesta."
+            },
+            {
+              "name": "tsl-files",
+              "type": {
+                "text": "CustomEvent<{ files: File[] }>"
+              },
+              "description": "Cambiaron los adjuntos."
+            },
+            {
+              "name": "tsl-error",
+              "type": {
+                "text": "CustomEvent<{ file: File; reason: \"type\" | \"size\" | \"count\"; message: string }>"
+              },
+              "description": "Se rechazó un archivo (también se anuncia)."
+            },
+            {
+              "name": "tsl-select",
+              "type": {
+                "text": "CustomEvent<{ value: string }>"
+              },
+              "description": "Una sugerencia `[data-tsl-suggest]` rellenó la caja (lo emite el botón)."
+            }
+          ],
+          "x-itemAttributes": [
+            {
+              "name": "data-tsl-suggest",
+              "description": "En cualquier botón de la página: selector de la caja que rellena con su texto (o con `data-value`)."
+            },
+            {
+              "name": "data-value",
+              "description": "Texto que pone la sugerencia, si no es el visible."
+            },
+            {
+              "name": "data-send",
+              "description": "La sugerencia además envía."
+            }
+          ],
+          "x-docs": [
+            "prompt-input",
+            "suggestion"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslPromptInput",
+          "declaration": {
+            "name": "TslPromptInput",
+            "module": "esm/components/prompt-input.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-prompt-input",
+          "declaration": {
+            "name": "TslPromptInput",
+            "module": "esm/components/prompt-input.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/reasoning.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslReasoning",
+          "tagName": "tsl-reasoning",
+          "customElement": true,
+          "description": "Razonamiento plegable de un asistente: con `streaming` se abre, muestra «Pensando…» y cuenta el tiempo; al terminar dice cuánto pensó y se pliega solo si la persona no lo tocó.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "streaming",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "El razonamiento está en curso."
+            },
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Muestra el contenido."
+            },
+            {
+              "name": "duration",
+              "type": {
+                "text": "number"
+              },
+              "description": "Segundos de un razonamiento ya terminado."
+            },
+            {
+              "name": "close-delay",
+              "type": {
+                "text": "number"
+              },
+              "description": "Milisegundos tras terminar antes de plegarse (`-1` no lo pliega).",
+              "default": "1000"
+            },
+            {
+              "name": "thinking-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto mientras piensa.",
+              "default": "Pensando…"
+            },
+            {
+              "name": "done-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto al terminar, con `{s}`.",
+              "default": "Pensó durante {s} s"
+            },
+            {
+              "name": "instant-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto si duró menos de un segundo.",
+              "default": "Pensó unos instantes"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "isOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "El contenido está visible.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "isStreaming",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Tiene `streaming`.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "duration",
+              "type": {
+                "text": "number"
+              },
+              "description": "Segundos que duró (o lleva).",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "toggle",
+              "description": "Abre o pliega.",
+              "parameters": [
+                {
+                  "name": "force",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "open",
+              "description": "Abre el contenido.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "description": "Pliega el contenido.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-toggle",
+              "type": {
+                "text": "CustomEvent<{ open: boolean }>"
+              },
+              "description": "La persona abrió o plegó el razonamiento."
+            },
+            {
+              "name": "tsl-complete",
+              "type": {
+                "text": "CustomEvent<{ duration: number }>"
+              },
+              "description": "Terminó el razonamiento (se quitó `streaming`)."
+            }
+          ],
+          "x-docs": [
+            "reasoning"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslReasoning",
+          "declaration": {
+            "name": "TslReasoning",
+            "module": "esm/components/reasoning.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-reasoning",
+          "declaration": {
+            "name": "TslReasoning",
+            "module": "esm/components/reasoning.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/branch.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslBranch",
+          "tagName": "tsl-branch",
+          "customElement": true,
+          "description": "Versiones alternativas de un mensaje (`.tsl-branch__item`): muestra una con el selector «‹ 2 de 3 ›», empieza en la última y salta a cada versión nueva que llegue.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "index",
+              "type": {
+                "text": "number"
+              },
+              "description": "Versión visible al iniciar, desde 0 (por defecto, la última)."
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible del selector.",
+              "default": "Versiones"
+            },
+            {
+              "name": "count-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto del contador con `{n}` y `{total}`.",
+              "default": "{n} de {total}"
+            },
+            {
+              "name": "prev-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre del botón anterior.",
+              "default": "Versión anterior"
+            },
+            {
+              "name": "next-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre del botón siguiente.",
+              "default": "Versión siguiente"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "index",
+              "type": {
+                "text": "number"
+              },
+              "description": "Versión visible, desde 0."
+            },
+            {
+              "kind": "field",
+              "name": "count",
+              "type": {
+                "text": "number"
+              },
+              "description": "Número de versiones.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "goTo",
+              "description": "Muestra una versión (da la vuelta en los extremos).",
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "fire",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "next",
+              "description": "Versión siguiente.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "prev",
+              "description": "Versión anterior.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-change",
+              "type": {
+                "text": "CustomEvent<{ index: number; count: number }>"
+              },
+              "description": "La persona cambió de versión."
+            }
+          ],
+          "x-docs": [
+            "branch"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslBranch",
+          "declaration": {
+            "name": "TslBranch",
+            "module": "esm/components/branch.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-branch",
+          "declaration": {
+            "name": "TslBranch",
+            "module": "esm/components/branch.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/context.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslContext",
+          "tagName": "tsl-context",
+          "customElement": true,
+          "description": "Medidor del contexto de un modelo: anillo con el porcentaje usado que abre un panel con barra, desglose de tokens y coste. Pasa a aviso desde el 75 % y a peligro desde el 90 % (`data-level`).",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "used",
+              "type": {
+                "text": "number"
+              },
+              "description": "Tokens usados."
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "description": "Tokens de la ventana de contexto."
+            },
+            {
+              "name": "input",
+              "type": {
+                "text": "number"
+              },
+              "description": "Tokens de entrada (fila opcional)."
+            },
+            {
+              "name": "output",
+              "type": {
+                "text": "number"
+              },
+              "description": "Tokens de salida (fila opcional)."
+            },
+            {
+              "name": "reasoning",
+              "type": {
+                "text": "number"
+              },
+              "description": "Tokens de razonamiento (fila opcional)."
+            },
+            {
+              "name": "cached",
+              "type": {
+                "text": "number"
+              },
+              "description": "Tokens servidos desde caché (fila opcional)."
+            },
+            {
+              "name": "cost",
+              "type": {
+                "text": "number"
+              },
+              "description": "Coste estimado (fila opcional)."
+            },
+            {
+              "name": "currency",
+              "type": {
+                "text": "string"
+              },
+              "description": "Moneda del coste (ISO 4217).",
+              "default": "USD"
+            },
+            {
+              "name": "model",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre del modelo en la cabecera del panel."
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre del medidor.",
+              "default": "Contexto"
+            },
+            {
+              "name": "placement",
+              "type": {
+                "text": "string"
+              },
+              "description": "Posición del panel.",
+              "default": "top-start"
+            },
+            {
+              "name": "input-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Etiqueta de la fila de entrada.",
+              "default": "Entrada"
+            },
+            {
+              "name": "output-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Etiqueta de la fila de salida.",
+              "default": "Salida"
+            },
+            {
+              "name": "reasoning-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Etiqueta de la fila de razonamiento.",
+              "default": "Razonamiento"
+            },
+            {
+              "name": "cached-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Etiqueta de la fila de caché.",
+              "default": "En caché"
+            },
+            {
+              "name": "cost-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Etiqueta del coste.",
+              "default": "Coste estimado"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "used",
+              "type": {
+                "text": "number"
+              },
+              "description": "Tokens usados.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "description": "Tamaño de la ventana.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "ratio",
+              "type": {
+                "text": "number"
+              },
+              "description": "Fracción usada, entre 0 y 1.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "level",
+              "type": {
+                "text": "\"ok\" | \"warn\" | \"danger\""
+              },
+              "description": "Nivel según el uso.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "open",
+              "description": "Abre el panel.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "description": "Cierra el panel.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [],
+          "x-docs": [
+            "context"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslContext",
+          "declaration": {
+            "name": "TslContext",
+            "module": "esm/components/context.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-context",
+          "declaration": {
+            "name": "TslContext",
+            "module": "esm/components/context.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "esm/components/scroll-area.mjs",
       "declarations": [
         {
