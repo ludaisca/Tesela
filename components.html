@@ -1398,6 +1398,30 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         </template>
       </section>
 
+      <section class="doc" id="item" data-group="Datos" data-keywords="item fila elemento lista media icono contenido acciones fila genérica">
+        <h2><a href="#item">Item</a></h2>
+        <p><code>.tsl-item</code> es una fila genérica con <code>.tsl-item__media</code> (<code>--icon</code> o <code>--image</code>), <code>.tsl-item__content</code> (<code>__title</code> y <code>__desc</code>) y <code>.tsl-item__actions</code>. Puede ser <code>&lt;div&gt;</code>, <code>&lt;a&gt;</code> o <code>&lt;button&gt;</code> (con hover y foco). Variantes <code>--outline</code> y <code>--muted</code>, tamaño <code>--sm</code>; <code>.tsl-item-group</code> los apila. Si no caben, las acciones pasan a la línea siguiente.</p>
+        <template>
+          <div class="tsl-item-group demo-max">
+            <div class="tsl-item tsl-item--outline">
+              <div class="tsl-item__media tsl-item__media--icon" aria-hidden="true">🛡</div>
+              <div class="tsl-item__content"><div class="tsl-item__title">Verificación en dos pasos</div><p class="tsl-item__desc">Protege tu cuenta con un segundo factor.</p></div>
+              <div class="tsl-item__actions"><button type="button" class="tsl-btn tsl-btn--sm">Activar</button></div>
+            </div>
+            <a class="tsl-item tsl-item--muted" href="#item">
+              <div class="tsl-item__media tsl-item__media--icon" aria-hidden="true">✉</div>
+              <div class="tsl-item__content"><div class="tsl-item__title">Preferencias de correo</div><p class="tsl-item__desc">Enlace completo: se resalta al pasar o enfocar.</p></div>
+              <div class="tsl-item__actions"><span class="tsl-badge">Nuevo</span></div>
+            </a>
+            <div class="tsl-item tsl-item--sm">
+              <div class="tsl-item__media tsl-item__media--icon" aria-hidden="true">⌘</div>
+              <div class="tsl-item__content"><div class="tsl-item__title">Atajos de teclado</div></div>
+              <div class="tsl-item__actions"><kbd class="tsl-kbd">Ctrl</kbd><kbd class="tsl-kbd">K</kbd></div>
+            </div>
+          </div>
+        </template>
+      </section>
+
       <section class="doc" id="timeline" data-group="Datos" data-keywords="actividad historial feed eventos changelog">
         <h2><a href="#timeline">Línea de tiempo</a></h2>
         <p>Historial vertical; colorea cada nodo con <code>--c</code>.</p>
