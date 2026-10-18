@@ -45,6 +45,7 @@ npm run build     # src/ → lib/ (bundle IIFE, minificado, módulos ESM y CSS p
 | `src/core/` | Base de los Custom Elements, posicionamiento y campos de formulario compartidos |
 | `src/components/` | Un módulo por componente (`tabs.js`, `select.js`, `chart.js`…) que se registra a sí mismo |
 | `src/api/` | `toast`, `confirm`, `copy` y tema |
+| `src/tokens/` | Tokens y presets en JSON: la fuente única del aspecto |
 | `src/meta/` | Descripción de la API de cada elemento (genera tipos, manifiesto y la pestaña «API») |
 | `src/css/` | Una hoja por sección; se concatenan en `lib/tesela-ui.css` |
 | `lib/tesela-ui.js`, `.min.js` | Bundle completo para `<script src>` (expone `window.TeselaUI`) |
@@ -53,6 +54,20 @@ npm run build     # src/ → lib/ (bundle IIFE, minificado, módulos ESM y CSS p
 | `lib/types/`, `lib/custom-elements.json` | Tipos de TypeScript y manifiesto (ver más abajo) |
 
 `tests/package.test.js` falla si `lib/` queda desfasado respecto a `src/`: ejecuta `npm run build` y confirma ambos.
+
+## Temas, presets y tokens
+
+Todo el estilo sale de 36 tokens definidos una sola vez en `src/tokens/tokens.json` (formato inspirado en W3C Design Tokens, con valor para el modo oscuro y el claro). De ahí se generan el CSS, las variables de Sass, un módulo JS con tipos y un preset de Tailwind.
+
+| Qué | Cómo |
+|---|---|
+| Modo | `data-theme="dark" \| "light" \| "system"` en `<html>` (o en cualquier contenedor); `system` sigue al sistema operativo |
+| Preset | `data-preset="esmeralda"` cambia colores, radios y tipografías de una vez. Hay 11: `tesela` (por defecto), `esmeralda`, `ambar`, `cielo`, `rosa`, `violeta`, `medianoche`, `papel`, `alto-contraste`, `brutalista` y `suave` |
+| Acento | `TeselaUI.setAccent("#10b981")` cambia el acento y elige solo un texto legible (blanco o casi negro) |
+| API | `TeselaUI.setTheme()`, `getTheme()`, `getResolvedTheme()`, `setPreset()`, `getPreset()`, `setAccent()`, `presets` y los eventos `tsl-theme`, `tsl-preset` y `tsl-accent` |
+| Sin parpadeo | `<script src="lib/theme-init.js"></script>` en `<head>` aplica lo guardado antes del primer pintado |
+
+Todos los presets cumplen el contraste WCAG en ambos modos (texto AAA, atenuado AA, texto del acento AA, insignias AA) y `alto-contraste` llega a AAA; `tests/tokens.test.js` lo comprueba con los valores reales del navegador. Los archivos exportados están en `lib/tokens/` (`tokens.json`, `tokens.css`, `tokens.scss`, `tokens.mjs`, `tailwind.preset.cjs`) y hay un CSS por preset en `lib/themes/`.
 
 ## Tipos y autocompletado
 
@@ -128,7 +143,8 @@ Las pruebas corren en un Chromium real con Playwright e incluyen teclado, arrast
 | `tests/gallery.test.js` | los 212 experimentos de la galería montan sin errores |
 | `tests/package.test.js` | `lib/` al día con `src/`, módulos ESM independientes, rutas de `package.json` y que ningún elemento pise miembros nativos de `HTMLElement` |
 | `tests/api.test.js` | la descripción de la API coincide con el código; los tipos compilan con `tsc --strict` |
-| `tests/docs.test.js` | la pestaña «API» de la documentación |
+| `tests/docs.test.js` | la pestaña «API», la galería de presets y el comprobador de contraste |
+| `tests/tokens.test.js` | tokens, contraste WCAG de los presets, archivos exportados, modos, presets y API de temas |
 
 ```bash
 npm install                        # solo la primera vez (instala Playwright)

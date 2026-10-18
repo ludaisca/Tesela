@@ -29,7 +29,10 @@
     "./css/*": "./lib/css/*",
     "./custom-elements.json": "./lib/custom-elements.json",
     "./vscode.html-custom-data.json": "./lib/vscode.html-custom-data.json",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./tokens/*": "./lib/tokens/*",
+    "./themes/*": "./lib/themes/*",
+    "./theme-init": "./lib/theme-init.js"
   },
   "files": [
     "lib",

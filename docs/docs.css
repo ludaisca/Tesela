@@ -388,3 +388,124 @@ p {
   white-space: nowrap;
   overflow-wrap: normal;
 }
+
+/* Sección «Temas y presets» */
+.docs-themebar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.docs-presets {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 12px;
+}
+
+.docs-preset {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border-radius: var(--tsl-radius);
+  border: 1px solid var(--tsl-border);
+  background: var(--tsl-surface);
+  color: var(--tsl-fg);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.docs-preset:hover {
+  border-color: var(--tsl-border-strong);
+}
+
+.docs-preset[aria-pressed="true"] {
+  border-color: var(--tsl-accent);
+  box-shadow: 0 0 0 1px var(--tsl-accent);
+}
+
+.docs-preset:focus-visible {
+  outline: none;
+  box-shadow: var(--tsl-ring);
+}
+
+/* Muestra: un contenedor con su propio preset y modo (los tokens se aplican solo dentro) */
+.docs-preset__sample {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: var(--tsl-radius);
+  border: 1px solid var(--tsl-border);
+  background: var(--tsl-bg);
+  color: var(--tsl-fg);
+  font-size: 11px;
+}
+
+.docs-preset__sample .sample-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.docs-preset__sample .sample-btn {
+  padding: 4px 10px;
+  border-radius: var(--tsl-radius-sm);
+  background: var(--tsl-accent);
+  color: var(--tsl-accent-fg);
+  font-weight: 600;
+}
+
+.docs-preset__sample .sample-card {
+  padding: 6px 8px;
+  border-radius: var(--tsl-radius-sm);
+  border: 1px solid var(--tsl-border);
+  background: var(--tsl-bg-elevated);
+  box-shadow: var(--tsl-shadow);
+  color: var(--tsl-fg-muted);
+}
+
+.docs-preset__sample .sample-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.docs-preset__name {
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.docs-preset__desc {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--tsl-fg-muted);
+}
+
+.docs-h3 {
+  margin: 28px 0 8px;
+  font-family: var(--tsl-font-heading);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.docs-contrast .tsl-table td:first-child {
+  white-space: normal;
+}
+
+.docs-swatch-pair {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 56px;
+  padding: 2px 8px;
+  border-radius: 5px;
+  border: 1px solid var(--tsl-border);
+  font-size: 11px;
+  font-weight: 600;
+}

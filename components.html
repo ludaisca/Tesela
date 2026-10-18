@@ -7,6 +7,7 @@
   <title>Tesela — Biblioteca de componentes</title>
   <link rel="stylesheet" href="lib/tesela-ui.css" />
   <link rel="stylesheet" href="docs/docs.css" />
+  <script src="lib/theme-init.js"></script>
 </head>
 <body class="tsl">
   <header class="docs-topbar">
@@ -27,9 +28,19 @@
       <nav class="tsl-nav" id="docs-nav"></nav>
 
       <div class="docs-tokens">
-        <span class="tsl-eyebrow">Token de acento</span>
+        <span class="tsl-eyebrow">Tema</span>
+        <tsl-segmented id="docs-theme" value="dark" aria-label="Tema" style="margin:10px 0 14px">
+          <button class="tsl-segmented__item" value="dark">Oscuro</button>
+          <button class="tsl-segmented__item" value="light">Claro</button>
+          <button class="tsl-segmented__item" value="system">Sistema</button>
+        </tsl-segmented>
+        <span class="tsl-eyebrow">Preset</span>
+        <div class="tsl-field" style="margin:10px 0 14px">
+          <tsl-select id="docs-preset" label="Preset de tema"></tsl-select>
+        </div>
+        <span class="tsl-eyebrow">Acento</span>
         <div class="docs-swatches">
-          <button type="button" class="docs-swatch" style="--c:#6366f1" data-accent="#6366f1" aria-label="Índigo"></button>
+          <button type="button" class="docs-swatch" style="--c:#6365f0" data-accent="#6365f0" aria-label="Índigo"></button>
           <button type="button" class="docs-swatch" style="--c:#10b981" data-accent="#10b981" aria-label="Esmeralda"></button>
           <button type="button" class="docs-swatch" style="--c:#f59e0b" data-accent="#f59e0b" aria-label="Ámbar"></button>
           <button type="button" class="docs-swatch" style="--c:#0ea5e9" data-accent="#0ea5e9" aria-label="Cielo"></button>
@@ -37,12 +48,15 @@
           <button type="button" class="docs-swatch" style="--c:#a855f7" data-accent="#a855f7" aria-label="Violeta"></button>
         </div>
         <span class="tsl-eyebrow">Radio</span>
-        <tsl-segmented id="docs-radius" value="9" style="margin:10px 0 14px">
+        <tsl-segmented id="docs-radius" value="" aria-label="Radio" style="margin:10px 0 14px">
           <button class="tsl-segmented__item" value="2">2</button>
           <button class="tsl-segmented__item" value="9">9</button>
           <button class="tsl-segmented__item" value="16">16</button>
         </tsl-segmented>
-        <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--block" id="docs-export">Copiar overrides CSS</button>
+        <div class="tsl-stack" style="--gap:8px">
+          <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--block" id="docs-export">Copiar overrides CSS</button>
+          <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle tsl-btn--block" id="docs-reset">Restablecer</button>
+        </div>
       </div>
     </aside>
 
@@ -115,6 +129,58 @@
 &lt;/script&gt;</code></pre>
         </div>
         <p class="tsl-muted" style="margin-top:10px">El servidor debe enviar los <code>.mjs</code> como <code>text/javascript</code> (en <code>deploy/nginx.conf</code> hay un ejemplo para nginx).</p>
+      </section>
+
+      <section class="doc" id="themes" data-group="Inicio" data-keywords="temas presets tema claro oscuro sistema paleta contraste accesibilidad wcag acento tokens exportar scss tailwind">
+        <h2><a href="#themes">Temas y presets</a></h2>
+        <p>Cada tema tiene dos modos (oscuro y claro) más <code>system</code>, que sigue al sistema operativo. Un <strong>preset</strong> cambia colores, radios y tipografías de una vez con <code>&lt;html data-preset="esmeralda"&gt;</code> (o en cualquier contenedor, y entonces solo afecta a su contenido). Todos cumplen las reglas de contraste de WCAG en ambos modos, y <code>alto-contraste</code> llega a AAA.</p>
+        <div class="docs-themebar">
+          <tsl-segmented id="docs-theme-inline" value="dark" aria-label="Tema">
+            <button class="tsl-segmented__item" value="dark">Oscuro</button>
+            <button class="tsl-segmented__item" value="light">Claro</button>
+            <button class="tsl-segmented__item" value="system">Sistema</button>
+          </tsl-segmented>
+          <span class="tsl-muted" id="docs-theme-state"></span>
+        </div>
+        <div class="docs-presets" id="docs-presets" role="group" aria-label="Presets de tema"></div>
+
+        <h3 class="docs-h3">Contraste del tema activo</h3>
+        <p class="tsl-muted">Se calcula en vivo con los colores reales del tema, el preset y el acento elegidos (WCAG 2.x: AA = 4,5:1 para texto, 3:1 para componentes y texto grande; AAA = 7:1).</p>
+        <div class="tsl-table-wrap docs-contrast">
+          <table class="tsl-table" id="docs-contrast">
+            <thead><tr><th>Par de colores</th><th>Muestra</th><th class="is-num">Contraste</th><th>Nivel</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <h3 class="docs-h3">Aplicar sin parpadeo</h3>
+        <p>La biblioteca recuerda el tema, el preset y el acento en <code>localStorage</code>. Para que se apliquen antes del primer pintado, carga este script clásico en <code>&lt;head&gt;</code>, sin <code>defer</code>:</p>
+        <div class="doc-frame">
+          <pre class="tsl-code" style="border:0"><code>&lt;script src="lib/theme-init.js"&gt;&lt;/script&gt;
+
+&lt;!-- API --&gt;
+TeselaUI.setTheme("system");      // "dark" | "light" | "system"
+TeselaUI.setPreset("medianoche"); // ver la lista de arriba
+TeselaUI.setAccent("#10b981");    // elige solo un texto legible (blanco o casi negro)
+TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
+        </div>
+
+        <h3 class="docs-h3">Exportar los tokens</h3>
+        <p>Los 36 tokens viven en un solo archivo (<code>src/tokens/tokens.json</code>, formato inspirado en W3C Design Tokens) y de él se generan todos los demás.</p>
+        <div class="tsl-table-wrap docs-exports">
+          <table class="tsl-table">
+            <thead><tr><th>Archivo</th><th>Para qué sirve</th></tr></thead>
+            <tbody>
+              <tr><td><a href="lib/tokens/tokens.json" download>lib/tokens/tokens.json</a></td><td>Tokens con descripción y valor por modo. Se puede importar en Style Dictionary, Tokens Studio o Figma.</td></tr>
+              <tr><td><a href="lib/tokens/presets.json" download>lib/tokens/presets.json</a></td><td>Los 11 presets: qué tokens cambia cada uno.</td></tr>
+              <tr><td><a href="lib/tokens/tokens.css" download>lib/tokens/tokens.css</a></td><td>Solo las variables CSS (sin componentes).</td></tr>
+              <tr><td><a href="lib/tokens/tokens.scss" download>lib/tokens/tokens.scss</a></td><td>Variables de Sass (<code>$tsl-bg</code>…) y mapas por modo y preset.</td></tr>
+              <tr><td><a href="lib/tokens/tokens.mjs" download>lib/tokens/tokens.mjs</a></td><td>Módulo JavaScript con tipos (<code>tokens.d.mts</code>).</td></tr>
+              <tr><td><a href="lib/tokens/tailwind.preset.cjs" download>lib/tokens/tailwind.preset.cjs</a></td><td>Preset de Tailwind: <code>bg-tsl-bg</code>, <code>text-tsl-fg</code>, <code>rounded-tsl</code>…</td></tr>
+              <tr><td><code>lib/themes/&lt;preset&gt;.css</code></td><td>Un CSS por preset, por si solo necesitas uno.</td></tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section class="doc" id="tokens" data-group="Inicio" data-keywords="colors colores theme tema variables">

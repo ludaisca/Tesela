@@ -277,9 +277,10 @@
 
   function setupTokens() {
     const root = document.documentElement;
-    const applyAccent = (hex) => {
-      root.style.setProperty("--tsl-accent", hex);
-      document.querySelectorAll("[data-accent]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.accent === hex)));
+    const swatches = Array.from(document.querySelectorAll("[data-accent]"));
+    const paintAccent = () => {
+      const cur = root.style.getPropertyValue("--tsl-accent").trim().toLowerCase();
+      swatches.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.accent === cur)));
     };
     const applyRadius = (r) => {
       root.style.setProperty("--tsl-radius", `${r}px`);
@@ -287,16 +288,26 @@
       root.style.setProperty("--tsl-radius-xs", `${Math.max(0, r - 4)}px`);
     };
 
-    applyAccent(storageGet("tsl-docs-accent") || "#6366f1");
+    // Tema y preset: reflejan siempre el estado real de la biblioteca (también si cambia desde otro sitio)
+    const theme = document.getElementById("docs-theme");
+    const preset = document.getElementById("docs-preset");
+    if (preset) {
+      preset.setOptions(TeselaUI.presets.map((p) => ({ value: p.name, label: p.label, hint: p.description })));
+      preset.addEventListener("tsl-change", (e) => TeselaUI.setPreset(e.detail.value));
+    }
+    if (theme) theme.addEventListener("tsl-change", (e) => TeselaUI.setTheme(e.detail.value));
+    const sync = () => {
+      if (theme) theme.value = TeselaUI.getTheme();
+      if (preset) preset.value = TeselaUI.getPreset();
+      paintAccent();
+    };
+    ["tsl-theme", "tsl-preset", "tsl-accent"].forEach((n) => document.addEventListener(n, sync));
+    sync();
+
+    // El acento y el radio solo se fuerzan si el usuario los elige; así los presets mandan por defecto
+    swatches.forEach((b) => b.addEventListener("click", () => TeselaUI.setAccent(b.dataset.accent)));
     const savedRadius = storageGet("tsl-docs-radius");
     if (savedRadius) applyRadius(parseInt(savedRadius, 10));
-
-    document.querySelectorAll("[data-accent]").forEach((b) =>
-      b.addEventListener("click", () => {
-        applyAccent(b.dataset.accent);
-        storageSet("tsl-docs-accent", b.dataset.accent);
-      })
-    );
 
     const radius = document.getElementById("docs-radius");
     if (radius) {
@@ -307,12 +318,114 @@
       });
     }
 
+    document.getElementById("docs-reset")?.addEventListener("click", () => {
+      TeselaUI.setAccent(null);
+      ["--tsl-radius", "--tsl-radius-sm", "--tsl-radius-xs"].forEach((v) => root.style.removeProperty(v));
+      storageSet("tsl-docs-radius", "");
+      if (radius) radius.value = "";
+      TeselaUI.setPreset("tesela");
+      TeselaUI.setTheme("dark");
+      TeselaUI.toast({ title: "Tokens restablecidos", variant: "info", duration: 1800 });
+    });
+
     document.getElementById("docs-export")?.addEventListener("click", () => {
       const cs = getComputedStyle(root);
-      const names = ["--tsl-accent", "--tsl-radius", "--tsl-radius-sm", "--tsl-radius-xs"];
+      const names = ["--tsl-accent", "--tsl-accent-fg", "--tsl-radius", "--tsl-radius-sm", "--tsl-radius-xs"];
       const css = `:root {\n${names.map((n) => `  ${n}: ${cs.getPropertyValue(n).trim()};`).join("\n")}\n}`;
       TeselaUI.copy(css).then(() => TeselaUI.toast({ title: "Tokens copiados", description: "Pégalos después de tesela-ui.css" }));
     });
+  }
+
+  // ---------------------------------------------------------------- Temas y presets
+  const rgbOf = (css) => {
+    const m = css.match(/[\d.]+/g);
+    return { r: +m[0], g: +m[1], b: +m[2], a: m[3] === undefined ? 1 : +m[3] };
+  };
+  const lum = ({ r, g, b }) => {
+    const f = (v) => {
+      v /= 255;
+      return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+    };
+    return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+  };
+  const mixOver = (fg, bg) => ({ r: fg.r * fg.a + bg.r * (1 - fg.a), g: fg.g * fg.a + bg.g * (1 - fg.a), b: fg.b * fg.a + bg.b * (1 - fg.a), a: 1 });
+  const ratio = (a, b) => {
+    const [hi, lo] = [lum(a), lum(b)].sort((x, y) => y - x);
+    return (hi + 0.05) / (lo + 0.05);
+  };
+
+  function setupThemes() {
+    const grid = document.getElementById("docs-presets");
+    const table = document.querySelector("#docs-contrast tbody");
+    const themeInline = document.getElementById("docs-theme-inline");
+    const state = document.getElementById("docs-theme-state");
+    if (!grid || !table) return;
+
+    // Una tarjeta por preset, con una muestra que lleva su propio data-preset (y el modo efectivo)
+    TeselaUI.presets.forEach((p) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "docs-preset";
+      b.dataset.tslPreset = p.name;
+      b.innerHTML = `<span class="docs-preset__sample" data-preset="${p.name}">
+          <span class="sample-row"><span class="sample-btn">Acento</span><span class="sample-dot" style="background:var(--tsl-success)"></span><span class="sample-dot" style="background:var(--tsl-warning)"></span><span class="sample-dot" style="background:var(--tsl-danger)"></span></span>
+          <span class="sample-card">Tarjeta con texto atenuado</span>
+        </span>
+        <span><span class="docs-preset__name"></span><span class="docs-preset__desc" style="display:block"></span></span>`;
+      b.querySelector(".docs-preset__name").textContent = p.label;
+      b.querySelector(".docs-preset__desc").textContent = p.description;
+      grid.appendChild(b);
+    });
+
+    // Los pares que se miden: [etiqueta, color del texto, color del fondo, mínimo exigido]
+    const pairs = [
+      ["Texto / fondo", "--tsl-fg", "--tsl-bg", 7],
+      ["Texto / superficie elevada", "--tsl-fg", "--tsl-bg-elevated", 7],
+      ["Texto atenuado / fondo", "--tsl-fg-muted", "--tsl-bg", 4.5],
+      ["Texto tenue / fondo (marcadores, deshabilitado)", "--tsl-fg-subtle", "--tsl-bg", 3],
+      ["Texto del acento / acento (botones)", "--tsl-accent-fg", "--tsl-accent", 4.5],
+      ["Acento / fondo (foco, selección)", "--tsl-accent", "--tsl-bg", 3],
+      ["Éxito / fondo", "--tsl-success", "--tsl-bg", 4.5],
+      ["Aviso / fondo", "--tsl-warning", "--tsl-bg", 4.5],
+      ["Peligro / fondo", "--tsl-danger", "--tsl-bg", 4.5],
+      ["Información / fondo", "--tsl-info", "--tsl-bg", 4.5]
+    ];
+    const probe = document.createElement("span");
+    probe.style.cssText = "position:absolute;visibility:hidden;pointer-events:none";
+    document.body.appendChild(probe);
+    const color = (v) => {
+      probe.style.color = `var(${v})`;
+      return rgbOf(getComputedStyle(probe).color);
+    };
+
+    const render = () => {
+      const bg = color("--tsl-bg");
+      const rows = pairs.map(([label, fgVar, bgVar, min]) => {
+        const back = mixOver(color(bgVar), bg);
+        const front = mixOver(color(fgVar), back);
+        const r = ratio(front, back);
+        const level = r >= 7 ? "AAA" : r >= 4.5 ? "AA" : r >= 3 ? "AA (texto grande)" : "No cumple";
+        const pass = r >= min;
+        return `<tr><td>${label}</td><td><span class="docs-swatch-pair" style="background:${bgVar === "--tsl-accent" ? "var(--tsl-accent)" : `var(${bgVar})`};color:var(${fgVar})">Aa</span></td><td class="is-num">${r.toFixed(2)} : 1</td><td><span class="tsl-badge tsl-badge--${pass ? "success" : "danger"}">${level}${pass ? "" : ` (mín. ${min})`}</span></td></tr>`;
+      });
+      table.innerHTML = rows.join("");
+    };
+
+    const sync = () => {
+      const theme = TeselaUI.getTheme();
+      const resolved = TeselaUI.getResolvedTheme();
+      if (themeInline) themeInline.value = theme;
+      if (state) state.textContent = theme === "system" ? `El sistema usa el modo ${resolved === "dark" ? "oscuro" : "claro"}` : "";
+      const preset = TeselaUI.getPreset();
+      grid.querySelectorAll(".docs-preset").forEach((b) => {
+        b.setAttribute("aria-pressed", String(b.dataset.tslPreset === preset));
+        b.querySelector(".docs-preset__sample").setAttribute("data-theme", resolved);
+      });
+      render();
+    };
+    if (themeInline) themeInline.addEventListener("tsl-change", (e) => TeselaUI.setTheme(e.detail.value));
+    ["tsl-theme", "tsl-preset", "tsl-accent"].forEach((n) => document.addEventListener(n, sync));
+    sync();
   }
 
   // ---------------------------------------------------------------- Arranque
@@ -331,6 +444,7 @@
     sections.forEach(buildDoc);
     buildNav(sections);
     setupTokens();
+    setupThemes();
 
     document.querySelector(".docs-menu-btn")?.addEventListener("click", () => {
       document.querySelector(".docs-sidebar").classList.toggle("is-open");

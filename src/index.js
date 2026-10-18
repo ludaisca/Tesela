@@ -1,7 +1,7 @@
 // Tesela UI — punto de entrada del bundle completo.
 // Registra todos los elementos, instala los comportamientos delegados y expone window.TeselaUI.
 import { VERSION } from "./core/base.js";
-import { getTheme, setTheme } from "./api/theme.js";
+import { getPreset, getResolvedTheme, getTheme, presets, setAccent, setPreset, setTheme } from "./api/theme.js";
 import { toast } from "./api/toast.js";
 import { copy } from "./api/clipboard.js";
 import { confirmDialog } from "./api/confirm.js";
@@ -40,7 +40,7 @@ import "./components/sortable.js";
 import "./components/data-table.js";
 import "./components/chart.js";
 
-export { VERSION, getTheme, setTheme, toast, copy, confirmDialog as confirm, position, init };
+export { VERSION, getTheme, getResolvedTheme, setTheme, getPreset, setPreset, setAccent, presets, toast, copy, confirmDialog as confirm, position, init };
 
 if (typeof window !== "undefined") {
   if (document.readyState === "loading") {
@@ -49,5 +49,5 @@ if (typeof window !== "undefined") {
     init();
   }
 
-  window.TeselaUI = { version: VERSION, toast, copy, confirm: confirmDialog, position, setTheme, getTheme, init };
+  window.TeselaUI = { version: VERSION, toast, copy, confirm: confirmDialog, position, setTheme, getTheme, getResolvedTheme, setPreset, getPreset, setAccent, presets, init };
 }

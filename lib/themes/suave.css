@@ -1,0 +1,43 @@
+/* Generado por scripts/build-tokens.js desde src/tokens/. No editar a mano. */
+/* Preset «Suave»: Esquinas muy redondeadas y sombras difusas. */
+[data-preset="suave"] {
+  --tsl-radius: 16px;
+  --tsl-radius-sm: 12px;
+  --tsl-radius-xs: 8px;
+}
+[data-preset="suave"]:not([data-theme="light"]) {
+  --tsl-accent: #8b8dfb;
+  --tsl-accent-fg: #0d0e33;
+  --tsl-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 14px 32px -14px rgba(0, 0, 0, 0.55);
+  --tsl-shadow-lg: 0 6px 16px rgba(0, 0, 0, 0.35), 0 26px 50px -16px rgba(0, 0, 0, 0.65);
+  --tsl-chart-1: var(--tsl-accent);
+  --tsl-ring: 0 0 0 2px var(--tsl-bg), 0 0 0 4px color-mix(in srgb, var(--tsl-accent) 75%, transparent);
+}
+[data-preset="suave"][data-theme="light"] {
+  --tsl-bg: #f4f4f9;
+  --tsl-accent: #5b5bd6;
+  --tsl-accent-fg: #ffffff;
+  --tsl-shadow: 0 2px 6px rgba(30, 30, 80, 0.06), 0 14px 32px -14px rgba(30, 30, 80, 0.18);
+  --tsl-shadow-lg: 0 6px 16px rgba(30, 30, 80, 0.1), 0 26px 50px -16px rgba(30, 30, 80, 0.28);
+  --tsl-success: #046f51;
+  --tsl-warning: #9e4908;
+  --tsl-danger: #bc123b;
+  --tsl-info: #03669e;
+  --tsl-chart-1: var(--tsl-accent);
+  --tsl-ring: 0 0 0 2px var(--tsl-bg), 0 0 0 4px color-mix(in srgb, var(--tsl-accent) 75%, transparent);
+}
+@media (prefers-color-scheme: light) {
+  [data-preset="suave"][data-theme="system"] {
+    --tsl-bg: #f4f4f9;
+    --tsl-accent: #5b5bd6;
+    --tsl-accent-fg: #ffffff;
+    --tsl-shadow: 0 2px 6px rgba(30, 30, 80, 0.06), 0 14px 32px -14px rgba(30, 30, 80, 0.18);
+    --tsl-shadow-lg: 0 6px 16px rgba(30, 30, 80, 0.1), 0 26px 50px -16px rgba(30, 30, 80, 0.28);
+    --tsl-success: #046f51;
+    --tsl-warning: #9e4908;
+    --tsl-danger: #bc123b;
+    --tsl-info: #03669e;
+    --tsl-chart-1: var(--tsl-accent);
+    --tsl-ring: 0 0 0 2px var(--tsl-bg), 0 0 0 4px color-mix(in srgb, var(--tsl-accent) 75%, transparent);
+  }
+}

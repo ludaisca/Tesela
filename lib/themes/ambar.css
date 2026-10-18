@@ -1,0 +1,22 @@
+/* Generado por scripts/build-tokens.js desde src/tokens/. No editar a mano. */
+/* Preset «Ámbar»: Acento ámbar cálido. */
+[data-preset="ambar"]:not([data-theme="light"]) {
+  --tsl-accent: #f59e0b;
+  --tsl-accent-fg: #1a1103;
+  --tsl-chart-1: var(--tsl-accent);
+  --tsl-ring: 0 0 0 2px var(--tsl-bg), 0 0 0 4px color-mix(in srgb, var(--tsl-accent) 75%, transparent);
+}
+[data-preset="ambar"][data-theme="light"] {
+  --tsl-accent: #b45309;
+  --tsl-accent-fg: #ffffff;
+  --tsl-chart-1: var(--tsl-accent);
+  --tsl-ring: 0 0 0 2px var(--tsl-bg), 0 0 0 4px color-mix(in srgb, var(--tsl-accent) 75%, transparent);
+}
+@media (prefers-color-scheme: light) {
+  [data-preset="ambar"][data-theme="system"] {
+    --tsl-accent: #b45309;
+    --tsl-accent-fg: #ffffff;
+    --tsl-chart-1: var(--tsl-accent);
+    --tsl-ring: 0 0 0 2px var(--tsl-bg), 0 0 0 4px color-mix(in srgb, var(--tsl-accent) 75%, transparent);
+  }
+}

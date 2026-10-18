@@ -1,0 +1,22 @@
+/* Generado por scripts/build-tokens.js desde src/tokens/. No editar a mano. */
+/* Preset «Violeta»: Acento violeta. */
+[data-preset="violeta"]:not([data-theme="light"]) {
+  --tsl-accent: #a78bfa;
+  --tsl-accent-fg: #1b1040;
+  --tsl-chart-1: var(--tsl-accent);
+  --tsl-ring: 0 0 0 2px var(--tsl-bg), 0 0 0 4px color-mix(in srgb, var(--tsl-accent) 75%, transparent);
+}
+[data-preset="violeta"][data-theme="light"] {
+  --tsl-accent: #6d28d9;
+  --tsl-accent-fg: #ffffff;
+  --tsl-chart-1: var(--tsl-accent);
+  --tsl-ring: 0 0 0 2px var(--tsl-bg), 0 0 0 4px color-mix(in srgb, var(--tsl-accent) 75%, transparent);
+}
+@media (prefers-color-scheme: light) {
+  [data-preset="violeta"][data-theme="system"] {
+    --tsl-accent: #6d28d9;
+    --tsl-accent-fg: #ffffff;
+    --tsl-chart-1: var(--tsl-accent);
+    --tsl-ring: 0 0 0 2px var(--tsl-bg), 0 0 0 4px color-mix(in srgb, var(--tsl-accent) 75%, transparent);
+  }
+}

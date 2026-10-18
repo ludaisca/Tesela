@@ -1,7 +1,7 @@
 // Uso de los tipos generados. Se compila con `strict`; las líneas `@ts-expect-error` deben fallar
 // (si dejaran de fallar, tsc lo reportaría), así que también se comprueba que los tipos rechazan usos erróneos.
-import { toast, confirm, copy, position, setTheme, getTheme, init, VERSION, TslSelect } from "../../lib/types/tesela-ui";
-import type { TslTabsElement, TslSelectElement, TslDataTableElement, TslSliderElement, TeselaUIGlobal } from "../../lib/types/tesela-ui";
+import { toast, confirm, copy, position, setTheme, getTheme, getResolvedTheme, setPreset, getPreset, setAccent, presets, init, VERSION, TslSelect } from "../../lib/types/tesela-ui";
+import type { TslTabsElement, TslSelectElement, TslDataTableElement, TslSliderElement, TeselaUIGlobal, Theme, ResolvedTheme, PresetName } from "../../lib/types/tesela-ui";
 
 // HTMLElementTagNameMap: los elementos salen tipados sin conversión
 const tabs = document.querySelector("tsl-tabs")!;
@@ -71,9 +71,28 @@ const side: "top" | "bottom" | "left" | "right" = position(null, document.body, 
 void side;
 const copied: Promise<boolean> = copy("x");
 void copied;
-setTheme("light");
-const theme: "dark" | "light" = getTheme();
+setTheme("system");
+const theme: Theme = getTheme();
+const resolved: ResolvedTheme = getResolvedTheme();
 void theme;
+void resolved;
+const preset: PresetName = setPreset("esmeralda");
+const active: PresetName = getPreset();
+const firstPreset: string = presets[0].label;
+const fg: string | null = setAccent("#10b981");
+setAccent(null);
+void preset;
+void active;
+void firstPreset;
+void fg;
+document.addEventListener("tsl-theme", (e) => {
+  const r: ResolvedTheme = e.detail.resolved;
+  void r;
+});
+document.addEventListener("tsl-preset", (e) => {
+  const p: PresetName = e.detail.preset;
+  void p;
+});
 init();
 const version: string = VERSION;
 void version;
@@ -99,3 +118,12 @@ select.disabled = "sí";
 select.addEventListener("tsl-change", (e) => e.detail.nope);
 // @ts-expect-error la densidad de la tabla no admite este valor
 table.density = "enorme";
+// @ts-expect-error el nombre de un preset debe ser uno de los que existen
+setPreset("inexistente");
+// @ts-expect-error el tema no admite este valor
+setTheme("azul");
+document.addEventListener("tsl-theme", (e) => {
+  // @ts-expect-error `resolved` nunca es "system": ya está resuelto
+  const bad: "system" = e.detail.resolved;
+  void bad;
+});

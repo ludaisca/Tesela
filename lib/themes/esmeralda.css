@@ -1,0 +1,22 @@
+/* Generado por scripts/build-tokens.js desde src/tokens/. No editar a mano. */
+/* Preset «Esmeralda»: Acento verde esmeralda. */
+[data-preset="esmeralda"]:not([data-theme="light"]) {
+  --tsl-accent: #10b981;
+  --tsl-accent-fg: #04130d;
+  --tsl-chart-1: var(--tsl-accent);
+  --tsl-ring: 0 0 0 2px var(--tsl-bg), 0 0 0 4px color-mix(in srgb, var(--tsl-accent) 75%, transparent);
+}
+[data-preset="esmeralda"][data-theme="light"] {
+  --tsl-accent: #047857;
+  --tsl-accent-fg: #ffffff;
+  --tsl-chart-1: var(--tsl-accent);
+  --tsl-ring: 0 0 0 2px var(--tsl-bg), 0 0 0 4px color-mix(in srgb, var(--tsl-accent) 75%, transparent);
+}
+@media (prefers-color-scheme: light) {
+  [data-preset="esmeralda"][data-theme="system"] {
+    --tsl-accent: #047857;
+    --tsl-accent-fg: #ffffff;
+    --tsl-chart-1: var(--tsl-accent);
+    --tsl-ring: 0 0 0 2px var(--tsl-bg), 0 0 0 4px color-mix(in srgb, var(--tsl-accent) 75%, transparent);
+  }
+}

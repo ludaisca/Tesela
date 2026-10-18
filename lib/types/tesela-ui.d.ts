@@ -1,5 +1,8 @@
 // Tesela UI v1.4.0 — tipos generados desde src/meta/elements.js. No editar a mano.
-export type Theme = "dark" | "light";
+/** Ajuste de tema: `system` sigue al sistema operativo. */
+export type Theme = "dark" | "light" | "system";
+export type ResolvedTheme = "dark" | "light";
+export type PresetName = "tesela" | "esmeralda" | "ambar" | "cielo" | "rosa" | "violeta" | "medianoche" | "papel" | "alto-contraste" | "brutalista" | "suave";
 export type Side = "top" | "bottom" | "left" | "right";
 export interface ToastOptions {
   title?: string;
@@ -24,6 +27,8 @@ export interface PositionOptions {
   point?: { x: number; y: number };
 }
 export declare const VERSION: string;
+/** Presets de tema disponibles. */
+export declare const presets: ReadonlyArray<{ name: PresetName; label: string; description: string }>;
 /** Muestra una notificación efímera y devuelve una función para cerrarla. */
 export declare function toast(options: string | ToastOptions): () => void;
 /** Copia al portapapeles (con respaldo para `file://`). */
@@ -32,14 +37,24 @@ export declare function copy(text: string): Promise<boolean>;
 export declare function confirm(options: string | ConfirmOptions): Promise<boolean>;
 /** Posiciona un elemento flotante junto a un ancla o a un punto; devuelve el lado final. */
 export declare function position(anchor: Element | null, el: HTMLElement, options?: PositionOptions): Side;
-/** Cambia el tema y lo guarda en `localStorage`. */
-export declare function setTheme(theme: "dark" | "light"): "dark" | "light";
-/** Tema actual. */
-export declare function getTheme(): "dark" | "light";
+/** Cambia el ajuste de tema (`dark`, `light` o `system`, que sigue al sistema operativo) y lo guarda en `localStorage`. */
+export declare function setTheme(theme: Theme): Theme;
+/** Ajuste de tema actual. */
+export declare function getTheme(): Theme;
+/** Tema efectivo: resuelve `system` según el sistema operativo. */
+export declare function getResolvedTheme(): ResolvedTheme;
+/** Aplica un preset de tema (se ignora un nombre desconocido) y lo guarda. Devuelve el preset activo. */
+export declare function setPreset(name: PresetName): PresetName;
+/** Preset activo. */
+export declare function getPreset(): PresetName;
+/** Cambia el acento (`#rgb` o `#rrggbb`) y elige solo el color de texto legible; `null` lo restablece. Devuelve ese color de texto. */
+export declare function setAccent(color: string | null): string | null;
 /** Inicializa los ayudantes estáticos tras insertar HTML dinámico. */
 export declare function init(root?: ParentNode): void;
 export interface TeselaUIGlobal {
   version: string;
+  /** Presets de tema disponibles. */
+  presets: typeof presets;
   /** Muestra una notificación efímera y devuelve una función para cerrarla. */
   toast: typeof toast;
   /** Copia al portapapeles (con respaldo para `file://`). */
@@ -48,10 +63,18 @@ export interface TeselaUIGlobal {
   confirm: typeof confirm;
   /** Posiciona un elemento flotante junto a un ancla o a un punto; devuelve el lado final. */
   position: typeof position;
-  /** Cambia el tema y lo guarda en `localStorage`. */
+  /** Cambia el ajuste de tema (`dark`, `light` o `system`, que sigue al sistema operativo) y lo guarda en `localStorage`. */
   setTheme: typeof setTheme;
-  /** Tema actual. */
+  /** Ajuste de tema actual. */
   getTheme: typeof getTheme;
+  /** Tema efectivo: resuelve `system` según el sistema operativo. */
+  getResolvedTheme: typeof getResolvedTheme;
+  /** Aplica un preset de tema (se ignora un nombre desconocido) y lo guarda. Devuelve el preset activo. */
+  setPreset: typeof setPreset;
+  /** Preset activo. */
+  getPreset: typeof getPreset;
+  /** Cambia el acento (`#rgb` o `#rrggbb`) y elige solo el color de texto legible; `null` lo restablece. Devuelve ese color de texto. */
+  setAccent: typeof setAccent;
   /** Inicializa los ayudantes estáticos tras insertar HTML dinámico. */
   init: typeof init;
 }
@@ -848,5 +871,11 @@ declare global {
   }
   interface Window {
     TeselaUI: TeselaUIGlobal;
+  }
+  interface DocumentEventMap {
+    /** Cambió el tema (o el sistema operativo, con el tema «system»). */
+    "tsl-theme": CustomEvent<{ theme: Theme; resolved: ResolvedTheme }>;
+    "tsl-preset": CustomEvent<{ preset: PresetName }>;
+    "tsl-accent": CustomEvent<{ accent: string | null; fg: string | null }>;
   }
 }

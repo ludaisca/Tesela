@@ -624,13 +624,20 @@ export const elements = [
 
 export const api = {
   version: "string",
+  constants: [
+    { name: "presets", type: "ReadonlyArray<{ name: PresetName; label: string; description: string }>", description: "Presets de tema disponibles." }
+  ],
   functions: [
     { name: "toast", params: [param("options", "string | ToastOptions")], returns: "() => void", description: "Muestra una notificación efímera y devuelve una función para cerrarla." },
     { name: "copy", params: [param("text", "string")], returns: "Promise<boolean>", description: "Copia al portapapeles (con respaldo para `file://`)." },
     { name: "confirm", params: [param("options", "string | ConfirmOptions")], returns: "Promise<boolean>", description: "Diálogo de confirmación modal; resuelve `true` si se acepta." },
     { name: "position", params: [param("anchor", "Element | null"), param("el", "HTMLElement"), param("options", "PositionOptions", true)], returns: "Side", description: "Posiciona un elemento flotante junto a un ancla o a un punto; devuelve el lado final." },
-    { name: "setTheme", params: [param("theme", '"dark" | "light"')], returns: '"dark" | "light"', description: "Cambia el tema y lo guarda en `localStorage`." },
-    { name: "getTheme", params: [], returns: '"dark" | "light"', description: "Tema actual." },
+    { name: "setTheme", params: [param("theme", "Theme")], returns: "Theme", description: "Cambia el ajuste de tema (`dark`, `light` o `system`, que sigue al sistema operativo) y lo guarda en `localStorage`." },
+    { name: "getTheme", params: [], returns: "Theme", description: "Ajuste de tema actual." },
+    { name: "getResolvedTheme", params: [], returns: "ResolvedTheme", description: "Tema efectivo: resuelve `system` según el sistema operativo." },
+    { name: "setPreset", params: [param("name", "PresetName")], returns: "PresetName", description: "Aplica un preset de tema (se ignora un nombre desconocido) y lo guarda. Devuelve el preset activo." },
+    { name: "getPreset", params: [], returns: "PresetName", description: "Preset activo." },
+    { name: "setAccent", params: [param("color", "string | null")], returns: "string | null", description: "Cambia el acento (`#rgb` o `#rrggbb`) y elige solo el color de texto legible; `null` lo restablece. Devuelve ese color de texto." },
     { name: "init", params: [param("root", "ParentNode", true)], returns: "void", description: "Inicializa los ayudantes estáticos tras insertar HTML dinámico." }
   ]
 };

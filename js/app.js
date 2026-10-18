@@ -653,7 +653,7 @@
       if (accentSwatch) {
         const hex = accentSwatch.getAttribute("data-token-accent");
         document.documentElement.style.setProperty("--accent-indigo", hex);
-        document.documentElement.style.setProperty("--tsl-accent", hex);
+        TeselaUI.setAccent(hex); // fija --tsl-accent y elige un texto legible para él
         document.querySelectorAll("[data-token-accent]").forEach((b) => b.classList.remove("is-active"));
         accentSwatch.classList.add("is-active");
         AUDIO.play("click");

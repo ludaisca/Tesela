@@ -12,20 +12,21 @@ const evMapOf = (tag) => `${pascal(tag)}EventMap`;
 const text = (s) => ({ text: s });
 const literals = (type) => (/^("[^"]+"( \| )?)+$/.test(type) ? [...type.matchAll(/"([^"]+)"/g)].map((m) => m[1]) : []);
 
-function dts(elements, api, version) {
+function dts(elements, api, version, presetNames) {
   const L = [];
   const doc = (d, ind = "  ") => (d ? `${ind}/** ${d.replace(/\*\//g, "*\\/")} */\n` : "");
   L.push(`// Tesela UI v${version} — tipos generados desde src/meta/elements.js. No editar a mano.`);
-  L.push(`export type Theme = "dark" | "light";`);
+  L.push(`/** Ajuste de tema: \`system\` sigue al sistema operativo. */\nexport type Theme = "dark" | "light" | "system";\nexport type ResolvedTheme = "dark" | "light";\nexport type PresetName = ${presetNames.map((n) => JSON.stringify(n)).join(" | ")};`);
   L.push(`export type Side = "top" | "bottom" | "left" | "right";`);
   L.push(`export interface ToastOptions {\n  title?: string;\n  description?: string;\n  variant?: "success" | "info" | "warning" | "danger" | "neutral";\n  /** Milisegundos; 0 = no se cierra sola. */\n  duration?: number;\n  action?: { label: string; onClick?: () => void };\n}`);
   L.push(`export interface ConfirmOptions {\n  title?: string;\n  description?: string;\n  confirmLabel?: string;\n  /** \`null\` muestra solo el botón de aceptar (alerta). */\n  cancelLabel?: string | null;\n  variant?: "default" | "danger";\n}`);
   L.push(`export interface PositionOptions {\n  placement?: string;\n  offset?: number;\n  padding?: number;\n  point?: { x: number; y: number };\n}`);
   L.push(`export declare const VERSION: string;`);
+  (api.constants || []).forEach((c) => L.push(`${doc(c.description, "")}export declare const ${c.name}: ${c.type};`));
   api.functions.forEach((f) => {
     L.push(`${doc(f.description, "")}export declare function ${f.name}(${f.params.map((p) => `${p.name}${p.optional ? "?" : ""}: ${p.type}`).join(", ")}): ${f.returns};`);
   });
-  L.push(`export interface TeselaUIGlobal {\n  version: string;\n${api.functions.map((f) => `${doc(f.description)}  ${f.name}: typeof ${f.name};`).join("\n")}\n}`);
+  L.push(`export interface TeselaUIGlobal {\n  version: string;\n${(api.constants || []).map((c) => `${doc(c.description)}  ${c.name}: typeof ${c.name};`).join("\n")}\n${api.functions.map((f) => `${doc(f.description)}  ${f.name}: typeof ${f.name};`).join("\n")}\n}`);
   L.push("");
 
   // Tres sobrecargas: eventos propios del elemento, eventos nativos de HTMLElement y cualquier otro nombre
@@ -56,7 +57,7 @@ function dts(elements, api, version) {
     L.push("");
   });
 
-  L.push(`declare global {\n  interface HTMLElementTagNameMap {\n${elements.map((e) => `    "${e.tag}": ${ifaceOf(e.tag)};`).join("\n")}\n  }\n  interface Window {\n    TeselaUI: TeselaUIGlobal;\n  }\n}\n`);
+  L.push(`declare global {\n  interface HTMLElementTagNameMap {\n${elements.map((e) => `    "${e.tag}": ${ifaceOf(e.tag)};`).join("\n")}\n  }\n  interface Window {\n    TeselaUI: TeselaUIGlobal;\n  }\n  interface DocumentEventMap {\n    /** Cambió el tema (o el sistema operativo, con el tema «system»). */\n    "tsl-theme": CustomEvent<{ theme: Theme; resolved: ResolvedTheme }>;\n    "tsl-preset": CustomEvent<{ preset: PresetName }>;\n    "tsl-accent": CustomEvent<{ accent: string | null; fg: string | null }>;\n  }\n}\n`);
   return L.join("\n");
 }
 
@@ -119,7 +120,8 @@ function vscode(elements) {
 async function buildMeta(root, out, version) {
   const { elements, api } = await import(pathToFileURL(path.join(root, "src/meta/elements.js")).href);
   fs.mkdirSync(path.join(out, "types"), { recursive: true });
-  fs.writeFileSync(path.join(out, "types/tesela-ui.d.ts"), dts(elements, api, version));
+  const presetNames = Object.keys(JSON.parse(fs.readFileSync(path.join(root, "src/tokens/presets.json"), "utf8")).presets);
+  fs.writeFileSync(path.join(out, "types/tesela-ui.d.ts"), dts(elements, api, version, presetNames));
   fs.writeFileSync(path.join(out, "custom-elements.json"), `${JSON.stringify(manifest(elements, api, version), null, 2)}\n`);
   fs.writeFileSync(path.join(out, "vscode.html-custom-data.json"), `${JSON.stringify(vscode(elements), null, 2)}\n`);
   return elements.length;

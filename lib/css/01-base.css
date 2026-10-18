@@ -1,0 +1,30 @@
+/* ----------------------------------------------------------------------------
+   Base: clase .tsl, atributo hidden y utilidad .tsl-sr-only
+   ---------------------------------------------------------------------------- */
+/* Base opcional: pon `tsl` en <body> (o en un contenedor) para obtener el aspecto Tesela */
+.tsl {
+  background: var(--tsl-bg);
+  color: var(--tsl-fg);
+  font-family: var(--tsl-font-mono);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Los componentes definen su propio display; el atributo `hidden` debe seguir mandando */
+[class^="tsl-"][hidden],
+[class*=" tsl-"][hidden] {
+  display: none !important;
+}
+
+.tsl-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

@@ -1,0 +1,42 @@
+/* Generado por scripts/build-tokens.js desde src/tokens/. No editar a mano. */
+/* Preset «Brutalista»: Esquinas rectas, bordes duros y sombras sin desenfoque. */
+[data-preset="brutalista"] {
+  --tsl-radius: 0px;
+  --tsl-radius-sm: 0px;
+  --tsl-radius-xs: 0px;
+  --tsl-shadow: 4px 4px 0 var(--tsl-border-strong);
+  --tsl-shadow-lg: 6px 6px 0 var(--tsl-border-strong);
+  --tsl-font-heading: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+}
+[data-preset="brutalista"]:not([data-theme="light"]) {
+  --tsl-border: rgba(255, 255, 255, 0.4);
+  --tsl-border-strong: #ffffff;
+  --tsl-accent: #ff6b3d;
+  --tsl-accent-fg: #150500;
+  --tsl-chart-1: var(--tsl-accent);
+  --tsl-shadow: 4px 4px 0 var(--tsl-border-strong);
+  --tsl-shadow-lg: 6px 6px 0 var(--tsl-border-strong);
+  --tsl-ring: 0 0 0 2px var(--tsl-bg), 0 0 0 4px color-mix(in srgb, var(--tsl-accent) 75%, transparent);
+}
+[data-preset="brutalista"][data-theme="light"] {
+  --tsl-border: rgba(0, 0, 0, 0.55);
+  --tsl-border-strong: #000000;
+  --tsl-accent: #c2410c;
+  --tsl-accent-fg: #ffffff;
+  --tsl-chart-1: var(--tsl-accent);
+  --tsl-shadow: 4px 4px 0 var(--tsl-border-strong);
+  --tsl-shadow-lg: 6px 6px 0 var(--tsl-border-strong);
+  --tsl-ring: 0 0 0 2px var(--tsl-bg), 0 0 0 4px color-mix(in srgb, var(--tsl-accent) 75%, transparent);
+}
+@media (prefers-color-scheme: light) {
+  [data-preset="brutalista"][data-theme="system"] {
+    --tsl-border: rgba(0, 0, 0, 0.55);
+    --tsl-border-strong: #000000;
+    --tsl-accent: #c2410c;
+    --tsl-accent-fg: #ffffff;
+    --tsl-chart-1: var(--tsl-accent);
+    --tsl-shadow: 4px 4px 0 var(--tsl-border-strong);
+    --tsl-shadow-lg: 6px 6px 0 var(--tsl-border-strong);
+    --tsl-ring: 0 0 0 2px var(--tsl-bg), 0 0 0 4px color-mix(in srgb, var(--tsl-accent) 75%, transparent);
+  }
+}

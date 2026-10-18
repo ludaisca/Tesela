@@ -7,11 +7,14 @@
 //   tesela-ui.css / .min.css CSS completo
 //   esm/index.mjs            bundle ESM y un módulo por componente (esm/components/*.mjs, esm/api/*.mjs)
 //   css/*.css                una hoja por sección, para cargar solo lo necesario
+//   theme-init.js            tema, preset y acento guardados antes del primer pintado (sin parpadeo)
+//   tokens/, themes/         tokens exportados (JSON, CSS, SCSS, JS, Tailwind) y un CSS por preset
 //   types/, custom-elements.json, vscode.html-custom-data.json   ver scripts/build-meta.js
 const esbuild = require("esbuild");
 const fs = require("fs");
 const path = require("path");
 const { buildMeta } = require("./build-meta");
+const { writeFiles: writeTokens } = require("./build-tokens");
 
 const root = path.resolve(__dirname, "..");
 const pkg = require(path.join(root, "package.json"));
@@ -37,13 +40,23 @@ async function main() {
   const entries = [rel("src/index.js"), ...list("src/components", ".js").map((f) => rel("src/components", f)), ...list("src/api", ".js").map((f) => rel("src/api", f))];
   await esbuild.build({ ...common, entryPoints: entries, outbase: rel("src"), format: "esm", splitting: true, outdir: path.join(out, "esm"), outExtension: { ".js": ".mjs" }, chunkNames: "chunks/[name]-[hash]", banner: { js: banner } });
 
-  // CSS: completo, minificado y por secciones
-  const parts = list("src/css", ".css");
-  const css = `${banner}\n${parts.map((f) => fs.readFileSync(rel("src/css", f), "utf8").trim()).join("\n\n")}\n`;
+  // Tokens y presets (generados desde src/tokens/) → partes de CSS, lib/tokens/ y lib/themes/
+  const tk = writeTokens(out);
+
+  // CSS: completo, minificado y por secciones (archivos de src/css + partes generadas, por orden de nombre)
+  const cssParts = new Map(list("src/css", ".css").map((f) => [f, fs.readFileSync(rel("src/css", f), "utf8").trim()]));
+  cssParts.set("00-tokens.css", tk.tokensCss.trim());
+  cssParts.set("24-presets.css", tk.presetsCss.trim());
+  const parts = [...cssParts.keys()].sort();
+  const css = `${banner}\n${parts.map((f) => cssParts.get(f)).join("\n\n")}\n`;
   fs.writeFileSync(path.join(out, "tesela-ui.css"), css);
   fs.writeFileSync(path.join(out, "tesela-ui.min.css"), `${banner}\n${(await esbuild.transform(css, { loader: "css", minify: true })).code}`);
   fs.mkdirSync(path.join(out, "css"), { recursive: true });
-  parts.forEach((f) => fs.copyFileSync(rel("src/css", f), path.join(out, "css", f)));
+  parts.forEach((f) => fs.writeFileSync(path.join(out, "css", f), `${cssParts.get(f)}\n`));
+
+  // Script anti-parpadeo (clásico, no módulo)
+  const initSrc = fs.readFileSync(rel("src/theme-init.js"), "utf8");
+  fs.writeFileSync(path.join(out, "theme-init.js"), `${banner}\n${(await esbuild.transform(initSrc, { minify: true, legalComments: "none", target: "es2015" })).code}`);
 
   const n = await buildMeta(root, out, pkg.version);
 
@@ -51,6 +64,7 @@ async function main() {
   console.log(`Tesela UI ${pkg.version} → ${path.relative(root, out) || "."}`);
   ["tesela-ui.js", "tesela-ui.min.js", "tesela-ui.css", "tesela-ui.min.css"].forEach((f) => console.log(`  ${f.padEnd(20)} ${kb(f)}`));
   console.log(`  esm/                 ${entries.length} entradas`);
+  console.log(`  tokens               ${tk.count} tokens, ${tk.presetCount} presets (tokens/, themes/)`);
   console.log(`  tipos y manifiesto   ${n} elementos (types/, custom-elements.json, vscode.html-custom-data.json)`);
 }
 

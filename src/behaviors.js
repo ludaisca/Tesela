@@ -1,5 +1,5 @@
 import { copy } from "./api/clipboard.js";
-import { getTheme, setTheme } from "./api/theme.js";
+import { getResolvedTheme, setPreset, setTheme } from "./api/theme.js";
 import { autosize, countText } from "./components/textarea.js";
 import { emit } from "./core/base.js";
 import { isOpenPopover } from "./core/position.js";
@@ -99,7 +99,20 @@ document.addEventListener("click", (e) => {
 
   const themeBtn = t.closest("[data-tsl-theme-toggle]");
   if (themeBtn) {
-    setTheme(getTheme() === "dark" ? "light" : "dark");
+    setTheme(getResolvedTheme() === "dark" ? "light" : "dark");
+    return;
+  }
+
+  // Atributos declarativos: data-tsl-theme="dark|light|system" y data-tsl-preset="esmeralda"
+  const themeSet = t.closest("[data-tsl-theme]");
+  if (themeSet) {
+    setTheme(themeSet.dataset.tslTheme);
+    return;
+  }
+
+  const presetSet = t.closest("[data-tsl-preset]");
+  if (presetSet) {
+    setPreset(presetSet.dataset.tslPreset);
     return;
   }
 

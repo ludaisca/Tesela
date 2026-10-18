@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Fixture: theme-init sin la biblioteca JS</title>
+  <link rel="stylesheet" href="../../lib/tesela-ui.css" />
+  <script src="../../lib/theme-init.js"></script>
+  <script>
+    // Lo que ve el documento justo después de theme-init, antes de pintar el cuerpo
+    window.__visto = {
+      theme: document.documentElement.getAttribute("data-theme"),
+      preset: document.documentElement.getAttribute("data-preset"),
+      accent: document.documentElement.style.getPropertyValue("--tsl-accent"),
+      fg: document.documentElement.style.getPropertyValue("--tsl-accent-fg"),
+      cuerpoYaExiste: Boolean(document.body)
+    };
+  </script>
+</head>
+<body class="tsl">
+  <button class="tsl-btn tsl-btn--accent" id="b">Acento</button>
+</body>
+</html>
