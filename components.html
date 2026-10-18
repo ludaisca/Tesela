@@ -1750,6 +1750,31 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         </template>
       </section>
 
+      <section class="doc" id="carousel" data-group="Diseño" data-keywords="carousel carrusel slider galería diapositivas deslizar scroll snap autoplay">
+        <h2><a href="#carousel">Carrusel</a></h2>
+        <p><code>&lt;tsl-carousel&gt;</code> usa el desplazamiento nativo con <code>scroll-snap</code>: funciona con dedo, rueda y flechas (también Inicio/Fin). Añade solo los botones, los puntos (<code>dots</code>) y, con <code>autoplay="4000"</code>, un botón de pausa; el avance se detiene con el cursor, el foco o <code>prefers-reduced-motion</code>. <code>per-view</code> muestra varias a la vez, <code>loop</code> da la vuelta y <code>orientation="vertical"</code> cambia el eje. Las diapositivas fuera de vista son <code>inert</code>. Evento <code>tsl-change</code>.</p>
+        <template>
+          <div class="tsl-stack demo-max" style="--gap:22px">
+            <tsl-carousel id="demo-carousel" label="Novedades" dots>
+              <div class="tsl-carousel__track">
+                <div class="tsl-carousel__slide"><div class="tsl-card" style="padding:28px;min-height:120px"><div class="tsl-eyebrow">Novedad 1</div><h3>Barra lateral</h3><p class="tsl-muted">Modo de iconos y cajón en móvil.</p></div></div>
+                <div class="tsl-carousel__slide"><div class="tsl-card" style="padding:28px;min-height:120px"><div class="tsl-eyebrow">Novedad 2</div><h3>Grupo de radios</h3><p class="tsl-muted">Teclado completo y formularios.</p></div></div>
+                <div class="tsl-carousel__slide"><div class="tsl-card" style="padding:28px;min-height:120px"><div class="tsl-eyebrow">Novedad 3</div><h3>Carrusel</h3><p class="tsl-muted">Scroll-snap nativo.</p><button type="button" class="tsl-btn tsl-btn--sm">Ver más</button></div></div>
+                <div class="tsl-carousel__slide"><div class="tsl-card" style="padding:28px;min-height:120px"><div class="tsl-eyebrow">Novedad 4</div><h3>Diseño adaptable</h3><p class="tsl-muted">De 320 a 2560 px.</p></div></div>
+              </div>
+            </tsl-carousel>
+            <tsl-carousel id="demo-carousel-multi" label="Etiquetas" per-view="2" loop autoplay="4000">
+              <div class="tsl-carousel__track">
+                <div class="tsl-carousel__slide"><div class="tsl-card" style="padding:18px">Ligero</div></div>
+                <div class="tsl-carousel__slide"><div class="tsl-card" style="padding:18px">Accesible</div></div>
+                <div class="tsl-carousel__slide"><div class="tsl-card" style="padding:18px">Sin dependencias</div></div>
+                <div class="tsl-carousel__slide"><div class="tsl-card" style="padding:18px">En español</div></div>
+              </div>
+            </tsl-carousel>
+          </div>
+        </template>
+      </section>
+
       <section class="doc" id="scroll-area" data-group="Diseño" data-keywords="scroll area desplazable scrollbar barra desplazamiento degradado fade">
         <h2><a href="#scroll-area">Scroll area</a></h2>
         <p><code>&lt;tsl-scroll-area&gt;</code> da a una zona de altura fija una barra discreta y un degradado en los bordes que aún tienen contenido (expone <code>data-top</code>, <code>data-bottom</code>, <code>data-left</code> y <code>data-right</code>). El área es enfocable para desplazarla con el teclado. <code>orientation="vertical|horizontal|both"</code>.</p>

@@ -491,6 +491,28 @@ export const elements = [
     events: [event("tsl-toggle", "{ collapsed: boolean; open: boolean; mobile: boolean }", "Cambió el estado de la barra.")]
   },
   {
+    tag: "tsl-carousel", cls: "TslCarousel", module: "components/carousel", docs: ["carousel"],
+    summary: "Carrusel con scroll-snap nativo: botones, puntos, teclado, bucle y avance automático con pausa. Las diapositivas fuera de vista quedan `inert`.",
+    attributes: [
+      attr("label", "string", "Nombre accesible del carrusel.", "Carrusel"),
+      attr("per-view", "number", "Diapositivas visibles a la vez.", "1"),
+      attr("orientation", '"horizontal" | "vertical"', "Eje de desplazamiento (el vertical necesita una altura).", "horizontal"),
+      attr("dots", "boolean", "Muestra los puntos de navegación."),
+      attr("loop", "boolean", "Da la vuelta al llegar al final."),
+      attr("autoplay", "number", "Milisegundos entre avances (mínimo 1500). Se pausa con el cursor, el foco, el botón y `prefers-reduced-motion`.")
+    ],
+    properties: [
+      prop("index", "number", "Posición actual."),
+      prop("perView", "number", "Diapositivas visibles.", true),
+      prop("pageCount", "number", "Número de posiciones posibles.", true)
+    ],
+    methods: [
+      method("goTo", [param("index", "number"), param("smooth", "boolean", true)], "void", "Va a una posición."),
+      method("next", [], "void", "Avanza."), method("prev", [], "void", "Retrocede.")
+    ],
+    events: [event("tsl-change", "{ index: number; count: number }", "Cambió la diapositiva visible.")]
+  },
+  {
     tag: "tsl-scroll-area", cls: "TslScrollArea", module: "components/scroll-area", docs: ["scroll-area"],
     summary: "Zona desplazable con degradado en los bordes que aún tienen contenido (`data-top|bottom|left|right`). `scrollTo()` se aplica al área desplazable.",
     attributes: [

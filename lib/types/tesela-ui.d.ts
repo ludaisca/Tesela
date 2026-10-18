@@ -740,6 +740,33 @@ export interface TslSidebarElement extends HTMLElement {
 }
 export declare const TslSidebar: { new (): TslSidebarElement; prototype: TslSidebarElement };
 
+export interface TslCarouselEventMap {
+  /** Cambió la diapositiva visible. */
+  "tsl-change": CustomEvent<{ index: number; count: number }>;
+}
+/** Carrusel con scroll-snap nativo: botones, puntos, teclado, bucle y avance automático con pausa. Las diapositivas fuera de vista quedan `inert`. */
+export interface TslCarouselElement extends HTMLElement {
+  /** Posición actual. */
+  index: number;
+  /** Diapositivas visibles. */
+  readonly perView: number;
+  /** Número de posiciones posibles. */
+  readonly pageCount: number;
+  /** Va a una posición. */
+  goTo(index: number, smooth?: boolean): void;
+  /** Avanza. */
+  next(): void;
+  /** Retrocede. */
+  prev(): void;
+  addEventListener<K extends keyof TslCarouselEventMap>(type: K, listener: (this: TslCarouselElement, ev: TslCarouselEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslCarouselElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+  removeEventListener<K extends keyof TslCarouselEventMap>(type: K, listener: (this: TslCarouselElement, ev: TslCarouselEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslCarouselElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+}
+export declare const TslCarousel: { new (): TslCarouselElement; prototype: TslCarouselElement };
+
 /** Zona desplazable con degradado en los bordes que aún tienen contenido (`data-top|bottom|left|right`). `scrollTo()` se aplica al área desplazable. */
 export interface TslScrollAreaElement extends HTMLElement {
 
@@ -927,6 +954,7 @@ declare global {
     "tsl-toggle-group": TslToggleGroupElement;
     "tsl-collapsible": TslCollapsibleElement;
     "tsl-sidebar": TslSidebarElement;
+    "tsl-carousel": TslCarouselElement;
     "tsl-scroll-area": TslScrollAreaElement;
     "tsl-resizable": TslResizableElement;
     "tsl-tree": TslTreeElement;

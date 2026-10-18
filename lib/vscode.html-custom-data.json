@@ -1453,6 +1453,67 @@
       ]
     },
     {
+      "name": "tsl-carousel",
+      "description": {
+        "kind": "markdown",
+        "value": "Carrusel con scroll-snap nativo: botones, puntos, teclado, bucle y avance automático con pausa. Las diapositivas fuera de vista quedan `inert`."
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del carrusel. Por defecto: `Carrusel`."
+          }
+        },
+        {
+          "name": "per-view",
+          "description": {
+            "kind": "markdown",
+            "value": "Diapositivas visibles a la vez. Por defecto: `1`."
+          }
+        },
+        {
+          "name": "orientation",
+          "description": {
+            "kind": "markdown",
+            "value": "Eje de desplazamiento (el vertical necesita una altura). Por defecto: `horizontal`."
+          },
+          "values": [
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "vertical"
+            }
+          ]
+        },
+        {
+          "name": "dots",
+          "description": {
+            "kind": "markdown",
+            "value": "Muestra los puntos de navegación."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "loop",
+          "description": {
+            "kind": "markdown",
+            "value": "Da la vuelta al llegar al final."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "autoplay",
+          "description": {
+            "kind": "markdown",
+            "value": "Milisegundos entre avances (mínimo 1500). Se pausa con el cursor, el foco, el botón y `prefers-reduced-motion`."
+          }
+        }
+      ]
+    },
+    {
       "name": "tsl-scroll-area",
       "description": {
         "kind": "markdown",

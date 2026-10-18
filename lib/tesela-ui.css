@@ -4470,6 +4470,153 @@ tsl-sidebar[data-mobile][data-open] {
 }
 
 /* ----------------------------------------------------------------------------
+   21k. Carrusel: <tsl-carousel> con scroll-snap, botones, puntos y avance automático
+   ---------------------------------------------------------------------------- */
+tsl-carousel {
+  --tsl-per-view: 1;
+  position: relative;
+  display: block;
+  max-width: 100%;
+}
+
+.tsl-carousel__track {
+  position: relative;
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  border-radius: var(--tsl-radius);
+}
+
+.tsl-carousel__track::-webkit-scrollbar {
+  display: none;
+}
+
+.tsl-carousel__track:focus-visible {
+  outline: none;
+  box-shadow: var(--tsl-ring);
+}
+
+.tsl-carousel__slide {
+  flex: 0 0 calc((100% - (var(--tsl-per-view) - 1) * 12px) / var(--tsl-per-view));
+  min-width: 0;
+  scroll-snap-align: start;
+  overflow-wrap: anywhere;
+}
+
+tsl-carousel[orientation="vertical"] .tsl-carousel__track {
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  overscroll-behavior-y: contain;
+  height: 100%;
+}
+
+tsl-carousel[orientation="vertical"] .tsl-carousel__slide {
+  flex-basis: calc((100% - (var(--tsl-per-view) - 1) * 12px) / var(--tsl-per-view));
+}
+
+.tsl-carousel__nav {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: var(--tsl-bg-elevated);
+  box-shadow: var(--tsl-shadow);
+}
+
+.tsl-carousel__prev {
+  inset-inline-start: 8px;
+}
+
+.tsl-carousel__next {
+  inset-inline-end: 8px;
+}
+
+tsl-carousel[orientation="vertical"] .tsl-carousel__nav {
+  inset-inline: auto;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+tsl-carousel[orientation="vertical"] .tsl-carousel__prev {
+  top: 8px;
+}
+
+tsl-carousel[orientation="vertical"] .tsl-carousel__next {
+  top: auto;
+  bottom: 8px;
+}
+
+.tsl-carousel__nav:dir(rtl) {
+  scale: -1 1;
+}
+
+.tsl-carousel__nav:disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tsl-carousel__bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.tsl-carousel__dots {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tsl-carousel__dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--tsl-border-strong);
+  cursor: pointer;
+  transition: background-color 140ms ease, transform 140ms ease;
+}
+
+/* Zona de pulsación de 24 px sin cambiar el tamaño visible */
+.tsl-carousel__dot::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+}
+
+.tsl-carousel__dot[aria-current="true"] {
+  background: var(--tsl-fg);
+  transform: scale(1.25);
+}
+
+.tsl-carousel__dot:focus-visible {
+  outline: none;
+  box-shadow: var(--tsl-ring);
+}
+
+.tsl-carousel__play {
+  font-size: 10px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tsl-carousel__dot {
+    transition: none;
+  }
+}
+
+/* ----------------------------------------------------------------------------
    22. Utilidades de diseño
    ---------------------------------------------------------------------------- */
 .tsl-stack {

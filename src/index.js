@@ -41,6 +41,7 @@ import "./components/data-table.js";
 import "./components/chart.js";
 import "./components/sidebar.js";
 import "./components/radio-group.js";
+import "./components/carousel.js";
 
 export { VERSION, getTheme, getResolvedTheme, setTheme, getPreset, setPreset, setAccent, presets, toast, copy, confirmDialog as confirm, position, init };
 

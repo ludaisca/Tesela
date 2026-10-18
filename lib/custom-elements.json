@@ -4032,6 +4032,175 @@
     },
     {
       "kind": "javascript-module",
+      "path": "esm/components/carousel.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslCarousel",
+          "tagName": "tsl-carousel",
+          "customElement": true,
+          "description": "Carrusel con scroll-snap nativo: botones, puntos, teclado, bucle y avance automático con pausa. Las diapositivas fuera de vista quedan `inert`.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible del carrusel.",
+              "default": "Carrusel"
+            },
+            {
+              "name": "per-view",
+              "type": {
+                "text": "number"
+              },
+              "description": "Diapositivas visibles a la vez.",
+              "default": "1"
+            },
+            {
+              "name": "orientation",
+              "type": {
+                "text": "\"horizontal\" | \"vertical\""
+              },
+              "description": "Eje de desplazamiento (el vertical necesita una altura).",
+              "default": "horizontal"
+            },
+            {
+              "name": "dots",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Muestra los puntos de navegación."
+            },
+            {
+              "name": "loop",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Da la vuelta al llegar al final."
+            },
+            {
+              "name": "autoplay",
+              "type": {
+                "text": "number"
+              },
+              "description": "Milisegundos entre avances (mínimo 1500). Se pausa con el cursor, el foco, el botón y `prefers-reduced-motion`."
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "index",
+              "type": {
+                "text": "number"
+              },
+              "description": "Posición actual."
+            },
+            {
+              "kind": "field",
+              "name": "perView",
+              "type": {
+                "text": "number"
+              },
+              "description": "Diapositivas visibles.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "pageCount",
+              "type": {
+                "text": "number"
+              },
+              "description": "Número de posiciones posibles.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "goTo",
+              "description": "Va a una posición.",
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "smooth",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "next",
+              "description": "Avanza.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "prev",
+              "description": "Retrocede.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-change",
+              "type": {
+                "text": "CustomEvent<{ index: number; count: number }>"
+              },
+              "description": "Cambió la diapositiva visible."
+            }
+          ],
+          "x-docs": [
+            "carousel"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslCarousel",
+          "declaration": {
+            "name": "TslCarousel",
+            "module": "esm/components/carousel.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-carousel",
+          "declaration": {
+            "name": "TslCarousel",
+            "module": "esm/components/carousel.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "esm/components/scroll-area.mjs",
       "declarations": [
         {

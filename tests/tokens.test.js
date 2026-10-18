@@ -28,7 +28,7 @@ const { contrast, parse } = require('../scripts/lib/color');
 
   // Variables --tsl-* que usa el código: o son tokens o son locales de un componente
   const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]);
-  const LOCAL = new Set(['--tsl-mx', '--tsl-my', '--tsl-fill', '--tsl-fade-t', '--tsl-fade-b', '--tsl-fade-l', '--tsl-fade-r', '--tsl-chart-', '--tsl-sidebar-width', '--tsl-sidebar-rail']);
+  const LOCAL = new Set(['--tsl-mx', '--tsl-my', '--tsl-fill', '--tsl-fade-t', '--tsl-fade-b', '--tsl-fade-l', '--tsl-fade-r', '--tsl-chart-', '--tsl-sidebar-width', '--tsl-sidebar-rail', '--tsl-per-view']);
   const used = new Set();
   [...walk(path.join(root, 'src')), path.join(root, 'components.html'), ...walk(path.join(root, 'docs'))].filter(f => /\.(css|js|html)$/.test(f) && !f.includes(`${path.sep}tokens${path.sep}`)).forEach(f => [...fs.readFileSync(f, 'utf8').matchAll(/var\((--tsl-[a-z0-9-]+)/g)].forEach(m => used.add(m[1])));
   const unknownVars = [...used].filter(v => !vars.includes(v) && !LOCAL.has(v));
