@@ -1,0 +1,62 @@
+/* ----------------------------------------------------------------------------
+   26. Adaptación a pantallas pequeñas: texto largo, segmentados y filas de lista
+   ---------------------------------------------------------------------------- */
+
+/* URLs, correos o identificadores largos se parten en vez de desbordar su caja */
+.tsl-list__title,
+.tsl-list__desc,
+.tsl-card__title,
+.tsl-card__desc,
+.tsl-alert__title,
+.tsl-alert__desc,
+.tsl-toast__title,
+.tsl-toast__desc,
+.tsl-empty__title,
+.tsl-empty__desc,
+.tsl-dialog__title,
+.tsl-dialog__desc,
+.tsl-stat__value {
+  overflow-wrap: anywhere;
+}
+
+/* Un control segmentado con muchas opciones se desplaza en horizontal en vez de salirse de la pantalla */
+.tsl-segmented {
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tsl-segmented::-webkit-scrollbar {
+  display: none;
+}
+
+.tsl-segmented__item {
+  flex: none;
+}
+
+/* En una fila de lista, el texto que se estira nunca se queda sin sitio: si no cabe junto al resto,
+   el resto pasa a la línea siguiente (en vez de aplastar el texto a unos pocos píxeles) */
+.tsl-list > li > .tsl-list__grow,
+.tsl-list > li > [style*="flex:1"],
+.tsl-list > li > code {
+  min-width: min(100%, 14ch);
+  overflow-wrap: anywhere;
+}
+
+/* Las barras de herramientas (.tsl-row) dejan que sus botones largos se partan solo como último recurso */
+.tsl-row > .tsl-btn {
+  max-width: 100%;
+}
+
+/* En un bloque de código estrecho el botón de copiar no flota sobre el texto: pasa a una línea propia */
+@media (max-width: 599px) {
+  .tsl-code:has(> [data-tsl-copy]) {
+    padding-right: 16px;
+  }
+
+  .tsl-code > [data-tsl-copy] {
+    position: static;
+    display: flex;
+    margin: 0 0 10px auto;
+  }
+}

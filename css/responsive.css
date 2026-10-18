@@ -1,0 +1,329 @@
+/* ============================================================================
+   Tesela — galería: adaptación a pantallas pequeñas y a áreas seguras
+   Se carga después de styles.css y experiments.css.
+   ============================================================================ */
+
+/* El contenido nunca debe ser más ancho que la pantalla */
+html,
+body {
+  max-width: 100%;
+}
+
+.sandbox-stage {
+  min-width: 0;
+  min-height: calc(100vh - 50px);
+  min-height: calc(100dvh - 50px);
+}
+
+.sandbox-viewport-wrap {
+  min-width: 0;
+}
+
+/* Áreas seguras (muescas, esquinas redondeadas y barra de gestos) */
+.header-inner {
+  padding-left: max(24px, env(safe-area-inset-left));
+  padding-right: max(24px, env(safe-area-inset-right));
+}
+
+.sandbox-hud {
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+}
+
+/* ---------------------------------------------------------------- Menos de 768 px */
+@media (max-width: 767px) {
+  /* Cabecera: la marca arriba y los controles debajo, en una fila que se reparte el ancho */
+  .site-header {
+    height: auto;
+  }
+
+  .header-inner {
+    height: auto;
+    flex-wrap: wrap;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+    row-gap: 8px;
+  }
+
+  .header-controls {
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 6px;
+  }
+
+  #btn-cmdk {
+    flex: 1 1 130px;
+    min-width: 0;
+  }
+
+  #btn-cmdk .kbd-badge {
+    display: none;
+  }
+
+  .header-pill-btn,
+  .header-icon-action,
+  .icon-btn {
+    min-height: 36px; /* objetivo táctil cómodo */
+  }
+
+  .icon-btn {
+    min-width: 34px;
+  }
+
+  .header-icon-action {
+    min-width: 36px;
+  }
+
+  /* Bloque de presentación y listas */
+  .hero-section {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+
+  .hero-filter-pills {
+    flex-wrap: wrap;
+  }
+
+  .site-footer {
+    padding: 24px 16px 40px;
+    justify-content: flex-start;
+  }
+
+  /* Vista de detalle: barra superior compacta */
+  .sandbox-topbar {
+    height: auto;
+    min-height: 50px;
+    flex-wrap: wrap;
+    padding: 6px max(12px, env(safe-area-inset-right)) 6px max(12px, env(safe-area-inset-left));
+    row-gap: 6px;
+  }
+
+  .sandbox-breadcrumb {
+    flex: 1 1 140px;
+    min-width: 0;
+  }
+
+  .sandbox-breadcrumb .sb-bc-title {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sb-bc-cat,
+  .sb-bc-sep,
+  .sb-bc-file,
+  .sb-bc-index {
+    display: none;
+  }
+
+  /* Los botones de tamaño de ventana (Escritorio, Tablet…) no tienen sentido en un móvil */
+  .sandbox-vp-controls [data-vp-size] {
+    display: none;
+  }
+
+  .vp-btn {
+    min-height: 34px;
+    padding: 4px 12px;
+  }
+
+  /* La barra de atajos pasa a ocupar el ancho, sin teclas (no hay teclado) y sin tapar el contenido */
+  /* Una sola fila que se desplaza en horizontal: ocupa poco y no tapa el contenido */
+  .sandbox-hud {
+    left: 8px;
+    right: 8px;
+    bottom: max(8px, env(safe-area-inset-bottom));
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 14px;
+    padding: 4px 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .sandbox-hud::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sandbox-hud .hud-btn {
+    flex: none;
+    white-space: nowrap;
+  }
+
+  .sandbox-hud .kbd-badge,
+  .sandbox-hud .hud-sep {
+    display: none;
+  }
+
+  .hud-btn {
+    min-height: 32px;
+    padding: 0 4px;
+    font-size: 11.5px;
+  }
+
+  .sandbox-viewport-wrap {
+    padding-bottom: 64px;
+  }
+
+  /* Cajón de código a pantalla completa (tiene su propio botón de cerrar) */
+  .sandbox-code-drawer {
+    top: 0;
+    width: 100vw;
+    z-index: 85;
+  }
+
+  .code-drawer-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* Panel de tokens */
+  .token-studio-popover {
+    right: 12px;
+    left: 12px;
+    width: auto;
+    max-width: 420px;
+    margin-left: auto;
+  }
+
+  /* Paleta de búsqueda */
+  .cmdk-modal {
+    padding: max(env(safe-area-inset-top), 10px) 10px;
+  }
+
+  .cmdk-body {
+    max-height: min(420px, 70vh);
+  }
+
+  .cmdk-row {
+    min-height: 40px;
+  }
+
+  .cmdk-row-right {
+    display: none;
+  }
+
+  .cmdk-search-bar {
+    padding: 12px 14px;
+  }
+
+  .cmdk-result-count {
+    display: none;
+  }
+
+  /* Avisos: ocupan el ancho disponible */
+  .toast-stack {
+    left: 12px;
+    right: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+  }
+
+  .live-toast {
+    max-width: 100%;
+  }
+}
+
+/* ---------------------------------------------------------------- Móviles en horizontal (poca altura) */
+@media (max-height: 480px) and (orientation: landscape) {
+  .sandbox-stage {
+    min-height: 0;
+  }
+
+  .cmdk-modal {
+    padding-top: 8px;
+  }
+
+  .cmdk-body {
+    max-height: 56vh;
+  }
+}
+
+/* ---------------------------------------------------------------- Pantallas muy pequeñas */
+@media (max-width: 380px) {
+  .brand-title {
+    letter-spacing: 0.12em;
+  }
+
+  .hero-heading {
+    font-size: clamp(2.6rem, 17vw, 4rem);
+  }
+}
+
+/* ---------------------------------------------------------------- Experimentos en pantallas táctiles
+   Los controles pequeños de algunos experimentos (nodos, puntos, asas) amplían su zona de pulsación
+   con un pseudo-elemento: no cambia lo que se ve. */
+@media (pointer: coarse) {
+  [data-handle],
+  [data-port],
+  [data-dots] > button,
+  [data-flame] > div > button,
+  [data-flame] button {
+    position: relative;
+  }
+
+  [data-handle]::before,
+  [data-port]::before,
+  [data-dots] > button::before {
+    content: "";
+    position: absolute;
+    inset: -12px;
+  }
+
+  /* Los marcos de un flamegraph son filas apiladas: se amplía solo en vertical */
+  [data-flame] button::before {
+    content: "";
+    position: absolute;
+    inset: -2px 0;
+  }
+
+  /* [data-port] es absoluto por estilo en línea: no se le puede cambiar position */
+  [data-port] {
+    position: absolute !important;
+  }
+
+  [data-letters] > button {
+    min-width: 30px;
+  }
+
+  .xp-terminal input {
+    min-height: 28px;
+  }
+}
+
+/* Vista mensual: en pantallas estrechas los eventos pasan a ser puntos de color (el texto sigue disponible
+   para lectores de pantalla y desaparece solo a la vista) */
+@media (max-width: 599px) {
+  [data-d] button.tsl-badge[data-ev] {
+    position: relative;
+    width: 10px;
+    min-width: 0;
+    height: 10px;
+    min-height: 0;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 50%;
+    background: var(--tsl-accent);
+    font-size: 0;
+    line-height: 0;
+  }
+
+  [data-d] button.tsl-badge[data-ev]::before {
+    content: "";
+    position: absolute;
+    inset: -8px;
+  }
+}
+
+/* Tiras de pestañas o de botones que se desplazan: sus elementos no se encogen (se desplaza la tira) */
+[data-strip] > .tsl-btn {
+  flex: none;
+}
+
+/* Selector de rango: cada mes conserva un ancho mínimo y el segundo baja a otra línea en pantallas estrechas */
+[data-months] > div { flex: 1 1 196px; min-width: min(196px, 100%); }
+@media (max-width: 480px) {
+  .xp-panel:has(> [data-months]) { --gap: 6px !important; padding: 12px; }
+  [data-months] { --gap: 12px !important; }
+}

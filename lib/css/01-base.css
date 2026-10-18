@@ -28,3 +28,8 @@
   white-space: nowrap;
   border: 0;
 }
+
+/* Un popover cerrado nunca se muestra, aunque un componente defina su propio display */
+[popover]:not(:popover-open) {
+  display: none !important;
+}

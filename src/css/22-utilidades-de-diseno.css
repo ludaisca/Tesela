@@ -16,7 +16,8 @@
 
 .tsl-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(var(--min, 200px), 1fr));
+  /* min(…, 100%): la columna mínima nunca supera el ancho del contenedor (evita desbordes en móvil) */
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--min, 200px), 100%), 1fr));
   gap: var(--gap, 12px);
 }
 

@@ -176,7 +176,7 @@
 .xp-phone {
   display: flex;
   flex-direction: column;
-  width: 320px;
+  width: min(320px, 100%);
   height: 600px;
   border-radius: 36px;
   border: 1px solid var(--tsl-border-strong);
@@ -300,7 +300,7 @@
 
 .xp-kanban {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
   gap: 12px;
 }
 

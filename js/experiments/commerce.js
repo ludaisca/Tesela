@@ -553,7 +553,7 @@
         <div class="xp-panel tsl-stack" style="max-width:640px;width:100%;margin:0 auto">
           <div class="tsl-row"><span class="tsl-label">Asientos</span><strong class="xp-num" style="font-size:28px" data-n>25</strong><span class="tsl-spacer"></span><label class="tsl-choice">Anual (−15%) <input type="checkbox" role="switch" class="tsl-switch" data-annual checked /></label></div>
           <input type="range" class="tsl-range" min="1" max="200" value="25" data-seats aria-label="Asientos" />
-          <table class="tsl-table tsl-table--compact" data-break></table>
+          <div class="tsl-table-wrap"><table class="tsl-table tsl-table--compact" data-break></table></div>
           <div class="tsl-row"><span class="tsl-badge tsl-badge--success" data-save></span><span class="tsl-spacer"></span><span class="tsl-muted">Total / mes</span><strong class="xp-num" style="font-size:26px" data-total></strong></div>
         </div>`,
       setup(root, ctx) {

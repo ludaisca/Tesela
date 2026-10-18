@@ -79,6 +79,9 @@ tsl-nav-menu .tsl-bar__item > [data-tsl-trigger][aria-expanded="true"]::after {
   inset: auto;
   margin: 0;
   padding: 12px;
+  max-width: calc(100vw - 16px);
+  max-height: calc(100dvh - 16px);
+  overflow: auto;
   border-radius: var(--tsl-radius);
   border: 1px solid var(--tsl-border-strong);
   background: var(--tsl-bg-elevated);
@@ -93,9 +96,9 @@ tsl-nav-menu .tsl-bar__item > [data-tsl-trigger][aria-expanded="true"]::after {
 
 .tsl-navmenu__grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
   gap: 4px;
-  min-width: 440px;
+  min-width: min(440px, calc(100vw - 48px));
 }
 
 .tsl-navmenu__card {

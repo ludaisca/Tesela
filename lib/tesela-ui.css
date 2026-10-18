@@ -140,6 +140,11 @@
   border: 0;
 }
 
+/* Un popover cerrado nunca se muestra, aunque un componente defina su propio display */
+[popover]:not(:popover-open) {
+  display: none !important;
+}
+
 /* ----------------------------------------------------------------------------
    2. Utilidades de tipografía
    ---------------------------------------------------------------------------- */
@@ -1463,6 +1468,8 @@ tsl-tabs {
 
 .tsl-pagination {
   display: inline-flex;
+  flex-wrap: wrap;
+  max-width: 100%;
   align-items: center;
   gap: 4px;
 }
@@ -1749,10 +1756,15 @@ tsl-tabs {
 
 .tsl-list > li {
   display: flex;
+  flex-wrap: wrap; /* en pantallas estrechas la parte final pasa a una segunda línea */
   align-items: center;
-  gap: 12px;
+  gap: 6px 12px;
   padding: 11px 14px;
   font-size: 12px;
+}
+
+.tsl-list > li > :first-child:not(.tsl-list__end) {
+  overflow-wrap: anywhere;
 }
 
 .tsl-list > li + li {
@@ -1771,6 +1783,7 @@ tsl-tabs {
 .tsl-list__end {
   margin-left: auto;
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
 }
@@ -2155,6 +2168,7 @@ tsl-menu[align="end"] .tsl-menu__list {
    ---------------------------------------------------------------------------- */
 tsl-calendar {
   display: inline-block;
+  max-width: 100%;
   padding: 12px;
   border-radius: var(--tsl-radius);
   border: 1px solid var(--tsl-border);
@@ -2174,7 +2188,7 @@ tsl-calendar {
 
 .tsl-cal__grid {
   display: grid;
-  grid-template-columns: repeat(7, 32px);
+  grid-template-columns: repeat(7, minmax(0, 32px));
   gap: 2px;
 }
 
@@ -2261,6 +2275,7 @@ tsl-context-menu > .tsl-menu__list:not([popover]) {
   position: fixed;
   inset: auto;
   margin: 0;
+  max-height: calc(100dvh - 16px);
   min-width: 200px;
   max-width: min(360px, calc(100vw - 16px));
   padding: 14px;
@@ -2802,6 +2817,9 @@ tsl-nav-menu .tsl-bar__item > [data-tsl-trigger][aria-expanded="true"]::after {
   inset: auto;
   margin: 0;
   padding: 12px;
+  max-width: calc(100vw - 16px);
+  max-height: calc(100dvh - 16px);
+  overflow: auto;
   border-radius: var(--tsl-radius);
   border: 1px solid var(--tsl-border-strong);
   background: var(--tsl-bg-elevated);
@@ -2816,9 +2834,9 @@ tsl-nav-menu .tsl-bar__item > [data-tsl-trigger][aria-expanded="true"]::after {
 
 .tsl-navmenu__grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
   gap: 4px;
-  min-width: 440px;
+  min-width: min(440px, calc(100vw - 48px));
 }
 
 .tsl-navmenu__card {
@@ -3594,7 +3612,7 @@ tsl-sortable[direction="horizontal"] {
 
 tsl-sortable[direction="grid"] {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--min, 140px), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--min, 140px), 100%), 1fr));
 }
 
 .tsl-sortable__item {
@@ -4087,7 +4105,8 @@ tsl-chart.is-animating .tsl-chart__cell {
 
 .tsl-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(var(--min, 200px), 1fr));
+  /* min(…, 100%): la columna mínima nunca supera el ancho del contenedor (evita desbordes en móvil) */
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--min, 200px), 100%), 1fr));
   gap: var(--gap, 12px);
 }
 
@@ -4566,5 +4585,265 @@ tsl-chart.is-animating .tsl-chart__cell {
     --tsl-info: #03669e;
     --tsl-chart-1: var(--tsl-accent);
     --tsl-ring: 0 0 0 2px var(--tsl-bg), 0 0 0 4px color-mix(in srgb, var(--tsl-accent) 75%, transparent);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   25. Punteros táctiles: objetivos de pulsación cómodos (≥ 36–40 px)
+   Solo en dispositivos de puntero «grueso»; con ratón nada cambia.
+   ---------------------------------------------------------------------------- */
+@media (pointer: coarse) {
+  .tsl-btn {
+    --_h: 40px;
+  }
+
+  .tsl-btn--sm {
+    --_h: 36px;
+  }
+
+  .tsl-btn--lg {
+    --_h: 46px;
+  }
+
+  .tsl-input,
+  .tsl-select,
+  .tsl-trigger,
+  .tsl-number {
+    min-height: 40px;
+  }
+
+  .tsl-trigger__input {
+    height: 38px;
+  }
+
+  .tsl-number {
+    height: 40px;
+  }
+
+  .tsl-number > button {
+    width: 40px;
+  }
+
+  .tsl-chip {
+    min-height: 34px;
+    min-width: 34px;
+    justify-content: center;
+  }
+
+  .tsl-choice {
+    min-height: 36px;
+  }
+
+  .tsl-badge[role="button"],
+  button.tsl-badge,
+  a.tsl-badge {
+    min-height: 28px;
+    min-width: 28px;
+    justify-content: center;
+  }
+
+  .tsl-tabs__tab {
+    min-height: 40px;
+  }
+
+  .tsl-segmented__item {
+    min-height: 34px;
+    padding-inline: 14px;
+  }
+
+  .tsl-toggle-group__item {
+    min-height: 40px;
+    min-width: 40px;
+  }
+
+  .tsl-menu__item,
+  .tsl-command__item,
+  .tsl-select__option,
+  .tsl-nav__item {
+    min-height: 40px;
+  }
+
+  .tsl-pagination > * {
+    min-width: 38px;
+    height: 38px;
+  }
+
+  .tsl-accordion summary {
+    min-height: 44px;
+  }
+
+  .tsl-dialog__close,
+  .tsl-toast__close,
+  .tsl-chip__remove,
+  .tsl-trigger__clear {
+    min-width: 32px;
+    min-height: 32px;
+  }
+
+  .tsl-trigger__clear {
+    right: 26px;
+  }
+
+  .tsl-chip__remove {
+    width: 24px;
+    height: 24px;
+  }
+
+  .tsl-cal__day {
+    height: 38px;
+  }
+
+  .tsl-cal__grid {
+    grid-template-columns: repeat(7, minmax(0, 38px));
+  }
+
+  /* Controles que se arrastran: zona de agarre ampliada sin cambiar su aspecto */
+  .tsl-slider__thumb::before,
+  .tsl-resizable__handle::before {
+    content: "";
+    position: absolute;
+    inset: -14px;
+  }
+
+  tsl-resizable[data-direction="horizontal"] > .tsl-resizable__handle::before {
+    left: -14px;
+    right: -14px;
+  }
+
+  tsl-resizable[data-direction="vertical"] > .tsl-resizable__handle::before {
+    top: -14px;
+    bottom: -14px;
+  }
+
+  .tsl-time__opt {
+    height: 38px;
+  }
+
+  .tsl-dt__sort {
+    min-height: 36px;
+  }
+
+  .tsl-tree__row {
+    min-height: 40px;
+  }
+
+  .tsl-sortable__handle {
+    width: 36px;
+    height: 36px;
+  }
+
+  .tsl-color__chip {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* Casillas, interruptores y rangos: zona de pulsación de al menos 24 px aunque no estén dentro de una etiqueta */
+  .tsl-check {
+    width: 24px;
+    height: 24px;
+  }
+
+  .tsl-check::before {
+    width: 12px;
+    height: 12px;
+  }
+
+  .tsl-check[type="radio"]::before {
+    width: 8px;
+    height: 8px;
+  }
+
+  .tsl-switch {
+    width: 46px;
+    height: 26px;
+  }
+
+  .tsl-switch::before {
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .tsl-switch:checked::before {
+    transform: translateX(20px);
+  }
+
+  .tsl-range {
+    height: 28px;
+  }
+
+  a.tsl-hint,
+  .tsl-hint > a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+  }
+
+  summary {
+    min-height: 32px;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   26. Adaptación a pantallas pequeñas: texto largo, segmentados y filas de lista
+   ---------------------------------------------------------------------------- */
+
+/* URLs, correos o identificadores largos se parten en vez de desbordar su caja */
+.tsl-list__title,
+.tsl-list__desc,
+.tsl-card__title,
+.tsl-card__desc,
+.tsl-alert__title,
+.tsl-alert__desc,
+.tsl-toast__title,
+.tsl-toast__desc,
+.tsl-empty__title,
+.tsl-empty__desc,
+.tsl-dialog__title,
+.tsl-dialog__desc,
+.tsl-stat__value {
+  overflow-wrap: anywhere;
+}
+
+/* Un control segmentado con muchas opciones se desplaza en horizontal en vez de salirse de la pantalla */
+.tsl-segmented {
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tsl-segmented::-webkit-scrollbar {
+  display: none;
+}
+
+.tsl-segmented__item {
+  flex: none;
+}
+
+/* En una fila de lista, el texto que se estira nunca se queda sin sitio: si no cabe junto al resto,
+   el resto pasa a la línea siguiente (en vez de aplastar el texto a unos pocos píxeles) */
+.tsl-list > li > .tsl-list__grow,
+.tsl-list > li > [style*="flex:1"],
+.tsl-list > li > code {
+  min-width: min(100%, 14ch);
+  overflow-wrap: anywhere;
+}
+
+/* Las barras de herramientas (.tsl-row) dejan que sus botones largos se partan solo como último recurso */
+.tsl-row > .tsl-btn {
+  max-width: 100%;
+}
+
+/* En un bloque de código estrecho el botón de copiar no flota sobre el texto: pasa a una línea propia */
+@media (max-width: 599px) {
+  .tsl-code:has(> [data-tsl-copy]) {
+    padding-right: 16px;
+  }
+
+  .tsl-code > [data-tsl-copy] {
+    position: static;
+    display: flex;
+    margin: 0 0 10px auto;
   }
 }

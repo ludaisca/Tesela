@@ -847,7 +847,7 @@
       setup(root, ctx) {
         let items = [["Logo anterior.svg", 3], ["Informe T1.pdf", 12], ["Borrador — precios.md", 21], ["Captura 12.png", 28]];
         const render = () => {
-          ctx.$("[data-list]").innerHTML = items.map(([n, d], i) => `<li><span style="flex:1">${esc(n)}</span><span class="tsl-badge ${30 - d < 5 ? "tsl-badge--danger" : ""}">${30 - d} d restantes</span><button type="button" class="tsl-btn tsl-btn--sm" data-restore="${i}">Restaurar</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-kill="${i}">Eliminar</button></li>`).join("");
+          ctx.$("[data-list]").innerHTML = items.map(([n, d], i) => `<li><span style="flex:1;min-width:min(100%,16ch)">${esc(n)}</span><span class="tsl-badge ${30 - d < 5 ? "tsl-badge--danger" : ""}">${30 - d} d restantes</span><button type="button" class="tsl-btn tsl-btn--sm" data-restore="${i}">Restaurar</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-kill="${i}">Eliminar</button></li>`).join("");
           ctx.$("[data-list]").hidden = !items.length;
           ctx.$("[data-empty]").hidden = !!items.length;
           ctx.$("[data-empty-btn]").disabled = !items.length;
