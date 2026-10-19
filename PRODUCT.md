@@ -13,7 +13,7 @@ Desarrolladores y diseñadores externos que llegan a Tesela desde GitHub, buscad
 Tesela es una biblioteca de componentes sin dependencias (HTML + CSS + Custom Elements, prefijo `tsl-`, global `TeselaUI`) con tokens exportables, presets de tema, modo claro, oscuro y de sistema, soporte RTL y diseño adaptable. La página principal es la **galería**: 212 experimentos funcionales en 24 carpetas construidos con la propia biblioteca. Su éxito es que una persona nueva entienda en segundos qué es Tesela y la calidad que tiene, y que una persona recurrente encuentre y copie un patrón sin fricción.
 
 ## Positioning
-Una biblioteca propia y completa (100 secciones de componentes, iconos SVG incluidos) que se prueba a sí misma: cada experimento es un uso real, con pruebas en navegador (más de 640 comprobaciones), auditorías de contraste WCAG, de desborde y de centrado. No depende de ningún framework.
+Una biblioteca propia y completa (112 secciones de componentes, iconos SVG incluidos) que se prueba a sí misma: cada experimento es un uso real, con pruebas en navegador (más de 1200 comprobaciones, axe-core en cada sección incluido), auditorías de contraste WCAG, de desborde y de centrado. No depende de ningún framework.
 
 ## Operating Context
 Se sirve como sitio estático (`index.html` es la galería, `components.html` es la documentación de la biblioteca). Interacciones existentes que deben seguir funcionando: buscador y paleta ⌘K, filtros Todos / Nuevos / Favoritos, favoritos persistentes, vista de cuadrícula y de lista, minimapa de carpetas, sandbox a pantalla completa por experimento (`#/c/carpeta/slug`) con cajón de código, atajos de teclado, selector de tema, preset y acento de la biblioteca, panel de tokens. Despliegue con nginx en Podman en el puerto 24100.
@@ -29,7 +29,7 @@ Se sirve como sitio estático (`index.html` es la galería, `components.html` es
 Nombre **Tesela** (paquete `tesela-ui`, prefijo `tsl-`); devl.dev se menciona solo como inspiración. Tono pedido explícitamente por la persona responsable: **más serio y premium**.
 
 ## Evidence on Hand
-Números reales y verificables: 212 experimentos, 24 carpetas, 100 secciones de componentes documentadas, 183 iconos en el set base, 11 presets de tema, 36 tokens, más de 640 comprobaciones automáticas. No hay clientes, testimonios, descargas ni estrellas que citar: no se deben inventar.
+Números reales y verificables: 212 experimentos, 24 carpetas, 112 secciones de componentes documentadas, 47 elementos `tsl-*`, 183 iconos en el set base, 11 presets de tema, 37 tokens, más de 1200 comprobaciones automáticas. No hay clientes, testimonios, descargas ni estrellas que citar: no se deben inventar.
 
 ## Product Principles
 1. Mostrar el producto antes que describirlo: la galería es la prueba.

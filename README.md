@@ -7,7 +7,7 @@ Biblioteca de componentes **sin dependencias** (HTML + CSS + Custom Elements) y 
 
 ## Tesela (`tesela-ui`)
 
-100 secciones de componentes (iconos, botones, formularios, OTP, tags, dropzone, calendario, tabs, menús, paleta de comandos, diálogos, drawers, toasts, tablas ordenables, sparklines, popover, hover card, menú contextual, confirmación, sheets, select, combobox, selector de fecha, rango de fechas, selector de hora, barra de menús, menú de navegación, slider de rango, rating, selector de color, contraseña con medidor, textarea autoajustable, menciones, toggle group, collapsible, scroll area, paneles redimensionables, tree view, lista virtualizada, listas ordenables, kanban, tabla de datos, gráficas de línea, área, barras, dona, gauge y mapa de calor, barra lateral, grupo de radios, carrusel, item y la familia de conversación: mensaje, burbuja, adjunto, traza, bloque de código, zona con seguimiento, cuestionario, entrada de prompt con adjuntos, sugerencias, razonamiento, fuentes y citas, versiones de respuesta, medidor de contexto, asistente por pasos, importe, teléfono, subida de archivos con progreso y editor de texto enriquecido…) más patrones completos: panel de control, autenticación, ajustes con navegación lateral, alta por pasos y chat con asistente.
+112 secciones de componentes (iconos, botones, formularios, OTP, tags, dropzone, calendario, tabs, menús, paleta de comandos, diálogos, drawers, toasts, tablas ordenables, sparklines, popover, hover card, menú contextual, confirmación, sheets, select, combobox, selector de fecha, rango de fechas, selector de hora, barra de menús, menú de navegación, slider de rango, rating, selector de color, contraseña con medidor, textarea autoajustable, menciones, toggle group, collapsible, scroll area, paneles redimensionables, tree view, lista virtualizada, listas ordenables, kanban, tabla de datos, gráficas de línea, área, barras, dona, gauge y mapa de calor, barra lateral, grupo de radios, carrusel, item y la familia de conversación: mensaje, burbuja, adjunto, traza, bloque de código, zona con seguimiento, cuestionario, entrada de prompt con adjuntos, sugerencias, razonamiento, fuentes y citas, versiones de respuesta, medidor de contexto, asistente por pasos, importe, teléfono, subida de archivos con progreso y editor de texto enriquecido…) más patrones completos: panel de control, autenticación, ajustes con navegación lateral, alta por pasos y chat con asistente.
 
 ### Uso
 
@@ -131,6 +131,9 @@ En `components.html` cada componente tiene una pestaña **API** con sus atributo
 | `index.html`, `css/`, `js/` | Galería de experimentos |
 | `js/data.js` | Catálogo de carpetas y experimentos |
 | `js/experiments/*.js`, `css/experiments.css` | Los 212 experimentos, construidos con tesela-ui |
+| `docs/plan-maestro.md` | Hoja de ruta: qué agregar, qué mejorar y las galerías por estilo |
+| `CHANGELOG.md` | Cambios por versión |
+| `.github/workflows/ci.yml` | Integración continua (build, `lib/` al día y pruebas) |
 
 ## Galería
 
@@ -156,6 +159,35 @@ TESELA_XP.add("forms", "mi-formulario", {
 ```
 
 `ctx` ofrece `$`, `$$`, `toast`, `every`, `timeout`, `raf`, `on`, `onCleanup` y `fmt`. Constructores reutilizables: `TESELA_XP.table(cfg)`, `TESELA_XP.formSetup`, `TESELA_XP.field`, `TESELA_XP.chart.*`, `TESELA_XP.fitCanvas`.
+
+## Añadir un componente
+
+Cada componente nuevo pasa por estos pasos (la CI falla si falta alguno de los que se pueden comprobar):
+
+1. **Módulo** en `src/components/<nombre>.js`, una subclase de `TslElement` (`src/core/base.js`) o de `TslFormElement` (`src/core/form.js`) si va en formularios.
+2. **CSS** en `src/css/<nn>-<nombre>.css`. Cae en la capa `tesela.components`; para otra capa, añádelo al mapa `LAYERS` de `scripts/build.js`. Usa tokens `--tsl-*`, no valores fijos.
+3. **API** en `src/meta/elements.js`: atributos, propiedades, métodos y eventos. De ahí salen los tipos, el manifiesto, el autocompletado y la pestaña «API» (`tests/api.test.js` comprueba que coincide con el código).
+4. **Documentación**: una `section.doc` en `components.html`, que debe pasar axe en tema oscuro y claro (`tests/accesibilidad.test.js`).
+5. **Prueba** Playwright en el archivo de su grupo en `tests/`.
+6. `npm run build` y versiona `lib/`.
+7. Cifras al día en `index.html` (`#hero-facts`), este README y `PRODUCT.md`.
+
+Contrato de `TslElement`, que comprueban `tests/ciclo-de-vida.test.js` y `tests/reactividad.test.js`:
+
+| Pieza | Para qué |
+|---|---|
+| `setup()` | Construye el componente una sola vez, cuando sus hijos ya están en el DOM |
+| `reconnected()` | Se llama al volver a montarlo: reobserva (`ResizeObserver`, `MutationObserver`) sin repetir `setup()` |
+| `this.listen(target, tipo, fn, opciones)` | Escuchas en `document`/`window` que se quitan al desmontar y vuelven al remontar |
+| `this.signal` | Para escuchas temporales (mientras un panel está abierto): `{ signal: this.signal }` |
+| `static get observedAttributes()` + `attributeChanged(nombre, antes, ahora)` | Todo atributo documentado (`value`, `disabled`, `placeholder`, `label`, `*-label`…) repinta si cambia después del montaje. Devuelve `[...super.observedAttributes, …]` |
+| `disconnectedCallback()` | Si lo defines, llama a `super.disconnectedCallback()` |
+
+Reglas de la casa: textos por defecto en español y cambiables por atributo; iconos con `<tsl-icon>`, nunca emojis ni glifos (`tests/iconos.test.js`); el texto informativo usa `--tsl-fg-muted` (≥ 4,5:1) y `--tsl-fg-subtle` queda para lo decorativo y lo deshabilitado; objetivos táctiles de al menos 24 px.
+
+## Hoja de ruta
+
+El plan completo está en [`docs/plan-maestro.md`](docs/plan-maestro.md): higiene, ampliación de tokens (tipografía, espaciado, densidad, elevación, movimiento, foco, materiales), separación de **estilo** y **paleta**, un motor de galerías reutilizable, galerías por lenguaje de diseño (Material 3, Cupertino, neobrutal, terminal, Fluent, editorial…) y por tipo de pieza (marketing, plantillas de app, móviles, iconos…), unos 80 componentes nuevos con prioridad y tamaño, mejoras de los existentes (núcleo de listbox y teclado, idiomas, rendimiento), pruebas en Firefox y WebKit con regresión visual, y el orden por versiones (v1.5 → v2.x).
 
 ## Pruebas
 
