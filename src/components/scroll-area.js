@@ -6,12 +6,24 @@ import { TslElement, define } from "../core/base.js";
  * (atributos data-top/bottom/left/right). El área es enfocable para desplazarla con teclado.
  */
 export class TslScrollArea extends TslElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "label"];
+  }
+
+  attributeChanged() {
+    if (this.viewport) this.paintLabels();
+  }
+
+  paintLabels() {
+    this.viewport.setAttribute("aria-label", this.getAttribute("label") || "Contenido desplazable");
+  }
+
   setup() {
     this.viewport = document.createElement("div");
     this.viewport.className = "tsl-scroll-area__viewport";
     this.viewport.tabIndex = 0;
     this.viewport.setAttribute("role", "region");
-    this.viewport.setAttribute("aria-label", this.getAttribute("label") || "Contenido desplazable");
+    this.paintLabels();
     this.viewport.append(...this.childNodes);
     this.appendChild(this.viewport);
     const o = this.getAttribute("orientation") || "vertical";
@@ -28,7 +40,15 @@ export class TslScrollArea extends TslElement {
   }
 
   disconnectedCallback() {
+    super.disconnectedCallback();
     if (this.ro) this.ro.disconnect();
+  }
+
+  reconnected() {
+    if (!this.ro) return;
+    this.ro.observe(this.viewport);
+    Array.from(this.viewport.children).forEach((c) => this.ro.observe(c));
+    this.edges();
   }
 
   edges() {

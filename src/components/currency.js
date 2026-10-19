@@ -10,7 +10,7 @@ import { TslFormElement } from "../core/form.js";
  */
 export class TslCurrency extends TslFormElement {
   static get observedAttributes() {
-    return ["disabled", "currency", "locale"];
+    return [...super.observedAttributes, "currency", "locale", "show-code", "value", "placeholder", "label"];
   }
 
   setup() {
@@ -27,7 +27,7 @@ export class TslCurrency extends TslFormElement {
     this.code = document.createElement("span");
     this.code.className = "tsl-currency__code";
     this.code.setAttribute("aria-hidden", "true");
-    if (this.getAttribute("placeholder")) this.input.placeholder = this.getAttribute("placeholder");
+    this.paintPlaceholder();
 
     this.input.addEventListener("keydown", (e) => this.onKey(e));
     this.input.addEventListener("input", () => this.onInput());
@@ -43,12 +43,25 @@ export class TslCurrency extends TslFormElement {
     this.syncDisabled();
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
-    super.attributeChangedCallback(name);
-    if (!this._tslReady || name === "disabled" || oldValue === newValue) return;
+  attributeChanged(name, before, after) {
+    super.attributeChanged(name, before, after);
+    if (name === "disabled") return;
+    if (name === "placeholder") return this.paintPlaceholder();
+    if (name === "value") {
+      this.initial = after || "";
+      this.setValue(this.initial, false);
+      this.committed = this.value;
+      return;
+    }
     const keep = this.value;
     this.configure();
     this.setValue(keep, false);
+  }
+
+  paintPlaceholder() {
+    const ph = this.getAttribute("placeholder");
+    if (ph) this.input.placeholder = ph;
+    else this.input.removeAttribute("placeholder");
   }
 
   /** Lee del idioma y la moneda los separadores, el símbolo, su posición y los decimales. */

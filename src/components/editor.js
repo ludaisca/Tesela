@@ -99,27 +99,23 @@ const TOOLS = {
  */
 export class TslEditor extends TslFormElement {
   static get observedAttributes() {
-    return ["disabled", "readonly"];
+    return [...super.observedAttributes, "readonly", "placeholder", "label", "link-label", "maxlength"];
   }
 
   setup() {
     this.initial = sanitizeHTML(this.innerHTML);
     this.textContent = "";
-    const label = this.getAttribute("label") || "Texto";
 
     this.content = document.createElement("div");
     this.content.className = "tsl-editor__content";
     this.content.id = nextId("tsl-editor");
     this.content.setAttribute("role", "textbox");
     this.content.setAttribute("aria-multiline", "true");
-    this.content.setAttribute("aria-label", label);
-    this.content.dataset.placeholder = this.getAttribute("placeholder") || "";
     this.content.innerHTML = this.initial;
 
     this.toolbar = document.createElement("div");
     this.toolbar.className = "tsl-editor__toolbar";
     this.toolbar.setAttribute("role", "toolbar");
-    this.toolbar.setAttribute("aria-label", `Formato de ${label.toLowerCase()}`);
     this.toolbar.setAttribute("aria-controls", this.content.id);
     this.tools = {};
     const spec = (this.getAttribute("toolbar") || "bold italic underline strike | h2 h3 | ul ol quote code | link | undo redo").split(/\s+/).filter(Boolean);
@@ -170,7 +166,6 @@ export class TslEditor extends TslFormElement {
       '<button type="button" class="tsl-btn tsl-btn--sm" data-unlink>Quitar enlace</button>' +
       '<button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-cancel>Cancelar</button>';
     this.linkInput = this.linkbar.querySelector("input");
-    this.linkInput.setAttribute("aria-label", this.getAttribute("link-label") || "Dirección del enlace");
     this.linkbar.querySelector("[data-apply]").addEventListener("click", () => this.applyLink());
     this.linkbar.querySelector("[data-unlink]").addEventListener("click", () => this.applyLink(""));
     this.linkbar.querySelector("[data-cancel]").addEventListener("click", () => this.closeLink());
@@ -189,6 +184,7 @@ export class TslEditor extends TslFormElement {
     this.counter.hidden = !this.maxLength;
 
     this.append(this.toolbar, this.linkbar, this.content, this.counter);
+    this.paintLabels();
 
     this.content.addEventListener("focus", () => document.execCommand("defaultParagraphSeparator", false, "p"));
     this.content.addEventListener("input", () => this.sync());
@@ -212,8 +208,8 @@ export class TslEditor extends TslFormElement {
       if (html) document.execCommand("insertHTML", false, sanitizeHTML(html));
       else if (text) document.execCommand("insertText", false, text);
     });
-    document.addEventListener("selectionchange", () => {
-      if (this.isConnected && this.content.contains(window.getSelection().anchorNode)) this.paintTools();
+    this.listen(document, "selectionchange", () => {
+      if (this.content.contains(window.getSelection().anchorNode)) this.paintTools();
     });
 
     this.committed = this.value;
@@ -221,9 +217,21 @@ export class TslEditor extends TslFormElement {
     this.sync();
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
-    super.attributeChangedCallback(name);
-    if (name === "readonly" && this._tslReady) this.syncDisabled();
+  attributeChanged(name, before, after) {
+    super.attributeChanged(name, before, after);
+    if (name === "readonly") this.syncDisabled();
+    else if (name === "maxlength") {
+      this.counter.hidden = !this.maxLength;
+      this.sync();
+    } else if (name !== "disabled") this.paintLabels();
+  }
+
+  paintLabels() {
+    const label = this.getAttribute("label") || "Texto";
+    this.content.setAttribute("aria-label", label);
+    this.content.dataset.placeholder = this.getAttribute("placeholder") || "";
+    this.toolbar.setAttribute("aria-label", `Formato de ${label.toLowerCase()}`);
+    this.linkInput.setAttribute("aria-label", this.getAttribute("link-label") || "Dirección del enlace");
   }
 
   get maxLength() {

@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    6. Controles de formulario
    ---------------------------------------------------------------------------- */
@@ -16,7 +18,7 @@
 
 .tsl-hint {
   font-size: 11px;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-error {
@@ -440,4 +442,5 @@ tsl-dropzone:focus-visible {
   background: var(--tsl-bg);
   font-size: 11px;
   color: var(--tsl-fg);
+}
 }

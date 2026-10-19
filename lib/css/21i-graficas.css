@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21i. Gráficas
    ---------------------------------------------------------------------------- */
@@ -230,4 +232,5 @@ tsl-chart.is-animating .tsl-chart__cell {
 
 @keyframes tsl-chart-fade {
   from { opacity: 0; }
+}
 }

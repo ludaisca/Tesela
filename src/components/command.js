@@ -23,12 +23,15 @@ function fuzzyScore(text, query) {
 }
 
 export class TslCommand extends TslElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "label", "placeholder", "empty"];
+  }
+
   setup() {
     const items = Array.from(this.querySelectorAll(":scope > .tsl-command__item"));
 
     this.dialog = document.createElement("dialog");
     this.dialog.className = "tsl-dialog tsl-command";
-    this.dialog.setAttribute("aria-label", this.getAttribute("label") || "Paleta de comandos");
     this.dialog.innerHTML = `
       <div class="tsl-command__search">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
@@ -42,8 +45,7 @@ export class TslCommand extends TslElement {
     this.input = this.dialog.querySelector(".tsl-command__input");
     this.listEl = this.dialog.querySelector(".tsl-command__list");
     this.emptyEl = this.dialog.querySelector(".tsl-command__empty");
-    this.input.placeholder = this.getAttribute("placeholder") || "Escribe un comando o busca…";
-    this.emptyEl.textContent = this.getAttribute("empty") || "Sin resultados.";
+    this.paintLabels();
     this.listEl.id = nextId("tsl-cmdlist");
     this.input.setAttribute("aria-controls", this.listEl.id);
 
@@ -94,17 +96,26 @@ export class TslCommand extends TslElement {
       if (e.target === this.dialog) this.close();
     });
 
-    const hotkey = this.getAttribute("hotkey");
-    if (hotkey) {
-      document.addEventListener("keydown", (e) => {
-        // Si otro componente ya usó la combinación (p. ej. Ctrl+K para enlazar en <tsl-editor>), se respeta
-        if (e.defaultPrevented) return;
-        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === hotkey.toLowerCase()) {
-          e.preventDefault();
-          this.dialog.open ? this.close() : this.open();
-        }
-      });
-    }
+    // El atajo se lee en cada pulsación: cambiar `hotkey` después del montaje también vale
+    this.listen(document, "keydown", (e) => {
+      const hotkey = this.getAttribute("hotkey");
+      // Si otro componente ya usó la combinación (p. ej. Ctrl+K para enlazar en <tsl-editor>), se respeta
+      if (!hotkey || e.defaultPrevented) return;
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === hotkey.toLowerCase()) {
+        e.preventDefault();
+        this.dialog.open ? this.close() : this.open();
+      }
+    });
+  }
+
+  attributeChanged() {
+    this.paintLabels();
+  }
+
+  paintLabels() {
+    this.dialog.setAttribute("aria-label", this.getAttribute("label") || "Paleta de comandos");
+    this.input.placeholder = this.getAttribute("placeholder") || "Escribe un comando o busca…";
+    this.emptyEl.textContent = this.getAttribute("empty") || "Sin resultados.";
   }
 
   visibleItems() {

@@ -26,8 +26,16 @@ export class TslSortable extends TslElement {
   }
 
   disconnectedCallback() {
+    super.disconnectedCallback();
     if (this.mo) this.mo.disconnect();
     if (SORTABLES.has(this.group)) SORTABLES.get(this.group).delete(this);
+  }
+
+  reconnected() {
+    if (!SORTABLES.has(this.group)) SORTABLES.set(this.group, new Set());
+    SORTABLES.get(this.group).add(this);
+    this.prepare();
+    this.mo.observe(this, { childList: true });
   }
 
   get itemEls() {
@@ -78,10 +86,11 @@ export class TslSortable extends TslElement {
         up({ type: "pointercancel" });
       }
     };
-    document.addEventListener("pointermove", move, true);
-    document.addEventListener("pointerup", up, true);
-    document.addEventListener("pointercancel", up, true);
-    document.addEventListener("keydown", esc, true);
+    const opts = { capture: true, signal: this.signal };
+    document.addEventListener("pointermove", move, opts);
+    document.addEventListener("pointerup", up, opts);
+    document.addEventListener("pointercancel", up, opts);
+    document.addEventListener("keydown", esc, opts);
   }
 
   onPointerMove(e) {

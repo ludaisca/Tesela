@@ -20,14 +20,38 @@ export const storage = {
   }
 };
 
-// Runs setup() once, after children are parsed, even if the script is in <head>
+// Ciclo de vida común:
+//   setup()        una sola vez, cuando los hijos ya están en el DOM (aunque el script vaya en <head>)
+//   reconnected()  cada vez que el elemento vuelve al documento después de haberse quitado
+//   attributeChanged(name, antes, ahora)  cambio de un atributo observado después de setup()
+//   listen()       escuchas en document/window ligadas a la conexión: se quitan al desconectar y vuelven
+//                  al reconectar. Para las temporales (mientras un panel está abierto) está `this.signal`.
+// Las subclases que definan disconnectedCallback() deben llamar a super.disconnectedCallback().
 export class TslElement extends HTMLElement {
+  static get observedAttributes() {
+    return [];
+  }
+
+  attributeChangedCallback(name, before, after) {
+    // Solo tras terminar setup(): los atributos que el propio setup() escribe no cuentan como cambios
+    if (before === after || !this._tslBuilt) return;
+    this.attributeChanged(name, before, after);
+  }
+
+  attributeChanged() {}
+
   connectedCallback() {
-    if (this._tslReady) return;
+    if (this._tslReady) {
+      this._tslAttach();
+      this.reconnected();
+      return;
+    }
     const go = () => {
       if (this._tslReady || !this.isConnected) return;
       this._tslReady = true;
+      this._tslAttach();
       this.setup();
+      this._tslBuilt = true;
     };
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", go, { once: true });
@@ -36,7 +60,32 @@ export class TslElement extends HTMLElement {
     }
   }
 
+  disconnectedCallback() {
+    if (this._tslAbort) this._tslAbort.abort();
+    this._tslAbort = null;
+  }
+
+  // Señal que se aborta al desconectar el elemento (undefined si no está conectado)
+  get signal() {
+    return this._tslAbort ? this._tslAbort.signal : undefined;
+  }
+
+  listen(target, type, handler, options) {
+    const opts = typeof options === "boolean" ? { capture: options } : { ...options };
+    (this._tslListeners ||= []).push([target, type, handler, opts]);
+    if (this._tslAbort) target.addEventListener(type, handler, { ...opts, signal: this._tslAbort.signal });
+  }
+
+  _tslAttach() {
+    if (this._tslAbort) return;
+    this._tslAbort = new AbortController();
+    const { signal } = this._tslAbort;
+    (this._tslListeners || []).forEach(([target, type, handler, opts]) => target.addEventListener(type, handler, { ...opts, signal }));
+  }
+
   setup() {}
+
+  reconnected() {}
 }
 
 export const define = (name, ctor) => {

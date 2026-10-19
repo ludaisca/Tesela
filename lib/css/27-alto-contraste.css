@@ -1,0 +1,156 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.utilities {
+/* ----------------------------------------------------------------------------
+   27. Alto contraste (forced-colors: modo de contraste de Windows y similares)
+       El sistema sustituye los colores por su paleta y quita las sombras. Tesela marca el foco con
+       box-shadow y pinta casillas, interruptores y estados con fondos: sin estas reglas, el foco no
+       se ve y una casilla marcada es igual que una vacía. Se usan solo colores del sistema.
+       Va en la capa de utilidades para ganar a cualquier regla de componente sin !important.
+   ---------------------------------------------------------------------------- */
+@media (forced-colors: active) {
+  /* Foco: la sombra desaparece, así que se vuelve a un contorno real */
+  :is([class*="tsl-"], [class*="tsl-"] *, tsl-rating, tsl-chart, tsl-dropzone, tsl-tree *, tsl-virtual-list *):focus-visible,
+  .tsl-trigger--input:focus-within {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  /* Botones: siempre con borde, y las variantes con relleno se distinguen por el color del sistema */
+  .tsl-btn {
+    border-color: ButtonText;
+  }
+
+  .tsl-btn--primary,
+  .tsl-btn--accent,
+  .tsl-btn--danger {
+    background: ButtonText;
+    color: ButtonFace;
+    forced-color-adjust: none;
+  }
+
+  .tsl-btn:disabled,
+  .tsl-btn[aria-disabled="true"] {
+    border-color: GrayText;
+    background: ButtonFace;
+    color: GrayText;
+  }
+
+  .tsl-btn[aria-busy="true"]::after {
+    border-color: ButtonText transparent;
+  }
+
+  :is(.tsl-btn--primary, .tsl-btn--accent, .tsl-btn--danger)[aria-busy="true"]::after {
+    border-color: ButtonFace transparent;
+  }
+
+  /* Campos */
+  .tsl-input,
+  .tsl-textarea,
+  .tsl-select,
+  .tsl-trigger,
+  tsl-tags,
+  tsl-currency,
+  tsl-phone,
+  .tsl-editor__content {
+    border-color: FieldText;
+  }
+
+  :is(.tsl-input, .tsl-textarea, .tsl-select, .tsl-trigger):disabled {
+    border-color: GrayText;
+    color: GrayText;
+  }
+
+  /* Casillas y radios: el fondo de «marcada» se pierde, así que se pinta con Highlight */
+  .tsl-check,
+  .tsl-radio__mark {
+    border-color: ButtonText;
+    background: Canvas;
+    forced-color-adjust: none;
+  }
+
+  .tsl-check::before,
+  .tsl-radio__mark::before {
+    background: HighlightText;
+  }
+
+  .tsl-check:checked,
+  .tsl-check[type="checkbox"]:indeterminate,
+  .tsl-radio[aria-checked="true"] .tsl-radio__mark {
+    border-color: Highlight;
+    background: Highlight;
+  }
+
+  .tsl-check:disabled,
+  .tsl-radio[disabled] .tsl-radio__mark,
+  tsl-radio-group[aria-disabled] .tsl-radio__mark {
+    border-color: GrayText;
+  }
+
+  .tsl-check:disabled:checked {
+    background: GrayText;
+  }
+
+  /* Interruptor: pista con borde y botón que cambia de color al activarse */
+  .tsl-switch {
+    border: 1px solid ButtonText;
+    background: Canvas;
+    forced-color-adjust: none;
+  }
+
+  .tsl-switch::before {
+    top: 1px;
+    background: ButtonText;
+    box-shadow: none;
+  }
+
+  .tsl-switch:checked {
+    border-color: Highlight;
+    background: Highlight;
+  }
+
+  .tsl-switch:checked::before {
+    background: HighlightText;
+  }
+
+  .tsl-switch:disabled {
+    border-color: GrayText;
+  }
+
+  .tsl-switch:disabled::before {
+    background: GrayText;
+  }
+
+  /* Slider y rango */
+  .tsl-slider__track {
+    background: CanvasText;
+    forced-color-adjust: none;
+  }
+
+  .tsl-slider__fill {
+    background: Highlight;
+  }
+
+  .tsl-slider__thumb {
+    border-color: ButtonText;
+    background: ButtonFace;
+    forced-color-adjust: none;
+  }
+
+  /* Opciones elegidas, pestañas y estados de pulsación: el sistema iguala los fondos, así que la
+     selección se marca con Highlight (como hacen los controles nativos) */
+  .tsl-tabs__tab[aria-selected="true"],
+  .tsl-segmented__item[aria-checked="true"],
+  .tsl-toggle-group__item[aria-pressed="true"],
+  .tsl-chip[aria-pressed="true"],
+  .tsl-select__option[aria-selected="true"],
+  .tsl-command__item[aria-selected="true"],
+  .tsl-time__opt[aria-selected="true"],
+  .tsl-cal__day[aria-pressed="true"],
+  .tsl-editor__tool[aria-pressed="true"],
+  li[aria-selected="true"] > .tsl-tree__row {
+    background: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+}
+}

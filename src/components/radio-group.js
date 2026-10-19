@@ -9,9 +9,15 @@ import { TslFormElement } from "../core/form.js";
  * Un solo elemento enfocable (tabindex móvil): las flechas mueven y seleccionan, Espacio selecciona.
  */
 export class TslRadioGroup extends TslFormElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "value", "label", "orientation"];
+  }
+
   setup() {
     this.setAttribute("role", "radiogroup");
-    if (!this.hasAttribute("aria-label") && !this.hasAttribute("aria-labelledby")) this.setAttribute("aria-label", this.getAttribute("label") || "Opciones");
+    // Un aria-label o aria-labelledby del autor manda sobre `label`
+    this.ownLabel = !this.hasAttribute("aria-label") && !this.hasAttribute("aria-labelledby");
+    if (this.ownLabel) this.setAttribute("aria-label", this.getAttribute("label") || "Opciones");
     this.items = Array.from(this.querySelectorAll(".tsl-radio"));
     this.initial = this.getAttribute("value") || "";
     this.items.forEach((item) => {
@@ -28,6 +34,15 @@ export class TslRadioGroup extends TslFormElement {
     this.addEventListener("invalid", () => this.toggleAttribute("data-invalid", true));
     this.choose(this.initial, false);
     this.syncDisabled();
+  }
+
+  attributeChanged(name, before, after) {
+    super.attributeChanged(name, before, after);
+    if (name === "value") {
+      this.initial = after || "";
+      this.reset();
+    } else if (name === "label" && this.ownLabel) this.setAttribute("aria-label", after || "Opciones");
+    else if (name === "orientation") this.paint();
   }
 
   get orientation() {
@@ -70,7 +85,7 @@ export class TslRadioGroup extends TslFormElement {
   }
 
   choose(value, fire) {
-    if (this.isDisabled) return;
+    if (this.isDisabled && fire) return;
     const target = this.items.find((i) => i.value === value && !i.disabled);
     if (value && !target) return;
     const changed = (target ? target.value : "") !== this.value;

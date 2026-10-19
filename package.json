@@ -46,6 +46,7 @@
     "icons": "node scripts/build-icons.js"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
     "esbuild": "^0.28.2",
     "lucide-static": "1.59.0",
     "playwright": "1.63.0",

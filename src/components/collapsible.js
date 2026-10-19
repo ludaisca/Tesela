@@ -7,6 +7,14 @@ import { TslElement, define, emit, nextId } from "../core/base.js";
  * </tsl-collapsible>
  */
 export class TslCollapsible extends TslElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "open"];
+  }
+
+  attributeChanged() {
+    this.paint();
+  }
+
   setup() {
     this.trigger = this.querySelector(":scope > [data-tsl-trigger]") || this.querySelector(":scope > button");
     this.content = this.querySelector(":scope > .tsl-collapsible__content");

@@ -11,7 +11,8 @@
   -webkit-font-smoothing: antialiased;
 }
 
-/* Los componentes definen su propio display; el atributo `hidden` debe seguir mandando */
+/* Los componentes definen su propio display; el atributo `hidden` debe seguir mandando.
+   !important a propósito: dentro de una capa también gana al CSS del usuario, como el `hidden` nativo */
 [class^="tsl-"][hidden],
 [class*=" tsl-"][hidden] {
   display: none !important;
@@ -29,7 +30,8 @@
   border: 0;
 }
 
-/* Un popover cerrado nunca se muestra, aunque un componente defina su propio display */
+/* Un popover cerrado nunca se muestra, aunque un componente defina su propio display (!important
+   por la misma razón que `hidden`) */
 [popover]:not(:popover-open) {
   display: none !important;
 }

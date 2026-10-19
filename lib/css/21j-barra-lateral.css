@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21j. Barra lateral: <tsl-sidebar> dentro de .tsl-sidebar-layout
         Modos: completa, solo iconos (collapsible="icon") u oculta (offcanvas) y cajón en pantallas estrechas
@@ -92,7 +94,7 @@ tsl-sidebar[collapsed][collapsible="offcanvas"] {
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -272,4 +274,5 @@ tsl-sidebar .tsl-sidebar__item[aria-expanded]:dir(rtl)::after {
 
 tsl-sidebar .tsl-sidebar__item[aria-expanded="true"]:dir(rtl)::after {
   transform: rotate(45deg);
+}
 }

@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    25. Punteros táctiles: objetivos de pulsación cómodos (≥ 36–40 px)
    Solo en dispositivos de puntero «grueso»; con ratón nada cambia.
@@ -234,4 +236,5 @@
   summary {
     min-height: 32px;
   }
+}
 }

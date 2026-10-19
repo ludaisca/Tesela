@@ -19,6 +19,18 @@ const FIELDS = "input:not([type=hidden]), select, textarea, [name]:not(input, se
  * pasos ya visitados se pueden pulsar para volver. Al enviar revisa todos los pasos y emite `tsl-submit`.
  */
 export class TslWizard extends TslElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "label"];
+  }
+
+  attributeChanged() {
+    if (this.indicator) this.paintLabels();
+  }
+
+  paintLabels() {
+    this.indicator.setAttribute("aria-label", this.getAttribute("label") || "Pasos");
+  }
+
   setup() {
     this.form = this.querySelector("form");
     if (!this.form) return;
@@ -37,7 +49,7 @@ export class TslWizard extends TslElement {
       this.prepend(this.indicator);
     }
     this.indicator.classList.add("tsl-wizard__steps");
-    this.indicator.setAttribute("aria-label", this.getAttribute("label") || "Pasos");
+    this.paintLabels();
     this.indicator.replaceChildren(
       ...this.steps.map((step, i) => {
         const li = document.createElement("li");

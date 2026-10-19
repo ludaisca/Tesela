@@ -9,6 +9,10 @@ import { icon } from "../core/icons.js";
  * Valor siempre "HH:MM" (24 h). En el panel: ↑ ↓ cambian el valor, ← → cambian de columna.
  */
 export class TslTimePicker extends TslFormElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "value", "placeholder", "label", "clear-label"];
+  }
+
   setup() {
     this.locale = this.getAttribute("locale") || document.documentElement.lang || undefined;
     this.step = Math.max(1, parseInt(this.getAttribute("step") || "5", 10));
@@ -54,7 +58,6 @@ export class TslTimePicker extends TslFormElement {
     this.clearBtn = document.createElement("button");
     this.clearBtn.type = "button";
     this.clearBtn.className = "tsl-trigger__clear";
-    this.clearBtn.setAttribute("aria-label", this.getAttribute("clear-label") || "Limpiar hora");
     this.clearBtn.appendChild(icon("x"));
     this.clearBtn.hidden = true;
     if (this.hasAttribute("clearable")) this.wrap.appendChild(this.clearBtn);
@@ -63,11 +66,11 @@ export class TslTimePicker extends TslFormElement {
     this.panel.className = "tsl-popover__panel tsl-time__panel";
     this.panel.setAttribute("popover", "manual");
     this.panel.setAttribute("role", "dialog");
-    this.panel.setAttribute("aria-label", this.getAttribute("label") || "Elegir hora");
     this.cols = document.createElement("div");
     this.cols.className = "tsl-time__cols";
     this.panel.appendChild(this.cols);
     this.append(this.wrap, this.panel);
+    this.paintLabels();
 
     this.trigger.addEventListener("click", () => (this.isOpen ? this.close() : this.open()));
     this.trigger.addEventListener("keydown", (e) => {
@@ -96,6 +99,20 @@ export class TslTimePicker extends TslFormElement {
       this.sync(true);
       this.trigger.focus();
     });
+  }
+
+  attributeChanged(name, before, after) {
+    super.attributeChanged(name, before, after);
+    if (name === "value") {
+      this.initial = after || "";
+      this.value = this.initial;
+    } else if (name === "placeholder") this.sync(false);
+    else if (name !== "disabled") this.paintLabels();
+  }
+
+  paintLabels() {
+    this.clearBtn.setAttribute("aria-label", this.getAttribute("clear-label") || "Limpiar hora");
+    this.panel.setAttribute("aria-label", this.getAttribute("label") || "Elegir hora");
   }
 
   get isOpen() {
@@ -230,7 +247,7 @@ export class TslTimePicker extends TslFormElement {
     this.panel.showPopover();
     position(this.wrap, this.panel, { placement: "bottom-start", offset: 4 });
     this.trigger.setAttribute("aria-expanded", "true");
-    this.stopPos = trackPosition(this.wrap, this.panel, { placement: "bottom-start", offset: 4 });
+    this.stopPos = trackPosition(this.wrap, this.panel, { placement: "bottom-start", offset: 4, signal: this.signal });
     this.stopOutside = dismissOnOutside(this, this.panel, () => this.close());
     this.cols.querySelectorAll(".tsl-time__col").forEach((c) => {
       const sel = c.querySelector('[aria-selected="true"]');

@@ -16,6 +16,14 @@ import { TslElement, define, emit } from "../core/base.js";
  * atajos con las teclas 1-9 y progreso. Los datos son campos nativos del formulario.
  */
 export class TslQuestionnaire extends TslElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "progress-label"];
+  }
+
+  attributeChanged() {
+    if (this.items) this.paint();
+  }
+
   setup() {
     this.form = this.querySelector("form");
     if (!this.form) return;

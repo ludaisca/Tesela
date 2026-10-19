@@ -7,12 +7,15 @@ import { TslElement, define, emit, moveFocus } from "../core/base.js";
  * Botones con aria-pressed. En `single` volver a pulsar deselecciona (salvo `required`).
  */
 export class TslToggleGroup extends TslElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "value"];
+  }
+
   setup() {
     this.multiple = this.getAttribute("type") === "multiple";
     this.items = Array.from(this.querySelectorAll(".tsl-toggle-group__item"));
     this.setAttribute("role", "group");
-    const initial = (this.getAttribute("value") || "").split(",").map((v) => v.trim()).filter(Boolean);
-    this.values = this.multiple ? initial : initial.slice(0, 1);
+    this.values = this.parseValues(this.getAttribute("value"));
     this.items.forEach((item) => {
       item.type = "button";
       item.addEventListener("click", () => this.toggle(item.value));
@@ -25,6 +28,16 @@ export class TslToggleGroup extends TslElement {
       });
     });
     this.paint();
+  }
+
+  attributeChanged(name, before, after) {
+    this.values = this.parseValues(after);
+    this.paint();
+  }
+
+  parseValues(attr) {
+    const list = (attr || "").split(",").map((v) => v.trim()).filter(Boolean);
+    return this.multiple ? list : list.slice(0, 1);
   }
 
   get value() {

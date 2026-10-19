@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21o. Controles: importe, teléfono, subida de archivos y editor de texto enriquecido
    ---------------------------------------------------------------------------- */
@@ -216,7 +218,7 @@ tsl-upload[data-dragging] .tsl-upload__drop {
 
 .tsl-upload__hint {
   font-size: 11.5px;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-upload__list {
@@ -495,7 +497,7 @@ tsl-editor[aria-invalid="true"] {
 }
 
 .tsl-editor__content a {
-  color: var(--tsl-accent);
+  color: color-mix(in srgb, var(--tsl-accent) 70%, var(--tsl-fg));
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -513,7 +515,7 @@ tsl-editor[disabled] .tsl-editor__content {
   padding: 4px 10px 6px;
   text-align: end;
   font-size: 11px;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
   font-variant-numeric: tabular-nums;
 }
 
@@ -523,4 +525,5 @@ tsl-editor[disabled] .tsl-editor__content {
 
 .tsl-editor__count[data-over] {
   color: var(--tsl-danger);
+}
 }

@@ -62,9 +62,10 @@ tsl-data-table[density="comfortable"] .tsl-dt__table td {
   padding-block: 16px;
 }
 
-.tsl-dt__select {
+/* Misma especificidad que las reglas de densidad y después en el código: gana sin !important */
+tsl-data-table .tsl-dt__table :is(th, td).tsl-dt__select {
   width: 36px;
-  padding-inline: 12px 0 !important;
+  padding-inline: 12px 0;
 }
 
 .tsl-dt__sort {
@@ -105,9 +106,9 @@ th[aria-sort="descending"] .tsl-dt__sorticon {
   background: color-mix(in srgb, var(--tsl-accent) 9%, transparent);
 }
 
-.tsl-dt__empty {
-  padding: 36px 14px !important;
-  text-align: center !important;
+tsl-data-table .tsl-dt__table td.tsl-dt__empty {
+  padding: 36px 14px;
+  text-align: center;
   color: var(--tsl-fg-muted);
 }
 

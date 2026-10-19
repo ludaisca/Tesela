@@ -7680,7 +7680,7 @@
               "type": {
                 "text": "string"
               },
-              "description": "Nombre accesible de la paginación.",
+              "description": "Nombre accesible de la paginación (por defecto, «Paginación: » y el `caption`).",
               "default": "Paginación"
             }
           ],

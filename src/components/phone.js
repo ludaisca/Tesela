@@ -28,11 +28,10 @@ const lengthOf = (mask) => mask.replace(/[^#]/g, "").length;
  */
 export class TslPhone extends TslFormElement {
   static get observedAttributes() {
-    return ["disabled", "country"];
+    return [...super.observedAttributes, "country", "value", "placeholder", "label", "country-label"];
   }
 
   setup() {
-    const label = this.getAttribute("label") || "Teléfono";
     const list = (this.getAttribute("countries") || Object.keys(COUNTRIES).join(","))
       .split(",")
       .map((c) => c.trim().toUpperCase())
@@ -48,7 +47,6 @@ export class TslPhone extends TslFormElement {
     // El <select> nativo va encima del distintivo, invisible: teclado, lectores y móviles lo manejan solos
     this.select = document.createElement("select");
     this.select.className = "tsl-phone__select";
-    this.select.setAttribute("aria-label", this.getAttribute("country-label") || "País");
     this.codes.forEach((c) => {
       const o = document.createElement("option");
       o.value = c;
@@ -62,8 +60,8 @@ export class TslPhone extends TslFormElement {
     this.input.type = "tel";
     this.input.inputMode = "tel";
     this.input.autocomplete = "tel-national";
-    this.input.setAttribute("aria-label", label);
     this.append(this.picker, this.input);
+    this.paintLabels();
 
     this.select.addEventListener("change", () => {
       this.applyCountry(this.select.value);
@@ -88,11 +86,20 @@ export class TslPhone extends TslFormElement {
     this.syncDisabled();
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
-    super.attributeChangedCallback(name);
-    if (name === "country" && this._tslReady && oldValue !== newValue && COUNTRIES[(newValue || "").toUpperCase()]) {
-      this.applyCountry(newValue.toUpperCase());
-    }
+  attributeChanged(name, before, after) {
+    super.attributeChanged(name, before, after);
+    if (name === "country" && COUNTRIES[(after || "").toUpperCase()]) this.applyCountry(after.toUpperCase());
+    else if (name === "placeholder") this.applyCountry(this._country);
+    else if (name === "value") {
+      this.initial = { country: this._country, value: after || "" };
+      this.value = this.initial.value;
+      this.committed = this.value;
+    } else if (name === "label" || name === "country-label") this.paintLabels();
+  }
+
+  paintLabels() {
+    this.select.setAttribute("aria-label", this.getAttribute("country-label") || "País");
+    this.input.setAttribute("aria-label", this.getAttribute("label") || "Teléfono");
   }
 
   startCountry() {

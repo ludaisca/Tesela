@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21f. Estructura: collapsible, scroll area, paneles redimensionables,
         separator y aspect ratio
@@ -184,4 +186,5 @@ tsl-resizable.is-resizing {
 [aria-expanded="true"] > .tsl-collapsible__chevron:dir(rtl),
 [aria-expanded="true"] .tsl-collapsible__chevron:dir(rtl) {
   transform: rotate(-45deg);
+}
 }

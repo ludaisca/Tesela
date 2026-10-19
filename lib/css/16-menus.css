@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    16. Menús: <tsl-menu>
    ---------------------------------------------------------------------------- */
@@ -76,4 +78,5 @@ tsl-menu[align="end"] .tsl-menu__list {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--tsl-fg-subtle);
+}
 }

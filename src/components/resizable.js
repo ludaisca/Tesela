@@ -9,6 +9,18 @@ import { TslElement, clamp, define, emit, isRtl, nextId, storage } from "../core
  * Evento tsl-resize { sizes } con porcentajes.
  */
 export class TslResizable extends TslElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "handle-label"];
+  }
+
+  attributeChanged() {
+    if (this.handles) this.paintLabels();
+  }
+
+  paintLabels() {
+    this.handles.forEach((h) => h.setAttribute("aria-label", this.getAttribute("handle-label") || "Cambiar tamaño"));
+  }
+
   setup() {
     this.vertical = this.getAttribute("direction") === "vertical";
     this.panels = Array.from(this.querySelectorAll(":scope > .tsl-resizable__panel"));
@@ -35,11 +47,11 @@ export class TslResizable extends TslElement {
       h.tabIndex = 0;
       h.setAttribute("role", "separator");
       h.setAttribute("aria-orientation", this.vertical ? "horizontal" : "vertical");
-      h.setAttribute("aria-label", this.getAttribute("handle-label") || "Cambiar tamaño");
       panel.after(h);
       this.handles.push(h);
       this.bindHandle(h, i);
     });
+    this.paintLabels();
     this.apply();
   }
 

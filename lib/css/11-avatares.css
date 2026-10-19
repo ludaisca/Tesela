@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    11. Avatares
    ---------------------------------------------------------------------------- */
@@ -56,4 +58,5 @@
 
 .tsl-avatar-group > .tsl-avatar + .tsl-avatar {
   margin-inline-start: calc(var(--_s) * -0.28);
+}
 }

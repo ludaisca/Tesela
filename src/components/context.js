@@ -16,7 +16,7 @@ const ROWS = [
  */
 export class TslContext extends TslElement {
   static get observedAttributes() {
-    return ["used", "max", "input", "output", "reasoning", "cached", "cost", "currency", "model"];
+    return [...super.observedAttributes, "used", "max", "input", "output", "reasoning", "cached", "cost", "currency", "model", "label", "input-label", "output-label", "reasoning-label", "cached-label", "cost-label"];
   }
 
   setup() {
@@ -60,8 +60,9 @@ export class TslContext extends TslElement {
     this.paint();
   }
 
-  attributeChangedCallback(_, oldValue, newValue) {
-    if (this._tslReady && oldValue !== newValue) this.paint();
+  attributeChanged(name) {
+    if (name === "label") this.pop.setAttribute("label", this.getAttribute("label") || "Uso del contexto");
+    this.paint();
   }
 
   num(name) {

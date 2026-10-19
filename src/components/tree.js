@@ -13,6 +13,20 @@ import { TslElement, define, emit, isRtl, normalize } from "../core/base.js";
  * Eventos: tsl-select { value, values }, tsl-toggle { value, expanded }, tsl-check { values }.
  */
 export class TslTree extends TslElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "label"];
+  }
+
+  attributeChanged() {
+    if (this.rootList) this.paintLabels();
+  }
+
+  paintLabels() {
+    const label = this.getAttribute("label");
+    if (label) this.rootList.setAttribute("aria-label", label);
+    else this.rootList.removeAttribute("aria-label");
+  }
+
   setup() {
     this.mode = this.getAttribute("selection") || "single";
     this.checkable = this.hasAttribute("checkable");
@@ -21,7 +35,7 @@ export class TslTree extends TslElement {
     this.selected = new Set();
     this.rootList.setAttribute("role", "tree");
     if (this.mode === "multiple") this.rootList.setAttribute("aria-multiselectable", "true");
-    if (this.getAttribute("label")) this.rootList.setAttribute("aria-label", this.getAttribute("label"));
+    this.paintLabels();
     this.typeahead = "";
     this.build(this.rootList, 1);
 

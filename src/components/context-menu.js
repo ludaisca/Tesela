@@ -90,9 +90,10 @@ export class TslContextMenu extends TslElement {
     // Cierre propio: clic fuera, scroll o resize (se registra tras el evento que lo abrió)
     setTimeout(() => {
       if (!isOpenPopover(this.list)) return;
-      document.addEventListener("pointerdown", this.outside, true);
-      window.addEventListener("scroll", this.dismiss, true);
-      window.addEventListener("resize", this.dismiss);
+      const signal = this.signal;
+      document.addEventListener("pointerdown", this.outside, { capture: true, signal });
+      window.addEventListener("scroll", this.dismiss, { capture: true, signal });
+      window.addEventListener("resize", this.dismiss, { signal });
     }, 0);
   }
 

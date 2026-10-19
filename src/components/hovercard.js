@@ -54,7 +54,7 @@ export class TslHoverCard extends TslElement {
       offset: parseInt(this.getAttribute("offset") || "8", 10)
     });
     this.trigger.setAttribute("aria-expanded", "true");
-    this.stop = trackPosition(this.trigger, this.panel, { placement: this.getAttribute("placement") || "bottom-start", offset: 8 });
+    this.stop = trackPosition(this.trigger, this.panel, { placement: this.getAttribute("placement") || "bottom-start", offset: 8, signal: this.signal });
     emit(this, "tsl-open", {});
   }
 

@@ -1,11 +1,16 @@
 /*! Tesela UI v1.4.0 — biblioteca de componentes sin dependencias · Iconos: Lucide (ISC), (c) Lucide Icons and Contributors */
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+
+@layer tesela.base {
 /* ============================================================================
    tesela-ui — Biblioteca de componentes sin dependencias (CSS)
    Inspirada en la estética de devl.dev. Todas las clases llevan el prefijo `tsl-`.
    Uso: <link rel="stylesheet" href="lib/tesela-ui.css"> + <script src="lib/tesela-ui.js" defer>
    Temas: oscuro por defecto; agrega data-theme="light" en <html> (o en cualquier ancestro).
    ============================================================================ */
+}
 
+@layer tesela.tokens {
 /* Generado por scripts/build-tokens.js desde src/tokens/. No editar a mano. */
 
 /* ----------------------------------------------------------------------------
@@ -108,7 +113,9 @@
   --tsl-font-heading: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --tsl-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
+}
 
+@layer tesela.base {
 /* ----------------------------------------------------------------------------
    Base: clase .tsl, atributo hidden y utilidad .tsl-sr-only
    ---------------------------------------------------------------------------- */
@@ -122,7 +129,8 @@
   -webkit-font-smoothing: antialiased;
 }
 
-/* Los componentes definen su propio display; el atributo `hidden` debe seguir mandando */
+/* Los componentes definen su propio display; el atributo `hidden` debe seguir mandando.
+   !important a propósito: dentro de una capa también gana al CSS del usuario, como el `hidden` nativo */
 [class^="tsl-"][hidden],
 [class*=" tsl-"][hidden] {
   display: none !important;
@@ -140,11 +148,14 @@
   border: 0;
 }
 
-/* Un popover cerrado nunca se muestra, aunque un componente defina su propio display */
+/* Un popover cerrado nunca se muestra, aunque un componente defina su propio display (!important
+   por la misma razón que `hidden`) */
 [popover]:not(:popover-open) {
   display: none !important;
 }
+}
 
+@layer tesela.base {
 /* ----------------------------------------------------------------------------
    2. Utilidades de tipografía
    ---------------------------------------------------------------------------- */
@@ -184,9 +195,12 @@
   border-radius: 4px;
   background: rgba(128, 128, 136, 0.16);
   border: 1px solid var(--tsl-border);
-  color: var(--tsl-fg-muted);
+  /* Más claro que el texto atenuado: el fondo de la tecla resta contraste (4,5:1 también sobre botones) */
+  color: color-mix(in srgb, var(--tsl-fg-muted) 75%, var(--tsl-fg));
+}
 }
 
+@layer tesela.components {
 /* ==========================================================================
    02b. Iconos: <tsl-icon> y .tsl-icon (el envoltorio que usan los componentes)
         Miden 1em y heredan el color; --tsl-icon-size y --tsl-icon-stroke los ajustan.
@@ -286,7 +300,9 @@ tsl-icon[spin] .tsl-icon__svg,
 :is(button, a, label, summary, [role="button"], [role="menuitem"], [role="option"], [role="tab"]) :is(tsl-icon, .tsl-icon) {
   pointer-events: none;
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    3. Botones
    ---------------------------------------------------------------------------- */
@@ -377,14 +393,17 @@ tsl-icon[spin] .tsl-icon__svg,
   border-color: transparent;
 }
 
+/* El rojo de peligro es para texto sobre el fondo; como relleno se oscurece para que el blanco
+   llegue a 4,5:1 (con el rojo puro se queda en 3,5:1) */
 .tsl-btn--danger {
-  background: var(--tsl-danger);
-  border-color: var(--tsl-danger);
+  --_danger: color-mix(in srgb, var(--tsl-danger) 80%, #000);
+  background: var(--_danger);
+  border-color: var(--_danger);
   color: #fff;
 }
 
 .tsl-btn--danger:hover {
-  background: color-mix(in srgb, var(--tsl-danger) 86%, #000);
+  background: color-mix(in srgb, var(--tsl-danger) 70%, #000);
   border-color: transparent;
 }
 
@@ -414,6 +433,8 @@ tsl-icon[spin] .tsl-icon__svg,
   border-radius: 999px;
 }
 
+/* Ocupado: el texto se oculta tras el indicador aunque una variante o un componente le dé color
+   (!important a propósito: es un estado que debe ganar siempre, como `hidden`) */
 .tsl-btn[aria-busy="true"] {
   color: transparent !important;
   pointer-events: none;
@@ -457,12 +478,15 @@ tsl-icon[spin] .tsl-icon__svg,
 .tsl-btn-group > .tsl-btn:hover {
   z-index: 1;
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    4. Insignias, chips y puntos de estado
    ---------------------------------------------------------------------------- */
 .tsl-badge {
-  --_c: var(--tsl-fg-muted);
+  /* Neutra: un poco más clara que el texto atenuado para mantener 4,5:1 sobre su velo y sobre superficies */
+  --_c: color-mix(in srgb, var(--tsl-fg-muted) 75%, var(--tsl-fg));
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -560,7 +584,9 @@ tsl-icon[spin] .tsl-icon__svg,
   opacity: 1;
   background: var(--tsl-surface-strong);
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    5. Tarjetas y superficies
    ---------------------------------------------------------------------------- */
@@ -657,7 +683,9 @@ tsl-icon[spin] .tsl-icon__svg,
 .tsl-divider:empty {
   gap: 0;
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    05b. Item: fila genérica con medio (icono o imagen), contenido y acciones
         <div class="tsl-item"> o <a class="tsl-item" href>; variantes --outline y --muted; tamaño --sm
@@ -783,7 +811,9 @@ button.tsl-item {
   border: 0;
   background: var(--tsl-border);
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    6. Controles de formulario
    ---------------------------------------------------------------------------- */
@@ -802,7 +832,7 @@ button.tsl-item {
 
 .tsl-hint {
   font-size: 11px;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-error {
@@ -1227,7 +1257,9 @@ tsl-dropzone:focus-visible {
   font-size: 11px;
   color: var(--tsl-fg);
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    06b. Grupo de radios: <tsl-radio-group> con botones .tsl-radio
         Variante .tsl-radio-group--cards: cada opción es una tarjeta
@@ -1341,7 +1373,9 @@ tsl-radio-group[data-invalid] .tsl-radio__mark {
   border-color: var(--tsl-fg);
   background: var(--tsl-surface-strong);
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    7. Control segmentado y pestañas
    ---------------------------------------------------------------------------- */
@@ -1431,7 +1465,9 @@ tsl-tabs {
   box-shadow: var(--tsl-ring);
   border-radius: 4px;
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    8. Acordeón (<details> nativo)
    ---------------------------------------------------------------------------- */
@@ -1492,7 +1528,9 @@ tsl-tabs {
   line-height: 1.65;
   color: var(--tsl-fg-muted);
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    9. Alertas y avisos destacados
    ---------------------------------------------------------------------------- */
@@ -1550,7 +1588,9 @@ tsl-tabs {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    10. Retroalimentación: progreso, medidor, spinner y skeleton
    ---------------------------------------------------------------------------- */
@@ -1630,7 +1670,9 @@ tsl-tabs {
   height: var(--h, 36px);
   border-radius: 50%;
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    11. Avatares
    ---------------------------------------------------------------------------- */
@@ -1690,7 +1732,9 @@ tsl-tabs {
 .tsl-avatar-group > .tsl-avatar + .tsl-avatar {
   margin-inline-start: calc(var(--_s) * -0.28);
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    12. Tablas
    ---------------------------------------------------------------------------- */
@@ -1777,7 +1821,9 @@ tsl-tabs {
   --_icon: var(--tsl-svg-arrow-down);
   opacity: 1;
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    13. Navegación: migas de pan, paginación, navegación lateral y pasos
    ---------------------------------------------------------------------------- */
@@ -1865,7 +1911,7 @@ tsl-tabs {
   font-size: 9.5px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-nav__item {
@@ -1902,7 +1948,7 @@ tsl-tabs {
 
 .tsl-nav__meta {
   font-size: 10px;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-steps {
@@ -1951,7 +1997,9 @@ tsl-tabs {
 .tsl-steps > li[aria-current="step"]::before {
   background: var(--tsl-accent);
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    14. Presentación de datos: métrica, línea de tiempo, estado vacío, código y lista
    ---------------------------------------------------------------------------- */
@@ -2135,7 +2183,9 @@ tsl-tabs {
   align-items: center;
   gap: 8px;
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    15. Tooltip: <button data-tsl-tooltip="Texto" data-tsl-placement="top|bottom">
    ---------------------------------------------------------------------------- */
@@ -2179,7 +2229,9 @@ tsl-tabs {
   transform: translate(-50%, 0);
   transition-delay: 250ms;
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    16. Menús: <tsl-menu>
    ---------------------------------------------------------------------------- */
@@ -2259,7 +2311,9 @@ tsl-menu[align="end"] .tsl-menu__list {
   text-transform: uppercase;
   color: var(--tsl-fg-subtle);
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    17. Diálogos y paneles laterales (<dialog class="tsl-dialog"> nativo)
    ---------------------------------------------------------------------------- */
@@ -2342,7 +2396,9 @@ tsl-menu[align="end"] .tsl-menu__list {
   bottom: 0;
   margin-top: auto;
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    18. Paleta de comandos: <tsl-command>
    ---------------------------------------------------------------------------- */
@@ -2425,7 +2481,9 @@ tsl-menu[align="end"] .tsl-menu__list {
   font-size: 10.5px;
   color: var(--tsl-fg-subtle);
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    19. Toasts: TeselaUI.toast({...})
    ---------------------------------------------------------------------------- */
@@ -2510,7 +2568,9 @@ tsl-menu[align="end"] .tsl-menu__list {
 .tsl-toast__close:hover {
   color: var(--tsl-fg);
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    20. Calendario: <tsl-calendar>
    ---------------------------------------------------------------------------- */
@@ -2582,7 +2642,9 @@ tsl-calendar {
   outline: none;
   box-shadow: var(--tsl-ring);
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21. Minigráfico: <tsl-sparkline values="4,8,6,12">
    ---------------------------------------------------------------------------- */
@@ -2599,7 +2661,9 @@ tsl-sparkline svg {
   height: 100%;
   overflow: visible;
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21b. Superposiciones: popover, hover card, menú contextual, sheets
    ---------------------------------------------------------------------------- */
@@ -2722,7 +2786,9 @@ tsl-context-menu > .tsl-menu__list:not([popover]) {
   from { transform: translateX(-24px); opacity: 0; }
   to { transform: none; opacity: 1; }
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21c. Campos: select, combobox, fecha y hora (disparador compartido)
    ---------------------------------------------------------------------------- */
@@ -2787,7 +2853,7 @@ tsl-time-picker {
 }
 
 .tsl-trigger__value.is-placeholder {
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-trigger__icon,
@@ -2823,11 +2889,12 @@ tsl-time-picker {
 .tsl-trigger__clear {
   position: absolute;
   top: 50%;
-  inset-inline-end: 30px;
+  inset-inline-end: 27px;
   display: grid;
   place-items: center;
-  width: 18px;
-  height: 18px;
+  /* 24 px: objetivo táctil mínimo de WCAG 2.5.8 */
+  width: 24px;
+  height: 24px;
   transform: translateY(-50%);
   border: 0;
   border-radius: 50%;
@@ -2910,7 +2977,7 @@ tsl-time-picker {
   font-size: 9.5px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-select__option {
@@ -2939,7 +3006,7 @@ tsl-time-picker {
 
 .tsl-select__hint {
   font-size: 10.5px;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-select__check {
@@ -3083,7 +3150,9 @@ tsl-select:has([aria-invalid="true"]) .tsl-trigger,
     gap: 8px;
   }
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21d. Barras de menú: <tsl-menubar> y <tsl-nav-menu>
    ---------------------------------------------------------------------------- */
@@ -3249,7 +3318,9 @@ tsl-nav-menu .tsl-bar__item > [data-tsl-trigger][aria-expanded="true"]::after {
 .tsl-menu__item[data-check][aria-checked="true"]::before {
   opacity: 1;
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21e. Inputs avanzados: slider, rating, color, toggle group, tarjetas de elección
    ---------------------------------------------------------------------------- */
@@ -3662,7 +3733,9 @@ tsl-chart,
 .tsl-color__alpha {
   direction: ltr;
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21f. Estructura: collapsible, scroll area, paneles redimensionables,
         separator y aspect ratio
@@ -3850,7 +3923,9 @@ tsl-resizable.is-resizing {
 [aria-expanded="true"] .tsl-collapsible__chevron:dir(rtl) {
   transform: rotate(-45deg);
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21g. Datos: tree view, lista virtualizada, ordenables y kanban
    ---------------------------------------------------------------------------- */
@@ -4119,7 +4194,9 @@ body.tsl-is-sorting {
 li[aria-expanded="true"] > .tsl-tree__row > .tsl-tree__chevron:dir(rtl)::before {
   transform: rotate(45deg);
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21h. Tabla de datos
    ---------------------------------------------------------------------------- */
@@ -4184,9 +4261,10 @@ tsl-data-table[density="comfortable"] .tsl-dt__table td {
   padding-block: 16px;
 }
 
-.tsl-dt__select {
+/* Misma especificidad que las reglas de densidad y después en el código: gana sin !important */
+tsl-data-table .tsl-dt__table :is(th, td).tsl-dt__select {
   width: 36px;
-  padding-inline: 12px 0 !important;
+  padding-inline: 12px 0;
 }
 
 .tsl-dt__sort {
@@ -4227,9 +4305,9 @@ th[aria-sort="descending"] .tsl-dt__sorticon {
   background: color-mix(in srgb, var(--tsl-accent) 9%, transparent);
 }
 
-.tsl-dt__empty {
-  padding: 36px 14px !important;
-  text-align: center !important;
+tsl-data-table .tsl-dt__table td.tsl-dt__empty {
+  padding: 36px 14px;
+  text-align: center;
   color: var(--tsl-fg-muted);
 }
 
@@ -4253,7 +4331,9 @@ th[aria-sort="descending"] .tsl-dt__sorticon {
   height: 28px;
   font-size: 11px;
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21i. Gráficas
    ---------------------------------------------------------------------------- */
@@ -4487,7 +4567,9 @@ tsl-chart.is-animating .tsl-chart__cell {
 @keyframes tsl-chart-fade {
   from { opacity: 0; }
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21j. Barra lateral: <tsl-sidebar> dentro de .tsl-sidebar-layout
         Modos: completa, solo iconos (collapsible="icon") u oculta (offcanvas) y cajón en pantallas estrechas
@@ -4582,7 +4664,7 @@ tsl-sidebar[collapsed][collapsible="offcanvas"] {
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -4763,7 +4845,9 @@ tsl-sidebar .tsl-sidebar__item[aria-expanded]:dir(rtl)::after {
 tsl-sidebar .tsl-sidebar__item[aria-expanded="true"]:dir(rtl)::after {
   transform: rotate(45deg);
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21k. Carrusel: <tsl-carousel> con scroll-snap, botones, puntos y avance automático
    ---------------------------------------------------------------------------- */
@@ -4840,29 +4924,31 @@ tsl-carousel[orientation="vertical"] .tsl-carousel__slide {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 4px;
 }
 
+/* El botón mide 24 × 24 (objetivo táctil de WCAG 2.5.8) y el punto visible de 8 px es su ::before */
 .tsl-carousel__dot {
-  position: relative;
-  width: 8px;
-  height: 8px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: var(--tsl-border-strong);
+  background: transparent;
   cursor: pointer;
+}
+
+.tsl-carousel__dot::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tsl-border-strong);
   transition: background-color 140ms ease, transform 140ms ease;
 }
 
-/* Zona de pulsación de 24 px sin cambiar el tamaño visible */
-.tsl-carousel__dot::before {
-  content: "";
-  position: absolute;
-  inset: -8px;
-}
-
-.tsl-carousel__dot[aria-current="true"] {
+.tsl-carousel__dot[aria-current="true"]::before {
   background: var(--tsl-fg);
   transform: scale(1.25);
 }
@@ -4877,11 +4963,13 @@ tsl-carousel[orientation="vertical"] .tsl-carousel__slide {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tsl-carousel__dot {
+  .tsl-carousel__dot::before {
     transition: none;
   }
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21l. Conversación: mensaje, burbuja, marcador, adjunto, traza y bloque de código
         (para chats e interfaces con asistentes; todo con propiedades lógicas, así que sirve en RTL)
@@ -4935,7 +5023,7 @@ tsl-carousel[orientation="vertical"] .tsl-carousel__slide {
 .tsl-message__footer {
   padding-inline: 4px;
   font-size: 11.5px;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-bubble {
@@ -5239,7 +5327,7 @@ a.tsl-trace__line:focus-visible {
 .tsl-trace__desc {
   flex: none;
   font-size: 12px;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-trace__line[data-status="running"] .tsl-trace__title {
@@ -5581,7 +5669,9 @@ tsl-questionnaire {
 .tsl-questionnaire__actions [hidden] {
   display: none;
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21m. Asistente: entrada de prompt, sugerencias, acciones de mensaje, razonamiento,
         fuentes y citas, versiones de respuesta y medidor de contexto
@@ -6284,7 +6374,7 @@ tsl-context[data-level="danger"] .tsl-context__fill {
   margin: 0;
   text-align: center;
   font-size: 11.5px;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -6299,7 +6389,9 @@ tsl-context[data-level="danger"] .tsl-context__fill {
     animation-duration: 2s;
   }
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21n. Bloques: asistente por pasos, panel de control, autenticación y ajustes
         (se adaptan al ancho de su contenedor, no al de la ventana, para que sirvan
@@ -6847,7 +6939,9 @@ tsl-wizard {
     animation: none;
   }
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21o. Controles: importe, teléfono, subida de archivos y editor de texto enriquecido
    ---------------------------------------------------------------------------- */
@@ -7066,7 +7160,7 @@ tsl-upload[data-dragging] .tsl-upload__drop {
 
 .tsl-upload__hint {
   font-size: 11.5px;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-upload__list {
@@ -7345,7 +7439,7 @@ tsl-editor[aria-invalid="true"] {
 }
 
 .tsl-editor__content a {
-  color: var(--tsl-accent);
+  color: color-mix(in srgb, var(--tsl-accent) 70%, var(--tsl-fg));
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -7363,7 +7457,7 @@ tsl-editor[disabled] .tsl-editor__content {
   padding: 4px 10px 6px;
   text-align: end;
   font-size: 11px;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
   font-variant-numeric: tabular-nums;
 }
 
@@ -7374,7 +7468,9 @@ tsl-editor[disabled] .tsl-editor__content {
 .tsl-editor__count[data-over] {
   color: var(--tsl-danger);
 }
+}
 
+@layer tesela.utilities {
 /* ----------------------------------------------------------------------------
    22. Utilidades de diseño
    ---------------------------------------------------------------------------- */
@@ -7401,7 +7497,9 @@ tsl-editor[disabled] .tsl-editor__content {
 .tsl-spacer {
   flex: 1;
 }
+}
 
+@layer tesela.base {
 /* ----------------------------------------------------------------------------
    23. Keyframes y preferencias de movimiento
    ---------------------------------------------------------------------------- */
@@ -7439,6 +7537,7 @@ tsl-editor[disabled] .tsl-editor__content {
   to { opacity: 1; transform: none; }
 }
 
+/* Movimiento reducido: !important a propósito, la preferencia de la persona gana a cualquier animación */
 @media (prefers-reduced-motion: reduce) {
   [class^="tsl-"],
   [class*=" tsl-"],
@@ -7452,7 +7551,9 @@ tsl-editor[disabled] .tsl-editor__content {
     transition-duration: 0.01ms !important;
   }
 }
+}
 
+@layer tesela.tokens {
 /* Generado por scripts/build-tokens.js desde src/tokens/. No editar a mano. */
 
 /* ----------------------------------------------------------------------------
@@ -7875,7 +7976,9 @@ tsl-editor[disabled] .tsl-editor__content {
     --tsl-ring: 0 0 0 2px var(--tsl-bg), 0 0 0 4px color-mix(in srgb, var(--tsl-accent) 75%, transparent);
   }
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    25. Punteros táctiles: objetivos de pulsación cómodos (≥ 36–40 px)
    Solo en dispositivos de puntero «grueso»; con ratón nada cambia.
@@ -8113,7 +8216,9 @@ tsl-editor[disabled] .tsl-editor__content {
     min-height: 32px;
   }
 }
+}
 
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    26. Adaptación a pantallas pequeñas: texto largo, segmentados y filas de lista
    ---------------------------------------------------------------------------- */
@@ -8175,4 +8280,161 @@ tsl-editor[disabled] .tsl-editor__content {
     display: flex;
     margin: 0 0 10px auto;
   }
+}
+}
+
+@layer tesela.utilities {
+/* ----------------------------------------------------------------------------
+   27. Alto contraste (forced-colors: modo de contraste de Windows y similares)
+       El sistema sustituye los colores por su paleta y quita las sombras. Tesela marca el foco con
+       box-shadow y pinta casillas, interruptores y estados con fondos: sin estas reglas, el foco no
+       se ve y una casilla marcada es igual que una vacía. Se usan solo colores del sistema.
+       Va en la capa de utilidades para ganar a cualquier regla de componente sin !important.
+   ---------------------------------------------------------------------------- */
+@media (forced-colors: active) {
+  /* Foco: la sombra desaparece, así que se vuelve a un contorno real */
+  :is([class*="tsl-"], [class*="tsl-"] *, tsl-rating, tsl-chart, tsl-dropzone, tsl-tree *, tsl-virtual-list *):focus-visible,
+  .tsl-trigger--input:focus-within {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  /* Botones: siempre con borde, y las variantes con relleno se distinguen por el color del sistema */
+  .tsl-btn {
+    border-color: ButtonText;
+  }
+
+  .tsl-btn--primary,
+  .tsl-btn--accent,
+  .tsl-btn--danger {
+    background: ButtonText;
+    color: ButtonFace;
+    forced-color-adjust: none;
+  }
+
+  .tsl-btn:disabled,
+  .tsl-btn[aria-disabled="true"] {
+    border-color: GrayText;
+    background: ButtonFace;
+    color: GrayText;
+  }
+
+  .tsl-btn[aria-busy="true"]::after {
+    border-color: ButtonText transparent;
+  }
+
+  :is(.tsl-btn--primary, .tsl-btn--accent, .tsl-btn--danger)[aria-busy="true"]::after {
+    border-color: ButtonFace transparent;
+  }
+
+  /* Campos */
+  .tsl-input,
+  .tsl-textarea,
+  .tsl-select,
+  .tsl-trigger,
+  tsl-tags,
+  tsl-currency,
+  tsl-phone,
+  .tsl-editor__content {
+    border-color: FieldText;
+  }
+
+  :is(.tsl-input, .tsl-textarea, .tsl-select, .tsl-trigger):disabled {
+    border-color: GrayText;
+    color: GrayText;
+  }
+
+  /* Casillas y radios: el fondo de «marcada» se pierde, así que se pinta con Highlight */
+  .tsl-check,
+  .tsl-radio__mark {
+    border-color: ButtonText;
+    background: Canvas;
+    forced-color-adjust: none;
+  }
+
+  .tsl-check::before,
+  .tsl-radio__mark::before {
+    background: HighlightText;
+  }
+
+  .tsl-check:checked,
+  .tsl-check[type="checkbox"]:indeterminate,
+  .tsl-radio[aria-checked="true"] .tsl-radio__mark {
+    border-color: Highlight;
+    background: Highlight;
+  }
+
+  .tsl-check:disabled,
+  .tsl-radio[disabled] .tsl-radio__mark,
+  tsl-radio-group[aria-disabled] .tsl-radio__mark {
+    border-color: GrayText;
+  }
+
+  .tsl-check:disabled:checked {
+    background: GrayText;
+  }
+
+  /* Interruptor: pista con borde y botón que cambia de color al activarse */
+  .tsl-switch {
+    border: 1px solid ButtonText;
+    background: Canvas;
+    forced-color-adjust: none;
+  }
+
+  .tsl-switch::before {
+    top: 1px;
+    background: ButtonText;
+    box-shadow: none;
+  }
+
+  .tsl-switch:checked {
+    border-color: Highlight;
+    background: Highlight;
+  }
+
+  .tsl-switch:checked::before {
+    background: HighlightText;
+  }
+
+  .tsl-switch:disabled {
+    border-color: GrayText;
+  }
+
+  .tsl-switch:disabled::before {
+    background: GrayText;
+  }
+
+  /* Slider y rango */
+  .tsl-slider__track {
+    background: CanvasText;
+    forced-color-adjust: none;
+  }
+
+  .tsl-slider__fill {
+    background: Highlight;
+  }
+
+  .tsl-slider__thumb {
+    border-color: ButtonText;
+    background: ButtonFace;
+    forced-color-adjust: none;
+  }
+
+  /* Opciones elegidas, pestañas y estados de pulsación: el sistema iguala los fondos, así que la
+     selección se marca con Highlight (como hacen los controles nativos) */
+  .tsl-tabs__tab[aria-selected="true"],
+  .tsl-segmented__item[aria-checked="true"],
+  .tsl-toggle-group__item[aria-pressed="true"],
+  .tsl-chip[aria-pressed="true"],
+  .tsl-select__option[aria-selected="true"],
+  .tsl-command__item[aria-selected="true"],
+  .tsl-time__opt[aria-selected="true"],
+  .tsl-cal__day[aria-pressed="true"],
+  .tsl-editor__tool[aria-pressed="true"],
+  li[aria-selected="true"] > .tsl-tree__row {
+    background: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+}
 }

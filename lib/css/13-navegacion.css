@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    13. Navegación: migas de pan, paginación, navegación lateral y pasos
    ---------------------------------------------------------------------------- */
@@ -85,7 +87,7 @@
   font-size: 9.5px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-nav__item {
@@ -122,7 +124,7 @@
 
 .tsl-nav__meta {
   font-size: 10px;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-steps {
@@ -170,4 +172,5 @@
 
 .tsl-steps > li[aria-current="step"]::before {
   background: var(--tsl-accent);
+}
 }

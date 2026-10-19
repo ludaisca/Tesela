@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21l. Conversación: mensaje, burbuja, marcador, adjunto, traza y bloque de código
         (para chats e interfaces con asistentes; todo con propiedades lógicas, así que sirve en RTL)
@@ -51,7 +53,7 @@
 .tsl-message__footer {
   padding-inline: 4px;
   font-size: 11.5px;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-bubble {
@@ -355,7 +357,7 @@ a.tsl-trace__line:focus-visible {
 .tsl-trace__desc {
   flex: none;
   font-size: 12px;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-trace__line[data-status="running"] .tsl-trace__title {
@@ -696,4 +698,5 @@ tsl-questionnaire {
 
 .tsl-questionnaire__actions [hidden] {
   display: none;
+}
 }

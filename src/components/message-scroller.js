@@ -12,12 +12,15 @@ const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matc
  * El contenido es una región `log` (aria-live=polite).
  */
 export class TslMessageScroller extends TslElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "label", "end-label"];
+  }
+
   setup() {
     this.viewport = document.createElement("div");
     this.viewport.className = "tsl-message-scroller__viewport";
     this.viewport.tabIndex = 0;
     this.viewport.setAttribute("role", "region");
-    this.viewport.setAttribute("aria-label", this.getAttribute("label") || "Conversación");
     this.content = this.querySelector(":scope > .tsl-message-scroller__content") || document.createElement("div");
     this.content.classList.add("tsl-message-scroller__content");
     this.content.setAttribute("role", "log");
@@ -29,7 +32,9 @@ export class TslMessageScroller extends TslElement {
     this.button = document.createElement("button");
     this.button.type = "button";
     this.button.className = "tsl-btn tsl-btn--sm tsl-message-scroller__end";
-    this.button.append(icon("arrow-down"), this.getAttribute("end-label") || "Ir al final");
+    this.endText = document.createTextNode("");
+    this.button.append(icon("arrow-down"), this.endText);
+    this.paintLabels();
     this.button.addEventListener("click", () => this.scrollToEnd());
     this.appendChild(this.button);
 
@@ -53,9 +58,25 @@ export class TslMessageScroller extends TslElement {
   }
 
   disconnectedCallback() {
+    super.disconnectedCallback();
     if (this.mutations) this.mutations.disconnect();
     if (this.resizer) this.resizer.disconnect();
-    this._tslReady = false;
+  }
+
+  reconnected() {
+    this.mutations.observe(this.content, { childList: true, subtree: true, characterData: true });
+    this.resizer.observe(this.content);
+    this.resizer.observe(this.viewport);
+    if (this.stuck) this.scrollToEnd(false);
+  }
+
+  attributeChanged() {
+    this.paintLabels();
+  }
+
+  paintLabels() {
+    this.viewport.setAttribute("aria-label", this.getAttribute("label") || "Conversación");
+    this.endText.textContent = this.getAttribute("end-label") || "Ir al final";
   }
 
   get threshold() {

@@ -14,6 +14,17 @@ import { icon } from "../core/icons.js";
  * (un string se muestra como texto). Eventos: tsl-sort, tsl-page, tsl-selection, tsl-row-click.
  */
 export class TslDataTable extends TslElement {
+  // Textos y estado que se pueden cambiar después del montaje
+  static get observedAttributes() {
+    return [...super.observedAttributes, "caption", "empty-text", "no-match-text", "density-label", "select-all-label", "select-row-label", "selected-one", "selected-many", "search-placeholder", "clear-label", "columns-label", "export-label", "rows-label", "pager-label", "loading"];
+  }
+
+  attributeChanged(name) {
+    if (name === "density-label") this.paintDensity();
+    else if (name !== "loading" && !name.startsWith("select") && !name.endsWith("-text")) this.paintLabels();
+    this.update();
+  }
+
   setup() {
     this.locale = this.getAttribute("locale") || document.documentElement.lang || undefined;
     this.q = "";
@@ -112,8 +123,6 @@ export class TslDataTable extends TslElement {
       this.search = document.createElement("input");
       this.search.type = "search";
       this.search.className = "tsl-input tsl-dt__search";
-      this.search.placeholder = t("search-placeholder", "Buscar…");
-      this.search.setAttribute("aria-label", t("search-placeholder", "Buscar en la tabla"));
       let timer = 0;
       this.search.addEventListener("input", () => {
         clearTimeout(timer);
@@ -136,7 +145,6 @@ export class TslDataTable extends TslElement {
     this.selClear = document.createElement("button");
     this.selClear.type = "button";
     this.selClear.className = "tsl-btn tsl-btn--sm tsl-btn--subtle";
-    this.selClear.textContent = t("clear-label", "Limpiar");
     this.selClear.addEventListener("click", () => this.clearSelection());
     this.selInfo.append(this.selCount, this.selClear);
     this.toolbar.appendChild(this.selInfo);
@@ -148,10 +156,10 @@ export class TslDataTable extends TslElement {
     trig.type = "button";
     trig.className = "tsl-btn tsl-btn--sm";
     trig.setAttribute("data-tsl-trigger", "");
-    trig.append(t("columns-label", "Columnas"), icon("chevron-down"));
+    this.colText = document.createTextNode("");
+    trig.append(this.colText, icon("chevron-down"));
     this.colPanel = document.createElement("div");
     this.colPanel.className = "tsl-popover__panel tsl-dt__colmenu";
-    this.colPanel.setAttribute("aria-label", t("columns-label", "Columnas visibles"));
     pop.append(trig, this.colPanel);
     this.toolbar.appendChild(pop);
     this.buildColumnMenu();
@@ -167,12 +175,11 @@ export class TslDataTable extends TslElement {
     this.toolbar.appendChild(this.densityBtn);
 
     if (this.hasAttribute("exportable")) {
-      const exp = document.createElement("button");
-      exp.type = "button";
-      exp.className = "tsl-btn tsl-btn--sm";
-      exp.textContent = t("export-label", "Exportar CSV");
-      exp.addEventListener("click", () => this.exportCsv());
-      this.toolbar.appendChild(exp);
+      this.exportBtn = document.createElement("button");
+      this.exportBtn.type = "button";
+      this.exportBtn.className = "tsl-btn tsl-btn--sm";
+      this.exportBtn.addEventListener("click", () => this.exportCsv());
+      this.toolbar.appendChild(this.exportBtn);
     }
 
     this.wrap = document.createElement("div");
@@ -182,7 +189,6 @@ export class TslDataTable extends TslElement {
     this.table.className = "tsl-table tsl-dt__table";
     this.caption = document.createElement("caption");
     this.caption.className = "tsl-sr-only";
-    this.caption.textContent = this.getAttribute("caption") || "Tabla de datos";
     this.thead = document.createElement("thead");
     this.tbody = document.createElement("tbody");
     this.table.append(this.caption, this.thead, this.tbody);
@@ -195,7 +201,8 @@ export class TslDataTable extends TslElement {
     this.rangeText.setAttribute("aria-live", "polite");
     const sizeLabel = document.createElement("label");
     sizeLabel.className = "tsl-dt__size";
-    sizeLabel.append(`${t("rows-label", "Filas")} `);
+    this.sizeText = document.createTextNode("");
+    sizeLabel.append(this.sizeText);
     this.sizeSel = document.createElement("select");
     this.sizeSel.className = "tsl-select";
     this.sizeSel.addEventListener("change", () => {
@@ -207,7 +214,6 @@ export class TslDataTable extends TslElement {
     sizeLabel.appendChild(this.sizeSel);
     this.pager = document.createElement("nav");
     this.pager.className = "tsl-pagination";
-    this.pager.setAttribute("aria-label", t("pager-label", "Paginación"));
     this.pager.addEventListener("click", (e) => {
       const b = e.target.closest("button[data-page]");
       if (!b || b.disabled) return;
@@ -220,7 +226,24 @@ export class TslDataTable extends TslElement {
     this.footer.append(this.rangeText, sp, sizeLabel, this.pager);
 
     this.append(this.toolbar, this.wrap, this.footer);
+    this.paintLabels();
     this.paintDensity();
+  }
+
+  paintLabels() {
+    const t = (name, fallback) => this.getAttribute(name) || fallback;
+    if (this.search) {
+      this.search.placeholder = t("search-placeholder", "Buscar…");
+      this.search.setAttribute("aria-label", t("search-placeholder", "Buscar en la tabla"));
+    }
+    this.selClear.textContent = t("clear-label", "Limpiar");
+    this.colText.textContent = t("columns-label", "Columnas");
+    this.colPanel.setAttribute("aria-label", t("columns-label", "Columnas visibles"));
+    if (this.exportBtn) this.exportBtn.textContent = t("export-label", "Exportar CSV");
+    this.caption.textContent = t("caption", "Tabla de datos");
+    this.sizeText.textContent = `${t("rows-label", "Filas")} `;
+    // Con el título de la tabla: dos tablas en la misma página no repiten el nombre del landmark
+    this.pager.setAttribute("aria-label", t("pager-label", this.getAttribute("caption") ? `Paginación: ${this.getAttribute("caption")}` : "Paginación"));
   }
 
   buildColumnMenu() {

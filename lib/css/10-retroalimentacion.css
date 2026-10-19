@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    10. Retroalimentación: progreso, medidor, spinner y skeleton
    ---------------------------------------------------------------------------- */
@@ -76,4 +78,5 @@
   width: var(--h, 36px);
   height: var(--h, 36px);
   border-radius: 50%;
+}
 }

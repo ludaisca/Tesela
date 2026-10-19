@@ -92,7 +92,7 @@ tsl-sidebar[collapsed][collapsible="offcanvas"] {
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -971,7 +971,7 @@ export const elements = [
       attr("columns-label", "string", "Texto del menú de columnas.", "Columnas"),
       attr("export-label", "string", "Texto del botón de exportar.", "Exportar CSV"),
       attr("rows-label", "string", "Etiqueta del selector de filas por página.", "Filas"),
-      attr("pager-label", "string", "Nombre accesible de la paginación.", "Paginación")
+      attr("pager-label", "string", "Nombre accesible de la paginación (por defecto, «Paginación: » y el `caption`).", "Paginación")
     ],
     properties: [
       prop("columns", "Array<{ key: string; label: string; sort?: \"text\" | \"number\" | \"date\"; align?: \"end\"; width?: string; hidden?: boolean; format?: (value: any, row: any) => string; render?: (row: any) => Node | string }>", "Definición de columnas."),

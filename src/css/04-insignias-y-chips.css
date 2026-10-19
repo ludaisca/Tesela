@@ -2,7 +2,8 @@
    4. Insignias, chips y puntos de estado
    ---------------------------------------------------------------------------- */
 .tsl-badge {
-  --_c: var(--tsl-fg-muted);
+  /* Neutra: un poco más clara que el texto atenuado para mantener 4,5:1 sobre su velo y sobre superficies */
+  --_c: color-mix(in srgb, var(--tsl-fg-muted) 75%, var(--tsl-fg));
   display: inline-flex;
   align-items: center;
   gap: 5px;

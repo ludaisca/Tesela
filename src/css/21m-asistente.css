@@ -700,7 +700,7 @@ tsl-context[data-level="danger"] .tsl-context__fill {
   margin: 0;
   text-align: center;
   font-size: 11.5px;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 @media (prefers-reduced-motion: reduce) {

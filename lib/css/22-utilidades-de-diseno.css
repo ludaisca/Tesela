@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.utilities {
 /* ----------------------------------------------------------------------------
    22. Utilidades de diseño
    ---------------------------------------------------------------------------- */
@@ -23,4 +25,5 @@
 
 .tsl-spacer {
   flex: 1;
+}
 }

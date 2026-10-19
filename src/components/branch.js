@@ -10,6 +10,10 @@ import { icon } from "../core/icons.js";
  * añade el selector de versiones («2 de 3» con flechas). Empieza en la última y, si llega otra versión, salta a ella.
  */
 export class TslBranch extends TslElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "label", "prev-label", "next-label", "count-label", "index"];
+  }
+
   setup() {
     this.selector = this.querySelector(".tsl-branch__selector");
     if (!this.selector) {
@@ -18,7 +22,6 @@ export class TslBranch extends TslElement {
       this.appendChild(this.selector);
     }
     this.selector.setAttribute("role", "group");
-    this.selector.setAttribute("aria-label", this.getAttribute("label") || "Versiones");
     const button = (cls, label, text, fn) => {
       const b = document.createElement("button");
       b.type = "button";
@@ -28,11 +31,12 @@ export class TslBranch extends TslElement {
       b.addEventListener("click", fn);
       return b;
     };
-    this.prevBtn = button("tsl-branch__prev", this.getAttribute("prev-label") || "Versión anterior", icon("chevron-left", "tsl-icon--flip-rtl"), () => this.prev());
-    this.nextBtn = button("tsl-branch__next", this.getAttribute("next-label") || "Versión siguiente", icon("chevron-right", "tsl-icon--flip-rtl"), () => this.next());
+    this.prevBtn = button("tsl-branch__prev", "", icon("chevron-left", "tsl-icon--flip-rtl"), () => this.prev());
+    this.nextBtn = button("tsl-branch__next", "", icon("chevron-right", "tsl-icon--flip-rtl"), () => this.next());
     this.counter = document.createElement("span");
     this.counter.className = "tsl-branch__count";
     this.selector.replaceChildren(this.prevBtn, this.counter, this.nextBtn);
+    this.paintLabels();
 
     const start = parseInt(this.getAttribute("index"), 10);
     this._index = Number.isNaN(start) ? this.items.length - 1 : start;
@@ -49,8 +53,28 @@ export class TslBranch extends TslElement {
   }
 
   disconnectedCallback() {
+    super.disconnectedCallback();
     if (this.mutations) this.mutations.disconnect();
-    this._tslReady = false;
+  }
+
+  reconnected() {
+    this.known = this.items.length;
+    this.mutations.observe(this, { childList: true });
+    this.paint();
+  }
+
+  attributeChanged(name, before, after) {
+    if (name === "index") {
+      const i = parseInt(after, 10);
+      if (!Number.isNaN(i)) this.goTo(i, false);
+    } else if (name === "count-label") this.paint();
+    else this.paintLabels();
+  }
+
+  paintLabels() {
+    this.selector.setAttribute("aria-label", this.getAttribute("label") || "Versiones");
+    this.prevBtn.setAttribute("aria-label", this.getAttribute("prev-label") || "Versión anterior");
+    this.nextBtn.setAttribute("aria-label", this.getAttribute("next-label") || "Versión siguiente");
   }
 
   get items() {

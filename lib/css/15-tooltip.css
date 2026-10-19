@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    15. Tooltip: <button data-tsl-tooltip="Texto" data-tsl-placement="top|bottom">
    ---------------------------------------------------------------------------- */
@@ -40,4 +42,5 @@
   opacity: 1;
   transform: translate(-50%, 0);
   transition-delay: 250ms;
+}
 }

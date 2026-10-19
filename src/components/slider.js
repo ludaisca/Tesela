@@ -10,6 +10,10 @@ const decimalsOf = (n) => (String(n).split(".")[1] || "").length;
  * Teclado: ← → ± step, PgUp PgDn ± 10 pasos, Home End.
  */
 export class TslSlider extends TslFormElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "value", "label"];
+  }
+
   setup() {
     this.min = parseFloat(this.getAttribute("min") || "0");
     this.max = parseFloat(this.getAttribute("max") || "100");
@@ -31,6 +35,19 @@ export class TslSlider extends TslFormElement {
     this.update(false);
   }
 
+  attributeChanged(name, before, after) {
+    super.attributeChanged(name, before, after);
+    if (name === "value") {
+      this.value = after || "";
+      this.initial = this.vals.slice();
+    } else if (name === "label") this.paintLabels();
+  }
+
+  paintLabels() {
+    const label = this.getAttribute("label") || "Valor";
+    this.thumbs.forEach((t, i) => t.setAttribute("aria-label", this.range ? `${label}: ${i === 0 ? "mínimo" : "máximo"}` : label));
+  }
+
   snap(v) {
     const stepped = Math.round((clamp(v, this.min, this.max) - this.min) / this.step) * this.step + this.min;
     return clamp(Number(stepped.toFixed(decimalsOf(this.step) + decimalsOf(this.min))), this.min, this.max);
@@ -50,13 +67,12 @@ export class TslSlider extends TslFormElement {
       t.setAttribute("aria-orientation", "horizontal");
       t.setAttribute("aria-valuemin", String(this.min));
       t.setAttribute("aria-valuemax", String(this.max));
-      const label = this.getAttribute("label") || "Valor";
-      t.setAttribute("aria-label", this.range ? `${label}: ${i === 0 ? "mínimo" : "máximo"}` : label);
       t.dataset.i = String(i);
       this.track.appendChild(t);
       return t;
     });
     this.appendChild(this.track);
+    this.paintLabels();
 
     this.track.addEventListener("pointerdown", (e) => {
       if (this.isDisabled || e.button !== 0) return;

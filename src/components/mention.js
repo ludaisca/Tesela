@@ -40,6 +40,18 @@ function caretPoint(field) {
  * Evento tsl-mention { user, value }. `element.users = [{ value, label, hint }]` carga datos dinámicos.
  */
 export class TslMention extends TslElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "label"];
+  }
+
+  attributeChanged() {
+    if (this.listEl) this.paintLabels();
+  }
+
+  paintLabels() {
+    this.listEl.setAttribute("aria-label", this.getAttribute("label") || "Menciones");
+  }
+
   setup() {
     this.field = this.querySelector("textarea, input");
     if (!this.field) return;
@@ -62,14 +74,19 @@ export class TslMention extends TslElement {
     this.listEl.className = "tsl-select__list";
     this.listEl.id = id;
     this.listEl.setAttribute("role", "listbox");
-    this.listEl.setAttribute("aria-label", this.getAttribute("label") || "Menciones");
+    this.paintLabels();
     this.panel.appendChild(this.listEl);
     this.appendChild(this.panel);
 
     const f = this.field;
-    f.setAttribute("role", "combobox");
+    // Un <input> es un combobox; un <textarea> no admite ese rol y queda como cuadro de texto con
+    // autocompletado (aria-autocomplete, aria-controls y aria-activedescendant sí valen en él)
+    this.combo = f.tagName === "INPUT";
+    if (this.combo) {
+      f.setAttribute("role", "combobox");
+      f.setAttribute("aria-expanded", "false");
+    }
     f.setAttribute("aria-autocomplete", "list");
-    f.setAttribute("aria-expanded", "false");
     f.setAttribute("aria-controls", id);
     f.addEventListener("input", () => this.detect());
     f.addEventListener("click", () => this.detect());
@@ -130,7 +147,7 @@ export class TslMention extends TslElement {
     this.render();
     if (!this.isOpen) this.panel.showPopover();
     this.place();
-    f.setAttribute("aria-expanded", "true");
+    if (this.combo) f.setAttribute("aria-expanded", "true");
   }
 
   render() {
@@ -181,7 +198,7 @@ export class TslMention extends TslElement {
   close() {
     if (this.panel && this.isOpen) this.panel.hidePopover();
     if (this.field) {
-      this.field.setAttribute("aria-expanded", "false");
+      if (this.combo) this.field.setAttribute("aria-expanded", "false");
       this.field.removeAttribute("aria-activedescendant");
     }
   }

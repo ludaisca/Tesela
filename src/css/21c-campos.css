@@ -62,7 +62,7 @@ tsl-time-picker {
 }
 
 .tsl-trigger__value.is-placeholder {
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-trigger__icon,
@@ -98,11 +98,12 @@ tsl-time-picker {
 .tsl-trigger__clear {
   position: absolute;
   top: 50%;
-  inset-inline-end: 30px;
+  inset-inline-end: 27px;
   display: grid;
   place-items: center;
-  width: 18px;
-  height: 18px;
+  /* 24 px: objetivo táctil mínimo de WCAG 2.5.8 */
+  width: 24px;
+  height: 24px;
   transform: translateY(-50%);
   border: 0;
   border-radius: 50%;
@@ -185,7 +186,7 @@ tsl-time-picker {
   font-size: 9.5px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-select__option {
@@ -214,7 +215,7 @@ tsl-time-picker {
 
 .tsl-select__hint {
   font-size: 10.5px;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-select__check {

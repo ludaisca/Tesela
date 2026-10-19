@@ -13,6 +13,10 @@ const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matc
  * y el avance automático se añaden solos. Las diapositivas fuera de vista quedan `inert`.
  */
 export class TslCarousel extends TslElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "label"];
+  }
+
   setup() {
     this.track = this.querySelector(":scope > .tsl-carousel__track");
     if (!this.track) return;
@@ -20,12 +24,11 @@ export class TslCarousel extends TslElement {
     this.current = 0;
     this.setAttribute("role", "region");
     this.setAttribute("aria-roledescription", "carrusel");
-    this.setAttribute("aria-label", this.getAttribute("label") || "Carrusel");
     this.style.setProperty("--tsl-per-view", String(this.perView));
     this.track.tabIndex = 0;
     this.track.setAttribute("role", "group");
-    this.track.setAttribute("aria-label", `${this.getAttribute("label") || "Carrusel"}: diapositivas`);
     this.track.id = this.track.id || nextId("tsl-carousel");
+    this.paintLabels();
     this.slides.forEach((s, i) => {
       s.setAttribute("role", "group");
       s.setAttribute("aria-roledescription", "diapositiva");
@@ -72,9 +75,25 @@ export class TslCarousel extends TslElement {
   }
 
   disconnectedCallback() {
+    super.disconnectedCallback();
     clearInterval(this.timer);
     if (this.resizer) this.resizer.disconnect();
-    this._tslReady = false;
+  }
+
+  reconnected() {
+    this.resizer.observe(this.track);
+    this.sync(false);
+    this.startAuto();
+  }
+
+  attributeChanged() {
+    this.paintLabels();
+  }
+
+  paintLabels() {
+    const label = this.getAttribute("label") || "Carrusel";
+    this.setAttribute("aria-label", label);
+    this.track.setAttribute("aria-label", `${label}: diapositivas`);
   }
 
   get vertical() {

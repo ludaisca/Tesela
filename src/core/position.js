@@ -46,11 +46,13 @@ export function position(anchor, el, { placement = "bottom", offset = 6, padding
   return side;
 }
 
-// Reposiciona mientras el elemento esté abierto (scroll en cualquier contenedor y resize)
-export function trackPosition(anchor, el, options) {
+// Reposiciona mientras el elemento esté abierto (scroll en cualquier contenedor y resize).
+// Con `signal` (la de TslElement) las escuchas se quitan solas si el componente sale del documento.
+export function trackPosition(anchor, el, options = {}) {
   const update = () => position(anchor, el, options);
-  window.addEventListener("scroll", update, true);
-  window.addEventListener("resize", update);
+  const { signal } = options;
+  window.addEventListener("scroll", update, { capture: true, signal });
+  window.addEventListener("resize", update, { signal });
   return () => {
     window.removeEventListener("scroll", update, true);
     window.removeEventListener("resize", update);
@@ -79,8 +81,9 @@ export function dismissOnOutside(host, panel, close) {
     if (e.type === "scroll" && panel.contains(e.target)) return;
     close();
   };
-  document.addEventListener("pointerdown", outside, true);
-  window.addEventListener("resize", dismiss);
+  const { signal } = host;
+  document.addEventListener("pointerdown", outside, { capture: true, signal });
+  window.addEventListener("resize", dismiss, { signal });
   return () => {
     document.removeEventListener("pointerdown", outside, true);
     window.removeEventListener("resize", dismiss);

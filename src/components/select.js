@@ -16,6 +16,10 @@ const CHECK = `<svg class="tsl-select__check" width="12" height="12" viewBox="0 
  * value: string (o array con `multiple`). Evento tsl-change { value, values }.
  */
 export class TslSelect extends TslFormElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "value", "placeholder", "label", "search-placeholder", "empty", "clear-label", "max-chips"];
+  }
+
   setup() {
     this.multiple = this.hasAttribute("multiple");
     this.inline = this.hasAttribute("autocomplete");
@@ -51,7 +55,10 @@ export class TslSelect extends TslFormElement {
   }
 
   initialValues() {
-    const attr = this.getAttribute("value");
+    return this.parseValues(this.getAttribute("value"));
+  }
+
+  parseValues(attr) {
     let vals = attr !== null && attr !== "" ? (this.multiple ? attr.split(",").map((v) => v.trim()) : [attr]) : this.options.filter((o) => o.selected).map((o) => o.value);
     if (!this.multiple) vals = vals.slice(0, 1);
     return vals.filter((v) => this.options.some((o) => o.value === v));
@@ -71,7 +78,6 @@ export class TslSelect extends TslFormElement {
       this.input.type = "text";
       this.input.autocomplete = "off";
       this.input.spellcheck = false;
-      this.input.placeholder = this.getAttribute("placeholder") || "";
       this.input.setAttribute("role", "combobox");
       this.input.setAttribute("aria-autocomplete", "list");
       this.owner = this.input;
@@ -91,7 +97,6 @@ export class TslSelect extends TslFormElement {
     this.clearBtn = document.createElement("button");
     this.clearBtn.type = "button";
     this.clearBtn.className = "tsl-trigger__clear";
-    this.clearBtn.setAttribute("aria-label", this.getAttribute("clear-label") || "Limpiar selección");
     this.clearBtn.appendChild(icon("x"));
     this.clearBtn.hidden = true;
     if (this.hasAttribute("clearable")) this.wrap.appendChild(this.clearBtn);
@@ -107,8 +112,6 @@ export class TslSelect extends TslFormElement {
       this.search.type = "text";
       this.search.autocomplete = "off";
       this.search.spellcheck = false;
-      this.search.placeholder = this.getAttribute("search-placeholder") || "Buscar…";
-      this.search.setAttribute("aria-label", this.getAttribute("search-placeholder") || "Buscar");
       this.search.setAttribute("role", "combobox");
       this.search.setAttribute("aria-expanded", "true");
       this.search.setAttribute("aria-controls", listId);
@@ -122,10 +125,8 @@ export class TslSelect extends TslFormElement {
     this.list.id = listId;
     this.list.setAttribute("role", "listbox");
     if (this.multiple) this.list.setAttribute("aria-multiselectable", "true");
-    if (this.getAttribute("label")) this.list.setAttribute("aria-label", this.getAttribute("label"));
     this.empty = document.createElement("div");
     this.empty.className = "tsl-select__empty";
-    this.empty.textContent = this.getAttribute("empty") || "Sin resultados";
     this.empty.hidden = true;
     this.panel.append(this.list, this.empty);
     this.append(this.wrap, this.panel);
@@ -136,12 +137,35 @@ export class TslSelect extends TslFormElement {
       this.trigger.setAttribute("aria-controls", listId);
       this.trigger.setAttribute("aria-expanded", "false");
     } else {
-      this.trigger.setAttribute("aria-expanded", "false");
+      // Con autocompletado el disparador es un <div>: aria-expanded va en el input (el combobox)
+      if (!this.inline) this.trigger.setAttribute("aria-expanded", "false");
+      this.owner.setAttribute("aria-expanded", this.owner === this.search ? "true" : "false");
       if (this.owner === this.input) this.input.setAttribute("aria-controls", listId);
     }
-    if (this.getAttribute("label")) this.owner.setAttribute("aria-label", this.getAttribute("label"));
-
+    this.paintLabels();
     this.bind();
+  }
+
+  attributeChanged(name, before, after) {
+    super.attributeChanged(name, before, after);
+    if (name === "value") {
+      // Como en un <input>, el atributo es también el valor al que vuelve reset()
+      this.initial = this.parseValues(after);
+      this.setValues(this.initial.slice(), false);
+    } else if (name === "placeholder" || name === "max-chips") this.showSelection();
+    else if (name !== "disabled") this.paintLabels();
+  }
+
+  // Textos que salen de atributos (se repintan si cambian)
+  paintLabels() {
+    const label = this.getAttribute("label");
+    [this.list, this.owner].forEach((el) => (label ? el.setAttribute("aria-label", label) : el !== this.search && el.removeAttribute("aria-label")));
+    this.clearBtn.setAttribute("aria-label", this.getAttribute("clear-label") || "Limpiar selección");
+    this.empty.textContent = this.getAttribute("empty") || "Sin resultados";
+    if (this.search) {
+      this.search.placeholder = this.getAttribute("search-placeholder") || "Buscar…";
+      if (!label) this.search.setAttribute("aria-label", this.getAttribute("search-placeholder") || "Buscar");
+    }
   }
 
   bind() {
@@ -394,9 +418,9 @@ export class TslSelect extends TslFormElement {
     this.panel.style.minWidth = `${this.wrap.offsetWidth}px`;
     this.panel.showPopover();
     position(this.wrap, this.panel, { placement: "bottom-start", offset: 4 });
-    this.owner.setAttribute("aria-expanded", "true");
-    this.trigger.setAttribute("aria-expanded", "true");
-    this.stopPos = trackPosition(this.wrap, this.panel, { placement: "bottom-start", offset: 4 });
+    if (this.owner !== this.search) this.owner.setAttribute("aria-expanded", "true");
+    if (!this.inline) this.trigger.setAttribute("aria-expanded", "true");
+    this.stopPos = trackPosition(this.wrap, this.panel, { placement: "bottom-start", offset: 4, signal: this.signal });
     this.stopOutside = dismissOnOutside(this, this.panel, () => this.close());
     if (this.search) this.search.focus();
     if (this.input) this.input.select();
@@ -408,8 +432,8 @@ export class TslSelect extends TslFormElement {
   close(returnFocus = false) {
     if (!this.isOpen) return;
     this.panel.hidePopover();
-    this.owner.setAttribute("aria-expanded", "false");
-    this.trigger.setAttribute("aria-expanded", "false");
+    if (this.owner !== this.search) this.owner.setAttribute("aria-expanded", "false");
+    if (!this.inline) this.trigger.setAttribute("aria-expanded", "false");
     if (this.stopPos) this.stopPos();
     if (this.stopOutside) this.stopOutside();
     this.stopPos = this.stopOutside = null;

@@ -2900,7 +2900,7 @@
           "name": "pager-label",
           "description": {
             "kind": "markdown",
-            "value": "Nombre accesible de la paginación. Por defecto: `Paginación`."
+            "value": "Nombre accesible de la paginación (por defecto, «Paginación: » y el `caption`). Por defecto: `Paginación`."
           }
         }
       ]

@@ -37,6 +37,10 @@ function xhrUpload(url, field, file, { signal, progress }) {
  * de cada resultado; sin `action` ni `uploader`, los propios archivos. Mientras sube, el formulario no es válido.
  */
 export class TslUpload extends TslFormElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "label", "drop-label", "hint"];
+  }
+
   setup() {
     this.entries = [];
     this.active = 0;
@@ -56,22 +60,20 @@ export class TslUpload extends TslFormElement {
     this.drop.type = "button";
     this.drop.className = "tsl-upload__drop";
     const dropIcon = icon("cloud-upload", "tsl-upload__icon");
-    const title = document.createElement("span");
-    title.className = "tsl-upload__title";
-    title.textContent = this.getAttribute("drop-label") || (this.picker.multiple ? "Arrastra archivos o haz clic para elegirlos" : "Arrastra un archivo o haz clic para elegirlo");
+    this.titleEl = document.createElement("span");
+    this.titleEl.className = "tsl-upload__title";
     this.hint = document.createElement("span");
     this.hint.className = "tsl-upload__hint";
-    this.hint.textContent = this.getAttribute("hint") || this.describeLimits();
     this.hint.id = `tsl-upload-hint-${++seq}`;
     this.drop.setAttribute("aria-describedby", this.hint.id);
-    this.drop.append(dropIcon, title, this.hint);
+    this.drop.append(dropIcon, this.titleEl, this.hint);
     this.drop.addEventListener("click", () => this.openFilePicker());
 
     this.list = document.createElement("ul");
     this.list.className = "tsl-upload__list";
-    this.list.setAttribute("aria-label", this.getAttribute("label") || "Archivos");
     this.list.hidden = true;
     this.append(this.picker, this.drop, this.list);
+    this.paintLabels();
 
     let depth = 0;
     const hasFiles = (e) => Array.from(e.dataTransfer?.types || []).includes("Files");
@@ -97,7 +99,19 @@ export class TslUpload extends TslFormElement {
     this.sync();
   }
 
+  attributeChanged(name, before, after) {
+    super.attributeChanged(name, before, after);
+    if (name !== "disabled") this.paintLabels();
+  }
+
+  paintLabels() {
+    this.titleEl.textContent = this.getAttribute("drop-label") || (this.picker.multiple ? "Arrastra archivos o haz clic para elegirlos" : "Arrastra un archivo o haz clic para elegirlo");
+    this.hint.textContent = this.getAttribute("hint") || this.describeLimits();
+    this.list.setAttribute("aria-label", this.getAttribute("label") || "Archivos");
+  }
+
   disconnectedCallback() {
+    super.disconnectedCallback();
     // Si solo se mueve de sitio vuelve a conectarse enseguida: entonces no se corta nada
     queueMicrotask(() => {
       if (this.isConnected) return;

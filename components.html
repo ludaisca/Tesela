@@ -25,7 +25,7 @@
   <div class="docs-shell">
     <aside class="docs-sidebar" aria-label="Componentes">
       <input type="search" class="tsl-input" id="docs-search" placeholder="Filtrar componentes…" aria-label="Filtrar componentes" />
-      <nav class="tsl-nav" id="docs-nav"></nav>
+      <nav class="tsl-nav" id="docs-nav" aria-label="Secciones de la documentación"></nav>
 
       <div class="docs-tokens">
         <span class="tsl-eyebrow">Tema</span>
@@ -110,7 +110,7 @@
       <section class="doc" id="packaging" data-group="Inicio" data-keywords="modulos esm import npm build bundle minificado tree shaking empaquetado css secciones">
         <h2><a href="#packaging">Módulos y empaquetado</a></h2>
         <p>La carpeta <code>lib/</code> trae el mismo código en varios formatos; elige el que encaje con tu proyecto. Todo se genera desde <code>src/</code> con <code>npm run build</code> (solo el desarrollo usa <code>esbuild</code>; la biblioteca no tiene dependencias).</p>
-        <div class="tsl-table-wrap">
+        <div class="tsl-table-wrap" tabindex="0" role="region" aria-label="Formatos de lib/">
           <table class="tsl-table">
             <thead><tr><th>Archivo</th><th>Para qué sirve</th></tr></thead>
             <tbody>
@@ -1037,7 +1037,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         <h2><a href="#pagination">Paginación</a></h2>
         <p>Enlaces o botones; la página activa usa <code>aria-current="page"</code>.</p>
         <template>
-          <nav class="tsl-pagination" aria-label="Paginación">
+          <nav class="tsl-pagination" aria-label="Paginación de resultados">
             <a href="#pagination" aria-label="Anterior"><tsl-icon name="chevron-left" flip-rtl></tsl-icon></a>
             <a href="#pagination">1</a>
             <a href="#pagination" aria-current="page">2</a>
@@ -1843,22 +1843,22 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
             <section class="tsl-kanban__col">
               <div class="tsl-kanban__head">Por hacer <span class="tsl-badge" data-count>3</span></div>
               <tsl-sortable group="tablero" label="Por hacer" data-col="Por hacer">
-                <article class="tsl-sortable__item tsl-kanban__card"><strong>Diseñar el login</strong><span class="tsl-muted">Pantalla y estados de error</span></article>
-                <article class="tsl-sortable__item tsl-kanban__card"><strong>Migrar la base de datos</strong><span class="tsl-badge tsl-badge--warning">Urgente</span></article>
-                <article class="tsl-sortable__item tsl-kanban__card"><strong>Escribir pruebas</strong></article>
+                <div class="tsl-sortable__item tsl-kanban__card"><strong>Diseñar el login</strong><span class="tsl-muted">Pantalla y estados de error</span></div>
+                <div class="tsl-sortable__item tsl-kanban__card"><strong>Migrar la base de datos</strong><span class="tsl-badge tsl-badge--warning">Urgente</span></div>
+                <div class="tsl-sortable__item tsl-kanban__card"><strong>Escribir pruebas</strong></div>
               </tsl-sortable>
             </section>
             <section class="tsl-kanban__col">
               <div class="tsl-kanban__head">En curso <span class="tsl-badge" data-count>2</span></div>
               <tsl-sortable group="tablero" label="En curso" data-col="En curso">
-                <article class="tsl-sortable__item tsl-kanban__card"><strong>Componente de tabla</strong><span class="tsl-muted">Orden y paginación</span></article>
-                <article class="tsl-sortable__item tsl-kanban__card"><strong>Revisión de accesibilidad</strong></article>
+                <div class="tsl-sortable__item tsl-kanban__card"><strong>Componente de tabla</strong><span class="tsl-muted">Orden y paginación</span></div>
+                <div class="tsl-sortable__item tsl-kanban__card"><strong>Revisión de accesibilidad</strong></div>
               </tsl-sortable>
             </section>
             <section class="tsl-kanban__col">
               <div class="tsl-kanban__head">Hecho <span class="tsl-badge tsl-badge--success" data-count>1</span></div>
               <tsl-sortable group="tablero" label="Hecho" data-col="Hecho">
-                <article class="tsl-sortable__item tsl-kanban__card"><strong>Configurar el repositorio</strong></article>
+                <div class="tsl-sortable__item tsl-kanban__card"><strong>Configurar el repositorio</strong></div>
               </tsl-sortable>
             </section>
           </div>
@@ -2454,7 +2454,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
             <div class="tsl-sidebar-inset">
               <div class="tsl-sidebar-inset__bar">
                 <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--icon tsl-btn--subtle" data-tsl-sidebar-toggle aria-label="Alternar barra lateral"><tsl-icon name="panel-left"></tsl-icon></button>
-                <nav aria-label="Migas de pan"><ol class="tsl-breadcrumb"><li><a href="#pattern-dashboard">Acme</a></li><li><span aria-current="page">Resumen</span></li></ol></nav>
+                <nav aria-label="Ruta del panel"><ol class="tsl-breadcrumb"><li><a href="#pattern-dashboard">Acme</a></li><li><span aria-current="page">Resumen</span></li></ol></nav>
                 <div class="tsl-input-group tsl-dashboard__search">
                   <span class="tsl-input-group__addon" aria-hidden="true"><tsl-icon name="search"></tsl-icon></span>
                   <input class="tsl-input" type="search" placeholder="Buscar pedidos…" aria-label="Buscar pedidos" id="dash-search" />

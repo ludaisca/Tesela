@@ -81,6 +81,14 @@ export class TslBar extends TslElement {
     this.addEventListener("click", (e) => this.onItemClick(e));
   }
 
+  // Si sale del documento con un panel abierto, el panel ya se cerró solo: se limpia el estado
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    if (!this.current) return;
+    this.current.trigger.setAttribute("aria-expanded", "false");
+    this.current = null;
+  }
+
   // Roles y submenús de una lista de menú
   prepareList(list) {
     if (!this.isMenubar) return;
@@ -129,9 +137,10 @@ export class TslBar extends TslElement {
         if (!this.contains(e.target)) this.closeAll(false);
       };
       this.reposition = () => position(entry.trigger, entry.panel, { placement: "bottom-start", offset: 4 });
-      document.addEventListener("pointerdown", this.outside, true);
-      window.addEventListener("scroll", this.reposition, true);
-      window.addEventListener("resize", this.reposition);
+      const signal = this.signal;
+      document.addEventListener("pointerdown", this.outside, { capture: true, signal });
+      window.addEventListener("scroll", this.reposition, { capture: true, signal });
+      window.addEventListener("resize", this.reposition, { signal });
       emit(this, "tsl-open", { item: entry.trigger.textContent.trim() });
     }
     if (focus) this.focusIn(entry.panel, focus);

@@ -29,12 +29,16 @@
 }
 
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* Reset en su propia capa, declarada antes que la de Tesela (ver index.html): sin capa ganaría a
+   la biblioteca y le quitaría márgenes y rellenos (diálogos sin centrar, botones sin padding) */
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 html {

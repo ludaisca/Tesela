@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    06b. Grupo de radios: <tsl-radio-group> con botones .tsl-radio
         Variante .tsl-radio-group--cards: cada opción es una tarjeta
@@ -110,4 +112,5 @@ tsl-radio-group[data-invalid] .tsl-radio__mark {
 .tsl-radio-group--cards .tsl-radio[aria-checked="true"] {
   border-color: var(--tsl-fg);
   background: var(--tsl-surface-strong);
+}
 }

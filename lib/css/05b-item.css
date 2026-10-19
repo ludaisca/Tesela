@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    05b. Item: fila genérica con medio (icono o imagen), contenido y acciones
         <div class="tsl-item"> o <a class="tsl-item" href>; variantes --outline y --muted; tamaño --sm
@@ -122,4 +124,5 @@ button.tsl-item {
   margin: 0;
   border: 0;
   background: var(--tsl-border);
+}
 }

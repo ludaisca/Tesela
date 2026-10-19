@@ -3,6 +3,10 @@ import { icon } from "../core/icons.js";
 
 
 export class TslCalendar extends TslElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "value", "min", "max"];
+  }
+
   setup() {
     this.locale = this.getAttribute("locale") || document.documentElement.lang || undefined;
     this.weekStart = parseInt(this.getAttribute("week-start") || "1", 10) % 7;
@@ -65,6 +69,15 @@ export class TslCalendar extends TslElement {
       else if (idx > first + this.months - 1) this.view = new Date(d.getFullYear(), d.getMonth() - (this.months - 1), 1);
       this.render(true);
     });
+  }
+
+  attributeChanged(name, before, after) {
+    if (name === "value") {
+      this.value = after;
+      return;
+    }
+    this[name] = after || "";
+    this.render(false);
   }
 
   parseValue(v) {

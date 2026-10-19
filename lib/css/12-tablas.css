@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    12. Tablas
    ---------------------------------------------------------------------------- */
@@ -83,4 +85,5 @@
 .tsl-table th[aria-sort="descending"]::after {
   --_icon: var(--tsl-svg-arrow-down);
   opacity: 1;
+}
 }

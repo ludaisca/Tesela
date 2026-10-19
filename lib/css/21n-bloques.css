@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21n. Bloques: asistente por pasos, panel de control, autenticación y ajustes
         (se adaptan al ancho de su contenedor, no al de la ventana, para que sirvan
@@ -544,4 +546,5 @@ tsl-wizard {
   .tsl-savebar {
     animation: none;
   }
+}
 }

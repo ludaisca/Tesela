@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21g. Datos: tree view, lista virtualizada, ordenables y kanban
    ---------------------------------------------------------------------------- */
@@ -265,4 +267,5 @@ body.tsl-is-sorting {
 
 li[aria-expanded="true"] > .tsl-tree__row > .tsl-tree__chevron:dir(rtl)::before {
   transform: rotate(45deg);
+}
 }

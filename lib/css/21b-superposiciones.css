@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21b. Superposiciones: popover, hover card, menú contextual, sheets
    ---------------------------------------------------------------------------- */
@@ -119,4 +121,5 @@ tsl-context-menu > .tsl-menu__list:not([popover]) {
 @keyframes tsl-slide-in-start {
   from { transform: translateX(-24px); opacity: 0; }
   to { transform: none; opacity: 1; }
+}
 }

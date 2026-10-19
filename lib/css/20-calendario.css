@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    20. Calendario: <tsl-calendar>
    ---------------------------------------------------------------------------- */
@@ -68,4 +70,5 @@ tsl-calendar {
 .tsl-cal__day:focus-visible {
   outline: none;
   box-shadow: var(--tsl-ring);
+}
 }

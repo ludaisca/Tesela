@@ -9,6 +9,18 @@ import { TslElement, clamp, define, emit, nextId } from "../core/base.js";
  * Métodos: scrollToIndex(i, "start|center|end|nearest"). Alto de fila fijo.
  */
 export class TslVirtualList extends TslElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "label"];
+  }
+
+  attributeChanged() {
+    if (this.viewport) this.paintLabels();
+  }
+
+  paintLabels() {
+    this.viewport.setAttribute("aria-label", this.getAttribute("label") || "Lista");
+  }
+
   setup() {
     this._items = this._items || [];
     this.rowHeight = parseFloat(this.getAttribute("item-height") || "36");
@@ -22,7 +34,7 @@ export class TslVirtualList extends TslElement {
     this.viewport.className = "tsl-vlist__viewport";
     this.viewport.tabIndex = 0;
     this.viewport.setAttribute("role", this.selectable ? "listbox" : "list");
-    this.viewport.setAttribute("aria-label", this.getAttribute("label") || "Lista");
+    this.paintLabels();
     this.spacer = document.createElement("div");
     this.spacer.className = "tsl-vlist__spacer";
     this.viewport.appendChild(this.spacer);
@@ -48,7 +60,13 @@ export class TslVirtualList extends TslElement {
   }
 
   disconnectedCallback() {
+    super.disconnectedCallback();
     if (this.ro) this.ro.disconnect();
+  }
+
+  reconnected() {
+    if (this.ro) this.ro.observe(this.viewport);
+    this.render();
   }
 
   get items() {
@@ -67,8 +85,8 @@ export class TslVirtualList extends TslElement {
   }
 
   resize() {
+    // El total lo anuncian las filas (aria-setsize): aria-rowcount solo vale en tablas y rejillas
     this.spacer.style.height = `${this._items.length * this.rowHeight}px`;
-    this.viewport.setAttribute("aria-rowcount", String(this._items.length));
   }
 
   draw(item, i) {

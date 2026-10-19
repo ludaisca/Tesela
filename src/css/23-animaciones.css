@@ -35,6 +35,7 @@
   to { opacity: 1; transform: none; }
 }
 
+/* Movimiento reducido: !important a propósito, la preferencia de la persona gana a cualquier animación */
 @media (prefers-reduced-motion: reduce) {
   [class^="tsl-"],
   [class*=" tsl-"],

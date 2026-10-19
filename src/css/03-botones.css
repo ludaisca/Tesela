@@ -88,14 +88,17 @@
   border-color: transparent;
 }
 
+/* El rojo de peligro es para texto sobre el fondo; como relleno se oscurece para que el blanco
+   llegue a 4,5:1 (con el rojo puro se queda en 3,5:1) */
 .tsl-btn--danger {
-  background: var(--tsl-danger);
-  border-color: var(--tsl-danger);
+  --_danger: color-mix(in srgb, var(--tsl-danger) 80%, #000);
+  background: var(--_danger);
+  border-color: var(--_danger);
   color: #fff;
 }
 
 .tsl-btn--danger:hover {
-  background: color-mix(in srgb, var(--tsl-danger) 86%, #000);
+  background: color-mix(in srgb, var(--tsl-danger) 70%, #000);
   border-color: transparent;
 }
 
@@ -125,6 +128,8 @@
   border-radius: 999px;
 }
 
+/* Ocupado: el texto se oculta tras el indicador aunque una variante o un componente le dé color
+   (!important a propósito: es un estado que debe ganar siempre, como `hidden`) */
 .tsl-btn[aria-busy="true"] {
   color: transparent !important;
   pointer-events: none;

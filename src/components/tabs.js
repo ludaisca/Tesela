@@ -1,6 +1,10 @@
 import { TslElement, define, emit, moveFocus, nextId } from "../core/base.js";
 
 export class TslTabs extends TslElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "value"];
+  }
+
   setup() {
     this.tabs = Array.from(this.querySelectorAll(":scope > .tsl-tabs__list > .tsl-tabs__tab"));
     this.panels = Array.from(this.querySelectorAll(":scope > .tsl-tabs__panel"));
@@ -33,6 +37,10 @@ export class TslTabs extends TslElement {
 
     const initial = this.getAttribute("value") || (this.tabs[0] && this.tabs[0].dataset.tab);
     this.select(initial, false);
+  }
+
+  attributeChanged(name, before, after) {
+    if (after !== null) this.select(after, false);
   }
 
   get value() {

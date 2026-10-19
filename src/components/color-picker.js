@@ -11,6 +11,10 @@ const DEFAULT_SWATCHES = "#f43f5e,#f59e0b,#10b981,#0ea5e9,#6366f1,#a855f7,#ec489
  * (si el navegador lo soporta). Valor: "#rrggbb" o "#rrggbbaa". Teclado en cada control: flechas (Shift = ×10).
  */
 export class TslColorPicker extends TslFormElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "value", "label", "area-label", "hue-label", "alpha-label"];
+  }
+
   setup() {
     this.alphaOn = this.hasAttribute("alpha");
     this.initial = this.getAttribute("value") || "#6366f1";
@@ -44,6 +48,24 @@ export class TslColorPicker extends TslFormElement {
     this.value = this.initial;
   }
 
+  attributeChanged(name, before, after) {
+    super.attributeChanged(name, before, after);
+    if (name === "value") {
+      this.initial = after || "#6366f1";
+      this.reset();
+    } else if (name !== "disabled") this.paintLabels();
+  }
+
+  paintLabels() {
+    const label = this.getAttribute("label");
+    if (label) this.trigger.setAttribute("aria-label", label);
+    else this.trigger.removeAttribute("aria-label");
+    this.panel.setAttribute("aria-label", label || "Elegir color");
+    this.area.setAttribute("aria-label", this.getAttribute("area-label") || "Saturación y brillo");
+    this.hue.setAttribute("aria-label", this.getAttribute("hue-label") || "Tono");
+    if (this.alpha) this.alpha.setAttribute("aria-label", this.getAttribute("alpha-label") || "Opacidad");
+  }
+
   build() {
     this.textContent = "";
     this.wrap = document.createElement("div");
@@ -56,32 +78,29 @@ export class TslColorPicker extends TslFormElement {
     this.trigger.innerHTML = `<span class="tsl-color__swatch"><span></span></span><span class="tsl-trigger__value tsl-mono"></span>`;
     this.swatchEl = this.trigger.querySelector(".tsl-color__swatch > span");
     this.valueEl = this.trigger.querySelector(".tsl-trigger__value");
-    if (this.getAttribute("label")) this.trigger.setAttribute("aria-label", this.getAttribute("label"));
     this.wrap.appendChild(this.trigger);
 
     this.panel = document.createElement("div");
     this.panel.className = "tsl-popover__panel tsl-color__panel";
     this.panel.setAttribute("popover", "manual");
     this.panel.setAttribute("role", "dialog");
-    this.panel.setAttribute("aria-label", this.getAttribute("label") || "Elegir color");
-    const slider = (cls, label) => {
+    const slider = (cls) => {
       const el = document.createElement("div");
       el.className = cls;
       el.tabIndex = 0;
       el.setAttribute("role", "slider");
-      el.setAttribute("aria-label", label);
       const thumb = document.createElement("span");
       thumb.className = "tsl-color__thumb";
       el.appendChild(thumb);
       return el;
     };
-    this.area = slider("tsl-color__area", this.getAttribute("area-label") || "Saturación y brillo");
-    this.hue = slider("tsl-color__hue", this.getAttribute("hue-label") || "Tono");
+    this.area = slider("tsl-color__area");
+    this.hue = slider("tsl-color__hue");
     this.hue.setAttribute("aria-valuemin", "0");
     this.hue.setAttribute("aria-valuemax", "360");
     this.panel.append(this.area, this.hue);
     if (this.alphaOn) {
-      this.alpha = slider("tsl-color__alpha", this.getAttribute("alpha-label") || "Opacidad");
+      this.alpha = slider("tsl-color__alpha");
       this.alpha.setAttribute("aria-valuemin", "0");
       this.alpha.setAttribute("aria-valuemax", "100");
       this.panel.appendChild(this.alpha);
@@ -130,6 +149,7 @@ export class TslColorPicker extends TslFormElement {
       this.panel.appendChild(sw);
     }
     this.append(this.wrap, this.panel);
+    this.paintLabels();
 
     this.drag(this.area, (x, y) => {
       this.s = x;
@@ -268,7 +288,7 @@ export class TslColorPicker extends TslFormElement {
     this.panel.showPopover();
     position(this.wrap, this.panel, { placement: "bottom-start", offset: 4 });
     this.trigger.setAttribute("aria-expanded", "true");
-    this.stopPos = trackPosition(this.wrap, this.panel, { placement: "bottom-start", offset: 4 });
+    this.stopPos = trackPosition(this.wrap, this.panel, { placement: "bottom-start", offset: 4, signal: this.signal });
     this.stopOutside = dismissOnOutside(this, this.panel, () => this.close());
     this.paint();
     this.area.focus();

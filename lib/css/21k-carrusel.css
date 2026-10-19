@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21k. Carrusel: <tsl-carousel> con scroll-snap, botones, puntos y avance automático
    ---------------------------------------------------------------------------- */
@@ -74,29 +76,31 @@ tsl-carousel[orientation="vertical"] .tsl-carousel__slide {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 4px;
 }
 
+/* El botón mide 24 × 24 (objetivo táctil de WCAG 2.5.8) y el punto visible de 8 px es su ::before */
 .tsl-carousel__dot {
-  position: relative;
-  width: 8px;
-  height: 8px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: var(--tsl-border-strong);
+  background: transparent;
   cursor: pointer;
+}
+
+.tsl-carousel__dot::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tsl-border-strong);
   transition: background-color 140ms ease, transform 140ms ease;
 }
 
-/* Zona de pulsación de 24 px sin cambiar el tamaño visible */
-.tsl-carousel__dot::before {
-  content: "";
-  position: absolute;
-  inset: -8px;
-}
-
-.tsl-carousel__dot[aria-current="true"] {
+.tsl-carousel__dot[aria-current="true"]::before {
   background: var(--tsl-fg);
   transform: scale(1.25);
 }
@@ -111,7 +115,8 @@ tsl-carousel[orientation="vertical"] .tsl-carousel__slide {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tsl-carousel__dot {
+  .tsl-carousel__dot::before {
     transition: none;
   }
+}
 }

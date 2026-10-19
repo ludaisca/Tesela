@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.tokens {
 /* Generado por scripts/build-tokens.js desde src/tokens/. No editar a mano. */
 
 /* ----------------------------------------------------------------------------
@@ -99,4 +101,5 @@
   --tsl-font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
   --tsl-font-heading: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --tsl-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
 }

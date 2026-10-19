@@ -19,7 +19,7 @@ import { icon } from "../core/icons.js";
  */
 export class TslPromptInput extends TslElement {
   static get observedAttributes() {
-    return ["status", "disabled"];
+    return [...super.observedAttributes, "status", "disabled", "label", "attachments-label", "submit-label", "stop-label"];
   }
 
   setup() {
@@ -31,9 +31,8 @@ export class TslPromptInput extends TslElement {
     this.textarea.classList.add("tsl-prompt-input__textarea");
     if (!this.textarea.matches("[rows]")) this.textarea.rows = 1;
     if (!this.textarea.dataset.maxRows) this.textarea.dataset.maxRows = this.getAttribute("max-rows") || "8";
-    if (!this.textarea.hasAttribute("aria-label") && !this.textarea.labels?.length) {
-      this.textarea.setAttribute("aria-label", this.getAttribute("label") || "Mensaje");
-    }
+    // Un aria-label o <label> del autor manda sobre `label`
+    this.ownLabel = !this.textarea.hasAttribute("aria-label") && !this.textarea.labels?.length;
     this.submitBtn = this.form.querySelector("[data-submit]") || this.form.querySelector("button[type=submit]");
     if (this.submitBtn) {
       this.submitBtn.classList.add("tsl-prompt-input__submit");
@@ -55,7 +54,7 @@ export class TslPromptInput extends TslElement {
     }
     this.list.classList.add("tsl-attachment-group");
     this.list.setAttribute("role", "list");
-    this.list.setAttribute("aria-label", this.getAttribute("attachments-label") || "Adjuntos");
+    this.paintLabels();
 
     this.picker = document.createElement("input");
     this.picker.type = "file";
@@ -112,11 +111,18 @@ export class TslPromptInput extends TslElement {
     this.paint();
   }
 
-  attributeChangedCallback() {
-    if (this._tslReady) this.paint();
+  attributeChanged(name) {
+    if (name === "label" || name === "attachments-label") this.paintLabels();
+    else this.paint();
+  }
+
+  paintLabels() {
+    if (this.ownLabel) this.textarea.setAttribute("aria-label", this.getAttribute("label") || "Mensaje");
+    this.list.setAttribute("aria-label", this.getAttribute("attachments-label") || "Adjuntos");
   }
 
   disconnectedCallback() {
+    super.disconnectedCallback();
     (this._files || []).forEach((f) => f.url && URL.revokeObjectURL(f.url));
   }
 
@@ -299,6 +305,18 @@ export class TslPromptInput extends TslElement {
     const disabled = this.hasAttribute("disabled");
     this.textarea.disabled = disabled;
     this.form.querySelectorAll("[data-attach]").forEach((b) => (b.disabled = disabled || this._files.length >= this.maxFiles));
+    // Con `disabled` se apagan también los controles propios del formulario (selector de modelo, quitar
+    // adjunto…); al quitarlo vuelven solo los que apagó el componente
+    Array.from(this.form.elements).forEach((c) => {
+      if (c === this.textarea || c === this.submitBtn || c === this.picker || c.matches("[data-attach]")) return;
+      if (disabled && !c.disabled) {
+        c.disabled = true;
+        c.dataset.tslDisabled = "";
+      } else if (!disabled && "tslDisabled" in c.dataset) {
+        c.disabled = false;
+        delete c.dataset.tslDisabled;
+      }
+    });
     this.toggleAttribute("data-busy", this.busy);
     this.toggleAttribute("data-has-files", this._files.length > 0);
     if (this.list) this.list.hidden = this._files.length === 0;

@@ -8,6 +8,10 @@ const STAR = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.5 2.9 6
  * Un único control con role="slider": ← → ± paso, Home/End, Supr borra (con `clearable`).
  */
 export class TslRating extends TslFormElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "value", "label", "readonly"];
+  }
+
   setup() {
     this.max = Math.max(1, parseInt(this.getAttribute("max") || "5", 10));
     this.half = this.hasAttribute("half");
@@ -23,8 +27,6 @@ export class TslRating extends TslFormElement {
       this.appendChild(s);
       return s;
     });
-    this.setAttribute("aria-valuemin", "0");
-    this.setAttribute("aria-valuemax", String(this.max));
     this.setAttribute("aria-label", this.getAttribute("label") || "Valoración");
 
     this.addEventListener("pointermove", (e) => {
@@ -60,6 +62,19 @@ export class TslRating extends TslFormElement {
     });
     this.syncDisabled();
     this.paint();
+    this.sync(false);
+  }
+
+  attributeChanged(name, before, after) {
+    super.attributeChanged(name, before, after);
+    if (name === "value") {
+      this.initial = this.norm(parseFloat(after || "0"));
+      this.set(this.initial, false);
+      return;
+    }
+    if (name === "disabled") return;
+    this.setAttribute("aria-label", this.getAttribute("label") || "Valoración");
+    if (name === "readonly") this.syncDisabled();
     this.sync(false);
   }
 
@@ -119,9 +134,16 @@ export class TslRating extends TslFormElement {
 
   sync(fire) {
     const text = `${this.val} de ${this.max}`;
-    this.setAttribute("aria-valuenow", String(this.val));
-    this.setAttribute("aria-valuetext", text);
-    if (this.hasAttribute("readonly")) this.setAttribute("aria-label", `${this.getAttribute("label") || "Valoración"}: ${text}`);
+    // De solo lectura es una imagen (el valor va en el nombre); editable, un slider con su valor
+    if (this.hasAttribute("readonly")) {
+      ["aria-valuemin", "aria-valuemax", "aria-valuenow", "aria-valuetext"].forEach((a) => this.removeAttribute(a));
+      this.setAttribute("aria-label", `${this.getAttribute("label") || "Valoración"}: ${text}`);
+    } else {
+      this.setAttribute("aria-valuemin", "0");
+      this.setAttribute("aria-valuemax", String(this.max));
+      this.setAttribute("aria-valuenow", String(this.val));
+      this.setAttribute("aria-valuetext", text);
+    }
     this.publish(this.val ? String(this.val) : null, !this.val, this);
     if (fire) emit(this, "tsl-change", { value: this.val });
   }

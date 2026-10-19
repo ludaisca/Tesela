@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    8. Acordeón (<details> nativo)
    ---------------------------------------------------------------------------- */
@@ -57,4 +59,5 @@
   font-size: 12px;
   line-height: 1.65;
   color: var(--tsl-fg-muted);
+}
 }

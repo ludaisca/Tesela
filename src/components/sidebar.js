@@ -18,10 +18,20 @@ import { TslElement, define, emit, nextId, storage } from "../core/base.js";
  * </div>
  */
 export class TslSidebar extends TslElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "label"];
+  }
+
+  attributeChanged() {
+    if (this.ownLabel) this.setAttribute("aria-label", this.getAttribute("label") || "Barra lateral");
+  }
+
   setup() {
     this.id = this.id || nextId("tsl-sidebar");
     if (!this.hasAttribute("role")) this.setAttribute("role", "navigation");
-    if (!this.hasAttribute("aria-label")) this.setAttribute("aria-label", this.getAttribute("label") || "Barra lateral");
+    // Un aria-label del autor manda sobre `label`
+    this.ownLabel = !this.hasAttribute("aria-label");
+    if (this.ownLabel) this.setAttribute("aria-label", this.getAttribute("label") || "Barra lateral");
     this.layout = this.closest(".tsl-sidebar-layout") || this.parentElement;
     this.mobile = false;
     this.mobileIsOpen = false;
@@ -67,7 +77,7 @@ export class TslSidebar extends TslElement {
         this.toggle();
       }
     };
-    document.addEventListener("keydown", this.onKey);
+    this.listen(document, "keydown", this.onKey);
 
     this.resizer = new ResizeObserver(() => this.measure());
     this.resizer.observe(this.layout);
@@ -75,10 +85,16 @@ export class TslSidebar extends TslElement {
   }
 
   disconnectedCallback() {
-    document.removeEventListener("keydown", this.onKey);
+    super.disconnectedCallback();
     if (this.resizer) this.resizer.disconnect();
     if (this.backdrop) this.backdrop.remove();
-    this._tslReady = false;
+  }
+
+  reconnected() {
+    this.layout = this.closest(".tsl-sidebar-layout") || this.parentElement;
+    this.layout.appendChild(this.backdrop);
+    this.resizer.observe(this.layout);
+    this.measure();
   }
 
   get storageKey() {

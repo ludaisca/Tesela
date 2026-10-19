@@ -23,6 +23,23 @@ const out = path.resolve(outFlag > -1 ? process.argv[outFlag + 1] : path.join(ro
 const banner = `/*! Tesela UI v${pkg.version} — biblioteca de componentes sin dependencias · Iconos: Lucide (ISC), (c) Lucide Icons and Contributors */`;
 
 const rel = (...p) => path.join(root, ...p);
+
+// Capa de cada hoja de src/css (y de las partes generadas). Lo que no aparece aquí es un componente.
+//   tokens      variables y presets de tema
+//   base        reinicio mínimo, `hidden`, tipografía y animaciones (los componentes la pueden refinar)
+//   utilities   utilidades de maquetación y alto contraste: ganan a los componentes sin !important
+const LAYER_ORDER = "@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;";
+const LAYERS = {
+  "00-tokens.css": "tokens",
+  "24-presets.css": "tokens",
+  "00-cabecera.css": "base",
+  "01-base.css": "base",
+  "02-utilidades-de-tipografia.css": "base",
+  "23-animaciones.css": "base",
+  "22-utilidades-de-diseno.css": "utilities",
+  "27-alto-contraste.css": "utilities"
+};
+const layerOf = (f) => LAYERS[f] || "components";
 const list = (dir, ext) => fs.readdirSync(rel(dir)).filter((f) => f.endsWith(ext)).sort();
 
 async function main() {
@@ -48,11 +65,15 @@ async function main() {
   cssParts.set("00-tokens.css", tk.tokensCss.trim());
   cssParts.set("24-presets.css", tk.presetsCss.trim());
   const parts = [...cssParts.keys()].sort();
-  const css = `${banner}\n${parts.map((f) => cssParts.get(f)).join("\n\n")}\n`;
+  // Cascada en capas: todo el CSS de Tesela vive en @layer tesela.*, así que cualquier regla del
+  // usuario sin capa gana sin !important ni subir la especificidad. Las hojas sueltas de lib/css/
+  // repiten la declaración del orden para que cargarlas por separado (o en otro orden) no lo altere.
+  const layered = (f) => `${LAYER_ORDER}\n@layer tesela.${layerOf(f)} {\n${cssParts.get(f)}\n}`;
+  const css = `${banner}\n${LAYER_ORDER}\n\n${parts.map((f) => `@layer tesela.${layerOf(f)} {\n${cssParts.get(f)}\n}`).join("\n\n")}\n`;
   fs.writeFileSync(path.join(out, "tesela-ui.css"), css);
   fs.writeFileSync(path.join(out, "tesela-ui.min.css"), `${banner}\n${(await esbuild.transform(css, { loader: "css", minify: true })).code}`);
   fs.mkdirSync(path.join(out, "css"), { recursive: true });
-  parts.forEach((f) => fs.writeFileSync(path.join(out, "css", f), `${cssParts.get(f)}\n`));
+  parts.forEach((f) => fs.writeFileSync(path.join(out, "css", f), `${layered(f)}\n`));
 
   // Script anti-parpadeo (clásico, no módulo)
   const initSrc = fs.readFileSync(rel("src/theme-init.js"), "utf8");

@@ -13,6 +13,10 @@ function passwordScore(v, min) {
 }
 
 export class TslPassword extends TslElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "placeholder", "label", "show-label", "hide-label", "min-length"];
+  }
+
   setup() {
     this.min = parseInt(this.getAttribute("min-length") || "8", 10);
     let input = this.querySelector("input");
@@ -22,9 +26,10 @@ export class TslPassword extends TslElement {
         if (this.hasAttribute(a)) input.setAttribute(a, this.getAttribute(a));
       });
       if (!input.hasAttribute("autocomplete")) input.autocomplete = "new-password";
-      if (this.getAttribute("label")) input.setAttribute("aria-label", this.getAttribute("label"));
+      this.ownInput = true;
     }
     this.input = input;
+    if (this.ownInput) this.paintInput();
     input.type = "password";
     input.classList.add("tsl-input");
 
@@ -70,6 +75,24 @@ export class TslPassword extends TslElement {
     }
     input.addEventListener("input", () => this.update(true));
     this.update(false);
+  }
+
+  attributeChanged(name, before, after) {
+    if (name === "min-length") {
+      this.min = parseInt(after || "8", 10);
+      this.update(false);
+    } else if (name === "show-label" || name === "hide-label") this.paintToggle(this.input.type === "text");
+    // placeholder y label pasan al input solo si lo creó el componente (el del autor es suyo)
+    else if (this.ownInput) this.paintInput();
+  }
+
+  paintInput() {
+    const ph = this.getAttribute("placeholder");
+    if (ph !== null) this.input.placeholder = ph;
+    else this.input.removeAttribute("placeholder");
+    const label = this.getAttribute("label");
+    if (label) this.input.setAttribute("aria-label", label);
+    else this.input.removeAttribute("aria-label");
   }
 
   paintToggle(shown) {

@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    19. Toasts: TeselaUI.toast({...})
    ---------------------------------------------------------------------------- */
@@ -81,4 +83,5 @@
 
 .tsl-toast__close:hover {
   color: var(--tsl-fg);
+}
 }

@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    21d. Barras de menú: <tsl-menubar> y <tsl-nav-menu>
    ---------------------------------------------------------------------------- */
@@ -162,4 +164,5 @@ tsl-nav-menu .tsl-bar__item > [data-tsl-trigger][aria-expanded="true"]::after {
 
 .tsl-menu__item[data-check][aria-checked="true"]::before {
   opacity: 1;
+}
 }

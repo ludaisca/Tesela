@@ -35,7 +35,8 @@ const { contrast, parse } = require('../scripts/lib/color');
   ok(unknownVars.length === 0, 'todas las variables --tsl-* que usa el código existen como token o son locales de un componente' + (unknownVars.length ? ` (desconocidas: ${unknownVars})` : ''));
 
   const tokensCss = read('lib/tokens/tokens.css');
-  ok(read('lib/css/00-tokens.css').trim() === tokensCss.trim() && vars.every(v => tokensCss.includes(`${v}:`)), 'tokens.css coincide con la parte 00-tokens.css del bundle y declara los 36 tokens');
+  const unlayer = (css) => css.replace(/^@layer [^;]+;\n@layer tesela\.tokens \{\n/, '').replace(/\n\}\s*$/, '');
+  ok(unlayer(read('lib/css/00-tokens.css').trim()) === tokensCss.trim() && vars.every(v => tokensCss.includes(`${v}:`)), 'tokens.css coincide con la parte 00-tokens.css del bundle y declara los 36 tokens');
   const mjs = await import(pathToFileURL(path.join(root, 'lib/tokens/tokens.mjs')).href);
   const keyOf = (t) => t.cssVar.replace(/^--tsl-/, '');
   const dark = T.resolve('dark'), light = T.resolve('light');

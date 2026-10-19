@@ -2,12 +2,15 @@ import { TslElement, define, emit } from "../core/base.js";
 import { icon } from "../core/icons.js";
 
 export class TslTags extends TslElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "value", "placeholder", "label"];
+  }
+
   setup() {
     this.tags = [];
     this.input = document.createElement("input");
     this.input.className = "tsl-tags__input";
-    this.input.placeholder = this.getAttribute("placeholder") || "Añadir…";
-    this.input.setAttribute("aria-label", this.getAttribute("label") || "Añadir etiqueta");
+    this.paintLabels();
     this.appendChild(this.input);
 
     if (this.getAttribute("name")) {
@@ -17,11 +20,7 @@ export class TslTags extends TslElement {
       this.appendChild(this.hidden_);
     }
 
-    (this.getAttribute("value") || "")
-      .split(",")
-      .map((t) => t.trim())
-      .filter(Boolean)
-      .forEach((t) => this.addTag(t, false));
+    this.setTags(this.getAttribute("value"));
 
     this.addEventListener("click", (e) => {
       if (e.target === this) this.input.focus();
@@ -35,6 +34,31 @@ export class TslTags extends TslElement {
         this.removeTag(this.tags[this.tags.length - 1], true);
       }
     });
+  }
+
+  attributeChanged(name, before, after) {
+    if (name === "value") this.setTags(after);
+    else this.paintLabels();
+  }
+
+  paintLabels() {
+    this.input.placeholder = this.getAttribute("placeholder") || "Añadir…";
+    this.input.setAttribute("aria-label", this.getAttribute("label") || "Añadir etiqueta");
+  }
+
+  // Sustituye las etiquetas por las de una lista separada por comas (sin emitir tsl-change)
+  setTags(list) {
+    this.tags.slice().forEach((t) => {
+      this.tags = this.tags.filter((x) => x !== t);
+      const chip = Array.from(this.querySelectorAll(".tsl-chip")).find((c) => c.dataset.tag === t);
+      if (chip) chip.remove();
+    });
+    (list || "")
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean)
+      .forEach((t) => this.addTag(t, false));
+    this.sync(false);
   }
 
   get value() {

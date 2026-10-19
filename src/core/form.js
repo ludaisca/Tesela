@@ -60,12 +60,12 @@ export class TslFormElement extends TslElement {
     this.syncDisabled();
   }
 
-  attributeChangedCallback(name) {
-    if (name === "disabled" && this._tslReady) this.syncDisabled();
+  attributeChanged(name) {
+    if (name === "disabled") this.syncDisabled();
   }
 
   static get observedAttributes() {
-    return ["disabled"];
+    return [...super.observedAttributes, "disabled"];
   }
 
   syncDisabled() {}

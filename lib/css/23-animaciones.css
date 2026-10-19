@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.base {
 /* ----------------------------------------------------------------------------
    23. Keyframes y preferencias de movimiento
    ---------------------------------------------------------------------------- */
@@ -35,6 +37,7 @@
   to { opacity: 1; transform: none; }
 }
 
+/* Movimiento reducido: !important a propósito, la preferencia de la persona gana a cualquier animación */
 @media (prefers-reduced-motion: reduce) {
   [class^="tsl-"],
   [class*=" tsl-"],
@@ -47,4 +50,5 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
 }

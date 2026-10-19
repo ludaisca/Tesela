@@ -36,9 +36,13 @@ const walk = (d, base = d) => fs.readdirSync(d, { withFileTypes: true }).flatMap
   ok(pkg.private === true, 'package.json: sigue marcado como private (no se publica por accidente)');
   const cssFiles = fs.readdirSync(path.join(root, 'lib/css')).length;
   ok(cssFiles >= 30, `hay una hoja CSS por sección (${cssFiles})`);
-  const parts = fs.readdirSync(path.join(root, 'lib/css')).sort().map(f => fs.readFileSync(path.join(root, 'lib/css', f), 'utf8').trim()).join('\n\n');
+  // Cada hoja suelta repite la declaración del orden de capas; el CSS completo la lleva una vez
+  const ORDER = '@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;';
+  const sheets = fs.readdirSync(path.join(root, 'lib/css')).sort().map(f => fs.readFileSync(path.join(root, 'lib/css', f), 'utf8').trim());
+  const parts = sheets.map(s => s.replace(`${ORDER}\n`, '')).join('\n\n');
   const whole = fs.readFileSync(path.join(root, 'lib/tesela-ui.css'), 'utf8');
-  ok(whole.replace(/^\/\*![^\n]*\n/, '').trim() === parts, 'las hojas por sección reconstruyen el CSS completo');
+  ok(sheets.every(s => s.startsWith(`${ORDER}\n@layer tesela.`)), 'cada hoja por sección declara el orden de capas y va dentro de una capa tesela.*');
+  ok(whole.replace(/^\/\*![^\n]*\n/, '').trim() === `${ORDER}\n\n${parts}`, 'las hojas por sección reconstruyen el CSS completo');
 
   // 2) Módulos ESM en un navegador real
   const base = process.env.BASE_URL || 'http://localhost:24100';

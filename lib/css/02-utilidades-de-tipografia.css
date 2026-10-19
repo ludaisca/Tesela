@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.base {
 /* ----------------------------------------------------------------------------
    2. Utilidades de tipografía
    ---------------------------------------------------------------------------- */
@@ -37,5 +39,7 @@
   border-radius: 4px;
   background: rgba(128, 128, 136, 0.16);
   border: 1px solid var(--tsl-border);
-  color: var(--tsl-fg-muted);
+  /* Más claro que el texto atenuado: el fondo de la tecla resta contraste (4,5:1 también sobre botones) */
+  color: color-mix(in srgb, var(--tsl-fg-muted) 75%, var(--tsl-fg));
+}
 }

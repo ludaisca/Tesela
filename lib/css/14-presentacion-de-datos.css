@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    14. Presentación de datos: métrica, línea de tiempo, estado vacío, código y lista
    ---------------------------------------------------------------------------- */
@@ -180,4 +182,5 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
+}
 }

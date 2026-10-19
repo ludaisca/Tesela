@@ -16,7 +16,7 @@
 
 .tsl-hint {
   font-size: 11px;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-error {

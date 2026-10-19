@@ -10,6 +10,10 @@ import { icon } from "../core/icons.js";
  * Con `range` elige un intervalo; el valor es "inicio/fin" (ISO 8601).
  */
 export class TslDatePicker extends TslFormElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "value", "placeholder", "label", "clear-label", "min", "max"];
+  }
+
   setup() {
     this.range = this.hasAttribute("range");
     this.locale = this.getAttribute("locale") || document.documentElement.lang || undefined;
@@ -35,7 +39,6 @@ export class TslDatePicker extends TslFormElement {
     this.clearBtn = document.createElement("button");
     this.clearBtn.type = "button";
     this.clearBtn.className = "tsl-trigger__clear";
-    this.clearBtn.setAttribute("aria-label", this.getAttribute("clear-label") || "Limpiar fecha");
     this.clearBtn.appendChild(icon("x"));
     this.clearBtn.hidden = true;
     if (this.hasAttribute("clearable")) this.wrap.appendChild(this.clearBtn);
@@ -44,7 +47,6 @@ export class TslDatePicker extends TslFormElement {
     this.panel.className = "tsl-popover__panel tsl-date__panel";
     this.panel.setAttribute("popover", "manual");
     this.panel.setAttribute("role", "dialog");
-    this.panel.setAttribute("aria-label", this.getAttribute("label") || (this.range ? "Elegir intervalo de fechas" : "Elegir fecha"));
     this.cal = document.createElement("tsl-calendar");
     ["locale", "week-start", "min", "max"].forEach((a) => this.hasAttribute(a) && this.cal.setAttribute(a, this.getAttribute(a)));
     if (this.range) this.cal.setAttribute("mode", "range");
@@ -52,6 +54,7 @@ export class TslDatePicker extends TslFormElement {
     if (this.val) this.cal.setAttribute("value", this.val);
     this.panel.appendChild(this.cal);
     this.append(this.wrap, this.panel);
+    this.paintLabels();
 
     this.trigger.addEventListener("click", () => (this.isOpen ? this.close() : this.open()));
     this.trigger.addEventListener("keydown", (e) => {
@@ -80,6 +83,23 @@ export class TslDatePicker extends TslFormElement {
       this.set("", true);
       this.trigger.focus();
     });
+  }
+
+  attributeChanged(name, before, after) {
+    super.attributeChanged(name, before, after);
+    if (name === "value") {
+      this.initial = after || "";
+      this.set(this.initial, false);
+    } else if (name === "placeholder") this.sync(false);
+    else if (name === "min" || name === "max") {
+      if (after === null) this.cal.removeAttribute(name);
+      else this.cal.setAttribute(name, after);
+    } else if (name !== "disabled") this.paintLabels();
+  }
+
+  paintLabels() {
+    this.clearBtn.setAttribute("aria-label", this.getAttribute("clear-label") || "Limpiar fecha");
+    this.panel.setAttribute("aria-label", this.getAttribute("label") || (this.range ? "Elegir intervalo de fechas" : "Elegir fecha"));
   }
 
   get isOpen() {
@@ -141,7 +161,7 @@ export class TslDatePicker extends TslFormElement {
     this.panel.showPopover();
     position(this.wrap, this.panel, { placement: "bottom-start", offset: 4 });
     this.trigger.setAttribute("aria-expanded", "true");
-    this.stopPos = trackPosition(this.wrap, this.panel, { placement: "bottom-start", offset: 4 });
+    this.stopPos = trackPosition(this.wrap, this.panel, { placement: "bottom-start", offset: 4, signal: this.signal });
     this.stopOutside = dismissOnOutside(this, this.panel, () => this.close());
     const day = this.cal.querySelector('.tsl-cal__day[tabindex="0"]');
     if (day) day.focus();

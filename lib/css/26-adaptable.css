@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    26. Adaptación a pantallas pequeñas: texto largo, segmentados y filas de lista
    ---------------------------------------------------------------------------- */
@@ -59,4 +61,5 @@
     display: flex;
     margin: 0 0 10px auto;
   }
+}
 }

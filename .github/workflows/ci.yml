@@ -1,0 +1,48 @@
+# Integración continua: compila, comprueba que lib/ (versionado) está al día y pasa todas las pruebas.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pruebas:
+    name: Compilación y pruebas
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Instalar Chromium para Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Compilar
+        run: npm run build
+
+      - name: Comprobar que lib/ está al día con src/
+        run: |
+          if [ -n "$(git status --porcelain -- lib)" ]; then
+            echo "::error::lib/ no coincide con la compilación de src/. Ejecuta «npm run build» y versiona el resultado."
+            git status --short -- lib
+            git diff --stat -- lib
+            exit 1
+          fi
+
+      - name: Pruebas
+        run: npm test

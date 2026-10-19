@@ -12,7 +12,7 @@ import { icon } from "../core/icons.js";
  */
 export class TslReasoning extends TslElement {
   static get observedAttributes() {
-    return ["streaming", "duration"];
+    return [...super.observedAttributes, "streaming", "duration", "thinking-label", "done-label", "instant-label"];
   }
 
   setup() {
@@ -58,8 +58,12 @@ export class TslReasoning extends TslElement {
     this.paint();
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (!this._tslReady || oldValue === newValue) return;
+  attributeChanged(name, oldValue, newValue) {
+    if (name.endsWith("-label")) {
+      this.paint();
+      if (this.isStreaming) this.status.textContent = this.getAttribute("thinking-label") || "Pensando…";
+      return;
+    }
     if (name === "duration") {
       this.seconds = newValue === null ? this.seconds : parseFloat(newValue) || 0;
       this.paint();
@@ -70,8 +74,13 @@ export class TslReasoning extends TslElement {
   }
 
   disconnectedCallback() {
+    super.disconnectedCallback();
     clearInterval(this.tick);
     clearTimeout(this.closer);
+  }
+
+  reconnected() {
+    if (this.isStreaming && this.started) this.tick = setInterval(() => this.paint(), 1000);
   }
 
   get isStreaming() {

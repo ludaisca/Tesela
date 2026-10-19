@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ----------------------------------------------------------------------------
    17. Diálogos y paneles laterales (<dialog class="tsl-dialog"> nativo)
    ---------------------------------------------------------------------------- */
@@ -79,4 +81,5 @@
   position: sticky;
   bottom: 0;
   margin-top: auto;
+}
 }

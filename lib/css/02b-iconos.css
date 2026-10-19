@@ -1,3 +1,5 @@
+@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities;
+@layer tesela.components {
 /* ==========================================================================
    02b. Iconos: <tsl-icon> y .tsl-icon (el envoltorio que usan los componentes)
         Miden 1em y heredan el color; --tsl-icon-size y --tsl-icon-stroke los ajustan.
@@ -96,4 +98,5 @@ tsl-icon[spin] .tsl-icon__svg,
 /* Dentro de controles el icono no recibe el puntero: el clic llega al botón o enlace (e.target) */
 :is(button, a, label, summary, [role="button"], [role="menuitem"], [role="option"], [role="tab"]) :is(tsl-icon, .tsl-icon) {
   pointer-events: none;
+}
 }

@@ -29,7 +29,10 @@ Copia la carpeta `lib/` a tu proyecto:
 - **Eventos:** todos los componentes emiten eventos `tsl-*` que burbujean (`tsl-change`, `tsl-select`, `tsl-complete`, `tsl-copy`, `tsl-theme`).
 - **Formularios:** `tsl-select`, `tsl-combobox`, `tsl-date-picker`, `tsl-time-picker`, `tsl-slider`, `tsl-rating`, `tsl-color-picker`, `tsl-currency`, `tsl-phone`, `tsl-upload` y `tsl-editor` son *form-associated* (`ElementInternals`): aparecen en `FormData`, respetan `required`, `form.reset()` y `<fieldset disabled>`.
 - **Temas:** oscuro por defecto; `data-theme="light"` en `<html>`. Cambia la marca sobrescribiendo `--tsl-accent`, `--tsl-radius`, etc.
-- **Accesibilidad:** roles ARIA, navegación por teclado, `<dialog>` nativo y soporte de `prefers-reduced-motion`.
+- **CSS en capas:** todo va en `@layer tesela.tokens, tesela.base, tesela.components, tesela.utilities`, así que tu CSS sin capa gana siempre, sin `!important` ni subir la especificidad (`button { … }` le gana a `.tsl-btn--primary`). Si usas tus propias capas, declara el orden una vez: `@layer tesela, app;`. Un reset global (`* { margin: 0; padding: 0 }`) sin capa también ganaría y le quitaría a los componentes márgenes y rellenos: ponlo en una capa anterior, declarada antes de cargar Tesela (`<style>@layer reset, tesela;</style>`), como hace `index.html`. Solo quedan `!important` donde un estado debe mandar siempre: `hidden`, popover cerrado, `prefers-reduced-motion` y el texto oculto de un botón ocupado.
+- **Atributos reactivos:** cambiar después del montaje `value`, `disabled`, `placeholder`, `label` o cualquier texto `*-label` repinta el componente, como en un elemento nativo (`tests/reactividad.test.js`).
+- **SPA:** los componentes quitan sus escuchas de `document`/`window` al salir del documento y las recuperan si se vuelven a montar; mover un elemento no repite su `setup()`.
+- **Accesibilidad:** roles ARIA, navegación por teclado, `<dialog>` nativo, `prefers-reduced-motion` y alto contraste (`forced-colors`: foco, botones, campos, casillas e interruptores). Cada sección de la documentación pasa axe-core (WCAG 2.2 AA) en tema oscuro y claro (`tests/accesibilidad.test.js`).
 - **Textos por defecto en español** (etiquetas ARIA, placeholders, "Copiado"…); se pueden cambiar con atributos (`label`, `placeholder`, `empty`).
 
 ## Iconos
@@ -180,6 +183,10 @@ Las pruebas corren en un Chromium real con Playwright e incluyen teclado, arrast
 | `tests/conversacion.test.js` | mensaje, marcador, zona con seguimiento, adjunto, traza, bloque de código y cuestionario |
 | `tests/asistente.test.js` | entrada de prompt (Enter/IME, adjuntos por botón, pegado y arrastre, detener), sugerencias, razonamiento, fuentes y citas, versiones, acciones, medidor de contexto y el patrón de chat completo (enviar, detener, regenerar, adjuntos, seguir el final al estrecharse) |
 | `tests/bloques.test.js` | asistente por pasos (validación por paso, indicador, envío y reinicio), alta de un espacio, panel de control (periodos, búsqueda, consultas de contenedor), autenticación (errores por campo, registro, código, recuperación) y ajustes (secciones, guardar y descartar, zona de peligro) |
+| `tests/reactividad.test.js` | cambiar `value`, `disabled`, `placeholder`, `label` y los textos `*-label` después del montaje: todos los atributos documentados se observan y repintan |
+| `tests/ciclo-de-vida.test.js` | sin escuchas en `document`/`window` tras desmontar (paleta, editor, barra lateral, menús y paneles abiertos) y remontaje sin duplicar controles |
+| `tests/capas.test.js` | todo el CSS en `@layer tesela.*`, el CSS del usuario gana sin `!important`, `!important` solo donde manda un estado y alto contraste (`forced-colors`) |
+| `tests/accesibilidad.test.js` | axe-core (WCAG 2.2 AA y buenas prácticas) en cada sección de la documentación, tema oscuro y claro |
 | `tests/controles.test.js` | importe (formato por idioma, cursor, decimales, límites), teléfono (forma por país, prefijo al pegar, E.164), subida (validación, progreso, cancelar, reintentar, `action` real) y editor (barra accesible, formato, enlaces, listas, pegado saneado, límites) |
 
 `scripts/audit-layout.js` (equilibrio de cada experimento), `scripts/audit-previews.js` (centrado de las miniaturas), `scripts/audit-responsive.js` y `scripts/audit-experiments.js` imprimen el detalle de los desbordes y de los objetivos táctiles pequeños (los usa `tests/responsive.test.js`).
@@ -191,6 +198,8 @@ npm test                           # todas las pruebas
 node tests/run.js data             # solo los archivos que contengan "data"
 BASE_URL=http://host:24100 node tests/run.js   # contra un servidor ya levantado
 ```
+
+En cada pull request, `.github/workflows/ci.yml` instala con `npm ci`, compila, comprueba que `lib/` no cambia (está versionado: hay que compilar antes de hacer commit) y ejecuta `npm test`.
 
 `tests/run.js` levanta su propio servidor estático (`tests/server.js`, sin dependencias) y también encuentra una instalación global de Playwright. Si añades un componente, añade su prueba en el archivo del grupo correspondiente.
 

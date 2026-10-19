@@ -70,11 +70,11 @@ const escXml = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").rep
  */
 export class TslChart extends TslElement {
   static get observedAttributes() {
-    return ["type", "data", "height", "stacked", "horizontal", "smooth", "legend", "caption"];
+    return [...super.observedAttributes, "type", "data", "height", "stacked", "horizontal", "smooth", "legend", "caption", "center-label", "locale", "prefix", "suffix", "thickness"];
   }
 
-  attributeChangedCallback(name, old, val) {
-    if (!this._tslReady || old === val) return;
+  attributeChanged(name) {
+    if (name === "locale") this.locale = this.getAttribute("locale") || document.documentElement.lang || undefined;
     if (name === "data") this._data = this.parseAttrData();
     this.render();
   }
@@ -161,7 +161,12 @@ export class TslChart extends TslElement {
   }
 
   disconnectedCallback() {
+    super.disconnectedCallback();
     if (this.ro) this.ro.disconnect();
+  }
+
+  reconnected() {
+    if (this.ro) this.ro.observe(this.stage);
   }
 
   get type() {
@@ -204,6 +209,9 @@ export class TslChart extends TslElement {
     this.caption.textContent = cap || "";
     this.caption.hidden = !cap;
     this.setAttribute("aria-label", cap || this.getAttribute("aria-label") || "Gráfica");
+    // El medidor es un role="meter" con su valor; el resto, un grupo con la tabla de datos accesible
+    this.setAttribute("role", this.type === "gauge" ? "meter" : "group");
+    if (this.type !== "gauge") ["aria-valuenow", "aria-valuetext", "aria-valuemin", "aria-valuemax"].forEach((a) => this.removeAttribute(a));
 
     let markup = "";
     if (!d) markup = `<text x="${W / 2}" y="${H / 2}" text-anchor="middle" class="tsl-chart__tick">Sin datos</text>`;
@@ -261,7 +269,8 @@ export class TslChart extends TslElement {
     table.appendChild(cap);
     const thead = document.createElement("tr");
     head.forEach((h) => {
-      const th = document.createElement("th");
+      // La esquina vacía es una celda normal: una cabecera sin texto no nombra nada
+      const th = document.createElement(h === "" ? "td" : "th");
       th.textContent = h;
       thead.appendChild(th);
     });
@@ -467,6 +476,8 @@ export class TslChart extends TslElement {
     out += `<text class="tsl-chart__center-value" x="${cx}" y="${cy - 8}" text-anchor="middle">${escXml(this.fmt(Number(d.value)))}</text>`;
     if (d.label) out += `<text class="tsl-chart__center-label" x="${cx}" y="${cy + 12}" text-anchor="middle">${escXml(d.label)}</text>`;
     out += `<text class="tsl-chart__tick" x="${cx - r}" y="${cy + 18}" text-anchor="middle">${escXml(this.tick(min))}</text><text class="tsl-chart__tick" x="${cx + r}" y="${cy + 18}" text-anchor="middle">${escXml(this.tick(max))}</text>`;
+    this.setAttribute("aria-valuemin", String(min));
+    this.setAttribute("aria-valuemax", String(max));
     this.setAttribute("aria-valuenow", String(d.value));
     this.setAttribute("aria-valuetext", `${d.label ? `${d.label}: ` : ""}${this.fmt(Number(d.value))}`);
     this.hit = { kind: "gauge", count: 1 };

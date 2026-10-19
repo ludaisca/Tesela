@@ -1,6 +1,10 @@
 import { TslElement, define, emit, moveFocus } from "../core/base.js";
 
 export class TslSegmented extends TslElement {
+  static get observedAttributes() {
+    return [...super.observedAttributes, "value"];
+  }
+
   setup() {
     this.classList.add("tsl-segmented");
     this.setAttribute("role", "radiogroup");
@@ -19,6 +23,10 @@ export class TslSegmented extends TslElement {
       });
     });
     this.select(this.getAttribute("value") || (this.items[0] && this.items[0].value), false);
+  }
+
+  attributeChanged(name, before, after) {
+    if (after !== null) this.select(after, false);
   }
 
   get value() {

@@ -61,7 +61,7 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   const rowsIn = () => p.locator(VL + ' .tsl-vlist__row').count();
   const n0 = await rowsIn();
   ok(n0 > 8 && n0 < 40, `lista virtual: ${n0} filas en el DOM para 10 000 elementos`);
-  ok((await attr(VL + ' .tsl-vlist__viewport', 'aria-rowcount')) === '10000' && (await attr(VL + ' .tsl-vlist__row', 'aria-setsize')) === '10000', 'lista virtual: aria-rowcount/aria-setsize');
+  ok((await attr(VL + ' .tsl-vlist__viewport', 'aria-rowcount')) === null && (await attr(VL + ' .tsl-vlist__row', 'aria-setsize')) === '10000', 'lista virtual: cada fila lleva aria-setsize con el total (sin aria-rowcount, que solo vale en tablas)');
   await p.locator(VL + ' .tsl-vlist__viewport').evaluate(e => (e.scrollTop = e.scrollHeight)); await p.waitForTimeout(150);
   ok((await rowsIn()) < 40 && (await p.locator(VL + ' .tsl-vlist__row', { hasText: '10000' }).count()) === 1, 'lista virtual: al final se dibuja el elemento 10 000 y el DOM sigue pequeño');
   await p.locator(VL + ' .tsl-vlist__viewport').evaluate(e => (e.scrollTop = 0)); await p.waitForTimeout(150);
@@ -311,7 +311,7 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   ok((await txt(CD + ' .tsl-chart__tip-title')) === 'Pro', 'dona: teclado recorre los segmentos');
   await p.keyboard.press('Escape');
   const CG = '#demo-chart-gauge';
-  ok((await txt(CG + ' .tsl-chart__center-value')) === '72%' && (await attr(CG, 'aria-valuenow')) === '72', 'gauge: valor 72% y aria-valuenow');
+  ok((await txt(CG + ' .tsl-chart__center-value')) === '72%' && (await attr(CG, 'aria-valuenow')) === '72' && (await attr(CG, 'role')) === 'meter', 'gauge: valor 72% y role="meter" con aria-valuenow');
   ok((await attr(CG + ' .tsl-chart__value-arc', 'stroke')) === 'var(--tsl-warning)', 'gauge: el color sigue al umbral (72 → advertencia)');
   ok((await p.locator(CG + ' .tsl-chart__band-arc').count()) === 3, 'gauge: tres franjas de umbral');
 
