@@ -39,7 +39,7 @@ export class TslBranch extends TslElement {
     // Una versión nueva (regenerar) se muestra en cuanto aparece
     this.mutations = new MutationObserver(() => {
       const n = this.items.length;
-      if (n > this.known) this.goTo(n - 1);
+      if (n > this.known) this.goTo(n - 1, n > 1);
       else this.paint();
       this.known = n;
     });

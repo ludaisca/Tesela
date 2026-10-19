@@ -215,6 +215,64 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   const en = await p.evaluate(async () => { const d = document.createElement('div'); d.lang = 'en'; d.innerHTML = '<tsl-context used="48200" max="200000" cost="1.5" currency="EUR"></tsl-context>'; document.body.appendChild(d); await new Promise(r => setTimeout(r, 30)); const el = d.firstChild; const out = el.querySelector('.tsl-context__total').textContent + ' · ' + el.querySelector('.tsl-context__cost').textContent; d.remove(); return out; });
   ok(en === '48.2K / 200K · €1.50', `las cifras siguen el idioma de la página: ${en}`);
 
+  // ---- Patrón: chat completo ----
+  await show('pattern-chat');
+  const chat = p.locator('#pattern-chat .tsl-chat');
+  const geo = await chat.evaluate(c => { const r = (s) => c.querySelector(s).getBoundingClientRect(); return { h: c.getBoundingClientRect().height, head: r('.tsl-chat__header').bottom, scTop: r('tsl-message-scroller').top, scBottom: r('tsl-message-scroller').bottom, comp: r('.tsl-chat__composer').top }; });
+  ok(Math.round(geo.h) === 560 && Math.abs(geo.head - geo.scTop) < 1.5 && Math.abs(geo.scBottom - geo.comp) < 1.5, `el chat reparte su alto: cabecera, conversación que ocupa el resto y caja de entrada (${Math.round(geo.scBottom - geo.scTop)} px de conversación)`);
+  const citeP = await chat.evaluate(c => { const h = c.querySelector('.tsl-citation-card'); const para = h.closest('p'); return Boolean(para) && para.textContent.trim().endsWith('.') && para.querySelectorAll('.tsl-citation-card').length === 1; });
+  ok(citeP, 'la cita con su tarjeta (<span>) va dentro del párrafo y el punto final no salta de línea');
+  const cs = p.locator('#chat-scroller'), cp2 = p.locator('#chat-prompt'), meter2 = p.locator('#chat-context');
+  const atEnd = () => cs.evaluate(e => { const v = e.querySelector('.tsl-message-scroller__viewport'); return v.scrollHeight - v.scrollTop - v.clientHeight <= 2; });
+  ok(await atEnd(), 'arranca mostrando el final de la conversación');
+  const used0 = Number(await meter2.getAttribute('used'));
+  await cp2.locator('select').selectOption('Profundo');
+  await p.locator('#pattern-chat .tsl-suggestion').first().click();
+  await p.waitForTimeout(150);
+  const msgs = p.locator('#chat-log > .tsl-message');
+  ok(await msgs.count() === 4 && (await msgs.nth(2).textContent()).trim() === '¿Qué presets de tema hay?' && await msgs.nth(2).evaluate(e => e.classList.contains('tsl-message--end')), 'la sugerencia se envía como mensaje propio');
+  ok(await cp2.getAttribute('status') === 'submitted' && await msgs.nth(3).locator('tsl-reasoning').getAttribute('streaming') !== null, 'mientras espera: botón en espera y razonamiento en curso');
+  await p.waitForTimeout(1700);
+  ok(await cp2.getAttribute('status') === 'streaming' && await msgs.nth(3).locator('tsl-reasoning').getAttribute('streaming') === null, 'al escribir: el razonamiento termina y el botón pasa a «Detener»');
+  await p.waitForFunction(() => document.querySelector('#chat-prompt').getAttribute('status') === 'ready', null, { timeout: 8000 });
+  const answer = (await msgs.nth(3).locator('.tsl-branch__item').textContent()).trim();
+  ok(answer.startsWith('Hay once presets') && await msgs.nth(3).locator('.tsl-message__footer').isVisible() && await msgs.nth(3).locator('[data-tsl-copy]').getAttribute('data-tsl-copy') === answer, 'la respuesta se escribe entera, muestra su pie y «Copiar» copia ese texto');
+  ok(Number(await meter2.getAttribute('used')) > used0 && await meter2.getAttribute('model') === 'Profundo', 'el medidor suma los tokens y muestra el modelo elegido');
+  await p.waitForTimeout(300);
+  ok(await atEnd(), 'la conversación sigue el final mientras llega la respuesta');
+  // Detener a medias
+  await cp2.locator('textarea').fill('¿Funciona en RTL?');
+  await cp2.locator('textarea').press('Enter');
+  await p.waitForFunction(() => document.querySelector('#chat-prompt').getAttribute('status') === 'streaming', null, { timeout: 4000 });
+  await p.waitForTimeout(200);
+  await cp2.locator('[data-submit]').click();
+  await p.waitForTimeout(300);
+  const stopped = await p.locator('#chat-log > .tsl-marker').last().textContent();
+  const partial = (await msgs.last().locator('.tsl-branch__item').textContent()).trim();
+  await p.waitForTimeout(600);
+  ok(stopped.includes('Respuesta detenida') && await cp2.getAttribute('status') === 'ready' && partial.length > 0 && (await msgs.last().locator('.tsl-branch__item').textContent()).trim() === partial, `«Detener» corta la respuesta donde iba («${partial.slice(0, 20)}…») y lo anuncia`);
+  // Regenerar la primera respuesta
+  const first = msgs.nth(1).locator('tsl-branch');
+  await first.locator('[data-regenerar]').click();
+  await p.waitForFunction(() => document.querySelector('#chat-prompt').getAttribute('status') === 'ready', null, { timeout: 8000 });
+  ok(await first.locator('.tsl-branch__count').textContent() === '2 de 2' && await first.locator('.tsl-branch__selector').isVisible(), 'regenerar añade una versión y aparece el selector «2 de 2»');
+  await first.locator('.tsl-branch__prev').click();
+  ok((await first.locator('.tsl-branch__item:not([hidden])').textContent()).includes('setAccent()'), 'y se puede volver a la versión original');
+  // Adjuntos en el mensaje propio
+  await cp2.locator('input[type=file]').setInputFiles([{ name: 'captura.png', mimeType: 'image/png', buffer: Buffer.alloc(30) }]);
+  await cp2.locator('textarea').fill('Mira esto');
+  await cp2.locator('textarea').press('Enter');
+  await p.waitForTimeout(150);
+  const mine = p.locator('#chat-log > .tsl-message--end').last();
+  ok(await mine.locator('.tsl-attachment__title').textContent() === 'captura.png' && (await mine.locator('.tsl-bubble').textContent()) === 'Mira esto', 'los adjuntos enviados aparecen sobre la burbuja propia');
+  await p.waitForFunction(() => document.querySelector('#chat-prompt').getAttribute('status') === 'ready', null, { timeout: 8000 });
+  // Al estrecharse (girar el móvil) la conversación no suelta el final
+  await p.setViewportSize({ width: 1280, height: 1000 }); await p.waitForTimeout(400);
+  await cs.evaluate(e => e.scrollToEnd(false)); await p.waitForTimeout(200);
+  await p.setViewportSize({ width: 390, height: 844 }); await p.waitForTimeout(600);
+  ok(await atEnd() && await cs.getAttribute('data-away') === null, 'al estrecharse la ventana sigue mostrando el final, sin «Ir al final»');
+  await p.setViewportSize({ width: 1200, height: 900 }); await p.waitForTimeout(300);
+
   ok(errs.length === 0, 'sin errores de JavaScript' + (errs.length ? `: ${errs.join(' | ')}` : ''));
   await b.close();
   console.log(fails ? `\n${fails} FALLOS` : '\nTODO OK');

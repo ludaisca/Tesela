@@ -78,8 +78,14 @@ export class TslMessageScroller extends TslElement {
   }
 
   onScroll() {
+    const top = this.viewport.scrollTop;
+    const up = top < (this.lastTop || 0);
+    this.lastTop = top;
     if (this.programmatic) return;
     const near = this.nearEnd();
+    // Si el contenido crece al estrecharse (girar el móvil) el navegador emite scroll sin que nadie suba:
+    // no se suelta el final, y el ResizeObserver vuelve a bajar
+    if (!near && this.stuck && !up) return;
     if (near !== this.stuck) {
       this.stuck = near;
       this.paint();

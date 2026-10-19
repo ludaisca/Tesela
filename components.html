@@ -2013,7 +2013,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
 
       <section class="doc" id="sources" data-group="Conversación" data-keywords="fuentes citas citation sources referencias enlaces búsqueda web ia hovercard">
         <h2><a href="#sources">Fuentes y citas</a></h2>
-        <p><code>.tsl-sources</code> es un <code>&lt;tsl-collapsible&gt;</code> con un disparador <code>.tsl-sources__trigger</code> y una lista de <code>.tsl-source</code> (icono o inicial, título que se trunca y dominio). <code>.tsl-citation</code> es la cita en línea dentro del texto; envuelta en <code>&lt;tsl-hovercard class="tsl-citation-card"&gt;</code> muestra al pasar o enfocar una tarjeta <code>.tsl-citation__panel</code> con dominio, título y fragmento citado.</p>
+        <p><code>.tsl-sources</code> es un <code>&lt;tsl-collapsible&gt;</code> con un disparador <code>.tsl-sources__trigger</code> y una lista de <code>.tsl-source</code> (icono o inicial, título que se trunca y dominio). <code>.tsl-citation</code> es la cita en línea dentro del texto; envuelta en <code>&lt;tsl-hovercard class="tsl-citation-card"&gt;</code> muestra al pasar o enfocar una tarjeta <code>.tsl-citation__panel</code> con dominio, título y fragmento citado. Escribe la tarjeta con <code>&lt;span&gt;</code>: así la cita puede ir dentro de un <code>&lt;p&gt;</code> sin que el navegador lo cierre antes de tiempo.</p>
         <template>
           <div class="tsl-stack demo-max" style="--gap:12px">
             <tsl-collapsible class="tsl-sources">
@@ -2026,7 +2026,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
                 </ul>
               </div>
             </tsl-collapsible>
-            <div style="line-height:1.7">El texto normal debe tener un contraste mínimo de 4,5:1 frente al fondo<tsl-hovercard class="tsl-citation-card" open-delay="150"><a class="tsl-citation" href="#sources" data-tsl-trigger>w3.org</a><div class="tsl-popover__panel tsl-citation__panel"><span class="tsl-citation__host"><span class="tsl-source__icon" aria-hidden="true">W</span>w3.org</span><span class="tsl-citation__title">Understanding Success Criterion 1.4.3: Contrast (Minimum)</span><p class="tsl-citation__quote">The visual presentation of text has a contrast ratio of at least 4.5:1…</p></div></tsl-hovercard> y <code>color-mix()</code> permite derivar los tonos atenuados sin perderlo<tsl-hovercard class="tsl-citation-card" open-delay="150"><a class="tsl-citation" href="#sources" data-tsl-trigger>mdn +1</a><div class="tsl-popover__panel tsl-citation__panel"><span class="tsl-citation__host"><span class="tsl-source__icon" aria-hidden="true">M</span>developer.mozilla.org</span><span class="tsl-citation__title">color-mix()</span><p class="tsl-citation__quote">Takes two color values and returns the result of mixing them in a given colorspace.</p></div></tsl-hovercard>.</div>
+            <div style="line-height:1.7">El texto normal debe tener un contraste mínimo de 4,5:1 frente al fondo<tsl-hovercard class="tsl-citation-card" open-delay="150"><a class="tsl-citation" href="#sources" data-tsl-trigger>w3.org</a><span class="tsl-popover__panel tsl-citation__panel"><span class="tsl-citation__host"><span class="tsl-source__icon" aria-hidden="true">W</span>w3.org</span><span class="tsl-citation__title">Understanding Success Criterion 1.4.3: Contrast (Minimum)</span><span class="tsl-citation__quote">The visual presentation of text has a contrast ratio of at least 4.5:1…</span></span></tsl-hovercard> y <code>color-mix()</code> permite derivar los tonos atenuados sin perderlo<tsl-hovercard class="tsl-citation-card" open-delay="150"><a class="tsl-citation" href="#sources" data-tsl-trigger>mdn +1</a><span class="tsl-popover__panel tsl-citation__panel"><span class="tsl-citation__host"><span class="tsl-source__icon" aria-hidden="true">M</span>developer.mozilla.org</span><span class="tsl-citation__title">color-mix()</span><span class="tsl-citation__quote">Takes two color values and returns the result of mixing them in a given colorspace.</span></span></tsl-hovercard>.</div>
           </div>
         </template>
       </section>
@@ -2203,6 +2203,213 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
       </section>
 
       <!-- ================================================================ Patrones -->
+      <section class="doc" id="pattern-chat" data-group="Patrones" data-keywords="chat asistente ia conversación patrón completo prompt razonamiento fuentes citas versiones contexto streaming">
+        <h2><a href="#pattern-chat">Chat con asistente</a></h2>
+        <p>Toda la familia de conversación junta. <code>.tsl-chat</code> reparte el marco en cabecera (<code>__header</code>, con el medidor de contexto), la zona de mensajes y la caja de entrada (<code>__composer</code>). Las respuestas usan <code>.tsl-message--wide</code> para ocupar todo el ancho y apilan razonamiento con su traza, texto con citas, bloque de código, versiones, acciones y fuentes. Escribe algo, usa una sugerencia, detén la respuesta a medias o pulsa «Regenerar»: la respuesta es simulada, pero los estados son los reales.</p>
+        <template>
+          <div class="tsl-chat demo-wide">
+            <div class="tsl-chat__header">
+              <span class="tsl-avatar tsl-avatar--sm" aria-hidden="true">T</span>
+              <div class="tsl-chat__title">Asistente de Tesela<small>Responde con la documentación de la biblioteca</small></div>
+              <tsl-context id="chat-context" placement="bottom-end" model="Equilibrado" used="14200" max="200000" input="9800" output="3600" reasoning="800" cost="0.0213"></tsl-context>
+            </div>
+            <tsl-message-scroller id="chat-scroller" label="Conversación con el asistente">
+              <div class="tsl-message-scroller__content" id="chat-log">
+                <div class="tsl-marker tsl-marker--separator">Hoy</div>
+                <div class="tsl-message tsl-message--end">
+                  <div class="tsl-message__content">
+                    <div class="tsl-attachment tsl-attachment--xs"><span class="tsl-attachment__media" aria-hidden="true">🖼</span><span class="tsl-attachment__title">marca.png</span></div>
+                    <div class="tsl-bubble">¿Cómo uso el color de mi marca como acento sin perder contraste?</div>
+                  </div>
+                </div>
+                <div class="tsl-message tsl-message--wide">
+                  <span class="tsl-message__avatar"><span class="tsl-avatar tsl-avatar--sm" aria-hidden="true">T</span></span>
+                  <div class="tsl-message__content">
+                    <tsl-reasoning duration="7">
+                      <ul class="tsl-trace">
+                        <li><span class="tsl-trace__line"><span class="tsl-trace__icon" aria-hidden="true">✓</span><span class="tsl-trace__title">Buscó «acento» en la documentación</span><span class="tsl-trace__desc">3 resultados</span></span></li>
+                        <li><span class="tsl-trace__line"><span class="tsl-trace__icon" aria-hidden="true">✓</span><span class="tsl-trace__title">Leyó src/api/theme.js</span><span class="tsl-trace__desc">0,4 s</span></span></li>
+                      </ul>
+                      <p>La imagen es un naranja saturado. setAccent() ya calcula el color del texto encima, así que basta con explicarlo y recordar el mínimo de 4,5:1.</p>
+                    </tsl-reasoning>
+                    <tsl-branch>
+                      <div class="tsl-branch__item">
+                        <div class="tsl-bubble tsl-bubble--plain">
+                          <p>Pasa tu color a <code>setAccent()</code>: guarda el acento y elige el texto que va encima para que el contraste no baje de 4,5:1<tsl-hovercard class="tsl-citation-card" open-delay="150"><a class="tsl-citation" href="#pattern-chat" data-tsl-trigger>w3.org</a><span class="tsl-popover__panel tsl-citation__panel"><span class="tsl-citation__host"><span class="tsl-source__icon" aria-hidden="true">W</span>w3.org</span><span class="tsl-citation__title">Understanding Success Criterion 1.4.3: Contrast (Minimum)</span><span class="tsl-citation__quote">The visual presentation of text has a contrast ratio of at least 4.5:1…</span></span></tsl-hovercard>.</p>
+                          <div class="tsl-codeblock">
+                            <div class="tsl-codeblock__header"><span class="tsl-codeblock__title">tema.js</span><div class="tsl-codeblock__actions"><button type="button" class="tsl-btn tsl-btn--sm" data-tsl-copy='TeselaUI.setAccent("#f76b15");'>Copiar</button></div></div>
+                            <pre class="tsl-codeblock__content" tabindex="0" aria-label="Contenido de tema.js"><span class="tsl-codeblock__line">TeselaUI.setAccent("#f76b15");</span></pre>
+                          </div>
+                          <p>Se aplica al instante en toda la página y se recuerda al recargar<tsl-hovercard class="tsl-citation-card" open-delay="150"><a class="tsl-citation" href="#pattern-chat" data-tsl-trigger>tesela</a><span class="tsl-popover__panel tsl-citation__panel"><span class="tsl-citation__host"><span class="tsl-source__icon" aria-hidden="true">T</span>tesela.dev</span><span class="tsl-citation__title">Temas, presets y tokens</span><span class="tsl-citation__quote">El acento elegido se guarda y theme-init.js lo aplica antes de pintar.</span></span></tsl-hovercard>.</p>
+                        </div>
+                      </div>
+                      <div class="tsl-message__footer tsl-row" style="--gap:4px">
+                        <div class="tsl-branch__selector"></div>
+                        <div class="tsl-message__actions">
+                          <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Copiar respuesta" data-tsl-copy='Pasa tu color a setAccent(): guarda el acento y elige el texto que va encima para que el contraste no baje de 4,5:1.'>⧉</button>
+                          <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Regenerar" data-regenerar>↻</button>
+                          <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Buena respuesta" aria-pressed="false" data-tsl-toggle>👍</button>
+                          <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Mala respuesta" aria-pressed="false" data-tsl-toggle>👎</button>
+                        </div>
+                      </div>
+                    </tsl-branch>
+                    <tsl-collapsible class="tsl-sources">
+                      <button type="button" class="tsl-sources__trigger" data-tsl-trigger>Usó 2 fuentes <span class="tsl-collapsible__chevron"></span></button>
+                      <div class="tsl-collapsible__content">
+                        <ul class="tsl-sources__list">
+                          <li><a class="tsl-source" href="#pattern-chat"><span class="tsl-source__icon" aria-hidden="true">W</span><span class="tsl-source__title">Understanding SC 1.4.3: Contrast (Minimum)</span><span class="tsl-source__host">w3.org</span></a></li>
+                          <li><a class="tsl-source" href="#themes"><span class="tsl-source__icon" aria-hidden="true">T</span><span class="tsl-source__title">Temas, presets y tokens</span><span class="tsl-source__host">tesela.dev</span></a></li>
+                        </ul>
+                      </div>
+                    </tsl-collapsible>
+                  </div>
+                </div>
+              </div>
+            </tsl-message-scroller>
+            <div class="tsl-chat__composer">
+              <div class="tsl-suggestions" role="group" aria-label="Sugerencias">
+                <button type="button" class="tsl-suggestion" data-tsl-suggest="#chat-prompt" data-send>¿Qué presets de tema hay?</button>
+                <button type="button" class="tsl-suggestion" data-tsl-suggest="#chat-prompt" data-send>¿Funciona en RTL?</button>
+                <button type="button" class="tsl-suggestion" data-tsl-suggest="#chat-prompt">Muéstrame un diálogo de confirmación</button>
+              </div>
+              <tsl-prompt-input id="chat-prompt" accept="image/*,.pdf,.txt,.md" max-files="3" max-size="10MB">
+                <form>
+                  <textarea name="prompt" placeholder="Pregunta sobre Tesela…" aria-label="Mensaje para el asistente"></textarea>
+                  <div class="tsl-prompt-input__toolbar">
+                    <div class="tsl-prompt-input__tools">
+                      <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" data-attach aria-label="Adjuntar archivos" style="font-size:18px">+</button>
+                      <select class="tsl-select" name="modelo" aria-label="Modelo">
+                        <option value="Rápido">Rápido</option>
+                        <option value="Equilibrado" selected>Equilibrado</option>
+                        <option value="Profundo">Profundo</option>
+                      </select>
+                    </div>
+                    <button type="submit" class="tsl-btn tsl-btn--primary" data-submit></button>
+                  </div>
+                </form>
+              </tsl-prompt-input>
+              <p class="tsl-chat__note">Respuestas simuladas para la demostración.</p>
+            </div>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const scroller = document.querySelector("#chat-scroller");
+          const log = document.querySelector("#chat-log");
+          const prompt = document.querySelector("#chat-prompt");
+          const meter = document.querySelector("#chat-context");
+          const respuestas = [
+            "Hay once presets: tesela, papel, esmeralda, alto-contraste y siete más. Todos cumplen AA en ambos modos y alto-contraste llega a AAA. Cámbialos con TeselaUI.setPreset(nombre).",
+            "Sí. Todo usa propiedades lógicas, así que con dir=\"rtl\" o TeselaUI.setDirection(\"rtl\") los componentes se espejan, y el teclado de pestañas, carruseles y sliders invierte sus flechas.",
+            "Usa TeselaUI.confirm({ title, description, confirmLabel }): devuelve una promesa que se resuelve a true o false según lo que elija la persona, y el diálogo es un <dialog> nativo."
+          ];
+          let turno = 0;
+          let ocupado = false;
+          let timers = [];
+
+          const nodo = (html) => {
+            const t = document.createElement("template");
+            t.innerHTML = html.trim();
+            return t.content.firstElementChild;
+          };
+          const esperar = (ms) => new Promise((ok) => timers.push(setTimeout(ok, ms)));
+          const sumar = (n) => {
+            meter.setAttribute("used", Number(meter.getAttribute("used")) + n);
+            meter.setAttribute("output", Number(meter.getAttribute("output")) + n);
+          };
+
+          function mensajePropio(texto, archivos) {
+            const msg = nodo('<div class="tsl-message tsl-message--end"><div class="tsl-message__content"></div></div>');
+            const contenido = msg.firstElementChild;
+            archivos.forEach((f) => {
+              const chip = nodo('<div class="tsl-attachment tsl-attachment--xs"><span class="tsl-attachment__media" aria-hidden="true">📎</span><span class="tsl-attachment__title"></span></div>');
+              chip.querySelector(".tsl-attachment__title").textContent = f.name;
+              contenido.append(chip);
+            });
+            if (texto) {
+              const burbuja = nodo('<div class="tsl-bubble"></div>');
+              burbuja.textContent = texto;
+              contenido.append(burbuja);
+            }
+            log.append(msg);
+          }
+
+          function mensajeAsistente() {
+            return nodo(`
+              <div class="tsl-message tsl-message--wide">
+                <span class="tsl-message__avatar"><span class="tsl-avatar tsl-avatar--sm" aria-hidden="true">T</span></span>
+                <div class="tsl-message__content">
+                  <tsl-reasoning streaming><p>Busco la respuesta en la documentación de Tesela.</p></tsl-reasoning>
+                  <tsl-branch>
+                    <div class="tsl-message__footer tsl-row" style="--gap:4px" hidden>
+                      <div class="tsl-branch__selector"></div>
+                      <div class="tsl-message__actions">
+                        <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Copiar respuesta" data-tsl-copy>⧉</button>
+                        <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Regenerar" data-regenerar>↻</button>
+                      </div>
+                    </div>
+                  </tsl-branch>
+                </div>
+              </div>`);
+          }
+
+          // Añade una versión a la respuesta y la escribe palabra a palabra
+          async function escribir(branch, texto) {
+            const footer = branch.querySelector(".tsl-message__footer");
+            const item = nodo('<div class="tsl-branch__item"><div class="tsl-bubble tsl-bubble--plain"><p></p></div></div>');
+            branch.insertBefore(item, footer);
+            const p = item.querySelector("p");
+            prompt.status = "streaming";
+            for (const palabra of texto.split(" ")) {
+              p.textContent += (p.textContent ? " " : "") + palabra;
+              await esperar(45);
+            }
+            footer.hidden = false;
+            footer.querySelector("[data-tsl-copy]").dataset.tslCopy = texto;
+            sumar(texto.length * 3);
+          }
+
+          async function responder() {
+            ocupado = true;
+            prompt.status = "submitted";
+            const msg = mensajeAsistente();
+            log.append(msg);
+            scroller.scrollToEnd();
+            await esperar(1400);
+            msg.querySelector("tsl-reasoning").removeAttribute("streaming");
+            await escribir(msg.querySelector("tsl-branch"), respuestas[turno++ % respuestas.length]);
+            prompt.status = "ready";
+            ocupado = false;
+          }
+
+          prompt.addEventListener("tsl-submit", (e) => {
+            if (ocupado) return e.preventDefault();
+            mensajePropio(e.detail.text, e.detail.files);
+            meter.setAttribute("model", e.detail.values.modelo);
+            sumar(e.detail.text.length * 2 + e.detail.files.length * 1500);
+            responder();
+          });
+
+          prompt.addEventListener("tsl-stop", () => {
+            timers.forEach(clearTimeout);
+            timers = [];
+            log.querySelectorAll("tsl-reasoning[streaming]").forEach((r) => r.removeAttribute("streaming"));
+            log.querySelectorAll(".tsl-message__footer[hidden]").forEach((f) => (f.hidden = false));
+            log.append(nodo('<div class="tsl-marker" role="status"><span class="tsl-marker__icon" aria-hidden="true">■</span><span>Respuesta detenida</span></div>'));
+            prompt.status = "ready";
+            ocupado = false;
+          });
+
+          log.addEventListener("click", async (e) => {
+            const boton = e.target.closest("[data-regenerar]");
+            if (!boton || ocupado) return;
+            ocupado = true;
+            await escribir(boton.closest("tsl-branch"), respuestas[turno++ % respuestas.length]);
+            prompt.status = "ready";
+            ocupado = false;
+          });
+        </script>
+      </section>
+
       <section class="doc" id="pattern-login" data-group="Patrones" data-keywords="login signin auth formulario ejemplo">
         <h2><a href="#pattern-login">Inicio de sesión</a></h2>
         <p>Ejemplo de composición: card + fields + divider + botones.</p>

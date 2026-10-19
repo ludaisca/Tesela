@@ -155,7 +155,7 @@ Las pruebas corren en un Chromium real con Playwright e incluyen teclado, arrast
 | `tests/portada.test.js` | portada de la galería: pared de 212 teselas, flechas, dirección numérica, filtros, favoritos, cifras verificables y tamaños de 320 a 950 px |
 | `tests/gallery-layout.test.js` | minimapa sin tapar contenido, escenario del sandbox centrado, 212 miniaturas equilibradas y muestras de la documentación centradas en su marco |
 | `tests/conversacion.test.js` | mensaje, marcador, zona con seguimiento, adjunto, traza, bloque de código y cuestionario |
-| `tests/asistente.test.js` | entrada de prompt (Enter/IME, adjuntos por botón, pegado y arrastre, detener), sugerencias, razonamiento, fuentes y citas, versiones, acciones y medidor de contexto |
+| `tests/asistente.test.js` | entrada de prompt (Enter/IME, adjuntos por botón, pegado y arrastre, detener), sugerencias, razonamiento, fuentes y citas, versiones, acciones, medidor de contexto y el patrón de chat completo (enviar, detener, regenerar, adjuntos, seguir el final al estrecharse) |
 
 `scripts/audit-layout.js` (equilibrio de cada experimento), `scripts/audit-previews.js` (centrado de las miniaturas), `scripts/audit-responsive.js` y `scripts/audit-experiments.js` imprimen el detalle de los desbordes y de los objetivos táctiles pequeños (los usa `tests/responsive.test.js`).
 
