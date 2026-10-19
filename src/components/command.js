@@ -97,6 +97,8 @@ export class TslCommand extends TslElement {
     const hotkey = this.getAttribute("hotkey");
     if (hotkey) {
       document.addEventListener("keydown", (e) => {
+        // Si otro componente ya usó la combinación (p. ej. Ctrl+K para enlazar en <tsl-editor>), se respeta
+        if (e.defaultPrevented) return;
         if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === hotkey.toLowerCase()) {
           e.preventDefault();
           this.dialog.open ? this.close() : this.open();

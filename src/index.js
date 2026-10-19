@@ -49,6 +49,10 @@ import "./components/reasoning.js";
 import "./components/branch.js";
 import "./components/context.js";
 import "./components/wizard.js";
+import "./components/currency.js";
+import "./components/phone.js";
+import "./components/upload.js";
+import "./components/editor.js";
 
 export { VERSION, getTheme, getResolvedTheme, setTheme, getPreset, setPreset, setAccent, setDirection, getDirection, presets, toast, copy, confirmDialog as confirm, position, init };
 

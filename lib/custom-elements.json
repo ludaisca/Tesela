@@ -5628,6 +5628,1144 @@
     },
     {
       "kind": "javascript-module",
+      "path": "esm/components/currency.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslCurrency",
+          "tagName": "tsl-currency",
+          "customElement": true,
+          "description": "Importe con el formato del idioma mientras se escribe, símbolo de la moneda en su sitio y los decimales de esa moneda. En el formulario viaja el valor canónico (`1250.50`). ↑ ↓ suman o restan `step`.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre con el que el valor viaja en el formulario."
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Obliga a tener valor: aplica la validación nativa del formulario."
+            },
+            {
+              "name": "required-message",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación cuando falta el valor.",
+              "default": "Completa este campo."
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Importe inicial con punto decimal (`1250.5`)."
+            },
+            {
+              "name": "currency",
+              "type": {
+                "text": "string"
+              },
+              "description": "Código ISO 4217 de la moneda.",
+              "default": "USD"
+            },
+            {
+              "name": "locale",
+              "type": {
+                "text": "string"
+              },
+              "description": "Idioma del formato (por defecto, el `lang` de la página)."
+            },
+            {
+              "name": "min",
+              "type": {
+                "text": "number"
+              },
+              "description": "Importe mínimo; si es negativo se pueden escribir negativos."
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "description": "Importe máximo."
+            },
+            {
+              "name": "step",
+              "type": {
+                "text": "number"
+              },
+              "description": "Lo que suman o restan ↑ y ↓.",
+              "default": "1"
+            },
+            {
+              "name": "show-code",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Muestra el código de la moneda al final."
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto de ejemplo."
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible (se le añade la moneda).",
+              "default": "Importe"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Refleja el atributo `disabled`."
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "description": "Formulario al que pertenece.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "type": {
+                "text": "ValidityState"
+              },
+              "description": "Estado de validación.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación actual.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Importe canónico (`-1250.50`) o `\"\"`."
+            },
+            {
+              "kind": "field",
+              "name": "valueAsNumber",
+              "type": {
+                "text": "number"
+              },
+              "description": "Importe como número (`NaN` si está vacío).",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "formatted",
+              "type": {
+                "text": "string"
+              },
+              "description": "Importe con símbolo como lo escribe el idioma.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "description": "Indica si el campo es válido.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "description": "Valida y muestra el aviso nativo si no lo es.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "description": "Enfoca el campo.",
+              "parameters": [
+                {
+                  "name": "options",
+                  "type": {
+                    "text": "FocusOptions"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-change",
+              "type": {
+                "text": "CustomEvent<{ value: string; number: number }>"
+              },
+              "description": "Cambió el importe (al salir del campo, con Enter o con ↑ ↓)."
+            }
+          ],
+          "x-docs": [
+            "currency"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslCurrency",
+          "declaration": {
+            "name": "TslCurrency",
+            "module": "esm/components/currency.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-currency",
+          "declaration": {
+            "name": "TslCurrency",
+            "module": "esm/components/currency.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/phone.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslPhone",
+          "tagName": "tsl-phone",
+          "customElement": true,
+          "description": "Teléfono con selector de país: da forma al número según el país mientras se escribe, reconoce el prefijo al pegar un número internacional y envía el valor en E.164 (`+525512345678`). Sin todos los dígitos no es válido.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre con el que el valor viaja en el formulario."
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Obliga a tener valor: aplica la validación nativa del formulario."
+            },
+            {
+              "name": "required-message",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación cuando falta el valor.",
+              "default": "Completa este campo."
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Número inicial, nacional o internacional (`+34 600 12 34 56`)."
+            },
+            {
+              "name": "country",
+              "type": {
+                "text": "string"
+              },
+              "description": "País inicial (ISO 3166, p. ej. `MX`).",
+              "default": "MX"
+            },
+            {
+              "name": "countries",
+              "type": {
+                "text": "string"
+              },
+              "description": "Países que se ofrecen, en orden: `MX,US,ES`."
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto de ejemplo (por defecto, la forma del número del país)."
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible del número.",
+              "default": "Teléfono"
+            },
+            {
+              "name": "country-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible del selector de país.",
+              "default": "País"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Refleja el atributo `disabled`."
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "description": "Formulario al que pertenece.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "type": {
+                "text": "ValidityState"
+              },
+              "description": "Estado de validación.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación actual.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Número en E.164 o `\"\"`."
+            },
+            {
+              "kind": "field",
+              "name": "country",
+              "type": {
+                "text": "string"
+              },
+              "description": "País elegido."
+            },
+            {
+              "kind": "field",
+              "name": "national",
+              "type": {
+                "text": "string"
+              },
+              "description": "Dígitos del número nacional.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "isComplete",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Tiene todos los dígitos del país.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "formatted",
+              "type": {
+                "text": "string"
+              },
+              "description": "Número legible: `+52 55 1234 5678`.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "description": "Indica si el campo es válido.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "description": "Valida y muestra el aviso nativo si no lo es.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "description": "Enfoca el número.",
+              "parameters": [
+                {
+                  "name": "options",
+                  "type": {
+                    "text": "FocusOptions"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-change",
+              "type": {
+                "text": "CustomEvent<{ value: string; country: string; complete: boolean }>"
+              },
+              "description": "Cambió el número o el país."
+            }
+          ],
+          "x-docs": [
+            "phone"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslPhone",
+          "declaration": {
+            "name": "TslPhone",
+            "module": "esm/components/phone.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-phone",
+          "declaration": {
+            "name": "TslPhone",
+            "module": "esm/components/phone.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/upload.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslUpload",
+          "tagName": "tsl-upload",
+          "customElement": true,
+          "description": "Subida de archivos con progreso: zona para soltar o elegir y una fila por archivo con barra, cancelar, reintentar y quitar. Sube con `action` (POST multipart) o con la función `uploader`; mientras sube, el formulario no es válido.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre con el que el valor viaja en el formulario."
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Obliga a tener valor: aplica la validación nativa del formulario."
+            },
+            {
+              "name": "required-message",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación cuando falta el valor.",
+              "default": "Completa este campo."
+            },
+            {
+              "name": "multiple",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Permite varios archivos."
+            },
+            {
+              "name": "accept",
+              "type": {
+                "text": "string"
+              },
+              "description": "Tipos admitidos, como el `accept` nativo."
+            },
+            {
+              "name": "max-size",
+              "type": {
+                "text": "string"
+              },
+              "description": "Tamaño máximo por archivo (`20MB`)."
+            },
+            {
+              "name": "max-files",
+              "type": {
+                "text": "number"
+              },
+              "description": "Máximo de archivos (con `multiple`)."
+            },
+            {
+              "name": "action",
+              "type": {
+                "text": "string"
+              },
+              "description": "URL a la que se suben con POST multipart."
+            },
+            {
+              "name": "field",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre del campo del archivo en la petición.",
+              "default": "file"
+            },
+            {
+              "name": "concurrency",
+              "type": {
+                "text": "number"
+              },
+              "description": "Subidas simultáneas.",
+              "default": "3"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible de la lista.",
+              "default": "Archivos"
+            },
+            {
+              "name": "drop-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto de la zona para soltar."
+            },
+            {
+              "name": "hint",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto de ayuda (por defecto, los límites)."
+            },
+            {
+              "name": "busy-message",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación mientras sube.",
+              "default": "Espera a que terminen de subirse los archivos."
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Refleja el atributo `disabled`."
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "description": "Formulario al que pertenece.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "type": {
+                "text": "ValidityState"
+              },
+              "description": "Estado de validación.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación actual.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "uploader",
+              "type": {
+                "text": "((file: File, options: { signal: AbortSignal; progress: (fraction: number) => void }) => Promise<unknown>) | null"
+              },
+              "description": "Función de subida propia; tiene prioridad sobre `action`."
+            },
+            {
+              "kind": "field",
+              "name": "files",
+              "type": {
+                "text": "Array<{ file: File; name: string; size: number; status: string; progress: number; result?: unknown; error?: string }>"
+              },
+              "description": "Estado de cada archivo.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "unknown[]"
+              },
+              "description": "Resultados de los archivos subidos (o los `File`, sin destino).",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "busy",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Hay archivos subiendo o en cola.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "description": "Indica si el campo es válido.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "description": "Valida y muestra el aviso nativo si no lo es.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "addFiles",
+              "description": "Añade archivos validando tipo, tamaño y cantidad.",
+              "parameters": [
+                {
+                  "name": "files",
+                  "type": {
+                    "text": "FileList | File[]"
+                  }
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "cancel",
+              "description": "Cancela una subida.",
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "retry",
+              "description": "Reintenta una subida fallida o cancelada.",
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "removeFile",
+              "description": "Quita un archivo (y corta su subida).",
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "focus",
+                  "type": {
+                    "text": "boolean"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "clear",
+              "description": "Quita todos.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "openFilePicker",
+              "description": "Abre el selector de archivos.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-files",
+              "type": {
+                "text": "CustomEvent<{ files: object[] }>"
+              },
+              "description": "Cambió la lista."
+            },
+            {
+              "name": "tsl-progress",
+              "type": {
+                "text": "CustomEvent<{ file: File; progress: number }>"
+              },
+              "description": "Avanzó una subida (0-1)."
+            },
+            {
+              "name": "tsl-upload",
+              "type": {
+                "text": "CustomEvent<{ file: File; result: unknown }>"
+              },
+              "description": "Terminó una subida."
+            },
+            {
+              "name": "tsl-error",
+              "type": {
+                "text": "CustomEvent<{ file: File; reason: \"type\" | \"size\" | \"count\" | \"upload\"; message: string }>"
+              },
+              "description": "Se rechazó un archivo o falló su subida."
+            },
+            {
+              "name": "tsl-complete",
+              "type": {
+                "text": "CustomEvent<{ results: unknown[]; failed: number }>"
+              },
+              "description": "No queda nada subiendo."
+            }
+          ],
+          "x-docs": [
+            "upload"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslUpload",
+          "declaration": {
+            "name": "TslUpload",
+            "module": "esm/components/upload.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-upload",
+          "declaration": {
+            "name": "TslUpload",
+            "module": "esm/components/upload.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "esm/components/editor.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslEditor",
+          "tagName": "tsl-editor",
+          "customElement": true,
+          "description": "Editor de texto enriquecido mínimo: barra de formato accesible, atajos, enlaces sin ventanas emergentes, Tab para sangrar listas y pegado limpio. El valor es HTML saneado a una lista corta de etiquetas.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre con el que el valor viaja en el formulario."
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Obliga a tener valor: aplica la validación nativa del formulario."
+            },
+            {
+              "name": "required-message",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación cuando falta el valor.",
+              "default": "Completa este campo."
+            },
+            {
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Se puede leer y seleccionar, pero no editar."
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto cuando está vacío."
+            },
+            {
+              "name": "maxlength",
+              "type": {
+                "text": "number"
+              },
+              "description": "Máximo de caracteres (muestra el contador)."
+            },
+            {
+              "name": "toolbar",
+              "type": {
+                "text": "string"
+              },
+              "description": "Botones y separadores (`|`) de la barra.",
+              "default": "bold italic underline strike | h2 h3 | ul ol quote code | link | undo redo"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible del texto.",
+              "default": "Texto"
+            },
+            {
+              "name": "link-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre del campo de la dirección del enlace.",
+              "default": "Dirección del enlace"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Refleja el atributo `disabled`."
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "description": "Formulario al que pertenece.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "type": {
+                "text": "ValidityState"
+              },
+              "description": "Estado de validación.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "type": {
+                "text": "string"
+              },
+              "description": "Mensaje de validación actual.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "HTML saneado o `\"\"`."
+            },
+            {
+              "kind": "field",
+              "name": "text",
+              "type": {
+                "text": "string"
+              },
+              "description": "Texto sin formato.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "isEmpty",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "No hay texto.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "description": "Indica si el campo es válido.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "description": "Valida y muestra el aviso nativo si no lo es.",
+              "parameters": [],
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "run",
+              "description": "Aplica una herramienta de la barra (`bold`, `h2`, `ul`, `link`…).",
+              "parameters": [
+                {
+                  "name": "tool",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "applyLink",
+              "description": "Pone un enlace en la selección; con `\"\"` lo quita.",
+              "parameters": [
+                {
+                  "name": "href",
+                  "type": {
+                    "text": "string"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "description": "Enfoca el texto.",
+              "parameters": [
+                {
+                  "name": "options",
+                  "type": {
+                    "text": "FocusOptions"
+                  },
+                  "optional": true
+                }
+              ],
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-change",
+              "type": {
+                "text": "CustomEvent<{ value: string; text: string }>"
+              },
+              "description": "Cambió el contenido (al salir del editor)."
+            }
+          ],
+          "x-docs": [
+            "editor"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslEditor",
+          "declaration": {
+            "name": "TslEditor",
+            "module": "esm/components/editor.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-editor",
+          "declaration": {
+            "name": "TslEditor",
+            "module": "esm/components/editor.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "esm/components/scroll-area.mjs",
       "declarations": [
         {

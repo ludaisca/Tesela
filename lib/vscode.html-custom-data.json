@@ -2002,6 +2002,389 @@
       ]
     },
     {
+      "name": "tsl-currency",
+      "description": {
+        "kind": "markdown",
+        "value": "Importe con el formato del idioma mientras se escribe, símbolo de la moneda en su sitio y los decimales de esa moneda. En el formulario viaja el valor canónico (`1250.50`). ↑ ↓ suman o restan `step`."
+      },
+      "attributes": [
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre con el que el valor viaja en el formulario."
+          }
+        },
+        {
+          "name": "disabled",
+          "description": {
+            "kind": "markdown",
+            "value": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required",
+          "description": {
+            "kind": "markdown",
+            "value": "Obliga a tener valor: aplica la validación nativa del formulario."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required-message",
+          "description": {
+            "kind": "markdown",
+            "value": "Mensaje de validación cuando falta el valor. Por defecto: `Completa este campo.`."
+          }
+        },
+        {
+          "name": "value",
+          "description": {
+            "kind": "markdown",
+            "value": "Importe inicial con punto decimal (`1250.5`)."
+          }
+        },
+        {
+          "name": "currency",
+          "description": {
+            "kind": "markdown",
+            "value": "Código ISO 4217 de la moneda. Por defecto: `USD`."
+          }
+        },
+        {
+          "name": "locale",
+          "description": {
+            "kind": "markdown",
+            "value": "Idioma del formato (por defecto, el `lang` de la página)."
+          }
+        },
+        {
+          "name": "min",
+          "description": {
+            "kind": "markdown",
+            "value": "Importe mínimo; si es negativo se pueden escribir negativos."
+          }
+        },
+        {
+          "name": "max",
+          "description": {
+            "kind": "markdown",
+            "value": "Importe máximo."
+          }
+        },
+        {
+          "name": "step",
+          "description": {
+            "kind": "markdown",
+            "value": "Lo que suman o restan ↑ y ↓. Por defecto: `1`."
+          }
+        },
+        {
+          "name": "show-code",
+          "description": {
+            "kind": "markdown",
+            "value": "Muestra el código de la moneda al final."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "placeholder",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto de ejemplo."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible (se le añade la moneda). Por defecto: `Importe`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-phone",
+      "description": {
+        "kind": "markdown",
+        "value": "Teléfono con selector de país: da forma al número según el país mientras se escribe, reconoce el prefijo al pegar un número internacional y envía el valor en E.164 (`+525512345678`). Sin todos los dígitos no es válido."
+      },
+      "attributes": [
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre con el que el valor viaja en el formulario."
+          }
+        },
+        {
+          "name": "disabled",
+          "description": {
+            "kind": "markdown",
+            "value": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required",
+          "description": {
+            "kind": "markdown",
+            "value": "Obliga a tener valor: aplica la validación nativa del formulario."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required-message",
+          "description": {
+            "kind": "markdown",
+            "value": "Mensaje de validación cuando falta el valor. Por defecto: `Completa este campo.`."
+          }
+        },
+        {
+          "name": "value",
+          "description": {
+            "kind": "markdown",
+            "value": "Número inicial, nacional o internacional (`+34 600 12 34 56`)."
+          }
+        },
+        {
+          "name": "country",
+          "description": {
+            "kind": "markdown",
+            "value": "País inicial (ISO 3166, p. ej. `MX`). Por defecto: `MX`."
+          }
+        },
+        {
+          "name": "countries",
+          "description": {
+            "kind": "markdown",
+            "value": "Países que se ofrecen, en orden: `MX,US,ES`."
+          }
+        },
+        {
+          "name": "placeholder",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto de ejemplo (por defecto, la forma del número del país)."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del número. Por defecto: `Teléfono`."
+          }
+        },
+        {
+          "name": "country-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del selector de país. Por defecto: `País`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-upload",
+      "description": {
+        "kind": "markdown",
+        "value": "Subida de archivos con progreso: zona para soltar o elegir y una fila por archivo con barra, cancelar, reintentar y quitar. Sube con `action` (POST multipart) o con la función `uploader`; mientras sube, el formulario no es válido."
+      },
+      "attributes": [
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre con el que el valor viaja en el formulario."
+          }
+        },
+        {
+          "name": "disabled",
+          "description": {
+            "kind": "markdown",
+            "value": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required",
+          "description": {
+            "kind": "markdown",
+            "value": "Obliga a tener valor: aplica la validación nativa del formulario."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required-message",
+          "description": {
+            "kind": "markdown",
+            "value": "Mensaje de validación cuando falta el valor. Por defecto: `Completa este campo.`."
+          }
+        },
+        {
+          "name": "multiple",
+          "description": {
+            "kind": "markdown",
+            "value": "Permite varios archivos."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "accept",
+          "description": {
+            "kind": "markdown",
+            "value": "Tipos admitidos, como el `accept` nativo."
+          }
+        },
+        {
+          "name": "max-size",
+          "description": {
+            "kind": "markdown",
+            "value": "Tamaño máximo por archivo (`20MB`)."
+          }
+        },
+        {
+          "name": "max-files",
+          "description": {
+            "kind": "markdown",
+            "value": "Máximo de archivos (con `multiple`)."
+          }
+        },
+        {
+          "name": "action",
+          "description": {
+            "kind": "markdown",
+            "value": "URL a la que se suben con POST multipart."
+          }
+        },
+        {
+          "name": "field",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre del campo del archivo en la petición. Por defecto: `file`."
+          }
+        },
+        {
+          "name": "concurrency",
+          "description": {
+            "kind": "markdown",
+            "value": "Subidas simultáneas. Por defecto: `3`."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible de la lista. Por defecto: `Archivos`."
+          }
+        },
+        {
+          "name": "drop-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto de la zona para soltar."
+          }
+        },
+        {
+          "name": "hint",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto de ayuda (por defecto, los límites)."
+          }
+        },
+        {
+          "name": "busy-message",
+          "description": {
+            "kind": "markdown",
+            "value": "Mensaje de validación mientras sube. Por defecto: `Espera a que terminen de subirse los archivos.`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-editor",
+      "description": {
+        "kind": "markdown",
+        "value": "Editor de texto enriquecido mínimo: barra de formato accesible, atajos, enlaces sin ventanas emergentes, Tab para sangrar listas y pegado limpio. El valor es HTML saneado a una lista corta de etiquetas."
+      },
+      "attributes": [
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre con el que el valor viaja en el formulario."
+          }
+        },
+        {
+          "name": "disabled",
+          "description": {
+            "kind": "markdown",
+            "value": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required",
+          "description": {
+            "kind": "markdown",
+            "value": "Obliga a tener valor: aplica la validación nativa del formulario."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required-message",
+          "description": {
+            "kind": "markdown",
+            "value": "Mensaje de validación cuando falta el valor. Por defecto: `Completa este campo.`."
+          }
+        },
+        {
+          "name": "readonly",
+          "description": {
+            "kind": "markdown",
+            "value": "Se puede leer y seleccionar, pero no editar."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "placeholder",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto cuando está vacío."
+          }
+        },
+        {
+          "name": "maxlength",
+          "description": {
+            "kind": "markdown",
+            "value": "Máximo de caracteres (muestra el contador)."
+          }
+        },
+        {
+          "name": "toolbar",
+          "description": {
+            "kind": "markdown",
+            "value": "Botones y separadores (`|`) de la barra. Por defecto: `bold italic underline strike | h2 h3 | ul ol quote code | link | undo redo`."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del texto. Por defecto: `Texto`."
+          }
+        },
+        {
+          "name": "link-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre del campo de la dirección del enlace. Por defecto: `Dirección del enlace`."
+          }
+        }
+      ]
+    },
+    {
       "name": "tsl-scroll-area",
       "description": {
         "kind": "markdown",

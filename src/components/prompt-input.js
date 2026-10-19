@@ -1,40 +1,6 @@
 import { TslElement, announce, define, emit } from "../core/base.js";
+import { accepts, formatBytes, iconFor, parseSize } from "../core/files.js";
 import { autosize } from "./textarea.js";
-
-const formatBytes = (n) => {
-  if (n < 1024) return `${n} B`;
-  if (n < 1024 * 1024) return `${Math.round(n / 1024)} KB`;
-  return `${(n / 1024 / 1024).toFixed(1).replace(".", ",")} MB`;
-};
-
-// "10MB", "500 KB", "2048" → bytes
-const parseSize = (s) => {
-  const m = /^\s*([\d.]+)\s*(b|kb|mb|gb)?\s*$/i.exec(s || "");
-  if (!m) return 0;
-  const mult = { b: 1, kb: 1024, mb: 1024 ** 2, gb: 1024 ** 3 }[(m[2] || "b").toLowerCase()];
-  return Math.round(parseFloat(m[1]) * mult);
-};
-
-// Misma regla que el atributo `accept` nativo: ".pdf", "image/*" o "text/plain"
-const accepts = (accept, file) => {
-  if (!accept) return true;
-  const name = file.name.toLowerCase();
-  const type = (file.type || "").toLowerCase();
-  return accept.split(",").map((a) => a.trim().toLowerCase()).filter(Boolean).some((a) => {
-    if (a.startsWith(".")) return name.endsWith(a);
-    if (a.endsWith("/*")) return type.startsWith(a.slice(0, -1));
-    return type === a;
-  });
-};
-
-const iconFor = (file) => {
-  const t = file.type || "";
-  if (t.startsWith("image/")) return "🖼";
-  if (t.startsWith("audio/")) return "♪";
-  if (t.startsWith("video/")) return "▶";
-  if (t === "application/pdf" || /\.pdf$/i.test(file.name)) return "📄";
-  return "📎";
-};
 
 /**
  * <tsl-prompt-input status="ready" accept="image/*,.pdf" max-files="4" max-size="10MB">

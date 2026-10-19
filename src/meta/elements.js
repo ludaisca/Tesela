@@ -715,6 +715,120 @@ export const elements = [
     ]
   },
   {
+    tag: "tsl-currency", cls: "TslCurrency", module: "components/currency", docs: ["currency"],
+    summary: "Importe con el formato del idioma mientras se escribe, símbolo de la moneda en su sitio y los decimales de esa moneda. En el formulario viaja el valor canónico (`1250.50`). ↑ ↓ suman o restan `step`.",
+    attributes: [
+      ...formAttrs,
+      attr("value", "string", "Importe inicial con punto decimal (`1250.5`)."),
+      attr("currency", "string", "Código ISO 4217 de la moneda.", "USD"),
+      attr("locale", "string", "Idioma del formato (por defecto, el `lang` de la página)."),
+      attr("min", "number", "Importe mínimo; si es negativo se pueden escribir negativos."),
+      attr("max", "number", "Importe máximo."),
+      attr("step", "number", "Lo que suman o restan ↑ y ↓.", "1"),
+      attr("show-code", "boolean", "Muestra el código de la moneda al final."),
+      attr("placeholder", "string", "Texto de ejemplo."),
+      attr("label", "string", "Nombre accesible (se le añade la moneda).", "Importe")
+    ],
+    properties: [
+      ...formProps,
+      prop("value", "string", "Importe canónico (`-1250.50`) o `\"\"`."),
+      prop("valueAsNumber", "number", "Importe como número (`NaN` si está vacío).", true),
+      prop("formatted", "string", "Importe con símbolo como lo escribe el idioma.", true)
+    ],
+    methods: [...formMethods, method("focus", [param("options", "FocusOptions", true)], "void", "Enfoca el campo.")],
+    events: [event("tsl-change", "{ value: string; number: number }", "Cambió el importe (al salir del campo, con Enter o con ↑ ↓).")]
+  },
+  {
+    tag: "tsl-phone", cls: "TslPhone", module: "components/phone", docs: ["phone"],
+    summary: "Teléfono con selector de país: da forma al número según el país mientras se escribe, reconoce el prefijo al pegar un número internacional y envía el valor en E.164 (`+525512345678`). Sin todos los dígitos no es válido.",
+    attributes: [
+      ...formAttrs,
+      attr("value", "string", "Número inicial, nacional o internacional (`+34 600 12 34 56`)."),
+      attr("country", "string", "País inicial (ISO 3166, p. ej. `MX`).", "MX"),
+      attr("countries", "string", "Países que se ofrecen, en orden: `MX,US,ES`."),
+      attr("placeholder", "string", "Texto de ejemplo (por defecto, la forma del número del país)."),
+      attr("label", "string", "Nombre accesible del número.", "Teléfono"),
+      attr("country-label", "string", "Nombre accesible del selector de país.", "País")
+    ],
+    properties: [
+      ...formProps,
+      prop("value", "string", "Número en E.164 o `\"\"`."),
+      prop("country", "string", "País elegido."),
+      prop("national", "string", "Dígitos del número nacional.", true),
+      prop("isComplete", "boolean", "Tiene todos los dígitos del país.", true),
+      prop("formatted", "string", "Número legible: `+52 55 1234 5678`.", true)
+    ],
+    methods: [...formMethods, method("focus", [param("options", "FocusOptions", true)], "void", "Enfoca el número.")],
+    events: [event("tsl-change", "{ value: string; country: string; complete: boolean }", "Cambió el número o el país.")]
+  },
+  {
+    tag: "tsl-upload", cls: "TslUpload", module: "components/upload", docs: ["upload"],
+    summary: "Subida de archivos con progreso: zona para soltar o elegir y una fila por archivo con barra, cancelar, reintentar y quitar. Sube con `action` (POST multipart) o con la función `uploader`; mientras sube, el formulario no es válido.",
+    attributes: [
+      ...formAttrs,
+      attr("multiple", "boolean", "Permite varios archivos."),
+      attr("accept", "string", "Tipos admitidos, como el `accept` nativo."),
+      attr("max-size", "string", "Tamaño máximo por archivo (`20MB`)."),
+      attr("max-files", "number", "Máximo de archivos (con `multiple`)."),
+      attr("action", "string", "URL a la que se suben con POST multipart."),
+      attr("field", "string", "Nombre del campo del archivo en la petición.", "file"),
+      attr("concurrency", "number", "Subidas simultáneas.", "3"),
+      attr("label", "string", "Nombre accesible de la lista.", "Archivos"),
+      attr("drop-label", "string", "Texto de la zona para soltar."),
+      attr("hint", "string", "Texto de ayuda (por defecto, los límites)."),
+      attr("busy-message", "string", "Mensaje de validación mientras sube.", "Espera a que terminen de subirse los archivos.")
+    ],
+    properties: [
+      ...formProps,
+      prop("uploader", "((file: File, options: { signal: AbortSignal; progress: (fraction: number) => void }) => Promise<unknown>) | null", "Función de subida propia; tiene prioridad sobre `action`."),
+      prop("files", "Array<{ file: File; name: string; size: number; status: string; progress: number; result?: unknown; error?: string }>", "Estado de cada archivo.", true),
+      prop("value", "unknown[]", "Resultados de los archivos subidos (o los `File`, sin destino).", true),
+      prop("busy", "boolean", "Hay archivos subiendo o en cola.", true)
+    ],
+    methods: [
+      ...formMethods,
+      method("addFiles", [param("files", "FileList | File[]")], "void", "Añade archivos validando tipo, tamaño y cantidad."),
+      method("cancel", [param("index", "number")], "void", "Cancela una subida."),
+      method("retry", [param("index", "number")], "void", "Reintenta una subida fallida o cancelada."),
+      method("removeFile", [param("index", "number"), param("focus", "boolean", true)], "void", "Quita un archivo (y corta su subida)."),
+      method("clear", [], "void", "Quita todos."),
+      method("openFilePicker", [], "void", "Abre el selector de archivos.")
+    ],
+    events: [
+      event("tsl-files", "{ files: object[] }", "Cambió la lista."),
+      event("tsl-progress", "{ file: File; progress: number }", "Avanzó una subida (0-1)."),
+      event("tsl-upload", "{ file: File; result: unknown }", "Terminó una subida."),
+      event("tsl-error", '{ file: File; reason: "type" | "size" | "count" | "upload"; message: string }', "Se rechazó un archivo o falló su subida."),
+      event("tsl-complete", "{ results: unknown[]; failed: number }", "No queda nada subiendo.")
+    ]
+  },
+  {
+    tag: "tsl-editor", cls: "TslEditor", module: "components/editor", docs: ["editor"],
+    summary: "Editor de texto enriquecido mínimo: barra de formato accesible, atajos, enlaces sin ventanas emergentes, Tab para sangrar listas y pegado limpio. El valor es HTML saneado a una lista corta de etiquetas.",
+    attributes: [
+      ...formAttrs,
+      attr("readonly", "boolean", "Se puede leer y seleccionar, pero no editar."),
+      attr("placeholder", "string", "Texto cuando está vacío."),
+      attr("maxlength", "number", "Máximo de caracteres (muestra el contador)."),
+      attr("toolbar", "string", "Botones y separadores (`|`) de la barra.", "bold italic underline strike | h2 h3 | ul ol quote code | link | undo redo"),
+      attr("label", "string", "Nombre accesible del texto.", "Texto"),
+      attr("link-label", "string", "Nombre del campo de la dirección del enlace.", "Dirección del enlace")
+    ],
+    properties: [
+      ...formProps,
+      prop("value", "string", "HTML saneado o `\"\"`."),
+      prop("text", "string", "Texto sin formato.", true),
+      prop("isEmpty", "boolean", "No hay texto.", true)
+    ],
+    methods: [
+      ...formMethods,
+      method("run", [param("tool", "string")], "void", "Aplica una herramienta de la barra (`bold`, `h2`, `ul`, `link`…)."),
+      method("applyLink", [param("href", "string", true)], "void", "Pone un enlace en la selección; con `\"\"` lo quita."),
+      method("focus", [param("options", "FocusOptions", true)], "void", "Enfoca el texto.")
+    ],
+    events: [event("tsl-change", "{ value: string; text: string }", "Cambió el contenido (al salir del editor).")]
+  },
+  {
     tag: "tsl-scroll-area", cls: "TslScrollArea", module: "components/scroll-area", docs: ["scroll-area"],
     summary: "Zona desplazable con degradado en los bordes que aún tienen contenido (`data-top|bottom|left|right`). `scrollTo()` se aplica al área desplazable.",
     attributes: [

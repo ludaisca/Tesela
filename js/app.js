@@ -966,8 +966,8 @@
       const tag = (e.target && e.target.tagName) || "";
       const isInput = tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || e.target?.isContentEditable;
 
-      // ⌘K o Ctrl+K
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+      // ⌘K o Ctrl+K (salvo que un componente ya lo haya usado, como el editor para enlazar)
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k" && !e.defaultPrevented) {
         e.preventDefault();
         if (state.cmdkOpen) closeCmdK();
         else openCmdK();

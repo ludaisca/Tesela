@@ -6723,6 +6723,522 @@ tsl-wizard {
 }
 
 /* ----------------------------------------------------------------------------
+   21o. Controles: importe, teléfono, subida de archivos y editor de texto enriquecido
+   ---------------------------------------------------------------------------- */
+
+/* ---- Marco común de los campos compuestos (importe y teléfono) ---- */
+tsl-currency,
+tsl-phone {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  height: 34px;
+  border: 1px solid var(--tsl-border);
+  border-radius: var(--tsl-radius-sm);
+  background: var(--tsl-bg);
+  color: var(--tsl-fg);
+  font-size: 12px;
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+tsl-currency:hover,
+tsl-phone:hover {
+  border-color: var(--tsl-border-strong);
+}
+
+tsl-currency:focus-within,
+tsl-phone:focus-within {
+  box-shadow: var(--tsl-ring);
+}
+
+tsl-currency[data-invalid],
+tsl-currency[aria-invalid="true"],
+tsl-phone[aria-invalid="true"] {
+  border-color: var(--tsl-danger);
+}
+
+tsl-currency[disabled],
+tsl-phone[disabled],
+fieldset:disabled tsl-currency,
+fieldset:disabled tsl-phone {
+  opacity: 0.5;
+}
+
+.tsl-currency__input,
+.tsl-phone__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0 12px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+}
+
+.tsl-currency__input:focus,
+.tsl-phone__input:focus {
+  outline: none;
+}
+
+.tsl-currency__input::placeholder,
+.tsl-phone__input::placeholder {
+  color: var(--tsl-fg-subtle);
+}
+
+/* ---- Importe ---- */
+.tsl-currency__input {
+  /* Los números se leen igual en una página RTL */
+  direction: ltr;
+}
+
+.tsl-currency__symbol,
+.tsl-currency__code {
+  display: inline-flex;
+  align-items: center;
+  color: var(--tsl-fg-muted);
+  white-space: nowrap;
+}
+
+.tsl-currency__symbol {
+  padding-inline: 12px 0;
+}
+
+tsl-currency[data-suffix] .tsl-currency__symbol {
+  padding-inline: 0 12px;
+}
+
+.tsl-currency__code {
+  padding-inline: 10px;
+  border-inline-start: 1px solid var(--tsl-border);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+/* ---- Teléfono ---- */
+.tsl-phone__country {
+  position: relative;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-inline: 10px 26px;
+  border-inline-end: 1px solid var(--tsl-border);
+  color: var(--tsl-fg-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.tsl-phone__country::after {
+  content: "";
+  position: absolute;
+  inset-inline-end: 11px;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  margin-top: -4px;
+  border-inline-end: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
+/* El borde lógico ya cambia de lado en RTL: el giro se invierte para que siga apuntando abajo */
+.tsl-phone__country:dir(rtl)::after {
+  transform: rotate(-45deg);
+}
+
+.tsl-phone__country:hover {
+  color: var(--tsl-fg);
+}
+
+/* El <select> real cubre el distintivo: se ve «MX +52», se usa el selector nativo */
+.tsl-phone__select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.tsl-phone__select:focus-visible + *,
+.tsl-phone__country:has(.tsl-phone__select:focus-visible) {
+  color: var(--tsl-fg);
+}
+
+.tsl-phone__input {
+  direction: ltr;
+}
+
+.tsl-phone__input:dir(rtl) {
+  text-align: end;
+}
+
+/* ---- Subida de archivos ---- */
+tsl-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tsl-upload__drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: 22px 16px;
+  border: 1.5px dashed var(--tsl-border-strong);
+  border-radius: var(--tsl-radius);
+  background: var(--tsl-surface);
+  color: var(--tsl-fg);
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.tsl-upload__drop:hover {
+  border-color: var(--tsl-fg-muted);
+  background: var(--tsl-surface-hover);
+}
+
+.tsl-upload__drop:focus-visible {
+  outline: none;
+  box-shadow: var(--tsl-ring);
+}
+
+.tsl-upload__drop:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+tsl-upload[data-dragging] .tsl-upload__drop {
+  border-color: var(--tsl-accent);
+  background: color-mix(in srgb, var(--tsl-accent) 8%, var(--tsl-surface));
+}
+
+.tsl-upload__icon {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin-bottom: 4px;
+  border-radius: 50%;
+  background: var(--tsl-surface-strong);
+  color: var(--tsl-fg-muted);
+  font-size: 15px;
+}
+
+.tsl-upload__title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.tsl-upload__hint {
+  font-size: 11.5px;
+  color: var(--tsl-fg-subtle);
+}
+
+.tsl-upload__list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tsl-upload__list[hidden] {
+  display: none;
+}
+
+.tsl-upload__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--tsl-border);
+  border-radius: var(--tsl-radius);
+  background: var(--tsl-surface);
+  font-size: 13px;
+}
+
+.tsl-upload__item[data-status="error"] {
+  border-color: color-mix(in srgb, var(--tsl-danger) 55%, var(--tsl-border));
+}
+
+.tsl-upload__media {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--tsl-radius-sm);
+  background: var(--tsl-surface-strong);
+  overflow: hidden;
+  font-size: 16px;
+}
+
+.tsl-upload__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tsl-upload__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.tsl-upload__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.tsl-upload__meta {
+  font-size: 11.5px;
+  color: var(--tsl-fg-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.tsl-upload__item[data-status="error"] .tsl-upload__meta {
+  color: var(--tsl-danger);
+}
+
+.tsl-upload__item[data-status="done"] .tsl-upload__meta::before {
+  content: "✓ ";
+  color: var(--tsl-success);
+}
+
+.tsl-upload__progress {
+  height: 4px;
+  margin-top: 2px;
+}
+
+.tsl-upload__progress[hidden] {
+  display: none;
+}
+
+.tsl-upload__actions {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* ---- Editor de texto enriquecido ---- */
+tsl-editor {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--tsl-border);
+  border-radius: var(--tsl-radius-sm);
+  background: var(--tsl-bg);
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+tsl-editor:hover {
+  border-color: var(--tsl-border-strong);
+}
+
+tsl-editor:has(.tsl-editor__content:focus-visible),
+tsl-editor:has(.tsl-editor__content:focus) {
+  box-shadow: var(--tsl-ring);
+}
+
+tsl-editor[aria-invalid="true"] {
+  border-color: var(--tsl-danger);
+}
+
+.tsl-editor__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border-bottom: 1px solid var(--tsl-border);
+}
+
+.tsl-editor__tool {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--tsl-radius-xs);
+  background: transparent;
+  color: var(--tsl-fg-muted);
+  cursor: pointer;
+}
+
+.tsl-editor__tool svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tsl-editor__tool:hover {
+  background: var(--tsl-surface-hover);
+  color: var(--tsl-fg);
+}
+
+.tsl-editor__tool:focus-visible {
+  outline: none;
+  box-shadow: var(--tsl-ring);
+}
+
+.tsl-editor__tool[aria-pressed="true"] {
+  background: var(--tsl-surface-strong);
+  color: var(--tsl-fg);
+}
+
+.tsl-editor__tool:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.tsl-editor__sep {
+  width: 1px;
+  height: 18px;
+  margin-inline: 4px;
+  background: var(--tsl-border);
+}
+
+.tsl-editor__linkbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  border-bottom: 1px solid var(--tsl-border);
+  background: var(--tsl-surface);
+}
+
+.tsl-editor__linkbar[hidden] {
+  display: none;
+}
+
+.tsl-editor__linkbar .tsl-input {
+  flex: 1 1 200px;
+  height: 30px;
+}
+
+.tsl-editor__content {
+  position: relative;
+  min-height: 140px;
+  max-height: 420px;
+  padding: 10px 14px;
+  overflow-y: auto;
+  color: var(--tsl-fg);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.tsl-editor__content:focus {
+  outline: none;
+}
+
+.tsl-editor__content[data-empty]::before {
+  content: attr(data-placeholder);
+  position: absolute;
+  inset-inline: 14px;
+  color: var(--tsl-fg-subtle);
+  pointer-events: none;
+}
+
+.tsl-editor__content > :first-child {
+  margin-top: 0;
+}
+
+.tsl-editor__content > :last-child {
+  margin-bottom: 0;
+}
+
+.tsl-editor__content p,
+.tsl-editor__content ul,
+.tsl-editor__content ol,
+.tsl-editor__content blockquote,
+.tsl-editor__content pre {
+  margin: 0 0 0.7em;
+}
+
+.tsl-editor__content h2 {
+  margin: 0.8em 0 0.4em;
+  font-family: var(--tsl-font-heading);
+  font-size: 1.3em;
+  line-height: 1.25;
+}
+
+.tsl-editor__content h3 {
+  margin: 0.8em 0 0.4em;
+  font-family: var(--tsl-font-heading);
+  font-size: 1.1em;
+  line-height: 1.3;
+}
+
+.tsl-editor__content ul,
+.tsl-editor__content ol {
+  padding-inline-start: 1.4em;
+}
+
+.tsl-editor__content blockquote {
+  padding-inline-start: 12px;
+  border-inline-start: 3px solid var(--tsl-border-strong);
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-editor__content code {
+  padding: 0.1em 0.35em;
+  border-radius: var(--tsl-radius-xs);
+  background: var(--tsl-surface-strong);
+  font-family: var(--tsl-font-mono);
+  font-size: 0.88em;
+}
+
+.tsl-editor__content a {
+  color: var(--tsl-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.tsl-editor__content[contenteditable="false"] {
+  cursor: default;
+}
+
+tsl-editor[disabled] .tsl-editor__content {
+  opacity: 0.6;
+}
+
+.tsl-editor__count {
+  unicode-bidi: plaintext;
+  padding: 4px 10px 6px;
+  text-align: end;
+  font-size: 11px;
+  color: var(--tsl-fg-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.tsl-editor__count[hidden] {
+  display: none;
+}
+
+.tsl-editor__count[data-over] {
+  color: var(--tsl-danger);
+}
+
+/* ----------------------------------------------------------------------------
    22. Utilidades de diseño
    ---------------------------------------------------------------------------- */
 .tsl-stack {
@@ -7245,6 +7761,16 @@ tsl-wizard {
   .tsl-trigger,
   .tsl-number {
     min-height: 40px;
+  }
+
+  tsl-currency,
+  tsl-phone {
+    height: 40px;
+  }
+
+  .tsl-editor__tool {
+    width: 36px;
+    height: 36px;
   }
 
   .tsl-trigger__input {

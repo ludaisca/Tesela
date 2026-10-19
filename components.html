@@ -450,6 +450,61 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         </template>
       </section>
 
+      <section class="doc" id="currency" data-group="Formularios" data-keywords="moneda importe precio dinero currency money divisa decimales formato miles">
+        <h2><a href="#currency">Importe</a></h2>
+        <p><code>&lt;tsl-currency&gt;</code> da formato al importe mientras se escribe con los separadores del idioma (<code>locale</code>) y pone el símbolo de la <code>currency</code> delante o detrás, como corresponda; los decimales son los de la moneda (el yen no tiene). El punto o la coma del teclado numérico valen como separador decimal, <kbd class="tsl-kbd">↑</kbd> <kbd class="tsl-kbd">↓</kbd> suman o restan <code>step</code> y al salir se completan los decimales. En el formulario viaja el valor canónico (<code>1250.50</code>); <code>min</code> y <code>max</code> se validan con su mensaje.</p>
+        <template>
+          <form class="tsl-stack demo-max" style="--gap:12px" id="demo-money" novalidate>
+            <div class="tsl-field"><span class="tsl-label">Precio (pesos mexicanos)</span><tsl-currency name="precio" currency="MXN" locale="es-MX" value="1250.5" min="0" max="1000000" step="50" label="Precio"></tsl-currency></div>
+            <div class="tsl-field"><span class="tsl-label">Presupuesto (euros)</span><tsl-currency name="presupuesto" currency="EUR" locale="es-ES" placeholder="0,00" show-code label="Presupuesto" required></tsl-currency></div>
+            <div class="tsl-field"><span class="tsl-label">Ajuste (yenes, admite negativos)</span><tsl-currency name="ajuste" currency="JPY" locale="ja-JP" min="-50000" value="-1200" label="Ajuste"></tsl-currency></div>
+            <div class="tsl-row"><button type="submit" class="tsl-btn tsl-btn--primary">Enviar</button><button type="reset" class="tsl-btn">Restablecer</button></div>
+            <pre class="tsl-code" id="demo-money-out" aria-live="polite">{ }</pre>
+          </form>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const form = document.querySelector("#demo-money");
+          form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const out = document.querySelector("#demo-money-out");
+            if (!form.checkValidity()) {
+              const bad = [...form.elements].find((el) => el.validity && !el.validity.valid);
+              bad.reportValidity();
+              out.textContent = `Falta corregir: ${bad.validationMessage}`;
+              return;
+            }
+            out.textContent = JSON.stringify(Object.fromEntries(new FormData(form)), null, 2);
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="phone" data-group="Formularios" data-keywords="teléfono telefono phone móvil celular país prefijo internacional e164 formato">
+        <h2><a href="#phone">Teléfono</a></h2>
+        <p><code>&lt;tsl-phone&gt;</code> une un selector de país (un <code>&lt;select&gt;</code> nativo bajo el distintivo «MX +52») y el número, al que da la forma de ese país mientras se escribe. Si se pega o escribe un número internacional (<code>+34…</code> o <code>0034…</code>) cambia solo de país. Envía el valor en E.164 (<code>+525512345678</code>) y no es válido hasta tener todos los dígitos («Faltan 3 dígitos»). <code>countries</code> limita y ordena los países.</p>
+        <template>
+          <form class="tsl-stack demo-max" style="--gap:12px" id="demo-phone-form" novalidate>
+            <div class="tsl-field"><span class="tsl-label">Teléfono</span><tsl-phone id="demo-phone" name="telefono" country="MX" countries="MX,US,ES,CO,AR,CL,PE,BR,GT" required label="Teléfono"></tsl-phone><span class="tsl-hint">Prueba a pegar <code>+34 600 12 34 56</code>.</span></div>
+            <div class="tsl-field"><span class="tsl-label">Teléfono de la oficina</span><tsl-phone name="oficina" country="US" value="+1 415 555 0132" label="Teléfono de la oficina"></tsl-phone></div>
+            <div class="tsl-row"><button type="submit" class="tsl-btn tsl-btn--primary">Enviar</button></div>
+            <pre class="tsl-code" id="demo-phone-out" aria-live="polite">{ }</pre>
+          </form>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const form = document.querySelector("#demo-phone-form");
+          const out = document.querySelector("#demo-phone-out");
+          form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const phone = document.querySelector("#demo-phone");
+            if (!phone.checkValidity()) {
+              phone.reportValidity();
+              out.textContent = phone.validationMessage;
+              return;
+            }
+            out.textContent = JSON.stringify({ ...Object.fromEntries(new FormData(form)), legible: phone.formatted }, null, 2);
+          });
+        </script>
+      </section>
+
       <section class="doc" id="segmented" data-group="Formularios" data-keywords="radio group selector vista">
         <h2><a href="#segmented">Control segmentado</a></h2>
         <p><code>&lt;tsl-segmented value="…"&gt;</code> con <code>role="radiogroup"</code>, flechas ← → y evento <code>tsl-change</code>.</p>
@@ -498,6 +553,39 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
             <span>o haz clic para explorar · PNG, PDF hasta 10 MB</span>
           </tsl-dropzone>
         </template>
+      </section>
+
+      <section class="doc" id="upload" data-group="Formularios" data-keywords="subir archivos upload progreso barra cancelar reintentar adjuntos ficheros arrastrar">
+        <h2><a href="#upload">Subida de archivos</a></h2>
+        <p><code>&lt;tsl-upload&gt;</code> amplía la zona para soltar con una fila por archivo: miniatura o icono, tamaño, barra de progreso y las acciones que tocan en cada estado (cancelar mientras sube, reintentar si falló, quitar al terminar). Sube con <code>action</code> (POST multipart con progreso real) o con tu función <code>uploader</code> (<code>async (file, { signal, progress }) =&gt; resultado</code>), hasta <code>concurrency</code> a la vez. En el formulario viaja el <code>id</code> o la <code>url</code> de cada resultado, y mientras algo sube el formulario no es válido. En la demostración la subida es simulada y los archivos con «error» en el nombre fallan.</p>
+        <template>
+          <div class="tsl-stack demo-max" style="--gap:10px">
+            <tsl-upload id="demo-upload" name="adjuntos" multiple accept="image/*,.pdf,.txt,.md,.csv" max-size="20MB" max-files="6" label="Archivos adjuntos"></tsl-upload>
+            <p class="tsl-hint" id="demo-upload-out" aria-live="polite">Nada subido todavía.</p>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const upload = document.querySelector("#demo-upload");
+          // Subida simulada: avanza a saltos, respeta «Cancelar» y falla si el nombre contiene «error»
+          upload.uploader = (file, { signal, progress }) => new Promise((resolve, reject) => {
+            let hecho = 0;
+            const paso = () => {
+              if (signal.aborted) return reject(new DOMException("Cancelada", "AbortError"));
+              hecho = Math.min(1, hecho + 0.08 + Math.random() * 0.12);
+              progress(hecho);
+              if (/error/i.test(file.name) && hecho > 0.5) return reject(new Error("El servidor rechazó el archivo"));
+              if (hecho >= 1) return resolve({ id: `arch_${Math.random().toString(36).slice(2, 8)}`, url: `/archivos/${encodeURIComponent(file.name)}` });
+              setTimeout(paso, 180);
+            };
+            setTimeout(paso, 180);
+          });
+          upload.addEventListener("tsl-complete", (e) => {
+            document.querySelector("#demo-upload-out").textContent = `${e.detail.results.length} subidos${e.detail.failed ? `, ${e.detail.failed} con error` : ""}: ${e.detail.results.map((r) => r.id).join(", ")}`;
+          });
+          upload.addEventListener("tsl-error", (e) => {
+            if (e.detail.reason !== "upload") TeselaUI.toast({ title: "Archivo rechazado", description: e.detail.message, variant: "error" });
+          });
+        </script>
       </section>
 
       <section class="doc" id="calendar" data-group="Formularios" data-keywords="date picker fecha calendario mes">
@@ -770,6 +858,40 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         <script type="text/plain" data-doc-js>
           document.querySelector("#demo-mention").addEventListener("tsl-mention", (e) => {
             TeselaUI.toast({ title: `Mencionaste a ${e.detail.user.label}`, variant: "info" });
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="editor" data-group="Formularios" data-keywords="editor texto enriquecido rich text wysiwyg negrita cursiva lista enlace formato contenteditable">
+        <h2><a href="#editor">Editor de texto enriquecido</a></h2>
+        <p><code>&lt;tsl-editor&gt;</code> es un editor mínimo con barra de formato: negrita, cursiva, subrayado, tachado, títulos, listas, cita, código y enlaces, con deshacer y rehacer. La barra es una sola parada de tabulación (las flechas recorren los botones) y cada botón refleja con <code>aria-pressed</code> el formato del texto seleccionado. <kbd class="tsl-kbd">Ctrl</kbd>+<kbd class="tsl-kbd">K</kbd> abre el campo del enlace, <kbd class="tsl-kbd">Tab</kbd> sangra dentro de una lista y lo que se pega o se escribe en HTML se filtra a una lista corta de etiquetas, sin estilos ni scripts. El valor que viaja en el formulario es ese HTML saneado; <code>maxlength</code> muestra el contador y valida.</p>
+        <template>
+          <form class="tsl-stack demo-wide" style="--gap:10px" id="demo-editor-form" novalidate>
+            <div class="tsl-field">
+              <span class="tsl-label">Descripción del proyecto</span>
+              <tsl-editor id="demo-editor" name="descripcion" label="Descripción del proyecto" placeholder="Cuenta de qué trata…" maxlength="600" required>
+                <h2>Rediseño de la incorporación</h2>
+                <p>Queremos que una persona nueva cree su <strong>primer proyecto</strong> en menos de <em>tres minutos</em>.</p>
+                <ul><li>Menos pasos en el alta</li><li>Plantillas listas para usar</li></ul>
+                <p>Más contexto en la <a href="#editor">documentación</a>.</p>
+              </tsl-editor>
+            </div>
+            <div class="tsl-row"><button type="submit" class="tsl-btn tsl-btn--primary">Guardar</button><button type="reset" class="tsl-btn">Restablecer</button></div>
+            <pre class="tsl-code" id="demo-editor-out" aria-live="polite" style="white-space:pre-wrap"></pre>
+          </form>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const form = document.querySelector("#demo-editor-form");
+          form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const editor = document.querySelector("#demo-editor");
+            const out = document.querySelector("#demo-editor-out");
+            if (!editor.checkValidity()) {
+              editor.reportValidity();
+              out.textContent = editor.validationMessage;
+              return;
+            }
+            out.textContent = new FormData(form).get("descripcion");
           });
         </script>
       </section>

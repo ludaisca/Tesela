@@ -79,8 +79,8 @@ const walk = (d, base = d) => fs.readdirSync(d, { withFileTypes: true }).flatMap
     });
     return out;
   }, allTags);
-  // scrollTo de <tsl-scroll-area> y focus de <tsl-prompt-input> conservan la firma nativa y reenvían a su parte interna
-  const allowed = { 'tsl-scroll-area': ['scrollTo'], 'tsl-prompt-input': ['focus'] };
+  // scrollTo de <tsl-scroll-area> y focus de los campos compuestos conservan la firma nativa y reenvían a su parte interna
+  const allowed = { 'tsl-scroll-area': ['scrollTo'], 'tsl-prompt-input': ['focus'], 'tsl-currency': ['focus'], 'tsl-phone': ['focus'], 'tsl-editor': ['focus'] };
   const real = Object.fromEntries(Object.entries(clashes).map(([t, ns]) => [t, ns.filter((n) => !(allowed[t] || []).includes(n))]).filter(([, ns]) => ns.length));
   ok(Object.keys(real).length === 0, `los ${allTags.length} elementos no sobrescriben miembros nativos de HTMLElement` + (Object.keys(real).length ? `: ${JSON.stringify(real)}` : ''));
   const natives = await p.evaluate(async () => {

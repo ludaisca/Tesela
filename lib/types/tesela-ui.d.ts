@@ -988,6 +988,174 @@ export interface TslWizardElement extends HTMLElement {
 }
 export declare const TslWizard: { new (): TslWizardElement; prototype: TslWizardElement };
 
+export interface TslCurrencyEventMap {
+  /** Cambió el importe (al salir del campo, con Enter o con ↑ ↓). */
+  "tsl-change": CustomEvent<{ value: string; number: number }>;
+}
+/** Importe con el formato del idioma mientras se escribe, símbolo de la moneda en su sitio y los decimales de esa moneda. En el formulario viaja el valor canónico (`1250.50`). ↑ ↓ suman o restan `step`. */
+export interface TslCurrencyElement extends HTMLElement {
+  /** Refleja el atributo `disabled`. */
+  disabled: boolean;
+  /** Formulario al que pertenece. */
+  readonly form: HTMLFormElement | null;
+  /** Estado de validación. */
+  readonly validity: ValidityState;
+  /** Mensaje de validación actual. */
+  readonly validationMessage: string;
+  /** Importe canónico (`-1250.50`) o `""`. */
+  value: string;
+  /** Importe como número (`NaN` si está vacío). */
+  readonly valueAsNumber: number;
+  /** Importe con símbolo como lo escribe el idioma. */
+  readonly formatted: string;
+  /** Indica si el campo es válido. */
+  checkValidity(): boolean;
+  /** Valida y muestra el aviso nativo si no lo es. */
+  reportValidity(): boolean;
+  /** Enfoca el campo. */
+  focus(options?: FocusOptions): void;
+  addEventListener<K extends keyof TslCurrencyEventMap>(type: K, listener: (this: TslCurrencyElement, ev: TslCurrencyEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslCurrencyElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+  removeEventListener<K extends keyof TslCurrencyEventMap>(type: K, listener: (this: TslCurrencyElement, ev: TslCurrencyEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslCurrencyElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+}
+export declare const TslCurrency: { new (): TslCurrencyElement; prototype: TslCurrencyElement };
+
+export interface TslPhoneEventMap {
+  /** Cambió el número o el país. */
+  "tsl-change": CustomEvent<{ value: string; country: string; complete: boolean }>;
+}
+/** Teléfono con selector de país: da forma al número según el país mientras se escribe, reconoce el prefijo al pegar un número internacional y envía el valor en E.164 (`+525512345678`). Sin todos los dígitos no es válido. */
+export interface TslPhoneElement extends HTMLElement {
+  /** Refleja el atributo `disabled`. */
+  disabled: boolean;
+  /** Formulario al que pertenece. */
+  readonly form: HTMLFormElement | null;
+  /** Estado de validación. */
+  readonly validity: ValidityState;
+  /** Mensaje de validación actual. */
+  readonly validationMessage: string;
+  /** Número en E.164 o `""`. */
+  value: string;
+  /** País elegido. */
+  country: string;
+  /** Dígitos del número nacional. */
+  readonly national: string;
+  /** Tiene todos los dígitos del país. */
+  readonly isComplete: boolean;
+  /** Número legible: `+52 55 1234 5678`. */
+  readonly formatted: string;
+  /** Indica si el campo es válido. */
+  checkValidity(): boolean;
+  /** Valida y muestra el aviso nativo si no lo es. */
+  reportValidity(): boolean;
+  /** Enfoca el número. */
+  focus(options?: FocusOptions): void;
+  addEventListener<K extends keyof TslPhoneEventMap>(type: K, listener: (this: TslPhoneElement, ev: TslPhoneEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslPhoneElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+  removeEventListener<K extends keyof TslPhoneEventMap>(type: K, listener: (this: TslPhoneElement, ev: TslPhoneEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslPhoneElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+}
+export declare const TslPhone: { new (): TslPhoneElement; prototype: TslPhoneElement };
+
+export interface TslUploadEventMap {
+  /** Cambió la lista. */
+  "tsl-files": CustomEvent<{ files: object[] }>;
+  /** Avanzó una subida (0-1). */
+  "tsl-progress": CustomEvent<{ file: File; progress: number }>;
+  /** Terminó una subida. */
+  "tsl-upload": CustomEvent<{ file: File; result: unknown }>;
+  /** Se rechazó un archivo o falló su subida. */
+  "tsl-error": CustomEvent<{ file: File; reason: "type" | "size" | "count" | "upload"; message: string }>;
+  /** No queda nada subiendo. */
+  "tsl-complete": CustomEvent<{ results: unknown[]; failed: number }>;
+}
+/** Subida de archivos con progreso: zona para soltar o elegir y una fila por archivo con barra, cancelar, reintentar y quitar. Sube con `action` (POST multipart) o con la función `uploader`; mientras sube, el formulario no es válido. */
+export interface TslUploadElement extends HTMLElement {
+  /** Refleja el atributo `disabled`. */
+  disabled: boolean;
+  /** Formulario al que pertenece. */
+  readonly form: HTMLFormElement | null;
+  /** Estado de validación. */
+  readonly validity: ValidityState;
+  /** Mensaje de validación actual. */
+  readonly validationMessage: string;
+  /** Función de subida propia; tiene prioridad sobre `action`. */
+  uploader: ((file: File, options: { signal: AbortSignal; progress: (fraction: number) => void }) => Promise<unknown>) | null;
+  /** Estado de cada archivo. */
+  readonly files: Array<{ file: File; name: string; size: number; status: string; progress: number; result?: unknown; error?: string }>;
+  /** Resultados de los archivos subidos (o los `File`, sin destino). */
+  readonly value: unknown[];
+  /** Hay archivos subiendo o en cola. */
+  readonly busy: boolean;
+  /** Indica si el campo es válido. */
+  checkValidity(): boolean;
+  /** Valida y muestra el aviso nativo si no lo es. */
+  reportValidity(): boolean;
+  /** Añade archivos validando tipo, tamaño y cantidad. */
+  addFiles(files: FileList | File[]): void;
+  /** Cancela una subida. */
+  cancel(index: number): void;
+  /** Reintenta una subida fallida o cancelada. */
+  retry(index: number): void;
+  /** Quita un archivo (y corta su subida). */
+  removeFile(index: number, focus?: boolean): void;
+  /** Quita todos. */
+  clear(): void;
+  /** Abre el selector de archivos. */
+  openFilePicker(): void;
+  addEventListener<K extends keyof TslUploadEventMap>(type: K, listener: (this: TslUploadElement, ev: TslUploadEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslUploadElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+  removeEventListener<K extends keyof TslUploadEventMap>(type: K, listener: (this: TslUploadElement, ev: TslUploadEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslUploadElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+}
+export declare const TslUpload: { new (): TslUploadElement; prototype: TslUploadElement };
+
+export interface TslEditorEventMap {
+  /** Cambió el contenido (al salir del editor). */
+  "tsl-change": CustomEvent<{ value: string; text: string }>;
+}
+/** Editor de texto enriquecido mínimo: barra de formato accesible, atajos, enlaces sin ventanas emergentes, Tab para sangrar listas y pegado limpio. El valor es HTML saneado a una lista corta de etiquetas. */
+export interface TslEditorElement extends HTMLElement {
+  /** Refleja el atributo `disabled`. */
+  disabled: boolean;
+  /** Formulario al que pertenece. */
+  readonly form: HTMLFormElement | null;
+  /** Estado de validación. */
+  readonly validity: ValidityState;
+  /** Mensaje de validación actual. */
+  readonly validationMessage: string;
+  /** HTML saneado o `""`. */
+  value: string;
+  /** Texto sin formato. */
+  readonly text: string;
+  /** No hay texto. */
+  readonly isEmpty: boolean;
+  /** Indica si el campo es válido. */
+  checkValidity(): boolean;
+  /** Valida y muestra el aviso nativo si no lo es. */
+  reportValidity(): boolean;
+  /** Aplica una herramienta de la barra (`bold`, `h2`, `ul`, `link`…). */
+  run(tool: string): void;
+  /** Pone un enlace en la selección; con `""` lo quita. */
+  applyLink(href?: string): void;
+  /** Enfoca el texto. */
+  focus(options?: FocusOptions): void;
+  addEventListener<K extends keyof TslEditorEventMap>(type: K, listener: (this: TslEditorElement, ev: TslEditorEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslEditorElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+  removeEventListener<K extends keyof TslEditorEventMap>(type: K, listener: (this: TslEditorElement, ev: TslEditorEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslEditorElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+}
+export declare const TslEditor: { new (): TslEditorElement; prototype: TslEditorElement };
+
 /** Zona desplazable con degradado en los bordes que aún tienen contenido (`data-top|bottom|left|right`). `scrollTo()` se aplica al área desplazable. */
 export interface TslScrollAreaElement extends HTMLElement {
 
@@ -1183,6 +1351,10 @@ declare global {
     "tsl-branch": TslBranchElement;
     "tsl-context": TslContextElement;
     "tsl-wizard": TslWizardElement;
+    "tsl-currency": TslCurrencyElement;
+    "tsl-phone": TslPhoneElement;
+    "tsl-upload": TslUploadElement;
+    "tsl-editor": TslEditorElement;
     "tsl-scroll-area": TslScrollAreaElement;
     "tsl-resizable": TslResizableElement;
     "tsl-tree": TslTreeElement;

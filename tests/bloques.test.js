@@ -94,8 +94,8 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   await alta.locator('[data-next]').click();
   await alta.locator('[data-next]').click();
   ok(await alta.evaluate(e => e.index) === 2, 'el plan es obligatorio');
-  await alta.locator('input[name=plan][value=Equipo]').check({ force: true });
-  await alta.locator('input[name=anual]').check({ force: true });
+  await alta.locator('input[name=plan][value=Equipo]').evaluate((e) => { if (!e.checked) e.click(); });
+  await alta.locator('input[name=anual]').evaluate((e) => { if (!e.checked) e.click(); });
   await alta.locator('[data-next]').click();
   const resumen = (await alta.locator('#alta-resumen').textContent()).replace(/\s+/g, ' ');
   ok(resumen.includes('Acme Diseño') && resumen.includes('https://acme-diseno.tesela.app') && resumen.includes('Unión Europea') && resumen.includes('2 como Administración') && resumen.includes('Equipo, facturación anual'), `la revisión resume todo: ${resumen}`);
@@ -182,7 +182,7 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   ok(await panel() === 'ajustes-seguridad' && await set.locator('.tsl-nav__item[aria-current=page]').textContent() === 'Seguridad' && await active() === 'ajustes-seguridad-t' && await p.evaluate(() => location.hash) === hash, 'la navegación cambia de sección, marca aria-current y enfoca el título sin tocar la URL');
   const barra = set.locator('.tsl-savebar');
   ok(await barra.isHidden(), 'sin cambios no hay barra de guardar');
-  await set.locator('#set-2fa').check({ force: true });
+  await set.locator('#set-2fa').evaluate((e) => { if (!e.checked) e.click(); });
   ok(await barra.isVisible() && await set.locator('#set-2fa-alert').isHidden(), 'activar la verificación en dos pasos oculta el aviso y muestra «Guardar»');
   await set.locator('[data-close-session]').first().click();
   ok(await set.locator('#set-sessions li').count() === 2, 'cerrar una sesión la quita de la lista');
