@@ -686,6 +686,35 @@ export const elements = [
     events: []
   },
   {
+    tag: "tsl-wizard", cls: "TslWizard", module: "components/wizard", docs: ["wizard", "pattern-wizard"],
+    summary: "Formulario en varios pasos (`.tsl-wizard__step`): valida cada paso con la validación nativa antes de avanzar, dibuja el indicador `.tsl-steps` con los pasos visitados pulsables y, al enviar, revisa todos y emite `tsl-submit`. Botones `[data-prev]`, `[data-next]` y `[data-submit]`.",
+    attributes: [
+      attr("index", "number", "Paso visible al iniciar, desde 0.", "0"),
+      attr("label", "string", "Nombre accesible del indicador de pasos.", "Pasos"),
+      attr("step-label", "string", "Texto que se anuncia al cambiar de paso, con `{n}`, `{total}` y `{title}`.", "Paso {n} de {total}: {title}")
+    ],
+    itemAttributes: [attr("data-title", "string", "Nombre del paso en el indicador y en el anuncio.")],
+    properties: [
+      prop("index", "number", "Paso visible, desde 0.", true),
+      prop("count", "number", "Número de pasos.", true),
+      prop("isLast", "boolean", "El paso visible es el último.", true),
+      prop("values", "Record<string, FormDataEntryValue | FormDataEntryValue[]>", "Valores actuales del formulario.", true)
+    ],
+    methods: [
+      method("next", [], "boolean", "Avanza si el paso actual es válido."),
+      method("prev", [], "boolean", "Retrocede un paso."),
+      method("goTo", [param("index", "number"), param("focus", "boolean", true)], "boolean", "Va a un paso; hacia delante solo si los anteriores son válidos."),
+      method("validate", [param("index", "number"), param("report", "boolean", true)], "boolean", "Comprueba un paso y, con `report`, señala el primer campo inválido."),
+      method("submit", [], "boolean", "Valida todos los pasos (lleva al primero con errores) y emite `tsl-submit`."),
+      method("restart", [], "void", "Vuelve al primer paso sin borrar los campos (`form.reset()` también lo hace).")
+    ],
+    events: [
+      event("tsl-step", "{ index: number; count: number; title: string }", "Cambió el paso visible."),
+      event("tsl-change", "{ values: Record<string, FormDataEntryValue | FormDataEntryValue[]> }", "Cambió algún campo."),
+      event("tsl-submit", "{ values: Record<string, FormDataEntryValue | FormDataEntryValue[]> }", "Se enviaron todos los pasos válidos.")
+    ]
+  },
+  {
     tag: "tsl-scroll-area", cls: "TslScrollArea", module: "components/scroll-area", docs: ["scroll-area"],
     summary: "Zona desplazable con degradado en los bordes que aún tienen contenido (`data-top|bottom|left|right`). `scrollTo()` se aplica al área desplazable.",
     attributes: [

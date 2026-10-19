@@ -1965,6 +1965,43 @@
       ]
     },
     {
+      "name": "tsl-wizard",
+      "description": {
+        "kind": "markdown",
+        "value": "Formulario en varios pasos (`.tsl-wizard__step`): valida cada paso con la validación nativa antes de avanzar, dibuja el indicador `.tsl-steps` con los pasos visitados pulsables y, al enviar, revisa todos y emite `tsl-submit`. Botones `[data-prev]`, `[data-next]` y `[data-submit]`."
+      },
+      "attributes": [
+        {
+          "name": "index",
+          "description": {
+            "kind": "markdown",
+            "value": "Paso visible al iniciar, desde 0. Por defecto: `0`."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del indicador de pasos. Por defecto: `Pasos`."
+          }
+        },
+        {
+          "name": "step-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto que se anuncia al cambiar de paso, con `{n}`, `{total}` y `{title}`. Por defecto: `Paso {n} de {total}: {title}`."
+          }
+        },
+        {
+          "name": "data-title",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Nombre del paso en el indicador y en el anuncio."
+          }
+        }
+      ]
+    },
+    {
       "name": "tsl-scroll-area",
       "description": {
         "kind": "markdown",

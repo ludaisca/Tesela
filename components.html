@@ -898,6 +898,40 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         </template>
       </section>
 
+      <section class="doc" id="wizard" data-group="Navegación" data-keywords="wizard asistente pasos stepper formulario multipaso validación onboarding alta">
+        <h2><a href="#wizard">Asistente por pasos</a></h2>
+        <p><code>&lt;tsl-wizard&gt;</code> reparte un <code>&lt;form&gt;</code> en pasos (<code>fieldset.tsl-wizard__step</code> con <code>data-title</code>). Antes de avanzar valida los campos del paso con la validación nativa (también los <code>tsl-select</code>, <code>tsl-date-picker</code>… asociados a formularios), señala el primero que falla y no deja saltar pasos. Dibuja el indicador <code>.tsl-steps</code>: los pasos visitados se pueden pulsar para volver. Enter en un campo avanza; al cambiar de paso enfoca su título y lo anuncia. Al enviar revisa todo, lleva al primer paso con errores si lo hay y emite <code>tsl-submit</code> con <code>values</code>.</p>
+        <template>
+          <tsl-wizard id="demo-wizard" class="demo-max" label="Crear cuenta">
+            <form>
+              <fieldset class="tsl-wizard__step" data-title="Cuenta">
+                <legend>Tu cuenta</legend>
+                <label class="tsl-field"><span class="tsl-label">Correo electrónico</span><input class="tsl-input" type="email" name="correo" required autocomplete="email" placeholder="tu@empresa.com" /></label>
+              </fieldset>
+              <fieldset class="tsl-wizard__step" data-title="Perfil">
+                <legend>Tu perfil</legend>
+                <label class="tsl-field"><span class="tsl-label">Nombre</span><input class="tsl-input" name="nombre" required minlength="2" autocomplete="name" /></label>
+                <div class="tsl-field"><span class="tsl-label">Rol</span><tsl-select name="rol" required label="Rol" placeholder="Elige tu rol…"><option value="dev">Desarrollo</option><option value="dis">Diseño</option><option value="prod">Producto</option></tsl-select></div>
+              </fieldset>
+              <fieldset class="tsl-wizard__step" data-title="Confirmar">
+                <legend>Confirmar</legend>
+                <label class="tsl-choice"><input class="tsl-check" type="checkbox" name="terminos" value="si" required /> Acepto las condiciones de uso</label>
+              </fieldset>
+              <div class="tsl-wizard__actions">
+                <button type="button" class="tsl-btn" data-prev>Atrás</button>
+                <button type="button" class="tsl-btn tsl-btn--primary" data-next>Continuar</button>
+                <button type="submit" class="tsl-btn tsl-btn--primary" data-submit>Crear cuenta</button>
+              </div>
+            </form>
+          </tsl-wizard>
+        </template>
+        <script type="text/plain" data-doc-js>
+          document.querySelector("#demo-wizard").addEventListener("tsl-submit", (e) => {
+            TeselaUI.toast({ title: "Cuenta creada", description: JSON.stringify(e.detail.values), variant: "success" });
+          });
+        </script>
+      </section>
+
       <section class="doc" id="command" data-group="Navegación" data-keywords="command palette cmdk buscador spotlight">
         <h2><a href="#command">Paleta de comandos</a></h2>
         <p><code>&lt;tsl-command hotkey="k"&gt;</code> crea un <code>&lt;dialog&gt;</code> nativo con búsqueda difusa, grupos (<code>data-group</code>), palabras clave (<code>data-keywords</code>) y evento <code>tsl-select</code>. Ábrelo con <code>data-tsl-open="id"</code> o <code>⌘K</code>.</p>
@@ -2203,6 +2237,585 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
       </section>
 
       <!-- ================================================================ Patrones -->
+      <section class="doc" id="pattern-dashboard" data-group="Patrones" data-keywords="dashboard panel de control analítica kpi métricas gráficas tabla pedidos admin app shell">
+        <h2><a href="#pattern-dashboard">Panel de control</a></h2>
+        <p>Barra lateral con modo de iconos, barra superior con migas y búsqueda, métricas con minigráfico, gráficas de área y dona, y la tabla de pedidos. El periodo (<code>tsl-segmented</code>) recalcula todo. <code>.tsl-dashboard</code> convierte la zona de contenido en contenedor: las métricas pasan de cuatro a dos columnas y las gráficas se apilan según el ancho del propio panel, no el de la ventana.</p>
+        <template>
+          <div class="tsl-sidebar-layout tsl-dashboard" style="width:100%;height:760px;border:1px solid var(--tsl-border);border-radius:var(--tsl-radius)">
+            <tsl-sidebar id="dash-sidebar" collapsible="icon" breakpoint="600" label="Navegación del panel">
+              <div class="tsl-sidebar__header"><span class="tsl-avatar tsl-avatar--sm" aria-hidden="true">A</span><strong class="tsl-sidebar__hide-rail">Acme</strong></div>
+              <div class="tsl-sidebar__content">
+                <div class="tsl-sidebar__group">
+                  <div class="tsl-sidebar__label">Tienda</div>
+                  <ul class="tsl-sidebar__menu">
+                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard" aria-current="page"><span class="tsl-sidebar__icon" aria-hidden="true">◧</span><span class="tsl-sidebar__text">Resumen</span></a></li>
+                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard"><span class="tsl-sidebar__icon" aria-hidden="true">▤</span><span class="tsl-sidebar__text">Pedidos</span><span class="tsl-badge tsl-sidebar__badge">12</span></a></li>
+                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard"><span class="tsl-sidebar__icon" aria-hidden="true">◎</span><span class="tsl-sidebar__text">Clientes</span></a></li>
+                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard"><span class="tsl-sidebar__icon" aria-hidden="true">▣</span><span class="tsl-sidebar__text">Productos</span></a></li>
+                  </ul>
+                </div>
+                <div class="tsl-sidebar__group">
+                  <div class="tsl-sidebar__label">Análisis</div>
+                  <ul class="tsl-sidebar__menu">
+                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard"><span class="tsl-sidebar__icon" aria-hidden="true">◔</span><span class="tsl-sidebar__text">Informes</span></a></li>
+                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard"><span class="tsl-sidebar__icon" aria-hidden="true">⚙</span><span class="tsl-sidebar__text">Ajustes</span></a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="tsl-sidebar__footer"><span class="tsl-avatar tsl-avatar--sm" aria-hidden="true">LI</span><span class="tsl-muted tsl-sidebar__hide-rail">Luis Islas</span></div>
+            </tsl-sidebar>
+            <div class="tsl-sidebar-inset">
+              <div class="tsl-sidebar-inset__bar">
+                <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--icon tsl-btn--subtle" data-tsl-sidebar-toggle aria-label="Alternar barra lateral">☰</button>
+                <nav aria-label="Migas de pan"><ol class="tsl-breadcrumb"><li><a href="#pattern-dashboard">Acme</a></li><li><span aria-current="page">Resumen</span></li></ol></nav>
+                <div class="tsl-input-group tsl-dashboard__search">
+                  <span class="tsl-input-group__addon" aria-hidden="true">⌕</span>
+                  <input class="tsl-input" type="search" placeholder="Buscar pedidos…" aria-label="Buscar pedidos" id="dash-search" />
+                </div>
+              </div>
+              <div class="tsl-dashboard__body">
+                <div class="tsl-dashboard__head">
+                  <div><h3>Resumen</h3><p id="dash-range-desc">Últimos 30 días comparados con los 30 anteriores</p></div>
+                  <tsl-segmented id="dash-range" value="30d" aria-label="Periodo">
+                    <button class="tsl-segmented__item" value="7d">7 días</button>
+                    <button class="tsl-segmented__item" value="30d">30 días</button>
+                    <button class="tsl-segmented__item" value="12m">12 meses</button>
+                  </tsl-segmented>
+                </div>
+                <div class="tsl-dashboard__kpis" id="dash-kpis"></div>
+                <div class="tsl-dashboard__charts">
+                  <div class="tsl-dashboard__panel">
+                    <h4 class="tsl-dashboard__panel-title">Ingresos <small id="dash-total"></small></h4>
+                    <tsl-chart id="dash-revenue" type="area" smooth prefix="$" aria-label="Ingresos del periodo frente al anterior" height="220"></tsl-chart>
+                  </div>
+                  <div class="tsl-dashboard__panel">
+                    <h4 class="tsl-dashboard__panel-title">Canales</h4>
+                    <tsl-chart id="dash-channels" type="donut" aria-label="Pedidos por canal" height="220"></tsl-chart>
+                  </div>
+                </div>
+                <div class="tsl-dashboard__panel">
+                  <h4 class="tsl-dashboard__panel-title">Pedidos recientes <small id="dash-orders-count"></small></h4>
+                  <tsl-data-table id="dash-orders" page-size="5" caption="Pedidos recientes" empty-text="Ningún pedido coincide" locale="es"></tsl-data-table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const periodos = {
+            "7d": { desc: "Últimos 7 días comparados con los 7 anteriores", labels: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"], escala: 1 },
+            "30d": { desc: "Últimos 30 días comparados con los 30 anteriores", labels: Array.from({ length: 10 }, (_, i) => `${i * 3 + 1} oct`), escala: 4.2 },
+            "12m": { desc: "Últimos 12 meses comparados con los 12 anteriores", labels: ["Nov", "Dic", "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct"], escala: 51 }
+          };
+          // Serie determinista: misma forma cada vez, distinta por periodo
+          const serie = (n, base, semilla) => Array.from({ length: n }, (_, i) => Math.round(base * (1 + 0.35 * Math.sin(i * 0.9 + semilla) + i * 0.04)));
+          const dinero = (v) => `$${Math.round(v).toLocaleString("es")}`;
+          const kpis = document.querySelector("#dash-kpis");
+          const ingresos = document.querySelector("#dash-revenue");
+          const canales = document.querySelector("#dash-channels");
+          const tabla = document.querySelector("#dash-orders");
+
+          function pintar(clave) {
+            const p = periodos[clave];
+            const actual = serie(p.labels.length, 1800 * p.escala, clave.length);
+            const anterior = serie(p.labels.length, 1550 * p.escala, clave.length + 1.3);
+            const total = actual.reduce((a, b) => a + b, 0);
+            const totalAnt = anterior.reduce((a, b) => a + b, 0);
+            const pedidos = Math.round(total / 64);
+            const delta = (a, b) => ((a - b) / b) * 100;
+            const metricas = [
+              { titulo: "Ingresos", valor: dinero(total), cambio: delta(total, totalAnt), puntos: actual },
+              { titulo: "Pedidos", valor: pedidos.toLocaleString("es"), cambio: delta(pedidos, Math.round(totalAnt / 66)), puntos: actual.map((v) => v / 64) },
+              { titulo: "Ticket medio", valor: dinero(total / pedidos), cambio: -2.4, puntos: actual.map((v, i) => 60 + Math.sin(i) * 4) },
+              { titulo: "Conversión", valor: "3,8 %", cambio: 0.6, puntos: actual.map((v, i) => 3.4 + Math.cos(i * 0.7) * 0.3) }
+            ];
+            kpis.innerHTML = metricas.map((m) => `
+              <div class="tsl-stat tsl-dashboard__panel">
+                <span class="tsl-eyebrow">${m.titulo}</span>
+                <span class="tsl-stat__value">${m.valor}</span>
+                <tsl-sparkline values="${m.puntos.map((v) => v.toFixed(2)).join(" ")}" fill style="--w:100%${m.cambio < 0 ? ";color:var(--tsl-danger)" : ""}"></tsl-sparkline>
+                <span class="tsl-stat__delta ${m.cambio < 0 ? "is-down" : "is-up"}">${m.cambio > 0 ? "+" : ""}${m.cambio.toFixed(1).replace(".", ",")} % vs. anterior</span>
+              </div>`).join("");
+            ingresos.data = { labels: p.labels, series: [{ name: "Este periodo", values: actual }, { name: "Periodo anterior", values: anterior }] };
+            canales.data = { segments: [
+              { label: "Web", value: Math.round(pedidos * 0.52) }, { label: "App", value: Math.round(pedidos * 0.31) },
+              { label: "Tienda física", value: Math.round(pedidos * 0.12) }, { label: "Mayoristas", value: Math.round(pedidos * 0.05) }
+            ] };
+            document.querySelector("#dash-range-desc").textContent = p.desc;
+            document.querySelector("#dash-total").textContent = `${dinero(total)} en total`;
+          }
+
+          const clientes = ["Acme", "Globex", "Initech", "Umbrella", "Hooli", "Stark", "Wayne", "Wonka"];
+          const estados = { Pagado: "success", Pendiente: "warning", Enviado: "info", Reembolsado: "danger" };
+          tabla.columns = [
+            { key: "id", label: "Pedido", sort: "text", width: "110px" },
+            { key: "cliente", label: "Cliente", sort: "text" },
+            { key: "estado", label: "Estado", sort: "text", render: (r) => { const b = document.createElement("span"); b.className = `tsl-badge tsl-badge--${estados[r.estado]}`; b.textContent = r.estado; return b; } },
+            { key: "total", label: "Total", sort: "number", align: "end", format: (v) => `$${v.toLocaleString("es", { minimumFractionDigits: 2 })}` }
+          ];
+          const filas = Array.from({ length: 24 }, (_, i) => ({
+            id: `PED-${2400 - i}`,
+            cliente: clientes[(i * 5) % clientes.length],
+            estado: Object.keys(estados)[(i * 3 + 1) % 4],
+            total: Math.round(((i * 7919) % 42000) + 1800) / 100
+          }));
+          tabla.rows = filas;
+          const contar = (n) => (document.querySelector("#dash-orders-count").textContent = `${n} pedidos`);
+          contar(filas.length);
+          // La búsqueda de la barra superior filtra la tabla
+          document.querySelector("#dash-search").addEventListener("input", (e) => {
+            const q = e.target.value.trim().toLowerCase();
+            const visibles = filas.filter((f) => !q || `${f.id} ${f.cliente} ${f.estado}`.toLowerCase().includes(q));
+            tabla.rows = visibles;
+            contar(visibles.length);
+          });
+          document.querySelector("#dash-range").addEventListener("tsl-change", (e) => pintar(e.detail.value));
+          pintar("30d");
+        </script>
+      </section>
+
+      <section class="doc" id="pattern-auth" data-group="Patrones" data-keywords="login signin registro signup autenticación auth contraseña verificación otp recuperar olvidé sso">
+        <h2><a href="#pattern-auth">Autenticación</a></h2>
+        <p>Entrar, crear cuenta, verificar el correo con un código y recuperar la contraseña en un solo bloque. <code>.tsl-auth</code> pone a un lado la presentación y al otro una vista (<code>.tsl-auth__view</code>) cada vez; cuando el bloque es estrecho la presentación desaparece. Los errores se muestran junto a cada campo con <code>aria-invalid</code> y <code>aria-describedby</code>, y al cambiar de vista el foco va a su título. En la demostración, cualquier código de 6 cifras salvo 000000 es válido.</p>
+        <template>
+          <div class="tsl-auth demo-wide" id="auth">
+            <div class="tsl-auth__grid">
+              <aside class="tsl-auth__aside">
+                <div class="tsl-auth__brand"><span class="tsl-avatar tsl-avatar--sm" aria-hidden="true">A</span>Acme</div>
+                <div>
+                  <p class="tsl-auth__pitch">Todo el trabajo de tu equipo, en un solo lugar.</p>
+                  <ul class="tsl-auth__points">
+                    <li>Proyectos, documentos y tareas conectados</li>
+                    <li>Permisos por equipo y registro de cambios</li>
+                    <li>Inicio de sesión único con tu proveedor</li>
+                  </ul>
+                </div>
+                <span class="tsl-hint">© Acme · Privacidad · Condiciones</span>
+              </aside>
+              <div class="tsl-auth__main">
+                <form class="tsl-auth__view" data-view="entrar" novalidate>
+                  <h3 class="tsl-auth__title" tabindex="-1">Inicia sesión</h3>
+                  <p class="tsl-auth__desc">Usa tu correo de trabajo.</p>
+                  <div class="tsl-field"><label class="tsl-label" for="auth-email">Correo electrónico</label><input class="tsl-input" id="auth-email" type="email" name="email" required autocomplete="email" placeholder="tu@empresa.com" /><span class="tsl-error" id="auth-email-err"></span></div>
+                  <div class="tsl-field"><label class="tsl-label" for="auth-pass">Contraseña</label><tsl-password><input id="auth-pass" name="clave" required minlength="8" autocomplete="current-password" /></tsl-password><span class="tsl-error" id="auth-pass-err"></span></div>
+                  <div class="tsl-auth__inline">
+                    <label class="tsl-choice"><input class="tsl-check" type="checkbox" name="recordar" /> Recuérdame</label>
+                    <button type="button" class="tsl-link" data-go="recuperar">¿Olvidaste tu contraseña?</button>
+                  </div>
+                  <button type="submit" class="tsl-btn tsl-btn--primary tsl-btn--block">Iniciar sesión</button>
+                  <div class="tsl-divider">o</div>
+                  <div class="tsl-auth__providers">
+                    <button type="button" class="tsl-btn" data-sso="Google">Google</button>
+                    <button type="button" class="tsl-btn" data-sso="GitHub">GitHub</button>
+                  </div>
+                  <p class="tsl-auth__foot">¿No tienes cuenta? <button type="button" class="tsl-link" data-go="registro">Crear cuenta</button></p>
+                </form>
+
+                <form class="tsl-auth__view" data-view="registro" novalidate hidden>
+                  <h3 class="tsl-auth__title" tabindex="-1">Crea tu cuenta</h3>
+                  <p class="tsl-auth__desc">Gratis durante 14 días, sin tarjeta.</p>
+                  <div class="tsl-field"><label class="tsl-label" for="reg-name">Nombre</label><input class="tsl-input" id="reg-name" name="nombre" required minlength="2" autocomplete="name" /><span class="tsl-error" id="reg-name-err"></span></div>
+                  <div class="tsl-field"><label class="tsl-label" for="reg-email">Correo electrónico</label><input class="tsl-input" id="reg-email" type="email" name="email" required autocomplete="email" placeholder="tu@empresa.com" /><span class="tsl-error" id="reg-email-err"></span></div>
+                  <div class="tsl-field"><label class="tsl-label" for="reg-pass">Contraseña</label><tsl-password meter min-length="10"><input id="reg-pass" name="clave" required minlength="10" autocomplete="new-password" placeholder="Mínimo 10 caracteres" /></tsl-password><span class="tsl-error" id="reg-pass-err"></span></div>
+                  <div class="tsl-field"><label class="tsl-choice"><input class="tsl-check" id="reg-terms" type="checkbox" name="condiciones" required /> Acepto las condiciones y la política de privacidad</label><span class="tsl-error" id="reg-terms-err"></span></div>
+                  <button type="submit" class="tsl-btn tsl-btn--primary tsl-btn--block">Crear cuenta</button>
+                  <p class="tsl-auth__foot">¿Ya tienes cuenta? <button type="button" class="tsl-link" data-go="entrar">Inicia sesión</button></p>
+                </form>
+
+                <form class="tsl-auth__view" data-view="verificar" novalidate hidden>
+                  <h3 class="tsl-auth__title" tabindex="-1">Revisa tu correo</h3>
+                  <p class="tsl-auth__desc">Enviamos un código de 6 cifras a <strong data-email>tu correo</strong>.</p>
+                  <div class="tsl-field"><span class="tsl-label" id="auth-otp-label">Código de verificación</span><tsl-otp id="auth-otp" length="6" name="codigo" aria-labelledby="auth-otp-label"></tsl-otp><span class="tsl-error" id="auth-otp-err" role="alert"></span></div>
+                  <button type="submit" class="tsl-btn tsl-btn--primary tsl-btn--block">Verificar</button>
+                  <p class="tsl-auth__foot">¿No te llegó? <button type="button" class="tsl-link" id="auth-resend" disabled>Reenviar en 30 s</button></p>
+                  <p class="tsl-auth__foot"><button type="button" class="tsl-link" data-go="registro">← Cambiar el correo</button></p>
+                </form>
+
+                <form class="tsl-auth__view" data-view="recuperar" novalidate hidden>
+                  <h3 class="tsl-auth__title" tabindex="-1">Recupera tu contraseña</h3>
+                  <p class="tsl-auth__desc">Te enviaremos un enlace para elegir una nueva.</p>
+                  <div class="tsl-field"><label class="tsl-label" for="rec-email">Correo electrónico</label><input class="tsl-input" id="rec-email" type="email" name="email" required autocomplete="email" placeholder="tu@empresa.com" /><span class="tsl-error" id="rec-email-err"></span></div>
+                  <button type="submit" class="tsl-btn tsl-btn--primary tsl-btn--block">Enviar enlace</button>
+                  <p class="tsl-auth__foot"><button type="button" class="tsl-link" data-go="entrar">← Volver a iniciar sesión</button></p>
+                </form>
+
+                <div class="tsl-auth__view" data-view="listo" hidden>
+                  <div class="tsl-empty">
+                    <div class="tsl-empty__icon" aria-hidden="true">✓</div>
+                    <h3 class="tsl-auth__title tsl-empty__title" tabindex="-1" data-done-title>Todo listo</h3>
+                    <p class="tsl-empty__desc" data-done-desc></p>
+                    <div class="tsl-row" style="justify-content:center;margin-top:6px"><button type="button" class="tsl-btn" data-go="entrar">Volver al inicio</button></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const auth = document.querySelector("#auth");
+          const vistas = auth.querySelectorAll(".tsl-auth__view");
+          let reloj;
+
+          function ir(nombre) {
+            vistas.forEach((v) => (v.hidden = v.dataset.view !== nombre));
+            const vista = auth.querySelector(`[data-view="${nombre}"]`);
+            vista.querySelector(".tsl-auth__title").focus();
+          }
+
+          // Mensaje junto a cada campo inválido; devuelve true si todo está bien
+          function validar(form) {
+            let primero = null;
+            form.querySelectorAll("input[required]").forEach((input) => {
+              const error = document.getElementById(`${input.id}-err`);
+              const mal = !input.checkValidity();
+              input.setAttribute("aria-invalid", String(mal));
+              if (error) {
+                error.textContent = mal ? (input.type === "checkbox" ? "Debes aceptarlas para continuar." : input.validationMessage) : "";
+                input.setAttribute("aria-describedby", error.id);
+              }
+              if (mal && !primero) primero = input;
+            });
+            if (primero) primero.focus();
+            return !primero;
+          }
+
+          function terminar(titulo, texto) {
+            auth.querySelector("[data-done-title]").textContent = titulo;
+            auth.querySelector("[data-done-desc]").textContent = texto;
+            ir("listo");
+          }
+
+          function cuentaAtras() {
+            const boton = auth.querySelector("#auth-resend");
+            let s = 30;
+            clearInterval(reloj);
+            boton.disabled = true;
+            boton.textContent = `Reenviar en ${s} s`;
+            reloj = setInterval(() => {
+              s -= 1;
+              boton.textContent = s > 0 ? `Reenviar en ${s} s` : "Reenviar el código";
+              if (s <= 0) {
+                clearInterval(reloj);
+                boton.disabled = false;
+              }
+            }, 1000);
+          }
+
+          auth.addEventListener("click", (e) => {
+            const destino = e.target.closest("[data-go]");
+            if (destino) ir(destino.dataset.go);
+            const sso = e.target.closest("[data-sso]");
+            if (sso) TeselaUI.toast({ title: `Redirigiendo a ${sso.dataset.sso}…` });
+          });
+          auth.addEventListener("input", (e) => {
+            if (e.target.getAttribute("aria-invalid") === "true" && e.target.checkValidity()) {
+              e.target.setAttribute("aria-invalid", "false");
+              const error = document.getElementById(`${e.target.id}-err`);
+              if (error) error.textContent = "";
+            }
+          });
+
+          auth.querySelector('[data-view="entrar"]').addEventListener("submit", (e) => {
+            e.preventDefault();
+            if (validar(e.target)) TeselaUI.toast({ title: "Sesión iniciada", description: e.target.email.value, variant: "success" });
+          });
+          auth.querySelector('[data-view="registro"]').addEventListener("submit", (e) => {
+            e.preventDefault();
+            if (!validar(e.target)) return;
+            auth.querySelector("[data-email]").textContent = e.target.email.value;
+            auth.querySelector("#auth-otp").clear();
+            cuentaAtras();
+            ir("verificar");
+          });
+          auth.querySelector("#auth-resend").addEventListener("click", () => {
+            TeselaUI.toast({ title: "Código reenviado" });
+            cuentaAtras();
+          });
+          const verificar = auth.querySelector('[data-view="verificar"]');
+          const otp = auth.querySelector("#auth-otp");
+          const comprobar = () => {
+            const error = auth.querySelector("#auth-otp-err");
+            if (otp.value.length < 6) error.textContent = "Escribe las 6 cifras del código.";
+            else if (otp.value === "000000") error.textContent = "El código no es correcto o ha caducado.";
+            else {
+              error.textContent = "";
+              clearInterval(reloj);
+              return terminar("Correo verificado", "Tu cuenta está lista. Ya puedes iniciar sesión.");
+            }
+            otp.querySelector("input").focus();
+          };
+          verificar.addEventListener("submit", (e) => {
+            e.preventDefault();
+            comprobar();
+          });
+          otp.addEventListener("tsl-complete", comprobar);
+          auth.querySelector('[data-view="recuperar"]').addEventListener("submit", (e) => {
+            e.preventDefault();
+            if (validar(e.target)) terminar("Revisa tu correo", `Si ${e.target.email.value} tiene una cuenta, recibirás un enlace en unos minutos.`);
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="pattern-settings" data-group="Patrones" data-keywords="settings ajustes preferencias perfil cuenta notificaciones seguridad facturación barra lateral cambios sin guardar">
+        <h2><a href="#pattern-settings">Ajustes con navegación lateral</a></h2>
+        <p><code>.tsl-settings</code> pone las secciones en una navegación lateral (<code>.tsl-nav</code> con <code>aria-current</code>) y cada sección en filas <code>.tsl-settings__row</code>: título y explicación a un lado, control al otro. Al tocar cualquier campo aparece <code>.tsl-savebar</code> con Guardar y Descartar (que restablece el formulario); la zona de peligro pide confirmación. En un contenedor estrecho la navegación pasa a ser una fila desplazable y las filas se apilan.</p>
+        <template>
+          <div class="tsl-settings demo-wide" id="settings">
+            <div class="tsl-settings__grid">
+              <div class="tsl-settings__nav">
+                <nav class="tsl-nav" aria-label="Secciones de ajustes">
+                  <a class="tsl-nav__item" href="#ajustes-perfil" aria-current="page">Perfil</a>
+                  <a class="tsl-nav__item" href="#ajustes-notificaciones">Notificaciones</a>
+                  <a class="tsl-nav__item" href="#ajustes-seguridad">Seguridad</a>
+                  <a class="tsl-nav__item" href="#ajustes-cuenta">Cuenta</a>
+                </nav>
+              </div>
+              <form class="tsl-settings__main" id="settings-form" novalidate>
+                <section class="tsl-settings__panel" id="ajustes-perfil" aria-labelledby="ajustes-perfil-t">
+                  <div class="tsl-settings__head"><h3 id="ajustes-perfil-t" tabindex="-1">Perfil</h3><p>Así te ven las demás personas del espacio.</p></div>
+                  <div class="tsl-settings__row">
+                    <div><div class="tsl-settings__row-title">Foto</div><div class="tsl-settings__row-desc">Cuadrada, de al menos 256 px.</div></div>
+                    <div class="tsl-settings__control tsl-settings__control--inline"><span class="tsl-avatar tsl-avatar--lg" aria-hidden="true">LI</span><button type="button" class="tsl-btn tsl-btn--sm">Cambiar</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle">Quitar</button></div>
+                  </div>
+                  <div class="tsl-settings__row">
+                    <label for="set-name"><div class="tsl-settings__row-title">Nombre visible</div><div class="tsl-settings__row-desc">Aparece en comentarios y menciones.</div></label>
+                    <div class="tsl-settings__control"><input class="tsl-input" id="set-name" name="nombre" value="Luis Islas" autocomplete="name" /></div>
+                  </div>
+                  <div class="tsl-settings__row">
+                    <label for="set-bio"><div class="tsl-settings__row-title">Biografía</div><div class="tsl-settings__row-desc">Una o dos frases.</div></label>
+                    <div class="tsl-settings__control"><textarea class="tsl-textarea" id="set-bio" name="bio" data-tsl-autosize data-max-rows="6" data-tsl-count="#set-bio-count" maxlength="160">Diseño sistemas de interfaz.</textarea><span class="tsl-hint" id="set-bio-count"></span></div>
+                  </div>
+                  <div class="tsl-settings__row">
+                    <div><div class="tsl-settings__row-title" id="set-tz-l">Zona horaria</div><div class="tsl-settings__row-desc">Para fechas y recordatorios.</div></div>
+                    <div class="tsl-settings__control"><tsl-select name="zona" value="mx" label="Zona horaria"><option value="mx">Ciudad de México (UTC−6)</option><option value="mad">Madrid (UTC+1)</option><option value="bog">Bogotá (UTC−5)</option><option value="bue">Buenos Aires (UTC−3)</option></tsl-select></div>
+                  </div>
+                </section>
+
+                <section class="tsl-settings__panel" id="ajustes-notificaciones" aria-labelledby="ajustes-notificaciones-t" hidden>
+                  <div class="tsl-settings__head"><h3 id="ajustes-notificaciones-t" tabindex="-1">Notificaciones</h3><p>Elige qué te avisa y por dónde.</p></div>
+                  <div class="tsl-settings__row">
+                    <div><div class="tsl-settings__row-title">Por correo</div><div class="tsl-settings__row-desc">Nunca más de un correo por hora.</div></div>
+                    <div class="tsl-settings__control">
+                      <label class="tsl-choice"><input type="checkbox" role="switch" class="tsl-switch" name="n-menciones" checked /> Menciones y respuestas</label>
+                      <label class="tsl-choice"><input type="checkbox" role="switch" class="tsl-switch" name="n-resumen" checked /> Resumen semanal</label>
+                      <label class="tsl-choice"><input type="checkbox" role="switch" class="tsl-switch" name="n-novedades" /> Novedades del producto</label>
+                    </div>
+                  </div>
+                  <div class="tsl-settings__row">
+                    <div><div class="tsl-settings__row-title" id="set-push-l">En el navegador</div><div class="tsl-settings__row-desc">Mientras tengas la aplicación abierta.</div></div>
+                    <div class="tsl-settings__control">
+                      <div class="tsl-stack" style="--gap:6px" role="radiogroup" aria-labelledby="set-push-l">
+                        <label class="tsl-choice"><input class="tsl-check" type="radio" name="push" value="todo" /> Todo</label>
+                        <label class="tsl-choice"><input class="tsl-check" type="radio" name="push" value="directo" checked /> Solo mensajes directos y menciones</label>
+                        <label class="tsl-choice"><input class="tsl-check" type="radio" name="push" value="nada" /> Nada</label>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="tsl-settings__panel" id="ajustes-seguridad" aria-labelledby="ajustes-seguridad-t" hidden>
+                  <div class="tsl-settings__head"><h3 id="ajustes-seguridad-t" tabindex="-1">Seguridad</h3><p>Protege el acceso a tu cuenta.</p></div>
+                  <div class="tsl-settings__row">
+                    <div><div class="tsl-settings__row-title">Verificación en dos pasos</div><div class="tsl-settings__row-desc">Pide un código además de la contraseña.</div></div>
+                    <div class="tsl-settings__control"><label class="tsl-choice"><input type="checkbox" role="switch" class="tsl-switch" name="dos-pasos" id="set-2fa" /> Activada</label><div class="tsl-alert tsl-alert--warning" id="set-2fa-alert"><div><div class="tsl-alert__title">Desactivada</div><div class="tsl-alert__desc">Recomendamos activarla en cuentas con permisos de administración.</div></div></div></div>
+                  </div>
+                  <div class="tsl-settings__row">
+                    <div><div class="tsl-settings__row-title">Sesiones abiertas</div><div class="tsl-settings__row-desc">Cierra las que no reconozcas.</div></div>
+                    <div class="tsl-settings__control">
+                      <ul class="tsl-list" id="set-sessions">
+                        <li><div><div class="tsl-list__title">Firefox · Linux</div><div class="tsl-list__desc">Ciudad de México · esta sesión</div></div></li>
+                        <li><div><div class="tsl-list__title">Safari · iPhone</div><div class="tsl-list__desc">Ciudad de México · hace 2 h</div></div><div class="tsl-list__end"><button type="button" class="tsl-btn tsl-btn--sm" data-close-session>Cerrar</button></div></li>
+                        <li><div><div class="tsl-list__title">Chrome · Windows</div><div class="tsl-list__desc">Guadalajara · hace 6 días</div></div><div class="tsl-list__end"><button type="button" class="tsl-btn tsl-btn--sm" data-close-session>Cerrar</button></div></li>
+                      </ul>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="tsl-settings__panel" id="ajustes-cuenta" aria-labelledby="ajustes-cuenta-t" hidden>
+                  <div class="tsl-settings__head"><h3 id="ajustes-cuenta-t" tabindex="-1">Cuenta</h3><p>Datos de acceso e idioma.</p></div>
+                  <div class="tsl-settings__row">
+                    <label for="set-email"><div class="tsl-settings__row-title">Correo</div><div class="tsl-settings__row-desc">Recibirás un enlace para confirmar el cambio.</div></label>
+                    <div class="tsl-settings__control"><input class="tsl-input" id="set-email" type="email" name="email" value="luis@acme.example" autocomplete="email" /></div>
+                  </div>
+                  <div class="tsl-settings__row">
+                    <div><div class="tsl-settings__row-title">Idioma</div><div class="tsl-settings__row-desc">De la interfaz y los correos.</div></div>
+                    <div class="tsl-settings__control"><tsl-select name="idioma" value="es" label="Idioma"><option value="es">Español</option><option value="en">English</option><option value="pt">Português</option></tsl-select></div>
+                  </div>
+                  <div class="tsl-settings__danger">
+                    <div class="tsl-settings__row">
+                      <div><div class="tsl-settings__row-title">Eliminar la cuenta</div><div class="tsl-settings__row-desc">Se borran tus datos y no se puede deshacer.</div></div>
+                      <div class="tsl-settings__control tsl-settings__control--inline"><button type="button" class="tsl-btn tsl-btn--danger" id="set-delete">Eliminar cuenta…</button></div>
+                    </div>
+                  </div>
+                </section>
+
+                <div class="tsl-savebar" role="region" aria-label="Cambios sin guardar" hidden>
+                  <span>Tienes cambios sin guardar.</span>
+                  <button type="reset" class="tsl-btn tsl-btn--sm">Descartar</button>
+                  <button type="submit" class="tsl-btn tsl-btn--sm tsl-btn--primary">Guardar cambios</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const ajustes = document.querySelector("#settings");
+          const form = ajustes.querySelector("#settings-form");
+          const barra = ajustes.querySelector(".tsl-savebar");
+          const enlaces = ajustes.querySelectorAll(".tsl-nav__item");
+          const aviso2fa = ajustes.querySelector("#set-2fa-alert");
+
+          // Navegación entre secciones sin tocar la URL de la página
+          enlaces.forEach((a) => a.addEventListener("click", (e) => {
+            e.preventDefault();
+            const id = a.getAttribute("href").slice(1);
+            enlaces.forEach((b) => (b === a ? b.setAttribute("aria-current", "page") : b.removeAttribute("aria-current")));
+            ajustes.querySelectorAll(".tsl-settings__panel").forEach((p) => (p.hidden = p.id !== id));
+            ajustes.querySelector(`#${id} h3`).focus();
+          }));
+
+          const sucio = () => (barra.hidden = false);
+          form.addEventListener("input", sucio);
+          form.addEventListener("change", sucio);
+          form.addEventListener("tsl-change", sucio);
+          ajustes.querySelector("#set-2fa").addEventListener("change", (e) => (aviso2fa.hidden = e.target.checked));
+
+          form.addEventListener("reset", () => setTimeout(() => {
+            barra.hidden = true;
+            aviso2fa.hidden = ajustes.querySelector("#set-2fa").checked;
+            TeselaUI.init(form);
+          }));
+          form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            barra.hidden = true;
+            TeselaUI.toast({ title: "Cambios guardados", variant: "success" });
+          });
+
+          ajustes.querySelectorAll("[data-close-session]").forEach((b) => b.addEventListener("click", () => {
+            const fila = b.closest("li");
+            const nombre = fila.querySelector(".tsl-list__title").textContent;
+            fila.remove();
+            TeselaUI.toast({ title: "Sesión cerrada", description: nombre });
+          }));
+          ajustes.querySelector("#set-delete").addEventListener("click", async () => {
+            const ok = await TeselaUI.confirm({ title: "¿Eliminar tu cuenta?", description: "Se borrarán tus proyectos y documentos. No se puede deshacer.", confirmLabel: "Eliminar", variant: "danger" });
+            if (ok) TeselaUI.toast({ title: "Cuenta eliminada (de mentira)", variant: "error" });
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="pattern-wizard" data-group="Patrones" data-keywords="wizard asistente pasos alta onboarding espacio de trabajo plan invitar equipo revisión">
+        <h2><a href="#pattern-wizard">Alta de un espacio de trabajo</a></h2>
+        <p>Un <code>&lt;tsl-wizard&gt;</code> de cuatro pasos: datos del espacio (la dirección se propone sola a partir del nombre), invitaciones con <code>&lt;tsl-tags&gt;</code>, plan con tarjetas de elección y una revisión <code>.tsl-summary</code> que se rellena con <code>tsl-step</code>. Cada paso valida antes de avanzar, el indicador deja volver a los ya visitados y, al terminar, el formulario se sustituye por un estado vacío de confirmación.</p>
+        <template>
+          <div class="tsl-card demo-wide" style="max-width:680px" id="alta">
+            <div class="tsl-card__body">
+              <tsl-wizard id="alta-wizard" label="Alta del espacio de trabajo">
+                <form>
+                  <fieldset class="tsl-wizard__step" data-title="Espacio">
+                    <legend>Tu espacio de trabajo</legend>
+                    <p class="tsl-wizard__desc">Podrás cambiar el nombre más adelante.</p>
+                    <div class="tsl-field"><label class="tsl-label" for="alta-nombre">Nombre</label><input class="tsl-input" id="alta-nombre" name="nombre" required minlength="3" placeholder="Acme Diseño" autocomplete="organization" /></div>
+                    <div class="tsl-field">
+                      <label class="tsl-label" for="alta-slug">Dirección</label>
+                      <div class="tsl-input-group" dir="ltr"><span class="tsl-input-group__addon">https://</span><input class="tsl-input" id="alta-slug" name="direccion" required pattern="[a-z0-9]+(-[a-z0-9]+)*" minlength="3" maxlength="32" aria-describedby="alta-slug-hint" /><span class="tsl-input-group__addon">.tesela.app</span></div>
+                      <span class="tsl-hint" id="alta-slug-hint">Minúsculas, números y guiones.</span>
+                    </div>
+                    <div class="tsl-field"><span class="tsl-label">Región de los datos</span><tsl-select name="region" required label="Región de los datos" placeholder="Elige una región…"><option value="us">Estados Unidos</option><option value="eu">Unión Europea</option><option value="sa">São Paulo</option></tsl-select></div>
+                  </fieldset>
+
+                  <fieldset class="tsl-wizard__step" data-title="Equipo">
+                    <legend>Invita a tu equipo</legend>
+                    <p class="tsl-wizard__desc">Escribe correos y pulsa Enter. También puedes hacerlo después.</p>
+                    <div class="tsl-field"><span class="tsl-label">Correos</span><tsl-tags id="alta-invitados" name="invitados" label="Añadir correo" placeholder="nombre@empresa.com"></tsl-tags><span class="tsl-error" id="alta-invitados-err" role="alert"></span></div>
+                    <div class="tsl-field"><label class="tsl-label" for="alta-rol">Rol de las personas invitadas</label><select class="tsl-select" id="alta-rol" name="rol"><option value="Miembro">Miembro</option><option value="Administración">Administración</option><option value="Invitado">Invitado (solo lectura)</option></select></div>
+                  </fieldset>
+
+                  <fieldset class="tsl-wizard__step" data-title="Plan">
+                    <legend>Elige un plan</legend>
+                    <div class="tsl-grid" style="--min:170px;--gap:10px" role="radiogroup" aria-label="Plan">
+                      <label class="tsl-choice-card"><input class="tsl-check" type="radio" name="plan" value="Gratis" required /><span><span class="tsl-choice-card__title">Gratis</span><span class="tsl-choice-card__desc" style="display:block">Hasta 3 personas.</span></span></label>
+                      <label class="tsl-choice-card"><input class="tsl-check" type="radio" name="plan" value="Equipo" /><span><span class="tsl-choice-card__title">Equipo · 8 $</span><span class="tsl-choice-card__desc" style="display:block">Por persona al mes.</span></span></label>
+                      <label class="tsl-choice-card"><input class="tsl-check" type="radio" name="plan" value="Empresa" /><span><span class="tsl-choice-card__title">Empresa · 16 $</span><span class="tsl-choice-card__desc" style="display:block">SSO y auditoría.</span></span></label>
+                    </div>
+                    <label class="tsl-choice"><input type="checkbox" role="switch" class="tsl-switch" name="anual" value="si" /> Facturación anual (2 meses gratis)</label>
+                  </fieldset>
+
+                  <fieldset class="tsl-wizard__step" data-title="Revisión">
+                    <legend>Revisa y crea</legend>
+                    <dl class="tsl-summary" id="alta-resumen"></dl>
+                    <label class="tsl-choice"><input class="tsl-check" type="checkbox" name="condiciones" value="si" required /> Acepto las condiciones del servicio</label>
+                  </fieldset>
+
+                  <div class="tsl-wizard__actions">
+                    <button type="button" class="tsl-btn" data-prev>Atrás</button>
+                    <button type="button" class="tsl-btn tsl-btn--primary" data-next>Continuar</button>
+                    <button type="submit" class="tsl-btn tsl-btn--primary" data-submit>Crear espacio</button>
+                  </div>
+                </form>
+              </tsl-wizard>
+              <div class="tsl-empty" id="alta-hecho" hidden>
+                <div class="tsl-empty__icon" aria-hidden="true">✓</div>
+                <h3 class="tsl-empty__title" tabindex="-1">Tu espacio está listo</h3>
+                <p class="tsl-empty__desc" id="alta-hecho-desc"></p>
+                <div class="tsl-row" style="justify-content:center;margin-top:6px"><button type="button" class="tsl-btn tsl-btn--primary" id="alta-abrir">Abrir el espacio</button><button type="button" class="tsl-btn" id="alta-otra">Crear otro</button></div>
+              </div>
+            </div>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const wizard = document.querySelector("#alta-wizard");
+          const nombre = wizard.querySelector("#alta-nombre");
+          const slug = wizard.querySelector("#alta-slug");
+          const invitados = wizard.querySelector("#alta-invitados");
+          const hecho = document.querySelector("#alta-hecho");
+          let slugTocado = false;
+
+          // La dirección se propone a partir del nombre hasta que la persona la edita
+          const aSlug = (t) => t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 32);
+          nombre.addEventListener("input", () => { if (!slugTocado) slug.value = aSlug(nombre.value); });
+          slug.addEventListener("input", () => (slugTocado = slug.value !== ""));
+
+          // Solo se aceptan correos válidos como invitaciones
+          invitados.addEventListener("tsl-change", () => {
+            const malos = invitados.value.filter((c) => !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c));
+            malos.forEach((c) => invitados.removeTag(c, false));
+            wizard.querySelector("#alta-invitados-err").textContent = malos.length ? `«${malos[0]}» no es un correo válido.` : "";
+          });
+
+          const fila = (dt, dd) => `<dt>${dt}</dt><dd>${dd}</dd>`;
+          const texto = (t) => { const s = document.createElement("span"); s.textContent = t; return s.innerHTML; };
+          wizard.addEventListener("tsl-step", (e) => {
+            if (e.detail.title !== "Revisión") return;
+            const v = wizard.values;
+            const region = wizard.querySelector("tsl-select[name=region]");
+            const personas = invitados.value;
+            wizard.querySelector("#alta-resumen").innerHTML =
+              fila("Nombre", texto(v.nombre)) +
+              fila("Dirección", `https://${texto(v.direccion)}.tesela.app`) +
+              fila("Región", texto(region.labelOf(v.region))) +
+              fila("Invitaciones", personas.length ? `${personas.length} como ${texto(v.rol)}` : "Ninguna por ahora") +
+              fila("Plan", `${texto(v.plan)}${v.anual ? ", facturación anual" : ", facturación mensual"}`);
+          });
+
+          wizard.addEventListener("tsl-submit", (e) => {
+            wizard.hidden = true;
+            hecho.hidden = false;
+            document.querySelector("#alta-hecho-desc").textContent = `${e.detail.values.nombre} ya está en https://${e.detail.values.direccion}.tesela.app.`;
+            hecho.querySelector("h3").focus();
+          });
+          document.querySelector("#alta-abrir").addEventListener("click", () => TeselaUI.toast({ title: "Abriendo el espacio…" }));
+          document.querySelector("#alta-otra").addEventListener("click", () => {
+            wizard.querySelector("form").reset();
+            invitados.value.forEach((c) => invitados.removeTag(c, false));
+            slugTocado = false;
+            hecho.hidden = true;
+            wizard.hidden = false;
+            nombre.focus();
+          });
+        </script>
+      </section>
+
       <section class="doc" id="pattern-chat" data-group="Patrones" data-keywords="chat asistente ia conversación patrón completo prompt razonamiento fuentes citas versiones contexto streaming">
         <h2><a href="#pattern-chat">Chat con asistente</a></h2>
         <p>Toda la familia de conversación junta. <code>.tsl-chat</code> reparte el marco en cabecera (<code>__header</code>, con el medidor de contexto), la zona de mensajes y la caja de entrada (<code>__composer</code>). Las respuestas usan <code>.tsl-message--wide</code> para ocupar todo el ancho y apilan razonamiento con su traza, texto con citas, bloque de código, versiones, acciones y fuentes. Escribe algo, usa una sugerencia, detén la respuesta a medias o pulsa «Regenerar»: la respuesta es simulada, pero los estados son los reales.</p>
@@ -2410,53 +3023,6 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         </script>
       </section>
 
-      <section class="doc" id="pattern-login" data-group="Patrones" data-keywords="login signin auth formulario ejemplo">
-        <h2><a href="#pattern-login">Inicio de sesión</a></h2>
-        <p>Ejemplo de composición: card + fields + divider + botones.</p>
-        <template>
-          <form class="tsl-card" style="max-width:360px" onsubmit="return false">
-            <div class="tsl-card__header">
-              <span class="tsl-eyebrow">Acme S.A.</span>
-              <h3 class="tsl-card__title" style="margin-top:8px">Inicia sesión en tu espacio de trabajo</h3>
-            </div>
-            <div class="tsl-card__body tsl-stack">
-              <label class="tsl-field"><span class="tsl-label">Correo electrónico</span><input class="tsl-input" type="email" placeholder="tu@empresa.com" /></label>
-              <label class="tsl-field"><span class="tsl-label">Contraseña</span><input class="tsl-input" type="password" /></label>
-              <label class="tsl-choice"><input type="checkbox" class="tsl-check" /> Recuérdame</label>
-              <button type="submit" class="tsl-btn tsl-btn--primary tsl-btn--block">Iniciar sesión</button>
-              <div class="tsl-divider">o</div>
-              <button type="button" class="tsl-btn tsl-btn--block">Continuar con SSO</button>
-            </div>
-          </form>
-        </template>
-      </section>
-
-      <section class="doc" id="pattern-settings" data-group="Patrones" data-keywords="settings ajustes preferencias ejemplo">
-        <h2><a href="#pattern-settings">Panel de ajustes</a></h2>
-        <p>Tabs + lista + switches + acciones.</p>
-        <template>
-          <div class="tsl-card demo-wide">
-            <div class="tsl-card__body">
-              <tsl-tabs>
-                <div class="tsl-tabs__list">
-                  <button class="tsl-tabs__tab" data-tab="notif">Notificaciones</button>
-                  <button class="tsl-tabs__tab" data-tab="security">Seguridad</button>
-                </div>
-                <div class="tsl-tabs__panel" data-panel="notif">
-                  <ul class="tsl-list">
-                    <li><div><div class="tsl-list__title">Resumen por correo</div><div class="tsl-list__desc">Resumen semanal cada lunes</div></div><div class="tsl-list__end"><input type="checkbox" role="switch" class="tsl-switch" checked aria-label="Resumen por correo" /></div></li>
-                    <li><div><div class="tsl-list__title">Menciones</div><div class="tsl-list__desc">Cuando alguien te @menciona</div></div><div class="tsl-list__end"><input type="checkbox" role="switch" class="tsl-switch" checked aria-label="Menciones" /></div></li>
-                  </ul>
-                </div>
-                <div class="tsl-tabs__panel" data-panel="security">
-                  <div class="tsl-alert tsl-alert--warning"><div><div class="tsl-alert__title">2FA desactivada</div><div class="tsl-alert__desc">Activa la autenticación de dos factores para proteger tu cuenta.</div></div></div>
-                </div>
-              </tsl-tabs>
-            </div>
-            <div class="tsl-card__footer"><button type="button" class="tsl-btn tsl-btn--sm">Restablecer</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--primary">Guardar cambios</button></div>
-          </div>
-        </template>
-      </section>
     </main>
   </div>
 

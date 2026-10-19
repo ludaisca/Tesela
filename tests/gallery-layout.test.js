@@ -90,8 +90,8 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   let rows = await measureDemos();
   const off = rows.filter(x => Math.abs(x.left - x.right) > 40 && Math.max(x.left, x.right) > 60);
   ok(off.length <= 4, `las muestras de la documentación están centradas en su marco (${rows.length - off.length}/${rows.length}; descentradas: ${off.map(x => `${x.id} ${x.left}|${x.right}`).join(', ') || 'ninguna'})`);
-  const login = rows.find(x => x.id === 'pattern-login'), btn = rows.find(x => x.id === 'button');
-  ok(Math.abs(login.left - login.right) <= 6 && login.pad !== '' && Math.abs(btn.left - btn.right) <= 8 && btn.pad !== '', `el inicio de sesión (${login.left}|${login.right}) y los botones (${btn.left}|${btn.right}) quedan centrados`);
+  const login = rows.find(x => x.id === 'wizard'), btn = rows.find(x => x.id === 'button');
+  ok(Math.abs(login.left - login.right) <= 6 && login.pad !== '' && Math.abs(btn.left - btn.right) <= 8 && btn.pad !== '', `el asistente por pasos (${login.left}|${login.right}) y los botones (${btn.left}|${btn.right}) quedan centrados`);
   const table = rows.find(x => x.id === 'data-table');
   ok(!table.pad, 'una muestra que ya llena el marco (tabla de datos) no cambia');
   await d.setViewportSize({ width: 375, height: 800 }); await d.waitForTimeout(500);
@@ -100,7 +100,7 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   ok(uneven.length === 0, 'en móvil las muestras centradas siguen equilibradas y ninguna se sale del marco' + (uneven.length ? ` (${uneven.map(x => `${x.id} ${x.left}|${x.right}`).join(', ')})` : ''));
   await d.setViewportSize({ width: 1440, height: 900 }); await d.waitForTimeout(500);
   rows = await measureDemos();
-  ok(rows.find(x => x.id === 'pattern-login').pad !== '', 'al ensanchar de nuevo se vuelve a centrar');
+  ok(rows.find(x => x.id === 'wizard').pad !== '', 'al ensanchar de nuevo se vuelve a centrar');
   ok(derrs.length === 0, 'documentación sin errores de página' + (derrs.length ? ': ' + derrs[0] : ''));
 
   ok(errs.length === 0, 'sin errores de página' + (errs.length ? ': ' + errs[0] : ''));

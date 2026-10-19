@@ -949,6 +949,45 @@ export interface TslContextElement extends HTMLElement {
 }
 export declare const TslContext: { new (): TslContextElement; prototype: TslContextElement };
 
+export interface TslWizardEventMap {
+  /** Cambió el paso visible. */
+  "tsl-step": CustomEvent<{ index: number; count: number; title: string }>;
+  /** Cambió algún campo. */
+  "tsl-change": CustomEvent<{ values: Record<string, FormDataEntryValue | FormDataEntryValue[]> }>;
+  /** Se enviaron todos los pasos válidos. */
+  "tsl-submit": CustomEvent<{ values: Record<string, FormDataEntryValue | FormDataEntryValue[]> }>;
+}
+/** Formulario en varios pasos (`.tsl-wizard__step`): valida cada paso con la validación nativa antes de avanzar, dibuja el indicador `.tsl-steps` con los pasos visitados pulsables y, al enviar, revisa todos y emite `tsl-submit`. Botones `[data-prev]`, `[data-next]` y `[data-submit]`. */
+export interface TslWizardElement extends HTMLElement {
+  /** Paso visible, desde 0. */
+  readonly index: number;
+  /** Número de pasos. */
+  readonly count: number;
+  /** El paso visible es el último. */
+  readonly isLast: boolean;
+  /** Valores actuales del formulario. */
+  readonly values: Record<string, FormDataEntryValue | FormDataEntryValue[]>;
+  /** Avanza si el paso actual es válido. */
+  next(): boolean;
+  /** Retrocede un paso. */
+  prev(): boolean;
+  /** Va a un paso; hacia delante solo si los anteriores son válidos. */
+  goTo(index: number, focus?: boolean): boolean;
+  /** Comprueba un paso y, con `report`, señala el primer campo inválido. */
+  validate(index: number, report?: boolean): boolean;
+  /** Valida todos los pasos (lleva al primero con errores) y emite `tsl-submit`. */
+  submit(): boolean;
+  /** Vuelve al primer paso sin borrar los campos (`form.reset()` también lo hace). */
+  restart(): void;
+  addEventListener<K extends keyof TslWizardEventMap>(type: K, listener: (this: TslWizardElement, ev: TslWizardEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslWizardElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+  removeEventListener<K extends keyof TslWizardEventMap>(type: K, listener: (this: TslWizardElement, ev: TslWizardEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslWizardElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+}
+export declare const TslWizard: { new (): TslWizardElement; prototype: TslWizardElement };
+
 /** Zona desplazable con degradado en los bordes que aún tienen contenido (`data-top|bottom|left|right`). `scrollTo()` se aplica al área desplazable. */
 export interface TslScrollAreaElement extends HTMLElement {
 
@@ -1143,6 +1182,7 @@ declare global {
     "tsl-reasoning": TslReasoningElement;
     "tsl-branch": TslBranchElement;
     "tsl-context": TslContextElement;
+    "tsl-wizard": TslWizardElement;
     "tsl-scroll-area": TslScrollAreaElement;
     "tsl-resizable": TslResizableElement;
     "tsl-tree": TslTreeElement;
