@@ -81,6 +81,19 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   ok(!(await menu.isVisible()), 'cierra tras elegir');
   await zone.focus(); await p.keyboard.press('Shift+F10');
   ok(await menu.isVisible(), 'Shift+F10 abre el menú');
+  // El scroll de otro elemento (p. ej. un carrusel que avanza solo) no lo cierra; el de la página sí
+  await p.evaluate(() => {
+    const box = Object.assign(document.createElement('div'), { id: 'scroll-ajeno' });
+    box.style.cssText = 'position:fixed;top:0;left:0;width:40px;height:40px;overflow:auto';
+    box.innerHTML = '<div style="height:400px"></div>';
+    document.body.append(box);
+    box.scrollTop = 120;
+  });
+  await p.waitForTimeout(100);
+  ok(await menu.isVisible(), 'el scroll de un elemento ajeno no cierra el menú contextual');
+  await p.evaluate(() => { document.getElementById('scroll-ajeno').remove(); window.scrollBy(0, 40); });
+  await p.waitForTimeout(100);
+  ok(!(await menu.isVisible()), 'el scroll de la página sí lo cierra');
   await p.keyboard.press('Escape');
 
   // Confirmación

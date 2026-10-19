@@ -18,7 +18,7 @@
           <aside class="xp-pane tsl-stack" style="--gap:10px">
             <tsl-menu id="org-menu">
               <button type="button" class="tsl-btn tsl-btn--block" style="justify-content:space-between" data-tsl-trigger>
-                <span class="tsl-row" style="--gap:8px"><span class="tsl-avatar tsl-avatar--sm tsl-avatar--square" data-org-avatar>A</span><span data-org-name>Acme inc.</span></span><span>▾</span>
+                <span class="tsl-row" style="--gap:8px"><span class="tsl-avatar tsl-avatar--sm tsl-avatar--square" data-org-avatar>A</span><span data-org-name>Acme inc.</span></span><tsl-icon name=chevron-down></tsl-icon>
               </button>
               <div class="tsl-menu__list">
                 <div class="tsl-menu__label">Organizaciones</div>
@@ -28,9 +28,9 @@
               </div>
             </tsl-menu>
             <nav class="tsl-nav" data-nav>
-              <button type="button" class="tsl-nav__item" data-view="Inicio" aria-current="page">⌂ Inicio</button>
-              <button type="button" class="tsl-nav__item" data-view="Bandeja">✉ Bandeja <span class="tsl-badge tsl-badge--accent">4</span></button>
-              <button type="button" class="tsl-nav__item" data-view="Actividad">⚡ Actividad</button>
+              <button type="button" class="tsl-nav__item" data-view="Inicio" aria-current="page"><tsl-icon name=house></tsl-icon> Inicio</button>
+              <button type="button" class="tsl-nav__item" data-view="Bandeja"><tsl-icon name=inbox></tsl-icon> Bandeja <span class="tsl-badge tsl-badge--accent">4</span></button>
+              <button type="button" class="tsl-nav__item" data-view="Actividad"><tsl-icon name=zap></tsl-icon> Actividad</button>
               <div class="tsl-nav__label">Proyectos</div>
               <div class="tsl-nav" data-projects>
                 <button type="button" class="tsl-nav__item" data-view="Rediseño del onboarding"><span class="tsl-dot tsl-dot--accent"></span> Rediseño del onboarding</button>
@@ -98,10 +98,10 @@
         ${head("Diseños · mini-rail.tsx", "Mini riel de íconos", "Riel compacto con tooltips. Expándelo para ver las etiquetas; la selección controla el contenido.")}
         <div class="xp-split" data-shell style="--cols:64px minmax(0,1fr)">
           <aside class="xp-pane tsl-stack" style="--gap:6px;align-items:stretch;padding:10px">
-            <button type="button" class="tsl-btn tsl-btn--subtle" data-expand aria-expanded="false" data-tsl-tooltip="Expandir" data-tsl-placement="bottom">☰</button>
+            <button type="button" class="tsl-btn tsl-btn--subtle" data-expand aria-expanded="false" data-tsl-tooltip="Expandir" data-tsl-placement="bottom"><tsl-icon name=panel-left></tsl-icon></button>
             <div class="tsl-divider"></div>
-            ${[["◎", "Descubrir"], ["✉", "Mensajes"], ["▦", "Proyectos"], ["☺", "Personas"], ["⚙", "Ajustes"]]
-              .map(([i, l], n) => `<button type="button" class="tsl-nav__item" data-item="${l}"${n === 0 ? ' aria-current="page"' : ""} data-tsl-tooltip="${l}" data-tsl-placement="bottom" style="justify-content:flex-start"><span style="width:20px;text-align:center">${i}</span><span data-label hidden>${l}</span></button>`)
+            ${[["globe", "Descubrir"], ["inbox", "Mensajes"], ["folder", "Proyectos"], ["users", "Personas"], ["settings", "Ajustes"]]
+              .map(([i, l], n) => `<button type="button" class="tsl-nav__item" data-item="${l}"${n === 0 ? ' aria-current="page"' : ""} data-tsl-tooltip="${l}" data-tsl-placement="bottom" style="justify-content:flex-start"><tsl-icon name="${i}" style="width:20px"></tsl-icon><span data-label hidden>${l}</span></button>`)
               .join("")}
           </aside>
           <main class="xp-pane tsl-stack">
@@ -171,9 +171,9 @@
             <h3 class="xp-title" style="margin:0" data-title></h3>
             <p class="tsl-muted" data-body style="max-width:560px;line-height:1.7"></p>
             <div class="tsl-row" style="margin-top:auto">
-              <button type="button" class="tsl-btn" data-step="-1">← Anterior</button>
+              <button type="button" class="tsl-btn" data-step="-1"><tsl-icon name=arrow-left flip-rtl></tsl-icon> Anterior</button>
               <span class="tsl-spacer"></span>
-              <button type="button" class="tsl-btn" data-step="1">Siguiente →</button>
+              <button type="button" class="tsl-btn" data-step="1">Siguiente<tsl-icon name=arrow-right flip-rtl></tsl-icon></button>
             </div>
           </article>
         </div>`,
@@ -300,7 +300,7 @@
         ${head("Diseños · app-shell.tsx", "Estructura de aplicación", "Encabezado con ruta de navegación, barra lateral plegable, búsqueda y menú de cuenta.")}
         <div class="xp-panel" style="padding:0;overflow:hidden">
           <header class="tsl-row" style="padding:10px 14px;border-bottom:1px solid var(--tsl-border)">
-            <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--subtle" data-collapse aria-label="Alternar barra lateral" aria-expanded="true">☰</button>
+            <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--subtle" data-collapse aria-label="Alternar barra lateral" aria-expanded="true"><tsl-icon name=panel-left></tsl-icon></button>
             <ol class="tsl-breadcrumb"><li>Acme</li><li><span aria-current="page" data-crumb>Panel</span></li></ol>
             <span class="tsl-spacer"></span>
             <input class="tsl-input" style="max-width:200px" placeholder="Buscar páginas…" data-search aria-label="Buscar páginas" />
@@ -447,7 +447,7 @@
               });
               list.appendChild(li);
             });
-          if (!list.children.length) list.innerHTML = '<li class="tsl-muted">Nada por aquí 🎉</li>';
+          if (!list.children.length) list.innerHTML = '<li class="tsl-muted">Nada por aquí</li>';
           counts();
         };
         const renderDetail = () => {
@@ -563,7 +563,7 @@
           bar.value = Math.min(goal, words);
           if (words >= goal && !editor.dataset.done) {
             editor.dataset.done = "1";
-            ctx.toast({ title: "Meta alcanzada 🎉", description: `${goal} palabras` });
+            ctx.toast({ title: "Meta alcanzada", description: `${goal} palabras` });
           }
         };
         const setFocus = (on) => {
@@ -651,9 +651,9 @@
         </div>
         <div class="xp-board" data-board tabindex="0" aria-label="Lienzo">
           <div data-layer style="position:absolute;inset:0;transform-origin:0 0">
-            <div class="xp-node" style="left:60px;top:60px">💡 Idea</div>
-            <div class="xp-node" style="left:260px;top:140px">🧪 Prototipo</div>
-            <div class="xp-node" style="left:480px;top:70px">🚀 Lanzamiento</div>
+            <div class="xp-node" style="left:60px;top:60px"><tsl-icon name="lightbulb"></tsl-icon> Idea</div>
+            <div class="xp-node" style="left:260px;top:140px"><tsl-icon name="flask-conical"></tsl-icon> Prototipo</div>
+            <div class="xp-node" style="left:480px;top:70px"><tsl-icon name="rocket"></tsl-icon> Lanzamiento</div>
           </div>
         </div>`,
       setup(root, ctx) {
@@ -700,7 +700,7 @@
         ctx.on(ctx.$("[data-add]"), "click", () => {
           const node = document.createElement("div");
           node.className = "xp-node";
-          node.textContent = `📝 Nota ${++n}`;
+          node.innerHTML = `<tsl-icon name="sticky-note"></tsl-icon> Nota ${++n}`;
           node.style.left = `${120 + ((n * 37) % 300)}px`;
           node.style.top = `${200 + ((n * 23) % 120)}px`;
           layer.appendChild(node);
@@ -725,8 +725,8 @@
           <div class="xp-phone">
             <div style="flex:1;overflow:auto;padding:22px 18px" data-screen></div>
             <nav class="tsl-row" style="--gap:0;border-top:1px solid var(--tsl-border);flex-wrap:nowrap" data-tabs>
-              ${[["home", "⌂", "Inicio"], ["search", "⌕", "Buscar"], ["inbox", "✉", "Bandeja"], ["me", "☺", "Perfil"]]
-                .map(([k, i, l], n) => `<button type="button" class="tsl-btn tsl-btn--subtle" data-tab="${k}" style="flex:1;flex-direction:column;height:62px;border-radius:0;gap:2px"${n ? "" : ' aria-current="page"'}><span style="font-size:17px">${i}</span><span style="font-size:10px">${l}</span>${k === "inbox" ? '<span class="tsl-badge tsl-badge--danger" data-badge style="position:absolute;top:6px;right:20px;padding:0 5px">3</span>' : ""}</button>`)
+              ${[["home", "house", "Inicio"], ["search", "search", "Buscar"], ["inbox", "inbox", "Bandeja"], ["me", "user", "Perfil"]]
+                .map(([k, i, l], n) => `<button type="button" class="tsl-btn tsl-btn--subtle" data-tab="${k}" style="flex:1;flex-direction:column;height:62px;border-radius:0;gap:2px"${n ? "" : ' aria-current="page"'}><tsl-icon name="${i}" style="font-size:17px"></tsl-icon><span style="font-size:10px">${l}</span>${k === "inbox" ? '<span class="tsl-badge tsl-badge--danger" data-badge style="position:absolute;top:6px;right:20px;padding:0 5px">3</span>' : ""}</button>`)
                 .join("")}
             </nav>
           </div>
@@ -831,7 +831,7 @@
           const row = document.createElement("div");
           row.className = "tsl-row";
           row.style.flexWrap = "nowrap";
-          row.innerHTML = `<input class="tsl-input" type="email" placeholder="nombre@empresa.com" aria-label="Correo electrónico" style="flex:1" /><select class="tsl-select" style="width:130px" aria-label="Rol"><option>Miembro</option><option>Admin</option><option>Lector</option></select><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--subtle" aria-label="Quitar fila">✕</button>`;
+          row.innerHTML = `<input class="tsl-input" type="email" placeholder="nombre@empresa.com" aria-label="Correo electrónico" style="flex:1" /><select class="tsl-select" style="width:130px" aria-label="Rol"><option>Miembro</option><option>Admin</option><option>Lector</option></select><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--subtle" aria-label="Quitar fila"><tsl-icon name=x></tsl-icon></button>`;
           row.querySelector("input").value = email;
           row.querySelector("button").addEventListener("click", () => {
             if (rows.children.length > 1) row.remove();
@@ -1026,7 +1026,7 @@
 
   const emailF = { name: "email", label: "Correo electrónico", type: "email", placeholder: "tu@empresa.com", autocomplete: "email" };
   const pwF = { name: "password", label: "Contraseña", type: "password", minlength: 8, autocomplete: "current-password" };
-  const art = (quote) => `<div class="xp-auth-art"><span class="tsl-eyebrow" style="color:var(--tsl-fg)">✦ Acme</span><blockquote>“${quote}”<br /><span class="tsl-muted">— Ana López, líder de diseño</span></blockquote></div>`;
+  const art = (quote) => `<div class="xp-auth-art"><span class="tsl-eyebrow" style="color:var(--tsl-fg)"><tsl-icon name=sparkles></tsl-icon> Acme</span><blockquote>“${quote}”<br /><span class="tsl-muted">— Ana López, líder de diseño</span></blockquote></div>`;
   const remember = `<label class="tsl-choice"><input type="checkbox" class="tsl-check" name="remember" /> Recuérdame durante 30 días</label>`;
 
   X.addMany("auth", {
@@ -1050,7 +1050,7 @@
             <p class="tsl-hint" style="text-align:center">Consejo: usa una dirección @acme.dev para ver SSO.</p>
           </form>
           <form class="tsl-stack" data-xp-form data-success="Sesión iniciada" data-step-pw hidden style="width:100%;max-width:340px" novalidate>
-            <button type="button" class="tsl-btn tsl-btn--subtle tsl-btn--sm" data-change style="align-self:flex-start">← <span data-email-echo></span></button>
+            <button type="button" class="tsl-btn tsl-btn--subtle tsl-btn--sm" data-change style="align-self:flex-start"><tsl-icon name=arrow-left flip-rtl></tsl-icon><span data-email-echo></span></button>
             <div data-sso hidden class="tsl-alert tsl-alert--info"><div><div class="tsl-alert__title">SSO disponible</div><div class="tsl-alert__desc">acme.dev usa Okta.</div><button type="button" class="tsl-btn tsl-btn--sm" style="margin-top:8px" data-social="Okta SSO">Continuar con SSO</button></div></div>
             ${field({ ...pwF, aside: forgot })}
             <button type="submit" class="tsl-btn tsl-btn--primary tsl-btn--block">Iniciar sesión</button>
@@ -1115,7 +1115,7 @@
           <section data-step="0" class="tsl-stack"><label class="tsl-field"><span class="tsl-label">Tu nombre</span><input class="tsl-input" data-req name="name" placeholder="Ana López" /></label><label class="tsl-field"><span class="tsl-label">Rol</span><select class="tsl-select" name="role"><option>Diseño</option><option>Ingeniería</option><option>Fundación</option></select></label></section>
           <section data-step="1" class="tsl-stack" hidden><label class="tsl-field"><span class="tsl-label">Nombre del espacio de trabajo</span><input class="tsl-input" data-req name="ws" placeholder="Acme" /></label><span class="tsl-label">Tamaño del equipo</span><tsl-segmented value="2-10" data-size><button class="tsl-segmented__item" value="1">Solo yo</button><button class="tsl-segmented__item" value="2-10">2–10</button><button class="tsl-segmented__item" value="11+">11+</button></tsl-segmented></section>
           <section data-step="2" class="tsl-stack" hidden><span class="tsl-label">Invita a tu equipo (opcional)</span><tsl-tags name="invites" placeholder="correo + Enter"></tsl-tags></section>
-          <section data-step="3" class="tsl-stack" hidden><div class="tsl-empty"><div class="tsl-empty__title">Todo listo 🎉</div><p class="tsl-empty__desc" data-summary></p></div></section>
+          <section data-step="3" class="tsl-stack" hidden><div class="tsl-empty"><div class="tsl-empty__title">Todo listo</div><p class="tsl-empty__desc" data-summary></p></div></section>
           <div class="tsl-row"><button type="button" class="tsl-btn" data-back disabled>Atrás</button><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--primary" data-next>Continuar</button></div>
         </div>`,
       setup(root, ctx) {
@@ -1200,7 +1200,7 @@
     "check-email": {
       html: `${head("Autenticación · check-email.tsx", "Revisa tu correo", "Reenvía con un temporizador de espera o corrige un error de escritura en la dirección.")}
         <div class="xp-center"><div class="tsl-card xp-auth-card" style="text-align:center"><div class="tsl-card__body tsl-stack" style="align-items:center">
-          <div class="tsl-empty__icon">✉</div><h3 class="xp-title">Revisa tu bandeja de entrada</h3>
+          <div class="tsl-empty__icon"><tsl-icon name="mail"></tsl-icon></div><h3 class="xp-title">Revisa tu bandeja de entrada</h3>
           <p class="tsl-muted">Enviamos un enlace de verificación a <strong data-email>ana@acme.dev</strong>.</p>
           <button type="button" class="tsl-btn tsl-btn--primary tsl-btn--block" data-resend>Reenviar correo</button>
           <button type="button" class="tsl-btn tsl-btn--subtle tsl-btn--sm" data-edit>¿Dirección incorrecta?</button>
@@ -1254,7 +1254,7 @@
           if (e.detail.value === "424242") {
             ctx.$("[data-err]").textContent = "";
             otp.querySelectorAll("input").forEach((i) => (i.style.borderColor = "var(--tsl-success)"));
-            ctx.toast({ title: "Verificado ✓" });
+            ctx.toast({ title: "Verificado", variant: "success" });
           } else {
             ctx.$("[data-err]").textContent = "Ese código es incorrecto. Inténtalo de nuevo.";
             otp.animate([{ transform: "translateX(0)" }, { transform: "translateX(-8px)" }, { transform: "translateX(8px)" }, { transform: "translateX(0)" }], { duration: 300 });
@@ -1286,7 +1286,7 @@
             const ok = rules[li.dataset.rule](pw.value);
             if (!ok) all = false;
             li.style.color = ok ? "var(--tsl-success)" : "var(--tsl-fg-muted)";
-            li.textContent = `${ok ? "✓" : "○"} ${li.textContent.replace(/^[✓○] /, "")}`;
+            li.innerHTML = `<tsl-icon name="${ok ? "circle-check" : "circle"}"></tsl-icon> ${li.textContent.trim()}`;
           });
           const match = pw.value && pw.value === pw2.value;
           pw2.setAttribute("aria-invalid", String(Boolean(pw2.value) && !match));
@@ -1360,7 +1360,7 @@
     "magic-link-sent": {
       html: `${head("Autenticación · magic-link-sent.tsx", "Enlace mágico enviado", "Cuenta regresiva de vencimiento, reenvío que reinicia el temporizador y alternativa con contraseña.")}
         <div class="xp-center"><div class="tsl-card xp-auth-card" style="text-align:center"><div class="tsl-card__body tsl-stack" style="align-items:center">
-          <div class="tsl-empty__icon">✦</div><h3 class="xp-title">Enlace mágico enviado</h3>
+          <div class="tsl-empty__icon"><tsl-icon name="link"></tsl-icon></div><h3 class="xp-title">Enlace mágico enviado</h3>
           <p class="tsl-muted">Haz clic en el enlace que te enviamos por correo para iniciar sesión. Vence en</p>
           <div class="xp-num xp-mono" data-timer>10:00</div>
           <progress class="tsl-progress" max="600" value="600" data-bar></progress>

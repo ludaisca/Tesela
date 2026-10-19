@@ -2,6 +2,83 @@
   "version": 1.1,
   "tags": [
     {
+      "name": "tsl-icon",
+      "description": {
+        "kind": "markdown",
+        "value": "Icono SVG en línea que hereda el color y mide 1em. Set base incluido (183 iconos de Lucide) y bibliotecas externas registrables: Lucide completo, Tabler, Phosphor, Heroicons, Material Symbols, Simple Icons o tus SVG."
+      },
+      "attributes": [
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre del icono en su biblioteca."
+          }
+        },
+        {
+          "name": "library",
+          "description": {
+            "kind": "markdown",
+            "value": "Biblioteca registrada de la que sale el icono. Por defecto: `tesela`."
+          }
+        },
+        {
+          "name": "src",
+          "description": {
+            "kind": "markdown",
+            "value": "URL de un SVG suelto (se limpia antes de insertarse)."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible; sin él, el icono es decorativo (`aria-hidden`)."
+          }
+        },
+        {
+          "name": "size",
+          "description": {
+            "kind": "markdown",
+            "value": "Tamaño con nombre (12, 14, 16, 20 o 24 px); por defecto 1em."
+          },
+          "values": [
+            {
+              "name": "xs"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "xl"
+            }
+          ]
+        },
+        {
+          "name": "spin",
+          "description": {
+            "kind": "markdown",
+            "value": "Gira sin parar (indicadores de carga)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "flip-rtl",
+          "description": {
+            "kind": "markdown",
+            "value": "Se espeja en RTL (flechas de dirección)."
+          },
+          "valueSet": "v"
+        }
+      ]
+    },
+    {
       "name": "tsl-tabs",
       "description": {
         "kind": "markdown",
@@ -1538,7 +1615,7 @@
           "name": "end-label",
           "description": {
             "kind": "markdown",
-            "value": "Texto del botón para volver al final. Por defecto: `↓ Ir al final`."
+            "value": "Texto del botón para volver al final. Por defecto: `Ir al final`."
           }
         },
         {
@@ -1803,7 +1880,7 @@
       "name": "tsl-branch",
       "description": {
         "kind": "markdown",
-        "value": "Versiones alternativas de un mensaje (`.tsl-branch__item`): muestra una con el selector «‹ 2 de 3 ›», empieza en la última y salta a cada versión nueva que llegue."
+        "value": "Versiones alternativas de un mensaje (`.tsl-branch__item`): muestra una con el selector «2 de 3» entre flechas, empieza en la última y salta a cada versión nueva que llegue."
       },
       "attributes": [
         {

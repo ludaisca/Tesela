@@ -1,4 +1,5 @@
 import { TslElement, announce, define, emit } from "../core/base.js";
+import { icon } from "../core/icons.js";
 
 /**
  * <tsl-branch>
@@ -6,7 +7,7 @@ import { TslElement, announce, define, emit } from "../core/base.js";
  *   <div class="tsl-branch__item">Respuesta regenerada</div>
  * </tsl-branch>
  * Versiones alternativas de un mensaje (respuestas regeneradas o preguntas editadas): muestra una y
- * añade el selector «‹ 2 de 3 ›». Empieza en la última y, si llega otra versión, salta a ella.
+ * añade el selector de versiones («2 de 3» con flechas). Empieza en la última y, si llega otra versión, salta a ella.
  */
 export class TslBranch extends TslElement {
   setup() {
@@ -23,12 +24,12 @@ export class TslBranch extends TslElement {
       b.type = "button";
       b.className = `tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle ${cls}`;
       b.setAttribute("aria-label", label);
-      b.textContent = text;
+      b.append(text);
       b.addEventListener("click", fn);
       return b;
     };
-    this.prevBtn = button("tsl-branch__prev", this.getAttribute("prev-label") || "Versión anterior", "‹", () => this.prev());
-    this.nextBtn = button("tsl-branch__next", this.getAttribute("next-label") || "Versión siguiente", "›", () => this.next());
+    this.prevBtn = button("tsl-branch__prev", this.getAttribute("prev-label") || "Versión anterior", icon("chevron-left", "tsl-icon--flip-rtl"), () => this.prev());
+    this.nextBtn = button("tsl-branch__next", this.getAttribute("next-label") || "Versión siguiente", icon("chevron-right", "tsl-icon--flip-rtl"), () => this.next());
     this.counter = document.createElement("span");
     this.counter.className = "tsl-branch__count";
     this.selector.replaceChildren(this.prevBtn, this.counter, this.nextBtn);

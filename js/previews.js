@@ -385,7 +385,7 @@
         <circle cx="40" cy="46" r="5" fill="${acc}"/>
         <rect x="52" y="43" width="96" height="5" rx="1.8" fill="currentColor" class="op-85"/>
         <rect x="38" y="60" width="244" height="28" rx="4" fill="currentColor" class="op-06" stroke="${acc}" stroke-opacity="0.4"/>
-        <text x="48" y="77" font-size="7" fill="${acc}">⚡ tool_call: execute({ query: "ast_nodes" }) · 42ms</text>
+        <text x="48" y="77" font-size="7" fill="${acc}">tool_call: execute({ query: "ast_nodes" }) · 42ms</text>
         <rect x="38" y="98" width="188" height="4" rx="1.5" fill="currentColor" class="op-65"/>
         <rect x="24" y="136" width="272" height="48" rx="7" fill="var(--bg)" stroke="currentColor" class="op-40 anim-float"/>
         <rect x="36" y="148" width="144" height="4.5" rx="1.5" fill="currentColor" class="op-55"/>
@@ -451,7 +451,7 @@
       }
       return windowChrome(`
         <rect x="14" y="28" width="292" height="158" rx="5" fill="currentColor" class="op-04" stroke="currentColor" stroke-opacity="0.24"/>
-        <text x="26" y="48" font-size="7.5" fill="${acc}">▼ { "workspace": "biblioteca", "nodes": 212,</text>
+        <text x="26" y="48" font-size="7.5" fill="${acc}">{ "workspace": "biblioteca", "nodes": 212,</text>
         <text x="38" y="66" font-size="7.5" fill="currentColor" class="op-80">  "shaderEngine": "webgl-fragment-fp16",</text>
         <text x="38" y="84" font-size="7.5" fill="var(--accent-emerald)">  "externalDependencies": 0,</text>
         <text x="38" y="102" font-size="7.5" fill="var(--accent-amber)">  "latencyMs": [1.2, 0.8, 1.4, 0.9],</text>

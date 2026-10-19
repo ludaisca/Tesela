@@ -198,7 +198,7 @@
         ${head("DevTools · sql-query-workbench.tsx", "Banco de consultas SQL", "Un pequeño motor SQL real sobre una tabla de usuarios en memoria: SELECT · WHERE (=, !=, >, <, LIKE, AND) · ORDER BY · LIMIT.")}
         <div class="tsl-row" data-examples></div>
         <textarea class="tsl-textarea xp-mono" data-sql spellcheck="false" style="min-height:90px;font-size:12.5px" aria-label="Consulta SQL">SELECT name, plan, mrr FROM users WHERE plan = 'pro' ORDER BY mrr DESC LIMIT 5</textarea>
-        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-run>Ejecutar ⌘↵</button><span class="tsl-muted xp-mono" data-meta></span></div>
+        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-run>Ejecutar <kbd class="tsl-kbd">⌘↵</kbd></button><span class="tsl-muted xp-mono" data-meta></span></div>
         <div class="tsl-alert tsl-alert--danger" data-err hidden><div><div class="tsl-alert__title">Error en la consulta</div><div class="tsl-alert__desc xp-mono" data-err-msg></div></div></div>
         <div class="tsl-table-wrap"><table class="tsl-table tsl-table--compact" data-out></table></div>`,
       setup(root, ctx) {
@@ -282,7 +282,7 @@
           list.innerHTML = "";
           Object.entries(vault[env]).forEach(([k, v]) => {
             const li = document.createElement("li");
-            li.innerHTML = `<strong class="xp-mono" style="min-width:160px"></strong><code class="xp-mono tsl-muted" style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></code><div class="tsl-list__end"><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-act="reveal"></button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-act="copy">Copiar</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-act="del" aria-label="Eliminar ${k}">✕</button></div>`;
+            li.innerHTML = `<strong class="xp-mono" style="min-width:160px"></strong><code class="xp-mono tsl-muted" style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></code><div class="tsl-list__end"><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-act="reveal"></button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-act="copy">Copiar</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-act="del" aria-label="Eliminar ${k}"><tsl-icon name=x></tsl-icon></button></div>`;
             li.dataset.k = k;
             li.querySelector("strong").textContent = k;
             li.querySelector("code").textContent = revealed.has(k) ? v : "•".repeat(Math.min(24, v.length));
@@ -638,7 +638,7 @@
           </div>
           <div class="tsl-row" data-files></div>
           <div class="tsl-row">
-            <label class="tsl-btn tsl-btn--sm" style="cursor:pointer">📎 Adjuntar<input type="file" multiple hidden data-file /></label>
+            <label class="tsl-btn tsl-btn--sm" style="cursor:pointer"><tsl-icon name=paperclip></tsl-icon> Adjuntar<input type="file" multiple hidden data-file /></label>
             <select class="tsl-select" style="width:auto;height:28px" data-model aria-label="Modelo"><option>tesela-large</option><option>tesela-fast</option><option>tesela-reasoner</option></select>
             <label class="tsl-choice" style="font-size:11px">temp. <input type="range" class="tsl-range" min="0" max="10" value="7" style="width:90px" data-temp data-tsl-output="#pc-temp" aria-label="Temperatura" /><span class="xp-mono" id="pc-temp">7</span></label>
             <span class="tsl-spacer"></span>
@@ -671,7 +671,7 @@
         });
         ctx.on(ctx.$("[data-file]"), "change", (e) => {
           Array.from(e.target.files).forEach((f) => files.push(f));
-          ctx.$("[data-files]").innerHTML = files.map((f, i) => `<span class="tsl-chip" style="color:var(--tsl-fg)">📄 ${esc(f.name)} <button type="button" class="tsl-chip__remove" data-rm="${i}" aria-label="Quitar">✕</button></span>`).join("");
+          ctx.$("[data-files]").innerHTML = files.map((f, i) => `<span class="tsl-chip" style="color:var(--tsl-fg)"><tsl-icon name=file-text></tsl-icon> ${esc(f.name)} <button type="button" class="tsl-chip__remove" data-rm="${i}" aria-label="Quitar"><tsl-icon name=x></tsl-icon></button></span>`).join("");
           tokens();
         });
         ctx.on(ctx.$("[data-files]"), "click", (e) => {
@@ -698,7 +698,7 @@
           const temp = Number(ctx.$("[data-temp]").value) / 10;
           ctx.$("[data-who]").textContent = `${model} · temp. ${temp}`;
           const reply = `Esta es una propuesta ${temp > 0.6 ? "creativa" : "precisa"} sobre «${q.slice(0, 60)}${q.length > 60 ? "…" : ""}».\n\n• Parte de la intención del usuario, no del componente.\n• Mantén tokens y espaciado consistentes: tesela-ui lo hace por ti.\n• Lanza en pequeño, mide y luego itera.${files.length ? `\n\nTambién leí ${files.length} archivo${files.length > 1 ? "s" : ""} adjunto${files.length > 1 ? "s" : ""}.` : ""}`;
-          btn.textContent = "■ Detener";
+          btn.innerHTML = "<tsl-icon name=square></tsl-icon> Detener";
           stop = TESELA_XP.stream(ctx, out, reply, { wps: model === "tesela-fast" ? 45 : 22, onDone: () => ((stop = null), (btn.textContent = "Enviar ↵")) });
         };
         ctx.on(ctx.$("[data-send]"), "click", send);
@@ -714,7 +714,7 @@
     "streaming-trace": {
       html: `
         ${head("IA y agentes · streaming-trace.tsx", "Traza de streaming", "Ejecuta un agente: el razonamiento llega en streaming a un bloque plegable, se ejecutan las herramientas y luego la respuesta, con tokens/s en vivo.")}
-        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-run>▶ Ejecutar agente</button><span class="tsl-badge tsl-badge--outline xp-mono" data-tps>0 tok/s</span><span class="tsl-badge tsl-badge--outline xp-mono" data-time>0.0s</span></div>
+        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-run><tsl-icon name=play></tsl-icon> Ejecutar agente</button><span class="tsl-badge tsl-badge--outline xp-mono" data-tps>0 tok/s</span><span class="tsl-badge tsl-badge--outline xp-mono" data-time>0.0s</span></div>
         <div class="tsl-stack" data-trace></div>`,
       setup(root, ctx) {
         let running = false;
@@ -737,7 +737,7 @@
         };
         const done = (d, label) => {
           const sp = d.querySelector(".tsl-spinner");
-          if (sp) sp.outerHTML = '<span style="color:var(--tsl-success);margin-right:8px">✓</span>';
+          if (sp) sp.outerHTML = '<tsl-icon name="check" style="color:var(--tsl-success);margin-inline-end:8px"></tsl-icon>';
           if (label) d.querySelector("summary").lastChild.textContent = label;
         };
         const streamInto = (el, text, wps) => new Promise((res) => TESELA_XP.stream(ctx, el, text, { wps, onWord: () => tokens++, onDone: res }));
@@ -819,7 +819,7 @@
         ${head("IA y agentes · model-arena-selector.tsx", "Arena de modelos", "Ejecuta dos modelos lado a lado con el mismo prompt, compara latencia y costo, y luego vota: el Elo se actualiza en vivo.")}
         <div class="tsl-row"><input class="tsl-input" style="flex:1" data-prompt value="Explica las container queries de CSS en un párrafo." aria-label="Prompt" /><button type="button" class="tsl-btn tsl-btn--primary" data-run>Ejecutar ambos</button></div>
         <div class="tsl-grid" style="--min:300px" data-cols></div>
-        <div class="tsl-row" data-vote hidden><span class="tsl-muted">¿Cuál fue mejor?</span><button type="button" class="tsl-btn" data-v="0">← A</button><button type="button" class="tsl-btn" data-v="0.5">Empate</button><button type="button" class="tsl-btn" data-v="1">B →</button></div>
+        <div class="tsl-row" data-vote hidden><span class="tsl-muted">¿Cuál fue mejor?</span><button type="button" class="tsl-btn" data-v="0"><tsl-icon name=arrow-left flip-rtl></tsl-icon> A</button><button type="button" class="tsl-btn" data-v="0.5">Empate</button><button type="button" class="tsl-btn" data-v="1">B<tsl-icon name=arrow-right flip-rtl></tsl-icon></button></div>
         <div class="tsl-table-wrap"><table class="tsl-table tsl-table--compact"><thead><tr><th>Modelo</th><th class="is-num">Elo</th><th class="is-num">Combates</th></tr></thead><tbody data-board></tbody></table></div>`,
       setup(root, ctx) {
         const models = { "tesela-large": { elo: 1240, n: 0, wps: 24, cost: 15 }, "tesela-fast": { elo: 1180, n: 0, wps: 60, cost: 2 }, "tesela-reasoner": { elo: 1265, n: 0, wps: 14, cost: 30 } };
@@ -925,7 +925,7 @@
           const bar = ctx.$("[data-bar]");
           bar.style.setProperty("--w", `${Math.min(100, (total / LIMIT) * 100)}%`);
           bar.style.setProperty("--c", total > LIMIT ? "var(--tsl-danger)" : "var(--xp-accent)");
-          ctx.$("[data-items]").innerHTML = items.map((it, i) => `<li><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm ${it.pin ? "tsl-btn--accent" : "tsl-btn--subtle"}" data-pin="${i}" aria-pressed="${it.pin}" aria-label="Fijar ${esc(it.name)}">📌</button><div style="flex:1;min-width:0"><div class="tsl-list__title xp-mono">${esc(it.name)}</div><div class="tsl-meter" style="height:4px;margin-top:4px;max-width:200px"><span style="--w:${it.rel * 100}%;--c:var(--tsl-success)"></span></div></div><span class="xp-mono tsl-muted">${(it.tokens / 1000).toFixed(1)}k</span><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" data-rm="${i}" aria-label="Quitar">✕</button></li>`).join("");
+          ctx.$("[data-items]").innerHTML = items.map((it, i) => `<li><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm ${it.pin ? "tsl-btn--accent" : "tsl-btn--subtle"}" data-pin="${i}" aria-pressed="${it.pin}" aria-label="Fijar ${esc(it.name)}"><tsl-icon name="pin"></tsl-icon></button><div style="flex:1;min-width:0"><div class="tsl-list__title xp-mono">${esc(it.name)}</div><div class="tsl-meter" style="height:4px;margin-top:4px;max-width:200px"><span style="--w:${it.rel * 100}%;--c:var(--tsl-success)"></span></div></div><span class="xp-mono tsl-muted">${(it.tokens / 1000).toFixed(1)}k</span><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" data-rm="${i}" aria-label="Quitar"><tsl-icon name=x></tsl-icon></button></li>`).join("");
         };
         ctx.on(ctx.$("[data-items]"), "click", (e) => {
           const p = e.target.closest("[data-pin]");
@@ -959,7 +959,7 @@
     "agent-handoff-graph": {
       html: `
         ${head("IA y agentes · agent-handoff-graph.tsx", "Grafo de traspasos entre agentes", "El orquestador reparte el trabajo entre subagentes. Ejecútalo para animar los traspasos; haz que el revisor falle para ver un ciclo de reintento.")}
-        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-run>▶ Ejecutar</button><label class="tsl-choice">El revisor rechaza el primer borrador <input type="checkbox" role="switch" class="tsl-switch" data-fail /></label></div>
+        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-run><tsl-icon name=play></tsl-icon> Ejecutar</button><label class="tsl-choice">El revisor rechaza el primer borrador <input type="checkbox" role="switch" class="tsl-switch" data-fail /></label></div>
         <div class="tsl-grid" style="--min:320px;align-items:start">
           <div class="xp-panel"><svg viewBox="0 0 520 300" class="xp-chart" data-g></svg></div>
           <div class="xp-panel"><span class="tsl-eyebrow">Registro de traspasos</span><ol class="tsl-timeline" data-log style="margin-top:12px"></ol></div>
@@ -1015,7 +1015,7 @@
           if (ctx.$("[data-fail]").checked) {
             state.review = "error";
             draw(["review", "coder"]);
-            log("✕ Revisor: falta aria-pressed — vuelve al Programador");
+            log("Revisor: falta aria-pressed — vuelve al Programador");
             await wait(900);
             await hop("review", "coder", "→ Programador: agregar aria-pressed");
             await hop("coder", "review", "→ Revisor: revisar de nuevo");
@@ -1023,7 +1023,7 @@
           await hop("review", "final", "→ Finalizador: abrir PR");
           state.final = "done";
           draw();
-          log("✓ Listo — PR #485 abierto");
+          log("Listo — PR #485 abierto");
           running = false;
         });
         draw();
@@ -1077,7 +1077,7 @@
         ${head("IA y agentes · voice-waveform-hud.tsx", "HUD de forma de onda de voz", "Mantén presionado el botón (o la barra espaciadora mientras tiene el foco) para hablar: la forma de onda reacciona, el VAD se enciende y al soltar se transcribe en streaming. Opcionalmente usa tu micrófono real.")}
         <div class="xp-panel tsl-stack" style="align-items:center">
           <canvas class="xp-canvas" data-wave style="height:140px;border:0;background:transparent"></canvas>
-          <div class="tsl-row"><span class="tsl-badge" data-vad>● inactivo</span></div>
+          <div class="tsl-row"><span class="tsl-badge" data-vad><tsl-icon name=circle-dot></tsl-icon> inactivo</span></div>
           <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--lg tsl-btn--pill tsl-btn--accent" data-ptt>Mantén para hablar</button><button type="button" class="tsl-btn tsl-btn--sm" data-mic>Usar micrófono</button></div>
           <p data-transcript class="tsl-muted" style="min-height:44px;text-align:center;max-width:520px">La transcripción aparece aquí.</p>
         </div>`,
@@ -1120,7 +1120,7 @@
           const vad = ctx.$("[data-vad]");
           const speaking = level > 0.15;
           vad.className = `tsl-badge${speaking ? " tsl-badge--success" : ""}`;
-          vad.textContent = speaking ? "● voz detectada" : "● inactivo";
+          vad.innerHTML = speaking ? "<tsl-icon name=circle-dot></tsl-icon> voz detectada" : "<tsl-icon name=circle-dot></tsl-icon> inactivo";
         });
         const btn = ctx.$("[data-ptt]");
         const start = () => {
@@ -1182,7 +1182,7 @@
         const choice = hunks.map(() => null);
         const render = () => {
           ctx.$("[data-hunks]").innerHTML = hunks
-            .map((h, i) => `<div class="tsl-card tsl-card--flat" style="border-color:${choice[i] === true ? "var(--tsl-success)" : choice[i] === false ? "var(--tsl-danger)" : "var(--tsl-border)"}"><div class="tsl-row" style="padding:8px 12px;border-bottom:1px solid var(--tsl-border)"><span class="xp-mono tsl-muted">@@ línea ${h.at + 1} @@</span><span>${h.why}</span><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--sm" data-h="${i}" data-v="1" aria-pressed="${choice[i] === true}">✓ Aceptar</button><button type="button" class="tsl-btn tsl-btn--sm" data-h="${i}" data-v="0" aria-pressed="${choice[i] === false}">✕ Rechazar</button></div><pre class="xp-mono" style="margin:0;padding:8px 0;font-size:12px">${h.del.map((l) => `<div class="xp-diff-del" style="padding:0 12px">- ${esc(l)}</div>`).join("")}${h.add.map((l) => `<div class="xp-diff-add" style="padding:0 12px">+ ${esc(l)}</div>`).join("")}</pre></div>`)
+            .map((h, i) => `<div class="tsl-card tsl-card--flat" style="border-color:${choice[i] === true ? "var(--tsl-success)" : choice[i] === false ? "var(--tsl-danger)" : "var(--tsl-border)"}"><div class="tsl-row" style="padding:8px 12px;border-bottom:1px solid var(--tsl-border)"><span class="xp-mono tsl-muted">@@ línea ${h.at + 1} @@</span><span>${h.why}</span><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--sm" data-h="${i}" data-v="1" aria-pressed="${choice[i] === true}"><tsl-icon name=check></tsl-icon> Aceptar</button><button type="button" class="tsl-btn tsl-btn--sm" data-h="${i}" data-v="0" aria-pressed="${choice[i] === false}"><tsl-icon name=x></tsl-icon> Rechazar</button></div><pre class="xp-mono" style="margin:0;padding:8px 0;font-size:12px">${h.del.map((l) => `<div class="xp-diff-del" style="padding:0 12px">- ${esc(l)}</div>`).join("")}${h.add.map((l) => `<div class="xp-diff-add" style="padding:0 12px">+ ${esc(l)}</div>`).join("")}</pre></div>`)
             .join("");
           const acc = choice.filter((c) => c === true).length;
           const rej = choice.filter((c) => c === false).length;
@@ -1602,7 +1602,7 @@
     },
 
     "audio-fft-spectrum": {
-      html: canvasHead("audio-fft-spectrum.tsx", "Espectro FFT de audio", "Un grafo real de Web Audio: oscilador + LFO → analizador. Inícialo, cambia la forma de onda y el tono, y observa los armónicos.", `<button type="button" class="tsl-btn tsl-btn--primary" data-play>▶ Iniciar audio</button><select class="tsl-select" style="width:auto;height:30px" data-wave aria-label="Forma de onda"><option>sawtooth</option><option>square</option><option>triangle</option><option>sine</option></select><label class="tsl-choice">Tono <input type="range" class="tsl-range" min="40" max="880" value="110" data-f style="width:150px" aria-label="Tono" /><span class="xp-mono" data-fv>110 Hz</span></label><label class="tsl-choice">Volumen <input type="range" class="tsl-range" min="0" max="100" value="20" data-v style="width:100px" aria-label="Volumen" /></label>`),
+      html: canvasHead("audio-fft-spectrum.tsx", "Espectro FFT de audio", "Un grafo real de Web Audio: oscilador + LFO → analizador. Inícialo, cambia la forma de onda y el tono, y observa los armónicos.", `<button type="button" class="tsl-btn tsl-btn--primary" data-play><tsl-icon name=play></tsl-icon> Iniciar audio</button><select class="tsl-select" style="width:auto;height:30px" data-wave aria-label="Forma de onda"><option>sawtooth</option><option>square</option><option>triangle</option><option>sine</option></select><label class="tsl-choice">Tono <input type="range" class="tsl-range" min="40" max="880" value="110" data-f style="width:150px" aria-label="Tono" /><span class="xp-mono" data-fv>110 Hz</span></label><label class="tsl-choice">Volumen <input type="range" class="tsl-range" min="0" max="100" value="20" data-v style="width:100px" aria-label="Volumen" /></label>`),
       setup(root, ctx) {
         const cv = ctx.$("[data-cv]");
         const g = cv.getContext("2d");
@@ -1630,13 +1630,13 @@
           sync();
           osc.start();
           lfo.start();
-          ctx.$("[data-play]").textContent = "■ Detener audio";
+          ctx.$("[data-play]").innerHTML = "<tsl-icon name=square></tsl-icon> Detener audio";
         };
         const stop = () => {
           if (!ac) return;
           ac.close();
           ac = null;
-          ctx.$("[data-play]").textContent = "▶ Iniciar audio";
+          ctx.$("[data-play]").innerHTML = "<tsl-icon name=play></tsl-icon> Iniciar audio";
         };
         const sync = () => {
           const f = Number(ctx.$("[data-f]").value);
@@ -1729,7 +1729,7 @@
             .join("");
           const ok = reach.has("osc");
           ctx.$("[data-status]").className = `tsl-badge tsl-badge--${ok ? "success" : "warning"}`;
-          ctx.$("[data-status]").textContent = ok ? "♪ La señal llega a la salida" : "Sin señal en la salida";
+          ctx.$("[data-status]").textContent = ok ? "La señal llega a la salida" : "Sin señal en la salida";
         };
         let drag = null;
         ctx.on(board, "pointerdown", (e) => {

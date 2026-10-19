@@ -1,6 +1,7 @@
 import { define, emit, nextId, normalize } from "../core/base.js";
 import { TslFormElement } from "../core/form.js";
 import { dismissOnOutside, position, trackPosition } from "../core/position.js";
+import { icon } from "../core/icons.js";
 
 const CHEVRON = `<svg class="tsl-trigger__icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>`;
 const CHECK = `<svg class="tsl-select__check" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>`;
@@ -91,7 +92,7 @@ export class TslSelect extends TslFormElement {
     this.clearBtn.type = "button";
     this.clearBtn.className = "tsl-trigger__clear";
     this.clearBtn.setAttribute("aria-label", this.getAttribute("clear-label") || "Limpiar selección");
-    this.clearBtn.textContent = "✕";
+    this.clearBtn.appendChild(icon("x"));
     this.clearBtn.hidden = true;
     if (this.hasAttribute("clearable")) this.wrap.appendChild(this.clearBtn);
 

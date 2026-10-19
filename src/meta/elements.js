@@ -33,6 +33,29 @@ const openClose = [
 ];
 
 export const elements = [
+  {
+    tag: "tsl-icon", cls: "TslIcon", module: "components/icon", docs: ["icon"],
+    summary: "Icono SVG en línea que hereda el color y mide 1em. Set base incluido (183 iconos de Lucide) y bibliotecas externas registrables: Lucide completo, Tabler, Phosphor, Heroicons, Material Symbols, Simple Icons o tus SVG.",
+    attributes: [
+      attr("name", "string", "Nombre del icono en su biblioteca."),
+      attr("library", "string", "Biblioteca registrada de la que sale el icono.", "tesela"),
+      attr("src", "string", "URL de un SVG suelto (se limpia antes de insertarse)."),
+      attr("label", "string", "Nombre accesible; sin él, el icono es decorativo (`aria-hidden`)."),
+      attr("size", '"xs" | "sm" | "md" | "lg" | "xl"', "Tamaño con nombre (12, 14, 16, 20 o 24 px); por defecto 1em."),
+      attr("spin", "boolean", "Gira sin parar (indicadores de carga)."),
+      attr("flip-rtl", "boolean", "Se espeja en RTL (flechas de dirección).")
+    ],
+    properties: [
+      prop("name", "string", "Refleja el atributo `name`."),
+      prop("library", "string", "Refleja el atributo `library`."),
+      prop("label", "string", "Refleja el atributo `label`.")
+    ],
+    methods: [],
+    events: [
+      event("tsl-load", "{ name: string; library: string }", "El icono se pintó."),
+      event("tsl-error", "{ name: string; library: string }", "El icono no existe o no se pudo descargar.")
+    ]
+  },
   // ---------------------------------------------------------------- Navegación y menús
   {
     tag: "tsl-tabs", cls: "TslTabs", module: "components/tabs", docs: ["tabs"],
@@ -518,7 +541,7 @@ export const elements = [
     attributes: [
       attr("label", "string", "Nombre accesible de la región desplazable.", "Conversación"),
       attr("threshold", "number", "Píxeles al final dentro de los cuales se considera «al final».", "48"),
-      attr("end-label", "string", "Texto del botón para volver al final.", "↓ Ir al final"),
+      attr("end-label", "string", "Texto del botón para volver al final.", "Ir al final"),
       attr("manual", "boolean", "No sigue el final automáticamente (el botón sigue funcionando).")
     ],
     properties: [prop("atEnd", "boolean", "El visor está al final.", true)],
@@ -633,7 +656,7 @@ export const elements = [
   },
   {
     tag: "tsl-branch", cls: "TslBranch", module: "components/branch", docs: ["branch"],
-    summary: "Versiones alternativas de un mensaje (`.tsl-branch__item`): muestra una con el selector «‹ 2 de 3 ›», empieza en la última y salta a cada versión nueva que llegue.",
+    summary: "Versiones alternativas de un mensaje (`.tsl-branch__item`): muestra una con el selector «2 de 3» entre flechas, empieza en la última y salta a cada versión nueva que llegue.",
     attributes: [
       attr("index", "number", "Versión visible al iniciar, desde 0 (por defecto, la última)."),
       attr("label", "string", "Nombre accesible del selector.", "Versiones"),
@@ -1004,7 +1027,8 @@ export const elements = [
 export const api = {
   version: "string",
   constants: [
-    { name: "presets", type: "ReadonlyArray<{ name: PresetName; label: string; description: string }>", description: "Presets de tema disponibles." }
+    { name: "presets", type: "ReadonlyArray<{ name: PresetName; label: string; description: string }>", description: "Presets de tema disponibles." },
+    { name: "iconLibraries", type: "IconLibraryPresets", description: "Adaptadores para registrar Lucide, Tabler, Phosphor, Heroicons, Material Symbols o Simple Icons con `registerIconLibrary`." }
   ],
   functions: [
     { name: "toast", params: [param("options", "string | ToastOptions")], returns: "() => void", description: "Muestra una notificación efímera y devuelve una función para cerrarla." },
@@ -1019,6 +1043,11 @@ export const api = {
     { name: "setAccent", params: [param("color", "string | null")], returns: "string | null", description: "Cambia el acento (`#rgb` o `#rrggbb`) y elige solo el color de texto legible; `null` lo restablece. Devuelve ese color de texto." },
     { name: "setDirection", params: [param("dir", '"ltr" | "rtl"')], returns: '"ltr" | "rtl"', description: "Cambia la dirección de escritura del documento (atributo `dir` de `<html>`) y la guarda; los componentes se espejan. Devuelve la dirección activa." },
     { name: "getDirection", params: [], returns: '"ltr" | "rtl"', description: "Dirección de escritura actual." },
-    { name: "init", params: [param("root", "ParentNode", true)], returns: "void", description: "Inicializa los ayudantes estáticos tras insertar HTML dinámico." }
+    { name: "init", params: [param("root", "ParentNode", true)], returns: "void", description: "Inicializa los ayudantes estáticos tras insertar HTML dinámico." },
+    { name: "registerIconLibrary", params: [param("name", "string"), param("options", "IconLibraryOptions", true)], returns: "void", description: "Registra (o amplía) una biblioteca de iconos para `<tsl-icon library>`; los iconos ya pintados de esa biblioteca se vuelven a pintar." },
+    { name: "registerIcons", params: [param("icons", "Record<string, string>"), param("library", "string", true)], returns: "void", description: "Añade iconos propios (SVG completo o su contenido interior) a una biblioteca; por defecto, a la base `tesela`." },
+    { name: "unregisterIconLibrary", params: [param("name", "string")], returns: "void", description: "Quita una biblioteca registrada (la base `tesela` no se puede quitar)." },
+    { name: "iconNames", params: [param("library", "string", true)], returns: "string[]", description: "Nombres de los iconos disponibles sin red en una biblioteca (por defecto, los del set base)." },
+    { name: "getIcon", params: [param("name", "string"), param("library", "string", true)], returns: "Promise<SVGSVGElement | null>", description: "Devuelve el `<svg>` limpio de un icono (pidiéndolo a la red si hace falta) o `null` si no existe." }
   ]
 };

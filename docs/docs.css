@@ -509,3 +509,48 @@ p {
   font-size: 11px;
   font-weight: 600;
 }
+
+/* Rejilla del set de iconos (sección «Icono») */
+.docs-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 6px;
+  max-height: 340px;
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.docs-icon-grid__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 6px 8px;
+  border: 1px solid var(--tsl-border);
+  border-radius: var(--tsl-radius);
+  background: transparent;
+  color: var(--tsl-fg);
+  font: inherit;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.docs-icon-grid__item tsl-icon {
+  --tsl-icon-size: 20px;
+}
+
+.docs-icon-grid__item span {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--tsl-fg-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.docs-icon-grid__item:hover,
+.docs-icon-grid__item:focus-visible {
+  border-color: var(--tsl-accent);
+}

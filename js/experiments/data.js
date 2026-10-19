@@ -89,7 +89,7 @@
     usage: {
       html: `
         ${head("Paneles · usage.tsx", "Uso del plan", "Simula tráfico para ver cómo se llenan las cuotas; avisos al 80 % y una invitación a mejorar el plan cuando se alcanza un límite.")}
-        <div class="tsl-row"><span class="tsl-badge tsl-badge--accent">Plan Pro</span><span class="tsl-muted">Se reinicia en 12 días</span><span class="tsl-spacer"></span><button type="button" class="tsl-btn" data-sim aria-pressed="false">▶ Simular tráfico</button><button type="button" class="tsl-btn tsl-btn--subtle" data-reset>Restablecer</button></div>
+        <div class="tsl-row"><span class="tsl-badge tsl-badge--accent">Plan Pro</span><span class="tsl-muted">Se reinicia en 12 días</span><span class="tsl-spacer"></span><button type="button" class="tsl-btn" data-sim aria-pressed="false"><tsl-icon name=play></tsl-icon> Simular tráfico</button><button type="button" class="tsl-btn tsl-btn--subtle" data-reset>Restablecer</button></div>
         <div class="tsl-alert tsl-alert--danger" data-limit hidden><div style="flex:1"><div class="tsl-alert__title">Límite alcanzado</div><div class="tsl-alert__desc" data-limit-text></div></div><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--primary" data-upgrade>Mejorar plan</button></div>
         <div class="tsl-grid" style="--min:260px" data-meters></div>`,
       setup(root, ctx) {
@@ -123,7 +123,7 @@
         ctx.on(sim, "click", () => {
           running = !running;
           sim.setAttribute("aria-pressed", String(running));
-          sim.textContent = running ? "❚❚ Pausar" : "▶ Simular tráfico";
+          sim.innerHTML = running ? "<tsl-icon name=pause></tsl-icon> Pausar" : "<tsl-icon name=play></tsl-icon> Simular tráfico";
         });
         ctx.on(ctx.$("[data-reset]"), "click", () => {
           used = { ...base };
@@ -217,7 +217,7 @@
         const sync = () => (ctx.$("[data-left]").textContent = `${list.querySelectorAll("input:not(:checked)").length} pendientes`);
         const addTask = (text, done = false) => {
           const li = document.createElement("li");
-          li.innerHTML = `<label class="tsl-choice" style="flex:1"><input type="checkbox" class="tsl-check" /><span></span></label><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--subtle tsl-btn--sm" aria-label="Eliminar tarea">✕</button>`;
+          li.innerHTML = `<label class="tsl-choice" style="flex:1"><input type="checkbox" class="tsl-check" /><span></span></label><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--subtle tsl-btn--sm" aria-label="Eliminar tarea"><tsl-icon name=x></tsl-icon></button>`;
           const box = li.querySelector("input");
           const label = li.querySelector("span");
           label.textContent = text;
@@ -249,7 +249,7 @@
           if (!left) {
             running = false;
             ctx.$("[data-start]").textContent = "Iniciar";
-            ctx.toast({ title: "Sesión de enfoque completada 🎉" });
+            ctx.toast({ title: "Sesión de enfoque completada" });
           }
         });
         ctx.on(ctx.$("[data-start]"), "click", (e) => {
@@ -411,7 +411,7 @@
           list.innerHTML = "";
           prs.filter((p) => filter === "all" || p.s === filter).forEach((p) => {
             const li = document.createElement("li");
-            li.innerHTML = `<span class="tsl-badge tsl-badge--${p.s === "merged" ? "accent" : "success"}">${p.s === "merged" ? "fusionado" : "abierto"}</span><div><div class="tsl-list__title"></div><div class="tsl-list__desc">#${p.n} · ${p.a} · ${p.checks ? "✓ verificaciones aprobadas" : "✕ verificaciones fallando"}</div></div><div class="tsl-list__end">${p.s === "open" ? `<button type="button" class="tsl-btn tsl-btn--sm"${p.checks ? "" : " disabled"}>Fusionar</button>` : ""}</div>`;
+            li.innerHTML = `<span class="tsl-badge tsl-badge--${p.s === "merged" ? "accent" : "success"}">${p.s === "merged" ? "fusionado" : "abierto"}</span><div><div class="tsl-list__title"></div><div class="tsl-list__desc">#${p.n} · ${p.a} · ${p.checks ? "<tsl-icon name=check></tsl-icon> verificaciones aprobadas" : "<tsl-icon name=x></tsl-icon> verificaciones fallando"}</div></div><div class="tsl-list__end">${p.s === "open" ? `<button type="button" class="tsl-btn tsl-btn--sm"${p.checks ? "" : " disabled"}>Fusionar</button>` : ""}</div>`;
             li.querySelector(".tsl-list__title").textContent = p.t;
             const btn = li.querySelector("button");
             if (btn)
@@ -450,7 +450,7 @@
           tbody.innerHTML = tickets
             .filter((t) => filter === "all" || t.prio === filter)
             .map((t) => `<tr data-id="${t.id}"><td><span class="xp-mono tsl-muted">${t.id}</span><br><strong>${esc(t.subject)}</strong></td><td>${esc(t.customer)}</td><td><span class="tsl-badge tsl-badge--${t.prio === "Urgente" ? "danger" : t.prio === "Alta" ? "warning" : "info"}">${t.prio}</span></td><td>${t.owner}</td><td class="is-num xp-mono" data-sla style="color:${t.sla <= 0 ? "var(--tsl-danger)" : t.sla < 120 ? "var(--tsl-warning)" : ""}">${fmt(t.sla)}</td><td class="is-num"><div class="tsl-row" style="justify-content:flex-end;flex-wrap:nowrap"><button type="button" class="tsl-btn tsl-btn--sm" data-assign>Asignarme</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--primary" data-resolve>Resolver</button></div></td></tr>`)
-            .join("") || '<tr><td colspan="6" class="tsl-muted">La cola está vacía 🎉</td></tr>';
+            .join("") || '<tr><td colspan="6" class="tsl-muted">La cola está vacía</td></tr>';
           ctx.$("[data-breached]").textContent = `${tickets.filter((t) => t.sla <= 0).length} vencidos`;
         };
         ctx.every(1000, () => {
@@ -785,7 +785,7 @@
       html: `
         ${head("Filtros · faceted.tsx", "Popover con facetas", "Facetas de selección múltiple con conteos en vivo. Las facetas activas se muestran como una insignia en su botón.")}
         <div class="tsl-row" data-bar>
-          ${["status", "assignee", "priority"].map((f) => `<tsl-menu data-facet="${f}"><button type="button" class="tsl-btn tsl-btn--sm" data-tsl-trigger>${{ status: "Estado", assignee: "Asignado a", priority: "Prioridad" }[f]} <span class="tsl-badge tsl-badge--accent" data-n hidden></span> ▾</button><div class="tsl-menu__list" data-opts></div></tsl-menu>`).join("")}
+          ${["status", "assignee", "priority"].map((f) => `<tsl-menu data-facet="${f}"><button type="button" class="tsl-btn tsl-btn--sm" data-tsl-trigger>${{ status: "Estado", assignee: "Asignado a", priority: "Prioridad" }[f]} <span class="tsl-badge tsl-badge--accent" data-n hidden></span><tsl-icon name=chevron-down></tsl-icon></button><div class="tsl-menu__list" data-opts></div></tsl-menu>`).join("")}
           <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-clear>Borrar todo</button><span class="tsl-spacer"></span><span class="tsl-muted" data-count></span>
         </div>
         <ul class="tsl-list" data-out data-tasks="${tasksJSON}"></ul>`,
@@ -853,7 +853,7 @@
             const chip = document.createElement("span");
             chip.className = "tsl-chip";
             chip.style.color = "var(--tsl-fg)";
-            chip.innerHTML = `<span></span><button type="button" class="tsl-chip__remove" aria-label="Quitar filtro">✕</button>`;
+            chip.innerHTML = `<span></span><button type="button" class="tsl-chip__remove" aria-label="Quitar filtro"><tsl-icon name=x></tsl-icon></button>`;
             chip.firstChild.textContent = `${fieldLabels[f.field]} ${ops[f.op]} ${f.value}`;
             chip.lastChild.addEventListener("click", () => {
               filters.splice(i, 1);
@@ -886,7 +886,7 @@
             <span class="tsl-label" style="margin-top:8px">Precio máx. <strong class="xp-mono" id="sb-price-out">$300</strong></span>
             <input type="range" class="tsl-range" min="10" max="300" value="300" name="price" data-tsl-output="#sb-price-out" aria-label="Precio máximo" />
             <span class="tsl-label" style="margin-top:8px">Calificación mín.</span>
-            <tsl-segmented value="0" name="rating" data-rating><button class="tsl-segmented__item" value="0">Cualquiera</button><button class="tsl-segmented__item" value="4">4★+</button><button class="tsl-segmented__item" value="4.5">4.5★+</button></tsl-segmented>
+            <tsl-segmented value="0" name="rating" data-rating><button class="tsl-segmented__item" value="0">Cualquiera</button><button class="tsl-segmented__item" value="4">4+ <tsl-icon name="star"></tsl-icon></button><button class="tsl-segmented__item" value="4.5">4.5+ <tsl-icon name="star"></tsl-icon></button></tsl-segmented>
             <label class="tsl-choice" style="margin-top:8px;justify-content:space-between">Solo en stock <input type="checkbox" role="switch" class="tsl-switch" name="stock" /></label>
             <button type="button" class="tsl-btn tsl-btn--sm" data-reset>Restablecer filtros</button>
           </aside>
@@ -905,7 +905,7 @@
           const stock = ctx.$('[name="stock"]').checked;
           const rows = products.filter(([, c, p, r, s]) => cats.includes(c) && p <= max && r >= rating && (!stock || s));
           ctx.$("[data-count]").textContent = `${rows.length} de ${products.length} productos`;
-          ctx.$("[data-grid]").innerHTML = rows.map(([n, c, p, r, s]) => `<div class="tsl-card tsl-card--flat"><div class="tsl-card__body tsl-stack" style="--gap:6px"><span class="tsl-eyebrow">${c}</span><strong>${n}</strong><div class="tsl-row" style="--gap:6px"><span class="xp-mono">$${p}</span><span class="tsl-muted">★ ${r}</span>${s ? "" : '<span class="tsl-badge tsl-badge--warning">Agotado</span>'}</div></div></div>`).join("") || '<div class="tsl-empty"><div class="tsl-empty__title">Sin productos</div><p class="tsl-empty__desc">Afloja algún filtro.</p></div>';
+          ctx.$("[data-grid]").innerHTML = rows.map(([n, c, p, r, s]) => `<div class="tsl-card tsl-card--flat"><div class="tsl-card__body tsl-stack" style="--gap:6px"><span class="tsl-eyebrow">${c}</span><strong>${n}</strong><div class="tsl-row" style="--gap:6px"><span class="xp-mono">$${p}</span><span class="tsl-muted"><tsl-icon name="star" label="Valoración"></tsl-icon> ${r}</span>${s ? "" : '<span class="tsl-badge tsl-badge--warning">Agotado</span>'}</div></div></div>`).join("") || '<div class="tsl-empty"><div class="tsl-empty__title">Sin productos</div><p class="tsl-empty__desc">Afloja algún filtro.</p></div>';
         };
         ctx.on(ctx.$("[data-form]"), "input", render);
         ctx.on(ctx.$("[data-form]"), "change", render);
@@ -1053,7 +1053,7 @@
       html: `
         ${head("Gráficas · gauges.tsx", "Indicadores radiales", "Arrastra los controles deslizantes (o presiona Animar): los arcos, los colores y los umbrales se actualizan.")}
         <div class="tsl-grid" style="--min:200px" data-gauges></div>
-        <div class="tsl-row"><button type="button" class="tsl-btn" data-anim aria-pressed="false">▶ Animar carga</button></div>`,
+        <div class="tsl-row"><button type="button" class="tsl-btn" data-anim aria-pressed="false"><tsl-icon name=play></tsl-icon> Animar carga</button></div>`,
       setup(root, ctx) {
         const defs = [["CPU", 42, "%"], ["Memoria", 68, "%"], ["Apdex", 91, ""]];
         const wrap = ctx.$("[data-gauges]");
@@ -1078,7 +1078,7 @@
         ctx.on(btn, "click", () => {
           anim = !anim;
           btn.setAttribute("aria-pressed", String(anim));
-          btn.textContent = anim ? "❚❚ Detener" : "▶ Animar carga";
+          btn.innerHTML = anim ? "<tsl-icon name=pause></tsl-icon> Detener" : "<tsl-icon name=play></tsl-icon> Animar carga";
         });
         ctx.every(300, () => {
           if (!anim) return;
@@ -1168,7 +1168,7 @@
           line.setAttribute("x1", x(i));
           line.setAttribute("x2", x(i));
           line.setAttribute("opacity", "0.5");
-          C.tip(tipEl, e, keys.filter(([k]) => on[k]).map(([k, c]) => `<span style="color:${c}">●</span> ${k} ${data[k][i].toFixed(0)}ms`).join("<br>"));
+          C.tip(tipEl, e, keys.filter(([k]) => on[k]).map(([k, c]) => `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${c}"></span> ${k} ${data[k][i].toFixed(0)}ms`).join("<br>"));
         });
         ctx.on(svg, "pointerleave", () => (tipEl.hidden = true));
         ctx.on(ctx.$("[data-legend]"), "click", (e) => {
@@ -1303,7 +1303,7 @@
             const row = document.createElement("div");
             row.className = "tsl-row";
             row.style.flexWrap = "nowrap";
-            row.innerHTML = `<input class="tsl-input" style="flex:1" aria-label="Nombre del paso" /><input class="tsl-input xp-mono" type="number" style="width:90px" aria-label="Monto" /><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--subtle tsl-btn--sm" aria-label="Quitar"${i === 0 ? " disabled" : ""}>✕</button>`;
+            row.innerHTML = `<input class="tsl-input" style="flex:1" aria-label="Nombre del paso" /><input class="tsl-input xp-mono" type="number" style="width:90px" aria-label="Monto" /><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--subtle tsl-btn--sm" aria-label="Quitar"${i === 0 ? " disabled" : ""}><tsl-icon name=x></tsl-icon></button>`;
             const [name, amt] = row.querySelectorAll("input");
             name.value = n;
             amt.value = v;

@@ -1,4 +1,5 @@
 import { TslElement, define, emit, nextId } from "../core/base.js";
+import { icon } from "../core/icons.js";
 
 /**
  * <tsl-reasoning streaming>
@@ -32,10 +33,7 @@ export class TslReasoning extends TslElement {
     this.trigger.type = "button";
     this.trigger.className = "tsl-reasoning__trigger";
     this.trigger.setAttribute("aria-controls", this.content.id);
-    this.icon = document.createElement("span");
-    this.icon.className = "tsl-reasoning__icon";
-    this.icon.setAttribute("aria-hidden", "true");
-    this.icon.textContent = "✦";
+    this.icon = icon("brain", "tsl-reasoning__icon");
     this.label = document.createElement("span");
     this.label.className = "tsl-reasoning__label";
     const chevron = document.createElement("span");

@@ -201,6 +201,8 @@ tsl-upload[data-dragging] .tsl-upload__drop {
   width: 32px;
   height: 32px;
   margin-bottom: 4px;
+  padding: 8px;
+  box-sizing: border-box;
   border-radius: 50%;
   background: var(--tsl-surface-strong);
   color: var(--tsl-fg-muted);
@@ -289,7 +291,16 @@ tsl-upload[data-dragging] .tsl-upload__drop {
 }
 
 .tsl-upload__item[data-status="done"] .tsl-upload__meta::before {
-  content: "✓ ";
+  content: "";
+  --_icon: var(--tsl-svg-check);
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  vertical-align: -0.125em;
+  -webkit-mask: var(--_icon) center / contain no-repeat;
+  mask: var(--_icon) center / contain no-repeat;
+  margin-inline-end: 4px;
   color: var(--tsl-success);
 }
 

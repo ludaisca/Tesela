@@ -7,7 +7,7 @@ Biblioteca de componentes **sin dependencias** (HTML + CSS + Custom Elements) y 
 
 ## Tesela (`tesela-ui`)
 
-99 secciones de componentes (botones, formularios, OTP, tags, dropzone, calendario, tabs, menús, paleta de comandos, diálogos, drawers, toasts, tablas ordenables, sparklines, popover, hover card, menú contextual, confirmación, sheets, select, combobox, selector de fecha, rango de fechas, selector de hora, barra de menús, menú de navegación, slider de rango, rating, selector de color, contraseña con medidor, textarea autoajustable, menciones, toggle group, collapsible, scroll area, paneles redimensionables, tree view, lista virtualizada, listas ordenables, kanban, tabla de datos, gráficas de línea, área, barras, dona, gauge y mapa de calor, barra lateral, grupo de radios, carrusel, item y la familia de conversación: mensaje, burbuja, adjunto, traza, bloque de código, zona con seguimiento, cuestionario, entrada de prompt con adjuntos, sugerencias, razonamiento, fuentes y citas, versiones de respuesta, medidor de contexto, asistente por pasos, importe, teléfono, subida de archivos con progreso y editor de texto enriquecido…) más patrones completos: panel de control, autenticación, ajustes con navegación lateral, alta por pasos y chat con asistente.
+100 secciones de componentes (iconos, botones, formularios, OTP, tags, dropzone, calendario, tabs, menús, paleta de comandos, diálogos, drawers, toasts, tablas ordenables, sparklines, popover, hover card, menú contextual, confirmación, sheets, select, combobox, selector de fecha, rango de fechas, selector de hora, barra de menús, menú de navegación, slider de rango, rating, selector de color, contraseña con medidor, textarea autoajustable, menciones, toggle group, collapsible, scroll area, paneles redimensionables, tree view, lista virtualizada, listas ordenables, kanban, tabla de datos, gráficas de línea, área, barras, dona, gauge y mapa de calor, barra lateral, grupo de radios, carrusel, item y la familia de conversación: mensaje, burbuja, adjunto, traza, bloque de código, zona con seguimiento, cuestionario, entrada de prompt con adjuntos, sugerencias, razonamiento, fuentes y citas, versiones de respuesta, medidor de contexto, asistente por pasos, importe, teléfono, subida de archivos con progreso y editor de texto enriquecido…) más patrones completos: panel de control, autenticación, ajustes con navegación lateral, alta por pasos y chat con asistente.
 
 ### Uso
 
@@ -24,13 +24,35 @@ Copia la carpeta `lib/` a tu proyecto:
 ```
 
 - **CSS (`tesela-ui.css`):** tokens `--tsl-*` y clases `tsl-*`. Funciona sin JS.
-- **JS (`tesela-ui.js`):** Custom Elements en light DOM (`<tsl-tabs>`, `<tsl-segmented>`, `<tsl-menu>`, `<tsl-command>`, `<tsl-otp>`, `<tsl-tags>`, `<tsl-dropzone>`, `<tsl-calendar>`, `<tsl-sparkline>`, `<tsl-popover>`, `<tsl-hovercard>`, `<tsl-context-menu>`, `<tsl-select>`, `<tsl-combobox>`, `<tsl-date-picker>`, `<tsl-time-picker>`, `<tsl-menubar>`, `<tsl-nav-menu>`, `<tsl-slider>`, `<tsl-rating>`, `<tsl-color-picker>`, `<tsl-password>`, `<tsl-mention>`, `<tsl-toggle-group>`, `<tsl-collapsible>`, `<tsl-scroll-area>`, `<tsl-resizable>`, `<tsl-tree>`, `<tsl-virtual-list>`, `<tsl-sortable>`, `<tsl-data-table>`, `<tsl-chart>`, `<tsl-sidebar>`, `<tsl-radio-group>`, `<tsl-carousel>`, `<tsl-message-scroller>`, `<tsl-questionnaire>`, `<tsl-prompt-input>`, `<tsl-reasoning>`, `<tsl-branch>`, `<tsl-context>`, `<tsl-wizard>`, `<tsl-currency>`, `<tsl-phone>`, `<tsl-upload>`, `<tsl-editor>`) y atributos `data-tsl-*` (abrir/cerrar diálogos, copiar, tema, tablas ordenables, rangos, steppers).
-- **API global:** `TeselaUI.toast()`, `TeselaUI.confirm()` (promesa), `TeselaUI.position()` (motor de posicionamiento), `TeselaUI.copy()`, `TeselaUI.setTheme()`, `TeselaUI.getTheme()`, `TeselaUI.init(root)`.
+- **JS (`tesela-ui.js`):** Custom Elements en light DOM (`<tsl-icon>`, `<tsl-tabs>`, `<tsl-segmented>`, `<tsl-menu>`, `<tsl-command>`, `<tsl-otp>`, `<tsl-tags>`, `<tsl-dropzone>`, `<tsl-calendar>`, `<tsl-sparkline>`, `<tsl-popover>`, `<tsl-hovercard>`, `<tsl-context-menu>`, `<tsl-select>`, `<tsl-combobox>`, `<tsl-date-picker>`, `<tsl-time-picker>`, `<tsl-menubar>`, `<tsl-nav-menu>`, `<tsl-slider>`, `<tsl-rating>`, `<tsl-color-picker>`, `<tsl-password>`, `<tsl-mention>`, `<tsl-toggle-group>`, `<tsl-collapsible>`, `<tsl-scroll-area>`, `<tsl-resizable>`, `<tsl-tree>`, `<tsl-virtual-list>`, `<tsl-sortable>`, `<tsl-data-table>`, `<tsl-chart>`, `<tsl-sidebar>`, `<tsl-radio-group>`, `<tsl-carousel>`, `<tsl-message-scroller>`, `<tsl-questionnaire>`, `<tsl-prompt-input>`, `<tsl-reasoning>`, `<tsl-branch>`, `<tsl-context>`, `<tsl-wizard>`, `<tsl-currency>`, `<tsl-phone>`, `<tsl-upload>`, `<tsl-editor>`) y atributos `data-tsl-*` (abrir/cerrar diálogos, copiar, tema, tablas ordenables, rangos, steppers).
+- **API global:** `TeselaUI.toast()`, `TeselaUI.confirm()` (promesa), `TeselaUI.position()` (motor de posicionamiento), `TeselaUI.copy()`, `TeselaUI.setTheme()`, `TeselaUI.getTheme()`, `TeselaUI.init(root)`, `TeselaUI.registerIconLibrary()`, `TeselaUI.registerIcons()`, `TeselaUI.iconLibraries`, `TeselaUI.iconNames()`, `TeselaUI.getIcon()`.
 - **Eventos:** todos los componentes emiten eventos `tsl-*` que burbujean (`tsl-change`, `tsl-select`, `tsl-complete`, `tsl-copy`, `tsl-theme`).
 - **Formularios:** `tsl-select`, `tsl-combobox`, `tsl-date-picker`, `tsl-time-picker`, `tsl-slider`, `tsl-rating`, `tsl-color-picker`, `tsl-currency`, `tsl-phone`, `tsl-upload` y `tsl-editor` son *form-associated* (`ElementInternals`): aparecen en `FormData`, respetan `required`, `form.reset()` y `<fieldset disabled>`.
 - **Temas:** oscuro por defecto; `data-theme="light"` en `<html>`. Cambia la marca sobrescribiendo `--tsl-accent`, `--tsl-radius`, etc.
 - **Accesibilidad:** roles ARIA, navegación por teclado, `<dialog>` nativo y soporte de `prefers-reduced-motion`.
 - **Textos por defecto en español** (etiquetas ARIA, placeholders, "Copiado"…); se pueden cambiar con atributos (`label`, `placeholder`, `empty`).
+
+## Iconos
+
+`<tsl-icon name="search"></tsl-icon>` pinta un SVG en línea que hereda el color (`currentColor`) y mide `1em`. Sin `label` es decorativo (`aria-hidden`); con `label="…"` se anuncia como imagen. Tamaños con `size="xs|sm|md|lg|xl"`, `font-size` o `--tsl-icon-size`; grosor del trazo con `--tsl-icon-stroke`; `spin` para indicadores de carga y `flip-rtl` para flechas que deben espejarse en RTL.
+
+- **Set base incluido:** 183 iconos de [Lucide](https://lucide.dev) (licencia ISC), los que usan los propios componentes más el vocabulario habitual de una interfaz. Se pintan al instante, sin red. La lista se elige en `scripts/build-icons.js` y se regenera con `npm run icons`; la licencia viaja en `lib/LICENSE-lucide.txt` y en la cabecera del bundle.
+- **Otras bibliotecas:** se registran con un adaptador y se piden bajo demanda (una vez por icono, con caché). Hay adaptadores con versión fijada para Lucide completo, Tabler, Phosphor, Heroicons, Material Symbols y Simple Icons (logotipos):
+
+```js
+TeselaUI.registerIconLibrary("tabler", TeselaUI.iconLibraries.tabler());               // jsDelivr
+TeselaUI.registerIconLibrary("ph", TeselaUI.iconLibraries.phosphor({ weight: "bold" }));
+TeselaUI.registerIconLibrary("lucide", TeselaUI.iconLibraries.lucide({ base: "/vendor/lucide" })); // tu servidor
+```
+
+```html
+<tsl-icon library="tabler" name="rocket"></tsl-icon>
+```
+
+- **Iconos propios:** `TeselaUI.registerIcons({ marca: "<svg viewBox='0 0 24 24'>…</svg>" })` los añade al set base; ``registerIconLibrary("marca", { resolver: (n) => `/iconos/${n}.svg` })`` crea una biblioteca con cualquier fuente (URL, texto SVG o `import()`), y `<tsl-icon src="/logo.svg">` carga un archivo suelto.
+- **Seguridad:** todo SVG externo se limpia antes de insertarse (sin `<script>`, `<foreignObject>`, manejadores `on*` ni enlaces `javascript:`).
+- **Sin JS:** el CSS expone las mismas formas como máscaras (`--tsl-svg-check`, `--tsl-svg-x`, `--tsl-svg-chevron-down`…) para `::before`/`::after`.
+- **Sin emojis:** ni la biblioteca ni la documentación ni la galería usan emojis o glifos como icono; `tests/iconos.test.js` falla si vuelve a entrar alguno.
 
 ## Código fuente y compilación
 
@@ -42,7 +64,8 @@ npm run build     # src/ → lib/ (bundle IIFE, minificado, módulos ESM y CSS p
 
 | Ruta | Contenido |
 |---|---|
-| `src/core/` | Base de los Custom Elements, posicionamiento y campos de formulario compartidos |
+| `src/core/` | Base de los Custom Elements, posicionamiento, campos de formulario y registro de iconos |
+| `src/icons/` | Set base de iconos generado desde Lucide (`npm run icons`) y su licencia |
 | `src/components/` | Un módulo por componente (`tabs.js`, `select.js`, `chart.js`…) que se registra a sí mismo |
 | `src/api/` | `toast`, `confirm`, `copy` y tema |
 | `src/tokens/` | Tokens y presets en JSON: la fuente única del aspecto |

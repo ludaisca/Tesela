@@ -45,7 +45,7 @@
           const ca = cum(A.slice(0, 10));
           const cb = cum(B.slice(0, 10));
           const max = Math.max(ca[ca.length - 1], cb[cb.length - 1]);
-          const row = (l, c, side) => `<tr data-p="${l.p}" style="cursor:pointer;background:linear-gradient(to left, color-mix(in srgb,var(--tsl-${side === "ask" ? "danger" : "success"}) 18%,transparent) ${(c / max) * 100}%, transparent 0)"><td class="xp-mono" style="color:var(--tsl-${side === "ask" ? "danger" : "success"})">${l.p.toFixed(2)}${l.mine ? " ●" : ""}</td><td class="is-num">${l.s.toFixed(2)}</td><td class="is-num tsl-muted">${c.toFixed(2)}</td></tr>`;
+          const row = (l, c, side) => `<tr data-p="${l.p}" style="cursor:pointer;background:linear-gradient(to left, color-mix(in srgb,var(--tsl-${side === "ask" ? "danger" : "success"}) 18%,transparent) ${(c / max) * 100}%, transparent 0)"><td class="xp-mono" style="color:var(--tsl-${side === "ask" ? "danger" : "success"})">${l.p.toFixed(2)}${l.mine ? ' <tsl-icon name="circle-dot" label="Tu orden"></tsl-icon>' : ""}</td><td class="is-num">${l.s.toFixed(2)}</td><td class="is-num tsl-muted">${c.toFixed(2)}</td></tr>`;
           ctx.$("[data-asks]").innerHTML = A.slice(0, 10).map((l, i) => row(l, ca[i], "ask")).reverse().join("");
           ctx.$("[data-bids]").innerHTML = B.slice(0, 10).map((l, i) => row(l, cb[i], "bid")).join("");
           const spread = A[0].p - B[0].p;
@@ -94,12 +94,12 @@
         ${head("Fintech · virtual-card-vault.tsx", "Bóveda de tarjeta virtual", "Revela los datos por 10 segundos, congela la tarjeta, fija un límite de gasto y bloquea comercios; luego simula compras contra esas reglas.")}
         <div class="tsl-grid" style="--min:300px;align-items:start">
           <div data-card style="aspect-ratio:1.586;border-radius:16px;padding:22px;color:#fff;background:linear-gradient(135deg,var(--xp-accent),#0ea5e9);box-shadow:var(--tsl-shadow-lg);display:flex;flex-direction:column;justify-content:space-between;transition:filter .3s;max-width:400px">
-            <div class="tsl-row"><strong>Acme · Presupuesto de anuncios</strong><span class="tsl-spacer"></span><span data-frozen-tag hidden class="tsl-badge" style="background:rgba(0,0,0,.3);color:#fff">❄ Congelada</span></div>
+            <div class="tsl-row"><strong>Acme · Presupuesto de anuncios</strong><span class="tsl-spacer"></span><span data-frozen-tag hidden class="tsl-badge" style="background:rgba(0,0,0,.3);color:#fff"><tsl-icon name=snowflake></tsl-icon> Congelada</span></div>
             <div class="xp-mono" style="font-size:20px;letter-spacing:.12em" data-num>•••• •••• •••• 4821</div>
             <div class="tsl-row xp-mono" style="font-size:12px"><span>VENC <span data-exp>••/••</span></span><span>CVV <span data-cvv>•••</span></span><span class="tsl-spacer"></span><strong>VISA</strong></div>
           </div>
           <div class="tsl-stack">
-            <div class="tsl-row"><button type="button" class="tsl-btn" data-reveal>👁 Revelar</button><label class="tsl-choice">Congelar <input type="checkbox" role="switch" class="tsl-switch" data-freeze /></label><span class="tsl-muted" data-timer></span></div>
+            <div class="tsl-row"><button type="button" class="tsl-btn" data-reveal><tsl-icon name=eye></tsl-icon> Revelar</button><label class="tsl-choice">Congelar <input type="checkbox" role="switch" class="tsl-switch" data-freeze /></label><span class="tsl-muted" data-timer></span></div>
             <div class="xp-panel tsl-stack" style="--gap:6px"><div class="tsl-row"><span class="tsl-label">Límite mensual</span><span class="tsl-spacer"></span><strong class="xp-mono" id="vc-limit">$2,000</strong></div><input type="range" class="tsl-range" min="100" max="10000" step="100" value="2000" data-limit aria-label="Límite mensual" /><div class="tsl-meter"><span data-spent></span></div><span class="tsl-hint" data-spent-t></span></div>
             <div class="xp-panel tsl-stack" style="--gap:6px"><span class="tsl-label">Comercios permitidos</span><div class="tsl-row" data-merch>${["Google Ads", "Meta", "LinkedIn", "Amazon"].map((m, i) => `<button type="button" class="tsl-chip" data-m="${m}" aria-pressed="${i < 2}">${m}</button>`).join("")}</div></div>
             <div class="tsl-row"><select class="tsl-select" style="width:auto" data-buy-m aria-label="Comercio"><option>Google Ads</option><option>Meta</option><option>LinkedIn</option><option>Amazon</option></select><input class="tsl-input xp-mono" type="number" value="250" style="width:110px" data-amt aria-label="Monto" /><button type="button" class="tsl-btn tsl-btn--primary" data-buy>Simular compra</button></div>
@@ -153,7 +153,7 @@
         ${head("Fintech · fx-currency-swap.tsx", "Cambio de divisas FX", "Tasas en tiempo real, dirección del cambio, tolerancia de deslizamiento y una cotización bloqueada de 15 segundos que se renueva al expirar.")}
         <div class="tsl-card" style="max-width:480px;width:100%;margin:0 auto"><div class="tsl-card__body tsl-stack">
           <div class="tsl-row" style="flex-wrap:nowrap"><input class="tsl-input xp-mono" style="font-size:20px;height:48px" type="number" min="0" value="2500" data-amt aria-label="Monto" /><select class="tsl-select" style="width:110px;height:48px" data-from aria-label="De">${["USD", "EUR", "MXN", "GBP", "JPY"].map((c) => `<option>${c}</option>`).join("")}</select></div>
-          <button type="button" class="tsl-btn tsl-btn--icon" style="align-self:center" data-swap aria-label="Invertir dirección">⇅</button>
+          <button type="button" class="tsl-btn tsl-btn--icon" style="align-self:center" data-swap aria-label="Invertir dirección"><tsl-icon name="arrow-up-down"></tsl-icon></button>
           <div class="tsl-row" style="flex-wrap:nowrap"><div class="tsl-input xp-mono" style="font-size:20px;height:48px;display:flex;align-items:center" data-out></div><select class="tsl-select" style="width:110px;height:48px" data-to aria-label="A">${["EUR", "USD", "MXN", "GBP", "JPY"].map((c) => `<option>${c}</option>`).join("")}</select></div>
           <div class="tsl-row"><span class="tsl-label">Deslizamiento</span><tsl-segmented value="0.5" data-slip><button class="tsl-segmented__item" value="0.1">0.1%</button><button class="tsl-segmented__item" value="0.5">0.5%</button><button class="tsl-segmented__item" value="1">1%</button></tsl-segmented></div>
           <dl class="xp-kv xp-mono" data-quote></dl>
@@ -231,7 +231,7 @@
           }
           const profitable = zero < 0;
           ctx.$("[data-runway]").textContent = profitable ? "∞" : `${zero} m`;
-          ctx.$("[data-zero]").textContent = profitable ? "Rentable por defecto ✓" : new Date(new Date().getFullYear(), new Date().getMonth() + zero, 1).toLocaleDateString("es-MX", { month: "short", year: "numeric" });
+          ctx.$("[data-zero]").textContent = profitable ? "Rentable por defecto" : new Date(new Date().getFullYear(), new Date().getMonth() + zero, 1).toLocaleDateString("es-MX", { month: "short", year: "numeric" });
           ctx.$("[data-burn]").textContent = `$${Math.max(0, v.cost - v.rev).toFixed(0)}k`;
           const C = TESELA_XP.chart;
           const max = C.niceMax(Math.max(...pts));
@@ -333,7 +333,7 @@
           const s = iban.value.replace(/\s+/g, "").toUpperCase();
           iban.value = s.replace(/(.{4})/g, "$1 ").trim();
           const ok = ibanOk(s);
-          ctx.$("[data-iban-hint]").innerHTML = s.length < 15 ? "" : ok ? '<span style="color:var(--tsl-success)">✓ Suma de verificación válida</span>' : '<span style="color:var(--tsl-danger)">✕ Suma de verificación inválida</span>';
+          ctx.$("[data-iban-hint]").innerHTML = s.length < 15 ? "" : ok ? '<span style="color:var(--tsl-success)"><tsl-icon name=check></tsl-icon> Suma de verificación válida</span>' : '<span style="color:var(--tsl-danger)"><tsl-icon name=x></tsl-icon> Suma de verificación inválida</span>';
         });
         const fees = () => {
           const amt = Number(ctx.$("[data-amt]").value) || 0;
@@ -455,7 +455,7 @@
           ctx.$("[data-bar]").value = Math.min(th, signed);
           ctx.$("[data-exec]").disabled = signed < th;
           ctx.$("[data-exec]").textContent = signed < th ? `Faltan ${th - signed} firma${th - signed > 1 ? "s" : ""}` : "Ejecutar transacción";
-          ctx.$("[data-signers]").innerHTML = signers.map((s, i) => `<li><span class="tsl-avatar tsl-avatar--sm">${s.n[0]}</span><div style="flex:1"><div class="tsl-list__title">${s.n}</div><div class="tsl-list__desc">${s.d}</div></div>${s.state === "signed" ? '<span class="tsl-badge tsl-badge--success">✓ Firmada</span>' : s.state === "signing" ? '<span class="tsl-badge tsl-badge--info"><span class="tsl-spinner" style="--size:10px;margin-right:4px"></span>Confirma en el dispositivo…</span>' : `<button type="button" class="tsl-btn tsl-btn--sm" data-sign="${i}">Firmar</button>`}</li>`).join("");
+          ctx.$("[data-signers]").innerHTML = signers.map((s, i) => `<li><span class="tsl-avatar tsl-avatar--sm">${s.n[0]}</span><div style="flex:1"><div class="tsl-list__title">${s.n}</div><div class="tsl-list__desc">${s.d}</div></div>${s.state === "signed" ? '<span class="tsl-badge tsl-badge--success"><tsl-icon name=check></tsl-icon> Firmada</span>' : s.state === "signing" ? '<span class="tsl-badge tsl-badge--info"><span class="tsl-spinner" style="--size:10px;margin-right:4px"></span>Confirma en el dispositivo…</span>' : `<button type="button" class="tsl-btn tsl-btn--sm" data-sign="${i}">Firmar</button>`}</li>`).join("");
           ctx.$("[data-nonce]").textContent = String(nonce);
         };
         ctx.on(ctx.$("[data-signers]"), "click", (e) => {
@@ -501,7 +501,7 @@
         const render = () => {
           const y = (ctx.$("[data-period]").value || "year") === "year";
           const c = ctx.$("[data-cur]").value;
-          ctx.$("[data-tiers]").innerHTML = tiers.map(([n, p, feats, cta], i) => `<div class="tsl-card${i === 1 ? "" : " tsl-card--flat"}" style="${i === 1 ? "border-color:var(--xp-accent)" : ""}"><div class="tsl-card__body tsl-stack" style="height:100%"><div class="tsl-row"><span class="tsl-eyebrow">${n}</span>${i === 1 ? '<span class="tsl-badge tsl-badge--accent">Más popular</span>' : ""}</div><div class="xp-num">${p === null ? "A medida" : fmtCur(y ? p * 0.8 : p, c)}${p ? '<span class="tsl-muted" style="font-size:12px">/mes</span>' : ""}</div><span class="tsl-hint">${p ? (y ? `${fmtCur(p * 0.8 * 12, c)} facturado anualmente` : "Facturado mensualmente") : p === 0 ? "Gratis para siempre" : "Contrato anual"}</span><ul class="tsl-stack" style="--gap:6px;list-style:none;padding:0;font-size:12px;flex:1">${feats.map((f) => `<li>✓ ${tips[f] ? `<span data-tsl-tooltip="${tips[f]}" style="border-bottom:1px dotted var(--tsl-fg-subtle);cursor:help">${f}</span>` : f}</li>`).join("")}</ul><button type="button" class="tsl-btn tsl-btn--block ${i === 1 ? "tsl-btn--primary" : ""}" data-cta="${n}">${cta}</button></div></div>`).join("");
+          ctx.$("[data-tiers]").innerHTML = tiers.map(([n, p, feats, cta], i) => `<div class="tsl-card${i === 1 ? "" : " tsl-card--flat"}" style="${i === 1 ? "border-color:var(--xp-accent)" : ""}"><div class="tsl-card__body tsl-stack" style="height:100%"><div class="tsl-row"><span class="tsl-eyebrow">${n}</span>${i === 1 ? '<span class="tsl-badge tsl-badge--accent">Más popular</span>' : ""}</div><div class="xp-num">${p === null ? "A medida" : fmtCur(y ? p * 0.8 : p, c)}${p ? '<span class="tsl-muted" style="font-size:12px">/mes</span>' : ""}</div><span class="tsl-hint">${p ? (y ? `${fmtCur(p * 0.8 * 12, c)} facturado anualmente` : "Facturado mensualmente") : p === 0 ? "Gratis para siempre" : "Contrato anual"}</span><ul class="tsl-stack" style="--gap:6px;list-style:none;padding:0;font-size:12px;flex:1">${feats.map((f) => `<li><tsl-icon name=check></tsl-icon> ${tips[f] ? `<span data-tsl-tooltip="${tips[f]}" style="border-bottom:1px dotted var(--tsl-fg-subtle);cursor:help">${f}</span>` : f}</li>`).join("")}</ul><button type="button" class="tsl-btn tsl-btn--block ${i === 1 ? "tsl-btn--primary" : ""}" data-cta="${n}">${cta}</button></div></div>`).join("");
         };
         ctx.on(ctx.$("[data-period]"), "tsl-change", render);
         ctx.on(ctx.$("[data-cur]"), "change", render);
@@ -525,13 +525,13 @@
         <div class="tsl-table-wrap" style="max-height:440px;overflow:auto"><table class="tsl-table" data-t></table></div>`,
       setup(root, ctx) {
         const plans = ["Gratis", "Pro", "Team", "Enterprise"];
-        const cats = { Básico: [["Proyectos", "3", "∞", "∞", "∞"], ["Miembros", "1", "5", "25", "∞"], ["Almacenamiento", "1 GB", "50 GB", "500 GB", "A medida"]], Colaboración: [["Comentarios", "✓", "✓", "✓", "✓"], ["Acceso de invitados", "—", "✓", "✓", "✓"], ["Historial de versiones", "7 días", "90 días", "1 año", "∞"]], Seguridad: [["2FA", "✓", "✓", "✓", "✓"], ["SSO", "—", "—", "✓", "✓"], ["Registro de auditoría", "—", "—", "—", "✓"]] };
+        const cats = { Básico: [["Proyectos", "3", "∞", "∞", "∞"], ["Miembros", "1", "5", "25", "∞"], ["Almacenamiento", "1 GB", "50 GB", "500 GB", "A medida"]], Colaboración: [["Comentarios", true, true, true, true], ["Acceso de invitados", "—", true, true, true], ["Historial de versiones", "7 días", "90 días", "1 año", "∞"]], Seguridad: [["2FA", true, true, true, true], ["SSO", "—", "—", true, true], ["Registro de auditoría", "—", "—", "—", true]] };
         const closed = new Set();
         let sel = 1;
         const render = () => {
           const diff = ctx.$("[data-diff]").checked;
           ctx.$("[data-t]").innerHTML = `<thead style="position:sticky;top:0;z-index:1"><tr><th>Función</th>${plans.map((p, i) => `<th style="text-align:center;cursor:pointer;${i === sel ? "color:var(--xp-accent)" : ""}" data-plan="${i}">${p}</th>`).join("")}</tr></thead><tbody>${Object.entries(cats)
-            .map(([c, rows]) => `<tr><td colspan="5" style="background:var(--tsl-surface)"><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-cat="${c}">${closed.has(c) ? "▸" : "▾"} ${c}</button></td></tr>${closed.has(c) ? "" : rows.filter((r) => !diff || new Set(r.slice(1)).size > 1).map((r) => `<tr><td>${r[0]}</td>${r.slice(1).map((v, i) => `<td style="text-align:center;${i === sel ? "background:color-mix(in srgb,var(--xp-accent) 9%,transparent)" : ""};color:${v === "—" ? "var(--tsl-fg-subtle)" : v === "✓" ? "var(--tsl-success)" : ""}">${v}</td>`).join("")}</tr>`).join("")}`)
+            .map(([c, rows]) => `<tr><td colspan="5" style="background:var(--tsl-surface)"><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-cat="${c}"><tsl-icon name="${closed.has(c) ? "chevron-right" : "chevron-down"}" flip-rtl></tsl-icon> ${c}</button></td></tr>${closed.has(c) ? "" : rows.filter((r) => !diff || new Set(r.slice(1)).size > 1).map((r) => `<tr><td>${r[0]}</td>${r.slice(1).map((v, i) => `<td style="text-align:center;${i === sel ? "background:color-mix(in srgb,var(--xp-accent) 9%,transparent)" : ""};color:${v === "—" ? "var(--tsl-fg-subtle)" : v === true ? "var(--tsl-success)" : ""}">${v === true ? '<tsl-icon name="check" label="Incluido"></tsl-icon>' : v === "—" ? '<tsl-icon name="minus" label="No incluido"></tsl-icon>' : v}</td>`).join("")}</tr>`).join("")}`)
             .join("")}</tbody>`;
           ctx.$("[data-sel]").textContent = `Seleccionado: ${plans[sel]}`;
         };
@@ -583,7 +583,7 @@
         ${head("Pricing · simple-card.tsx", "Plan único", "Un plan con complementos opcionales; el total se actualiza y el pago abre un diálogo de confirmación.")}
         <div class="xp-center" style="min-height:0"><div class="tsl-card" style="width:min(400px,100%)"><div class="tsl-card__body tsl-stack">
           <span class="tsl-badge tsl-badge--accent tsl-badge--upper" style="align-self:flex-start">Todo en uno</span><div class="xp-num" data-total>$29<span class="tsl-muted" style="font-size:12px">/mes</span></div>
-          <ul class="tsl-stack" style="--gap:6px;list-style:none;padding:0;font-size:12px"><li>✓ Proyectos ilimitados</li><li>✓ Los 43 componentes</li><li>✓ Soporte por correo</li></ul>
+          <ul class="tsl-stack" style="--gap:6px;list-style:none;padding:0;font-size:12px"><li><tsl-icon name=check></tsl-icon> Proyectos ilimitados</li><li><tsl-icon name=check></tsl-icon> Los 43 componentes</li><li><tsl-icon name=check></tsl-icon> Soporte por correo</li></ul>
           <div class="tsl-divider">Complementos</div>
           ${[["Soporte prioritario", 15], ["100 GB extra", 8], ["Marca blanca", 40]].map(([n, p]) => `<label class="tsl-choice" style="justify-content:space-between;width:100%"><span><input type="checkbox" class="tsl-check" data-add="${p}" data-n="${n}" /> ${n}</span><span class="tsl-muted xp-mono">+$${p}</span></label>`).join("")}
           <button type="button" class="tsl-btn tsl-btn--primary tsl-btn--block" data-tsl-open="sc-dlg">Pagar</button><span class="tsl-hint" style="text-align:center">Garantía de devolución de 30 días</span>
@@ -597,7 +597,7 @@
         };
         ctx.$$("[data-add]").forEach((c) => ctx.on(c, "change", render));
         ctx.on(ctx.$("#sc-dlg"), "close", (e) => {
-          if (e.target.returnValue === "ok") ctx.toast({ title: "Suscripción confirmada 🎉", description: `$${total()}/mes` });
+          if (e.target.returnValue === "ok") ctx.toast({ title: "Suscripción confirmada", description: `$${total()}/mes` });
           e.target.returnValue = "";
         });
         render();
@@ -615,8 +615,8 @@
             <label class="tsl-field"><span class="tsl-label">¿Qué necesitas?</span><textarea class="tsl-textarea" name="msg" required minlength="10"></textarea></label>
             <button type="submit" class="tsl-btn tsl-btn--primary">Hablar con ventas</button>
           </form>
-          <div class="xp-panel tsl-stack" data-slots data-panel hidden><strong>Elige un horario</strong><div class="tsl-grid" style="--min:110px" data-grid></div><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-back>← Editar datos</button></div>
-          <div class="tsl-stack"><span class="tsl-eyebrow">Por qué los equipos nos eligen</span><ul class="tsl-list"><li>🔒 SOC 2 Type II</li><li>⚡ SLA de disponibilidad del 99.99%</li><li>🤝 Gerente de éxito dedicado</li></ul></div>
+          <div class="xp-panel tsl-stack" data-slots data-panel hidden><strong>Elige un horario</strong><div class="tsl-grid" style="--min:110px" data-grid></div><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-back><tsl-icon name=arrow-left flip-rtl></tsl-icon> Editar datos</button></div>
+          <div class="tsl-stack"><span class="tsl-eyebrow">Por qué los equipos nos eligen</span><ul class="tsl-list"><li><tsl-icon name=lock></tsl-icon> SOC 2 Type II</li><li><tsl-icon name=zap></tsl-icon> SLA de disponibilidad del 99.99%</li><li><tsl-icon name=handshake></tsl-icon> Gerente de éxito dedicado</li></ul></div>
         </div>`,
       setup(root, ctx) {
         TESELA_XP.formSetup(root, ctx);
@@ -772,13 +772,13 @@
         <div class="tsl-stack" data-banners></div>
         <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--sm" data-reset>Mostrar todos los banners de nuevo</button></div>`,
       setup(root, ctx) {
-        const banners = [["promo", "✦ Semana de lanzamiento: 30% de descuento en Pro — termina en <strong data-cd></strong>", "Aprovechar oferta"], ["info", "Novedad: la galería es totalmente funcional. Presiona C para ver el código fuente.", "Más información"], ["warning", "Mantenimiento programado el domingo a las 02:00 UTC.", "Detalles"]];
+        const banners = [["promo", "<tsl-icon name=sparkles></tsl-icon> Semana de lanzamiento: 30% de descuento en Pro — termina en <strong data-cd></strong>", "Aprovechar oferta"], ["info", "Novedad: la galería es totalmente funcional. Presiona C para ver el código fuente.", "Más información"], ["warning", "Mantenimiento programado el domingo a las 02:00 UTC.", "Detalles"]];
         const closed = new Set();
         const end = Date.now() + 3 * 3600e3 + 12 * 60e3;
         const render = () => {
           ctx.$("[data-banners]").innerHTML = banners
             .filter(([k]) => !closed.has(k))
-            .map(([k, html, cta]) => `<div class="${k === "promo" ? "tsl-banner" : `tsl-alert tsl-alert--${k}`}" style="border-radius:var(--tsl-radius);justify-content:space-between"><span>${html}</span><span class="tsl-row" style="--gap:6px"><button type="button" class="tsl-btn tsl-btn--sm" data-cta="${k}">${cta}</button><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" data-x="${k}" aria-label="Descartar" style="${k === "promo" ? "color:inherit" : ""}">✕</button></span></div>`)
+            .map(([k, html, cta]) => `<div class="${k === "promo" ? "tsl-banner" : `tsl-alert tsl-alert--${k}`}" style="border-radius:var(--tsl-radius);justify-content:space-between"><span>${html}</span><span class="tsl-row" style="--gap:6px"><button type="button" class="tsl-btn tsl-btn--sm" data-cta="${k}">${cta}</button><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" data-x="${k}" aria-label="Descartar" style="${k === "promo" ? "color:inherit" : ""}"><tsl-icon name=x></tsl-icon></button></span></div>`)
             .join("") || '<p class="tsl-muted">Todos los banners fueron descartados.</p>';
           tick();
         };
@@ -909,7 +909,7 @@
           const el = document.createElement("div");
           el.className = "tsl-toast tsl-toast--neutral";
           el.style.flexWrap = "wrap";
-          el.innerHTML = `<span class="tsl-avatar tsl-avatar--sm">${who.split(" ").map((w) => w[0]).join("")}</span><div class="tsl-toast__body"><div class="tsl-toast__title"></div><div class="tsl-toast__desc"></div></div><button type="button" class="tsl-toast__close" aria-label="Descartar">✕</button><form class="tsl-row" style="flex-basis:100%;flex-wrap:nowrap;margin-top:6px"><input class="tsl-input" style="height:28px" placeholder="Responder…" aria-label="Responder" required /><button type="submit" class="tsl-btn tsl-btn--sm tsl-btn--primary">Enviar</button></form>`;
+          el.innerHTML = `<span class="tsl-avatar tsl-avatar--sm">${who.split(" ").map((w) => w[0]).join("")}</span><div class="tsl-toast__body"><div class="tsl-toast__title"></div><div class="tsl-toast__desc"></div></div><button type="button" class="tsl-toast__close" aria-label="Descartar"><tsl-icon name=x></tsl-icon></button><form class="tsl-row" style="flex-basis:100%;flex-wrap:nowrap;margin-top:6px"><input class="tsl-input" style="height:28px" placeholder="Responder…" aria-label="Responder" required /><button type="submit" class="tsl-btn tsl-btn--sm tsl-btn--primary">Enviar</button></form>`;
           el.querySelector(".tsl-toast__title").textContent = who;
           el.querySelector(".tsl-toast__desc").textContent = text;
           el.querySelector(".tsl-toast__close").addEventListener("click", () => el.remove());
@@ -944,7 +944,7 @@
             <div class="tsl-row" data-presets>${[["ease", ".25,.1,.25,1"], ["ease-in-out", ".42,0,.58,1"], ["out-expo", ".16,1,.3,1"], ["back-out", ".34,1.56,.64,1"], ["anticipate", ".68,-0.6,.32,1.6"]].map(([n, v]) => `<button type="button" class="tsl-chip" data-v="${v}">${n}</button>`).join("")}</div>
             <div class="tsl-input-group"><input class="tsl-input xp-mono" readonly id="bz-out" data-out aria-label="Easing CSS" /><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" style="margin:3px" data-tsl-copy data-tsl-copy-target="#bz-out">Copiar</button></div>
             <div class="xp-panel" style="position:relative;height:70px"><span data-ball style="position:absolute;left:10px;top:20px;width:30px;height:30px;border-radius:50%;background:var(--xp-accent)"></span></div>
-            <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-play>▶ Reproducir</button><label class="tsl-choice">Duración <input type="range" class="tsl-range" min="200" max="2000" step="100" value="900" data-dur style="width:140px" aria-label="Duración" /></label></div>
+            <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-play><tsl-icon name=play></tsl-icon> Reproducir</button><label class="tsl-choice">Duración <input type="range" class="tsl-range" min="200" max="2000" step="100" value="900" data-dur style="width:140px" aria-label="Duración" /></label></div>
           </div>
         </div>`,
       setup(root, ctx) {
@@ -1001,7 +1001,7 @@
     "synth-step-sequencer": {
       html: `
         ${head("Media · synth-step-sequencer.tsx", "Secuenciador de sintetizador de 16 pasos", "Una caja de ritmos real con Web Audio y programación anticipada: bombo, caja, hi-hat y bajo sintetizados con osciladores y ruido.")}
-        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-play>▶ Reproducir</button><label class="tsl-choice">BPM <input type="range" class="tsl-range" min="60" max="180" value="112" data-bpm style="width:140px" data-tsl-output="#seq-bpm" aria-label="BPM" /><strong class="xp-mono" id="seq-bpm">112</strong></label><button type="button" class="tsl-btn tsl-btn--sm" data-rand>Aleatorizar</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-clear>Borrar</button></div>
+        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-play><tsl-icon name=play></tsl-icon> Reproducir</button><label class="tsl-choice">BPM <input type="range" class="tsl-range" min="60" max="180" value="112" data-bpm style="width:140px" data-tsl-output="#seq-bpm" aria-label="BPM" /><strong class="xp-mono" id="seq-bpm">112</strong></label><button type="button" class="tsl-btn tsl-btn--sm" data-rand>Aleatorizar</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-clear>Borrar</button></div>
         <div class="xp-panel tsl-stack" style="--gap:6px;overflow:auto" data-grid></div>`,
       setup(root, ctx) {
         const rows = ["Bombo", "Caja", "Hi-hat", "Bajo"];
@@ -1079,7 +1079,7 @@
           if (ac) ac.close();
           ac = null;
           current = -1;
-          ctx.$("[data-play]").textContent = "▶ Reproducir";
+          ctx.$("[data-play]").innerHTML = "<tsl-icon name=play></tsl-icon> Reproducir";
           render();
         };
         ctx.on(ctx.$("[data-play]"), "click", () => {
@@ -1093,7 +1093,7 @@
           next = ac.currentTime + 0.05;
           step = 0;
           timer = setInterval(schedule, 25);
-          ctx.$("[data-play]").textContent = "■ Detener";
+          ctx.$("[data-play]").innerHTML = "<tsl-icon name=square></tsl-icon> Detener";
         });
         ctx.on(ctx.$("[data-rand]"), "click", () => {
           pattern.forEach((row, r) => row.forEach((_, i) => (row[i] = Math.random() < [0.3, 0.2, 0.55, 0.3][r])));
@@ -1109,7 +1109,7 @@
       html: `
         ${head("Media · waveform-scrubber.tsx", "Explorador de forma de onda", "Una melodía se sintetiza en un AudioBuffer real y se dibuja como picos. Haz clic o arrastra para buscar, reprodúcela y coloca marcadores en el cabezal.")}
         <div class="xp-panel xp-rel" style="padding:0;overflow:hidden"><canvas class="xp-canvas" data-wave style="height:140px;border:0;cursor:pointer"></canvas></div>
-        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-play>▶ Reproducir</button><span class="xp-mono" data-time>0:00.0 / 0:00.0</span><button type="button" class="tsl-btn tsl-btn--sm" data-mark>+ Marcador</button><span class="tsl-spacer"></span><div class="tsl-row" data-markers></div></div>`,
+        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-play><tsl-icon name=play></tsl-icon> Reproducir</button><span class="xp-mono" data-time>0:00.0 / 0:00.0</span><button type="button" class="tsl-btn tsl-btn--sm" data-mark>+ Marcador</button><span class="tsl-spacer"></span><div class="tsl-row" data-markers></div></div>`,
       setup(root, ctx) {
         const cv = ctx.$("[data-wave]");
         const g = cv.getContext("2d");
@@ -1165,7 +1165,7 @@
           playing = false;
           if (src) src.stop();
           src = null;
-          ctx.$("[data-play]").textContent = "▶ Reproducir";
+          ctx.$("[data-play]").innerHTML = "<tsl-icon name=play></tsl-icon> Reproducir";
         };
         const play = () => {
           if (!ac) {
@@ -1183,7 +1183,7 @@
           src.start(0, pos);
           startedAt = ac.currentTime - pos;
           playing = true;
-          ctx.$("[data-play]").textContent = "❚❚ Pausar";
+          ctx.$("[data-play]").innerHTML = "<tsl-icon name=pause></tsl-icon> Pausar";
         };
         ctx.on(ctx.$("[data-play]"), "click", () => (playing ? stop() : play()));
         let scrub = false;
@@ -1220,7 +1220,7 @@
           </div>
           <div class="tsl-stack">
             <dl class="xp-kv xp-mono" data-out></dl>
-            <span class="tsl-badge tsl-badge--warning" data-gamut hidden>⚠ Fuera del gamut sRGB: recortado</span>
+            <span class="tsl-badge tsl-badge--warning" data-gamut hidden><tsl-icon name=triangle-alert></tsl-icon> Fuera del gamut sRGB: recortado</span>
             <div class="tsl-row" style="--gap:0;border-radius:var(--tsl-radius);overflow:hidden" data-scale></div>
             <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--sm" data-copy="oklch">Copiar oklch()</button><button type="button" class="tsl-btn tsl-btn--sm" data-copy="hex">Copiar HEX</button><button type="button" class="tsl-btn tsl-btn--sm" data-apply>Usar como acento</button></div>
           </div>
@@ -1284,7 +1284,7 @@
           <div data-h="in" style="position:absolute;top:0;bottom:0;width:12px;margin-left:-6px;background:var(--tsl-warning);border-radius:4px;cursor:ew-resize"></div><div data-h="out" style="position:absolute;top:0;bottom:0;width:12px;margin-left:-6px;background:var(--tsl-warning);border-radius:4px;cursor:ew-resize"></div>
           <div data-ph style="position:absolute;top:-4px;bottom:-4px;width:2px;background:#fff;pointer-events:none"></div>
         </div>
-        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-play>▶ Reproducir selección</button><span class="xp-mono" data-tc></span><span class="tsl-spacer"></span><span class="tsl-badge" data-dur></span><button type="button" class="tsl-btn tsl-btn--sm" data-export>Exportar clip</button></div>`,
+        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-play><tsl-icon name=play></tsl-icon> Reproducir selección</button><span class="xp-mono" data-tc></span><span class="tsl-spacer"></span><span class="tsl-badge" data-dur></span><button type="button" class="tsl-btn tsl-btn--sm" data-export>Exportar clip</button></div>`,
       setup(root, ctx) {
         const LEN = 12;
         const FPS = 30;
@@ -1331,7 +1331,7 @@
         ctx.on(track, "pointerup", () => (drag = null));
         ctx.on(ctx.$("[data-play]"), "click", (e) => {
           playing = !playing;
-          e.target.textContent = playing ? "❚❚ Pausar" : "▶ Reproducir selección";
+          e.target.innerHTML = playing ? "<tsl-icon name=pause></tsl-icon> Pausar" : "<tsl-icon name=play></tsl-icon> Reproducir selección";
         });
         ctx.raf((now, dt) => {
           if (!playing) return;
@@ -1348,7 +1348,7 @@
       html: `
         ${head("Media · spatial-eq-parametric.tsx", "Curva de EQ paramétrico", "Cuatro bandas de pico calculadas con la respuesta de magnitud biquad real. Arrastra los nodos (frecuencia × ganancia), usa la rueda para cambiar Q y escucha con filtros de Web Audio.")}
         <div class="xp-panel"><svg viewBox="0 0 700 260" class="xp-chart" data-eq style="touch-action:none"></svg></div>
-        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-listen>▶ Escuchar (ruido rosa)</button><span class="tsl-badge" data-sel>Banda 1</span><label class="tsl-choice">Q <input type="range" class="tsl-range" min="0.3" max="10" step="0.1" value="1" data-q style="width:140px" aria-label="Q" /><span class="xp-mono" data-qv></span></label><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-flat>Aplanar</button></div>`,
+        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-listen><tsl-icon name=play></tsl-icon> Escuchar (ruido rosa)</button><span class="tsl-badge" data-sel>Banda 1</span><label class="tsl-choice">Q <input type="range" class="tsl-range" min="0.3" max="10" step="0.1" value="1" data-q style="width:140px" aria-label="Q" /><span class="xp-mono" data-qv></span></label><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-flat>Aplanar</button></div>`,
       setup(root, ctx) {
         const SR = 48000;
         const bands = [[80, 3, 1], [400, -2, 1.2], [2500, 4, 0.9], [9000, -3, 1.5]].map(([f, g, q]) => ({ f, g, q }));
@@ -1428,7 +1428,7 @@
             ac.close();
             ac = null;
             filters = null;
-            e.target.textContent = "▶ Escuchar (ruido rosa)";
+            e.target.innerHTML = "<tsl-icon name=play></tsl-icon> Escuchar (ruido rosa)";
             return;
           }
           const AC = window.AudioContext || window.webkitAudioContext;
@@ -1456,7 +1456,7 @@
           });
           filters.reduce((n, f) => n.connect(f), src).connect(ac.destination);
           src.start();
-          e.target.textContent = "■ Detener";
+          e.target.innerHTML = "<tsl-icon name=square></tsl-icon> Detener";
           render();
         });
         ctx.onCleanup(() => ac && ac.close());
@@ -1470,7 +1470,7 @@
         <div class="tsl-grid" style="--min:280px;align-items:start">
           <canvas class="xp-canvas" data-stage style="height:260px;image-rendering:pixelated"></canvas>
           <div class="tsl-stack">
-            <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--sm" data-step="-1">◀</button><button type="button" class="tsl-btn tsl-btn--primary tsl-btn--sm" data-play>❚❚ Pausar</button><button type="button" class="tsl-btn tsl-btn--sm" data-step="1">▶</button><span class="xp-mono" data-f></span></div>
+            <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--sm" data-step="-1" aria-label="Fotograma anterior"><tsl-icon name="skip-back"></tsl-icon></button><button type="button" class="tsl-btn tsl-btn--primary tsl-btn--sm" data-play><tsl-icon name=pause></tsl-icon> Pausar</button><button type="button" class="tsl-btn tsl-btn--sm" data-step="1" aria-label="Fotograma siguiente"><tsl-icon name="skip-forward"></tsl-icon></button><span class="xp-mono" data-f></span></div>
             <label class="tsl-choice">FPS <input type="range" class="tsl-range" min="1" max="24" value="10" data-fps style="width:140px" data-tsl-output="#sp-fps" aria-label="FPS" /><strong class="xp-mono" id="sp-fps">10</strong></label>
             <label class="tsl-choice">Piel de cebolla <input type="checkbox" role="switch" class="tsl-switch" data-onion checked /></label>
             <label class="tsl-choice">Hitbox <input type="checkbox" role="switch" class="tsl-switch" data-hit /></label>
@@ -1549,14 +1549,14 @@
         });
         ctx.on(ctx.$("[data-play]"), "click", (e) => {
           playing = !playing;
-          e.target.textContent = playing ? "❚❚ Pausar" : "▶ Reproducir";
+          e.target.innerHTML = playing ? "<tsl-icon name=pause></tsl-icon> Pausar" : "<tsl-icon name=play></tsl-icon> Reproducir";
         });
-        ctx.$$("[data-step]").forEach((b) => ctx.on(b, "click", () => ((playing = false), (ctx.$("[data-play]").textContent = "▶ Reproducir"), (frame = (frame + Number(b.dataset.step) + N) % N))));
+        ctx.$$("[data-step]").forEach((b) => ctx.on(b, "click", () => ((playing = false), (ctx.$("[data-play]").innerHTML = "<tsl-icon name=play></tsl-icon> Reproducir"), (frame = (frame + Number(b.dataset.step) + N) % N))));
         ctx.on(ctx.$("[data-strip]"), "click", (e) => {
           const b = e.target.closest("[data-i]");
           if (!b) return;
           playing = false;
-          ctx.$("[data-play]").textContent = "▶ Reproducir";
+          ctx.$("[data-play]").innerHTML = "<tsl-icon name=play></tsl-icon> Reproducir";
           frame = Number(b.dataset.i);
         });
       }
@@ -1569,11 +1569,11 @@
           <div data-prompter style="position:absolute;inset:20px 20px 80px;overflow:hidden;font-size:22px;line-height:1.6;text-align:center;color:var(--tsl-fg)"><div data-text style="padding-top:260px">Hola a todos: hoy les presento la nueva galería de tesela-ui. Cada experimento ahora es un componente real y funcional. Pueden abrir el panel de código para copiar el HTML y el JavaScript, cambiar los tokens para rediseñarlo todo e incorporar la biblioteca en cualquier proyecto. Sin dependencias, solo la plataforma.</div></div>
           <div data-pip style="position:absolute;width:200px;height:130px;right:16px;bottom:16px;border-radius:14px;overflow:hidden;box-shadow:var(--tsl-shadow-lg);border:2px solid var(--tsl-border-strong);cursor:grab;touch-action:none;transition:left .25s var(--tsl-ease),top .25s var(--tsl-ease)">
             <video data-video autoplay muted playsinline style="width:100%;height:100%;object-fit:cover;display:none"></video>
-            <div data-fallback style="width:100%;height:100%;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,var(--xp-accent),#111);color:#fff;font-size:30px">🙂</div>
+            <div data-fallback style="width:100%;height:100%;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,var(--xp-accent),#111);color:#fff;font-size:30px"><tsl-icon name="user"></tsl-icon></div>
             <span data-rec hidden class="tsl-badge tsl-badge--danger" style="position:absolute;top:6px;left:6px"><span class="tsl-dot tsl-dot--danger tsl-dot--pulse" style="--_c:#fff"></span> <span data-time>00:00</span></span>
           </div>
         </div>
-        <div class="tsl-row"><button type="button" class="tsl-btn" data-cam>📷 Usar cámara</button><button type="button" class="tsl-btn tsl-btn--danger" data-record>● Grabar</button><label class="tsl-choice">Velocidad del teleprompter <input type="range" class="tsl-range" min="0" max="60" value="20" data-speed style="width:120px" aria-label="Velocidad del teleprompter" /></label><label class="tsl-choice">Micrófono <div class="tsl-meter" style="width:100px;height:8px"><span data-level style="--w:0%;--c:var(--tsl-success)"></span></div></label></div>`,
+        <div class="tsl-row"><button type="button" class="tsl-btn" data-cam><tsl-icon name=camera></tsl-icon> Usar cámara</button><button type="button" class="tsl-btn tsl-btn--danger" data-record><tsl-icon name=circle-dot></tsl-icon> Grabar</button><label class="tsl-choice">Velocidad del teleprompter <input type="range" class="tsl-range" min="0" max="60" value="20" data-speed style="width:120px" aria-label="Velocidad del teleprompter" /></label><label class="tsl-choice">Micrófono <div class="tsl-meter" style="width:100px;height:8px"><span data-level style="--w:0%;--c:var(--tsl-success)"></span></div></label></div>`,
       setup(root, ctx) {
         const stage = ctx.$("[data-stage]");
         const pip = ctx.$("[data-pip]");
@@ -1630,7 +1630,7 @@
           rec = !rec;
           if (rec) secs = 0;
           ctx.$("[data-rec]").hidden = !rec;
-          e.target.textContent = rec ? "■ Detener" : "● Grabar";
+          e.target.innerHTML = rec ? "<tsl-icon name=square></tsl-icon> Detener" : "<tsl-icon name=circle-dot></tsl-icon> Grabar";
           if (!rec) ctx.toast({ title: "Grabación guardada", description: `${secs}s · toma-${Date.now().toString(36)}.webm` });
         });
         ctx.every(1000, () => {

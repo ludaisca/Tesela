@@ -131,7 +131,7 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   ok((await p.locator(R + ' .is-preview').count()) === 3, 'rango: vista previa al pasar el cursor (3 días)');
   await p.locator(R + ' .tsl-cal__day[data-date="2026-11-03"]').click();
   ok((await val(R)) === '2026-10-20/2026-11-03' && !(await vis(R + ' tsl-calendar')), 'rango: completa a través de dos meses y cierra');
-  ok((await txt('#demo-daterange-out')).includes('2026-10-20 → 2026-11-03'), 'rango: tsl-change entrega start/end');
+  ok((await txt('#demo-daterange-out')).includes('2026-10-20 – 2026-11-03'), 'rango: tsl-change entrega start/end');
 
   // ---------- TIME PICKER ----------
   await go('#time-picker');

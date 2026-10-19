@@ -1,3 +1,5 @@
+import { icon } from "../core/icons.js";
+
 function toastRegion() {
   let region = document.querySelector(".tsl-toast-region");
   if (!region) {
@@ -64,7 +66,7 @@ export function toast(options) {
   close.type = "button";
   close.className = "tsl-toast__close";
   close.setAttribute("aria-label", "Cerrar");
-  close.textContent = "✕";
+  close.appendChild(icon("x"));
   close.addEventListener("click", dismiss);
   el.appendChild(close);
 

@@ -1,4 +1,5 @@
 import { TslElement, define, emit, nextId } from "../core/base.js";
+import { icon } from "../core/icons.js";
 
 const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -35,9 +36,9 @@ export class TslCarousel extends TslElement {
     this.bar = document.createElement("div");
     this.bar.className = "tsl-carousel__bar";
     this.appendChild(this.bar);
-    this.prevBtn = this.control("prev", "Anterior", "‹");
+    this.prevBtn = this.control("prev", "Anterior", "chevron-left");
     if (this.hasAttribute("dots")) this.buildDots();
-    this.nextBtn = this.control("next", "Siguiente", "›");
+    this.nextBtn = this.control("next", "Siguiente", "chevron-right");
     this.prevBtn.addEventListener("click", () => this.prev());
     this.nextBtn.addEventListener("click", () => this.next());
     if (this.hasAttribute("autoplay")) this.buildAutoplay();
@@ -100,13 +101,13 @@ export class TslCarousel extends TslElement {
     this.goTo(v, false);
   }
 
-  control(kind, label, glyph) {
+  control(kind, label, iconName) {
     let btn = this.querySelector(`:scope > [data-tsl-${kind}]`);
     if (!btn) {
       btn = document.createElement("button");
       btn.type = "button";
       btn.className = `tsl-btn tsl-btn--icon tsl-carousel__nav tsl-carousel__${kind}`;
-      btn.textContent = glyph;
+      btn.appendChild(icon(iconName, "tsl-icon--flip-rtl"));
       this.bar.appendChild(btn);
     }
     btn.setAttribute("aria-label", label);
@@ -161,7 +162,7 @@ export class TslCarousel extends TslElement {
 
   paintPlay() {
     if (!this.playBtn) return;
-    this.playBtn.textContent = this.playing ? "❚❚" : "▶";
+    this.playBtn.replaceChildren(icon(this.playing ? "pause" : "play"));
     this.playBtn.setAttribute("aria-label", this.playing ? "Pausar avance automático" : "Reanudar avance automático");
     this.track.setAttribute("aria-live", this.playing ? "off" : "polite");
   }

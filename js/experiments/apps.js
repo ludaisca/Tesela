@@ -30,7 +30,7 @@
         const area = ctx.$("[data-area]");
         const pie = ctx.$("[data-pie]");
         const items = ["Copiar", "Pegar", "Compartir", "Eliminar", "Renombrar", "Destacar"];
-        const icons = ["⧉", "⎘", "↗", "🗑", "✎", "★"];
+        const icons = ["copy", "clipboard-check", "share-2", "trash-2", "pencil", "star"];
         let open = null;
         let active = -1;
         const draw = () => {
@@ -44,7 +44,7 @@
                 const r = 34;
                 const p = (a, rad) => `${(Math.cos(a) * rad).toFixed(1)},${(Math.sin(a) * rad).toFixed(1)}`;
                 const mid = (a0 + a1) / 2;
-                return `<path d="M${p(a0, r)} L${p(a0, R)} A${R},${R} 0 0 1 ${p(a1, R)} L${p(a1, r)} A${r},${r} 0 0 0 ${p(a0, r)} Z" fill="${i === active ? "var(--xp-accent)" : "var(--tsl-bg-elevated)"}" stroke="var(--tsl-border-strong)"/><text x="${Math.cos(mid) * 67}" y="${Math.sin(mid) * 67 - 2}" text-anchor="middle" font-size="16" fill="currentColor" style="fill:var(--tsl-fg)">${icons[i]}</text><text x="${Math.cos(mid) * 67}" y="${Math.sin(mid) * 67 + 14}" text-anchor="middle" font-size="9" style="fill:var(--tsl-fg-muted)">${label}</text>`;
+                return `<path d="M${p(a0, r)} L${p(a0, R)} A${R},${R} 0 0 1 ${p(a1, R)} L${p(a1, r)} A${r},${r} 0 0 0 ${p(a0, r)} Z" fill="${i === active ? "var(--xp-accent)" : "var(--tsl-bg-elevated)"}" stroke="var(--tsl-border-strong)"/><foreignObject x="${Math.cos(mid) * 67 - 8}" y="${Math.sin(mid) * 67 - 16}" width="16" height="16" style="color:var(--tsl-fg);font-size:16px"><tsl-icon name="${icons[i]}"></tsl-icon></foreignObject><text x="${Math.cos(mid) * 67}" y="${Math.sin(mid) * 67 + 14}" text-anchor="middle" font-size="9" style="fill:var(--tsl-fg-muted)">${label}</text>`;
               })
               .join("") + `<circle r="30" fill="var(--tsl-bg)" stroke="var(--tsl-border-strong)"/><text y="4" text-anchor="middle" font-size="10" style="fill:var(--tsl-fg-muted)">${active >= 0 ? items[active] : "cancelar"}</text>`;
         };
@@ -115,7 +115,7 @@
           rows = mode ? mode.actions.filter((a) => a.toLowerCase().includes(q)) : items.filter((i) => `${i.name} ${i.kind}`.toLowerCase().includes(q));
           idx = Math.min(idx, Math.max(0, rows.length - 1));
           ctx.$("[data-list]").innerHTML = rows.length
-            ? rows.map((r, i) => `<button type="button" class="tsl-command__item" role="option" aria-selected="${i === idx}" data-i="${i}">${mode ? `<span>⚡</span>${esc(r)}` : `<span class="tsl-avatar tsl-avatar--sm tsl-avatar--square">${r.name[0]}</span>${esc(r.name)}<span class="tsl-nav__meta">${r.kind}</span>`}</button>`).join("")
+            ? rows.map((r, i) => `<button type="button" class="tsl-command__item" role="option" aria-selected="${i === idx}" data-i="${i}">${mode ? `<tsl-icon name="zap"></tsl-icon>${esc(r)}` : `<span class="tsl-avatar tsl-avatar--sm tsl-avatar--square">${r.name[0]}</span>${esc(r.name)}<span class="tsl-nav__meta">${r.kind}</span>`}</button>`).join("")
             : '<div class="tsl-command__empty">Sin resultados</div>';
           ctx.$("[data-crumb]").hidden = !mode;
           ctx.$("[data-crumb]").textContent = mode ? mode.name : "";
@@ -185,7 +185,7 @@
             const siblings = Object.keys(i === 0 ? tree : nodeAt(path.slice(0, i)));
             if (i) crumbs.insertAdjacentHTML("beforeend", '<span class="tsl-muted">/</span>');
             const menu = document.createElement("tsl-menu");
-            menu.innerHTML = `<button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-tsl-trigger${i === path.length - 1 ? ' aria-current="page"' : ""}>${esc(seg)} ▾</button><div class="tsl-menu__list">${siblings.map((s) => `<button type="button" class="tsl-menu__item" data-value="${esc(s)}">${s === seg ? "✓ " : ""}${esc(s)}</button>`).join("")}</div>`;
+            menu.innerHTML = `<button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-tsl-trigger${i === path.length - 1 ? ' aria-current="page"' : ""}>${esc(seg)}<tsl-icon name=chevron-down></tsl-icon></button><div class="tsl-menu__list">${siblings.map((s) => `<button type="button" class="tsl-menu__item" data-value="${esc(s)}">${s === seg ? "<tsl-icon name=check></tsl-icon>" : ""}${esc(s)}</button>`).join("")}</div>`;
             menu.addEventListener("tsl-select", (e) => {
               const next = path.slice(0, i).concat(e.detail.value);
               let n = nodeAt(next);
@@ -196,7 +196,7 @@
             crumbs.appendChild(menu);
           });
           const kids = Object.keys(nodeAt(path));
-          ctx.$("[data-children]").innerHTML = kids.length ? kids.map((k) => `<li class="xp-select-item" data-k="${esc(k)}"><span>📁</span><span style="flex:1">${esc(k)}</span><span class="tsl-muted">${Object.keys(nodeAt(path)[k]).length} elementos ›</span></li>`).join("") : '<li class="tsl-muted">📄 Carpeta vacía — llegaste al final</li>';
+          ctx.$("[data-children]").innerHTML = kids.length ? kids.map((k) => `<li class="xp-select-item" data-k="${esc(k)}"><tsl-icon name="folder"></tsl-icon><span style="flex:1">${esc(k)}</span><span class="tsl-muted">${Object.keys(nodeAt(path)[k]).length} elementos<tsl-icon name="chevron-right" flip-rtl></tsl-icon></span></li>`).join("") : '<li class="tsl-muted"><tsl-icon name=file-text></tsl-icon> Carpeta vacía — llegaste al final</li>';
         };
         ctx.on(ctx.$("[data-children]"), "click", (e) => {
           const li = e.target.closest("[data-k]");
@@ -225,7 +225,7 @@
         const view = { grid: true, ext: true };
         let target = null;
         const renderFiles = () => {
-          ctx.$("[data-files]").innerHTML = files.map(([n, f], i) => `<button type="button" class="tsl-card tsl-card--flat" data-f="${i}" style="padding:14px;text-align:left;cursor:context-menu;color:inherit;font:inherit"><div style="font-size:22px">📄</div><strong>${esc(view.ext ? n : n.replace(/\.\w+$/, ""))}</strong><div class="tsl-muted" style="font-size:11px">${esc(f)}</div></button>`).join("");
+          ctx.$("[data-files]").innerHTML = files.map(([n, f], i) => `<button type="button" class="tsl-card tsl-card--flat" data-f="${i}" style="padding:14px;text-align:left;cursor:context-menu;color:inherit;font:inherit"><div style="font-size:22px"><tsl-icon name="file-text"></tsl-icon></div><strong>${esc(view.ext ? n : n.replace(/\.\w+$/, ""))}</strong><div class="tsl-muted" style="font-size:11px">${esc(f)}</div></button>`).join("");
           ctx.$("[data-files]").style.setProperty("--min", view.grid ? "140px" : "100%");
         };
         const close = () => {
@@ -234,7 +234,7 @@
         };
         const openAt = (x, y, i) => {
           target = i;
-          menu.innerHTML = `<div class="tsl-menu__label">${esc(files[i][0])}</div><button type="button" class="tsl-menu__item" data-a="open">Abrir <kbd class="tsl-kbd">↵</kbd></button><button type="button" class="tsl-menu__item" data-a="dup">Duplicar <kbd class="tsl-kbd">⌘D</kbd></button><button type="button" class="tsl-menu__item" data-a="move">Mover a <span style="margin-left:auto">▸</span></button><div class="tsl-menu__sep"></div><button type="button" class="tsl-menu__item" data-a="grid">${view.grid ? "✓" : "  "} Vista de cuadrícula</button><button type="button" class="tsl-menu__item" data-a="ext">${view.ext ? "✓" : "  "} Mostrar extensiones</button><div class="tsl-menu__sep"></div><button type="button" class="tsl-menu__item tsl-menu__item--danger" data-a="del">Eliminar <kbd class="tsl-kbd">⌫</kbd></button>`;
+          menu.innerHTML = `<div class="tsl-menu__label">${esc(files[i][0])}</div><button type="button" class="tsl-menu__item" data-a="open">Abrir <kbd class="tsl-kbd">↵</kbd></button><button type="button" class="tsl-menu__item" data-a="dup">Duplicar <kbd class="tsl-kbd">⌘D</kbd></button><button type="button" class="tsl-menu__item" data-a="move">Mover a <tsl-icon name="chevron-right" flip-rtl style="margin-inline-start:auto"></tsl-icon></button><div class="tsl-menu__sep"></div><button type="button" class="tsl-menu__item" data-a="grid">${view.grid ? '<tsl-icon name="check"></tsl-icon>' : '<tsl-icon name="check" style="visibility:hidden"></tsl-icon>'} Vista de cuadrícula</button><button type="button" class="tsl-menu__item" data-a="ext">${view.ext ? '<tsl-icon name="check"></tsl-icon>' : '<tsl-icon name="check" style="visibility:hidden"></tsl-icon>'} Mostrar extensiones</button><div class="tsl-menu__sep"></div><button type="button" class="tsl-menu__item tsl-menu__item--danger" data-a="del">Eliminar <kbd class="tsl-kbd">⌫</kbd></button>`;
           const r = area.getBoundingClientRect();
           menu.hidden = false;
           menu.style.left = `${Math.min(x, r.width - 220)}px`;
@@ -242,7 +242,7 @@
           menu.querySelector(".tsl-menu__item").focus();
         };
         const openSub = (btn) => {
-          sub.innerHTML = folders.map((f) => `<button type="button" class="tsl-menu__item" data-to="${f}">${f === files[target][1] ? "✓ " : ""}${f}</button>`).join("");
+          sub.innerHTML = folders.map((f) => `<button type="button" class="tsl-menu__item" data-to="${f}">${f === files[target][1] ? "<tsl-icon name=check></tsl-icon>" : ""}${f}</button>`).join("");
           sub.hidden = false;
           sub.style.left = `${menu.offsetLeft + menu.offsetWidth - 4}px`;
           sub.style.top = `${menu.offsetTop + btn.offsetTop - 5}px`;
@@ -441,7 +441,7 @@
             rows = pools.flatMap(([s, list]) => list.filter(([t, d]) => `${t} ${d}`.toLowerCase().includes(q)).map(([t, d]) => ({ title: t, sub: d, group: s })));
           }
           idx = Math.min(idx, Math.max(0, rows.length - 1));
-          ctx.$("[data-list]").innerHTML = rows.map((r, i) => `<button type="button" class="tsl-command__item" aria-selected="${i === idx}" data-i="${i}">${r.scope ? "⌕ Buscar en" : ""} <strong>${esc(r.title)}</strong><span class="tsl-nav__meta">${esc(r.group || r.sub)}</span></button>`).join("") || '<div class="tsl-command__empty">Sin resultados</div>';
+          ctx.$("[data-list]").innerHTML = rows.map((r, i) => `<button type="button" class="tsl-command__item" aria-selected="${i === idx}" data-i="${i}">${r.scope ? "<tsl-icon name=search></tsl-icon> Buscar en" : ""} <strong>${esc(r.title)}</strong><span class="tsl-nav__meta">${esc(r.group || r.sub)}</span></button>`).join("") || '<div class="tsl-command__empty">Sin resultados</div>';
           const cur = rows[idx];
           ctx.$("[data-preview]").innerHTML = cur ? `<span class="tsl-eyebrow">${esc(cur.group || "Ámbito")}</span><h3 class="xp-title" style="font-size:18px"></h3><p class="tsl-muted"></p>` : '<span class="tsl-muted">Sin selección</span>';
           if (cur) {
@@ -548,9 +548,9 @@
           <div data-dock style="display:flex;align-items:flex-end;gap:8px;padding:8px 12px;border-radius:18px;border:1px solid var(--tsl-border-strong);background:var(--tsl-bg-glass);backdrop-filter:blur(12px);height:72px"></div>
         </div>`,
       setup(root, ctx) {
-        const apps = [["Finder", "🗂"], ["Correo", "✉️"], ["Música", "🎵"], ["Fotos", "🖼"], ["Notas", "📝"], ["Terminal", "⌨️"], ["Ajustes", "⚙️"]];
+        const apps = [["Finder", "folder-open"], ["Correo", "mail"], ["Música", "music"], ["Fotos", "image"], ["Notas", "sticky-note"], ["Terminal", "terminal"], ["Ajustes", "settings"]];
         const dock = ctx.$("[data-dock]");
-        dock.innerHTML = apps.map(([n, i]) => `<button type="button" data-app="${n}" aria-label="${n}" data-tsl-tooltip="${n}" style="position:relative;width:48px;height:48px;border:0;border-radius:12px;background:var(--tsl-surface-strong);font-size:26px;cursor:pointer;transform-origin:bottom center;transition:transform .08s">${i}<span data-dot hidden style="position:absolute;bottom:-8px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--tsl-fg)"></span></button>`).join("");
+        dock.innerHTML = apps.map(([n, i]) => `<button type="button" data-app="${n}" aria-label="${n}" data-tsl-tooltip="${n}" style="position:relative;width:48px;height:48px;border:0;border-radius:12px;background:var(--tsl-surface-strong);font-size:26px;cursor:pointer;transform-origin:bottom center;transition:transform .08s;color:var(--tsl-fg)"><tsl-icon name="${i}"></tsl-icon><span data-dot hidden style="position:absolute;bottom:-8px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--tsl-fg)"></span></button>`).join("");
         const btns = ctx.$$("[data-app]");
         const running = new Set();
         ctx.on(dock, "pointermove", (e) => {
@@ -575,7 +575,7 @@
           const w = document.createElement("span");
           w.className = "tsl-chip";
           w.style.color = "var(--tsl-fg)";
-          w.innerHTML = `<span></span><button type="button" class="tsl-chip__remove" aria-label="Salir">✕</button>`;
+          w.innerHTML = `<span></span><button type="button" class="tsl-chip__remove" aria-label="Salir"><tsl-icon name=x></tsl-icon></button>`;
           w.firstChild.textContent = `${b.textContent.trim()} ${name}`;
           w.lastChild.addEventListener("click", () => {
             running.delete(name);
@@ -589,7 +589,7 @@
 
     "tab-switcher-expose": {
       html: `
-        ${head("Command & Menus · tab-switcher-expose.tsx", "Selector de pestañas tipo exposé", "Abre la cuadrícula (botón o Ctrl+.), muévete con las flechas, Enter para cambiar y ✕ para cerrar. Las pestañas conservan el orden de uso más reciente.")}
+        ${head("Command & Menus · tab-switcher-expose.tsx", "Selector de pestañas tipo exposé", "Abre la cuadrícula (botón o Ctrl+.), muévete con las flechas, Enter para cambiar y el botón de cerrar para quitar una pestaña. Las pestañas conservan el orden de uso más reciente.")}
         <div class="xp-panel" style="padding:0;overflow:hidden" data-xp-keys>
           <div class="tsl-row" style="padding:8px;border-bottom:1px solid var(--tsl-border);--gap:4px;flex-wrap:nowrap;overflow:auto" data-strip></div>
           <div class="xp-pane" style="min-height:240px" data-page></div>
@@ -608,7 +608,7 @@
           const tab = tabs[active];
           ctx.$("[data-page]").innerHTML = tab ? `<div style="height:8px;border-radius:4px;background:${tab.c};width:40%"></div><h3 class="xp-title" style="font-size:20px;margin-top:14px"></h3><p class="tsl-muted">Este es el contenido de la pestaña activa.</p>` : '<div class="tsl-empty"><div class="tsl-empty__title">No hay pestañas abiertas</div></div>';
           if (tab) ctx.$("[data-page] h3").textContent = tab.t;
-          grid.innerHTML = mru.map((i, k) => `<div class="tsl-card tsl-card--flat" data-pick="${i}" style="cursor:pointer;outline:${k === sel ? "2px solid var(--xp-accent)" : "none"}"><div style="height:70px;background:linear-gradient(135deg, ${tabs[i].c}, transparent)"></div><div class="tsl-row" style="padding:8px 10px"><span style="flex:1;font-size:12px">${esc(tabs[i].t)}</span><button type="button" class="tsl-chip__remove" data-close="${i}" aria-label="Cerrar pestaña">✕</button></div></div>`).join("");
+          grid.innerHTML = mru.map((i, k) => `<div class="tsl-card tsl-card--flat" data-pick="${i}" style="cursor:pointer;outline:${k === sel ? "2px solid var(--xp-accent)" : "none"}"><div style="height:70px;background:linear-gradient(135deg, ${tabs[i].c}, transparent)"></div><div class="tsl-row" style="padding:8px 10px"><span style="flex:1;font-size:12px">${esc(tabs[i].t)}</span><button type="button" class="tsl-chip__remove" data-close="${i}" aria-label="Cerrar pestaña"><tsl-icon name=x></tsl-icon></button></div></div>`).join("");
         };
         const activate = (i) => {
           active = i;
@@ -665,14 +665,14 @@
   // ==========================================================================
   // ESTADOS VACÍOS
   // ==========================================================================
-  const empty = (icon, title, desc, actions = "") => `<div class="tsl-empty"><div class="tsl-empty__icon" style="font-size:20px">${icon}</div><div class="tsl-empty__title">${title}</div><p class="tsl-empty__desc">${desc}</p>${actions ? `<div class="tsl-row" style="justify-content:center;margin-top:6px">${actions}</div>` : ""}</div>`;
+  const empty = (icon, title, desc, actions = "") => `<div class="tsl-empty"><div class="tsl-empty__icon" style="font-size:20px"><tsl-icon name="${icon}"></tsl-icon></div><div class="tsl-empty__title">${title}</div><p class="tsl-empty__desc">${desc}</p>${actions ? `<div class="tsl-row" style="justify-content:center;margin-top:6px">${actions}</div>` : ""}</div>`;
 
   X.addMany("empty-states", {
     "inbox-zero": {
       html: `
         ${head("Empty states · inbox-zero.tsx", "Bandeja vacía", "Archiva los mensajes restantes para vaciar la bandeja y deshaz la acción si fuiste demasiado rápido.")}
         <ul class="tsl-list" data-list></ul>
-        <div data-empty hidden>${empty("🧘", "Todo al día", "Bandeja vacía. Disfruta la calma: el correo nuevo llegará aquí.", '<button type="button" class="tsl-btn" data-undo>Deshacer último archivado</button>')}</div>`,
+        <div data-empty hidden>${empty("inbox", "Todo al día", "Bandeja vacía. Disfruta la calma: el correo nuevo llegará aquí.", '<button type="button" class="tsl-btn" data-undo>Deshacer último archivado</button>')}</div>`,
       setup(root, ctx) {
         const msgs = ["Ana — Notas de la revisión de diseño", "GitHub — 2 revisiones nuevas", "Stripe — Pago enviado", "Leo — ¿Comemos?"];
         const archived = [];
@@ -719,7 +719,7 @@
           box.hidden = !!hits.length;
           if (!hits.length) {
             const sugg = words.map((w) => [w, lev(v, w.toLowerCase())]).sort((a, b) => a[1] - b[1]).slice(0, 3);
-            box.innerHTML = `<div class="tsl-empty"><div class="tsl-empty__icon">⌕</div><div class="tsl-empty__title">Sin resultados para “<span data-term></span>”</div><p class="tsl-empty__desc">¿Quisiste decir?</p><div class="tsl-row" style="justify-content:center">${sugg.map(([w]) => `<button type="button" class="tsl-chip" data-s="${esc(w)}">${esc(w)}</button>`).join("")}<button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-clear>Limpiar búsqueda</button></div></div>`;
+            box.innerHTML = `<div class="tsl-empty"><div class="tsl-empty__icon"><tsl-icon name="search"></tsl-icon></div><div class="tsl-empty__title">Sin resultados para “<span data-term></span>”</div><p class="tsl-empty__desc">¿Quisiste decir?</p><div class="tsl-row" style="justify-content:center">${sugg.map(([w]) => `<button type="button" class="tsl-chip" data-s="${esc(w)}">${esc(w)}</button>`).join("")}<button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-clear>Limpiar búsqueda</button></div></div>`;
             box.querySelector("[data-term]").textContent = q.value;
           }
         };
@@ -738,9 +738,9 @@
     "first-project": {
       html: `
         ${head("Empty states · first-project.tsx", "Primer proyecto", "Empieza desde una plantilla; los proyectos aparecen en una cuadrícula. Elimínalos todos para volver al estado inicial.")}
-        <div data-empty>${empty("✦", "Crea tu primer proyecto", "Los proyectos reúnen diseños, documentos y tareas. Empieza en blanco o desde una plantilla.")}
+        <div data-empty>${empty("folder", "Crea tu primer proyecto", "Los proyectos reúnen diseños, documentos y tareas. Empieza en blanco o desde una plantilla.")}
           <div class="tsl-grid" style="--min:180px;margin-top:16px" data-templates>
-            ${[["En blanco", "⬜"], ["Página de aterrizaje", "🚀"], ["Panel de control", "📊"], ["App móvil", "📱"]].map(([n, i]) => `<button type="button" class="tsl-card tsl-card--interactive" data-t="${n}" style="padding:18px;text-align:left;color:inherit;font:inherit;cursor:pointer"><div style="font-size:24px">${i}</div><strong>${n}</strong></button>`).join("")}
+            ${[["En blanco", "square-dashed"], ["Página de aterrizaje", "rocket"], ["Panel de control", "layout-dashboard"], ["App móvil", "smartphone"]].map(([n, i]) => `<button type="button" class="tsl-card tsl-card--interactive" data-t="${n}" style="padding:18px;text-align:left;color:inherit;font:inherit;cursor:pointer"><div style="font-size:24px"><tsl-icon name="${i}"></tsl-icon></div><strong>${n}</strong></button>`).join("")}
           </div>
         </div>
         <div data-full hidden class="tsl-stack"><div class="tsl-row"><strong data-count></strong><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--sm" data-new>+ Nuevo</button></div><div class="tsl-grid" style="--min:200px" data-projects></div></div>`,
@@ -790,7 +790,7 @@
             for (let i = 0; i < 6; i++) list.insertAdjacentHTML("beforeend", `<li><span class="tsl-avatar tsl-avatar--sm">${"ALSM"[(page + i) % 4]}</span><div><div class="tsl-list__title">Actualización #${page * 6 + i + 1}</div><div class="tsl-list__desc">Publicado hace ${page * 6 + i + 1} h</div></div></li>`);
             page++;
             loading = false;
-            sentinel.innerHTML = page >= PAGES ? `<div class="tsl-divider">Estás al día · ${page * 6} actualizaciones</div><button type="button" class="tsl-btn tsl-btn--sm" data-top>Volver arriba ↑</button>` : '<button type="button" class="tsl-btn tsl-btn--sm" data-more>Cargar más</button>';
+            sentinel.innerHTML = page >= PAGES ? `<div class="tsl-divider">Estás al día · ${page * 6} actualizaciones</div><button type="button" class="tsl-btn tsl-btn--sm" data-top>Volver arriba<tsl-icon name=arrow-up></tsl-icon></button>` : '<button type="button" class="tsl-btn tsl-btn--sm" data-more>Cargar más</button>';
           });
         };
         ctx.on(sentinel, "click", (e) => {
@@ -806,7 +806,7 @@
     "no-team": {
       html: `
         ${head("Empty states · no-team.tsx", "Sin compañeros", "Invita personas desde el estado vacío; la pila de avatares y la lista de miembros se llenan. Quita a todos para verlo de nuevo.")}
-        <div data-empty>${empty("👥", "Aquí hay mucha calma", "Invita a tu equipo para colaborar en tiempo real.")}</div>
+        <div data-empty>${empty("users", "Aquí hay mucha calma", "Invita a tu equipo para colaborar en tiempo real.")}</div>
         <div data-full hidden class="tsl-row"><div class="tsl-avatar-group" data-stack></div><span class="tsl-muted" data-count></span></div>
         <form class="tsl-input-group" data-form style="max-width:420px;margin:0 auto;width:100%"><input class="tsl-input" type="email" required placeholder="companero@empresa.com" aria-label="Correo electrónico" /><button type="submit" class="tsl-btn tsl-btn--primary tsl-btn--sm" style="margin:3px">Invitar</button></form>
         <ul class="tsl-list" data-list style="max-width:420px;margin:0 auto;width:100%"></ul>`,
@@ -842,7 +842,7 @@
         ${head("Empty states · trash.tsx", "Vaciar papelera", "Restaura o elimina de forma permanente los elementos, o vacía toda la papelera después de confirmar.")}
         <div class="tsl-row"><span class="tsl-muted">Los elementos se eliminan para siempre después de 30 días.</span><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--danger tsl-btn--sm" data-tsl-open="trash-confirm" data-empty-btn>Vaciar papelera</button></div>
         <ul class="tsl-list" data-list></ul>
-        <div data-empty hidden>${empty("🗑", "La papelera está vacía", "Los elementos eliminados aparecerán aquí durante 30 días.")}</div>
+        <div data-empty hidden>${empty("trash-2", "La papelera está vacía", "Los elementos eliminados aparecerán aquí durante 30 días.")}</div>
         <dialog class="tsl-dialog" id="trash-confirm"><div class="tsl-dialog__header"><h3 class="tsl-dialog__title">¿Vaciar la papelera?</h3><p class="tsl-dialog__desc">Todos los elementos se eliminarán de forma permanente.</p></div><div class="tsl-dialog__footer"><button type="button" class="tsl-btn" data-tsl-close>Cancelar</button><button type="button" class="tsl-btn tsl-btn--danger" data-tsl-close="yes">Eliminar para siempre</button></div></dialog>`,
       setup(root, ctx) {
         let items = [["Logo anterior.svg", 3], ["Informe T1.pdf", 12], ["Borrador — precios.md", 21], ["Captura 12.png", 28]];
@@ -877,14 +877,14 @@
           <h3 class="xp-title">Esta página se perdió por el camino</h3>
           <input class="tsl-input" data-q placeholder="Buscar páginas…" aria-label="Buscar páginas" />
           <ul class="tsl-list" style="width:100%;text-align:left" data-list></ul>
-          <div class="tsl-row"><button type="button" class="tsl-btn" data-back>← Regresar</button><button type="button" class="tsl-btn tsl-btn--subtle" data-report>Reportar enlace roto</button></div>
+          <div class="tsl-row"><button type="button" class="tsl-btn" data-back><tsl-icon name=arrow-left flip-rtl></tsl-icon> Regresar</button><button type="button" class="tsl-btn tsl-btn--subtle" data-report>Reportar enlace roto</button></div>
           <form class="tsl-stack" data-form hidden style="width:100%;text-align:left"><textarea class="tsl-textarea" required placeholder="¿Dónde encontraste este enlace?" aria-label="Detalles"></textarea><button type="submit" class="tsl-btn tsl-btn--primary">Enviar reporte</button></form>
         </div></div>`,
       setup(root, ctx) {
         const pages = ["/", "/pricing", "/docs", "/docs/components", "/blog", "/changelog", "/careers", "/contact"];
         const render = () => {
           const q = ctx.$("[data-q]").value.toLowerCase();
-          ctx.$("[data-list]").innerHTML = pages.filter((p) => p.includes(q)).slice(0, 4).map((p) => `<li class="xp-select-item" data-p="${p}"><span class="xp-mono">${p}</span><span class="tsl-list__end tsl-muted">→</span></li>`).join("") || '<li class="tsl-muted">Ninguna página coincide</li>';
+          ctx.$("[data-list]").innerHTML = pages.filter((p) => p.includes(q)).slice(0, 4).map((p) => `<li class="xp-select-item" data-p="${p}"><span class="xp-mono">${p}</span><tsl-icon class="tsl-list__end tsl-muted" name="chevron-right" flip-rtl></tsl-icon></li>`).join("") || '<li class="tsl-muted">Ninguna página coincide</li>';
         };
         ctx.on(ctx.$("[data-q]"), "input", render);
         ctx.on(ctx.$("[data-list]"), "click", (e) => {
@@ -944,7 +944,7 @@
     "no-files": {
       html: `
         ${head("Empty states · no-files.tsx", "Sin archivos", "El estado vacío es la zona de carga. Agrega archivos (arrastra o haz clic) y se listan con su tamaño; quítalos todos para volver.")}
-        <tsl-dropzone multiple data-drop style="min-height:220px"><div style="font-size:28px">📂</div><strong>Aún no hay archivos</strong><span>Suelta archivos aquí o haz clic para explorar</span></tsl-dropzone>
+        <tsl-dropzone multiple data-drop style="min-height:220px"><div style="font-size:28px"><tsl-icon name="folder-open"></tsl-icon></div><strong>Aún no hay archivos</strong><span>Suelta archivos aquí o haz clic para explorar</span></tsl-dropzone>
         <div class="tsl-table-wrap" data-tablewrap hidden><table class="tsl-table"><thead><tr><th>Nombre</th><th>Tipo</th><th class="is-num">Tamaño</th><th></th></tr></thead><tbody data-rows></tbody></table></div>`,
       setup(root, ctx) {
         let files = [];
@@ -975,7 +975,7 @@
         ${head("Empty states · offline.tsx", "Sin conexión", "Alterna la red simulada (los eventos reales de conexión y desconexión también se respetan). Las acciones se encolan sin conexión; los reintentos se espacian de forma exponencial y se envían al reconectar.")}
         <div class="tsl-row"><label class="tsl-choice">Simular sin conexión <input type="checkbox" role="switch" class="tsl-switch" data-off /></label><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--sm" data-action>Enviar mensaje</button><span class="tsl-badge" data-queue>0 en cola</span></div>
         <div data-online class="tsl-alert tsl-alert--success"><div><div class="tsl-alert__title">Conectado</div><div class="tsl-alert__desc">Todos los cambios están sincronizados.</div></div></div>
-        <div data-offline hidden>${empty("📡", "Sin conexión", 'Los cambios se guardan localmente y se sincronizarán cuando te reconectes.', '<button type="button" class="tsl-btn tsl-btn--primary" data-retry>Reintentar ahora</button>')}<p class="tsl-muted" style="text-align:center;margin-top:8px" data-next></p></div>`,
+        <div data-offline hidden>${empty("wifi-off", "Sin conexión", 'Los cambios se guardan localmente y se sincronizarán cuando te reconectes.', '<button type="button" class="tsl-btn tsl-btn--primary" data-retry>Reintentar ahora</button>')}<p class="tsl-muted" style="text-align:center;margin-top:8px" data-next></p></div>`,
       setup(root, ctx) {
         let offline = !navigator.onLine;
         let queue = 0;
@@ -1057,7 +1057,7 @@
           clearTimeout(t);
           t = setTimeout(() => {
             const ok = !taken.includes(handle.value.toLowerCase()) && /^[a-z0-9_]{3,20}$/.test(handle.value);
-            avail.innerHTML = ok ? '<span style="color:var(--tsl-success)">✓ disponible</span>' : '<span style="color:var(--tsl-danger)">✕ en uso</span>';
+            avail.innerHTML = ok ? '<span style="color:var(--tsl-success)"><tsl-icon name=check></tsl-icon> disponible</span>' : '<span style="color:var(--tsl-danger)"><tsl-icon name=x></tsl-icon> en uso</span>';
           }, 400);
         };
         ctx.onCleanup(() => clearTimeout(t));
@@ -1111,7 +1111,7 @@
           ${[["Inicial", 0], ["Pro", 19], ["Empresarial", 49]].map(([n, p]) => `<label class="tsl-card tsl-card--flat" style="padding:14px;cursor:pointer"><div class="tsl-row"><input type="radio" class="tsl-check" name="plan" value="${n}" data-price="${p}"${n === "Pro" ? " checked" : ""} /><strong>${n}</strong></div><div class="xp-num" style="font-size:22px;margin-top:6px">$${p}<span class="tsl-muted" style="font-size:12px">/asiento/mes</span></div></label>`).join("")}
         </div>
         <div class="xp-panel tsl-row"><span class="tsl-label">Asientos</span><div class="tsl-number"><button type="button" data-step="-1" aria-label="Menos">−</button><input type="number" min="1" max="200" value="8" data-seats aria-label="Asientos" /><button type="button" data-step="1" aria-label="Más">+</button></div><span class="tsl-spacer"></span><span class="tsl-muted">Próxima factura</span><strong class="xp-num" style="font-size:22px" data-total></strong></div>
-        <div class="xp-panel tsl-row"><span style="font-size:22px">💳</span><div><strong>Visa •••• 4242</strong><div class="tsl-muted">Vence 08/28</div></div><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--sm" data-update-card>Actualizar</button></div>
+        <div class="xp-panel tsl-row"><tsl-icon name="credit-card" style="font-size:22px"></tsl-icon><div><strong>Visa •••• 4242</strong><div class="tsl-muted">Vence 08/28</div></div><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--sm" data-update-card>Actualizar</button></div>
         <ul class="tsl-list" data-invoices></ul>`),
       setup(root, ctx) {
         const total = () => {
@@ -1368,7 +1368,7 @@
         const hooks = [{ url: "https://api.acme.dev/hooks/tesela", ev: ["invoice.paid", "deploy.failed"], on: true, secret: "whsec_9f2a…71e0", show: false }];
         const render = () => {
           ctx.$("[data-list]").innerHTML = hooks
-            .map((h, i) => `<li style="flex-wrap:wrap"><input type="checkbox" role="switch" class="tsl-switch" data-tg="${i}"${h.on ? " checked" : ""} aria-label="Activado" /><div style="flex:1;min-width:200px"><div class="tsl-list__title xp-mono">${esc(h.url)}</div><div class="tsl-list__desc">${h.ev.map(esc).join(", ")} · secreto <code>${h.show ? esc(h.secret) : "whsec_••••••"}</code></div></div><span class="tsl-list__end"><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-sh="${i}">${h.show ? "Ocultar" : "Mostrar"}</button><button type="button" class="tsl-btn tsl-btn--sm" data-test="${i}"${h.on ? "" : " disabled"}>Enviar prueba</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-rm="${i}" aria-label="Eliminar">✕</button></span></li>`)
+            .map((h, i) => `<li style="flex-wrap:wrap"><input type="checkbox" role="switch" class="tsl-switch" data-tg="${i}"${h.on ? " checked" : ""} aria-label="Activado" /><div style="flex:1;min-width:200px"><div class="tsl-list__title xp-mono">${esc(h.url)}</div><div class="tsl-list__desc">${h.ev.map(esc).join(", ")} · secreto <code>${h.show ? esc(h.secret) : "whsec_••••••"}</code></div></div><span class="tsl-list__end"><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-sh="${i}">${h.show ? "Ocultar" : "Mostrar"}</button><button type="button" class="tsl-btn tsl-btn--sm" data-test="${i}"${h.on ? "" : " disabled"}>Enviar prueba</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-rm="${i}" aria-label="Eliminar"><tsl-icon name=x></tsl-icon></button></span></li>`)
             .join("");
         };
         ctx.on(ctx.$("[data-add]"), "submit", (e) => {
@@ -1515,7 +1515,7 @@
           e.target.setAttribute("aria-busy", "true");
           ctx.timeout(800, () => {
             e.target.removeAttribute("aria-busy");
-            e.target.textContent = "✓ Verificado";
+            e.target.innerHTML = "<tsl-icon name=check></tsl-icon> Verificado";
             go(1);
           });
         });
@@ -1616,7 +1616,7 @@
           const on = btn.getAttribute("aria-pressed") !== "true";
           btn.setAttribute("aria-pressed", String(on));
           followers += on ? 1 : -1;
-          btn.textContent = on ? "Siguiendo ✓" : "Seguir";
+          btn.innerHTML = on ? '<tsl-icon name="check"></tsl-icon> Siguiendo' : "Seguir";
           btn.className = `tsl-btn ${on ? "" : "tsl-btn--primary"}`;
           ctx.$("[data-followers]").textContent = followers.toLocaleString("es-MX");
         });
@@ -1647,7 +1647,7 @@
           ctx.$("[data-tiers]").innerHTML = tiers
             .map(([n, p, feats], i) => {
               const price = yearly ? Math.round(p * 0.8) : p;
-              return `<div class="tsl-card ${i === sel ? "" : "tsl-card--flat"}" style="${i === sel ? "border-color:var(--xp-accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--xp-accent) 20%,transparent)" : ""}"><div class="tsl-card__body tsl-stack"><div class="tsl-row"><span class="tsl-eyebrow">${n}</span>${i === 1 ? '<span class="tsl-badge tsl-badge--accent">Popular</span>' : ""}</div><div class="xp-num">$${price}<span class="tsl-muted" style="font-size:12px">/mes</span></div><span class="tsl-hint">${yearly && p ? `$${price * 12} facturados al año · ahorras $${(p - price) * 12}` : p ? "Facturación mensual" : "Gratis para siempre"}</span><ul class="tsl-stack" style="--gap:6px;padding:0;list-style:none;font-size:12px">${feats.map((f) => `<li>✓ ${f}</li>`).join("")}</ul><button type="button" class="tsl-btn tsl-btn--block ${i === sel ? "tsl-btn--primary" : ""}" data-sel="${i}">${i === sel ? "Seleccionado" : `Elegir ${n}`}</button></div></div>`;
+              return `<div class="tsl-card ${i === sel ? "" : "tsl-card--flat"}" style="${i === sel ? "border-color:var(--xp-accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--xp-accent) 20%,transparent)" : ""}"><div class="tsl-card__body tsl-stack"><div class="tsl-row"><span class="tsl-eyebrow">${n}</span>${i === 1 ? '<span class="tsl-badge tsl-badge--accent">Popular</span>' : ""}</div><div class="xp-num">$${price}<span class="tsl-muted" style="font-size:12px">/mes</span></div><span class="tsl-hint">${yearly && p ? `$${price * 12} facturados al año · ahorras $${(p - price) * 12}` : p ? "Facturación mensual" : "Gratis para siempre"}</span><ul class="tsl-stack" style="--gap:6px;padding:0;list-style:none;font-size:12px">${feats.map((f) => `<li><tsl-icon name=check></tsl-icon> ${f}</li>`).join("")}</ul><button type="button" class="tsl-btn tsl-btn--block ${i === sel ? "tsl-btn--primary" : ""}" data-sel="${i}">${i === sel ? "Seleccionado" : `Elegir ${n}`}</button></div></div>`;
             })
             .join("");
         };
@@ -1668,10 +1668,10 @@
         ${head("Cards · product.tsx", "Tarjeta de producto", "Elige color y tamaño, define la cantidad y agrégalo al carrito: la insignia del carrito y el subtotal se actualizan.")}
         <div class="tsl-row"><span class="tsl-spacer"></span><span class="tsl-badge tsl-badge--accent" data-cart>Carrito · 0</span></div>
         <div class="xp-center" style="min-height:0"><div class="tsl-card" style="width:min(340px,100%)">
-          <div data-img style="height:200px;display:grid;place-items:center;font-size:64px;transition:background .3s">🎧</div>
+          <div data-img style="height:200px;display:grid;place-items:center;font-size:64px;transition:background .3s"><tsl-icon name="headphones"></tsl-icon></div>
           <div class="tsl-card__body tsl-stack">
             <div class="tsl-row"><strong style="font-size:16px">Audífonos de estudio</strong><span class="tsl-spacer"></span><span class="xp-num" style="font-size:20px">$199</span></div>
-            <span class="tsl-muted">★ 4.7 · 1,204 reseñas</span>
+            <span class="tsl-muted"><tsl-icon name="star" label="Valoración"></tsl-icon> 4.7 · 1,204 reseñas</span>
             <div class="tsl-row" data-colors>${[["Medianoche", "#1e1b4b"], ["Arena", "#d6c4a8"], ["Salvia", "#7c9a80"]].map(([n, c], i) => `<button type="button" aria-label="${n}" data-c="${c}" data-n="${n}" style="width:24px;height:24px;border-radius:50%;background:${c};border:2px solid ${i ? "transparent" : "var(--tsl-fg)"};cursor:pointer"></button>`).join("")}<span class="tsl-muted" data-cname>Medianoche</span></div>
             <div class="tsl-row"><select class="tsl-select" style="width:auto" data-size aria-label="Tamaño"><option>Estándar</option><option>Grande (+$20)</option></select><div class="tsl-number"><button type="button" data-step="-1" aria-label="Menos">−</button><input type="number" min="1" max="9" value="1" data-qty aria-label="Cantidad" /><button type="button" data-step="1" aria-label="Más">+</button></div></div>
             <button type="button" class="tsl-btn tsl-btn--primary tsl-btn--block" data-add>Agregar al carrito</button>
@@ -1720,7 +1720,7 @@
       setup(root, ctx) {
         const lines = [["Auditoría del sistema de diseño", 1, 2400], ["Desarrollo de componentes (horas)", 12, 95], ["Hosting (anual)", 1, 240]];
         const render = () => {
-          ctx.$("[data-lines]").innerHTML = lines.map(([n, q, p], i) => `<tr><td><input class="tsl-input" style="height:28px" value="${esc(n)}" data-i="${i}" data-k="0" aria-label="Concepto" /></td><td class="is-num"><input class="tsl-input xp-mono" type="number" min="0" style="height:28px;width:70px;text-align:right" value="${q}" data-i="${i}" data-k="1" aria-label="Cantidad" /></td><td class="is-num"><input class="tsl-input xp-mono" type="number" min="0" style="height:28px;width:90px;text-align:right" value="${p}" data-i="${i}" data-k="2" aria-label="Precio" /></td><td class="is-num xp-mono" data-amt="${i}">${ctx.fmt.money(q * p)}</td><td><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" data-rm="${i}" aria-label="Quitar">✕</button></td></tr>`).join("");
+          ctx.$("[data-lines]").innerHTML = lines.map(([n, q, p], i) => `<tr><td><input class="tsl-input" style="height:28px" value="${esc(n)}" data-i="${i}" data-k="0" aria-label="Concepto" /></td><td class="is-num"><input class="tsl-input xp-mono" type="number" min="0" style="height:28px;width:70px;text-align:right" value="${q}" data-i="${i}" data-k="1" aria-label="Cantidad" /></td><td class="is-num"><input class="tsl-input xp-mono" type="number" min="0" style="height:28px;width:90px;text-align:right" value="${p}" data-i="${i}" data-k="2" aria-label="Precio" /></td><td class="is-num xp-mono" data-amt="${i}">${ctx.fmt.money(q * p)}</td><td><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" data-rm="${i}" aria-label="Quitar"><tsl-icon name=x></tsl-icon></button></td></tr>`).join("");
           totals();
         };
         const totals = () => {
@@ -1782,7 +1782,7 @@
               el.draggable = true;
               el.dataset.id = k.id;
               el.style.cursor = "grab";
-              el.innerHTML = `<div class="tsl-card__body tsl-stack" style="--gap:8px;padding:12px"><div class="tsl-row"><strong style="flex:1"></strong><span class="tsl-badge tsl-badge--${k.pri === "Urgente" ? "danger" : k.pri === "Alta" ? "warning" : "info"}">${k.pri}</span></div><progress class="tsl-progress" max="${k.subs.length}" value="${done}"></progress>${k.subs.map((s, i) => `<label class="tsl-choice" style="font-size:12px"><input type="checkbox" class="tsl-check" data-sub="${i}"${s[1] ? " checked" : ""} /> ${esc(s[0])}</label>`).join("")}<div class="tsl-row"><span class="tsl-muted" style="font-size:11px">${done}/${k.subs.length}</span><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" data-mv="-1" aria-label="Mover a la izquierda"${c === "Por hacer" ? " disabled" : ""}>←</button><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" data-mv="1" aria-label="Mover a la derecha"${c === "Hecho" ? " disabled" : ""}>→</button></div></div>`;
+              el.innerHTML = `<div class="tsl-card__body tsl-stack" style="--gap:8px;padding:12px"><div class="tsl-row"><strong style="flex:1"></strong><span class="tsl-badge tsl-badge--${k.pri === "Urgente" ? "danger" : k.pri === "Alta" ? "warning" : "info"}">${k.pri}</span></div><progress class="tsl-progress" max="${k.subs.length}" value="${done}"></progress>${k.subs.map((s, i) => `<label class="tsl-choice" style="font-size:12px"><input type="checkbox" class="tsl-check" data-sub="${i}"${s[1] ? " checked" : ""} /> ${esc(s[0])}</label>`).join("")}<div class="tsl-row"><span class="tsl-muted" style="font-size:11px">${done}/${k.subs.length}</span><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" data-mv="-1" aria-label="Mover a la izquierda"${c === "Por hacer" ? " disabled" : ""}><tsl-icon name="arrow-left" flip-rtl></tsl-icon></button><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" data-mv="1" aria-label="Mover a la derecha"${c === "Hecho" ? " disabled" : ""}><tsl-icon name="arrow-right" flip-rtl></tsl-icon></button></div></div>`;
               el.querySelector("strong").textContent = k.t;
               col.appendChild(el);
             });
@@ -1915,7 +1915,7 @@
             <span class="tsl-eyebrow">Ingeniería · <span data-read></span></span>
             <h3 class="tsl-card__title" style="font-size:18px">Cómo construir una biblioteca de componentes sin dependencias</h3>
             <p class="tsl-muted" data-excerpt>Los elementos personalizados en light DOM, los tokens en CSS y unos cientos de líneas de JavaScript te llevan sorprendentemente lejos. Así construimos tesela-ui y lo que haríamos distinto la próxima vez, desde el manejo del foco hasta los temas y las pruebas.</p>
-            <div class="tsl-row"><span class="tsl-avatar tsl-avatar--sm">LI</span><span class="tsl-muted">Luis · 14 oct</span><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-like aria-pressed="false">♡ <span data-likes>128</span></button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-save aria-pressed="false" aria-label="Guardar en marcadores">☆</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-share aria-label="Compartir">↗</button></div>
+            <div class="tsl-row"><span class="tsl-avatar tsl-avatar--sm">LI</span><span class="tsl-muted">Luis · 14 oct</span><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-like aria-pressed="false" aria-label="Me gusta"><tsl-icon name="heart"></tsl-icon> <span data-likes>128</span></button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-save aria-pressed="false" aria-label="Guardar en marcadores"><tsl-icon name="bookmark"></tsl-icon></button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-share aria-label="Compartir"><tsl-icon name="share-2"></tsl-icon></button></div>
           </div>
         </article></div>`,
       setup(root, ctx) {
@@ -1927,7 +1927,7 @@
           const on = like.getAttribute("aria-pressed") !== "true";
           like.setAttribute("aria-pressed", String(on));
           likes += on ? 1 : -1;
-          like.firstChild.textContent = on ? "♥ " : "♡ ";
+          like.classList.toggle("xp-filled", on);
           like.style.color = on ? "var(--tsl-danger)" : "";
           ctx.$("[data-likes]").textContent = String(likes);
         });
@@ -1935,7 +1935,7 @@
         ctx.on(save, "click", () => {
           const on = save.getAttribute("aria-pressed") !== "true";
           save.setAttribute("aria-pressed", String(on));
-          save.textContent = on ? "★" : "☆";
+          save.classList.toggle("xp-filled", on);
           ctx.toast({ title: on ? "Guardado en la lista de lectura" : "Quitado de la lista de lectura", variant: "neutral", duration: 1400 });
         });
         ctx.on(ctx.$("[data-share]"), "click", () => TeselaUI.copy("https://tesela.example/blog/ui-sin-dependencias").then(() => ctx.toast({ title: "Enlace copiado" })));
@@ -1968,7 +1968,7 @@
           return n.length >= 12 && sum % 10 === 0;
         };
         const render = () =>
-          (ctx.$("[data-cards]").innerHTML = cards.map((c, i) => `<li><span style="font-size:20px">💳</span><div><div class="tsl-list__title">${c.brand} •••• ${c.last4}</div><div class="tsl-list__desc">Vence ${c.exp}</div></div><span class="tsl-list__end">${c.def ? '<span class="tsl-badge tsl-badge--accent">Predeterminada</span>' : `<button type="button" class="tsl-btn tsl-btn--sm" data-def="${i}">Hacer predeterminada</button>`}<button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-rm="${i}"${c.def ? " disabled" : ""}>Quitar</button></span></li>`).join(""));
+          (ctx.$("[data-cards]").innerHTML = cards.map((c, i) => `<li><tsl-icon name="credit-card" style="font-size:20px"></tsl-icon><div><div class="tsl-list__title">${c.brand} •••• ${c.last4}</div><div class="tsl-list__desc">Vence ${c.exp}</div></div><span class="tsl-list__end">${c.def ? '<span class="tsl-badge tsl-badge--accent">Predeterminada</span>' : `<button type="button" class="tsl-btn tsl-btn--sm" data-def="${i}">Hacer predeterminada</button>`}<button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-rm="${i}"${c.def ? " disabled" : ""}>Quitar</button></span></li>`).join(""));
         const num = ctx.$("[data-num]");
         ctx.on(num, "input", () => {
           const digits = num.value.replace(/\D/g, "").slice(0, 19);
@@ -2144,7 +2144,7 @@
           if (v === "reset") n = 0;
           if (v === "theme") TeselaUI.setTheme(TeselaUI.getTheme() === "dark" ? "light" : "dark");
           if (v === "mode") loud = !loud;
-          if (v === "toast") ctx.toast({ title: "Hola desde la paleta 👋" });
+          if (v === "toast") ctx.toast({ title: "Hola desde la paleta" });
           ctx.$("[data-count]").textContent = `Contador: ${n}`;
           ctx.$("[data-mode]").textContent = `Modo: ${loud ? "ruidoso" : "calmado"}`;
           ctx.$("[data-mode]").className = `tsl-badge${loud ? " tsl-badge--warning" : ""}`;
@@ -2156,7 +2156,7 @@
       html: `
         ${head("Modals · feedback.tsx", "Comentarios", "Elige un estado de ánimo, escribe un mensaje (obligatorio) y adjunta una captura de pantalla si quieres; luego verás el mensaje de agradecimiento.")}
         ${trigger("fb-dlg", "Enviar comentarios", "")}
-        ${dialog("fb-dlg", "¿Qué tal te va?", "", `<form class="tsl-stack" data-form novalidate><tsl-segmented value="good" data-mood><button class="tsl-segmented__item" value="bad">😞</button><button class="tsl-segmented__item" value="ok">😐</button><button class="tsl-segmented__item" value="good">🙂</button><button class="tsl-segmented__item" value="great">🤩</button></tsl-segmented><textarea class="tsl-textarea" data-msg placeholder="Cuéntanos más…" aria-label="Mensaje"></textarea><span class="tsl-error" data-err></span><label class="tsl-choice"><input type="checkbox" class="tsl-check" data-shot checked /> Incluir una captura de pantalla</label><div class="tsl-row" style="justify-content:flex-end"><button type="button" class="tsl-btn" data-tsl-close>Cancelar</button><button type="submit" class="tsl-btn tsl-btn--primary">Enviar</button></div></form><div data-thanks hidden class="tsl-empty" style="border:0"><div class="tsl-empty__title">¡Gracias! 💌</div><p class="tsl-empty__desc">Leemos todos los mensajes.</p><button type="button" class="tsl-btn" data-tsl-close>Cerrar</button></div>`, "")}`,
+        ${dialog("fb-dlg", "¿Qué tal te va?", "", `<form class="tsl-stack" data-form novalidate><tsl-segmented value="good" data-mood><button class="tsl-segmented__item" value="bad" aria-label="Mal"><tsl-icon name="frown"></tsl-icon></button><button class="tsl-segmented__item" value="ok" aria-label="Regular"><tsl-icon name="meh"></tsl-icon></button><button class="tsl-segmented__item" value="good" aria-label="Bien"><tsl-icon name="smile"></tsl-icon></button><button class="tsl-segmented__item" value="great" aria-label="Genial"><tsl-icon name="laugh"></tsl-icon></button></tsl-segmented><textarea class="tsl-textarea" data-msg placeholder="Cuéntanos más…" aria-label="Mensaje"></textarea><span class="tsl-error" data-err></span><label class="tsl-choice"><input type="checkbox" class="tsl-check" data-shot checked /> Incluir una captura de pantalla</label><div class="tsl-row" style="justify-content:flex-end"><button type="button" class="tsl-btn" data-tsl-close>Cancelar</button><button type="submit" class="tsl-btn tsl-btn--primary">Enviar</button></div></form><div data-thanks hidden class="tsl-empty" style="border:0"><div class="tsl-empty__title">¡Gracias!</div><p class="tsl-empty__desc">Leemos todos los mensajes.</p><button type="button" class="tsl-btn" data-tsl-close>Cerrar</button></div>`, "")}`,
       setup(root, ctx) {
         const dlg = ctx.$("#fb-dlg");
         ctx.on(ctx.$("[data-form]"), "submit", (e) => {
@@ -2207,8 +2207,8 @@
     upgrade: {
       html: `
         ${head("Modals · upgrade.tsx", "Mejorar plan", "Compara planes dentro del diálogo, alterna el periodo de facturación y confirma: la insignia de tu plan actual se actualiza.")}
-        <div class="xp-center" style="min-height:220px"><div class="tsl-stack" style="align-items:center"><span class="tsl-badge tsl-badge--outline" data-current>Plan actual: Gratis</span><button type="button" class="tsl-btn tsl-btn--accent" data-tsl-open="up-dlg">✦ Mejorar plan</button></div></div>
-        ${dialog("up-dlg", "Desbloquea más con Pro", "", `<div class="tsl-stack"><tsl-segmented value="year" data-period><button class="tsl-segmented__item" value="month">Mensual</button><button class="tsl-segmented__item" value="year">Anual −20%</button></tsl-segmented><table class="tsl-table tsl-table--compact"><thead><tr><th></th><th>Gratis</th><th>Pro</th></tr></thead><tbody><tr><td>Proyectos</td><td>3</td><td>Ilimitados</td></tr><tr><td>Miembros</td><td>2</td><td>25</td></tr><tr><td>Dominio personalizado</td><td>—</td><td>✓</td></tr><tr><td>Soporte prioritario</td><td>—</td><td>✓</td></tr></tbody></table><div class="tsl-row"><span class="tsl-muted">Total</span><span class="tsl-spacer"></span><strong class="xp-num" style="font-size:22px" data-price></strong></div></div>`, '<button type="button" class="tsl-btn" data-tsl-close>Quizá después</button><button type="button" class="tsl-btn tsl-btn--accent" data-tsl-close="go">Mejorar ahora</button>', ' style="width:min(520px,calc(100vw - 32px))"')}`,
+        <div class="xp-center" style="min-height:220px"><div class="tsl-stack" style="align-items:center"><span class="tsl-badge tsl-badge--outline" data-current>Plan actual: Gratis</span><button type="button" class="tsl-btn tsl-btn--accent" data-tsl-open="up-dlg"><tsl-icon name=sparkles></tsl-icon> Mejorar plan</button></div></div>
+        ${dialog("up-dlg", "Desbloquea más con Pro", "", `<div class="tsl-stack"><tsl-segmented value="year" data-period><button class="tsl-segmented__item" value="month">Mensual</button><button class="tsl-segmented__item" value="year">Anual −20%</button></tsl-segmented><table class="tsl-table tsl-table--compact"><thead><tr><th></th><th>Gratis</th><th>Pro</th></tr></thead><tbody><tr><td>Proyectos</td><td>3</td><td>Ilimitados</td></tr><tr><td>Miembros</td><td>2</td><td>25</td></tr><tr><td>Dominio personalizado</td><td>—</td><td><tsl-icon name="check" label="Incluido"></tsl-icon></td></tr><tr><td>Soporte prioritario</td><td>—</td><td><tsl-icon name="check" label="Incluido"></tsl-icon></td></tr></tbody></table><div class="tsl-row"><span class="tsl-muted">Total</span><span class="tsl-spacer"></span><strong class="xp-num" style="font-size:22px" data-price></strong></div></div>`, '<button type="button" class="tsl-btn" data-tsl-close>Quizá después</button><button type="button" class="tsl-btn tsl-btn--accent" data-tsl-close="go">Mejorar ahora</button>', ' style="width:min(520px,calc(100vw - 32px))"')}`,
       setup(root, ctx) {
         const price = () => {
           const y = (ctx.$("[data-period]").value || "year") === "year";
@@ -2219,7 +2219,7 @@
           if (e.target.returnValue !== "go") return;
           ctx.$("[data-current]").textContent = `Plan actual: Pro (${(ctx.$("[data-period]").value || "year") === "year" ? "anual" : "mensual"})`;
           ctx.$("[data-current]").className = "tsl-badge tsl-badge--accent";
-          ctx.toast({ title: "Te damos la bienvenida a Pro ✦" });
+          ctx.toast({ title: "Te damos la bienvenida a Pro" });
           e.target.returnValue = "";
         });
         price();
@@ -2266,7 +2266,7 @@
         ${head("Modals · create-workspace.tsx", "Crear espacio de trabajo", "Nombre → slug, región e ícono, validados en el diálogo. Los espacios nuevos aparecen en el selector de fondo.")}
         <div class="tsl-row"><div class="tsl-row" data-list style="--gap:6px"></div><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--primary" data-tsl-open="cw-dlg">+ Nuevo espacio de trabajo</button></div>
         ${dialog("cw-dlg", "Crea un espacio de trabajo", "", `<form class="tsl-stack" data-xp-form data-success="Espacio de trabajo “{name}” creado" data-reset novalidate>
-          <div class="tsl-row" data-icons>${["🚀", "🎨", "🧪", "📦", "🌿"].map((i, k) => `<button type="button" class="tsl-btn tsl-btn--icon" data-i="${i}" aria-pressed="${k === 0}">${i}</button>`).join("")}</div>
+          <div class="tsl-row" data-icons>${[["rocket", "Cohete"], ["palette", "Paleta"], ["flask-conical", "Matraz"], ["package", "Paquete"], ["leaf", "Hoja"]].map(([i, l], k) => `<button type="button" class="tsl-btn tsl-btn--icon" data-i="${i}" aria-label="${l}" aria-pressed="${k === 0}"><tsl-icon name="${i}"></tsl-icon></button>`).join("")}</div>
           ${field({ name: "name", label: "Nombre", placeholder: "Diseño Acme", minlength: 2 })}
           <span class="tsl-hint xp-mono" data-slug>tesela.example/…</span>
           <label class="tsl-field"><span class="tsl-label">Región</span><select class="tsl-select" name="region"><option>us-east-1</option><option>eu-central-1</option><option>ap-south-1</option></select></label>
@@ -2274,9 +2274,9 @@
         </form>`, "")}`,
       setup(root, ctx) {
         TESELA_XP.formSetup(root, ctx);
-        let icon = "🚀";
-        const list = [["🏢", "Acme"]];
-        const render = () => (ctx.$("[data-list]").innerHTML = list.map(([i, n]) => `<span class="tsl-chip" style="color:var(--tsl-fg)">${i} ${esc(n)}</span>`).join(""));
+        let icon = "rocket";
+        const list = [["building-2", "Acme"]];
+        const render = () => (ctx.$("[data-list]").innerHTML = list.map(([i, n]) => `<span class="tsl-chip" style="color:var(--tsl-fg)"><tsl-icon name="${i}"></tsl-icon> ${esc(n)}</span>`).join(""));
         const name = ctx.$('[name="name"]');
         ctx.on(name, "input", () => (ctx.$("[data-slug]").textContent = `tesela.example/${name.value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "…"}`));
         ctx.on(ctx.$("[data-icons]"), "click", (e) => {

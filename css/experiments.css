@@ -423,3 +423,8 @@
 .sandbox-stage > .xp[style*="--xp-col"] > *:not(dialog):not([popover]) {
   margin-inline: 0;
 }
+
+/* Icono de trazo que se rellena al activarse (me gusta, guardado, favorito) */
+.xp-filled .tsl-icon__svg {
+  fill: currentColor;
+}

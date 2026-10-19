@@ -20,7 +20,7 @@ const root = path.resolve(__dirname, "..");
 const pkg = require(path.join(root, "package.json"));
 const outFlag = process.argv.indexOf("--out");
 const out = path.resolve(outFlag > -1 ? process.argv[outFlag + 1] : path.join(root, "lib"));
-const banner = `/*! Tesela UI v${pkg.version} — biblioteca de componentes sin dependencias */`;
+const banner = `/*! Tesela UI v${pkg.version} — biblioteca de componentes sin dependencias · Iconos: Lucide (ISC), (c) Lucide Icons and Contributors */`;
 
 const rel = (...p) => path.join(root, ...p);
 const list = (dir, ext) => fs.readdirSync(rel(dir)).filter((f) => f.endsWith(ext)).sort();
@@ -57,6 +57,9 @@ async function main() {
   // Script anti-parpadeo (clásico, no módulo)
   const initSrc = fs.readFileSync(rel("src/theme-init.js"), "utf8");
   fs.writeFileSync(path.join(out, "theme-init.js"), `${banner}\n${(await esbuild.transform(initSrc, { minify: true, legalComments: "none", target: "es2015" })).code}`);
+
+  // Licencia de los iconos del set base (Lucide, ISC): debe acompañar a la copia
+  fs.copyFileSync(rel("src/icons/LICENSE-lucide.txt"), path.join(out, "LICENSE-lucide.txt"));
 
   const n = await buildMeta(root, out, pkg.version);
 

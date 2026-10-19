@@ -5,6 +5,138 @@
   "modules": [
     {
       "kind": "javascript-module",
+      "path": "esm/components/icon.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "name": "TslIcon",
+          "tagName": "tsl-icon",
+          "customElement": true,
+          "description": "Icono SVG en línea que hereda el color y mide 1em. Set base incluido (183 iconos de Lucide) y bibliotecas externas registrables: Lucide completo, Tabler, Phosphor, Heroicons, Material Symbols, Simple Icons o tus SVG.",
+          "superclass": {
+            "name": "TslElement",
+            "module": "esm/core/base.mjs"
+          },
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre del icono en su biblioteca."
+            },
+            {
+              "name": "library",
+              "type": {
+                "text": "string"
+              },
+              "description": "Biblioteca registrada de la que sale el icono.",
+              "default": "tesela"
+            },
+            {
+              "name": "src",
+              "type": {
+                "text": "string"
+              },
+              "description": "URL de un SVG suelto (se limpia antes de insertarse)."
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Nombre accesible; sin él, el icono es decorativo (`aria-hidden`)."
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\""
+              },
+              "description": "Tamaño con nombre (12, 14, 16, 20 o 24 px); por defecto 1em."
+            },
+            {
+              "name": "spin",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Gira sin parar (indicadores de carga)."
+            },
+            {
+              "name": "flip-rtl",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Se espeja en RTL (flechas de dirección)."
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "Refleja el atributo `name`."
+            },
+            {
+              "kind": "field",
+              "name": "library",
+              "type": {
+                "text": "string"
+              },
+              "description": "Refleja el atributo `library`."
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Refleja el atributo `label`."
+            }
+          ],
+          "events": [
+            {
+              "name": "tsl-load",
+              "type": {
+                "text": "CustomEvent<{ name: string; library: string }>"
+              },
+              "description": "El icono se pintó."
+            },
+            {
+              "name": "tsl-error",
+              "type": {
+                "text": "CustomEvent<{ name: string; library: string }>"
+              },
+              "description": "El icono no existe o no se pudo descargar."
+            }
+          ],
+          "x-docs": [
+            "icon"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "TslIcon",
+          "declaration": {
+            "name": "TslIcon",
+            "module": "esm/components/icon.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "tsl-icon",
+          "declaration": {
+            "name": "TslIcon",
+            "module": "esm/components/icon.mjs"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "esm/components/tabs.mjs",
       "declarations": [
         {
@@ -4236,7 +4368,7 @@
                 "text": "string"
               },
               "description": "Texto del botón para volver al final.",
-              "default": "↓ Ir al final"
+              "default": "Ir al final"
             },
             {
               "name": "manual",
@@ -5034,7 +5166,7 @@
           "name": "TslBranch",
           "tagName": "tsl-branch",
           "customElement": true,
-          "description": "Versiones alternativas de un mensaje (`.tsl-branch__item`): muestra una con el selector «‹ 2 de 3 ›», empieza en la última y salta a cada versión nueva que llegue.",
+          "description": "Versiones alternativas de un mensaje (`.tsl-branch__item`): muestra una con el selector «2 de 3» entre flechas, empieza en la última y salta a cada versión nueva que llegue.",
           "superclass": {
             "name": "TslElement",
             "module": "esm/core/base.mjs"

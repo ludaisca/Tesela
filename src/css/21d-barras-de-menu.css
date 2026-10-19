@@ -133,9 +133,17 @@ tsl-nav-menu .tsl-bar__item > [data-tsl-trigger][aria-expanded="true"]::after {
 }
 
 .tsl-menu__item[data-submenu]::after {
-  content: "›";
+  content: "";
+  width: 14px;
+  height: 14px;
   margin-inline-start: auto;
-  color: var(--tsl-fg-muted);
+  background: var(--tsl-fg-muted);
+  -webkit-mask: var(--tsl-svg-chevron-right) center / contain no-repeat;
+  mask: var(--tsl-svg-chevron-right) center / contain no-repeat;
+}
+
+[dir="rtl"] .tsl-menu__item[data-submenu]::after {
+  transform: scaleX(-1);
 }
 
 .tsl-menu__item[aria-expanded="true"] {

@@ -8,13 +8,13 @@ import { TslElement, define, emit, nextId, storage } from "../core/base.js";
  *       <div class="tsl-sidebar__group">
  *         <div class="tsl-sidebar__label">Plataforma</div>
  *         <ul class="tsl-sidebar__menu">
- *           <li><a class="tsl-sidebar__item" href="#" aria-current="page"><span class="tsl-sidebar__icon">⌂</span><span class="tsl-sidebar__text">Inicio</span></a></li>
+ *           <li><a class="tsl-sidebar__item" href="#" aria-current="page"><span class="tsl-sidebar__icon" aria-hidden="true"><tsl-icon name="house"></tsl-icon></span><span class="tsl-sidebar__text">Inicio</span></a></li>
  *         </ul>
  *       </div>
  *     </div>
  *     <div class="tsl-sidebar__footer">…</div>
  *   </tsl-sidebar>
- *   <div class="tsl-sidebar-inset"><button data-tsl-sidebar-toggle>☰</button>…</div>
+ *   <div class="tsl-sidebar-inset"><button data-tsl-sidebar-toggle aria-label="Alternar barra lateral"><tsl-icon name="panel-left"></tsl-icon></button>…</div>
  * </div>
  */
 export class TslSidebar extends TslElement {

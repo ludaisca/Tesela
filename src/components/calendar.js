@@ -1,4 +1,5 @@
 import { TslElement, define, emit, fromISO, isRtl, toISO } from "../core/base.js";
+import { icon } from "../core/icons.js";
 
 
 export class TslCalendar extends TslElement {
@@ -183,8 +184,8 @@ export class TslCalendar extends TslElement {
       cells += `<button type="button" class="${cls}" data-date="${iso}" aria-label="${fullFmt.format(d)}" aria-pressed="${pressed}" tabindex="${iso === focusISO && !off ? 0 : -1}"${off ? " disabled" : ""}>${d.getDate()}</button>`;
     }
 
-    const prev = `<button type="button" class="tsl-btn tsl-btn--subtle tsl-btn--sm tsl-btn--icon" data-cal-nav="-1" aria-label="Mes anterior">‹</button>`;
-    const next = `<button type="button" class="tsl-btn tsl-btn--subtle tsl-btn--sm tsl-btn--icon" data-cal-nav="1" aria-label="Mes siguiente">›</button>`;
+    const prev = `<button type="button" class="tsl-btn tsl-btn--subtle tsl-btn--sm tsl-btn--icon" data-cal-nav="-1" aria-label="Mes anterior">${icon("chevron-left", "tsl-icon--flip-rtl").outerHTML}</button>`;
+    const next = `<button type="button" class="tsl-btn tsl-btn--subtle tsl-btn--sm tsl-btn--icon" data-cal-nav="1" aria-label="Mes siguiente">${icon("chevron-right", "tsl-icon--flip-rtl").outerHTML}</button>`;
     const spacer = `<span class="tsl-cal__nav-spacer" aria-hidden="true"></span>`;
     return `<div class="tsl-cal__month">
       <div class="tsl-cal__head">${idx === 0 ? prev : spacer}<span aria-live="polite">${title}</span>${idx === total - 1 ? next : spacer}</div>

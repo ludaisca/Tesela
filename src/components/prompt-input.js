@@ -1,13 +1,14 @@
 import { TslElement, announce, define, emit } from "../core/base.js";
 import { accepts, formatBytes, iconFor, parseSize } from "../core/files.js";
 import { autosize } from "./textarea.js";
+import { icon } from "../core/icons.js";
 
 /**
  * <tsl-prompt-input status="ready" accept="image/*,.pdf" max-files="4" max-size="10MB">
  *   <form>
  *     <textarea name="prompt" placeholder="Pregunta lo que quieras…"></textarea>
  *     <div class="tsl-prompt-input__toolbar">
- *       <div class="tsl-prompt-input__tools"><button type="button" data-attach aria-label="Adjuntar">📎</button> <select name="modelo">…</select></div>
+ *       <div class="tsl-prompt-input__tools"><button type="button" data-attach aria-label="Adjuntar"><tsl-icon name="paperclip"></tsl-icon></button> <select name="modelo">…</select></div>
  *       <button type="submit" data-submit></button>
  *     </div>
  *   </form>
@@ -227,7 +228,7 @@ export class TslPromptInput extends TslElement {
         img.alt = "";
         media.appendChild(img);
       } else {
-        media.textContent = iconFor(file);
+        media.replaceChildren(icon(iconFor(file)));
       }
       const content = document.createElement("div");
       content.className = "tsl-attachment__content";
@@ -245,7 +246,7 @@ export class TslPromptInput extends TslElement {
       remove.type = "button";
       remove.className = "tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle";
       remove.setAttribute("aria-label", `Quitar ${file.name}`);
-      remove.textContent = "✕";
+      remove.appendChild(icon("x"));
       remove.addEventListener("click", () => this.removeFile(i));
       actions.appendChild(remove);
       item.append(media, content, actions);

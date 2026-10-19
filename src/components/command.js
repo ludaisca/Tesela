@@ -37,7 +37,7 @@ export class TslCommand extends TslElement {
       </div>
       <div class="tsl-command__list" role="listbox"></div>
       <div class="tsl-command__empty" hidden></div>
-      <div class="tsl-command__footer"><span>↑ ↓ navegar · ↵ elegir</span><span></span></div>`;
+      <div class="tsl-command__footer"><span><kbd class="tsl-kbd">↑</kbd> <kbd class="tsl-kbd">↓</kbd> navegar · <kbd class="tsl-kbd">↵</kbd> elegir</span><span></span></div>`;
 
     this.input = this.dialog.querySelector(".tsl-command__input");
     this.listEl = this.dialog.querySelector(".tsl-command__list");

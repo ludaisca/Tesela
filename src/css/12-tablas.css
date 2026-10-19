@@ -62,17 +62,25 @@
 }
 
 .tsl-table th[data-sort]::after {
-  content: "↕";
+  content: "";
+  --_icon: var(--tsl-svg-chevrons-up-down);
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  vertical-align: -0.125em;
+  -webkit-mask: var(--_icon) center / contain no-repeat;
+  mask: var(--_icon) center / contain no-repeat;
   margin-inline-start: 6px;
   opacity: 0.35;
 }
 
 .tsl-table th[aria-sort="ascending"]::after {
-  content: "↑";
+  --_icon: var(--tsl-svg-arrow-up);
   opacity: 1;
 }
 
 .tsl-table th[aria-sort="descending"]::after {
-  content: "↓";
+  --_icon: var(--tsl-svg-arrow-down);
   opacity: 1;
 }

@@ -67,7 +67,13 @@ export class TslContextMenu extends TslElement {
     this.outside = (e) => {
       if (!this.list.contains(e.target)) this.close();
     };
-    this.dismiss = () => this.close();
+    // Solo cierra un scroll que mueve la zona (el documento o un contenedor suyo), no el de otro
+    // elemento de la página como un carrusel que avanza solo
+    this.dismiss = (e) => {
+      const t = e && e.type === "scroll" ? e.target : null;
+      if (t && t !== document && t.nodeType === 1 && !t.contains(this)) return;
+      this.close();
+    };
   }
 
   items() {

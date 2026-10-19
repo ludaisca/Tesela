@@ -1,6 +1,7 @@
 import { announce, define, emit } from "../core/base.js";
 import { TslFormElement } from "../core/form.js";
 import { accepts, describeAccept, formatBytes, iconFor, parseSize } from "../core/files.js";
+import { icon } from "../core/icons.js";
 
 let seq = 0;
 
@@ -54,10 +55,7 @@ export class TslUpload extends TslFormElement {
     this.drop = document.createElement("button");
     this.drop.type = "button";
     this.drop.className = "tsl-upload__drop";
-    const icon = document.createElement("span");
-    icon.className = "tsl-upload__icon";
-    icon.setAttribute("aria-hidden", "true");
-    icon.textContent = "↑";
+    const dropIcon = icon("cloud-upload", "tsl-upload__icon");
     const title = document.createElement("span");
     title.className = "tsl-upload__title";
     title.textContent = this.getAttribute("drop-label") || (this.picker.multiple ? "Arrastra archivos o haz clic para elegirlos" : "Arrastra un archivo o haz clic para elegirlo");
@@ -66,7 +64,7 @@ export class TslUpload extends TslFormElement {
     this.hint.textContent = this.getAttribute("hint") || this.describeLimits();
     this.hint.id = `tsl-upload-hint-${++seq}`;
     this.drop.setAttribute("aria-describedby", this.hint.id);
-    this.drop.append(icon, title, this.hint);
+    this.drop.append(dropIcon, title, this.hint);
     this.drop.addEventListener("click", () => this.openFilePicker());
 
     this.list = document.createElement("ul");
@@ -336,7 +334,7 @@ export class TslUpload extends TslFormElement {
       img.src = entry.url;
       img.alt = "";
       media.appendChild(img);
-    } else media.textContent = iconFor(entry.file);
+    } else media.replaceChildren(icon(iconFor(entry.file)));
     const body = document.createElement("div");
     body.className = "tsl-upload__body";
     const name = document.createElement("span");
@@ -356,7 +354,7 @@ export class TslUpload extends TslFormElement {
       const b = document.createElement("button");
       b.type = "button";
       b.className = `tsl-btn tsl-btn--sm tsl-btn--subtle ${cls}`;
-      b.textContent = text;
+      b.append(text);
       b.setAttribute("aria-label", `${label} ${entry.file.name}`);
       b.addEventListener("click", () => fn(this.entries.indexOf(entry)));
       actions.appendChild(b);
@@ -365,7 +363,7 @@ export class TslUpload extends TslFormElement {
     entry.buttons = {
       cancel: button("tsl-upload__cancel", "Cancelar", "Cancelar la subida de", (i) => this.cancel(i)),
       retry: button("tsl-upload__retry", "Reintentar", "Reintentar", (i) => this.retry(i)),
-      remove: button("tsl-btn--icon tsl-upload__remove", "✕", "Quitar", (i) => this.removeFile(i))
+      remove: button("tsl-btn--icon tsl-upload__remove", icon("x"), "Quitar", (i) => this.removeFile(i))
     };
     li.append(media, body, actions);
     entry.meta = meta;

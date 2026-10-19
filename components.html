@@ -11,15 +11,15 @@
 </head>
 <body class="tsl">
   <header class="docs-topbar">
-    <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--subtle docs-menu-btn" aria-label="Abrir índice">☰</button>
+    <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--subtle docs-menu-btn" aria-label="Abrir índice"><tsl-icon name="menu"></tsl-icon></button>
     <a class="docs-brand" href="#top"><span class="docs-brand-dot"></span>Tesela</a>
     <span class="tsl-badge tsl-badge--outline docs-hide-sm">v1.4.0</span>
     <span class="tsl-spacer"></span>
-    <a class="tsl-btn tsl-btn--sm tsl-btn--subtle docs-hide-sm" href="index.html">← Galería</a>
+    <a class="tsl-btn tsl-btn--sm tsl-btn--subtle docs-hide-sm" href="index.html"><tsl-icon name="arrow-left" flip-rtl></tsl-icon> Galería</a>
     <button type="button" class="tsl-btn tsl-btn--sm" data-tsl-open="docs-cmd">
       Buscar <kbd class="tsl-kbd docs-hide-sm">⌘K</kbd>
     </button>
-    <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--icon" data-tsl-theme-toggle aria-label="Cambiar tema" data-tsl-tooltip="Tema" data-tsl-placement="bottom">◐</button>
+    <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--icon" data-tsl-theme-toggle aria-label="Cambiar tema" data-tsl-tooltip="Tema" data-tsl-placement="bottom"><tsl-icon name="sun-moon"></tsl-icon></button>
   </header>
 
   <div class="docs-shell">
@@ -225,6 +225,71 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         </template>
       </section>
 
+      <section class="doc" id="icon" data-group="Acciones" data-keywords="icono icons svg lucide tabler phosphor heroicons material simple logos">
+        <h2><a href="#icon">Icono</a></h2>
+        <p><code>&lt;tsl-icon name="…"&gt;</code> pinta un SVG en línea que hereda el color (<code>currentColor</code>) y mide <code>1em</code>; cámbialo con <code>font-size</code>, <code>--tsl-icon-size</code> o <code>size="xs|sm|md|lg|xl"</code>, y el grosor del trazo con <code>--tsl-icon-stroke</code>. Sin <code>label</code> es decorativo (<code>aria-hidden</code>); con <code>label</code> se anuncia como imagen. Un botón solo con icono necesita su <code>aria-label</code>.</p>
+        <p>El set base (<span data-icon-count>183</span> iconos de <a href="https://lucide.dev" rel="noopener">Lucide</a>, licencia ISC) va incluido y se pinta sin red. Para el resto se registra una biblioteca: <code>TeselaUI.registerIconLibrary("tabler", TeselaUI.iconLibraries.tabler())</code>. Hay adaptadores para Lucide completo, Tabler, Phosphor, Heroicons, Material Symbols y Simple Icons (logotipos), con versión fijada y la opción <code>base</code> para servir los SVG desde tu propio servidor. Tus iconos van con <code>TeselaUI.registerIcons({ marca: "&lt;svg …&gt;…&lt;/svg&gt;" })</code> o en un archivo suelto con <code>src</code>. Todo SVG externo se limpia antes de insertarse.</p>
+        <template>
+          <div class="tsl-stack">
+            <div class="tsl-row" style="font-size:20px">
+              <tsl-icon name="house"></tsl-icon>
+              <tsl-icon name="search"></tsl-icon>
+              <tsl-icon name="bell"></tsl-icon>
+              <tsl-icon name="settings"></tsl-icon>
+              <tsl-icon name="sparkles" style="color:var(--tsl-accent)"></tsl-icon>
+              <tsl-icon name="triangle-alert" style="color:var(--tsl-warning)" label="Aviso"></tsl-icon>
+              <tsl-icon name="loader-circle" spin label="Cargando"></tsl-icon>
+            </div>
+            <div class="tsl-row">
+              <button type="button" class="tsl-btn tsl-btn--primary"><tsl-icon name="plus"></tsl-icon> Nuevo</button>
+              <button type="button" class="tsl-btn"><tsl-icon name="download"></tsl-icon> Descargar</button>
+              <button type="button" class="tsl-btn">Siguiente<tsl-icon name="arrow-right" flip-rtl></tsl-icon></button>
+              <button type="button" class="tsl-btn tsl-btn--icon" aria-label="Editar"><tsl-icon name="pencil"></tsl-icon></button>
+              <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--danger" aria-label="Eliminar"><tsl-icon name="trash-2"></tsl-icon></button>
+            </div>
+            <div class="tsl-row" style="font-size:22px" aria-label="El mismo concepto en otras bibliotecas">
+              <tsl-icon library="tabler" name="rocket" label="Tabler"></tsl-icon>
+              <tsl-icon library="phosphor" name="rocket" label="Phosphor"></tsl-icon>
+              <tsl-icon library="phosphor-duo" name="rocket" label="Phosphor duotono"></tsl-icon>
+              <tsl-icon library="heroicons" name="rocket-launch" label="Heroicons"></tsl-icon>
+              <tsl-icon library="material" name="rocket" label="Material Symbols"></tsl-icon>
+              <tsl-icon library="simple" name="github" label="GitHub"></tsl-icon>
+            </div>
+            <div class="tsl-field" style="max-width:320px">
+              <label class="tsl-label" for="demo-icon-filter">Set base</label>
+              <div class="tsl-input-group">
+                <span class="tsl-input-group__addon" aria-hidden="true"><tsl-icon name="search"></tsl-icon></span>
+                <input class="tsl-input" id="demo-icon-filter" type="search" placeholder="Filtrar iconos…" autocomplete="off" />
+              </div>
+            </div>
+            <ul class="docs-icon-grid" id="demo-icon-grid" aria-label="Iconos del set base"></ul>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          // Bibliotecas externas: se registran una vez y se piden al CDN bajo demanda
+          TeselaUI.registerIconLibrary("tabler", TeselaUI.iconLibraries.tabler());
+          TeselaUI.registerIconLibrary("phosphor", TeselaUI.iconLibraries.phosphor());
+          TeselaUI.registerIconLibrary("phosphor-duo", TeselaUI.iconLibraries.phosphor({ weight: "duotone" }));
+          TeselaUI.registerIconLibrary("heroicons", TeselaUI.iconLibraries.heroicons());
+          TeselaUI.registerIconLibrary("material", TeselaUI.iconLibraries.material({ style: "rounded" }));
+          TeselaUI.registerIconLibrary("simple", TeselaUI.iconLibraries.simple());
+
+          // Rejilla del set base: clic para copiar la etiqueta
+          const grid = document.querySelector("#demo-icon-grid");
+          const names = TeselaUI.iconNames();
+          document.querySelector("[data-icon-count]").textContent = names.length;
+          grid.innerHTML = names.map((n) => `<li><button type="button" class="docs-icon-grid__item" data-name="${n}" title="${n}"><tsl-icon name="${n}"></tsl-icon><span>${n}</span></button></li>`).join("");
+          document.querySelector("#demo-icon-filter").addEventListener("input", (e) => {
+            const q = e.target.value.trim().toLowerCase();
+            grid.querySelectorAll("li").forEach((li) => (li.hidden = !!q && !li.firstChild.dataset.name.includes(q)));
+          });
+          grid.addEventListener("click", (e) => {
+            const b = e.target.closest("[data-name]");
+            if (b) TeselaUI.copy(`<tsl-icon name="${b.dataset.name}"></tsl-icon>`).then(() => TeselaUI.toast({ title: "Copiado", description: b.dataset.name }));
+          });
+        </script>
+      </section>
+
       <!-- ================================================================ Acciones -->
       <section class="doc" id="button" data-group="Acciones" data-keywords="btn boton cta loading">
         <h2><a href="#button">Botón</a></h2>
@@ -274,7 +339,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         <p><code>&lt;tsl-menu&gt;</code> con navegación por teclado (↑ ↓ Home End Esc), cierre al hacer clic fuera y evento <code>tsl-select</code>. <code>align="end"</code> lo alinea a la derecha.</p>
         <template>
           <tsl-menu id="demo-menu">
-            <button type="button" class="tsl-btn" data-tsl-trigger>Opciones ▾</button>
+            <button type="button" class="tsl-btn" data-tsl-trigger>Opciones<tsl-icon name="chevron-down"></tsl-icon></button>
             <div class="tsl-menu__list">
               <div class="tsl-menu__label">Espacio de trabajo</div>
               <button type="button" class="tsl-menu__item" data-value="rename">Renombrar <kbd class="tsl-kbd">R</kbd></button>
@@ -300,7 +365,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
             <button type="button" class="tsl-chip" data-tsl-toggle aria-pressed="true">Diseño</button>
             <button type="button" class="tsl-chip" data-tsl-toggle aria-pressed="false">Ingeniería</button>
             <button type="button" class="tsl-chip" data-tsl-toggle aria-pressed="false">Crecimiento</button>
-            <span class="tsl-chip">Removible <button type="button" class="tsl-chip__remove" aria-label="Quitar">✕</button></span>
+            <span class="tsl-chip">Removible <button type="button" class="tsl-chip__remove" aria-label="Quitar"><tsl-icon name="x"></tsl-icon></button></span>
           </div>
         </template>
       </section>
@@ -347,7 +412,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
               <span class="tsl-input-group__addon">.tesela.example</span>
             </div>
             <div class="tsl-input-group">
-              <span class="tsl-input-group__addon">⌕</span>
+              <span class="tsl-input-group__addon" aria-hidden="true"><tsl-icon name="search"></tsl-icon></span>
               <input class="tsl-input" placeholder="Buscar…" aria-label="Buscar" />
               <span class="tsl-input-group__addon"><kbd class="tsl-kbd">⌘K</kbd></span>
             </div>
@@ -684,14 +749,14 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
               <span class="tsl-label">Periodo del informe</span>
               <tsl-date-picker id="demo-daterange" name="periodo" range value="2026-10-05/2026-10-12" clearable label="Periodo del informe"></tsl-date-picker>
             </div>
-            <span class="tsl-muted" id="demo-daterange-out">5 oct → 12 oct</span>
+            <span class="tsl-muted" id="demo-daterange-out">5 oct – 12 oct</span>
           </div>
         </template>
         <script type="text/plain" data-doc-js>
           const picker = document.querySelector("#demo-daterange");
           const out = document.querySelector("#demo-daterange-out");
           picker.addEventListener("tsl-change", (e) => {
-            out.textContent = e.detail.start ? `${e.detail.start} → ${e.detail.end}` : "Sin periodo";
+            out.textContent = e.detail.start ? `${e.detail.start} – ${e.detail.end}` : "Sin periodo";
           });
         </script>
       </section>
@@ -973,13 +1038,13 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         <p>Enlaces o botones; la página activa usa <code>aria-current="page"</code>.</p>
         <template>
           <nav class="tsl-pagination" aria-label="Paginación">
-            <a href="#pagination" aria-label="Anterior">‹</a>
+            <a href="#pagination" aria-label="Anterior"><tsl-icon name="chevron-left" flip-rtl></tsl-icon></a>
             <a href="#pagination">1</a>
             <a href="#pagination" aria-current="page">2</a>
             <a href="#pagination">3</a>
             <span>…</span>
             <a href="#pagination">12</a>
-            <a href="#pagination" aria-label="Siguiente">›</a>
+            <a href="#pagination" aria-label="Siguiente"><tsl-icon name="chevron-right" flip-rtl></tsl-icon></a>
           </nav>
         </template>
       </section>
@@ -991,9 +1056,9 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
           <div class="demo-shell">
             <aside>
               <nav class="tsl-nav">
-                <a class="tsl-nav__item" href="#nav" aria-current="page">⌂ Inicio</a>
-                <a class="tsl-nav__item" href="#nav">✉ Bandeja <span class="tsl-badge tsl-badge--accent">4</span></a>
-                <a class="tsl-nav__item" href="#nav">⚡ Actividad</a>
+                <a class="tsl-nav__item" href="#nav" aria-current="page"><tsl-icon name="house"></tsl-icon> Inicio</a>
+                <a class="tsl-nav__item" href="#nav"><tsl-icon name="inbox"></tsl-icon> Bandeja <span class="tsl-badge tsl-badge--accent">4</span></a>
+                <a class="tsl-nav__item" href="#nav"><tsl-icon name="activity"></tsl-icon> Actividad</a>
                 <div class="tsl-nav__label">Equipos</div>
                 <a class="tsl-nav__item" href="#nav"># diseño <span class="tsl-nav__meta">6</span></a>
                 <a class="tsl-nav__item" href="#nav"># ingeniería <span class="tsl-nav__meta">24</span></a>
@@ -1145,10 +1210,10 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
                 <div class="tsl-sidebar__group">
                   <div class="tsl-sidebar__label">Plataforma</div>
                   <ul class="tsl-sidebar__menu">
-                    <li><a class="tsl-sidebar__item" href="#sidebar" aria-current="page"><span class="tsl-sidebar__icon" aria-hidden="true">⌂</span><span class="tsl-sidebar__text">Inicio</span></a></li>
-                    <li><a class="tsl-sidebar__item" href="#sidebar"><span class="tsl-sidebar__icon" aria-hidden="true">✉</span><span class="tsl-sidebar__text">Bandeja</span><span class="tsl-badge tsl-sidebar__badge">4</span></a></li>
+                    <li><a class="tsl-sidebar__item" href="#sidebar" aria-current="page"><span class="tsl-sidebar__icon" aria-hidden="true"><tsl-icon name="house"></tsl-icon></span><span class="tsl-sidebar__text">Inicio</span></a></li>
+                    <li><a class="tsl-sidebar__item" href="#sidebar"><span class="tsl-sidebar__icon" aria-hidden="true"><tsl-icon name="inbox"></tsl-icon></span><span class="tsl-sidebar__text">Bandeja</span><span class="tsl-badge tsl-sidebar__badge">4</span></a></li>
                     <li>
-                      <button type="button" class="tsl-sidebar__item" aria-expanded="true"><span class="tsl-sidebar__icon" aria-hidden="true">▤</span><span class="tsl-sidebar__text">Proyectos</span></button>
+                      <button type="button" class="tsl-sidebar__item" aria-expanded="true"><span class="tsl-sidebar__icon" aria-hidden="true"><tsl-icon name="folder"></tsl-icon></span><span class="tsl-sidebar__text">Proyectos</span></button>
                       <ul class="tsl-sidebar__sub">
                         <li><a class="tsl-sidebar__item" href="#sidebar"><span class="tsl-sidebar__text">Tesela</span></a></li>
                         <li><a class="tsl-sidebar__item" href="#sidebar"><span class="tsl-sidebar__text">Documentación</span></a></li>
@@ -1159,7 +1224,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
                 <div class="tsl-sidebar__group">
                   <div class="tsl-sidebar__label">Cuenta</div>
                   <ul class="tsl-sidebar__menu">
-                    <li><a class="tsl-sidebar__item" href="#sidebar"><span class="tsl-sidebar__icon" aria-hidden="true">⚙</span><span class="tsl-sidebar__text">Ajustes</span></a></li>
+                    <li><a class="tsl-sidebar__item" href="#sidebar"><span class="tsl-sidebar__icon" aria-hidden="true"><tsl-icon name="settings"></tsl-icon></span><span class="tsl-sidebar__text">Ajustes</span></a></li>
                   </ul>
                 </div>
               </div>
@@ -1167,7 +1232,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
             </tsl-sidebar>
             <div class="tsl-sidebar-inset">
               <div class="tsl-sidebar-inset__bar">
-                <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--icon tsl-btn--subtle" data-tsl-sidebar-toggle aria-label="Alternar barra lateral">☰</button>
+                <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--icon tsl-btn--subtle" data-tsl-sidebar-toggle aria-label="Alternar barra lateral"><tsl-icon name="panel-left"></tsl-icon></button>
                 <strong>Inicio</strong>
               </div>
               <div style="padding:16px"><p class="tsl-muted">Contenido de la página. Reduce el ancho del navegador para ver el cajón.</p></div>
@@ -1193,7 +1258,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         <h2><a href="#banner">Banner</a></h2>
         <p>Barra de anuncio a ancho completo.</p>
         <template>
-          <div class="tsl-banner">✦ Ya salió Tesela 1.4: más de 70 componentes sin dependencias. <a href="#install">Lee la documentación</a></div>
+          <div class="tsl-banner"><tsl-icon name="sparkles"></tsl-icon> Ya salió Tesela 1.4: más de 70 componentes sin dependencias. <a href="#install">Lee la documentación</a></div>
         </template>
       </section>
 
@@ -1267,7 +1332,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         <template>
           <div class="tsl-row">
             <button type="button" class="tsl-btn" data-tsl-tooltip="Copiar enlace (⌘C)">Pasa el cursor</button>
-            <button type="button" class="tsl-btn tsl-btn--icon" data-tsl-tooltip="Ajustes" data-tsl-placement="bottom" aria-label="Ajustes">⚙</button>
+            <button type="button" class="tsl-btn tsl-btn--icon" data-tsl-tooltip="Ajustes" data-tsl-placement="bottom" aria-label="Ajustes"><tsl-icon name="settings"></tsl-icon></button>
           </div>
         </template>
       </section>
@@ -1313,7 +1378,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         <template>
           <button type="button" class="tsl-btn" data-tsl-open="demo-drawer">Abrir panel lateral</button>
           <dialog class="tsl-dialog tsl-dialog--drawer" id="demo-drawer" aria-labelledby="demo-drawer-title">
-            <button type="button" class="tsl-btn tsl-btn--subtle tsl-btn--icon tsl-btn--sm tsl-dialog__close" data-tsl-close aria-label="Cerrar">✕</button>
+            <button type="button" class="tsl-btn tsl-btn--subtle tsl-btn--icon tsl-btn--sm tsl-dialog__close" data-tsl-close aria-label="Cerrar"><tsl-icon name="x"></tsl-icon></button>
             <div class="tsl-dialog__header">
               <span class="tsl-eyebrow">INV-2094</span>
               <h3 class="tsl-dialog__title" id="demo-drawer-title">Clúster de seguridad</h3>
@@ -1337,7 +1402,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         <p><code>&lt;tsl-popover&gt;</code> usa la API nativa <code>popover</code> (capa superior, cierre con Esc y clic fuera). Se posiciona junto al disparador, se voltea si no cabe y sigue al scroll. Atributos: <code>placement</code> (<code>top|bottom|left|right</code> + <code>-start|-end</code>), <code>offset</code>, <code>manual</code>. Métodos <code>open()</code>, <code>close()</code>, <code>toggle()</code>; eventos <code>tsl-open</code> y <code>tsl-close</code>. Cualquier <code>data-tsl-close</code> dentro del panel lo cierra.</p>
         <template>
           <tsl-popover placement="bottom-start">
-            <button type="button" class="tsl-btn" data-tsl-trigger>Dimensiones ▾</button>
+            <button type="button" class="tsl-btn" data-tsl-trigger>Dimensiones<tsl-icon name="chevron-down"></tsl-icon></button>
             <div class="tsl-popover__panel">
               <div class="tsl-stack" style="--gap:10px">
                 <div class="tsl-popover__title">Dimensiones</div>
@@ -1576,17 +1641,17 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         <template>
           <div class="tsl-item-group demo-max">
             <div class="tsl-item tsl-item--outline">
-              <div class="tsl-item__media tsl-item__media--icon" aria-hidden="true">🛡</div>
+              <div class="tsl-item__media tsl-item__media--icon" aria-hidden="true"><tsl-icon name="shield-check"></tsl-icon></div>
               <div class="tsl-item__content"><div class="tsl-item__title">Verificación en dos pasos</div><p class="tsl-item__desc">Protege tu cuenta con un segundo factor.</p></div>
               <div class="tsl-item__actions"><button type="button" class="tsl-btn tsl-btn--sm">Activar</button></div>
             </div>
             <a class="tsl-item tsl-item--muted" href="#item">
-              <div class="tsl-item__media tsl-item__media--icon" aria-hidden="true">✉</div>
+              <div class="tsl-item__media tsl-item__media--icon" aria-hidden="true"><tsl-icon name="mail"></tsl-icon></div>
               <div class="tsl-item__content"><div class="tsl-item__title">Preferencias de correo</div><p class="tsl-item__desc">Enlace completo: se resalta al pasar o enfocar.</p></div>
               <div class="tsl-item__actions"><span class="tsl-badge">Nuevo</span></div>
             </a>
             <div class="tsl-item tsl-item--sm">
-              <div class="tsl-item__media tsl-item__media--icon" aria-hidden="true">⌘</div>
+              <div class="tsl-item__media tsl-item__media--icon" aria-hidden="true"><tsl-icon name="keyboard"></tsl-icon></div>
               <div class="tsl-item__content"><div class="tsl-item__title">Atajos de teclado</div></div>
               <div class="tsl-item__actions"><kbd class="tsl-kbd">Ctrl</kbd><kbd class="tsl-kbd">K</kbd></div>
             </div>
@@ -1651,7 +1716,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         <template>
           <pre class="tsl-code demo-wide"><button type="button" class="tsl-btn tsl-btn--sm" data-tsl-copy="npm run dev">Copiar</button>$ npm run dev
   listo en 182 ms
-  ➜ Local: http://localhost:5173/</pre>
+  Local: http://localhost:5173/</pre>
         </template>
       </section>
 
@@ -1939,7 +2004,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
             <div class="tsl-message tsl-message--end">
               <div class="tsl-message__content"><div class="tsl-bubble">Perfecto, gracias.</div><div class="tsl-message__footer">14:03</div></div>
             </div>
-            <div class="tsl-marker" role="status"><span class="tsl-marker__icon" aria-hidden="true">✓</span><span>Exploró 4 archivos</span></div>
+            <div class="tsl-marker" role="status"><span class="tsl-marker__icon" aria-hidden="true"><tsl-icon name="check"></tsl-icon></span><span>Exploró 4 archivos</span></div>
             <div class="tsl-marker" role="status"><span class="tsl-marker__icon" aria-hidden="true">…</span><span class="tsl-shimmer">Escribiendo la respuesta</span></div>
           </div>
         </template>
@@ -1977,10 +2042,10 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         <p><code>.tsl-attachment</code> muestra un archivo con medio (<code>__media</code>: icono o imagen), título y descripción, y acciones. <code>data-state="uploading|processing|error"</code> anima el título o marca el error (deja el motivo en la descripción); tamaños <code>--sm</code> y <code>--xs</code> (chip) y <code>--vertical</code>. Un <code>.tsl-attachment__trigger</code> convierte toda la tarjeta en enlace o botón sin tapar las acciones, y <code>.tsl-attachment-group</code> las ordena en una fila desplazable.</p>
         <template>
           <div class="tsl-attachment-group demo-max">
-            <div class="tsl-attachment"><div class="tsl-attachment__media" aria-hidden="true">📄</div><div class="tsl-attachment__content"><div class="tsl-attachment__title">informe-q3.pdf</div><div class="tsl-attachment__desc">PDF · 2,4 MB</div></div><div class="tsl-attachment__actions"><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Quitar informe-q3.pdf">✕</button></div></div>
-            <div class="tsl-attachment" data-state="uploading"><div class="tsl-attachment__media" aria-hidden="true">🖼</div><div class="tsl-attachment__content"><div class="tsl-attachment__title">captura-pantalla.png</div><div class="tsl-attachment__desc">Subiendo… 62 %</div></div></div>
-            <div class="tsl-attachment" data-state="error"><div class="tsl-attachment__media" aria-hidden="true">⚠</div><div class="tsl-attachment__content"><div class="tsl-attachment__title">datos.csv</div><div class="tsl-attachment__desc">No se pudo subir: supera 10 MB</div></div><div class="tsl-attachment__actions"><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Reintentar datos.csv">↻</button></div></div>
-            <div class="tsl-attachment tsl-attachment--xs"><span class="tsl-attachment__media" aria-hidden="true">📎</span><span class="tsl-attachment__title">notas.txt</span></div>
+            <div class="tsl-attachment"><div class="tsl-attachment__media" aria-hidden="true"><tsl-icon name="file-text"></tsl-icon></div><div class="tsl-attachment__content"><div class="tsl-attachment__title">informe-q3.pdf</div><div class="tsl-attachment__desc">PDF · 2,4 MB</div></div><div class="tsl-attachment__actions"><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Quitar informe-q3.pdf"><tsl-icon name="x"></tsl-icon></button></div></div>
+            <div class="tsl-attachment" data-state="uploading"><div class="tsl-attachment__media" aria-hidden="true"><tsl-icon name="file-image"></tsl-icon></div><div class="tsl-attachment__content"><div class="tsl-attachment__title">captura-pantalla.png</div><div class="tsl-attachment__desc">Subiendo… 62 %</div></div></div>
+            <div class="tsl-attachment" data-state="error"><div class="tsl-attachment__media" aria-hidden="true"><tsl-icon name="triangle-alert"></tsl-icon></div><div class="tsl-attachment__content"><div class="tsl-attachment__title">datos.csv</div><div class="tsl-attachment__desc">No se pudo subir: supera 10 MB</div></div><div class="tsl-attachment__actions"><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Reintentar datos.csv"><tsl-icon name="refresh-cw"></tsl-icon></button></div></div>
+            <div class="tsl-attachment tsl-attachment--xs"><span class="tsl-attachment__media" aria-hidden="true"><tsl-icon name="paperclip"></tsl-icon></span><span class="tsl-attachment__title">notas.txt</span></div>
           </div>
         </template>
       </section>
@@ -1990,16 +2055,16 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         <p><code>.tsl-trace</code> lista los pasos de un agente: herramientas, razonamiento, fuentes. Cada <code>.tsl-trace__line</code> lleva icono, título (se trunca) y descripción (duración, cantidad). <code>data-status="running"</code> anima el título, <code>pending</code> lo atenúa y <code>error</code> lo marca; una línea que sea <code>&lt;button&gt;</code> o <code>&lt;a&gt;</code> es interactiva. Combina con <code>&lt;tsl-collapsible&gt;</code> para mostrar el detalle de cada paso.</p>
         <template>
           <ul class="tsl-trace demo-max">
-            <li><span class="tsl-trace__line"><span class="tsl-trace__icon" aria-hidden="true">✓</span><span class="tsl-trace__title">Leyó 4 archivos</span><span class="tsl-trace__desc">0,8 s</span></span></li>
+            <li><span class="tsl-trace__line"><span class="tsl-trace__icon" aria-hidden="true"><tsl-icon name="check"></tsl-icon></span><span class="tsl-trace__title">Leyó 4 archivos</span><span class="tsl-trace__desc">0,8 s</span></span></li>
             <li>
               <tsl-collapsible id="demo-trace-open" open>
-                <button type="button" class="tsl-trace__line" data-tsl-trigger><span class="tsl-trace__icon" aria-hidden="true">›_</span><span class="tsl-trace__title">Ejecutando npm run build</span><span class="tsl-trace__desc">14 s</span><span class="tsl-collapsible__chevron"></span></button>
+                <button type="button" class="tsl-trace__line" data-tsl-trigger><span class="tsl-trace__icon" aria-hidden="true"><tsl-icon name="terminal"></tsl-icon></span><span class="tsl-trace__title">Ejecutando npm run build</span><span class="tsl-trace__desc">14 s</span><span class="tsl-collapsible__chevron"></span></button>
                 <div class="tsl-collapsible__content"><div class="tsl-trace__detail tsl-muted">Compilando 37 componentes…</div></div>
               </tsl-collapsible>
             </li>
-            <li><span class="tsl-trace__line" data-status="running"><span class="tsl-trace__icon" aria-hidden="true">◌</span><span class="tsl-trace__title">Ejecutando las pruebas</span></span></li>
-            <li><span class="tsl-trace__line" data-status="error"><span class="tsl-trace__icon" aria-hidden="true">✕</span><span class="tsl-trace__title">Falló la publicación</span><span class="tsl-trace__desc">sin permisos</span></span></li>
-            <li><span class="tsl-trace__line" data-status="pending"><span class="tsl-trace__icon" aria-hidden="true">○</span><span class="tsl-trace__title">Resumir los cambios</span></span></li>
+            <li><span class="tsl-trace__line" data-status="running"><span class="tsl-trace__icon" aria-hidden="true"><tsl-icon name="loader-circle" spin></tsl-icon></span><span class="tsl-trace__title">Ejecutando las pruebas</span></span></li>
+            <li><span class="tsl-trace__line" data-status="error"><span class="tsl-trace__icon" aria-hidden="true"><tsl-icon name="x"></tsl-icon></span><span class="tsl-trace__title">Falló la publicación</span><span class="tsl-trace__desc">sin permisos</span></span></li>
+            <li><span class="tsl-trace__line" data-status="pending"><span class="tsl-trace__icon" aria-hidden="true"><tsl-icon name="circle"></tsl-icon></span><span class="tsl-trace__title">Resumir los cambios</span></span></li>
           </ul>
         </template>
       </section>
@@ -2189,7 +2254,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
 
       <section class="doc" id="branch" data-group="Conversación" data-keywords="branch versiones respuestas regenerar alternativas editar mensaje anterior siguiente acciones copiar valorar">
         <h2><a href="#branch">Versiones y acciones de un mensaje</a></h2>
-        <p><code>&lt;tsl-branch&gt;</code> guarda varias versiones de un mensaje (<code>.tsl-branch__item</code>), muestra una y añade el selector «‹ 2 de 3 ›» (dentro de un <code>.tsl-branch__selector</code> propio si lo pones, por ejemplo en el pie). Empieza en la última, da la vuelta en los extremos y, si llega una versión nueva, salta a ella. <code>.tsl-message__actions</code> agrupa copiar, repetir o valorar: aparecen al pasar por el mensaje o al llegar con el teclado, y en pantallas táctiles siempre (<code>--visible</code> las fija).</p>
+        <p><code>&lt;tsl-branch&gt;</code> guarda varias versiones de un mensaje (<code>.tsl-branch__item</code>), muestra una y añade el selector «2 de 3» entre flechas (dentro de un <code>.tsl-branch__selector</code> propio si lo pones, por ejemplo en el pie). Empieza en la última, da la vuelta en los extremos y, si llega una versión nueva, salta a ella. <code>.tsl-message__actions</code> agrupa copiar, repetir o valorar: aparecen al pasar por el mensaje o al llegar con el teclado, y en pantallas táctiles siempre (<code>--visible</code> las fija).</p>
         <template>
           <div class="tsl-message demo-max">
             <span class="tsl-message__avatar"><span class="tsl-avatar">AS</span></span>
@@ -2200,10 +2265,10 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
                 <div class="tsl-message__footer tsl-row" style="--gap:4px">
                   <div class="tsl-branch__selector"></div>
                   <div class="tsl-message__actions">
-                    <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Copiar" data-tsl-copy="TeselaUI.setAccent()">⧉</button>
-                    <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Regenerar" id="demo-branch-retry">↻</button>
-                    <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Buena respuesta" aria-pressed="false" data-tsl-toggle>👍</button>
-                    <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Mala respuesta" aria-pressed="false" data-tsl-toggle>👎</button>
+                    <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Copiar" data-tsl-copy="TeselaUI.setAccent()"><tsl-icon name="copy"></tsl-icon></button>
+                    <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Regenerar" id="demo-branch-retry"><tsl-icon name="refresh-cw"></tsl-icon></button>
+                    <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Buena respuesta" aria-pressed="false" data-tsl-toggle><tsl-icon name="thumbs-up"></tsl-icon></button>
+                    <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Mala respuesta" aria-pressed="false" data-tsl-toggle><tsl-icon name="thumbs-down"></tsl-icon></button>
                   </div>
                 </div>
               </tsl-branch>
@@ -2251,7 +2316,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         <p><code>tsl-stack</code> (vertical), <code>tsl-row</code> (horizontal con wrap) y <code>tsl-grid</code> (auto-fit). Ajusta con <code>--gap</code> y <code>--min</code>; <code>tsl-spacer</code> empuja elementos.</p>
         <template>
           <div class="tsl-stack">
-            <div class="tsl-row"><span class="tsl-badge">row</span><span class="tsl-badge">row</span><span class="tsl-spacer"></span><span class="tsl-badge tsl-badge--accent">spacer →</span></div>
+            <div class="tsl-row"><span class="tsl-badge">row</span><span class="tsl-badge">row</span><span class="tsl-spacer"></span><span class="tsl-badge tsl-badge--accent">spacer<tsl-icon name="arrow-right" flip-rtl></tsl-icon></span></div>
             <div class="tsl-grid" style="--min:120px;--gap:8px">
               <div class="tsl-stat">grid</div><div class="tsl-stat">grid</div><div class="tsl-stat">grid</div><div class="tsl-stat">grid</div>
             </div>
@@ -2370,17 +2435,17 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
                 <div class="tsl-sidebar__group">
                   <div class="tsl-sidebar__label">Tienda</div>
                   <ul class="tsl-sidebar__menu">
-                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard" aria-current="page"><span class="tsl-sidebar__icon" aria-hidden="true">◧</span><span class="tsl-sidebar__text">Resumen</span></a></li>
-                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard"><span class="tsl-sidebar__icon" aria-hidden="true">▤</span><span class="tsl-sidebar__text">Pedidos</span><span class="tsl-badge tsl-sidebar__badge">12</span></a></li>
-                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard"><span class="tsl-sidebar__icon" aria-hidden="true">◎</span><span class="tsl-sidebar__text">Clientes</span></a></li>
-                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard"><span class="tsl-sidebar__icon" aria-hidden="true">▣</span><span class="tsl-sidebar__text">Productos</span></a></li>
+                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard" aria-current="page"><span class="tsl-sidebar__icon" aria-hidden="true"><tsl-icon name="layout-dashboard"></tsl-icon></span><span class="tsl-sidebar__text">Resumen</span></a></li>
+                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard"><span class="tsl-sidebar__icon" aria-hidden="true"><tsl-icon name="receipt"></tsl-icon></span><span class="tsl-sidebar__text">Pedidos</span><span class="tsl-badge tsl-sidebar__badge">12</span></a></li>
+                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard"><span class="tsl-sidebar__icon" aria-hidden="true"><tsl-icon name="users"></tsl-icon></span><span class="tsl-sidebar__text">Clientes</span></a></li>
+                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard"><span class="tsl-sidebar__icon" aria-hidden="true"><tsl-icon name="package"></tsl-icon></span><span class="tsl-sidebar__text">Productos</span></a></li>
                   </ul>
                 </div>
                 <div class="tsl-sidebar__group">
                   <div class="tsl-sidebar__label">Análisis</div>
                   <ul class="tsl-sidebar__menu">
-                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard"><span class="tsl-sidebar__icon" aria-hidden="true">◔</span><span class="tsl-sidebar__text">Informes</span></a></li>
-                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard"><span class="tsl-sidebar__icon" aria-hidden="true">⚙</span><span class="tsl-sidebar__text">Ajustes</span></a></li>
+                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard"><span class="tsl-sidebar__icon" aria-hidden="true"><tsl-icon name="chart-pie"></tsl-icon></span><span class="tsl-sidebar__text">Informes</span></a></li>
+                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard"><span class="tsl-sidebar__icon" aria-hidden="true"><tsl-icon name="settings"></tsl-icon></span><span class="tsl-sidebar__text">Ajustes</span></a></li>
                   </ul>
                 </div>
               </div>
@@ -2388,10 +2453,10 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
             </tsl-sidebar>
             <div class="tsl-sidebar-inset">
               <div class="tsl-sidebar-inset__bar">
-                <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--icon tsl-btn--subtle" data-tsl-sidebar-toggle aria-label="Alternar barra lateral">☰</button>
+                <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--icon tsl-btn--subtle" data-tsl-sidebar-toggle aria-label="Alternar barra lateral"><tsl-icon name="panel-left"></tsl-icon></button>
                 <nav aria-label="Migas de pan"><ol class="tsl-breadcrumb"><li><a href="#pattern-dashboard">Acme</a></li><li><span aria-current="page">Resumen</span></li></ol></nav>
                 <div class="tsl-input-group tsl-dashboard__search">
-                  <span class="tsl-input-group__addon" aria-hidden="true">⌕</span>
+                  <span class="tsl-input-group__addon" aria-hidden="true"><tsl-icon name="search"></tsl-icon></span>
                   <input class="tsl-input" type="search" placeholder="Buscar pedidos…" aria-label="Buscar pedidos" id="dash-search" />
                 </div>
               </div>
@@ -2550,7 +2615,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
                   <div class="tsl-field"><span class="tsl-label" id="auth-otp-label">Código de verificación</span><tsl-otp id="auth-otp" length="6" name="codigo" aria-labelledby="auth-otp-label"></tsl-otp><span class="tsl-error" id="auth-otp-err" role="alert"></span></div>
                   <button type="submit" class="tsl-btn tsl-btn--primary tsl-btn--block">Verificar</button>
                   <p class="tsl-auth__foot">¿No te llegó? <button type="button" class="tsl-link" id="auth-resend" disabled>Reenviar en 30 s</button></p>
-                  <p class="tsl-auth__foot"><button type="button" class="tsl-link" data-go="registro">← Cambiar el correo</button></p>
+                  <p class="tsl-auth__foot"><button type="button" class="tsl-link" data-go="registro"><tsl-icon name="arrow-left" flip-rtl></tsl-icon> Cambiar el correo</button></p>
                 </form>
 
                 <form class="tsl-auth__view" data-view="recuperar" novalidate hidden>
@@ -2558,12 +2623,12 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
                   <p class="tsl-auth__desc">Te enviaremos un enlace para elegir una nueva.</p>
                   <div class="tsl-field"><label class="tsl-label" for="rec-email">Correo electrónico</label><input class="tsl-input" id="rec-email" type="email" name="email" required autocomplete="email" placeholder="tu@empresa.com" /><span class="tsl-error" id="rec-email-err"></span></div>
                   <button type="submit" class="tsl-btn tsl-btn--primary tsl-btn--block">Enviar enlace</button>
-                  <p class="tsl-auth__foot"><button type="button" class="tsl-link" data-go="entrar">← Volver a iniciar sesión</button></p>
+                  <p class="tsl-auth__foot"><button type="button" class="tsl-link" data-go="entrar"><tsl-icon name="arrow-left" flip-rtl></tsl-icon> Volver a iniciar sesión</button></p>
                 </form>
 
                 <div class="tsl-auth__view" data-view="listo" hidden>
                   <div class="tsl-empty">
-                    <div class="tsl-empty__icon" aria-hidden="true">✓</div>
+                    <div class="tsl-empty__icon" aria-hidden="true"><tsl-icon name="circle-check"></tsl-icon></div>
                     <h3 class="tsl-auth__title tsl-empty__title" tabindex="-1" data-done-title>Todo listo</h3>
                     <p class="tsl-empty__desc" data-done-desc></p>
                     <div class="tsl-row" style="justify-content:center;margin-top:6px"><button type="button" class="tsl-btn" data-go="entrar">Volver al inicio</button></div>
@@ -2877,7 +2942,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
                 </form>
               </tsl-wizard>
               <div class="tsl-empty" id="alta-hecho" hidden>
-                <div class="tsl-empty__icon" aria-hidden="true">✓</div>
+                <div class="tsl-empty__icon" aria-hidden="true"><tsl-icon name="circle-check"></tsl-icon></div>
                 <h3 class="tsl-empty__title" tabindex="-1">Tu espacio está listo</h3>
                 <p class="tsl-empty__desc" id="alta-hecho-desc"></p>
                 <div class="tsl-row" style="justify-content:center;margin-top:6px"><button type="button" class="tsl-btn tsl-btn--primary" id="alta-abrir">Abrir el espacio</button><button type="button" class="tsl-btn" id="alta-otra">Crear otro</button></div>
@@ -2953,7 +3018,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
                 <div class="tsl-marker tsl-marker--separator">Hoy</div>
                 <div class="tsl-message tsl-message--end">
                   <div class="tsl-message__content">
-                    <div class="tsl-attachment tsl-attachment--xs"><span class="tsl-attachment__media" aria-hidden="true">🖼</span><span class="tsl-attachment__title">marca.png</span></div>
+                    <div class="tsl-attachment tsl-attachment--xs"><span class="tsl-attachment__media" aria-hidden="true"><tsl-icon name="file-image"></tsl-icon></span><span class="tsl-attachment__title">marca.png</span></div>
                     <div class="tsl-bubble">¿Cómo uso el color de mi marca como acento sin perder contraste?</div>
                   </div>
                 </div>
@@ -2962,8 +3027,8 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
                   <div class="tsl-message__content">
                     <tsl-reasoning duration="7">
                       <ul class="tsl-trace">
-                        <li><span class="tsl-trace__line"><span class="tsl-trace__icon" aria-hidden="true">✓</span><span class="tsl-trace__title">Buscó «acento» en la documentación</span><span class="tsl-trace__desc">3 resultados</span></span></li>
-                        <li><span class="tsl-trace__line"><span class="tsl-trace__icon" aria-hidden="true">✓</span><span class="tsl-trace__title">Leyó src/api/theme.js</span><span class="tsl-trace__desc">0,4 s</span></span></li>
+                        <li><span class="tsl-trace__line"><span class="tsl-trace__icon" aria-hidden="true"><tsl-icon name="check"></tsl-icon></span><span class="tsl-trace__title">Buscó «acento» en la documentación</span><span class="tsl-trace__desc">3 resultados</span></span></li>
+                        <li><span class="tsl-trace__line"><span class="tsl-trace__icon" aria-hidden="true"><tsl-icon name="check"></tsl-icon></span><span class="tsl-trace__title">Leyó src/api/theme.js</span><span class="tsl-trace__desc">0,4 s</span></span></li>
                       </ul>
                       <p>La imagen es un naranja saturado. setAccent() ya calcula el color del texto encima, así que basta con explicarlo y recordar el mínimo de 4,5:1.</p>
                     </tsl-reasoning>
@@ -2981,10 +3046,10 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
                       <div class="tsl-message__footer tsl-row" style="--gap:4px">
                         <div class="tsl-branch__selector"></div>
                         <div class="tsl-message__actions">
-                          <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Copiar respuesta" data-tsl-copy='Pasa tu color a setAccent(): guarda el acento y elige el texto que va encima para que el contraste no baje de 4,5:1.'>⧉</button>
-                          <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Regenerar" data-regenerar>↻</button>
-                          <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Buena respuesta" aria-pressed="false" data-tsl-toggle>👍</button>
-                          <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Mala respuesta" aria-pressed="false" data-tsl-toggle>👎</button>
+                          <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Copiar respuesta" data-tsl-copy='Pasa tu color a setAccent(): guarda el acento y elige el texto que va encima para que el contraste no baje de 4,5:1.'><tsl-icon name="copy"></tsl-icon></button>
+                          <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Regenerar" data-regenerar><tsl-icon name="refresh-cw"></tsl-icon></button>
+                          <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Buena respuesta" aria-pressed="false" data-tsl-toggle><tsl-icon name="thumbs-up"></tsl-icon></button>
+                          <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Mala respuesta" aria-pressed="false" data-tsl-toggle><tsl-icon name="thumbs-down"></tsl-icon></button>
                         </div>
                       </div>
                     </tsl-branch>
@@ -3056,7 +3121,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
             const msg = nodo('<div class="tsl-message tsl-message--end"><div class="tsl-message__content"></div></div>');
             const contenido = msg.firstElementChild;
             archivos.forEach((f) => {
-              const chip = nodo('<div class="tsl-attachment tsl-attachment--xs"><span class="tsl-attachment__media" aria-hidden="true">📎</span><span class="tsl-attachment__title"></span></div>');
+              const chip = nodo('<div class="tsl-attachment tsl-attachment--xs"><span class="tsl-attachment__media" aria-hidden="true"><tsl-icon name="paperclip"></tsl-icon></span><span class="tsl-attachment__title"></span></div>');
               chip.querySelector(".tsl-attachment__title").textContent = f.name;
               contenido.append(chip);
             });
@@ -3078,8 +3143,8 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
                     <div class="tsl-message__footer tsl-row" style="--gap:4px" hidden>
                       <div class="tsl-branch__selector"></div>
                       <div class="tsl-message__actions">
-                        <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Copiar respuesta" data-tsl-copy>⧉</button>
-                        <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Regenerar" data-regenerar>↻</button>
+                        <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Copiar respuesta" data-tsl-copy><tsl-icon name="copy"></tsl-icon></button>
+                        <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Regenerar" data-regenerar><tsl-icon name="refresh-cw"></tsl-icon></button>
                       </div>
                     </div>
                   </tsl-branch>
@@ -3129,7 +3194,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
             timers = [];
             log.querySelectorAll("tsl-reasoning[streaming]").forEach((r) => r.removeAttribute("streaming"));
             log.querySelectorAll(".tsl-message__footer[hidden]").forEach((f) => (f.hidden = false));
-            log.append(nodo('<div class="tsl-marker" role="status"><span class="tsl-marker__icon" aria-hidden="true">■</span><span>Respuesta detenida</span></div>'));
+            log.append(nodo('<div class="tsl-marker" role="status"><span class="tsl-marker__icon" aria-hidden="true"><tsl-icon name="square"></tsl-icon></span><span>Respuesta detenida</span></div>'));
             prompt.status = "ready";
             ocupado = false;
           });
@@ -3150,7 +3215,7 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
 
   <!-- Paleta de comandos global (navegación de la documentación + demo) -->
   <tsl-command id="docs-cmd" hotkey="k" placeholder="Buscar componentes o acciones…" empty="Sin resultados." label="Buscar en Tesela">
-    <button class="tsl-command__item" data-group="Comandos" data-value="theme" data-keywords="dark light modo oscuro claro">Cambiar tema <kbd class="tsl-kbd">◐</kbd></button>
+    <button class="tsl-command__item" data-group="Comandos" data-value="theme" data-keywords="dark light modo oscuro claro"><tsl-icon name="sun-moon"></tsl-icon> Cambiar tema</button>
     <button class="tsl-command__item" data-group="Comandos" data-value="toast" data-keywords="notification notificación">Mostrar un toast</button>
     <button class="tsl-command__item" data-group="Comandos" data-value="gallery" data-keywords="home index">Ir a la galería</button>
   </tsl-command>

@@ -4,6 +4,28 @@ export type Theme = "dark" | "light" | "system";
 export type ResolvedTheme = "dark" | "light";
 export type PresetName = "tesela" | "esmeralda" | "ambar" | "cielo" | "rosa" | "violeta" | "medianoche" | "papel" | "alto-contraste" | "brutalista" | "suave";
 export type Side = "top" | "bottom" | "left" | "right";
+/** Fuente de un icono: URL, texto de un SVG completo o su contenido interior (o una promesa de ellos). */
+export type IconSource = string | null | undefined | { default: string };
+export interface IconLibraryOptions {
+  /** Iconos ya disponibles, por nombre: SVG completo o contenido interior. */
+  icons?: Record<string, string>;
+  /** Resuelve un nombre a su fuente (URL, SVG o import de un módulo). */
+  resolver?: (name: string) => IconSource | Promise<IconSource>;
+  /** Ajusta el SVG antes de insertarlo (p. ej. fill="currentColor"). */
+  mutator?: (svg: SVGSVGElement, name: string) => void;
+  /** viewBox para los iconos dados como contenido interior. */
+  viewBox?: string;
+  /** Atributos de presentación para los iconos dados como contenido interior. */
+  attrs?: Record<string, string>;
+}
+export interface IconLibraryPresets {
+  lucide(options?: { base?: string }): IconLibraryOptions;
+  tabler(options?: { variant?: "outline" | "filled"; base?: string }): IconLibraryOptions;
+  phosphor(options?: { weight?: "thin" | "light" | "regular" | "bold" | "fill" | "duotone"; base?: string }): IconLibraryOptions;
+  heroicons(options?: { variant?: "outline" | "solid" | "mini" | "micro"; base?: string }): IconLibraryOptions;
+  material(options?: { style?: "outlined" | "rounded" | "sharp"; fill?: boolean; base?: string }): IconLibraryOptions;
+  simple(options?: { base?: string }): IconLibraryOptions;
+}
 export interface ToastOptions {
   title?: string;
   description?: string;
@@ -29,6 +51,8 @@ export interface PositionOptions {
 export declare const VERSION: string;
 /** Presets de tema disponibles. */
 export declare const presets: ReadonlyArray<{ name: PresetName; label: string; description: string }>;
+/** Adaptadores para registrar Lucide, Tabler, Phosphor, Heroicons, Material Symbols o Simple Icons con `registerIconLibrary`. */
+export declare const iconLibraries: IconLibraryPresets;
 /** Muestra una notificación efímera y devuelve una función para cerrarla. */
 export declare function toast(options: string | ToastOptions): () => void;
 /** Copia al portapapeles (con respaldo para `file://`). */
@@ -55,10 +79,22 @@ export declare function setDirection(dir: "ltr" | "rtl"): "ltr" | "rtl";
 export declare function getDirection(): "ltr" | "rtl";
 /** Inicializa los ayudantes estáticos tras insertar HTML dinámico. */
 export declare function init(root?: ParentNode): void;
+/** Registra (o amplía) una biblioteca de iconos para `<tsl-icon library>`; los iconos ya pintados de esa biblioteca se vuelven a pintar. */
+export declare function registerIconLibrary(name: string, options?: IconLibraryOptions): void;
+/** Añade iconos propios (SVG completo o su contenido interior) a una biblioteca; por defecto, a la base `tesela`. */
+export declare function registerIcons(icons: Record<string, string>, library?: string): void;
+/** Quita una biblioteca registrada (la base `tesela` no se puede quitar). */
+export declare function unregisterIconLibrary(name: string): void;
+/** Nombres de los iconos disponibles sin red en una biblioteca (por defecto, los del set base). */
+export declare function iconNames(library?: string): string[];
+/** Devuelve el `<svg>` limpio de un icono (pidiéndolo a la red si hace falta) o `null` si no existe. */
+export declare function getIcon(name: string, library?: string): Promise<SVGSVGElement | null>;
 export interface TeselaUIGlobal {
   version: string;
   /** Presets de tema disponibles. */
   presets: typeof presets;
+  /** Adaptadores para registrar Lucide, Tabler, Phosphor, Heroicons, Material Symbols o Simple Icons con `registerIconLibrary`. */
+  iconLibraries: typeof iconLibraries;
   /** Muestra una notificación efímera y devuelve una función para cerrarla. */
   toast: typeof toast;
   /** Copia al portapapeles (con respaldo para `file://`). */
@@ -85,7 +121,40 @@ export interface TeselaUIGlobal {
   getDirection: typeof getDirection;
   /** Inicializa los ayudantes estáticos tras insertar HTML dinámico. */
   init: typeof init;
+  /** Registra (o amplía) una biblioteca de iconos para `<tsl-icon library>`; los iconos ya pintados de esa biblioteca se vuelven a pintar. */
+  registerIconLibrary: typeof registerIconLibrary;
+  /** Añade iconos propios (SVG completo o su contenido interior) a una biblioteca; por defecto, a la base `tesela`. */
+  registerIcons: typeof registerIcons;
+  /** Quita una biblioteca registrada (la base `tesela` no se puede quitar). */
+  unregisterIconLibrary: typeof unregisterIconLibrary;
+  /** Nombres de los iconos disponibles sin red en una biblioteca (por defecto, los del set base). */
+  iconNames: typeof iconNames;
+  /** Devuelve el `<svg>` limpio de un icono (pidiéndolo a la red si hace falta) o `null` si no existe. */
+  getIcon: typeof getIcon;
 }
+
+export interface TslIconEventMap {
+  /** El icono se pintó. */
+  "tsl-load": CustomEvent<{ name: string; library: string }>;
+  /** El icono no existe o no se pudo descargar. */
+  "tsl-error": CustomEvent<{ name: string; library: string }>;
+}
+/** Icono SVG en línea que hereda el color y mide 1em. Set base incluido (183 iconos de Lucide) y bibliotecas externas registrables: Lucide completo, Tabler, Phosphor, Heroicons, Material Symbols, Simple Icons o tus SVG. */
+export interface TslIconElement extends HTMLElement {
+  /** Refleja el atributo `name`. */
+  name: string;
+  /** Refleja el atributo `library`. */
+  library: string;
+  /** Refleja el atributo `label`. */
+  label: string;
+  addEventListener<K extends keyof TslIconEventMap>(type: K, listener: (this: TslIconElement, ev: TslIconEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslIconElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+  removeEventListener<K extends keyof TslIconEventMap>(type: K, listener: (this: TslIconElement, ev: TslIconEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: TslIconElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+}
+export declare const TslIcon: { new (): TslIconElement; prototype: TslIconElement };
 
 export interface TslTabsEventMap {
   /** El usuario cambió de pestaña. */
@@ -911,7 +980,7 @@ export interface TslBranchEventMap {
   /** La persona cambió de versión. */
   "tsl-change": CustomEvent<{ index: number; count: number }>;
 }
-/** Versiones alternativas de un mensaje (`.tsl-branch__item`): muestra una con el selector «‹ 2 de 3 ›», empieza en la última y salta a cada versión nueva que llegue. */
+/** Versiones alternativas de un mensaje (`.tsl-branch__item`): muestra una con el selector «2 de 3» entre flechas, empieza en la última y salta a cada versión nueva que llegue. */
 export interface TslBranchElement extends HTMLElement {
   /** Versión visible, desde 0. */
   index: number;
@@ -1316,6 +1385,7 @@ export declare const TslChart: { new (): TslChartElement; prototype: TslChartEle
 
 declare global {
   interface HTMLElementTagNameMap {
+    "tsl-icon": TslIconElement;
     "tsl-tabs": TslTabsElement;
     "tsl-segmented": TslSegmentedElement;
     "tsl-menu": TslMenuElement;

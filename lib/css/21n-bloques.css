@@ -301,7 +301,15 @@ tsl-wizard {
 }
 
 .tsl-auth__points li::before {
-  content: "✓";
+  content: "";
+  --_icon: var(--tsl-svg-check);
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  vertical-align: -0.125em;
+  -webkit-mask: var(--_icon) center / contain no-repeat;
+  mask: var(--_icon) center / contain no-repeat;
   margin-inline-end: 8px;
   color: var(--tsl-accent);
 }

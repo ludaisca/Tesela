@@ -88,7 +88,18 @@ document.addEventListener("click", (e) => {
     const text = source ? source.value || source.textContent : copyBtn.dataset.tslCopy;
     copy(text || "").then((ok) => {
       const label = copyBtn.textContent;
-      if (copyBtn.children.length === 0) {
+      // Botón solo con icono: el icono pasa a una marca (o una cruz) un momento
+      const icon = copyBtn.querySelector(":scope > tsl-icon:only-child");
+      if (icon && !copyBtn.textContent.trim()) {
+        const prev = icon.dataset.tslCopyIcon || icon.getAttribute("name");
+        icon.dataset.tslCopyIcon = prev;
+        icon.setAttribute("name", ok ? "check" : "x");
+        clearTimeout(icon._tslCopyTimer);
+        icon._tslCopyTimer = setTimeout(() => {
+          icon.setAttribute("name", prev);
+          delete icon.dataset.tslCopyIcon;
+        }, 1200);
+      } else if (copyBtn.children.length === 0) {
         copyBtn.textContent = ok ? "Copiado" : "Error";
         setTimeout(() => (copyBtn.textContent = label), 1200);
       }

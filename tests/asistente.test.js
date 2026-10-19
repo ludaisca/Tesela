@@ -111,7 +111,7 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   await show('reasoning');
   const r1 = p.locator('#reasoning tsl-reasoning').first();
   const t1 = r1.locator('.tsl-reasoning__trigger');
-  ok(await t1.textContent() === '✦Pensó durante 12 s' && await t1.getAttribute('aria-expanded') === 'false' && await r1.locator('.tsl-reasoning__content').evaluate(e => e.inert && e.getBoundingClientRect().height < 1), 'terminado: «Pensó durante 12 s», plegado e inert');
+  ok(await t1.textContent() === 'Pensó durante 12 s' && await t1.locator('.tsl-reasoning__icon svg').count() === 1 && await t1.getAttribute('aria-expanded') === 'false' && await r1.locator('.tsl-reasoning__content').evaluate(e => e.inert && e.getBoundingClientRect().height < 1), 'terminado: «Pensó durante 12 s», plegado e inert');
   await t1.click(); await p.waitForTimeout(300);
   ok(await t1.getAttribute('aria-expanded') === 'true' && await r1.locator('.tsl-reasoning__content').evaluate(e => !e.inert && e.getBoundingClientRect().height > 30), 'al pulsar se despliega');
   const rr = p.locator('#demo-reasoning');

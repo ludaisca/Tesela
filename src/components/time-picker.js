@@ -1,6 +1,7 @@
 import { define, emit, pad } from "../core/base.js";
 import { TslFormElement } from "../core/form.js";
 import { dismissOnOutside, position, trackPosition } from "../core/position.js";
+import { icon } from "../core/icons.js";
 
 /**
  * <tsl-time-picker name="hora" value="09:30" step="5" hour12 min="08:00" max="18:00"
@@ -54,7 +55,7 @@ export class TslTimePicker extends TslFormElement {
     this.clearBtn.type = "button";
     this.clearBtn.className = "tsl-trigger__clear";
     this.clearBtn.setAttribute("aria-label", this.getAttribute("clear-label") || "Limpiar hora");
-    this.clearBtn.textContent = "✕";
+    this.clearBtn.appendChild(icon("x"));
     this.clearBtn.hidden = true;
     if (this.hasAttribute("clearable")) this.wrap.appendChild(this.clearBtn);
 

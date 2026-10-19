@@ -1,4 +1,5 @@
 import { TslElement, define, emit } from "../core/base.js";
+import { icon } from "../core/icons.js";
 
 const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -28,7 +29,7 @@ export class TslMessageScroller extends TslElement {
     this.button = document.createElement("button");
     this.button.type = "button";
     this.button.className = "tsl-btn tsl-btn--sm tsl-message-scroller__end";
-    this.button.textContent = this.getAttribute("end-label") || "↓ Ir al final";
+    this.button.append(icon("arrow-down"), this.getAttribute("end-label") || "Ir al final");
     this.button.addEventListener("click", () => this.scrollToEnd());
     this.appendChild(this.button);
 

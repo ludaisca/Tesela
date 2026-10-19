@@ -1,4 +1,5 @@
 import { TslElement, define, emit } from "../core/base.js";
+import { icon } from "../core/icons.js";
 
 export class TslTags extends TslElement {
   setup() {
@@ -53,7 +54,7 @@ export class TslTags extends TslElement {
     rm.type = "button";
     rm.className = "tsl-chip__remove";
     rm.setAttribute("aria-label", `Quitar ${tag}`);
-    rm.textContent = "✕";
+    rm.appendChild(icon("x"));
     rm.addEventListener("click", () => this.removeTag(tag, true));
     chip.append(label, rm);
     this.insertBefore(chip, this.input);

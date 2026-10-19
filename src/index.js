@@ -7,6 +7,8 @@ import { copy } from "./api/clipboard.js";
 import { confirmDialog } from "./api/confirm.js";
 import { position } from "./core/position.js";
 import { init } from "./behaviors.js";
+import { getIcon, iconLibraries, iconNames, registerIconLibrary, registerIcons, unregisterIconLibrary } from "./core/icons.js";
+import "./components/icon.js";
 import "./components/tabs.js";
 import "./components/segmented.js";
 import "./components/menu.js";
@@ -54,7 +56,7 @@ import "./components/phone.js";
 import "./components/upload.js";
 import "./components/editor.js";
 
-export { VERSION, getTheme, getResolvedTheme, setTheme, getPreset, setPreset, setAccent, setDirection, getDirection, presets, toast, copy, confirmDialog as confirm, position, init };
+export { VERSION, getTheme, getResolvedTheme, setTheme, getPreset, setPreset, setAccent, setDirection, getDirection, presets, toast, copy, confirmDialog as confirm, position, init, getIcon, iconLibraries, iconNames, registerIconLibrary, registerIcons, unregisterIconLibrary };
 
 if (typeof window !== "undefined") {
   if (document.readyState === "loading") {
@@ -63,5 +65,5 @@ if (typeof window !== "undefined") {
     init();
   }
 
-  window.TeselaUI = { version: VERSION, toast, copy, confirm: confirmDialog, position, setTheme, getTheme, getResolvedTheme, setPreset, getPreset, setAccent, setDirection, getDirection, presets, init };
+  window.TeselaUI = { version: VERSION, toast, copy, confirm: confirmDialog, position, setTheme, getTheme, getResolvedTheme, setPreset, getPreset, setAccent, setDirection, getDirection, presets, init, getIcon, iconLibraries, iconNames, registerIconLibrary, registerIcons, unregisterIconLibrary };
 }

@@ -2,6 +2,7 @@ import { define, emit, fromISO } from "../core/base.js";
 import { TslFormElement } from "../core/form.js";
 import { dismissOnOutside, position, trackPosition } from "../core/position.js";
 import "./calendar.js";
+import { icon } from "../core/icons.js";
 
 /**
  * <tsl-date-picker name="fecha" value="2026-10-14" min max locale="es" week-start="1"
@@ -35,7 +36,7 @@ export class TslDatePicker extends TslFormElement {
     this.clearBtn.type = "button";
     this.clearBtn.className = "tsl-trigger__clear";
     this.clearBtn.setAttribute("aria-label", this.getAttribute("clear-label") || "Limpiar fecha");
-    this.clearBtn.textContent = "✕";
+    this.clearBtn.appendChild(icon("x"));
     this.clearBtn.hidden = true;
     if (this.hasAttribute("clearable")) this.wrap.appendChild(this.clearBtn);
 

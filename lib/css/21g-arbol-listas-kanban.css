@@ -202,10 +202,12 @@ tsl-sortable[direction="grid"] {
 }
 
 .tsl-sortable__handle::before {
-  content: "⋮⋮";
-  font-size: 12px;
-  letter-spacing: -2px;
-  line-height: 1;
+  content: "";
+  width: 14px;
+  height: 14px;
+  background: currentColor;
+  -webkit-mask: var(--tsl-svg-grip-vertical) center / contain no-repeat;
+  mask: var(--tsl-svg-grip-vertical) center / contain no-repeat;
 }
 
 body.tsl-is-sorting {

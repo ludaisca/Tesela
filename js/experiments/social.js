@@ -146,7 +146,7 @@
     commits: {
       html: `
         ${head("Líneas de tiempo · commits.tsx", "Historial de commits", "Cambia de rama, copia SHAs y expande un commit para ver los archivos que tocó.")}
-        <div class="tsl-row"><tsl-menu data-branch><button type="button" class="tsl-btn tsl-btn--sm" data-tsl-trigger>⎇ <span data-b>main</span> ▾</button><div class="tsl-menu__list"><button type="button" class="tsl-menu__item" data-value="main">main</button><button type="button" class="tsl-menu__item" data-value="feat/gallery">feat/gallery</button><button type="button" class="tsl-menu__item" data-value="fix/sparkline">fix/sparkline</button></div></tsl-menu><span class="tsl-muted" data-count></span></div>
+        <div class="tsl-row"><tsl-menu data-branch><button type="button" class="tsl-btn tsl-btn--sm" data-tsl-trigger><tsl-icon name=git-branch></tsl-icon><span data-b>main</span><tsl-icon name=chevron-down></tsl-icon></button><div class="tsl-menu__list"><button type="button" class="tsl-menu__item" data-value="main">main</button><button type="button" class="tsl-menu__item" data-value="feat/gallery">feat/gallery</button><button type="button" class="tsl-menu__item" data-value="fix/sparkline">fix/sparkline</button></div></tsl-menu><span class="tsl-muted" data-count></span></div>
         <div data-list class="tsl-stack"></div>`,
       setup(root, ctx) {
         const msgs = ["feat: runtime de experimentos funcionales", "fix: alfa premultiplicado en el shader ambiental", "chore: actualizar docs", "feat(ui): navegación por teclado en tsl-calendar", "refactor: compartir el resaltador", "test: smoke de todos los experimentos", "fix: relación de aspecto del sparkline", "docs: uso en el README"];
@@ -159,7 +159,7 @@
           ctx.$("[data-count]").textContent = `${commits.length} commits`;
           const days = [...new Set(commits.map((c) => c.day))];
           ctx.$("[data-list]").innerHTML = days
-            .map((d) => `<div><span class="tsl-eyebrow">${d === 0 ? "Hoy" : `Hace ${d} ${d > 1 ? "días" : "día"}`}</span><ul class="tsl-list" style="margin-top:6px">${commits.filter((c) => c.day === d).map((c) => `<li style="flex-wrap:wrap"><span class="tsl-avatar tsl-avatar--sm">${c.who[0]}</span><div style="flex:1;min-width:200px"><div class="tsl-list__title">${esc(c.msg)}</div><div class="tsl-list__desc">${c.who} hizo commit${c.verified ? ' · <span style="color:var(--tsl-success)">✓ Verificado</span>' : ""}</div></div><span class="tsl-list__end"><button type="button" class="tsl-btn tsl-btn--sm xp-mono" data-tsl-copy="${c.sha}" data-tsl-tooltip="Copiar SHA">${c.sha}</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-x aria-expanded="false">Archivos</button></span><div data-files hidden style="flex-basis:100%;padding-left:36px" class="xp-mono tsl-muted">${c.files.map((f) => `<div>M ${f}</div>`).join("") || "<div>(commit vacío)</div>"}</div></li>`).join("")}</ul></div>`)
+            .map((d) => `<div><span class="tsl-eyebrow">${d === 0 ? "Hoy" : `Hace ${d} ${d > 1 ? "días" : "día"}`}</span><ul class="tsl-list" style="margin-top:6px">${commits.filter((c) => c.day === d).map((c) => `<li style="flex-wrap:wrap"><span class="tsl-avatar tsl-avatar--sm">${c.who[0]}</span><div style="flex:1;min-width:200px"><div class="tsl-list__title">${esc(c.msg)}</div><div class="tsl-list__desc">${c.who} hizo commit${c.verified ? ' · <span style="color:var(--tsl-success)"><tsl-icon name=check></tsl-icon> Verificado</span>' : ""}</div></div><span class="tsl-list__end"><button type="button" class="tsl-btn tsl-btn--sm xp-mono" data-tsl-copy="${c.sha}" data-tsl-tooltip="Copiar SHA">${c.sha}</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-x aria-expanded="false">Archivos</button></span><div data-files hidden style="flex-basis:100%;padding-left:36px" class="xp-mono tsl-muted">${c.files.map((f) => `<div>M ${f}</div>`).join("") || "<div>(commit vacío)</div>"}</div></li>`).join("")}</ul></div>`)
             .join("");
         };
         ctx.on(ctx.$("[data-list]"), "click", (e) => {
@@ -186,7 +186,7 @@
           const cur = steps.findIndex((s) => s.state === "pending");
           const rejected = steps.some((s) => s.state === "rejected");
           ctx.$("[data-status]").className = `tsl-badge tsl-badge--${rejected ? "danger" : cur === -1 ? "success" : "warning"}`;
-          ctx.$("[data-status]").textContent = rejected ? "Cambios solicitados" : cur === -1 ? "Listo para salir 🚀" : `Esperando a ${steps[cur].team}`;
+          ctx.$("[data-status]").textContent = rejected ? "Cambios solicitados" : cur === -1 ? "Listo para salir" : `Esperando a ${steps[cur].team}`;
           ctx.$("[data-steps]").innerHTML = steps
             .map((s, i) => `<li style="--c:var(--tsl-${s.state === "approved" ? "success" : s.state === "rejected" ? "danger" : i === cur && !rejected ? "warning" : "fg-subtle"})"><div class="tsl-row"><strong>${s.team}</strong><span class="tsl-muted">${s.who}</span><span class="tsl-badge${s.state === "approved" ? " tsl-badge--success" : s.state === "rejected" ? " tsl-badge--danger" : ""}">${{ approved: "aprobado", rejected: "rechazado", pending: "pendiente" }[s.state]}</span></div>${s.note ? `<div class="tsl-muted" style="margin-top:4px">“${esc(s.note)}”</div>` : ""}${i === cur && !rejected ? `<div class="tsl-stack" style="margin-top:8px;--gap:6px"><textarea class="tsl-textarea" data-note placeholder="Nota opcional (obligatoria para rechazar)" style="min-height:60px"></textarea><div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--primary" data-ok>Aprobar</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--danger" data-no>Solicitar cambios</button></div><span class="tsl-error" data-err></span></div>` : ""}</li>`)
             .join("");
@@ -237,7 +237,7 @@
           ctx.$("[data-conv]").appendChild(li);
         };
         const sync = () => {
-          ctx.$("[data-checks]").innerHTML = checks.map((c) => `<li><span>${c.state === "running" ? '<span class="tsl-spinner" style="--size:12px"></span>' : c.state === "pass" ? '<span style="color:var(--tsl-success)">✓</span>' : '<span style="color:var(--tsl-danger)">✕</span>'}</span><span style="flex:1">${c.name}</span><span class="tsl-muted xp-mono">${c.state === "running" ? "ejecutando…" : `${c.s}s`}</span></li>`).join("");
+          ctx.$("[data-checks]").innerHTML = checks.map((c) => `<li><span>${c.state === "running" ? '<span class="tsl-spinner" style="--size:12px"></span>' : c.state === "pass" ? '<tsl-icon name="check" label="Correcto" style="color:var(--tsl-success)"></tsl-icon>' : '<tsl-icon name="x" label="Falló" style="color:var(--tsl-danger)"></tsl-icon>'}</span><span style="flex:1">${c.name}</span><span class="tsl-muted xp-mono">${c.state === "running" ? "ejecutando…" : `${c.s}s`}</span></li>`).join("");
           const green = checks.every((c) => c.state === "pass");
           const btn = ctx.$("[data-merge]");
           btn.disabled = merged || !green || !approved;
@@ -258,7 +258,7 @@
         ctx.on(ctx.$("[data-approve]"), "click", (e) => {
           approved = true;
           e.target.disabled = true;
-          ctx.$("[data-reviews]").innerHTML = '<span class="tsl-badge tsl-badge--success">✓ Luis aprobó</span>';
+          ctx.$("[data-reviews]").innerHTML = '<span class="tsl-badge tsl-badge--success"><tsl-icon name=check></tsl-icon> Luis aprobó</span>';
           conv("Luis", "aprobó estos cambios", "var(--tsl-success)");
           sync();
         });
@@ -283,7 +283,7 @@
     "pr-ops-console": {
       html: `
         ${head("Líneas de tiempo · pr-ops-console.tsx", "Consola de operaciones de PR", "Un pipeline de CI/CD que puedes ejecutar: las etapas corren en orden con logs en streaming, staging requiere aprobación manual y puedes cancelar o revertir en cualquier momento.")}
-        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-run>▶ Ejecutar pipeline</button><button type="button" class="tsl-btn" data-cancel disabled>Cancelar</button><button type="button" class="tsl-btn tsl-btn--subtle" data-rollback disabled>Revertir prod</button><span class="tsl-spacer"></span><span class="tsl-badge" data-state>inactivo</span></div>
+        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-run><tsl-icon name=play></tsl-icon> Ejecutar pipeline</button><button type="button" class="tsl-btn" data-cancel disabled>Cancelar</button><button type="button" class="tsl-btn tsl-btn--subtle" data-rollback disabled>Revertir prod</button><span class="tsl-spacer"></span><span class="tsl-badge" data-state>inactivo</span></div>
         <div class="tsl-row" style="--gap:6px;flex-wrap:nowrap;overflow:auto" data-stages></div>
         <div class="tsl-alert tsl-alert--warning" data-gate hidden><div style="flex:1"><div class="tsl-alert__title">Staging desplegado: ¿promover a producción?</div></div><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--primary" data-approve>Aprobar</button></div>
         <pre class="xp-terminal" data-log style="min-height:220px;max-height:260px;overflow:auto;margin:0"></pre>`,
@@ -297,7 +297,7 @@
           el.scrollTop = el.scrollHeight;
         };
         const render = () => {
-          ctx.$("[data-stages]").innerHTML = stages.map((s, i) => `<div class="tsl-stat" style="min-width:120px;padding:10px;border-color:${state[i] === "running" ? "var(--xp-accent)" : "var(--tsl-border)"}"><span class="tsl-eyebrow">${i + 1}. ${s}</span><span>${{ running: '<span class="tsl-spinner" style="--size:12px"></span> ejecutando', done: '<span style="color:var(--tsl-success)">✓ exitoso</span>', failed: '<span style="color:var(--tsl-danger)">✕ fallido</span>', waiting: "⏸ en espera", cancelled: "⊘ cancelado" }[state[i]] || '<span class="tsl-muted">en cola</span>'}</span></div>`).join("");
+          ctx.$("[data-stages]").innerHTML = stages.map((s, i) => `<div class="tsl-stat" style="min-width:120px;padding:10px;border-color:${state[i] === "running" ? "var(--xp-accent)" : "var(--tsl-border)"}"><span class="tsl-eyebrow">${i + 1}. ${s}</span><span>${{ running: '<span class="tsl-spinner" style="--size:12px"></span> ejecutando', done: '<span style="color:var(--tsl-success)"><tsl-icon name=check></tsl-icon> exitoso</span>', failed: '<span style="color:var(--tsl-danger)"><tsl-icon name=x></tsl-icon> fallido</span>', waiting: "<tsl-icon name=pause></tsl-icon> en espera", cancelled: "<tsl-icon name=circle-x></tsl-icon> cancelado" }[state[i]] || '<span class="tsl-muted">en cola</span>'}</span></div>`).join("");
         };
         const setState = (s) => {
           ctx.$("[data-state]").textContent = { idle: "inactivo", success: "exitoso", failed: "fallido", cancelled: "cancelado", running: "ejecutando", "awaiting approval": "esperando aprobación" }[s] || s;
@@ -311,18 +311,18 @@
             state[5] = "waiting";
             ctx.$("[data-gate]").hidden = false;
             setState("awaiting approval");
-            log("⏸ esperando aprobación manual");
+            log("esperando aprobación manual");
             return render();
           }
           if (i >= stages.length) {
             setState("success");
             ctx.$("[data-rollback]").disabled = false;
-            log("✓ pipeline exitoso: v1.3.0 en vivo");
+            log("pipeline exitoso: v1.3.0 en vivo");
             return;
           }
           state[i] = "running";
           render();
-          log(`▶ ${stages[i]}…`);
+          log(`${stages[i]}…`);
           const steps = [`  $ ${["npm ci", "npm run lint", "npm test", "npm run build", "deploy --env staging", "deploy --env production"][i]}`, `  ${["0 paquetes añadidos (¡cero dependencias!)", "0 problemas", "212 exitosas", "dist/ 148 kB", "https://staging.tesela.example", "https://devl.dev"][i]}`];
           steps.forEach((l, k) => ctx.timeout(250 * (k + 1), () => my === token && log(l)));
           ctx.timeout(800 + Math.random() * 500, () => {
@@ -344,7 +344,7 @@
           ctx.$("[data-gate]").hidden = true;
           state[5] = "approved";
           setState("running");
-          log("✓ aprobado por Luis");
+          log("aprobado por Luis");
           runStage(5, token);
         });
         ctx.on(ctx.$("[data-cancel]"), "click", () => {
@@ -352,14 +352,14 @@
           state = state.map((s) => (s === "running" || s === "waiting" ? "cancelled" : s));
           ctx.$("[data-gate]").hidden = true;
           setState("cancelled");
-          log("⊘ cancelado por el usuario");
+          log("cancelado por el usuario");
           render();
         });
         ctx.on(ctx.$("[data-rollback]"), "click", (e) => {
           e.target.disabled = true;
-          log("↺ revirtiendo producción a v1.2.0…");
+          log("revirtiendo producción a v1.2.0…");
           ctx.timeout(900, () => {
-            log("✓ reversión completada");
+            log("reversión completada");
             ctx.toast({ title: "Producción revertida a v1.2.0", variant: "warning" });
           });
         });
@@ -489,7 +489,7 @@
           <div class="tsl-card__header tsl-row" style="border-bottom:1px solid var(--tsl-border);padding-bottom:12px"><span class="tsl-avatar" data-status="online">AL</span><div><strong>Ana López</strong><div class="tsl-muted" style="font-size:11px">Líder de diseño</div></div></div>
           <div data-msgs style="flex:1;overflow:auto;padding:14px 18px;display:flex;flex-direction:column;gap:10px"></div>
           <div class="tsl-muted" data-typing hidden style="padding:0 18px 6px;font-size:11px">Ana está escribiendo…</div>
-          <form class="tsl-row" data-form style="padding:10px 12px;border-top:1px solid var(--tsl-border);flex-wrap:nowrap"><label class="tsl-btn tsl-btn--icon tsl-btn--subtle" style="cursor:pointer" aria-label="Adjuntar">📎<input type="file" hidden data-file /></label><input class="tsl-input" data-text placeholder="Escribe una respuesta…" aria-label="Respuesta" autocomplete="off" /><button type="submit" class="tsl-btn tsl-btn--primary">Enviar</button></form>
+          <form class="tsl-row" data-form style="padding:10px 12px;border-top:1px solid var(--tsl-border);flex-wrap:nowrap"><label class="tsl-btn tsl-btn--icon tsl-btn--subtle" style="cursor:pointer" aria-label="Adjuntar"><tsl-icon name=paperclip></tsl-icon><input type="file" hidden data-file /></label><input class="tsl-input" data-text placeholder="Escribe una respuesta…" aria-label="Respuesta" autocomplete="off" /><button type="submit" class="tsl-btn tsl-btn--primary">Enviar</button></form>
         </div>`,
       setup(root, ctx) {
         const box = ctx.$("[data-msgs]");
@@ -497,7 +497,7 @@
           const d = document.createElement("div");
           d.style.cssText = `align-self:${mine ? "flex-end" : "flex-start"};max-width:75%;padding:8px 12px;border-radius:12px;font-size:12.5px;line-height:1.5;background:${mine ? "var(--xp-accent)" : "var(--tsl-surface-strong)"};color:${mine ? "#fff" : "var(--tsl-fg)"}`;
           d.textContent = text;
-          if (file) d.insertAdjacentHTML("beforeend", `<div style="margin-top:6px;opacity:.85">📄 <span></span></div>`), (d.querySelector("span").textContent = file);
+          if (file) d.insertAdjacentHTML("beforeend", `<div style="margin-top:6px;opacity:.85"><tsl-icon name=file-text></tsl-icon><span></span></div>`), (d.querySelector("span").innerHTML = file);
           const t = document.createElement("div");
           t.style.cssText = `font-size:10px;opacity:.7;margin-top:2px;text-align:${mine ? "right" : "left"}`;
           t.textContent = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -505,7 +505,7 @@
           box.appendChild(d);
           box.scrollTop = box.scrollHeight;
         };
-        const replies = ["Me encanta, ¿podemos ajustar el espaciado en móvil?", "Suena bien, ¡a producción! 🚀", "¿Puedes enviarme el enlace de Figma?", "¡Perfecto, gracias!"];
+        const replies = ["Me encanta, ¿podemos ajustar el espaciado en móvil?", "Suena bien, ¡a producción!", "¿Puedes enviarme el enlace de Figma?", "¡Perfecto, gracias!"];
         let k = 0;
         let pendingFile = "";
         ctx.on(ctx.$("[data-file]"), "change", (e) => {
@@ -533,7 +533,7 @@
     "activity-feed": {
       html: `
         ${head("Líneas de tiempo · activity-feed.tsx", "Feed de actividad", "Flujo en tiempo real con pausa/reanudar, filtros por tipo y marcas de tiempo relativas que se actualizan solas.")}
-        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--sm" data-pause aria-pressed="false">❚❚ Pausar</button><div class="tsl-row" style="--gap:6px" data-types></div><span class="tsl-spacer"></span><span class="tsl-badge" data-count></span></div>
+        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--sm" data-pause aria-pressed="false"><tsl-icon name=pause></tsl-icon> Pausar</button><div class="tsl-row" style="--gap:6px" data-types></div><span class="tsl-spacer"></span><span class="tsl-badge" data-count></span></div>
         <ol class="tsl-timeline" data-list style="max-height:460px;overflow:auto"></ol>`,
       setup(root, ctx) {
         const kinds = { deploy: "success", comment: "info", issue: "warning", member: "accent" };
@@ -564,7 +564,7 @@
         ctx.on(ctx.$("[data-pause]"), "click", (e) => {
           paused = !paused;
           e.target.setAttribute("aria-pressed", String(paused));
-          e.target.textContent = paused ? "▶ Reanudar" : "❚❚ Pausar";
+          e.target.innerHTML = paused ? "<tsl-icon name=play></tsl-icon> Reanudar" : "<tsl-icon name=pause></tsl-icon> Pausar";
         });
         ctx.on(ctx.$("[data-types]"), "click", (e) => {
           const b = e.target.closest("[data-t]");
@@ -588,7 +588,7 @@
     month: {
       html: `
         ${head("Calendarios · month.tsx", "Vista mensual", "Navega por los meses, haz clic en un día para añadir un evento y en un evento para quitarlo. El día de hoy está resaltado.")}
-        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--sm" data-nav="-1">‹</button><button type="button" class="tsl-btn tsl-btn--sm" data-today>Hoy</button><button type="button" class="tsl-btn tsl-btn--sm" data-nav="1">›</button><h3 class="xp-title" style="margin:0;font-size:18px" data-title></h3></div>
+        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--sm" data-nav="-1" aria-label="Anterior"><tsl-icon name="chevron-left" flip-rtl></tsl-icon></button><button type="button" class="tsl-btn tsl-btn--sm" data-today>Hoy</button><button type="button" class="tsl-btn tsl-btn--sm" data-nav="1" aria-label="Siguiente"><tsl-icon name="chevron-right" flip-rtl></tsl-icon></button><h3 class="xp-title" style="margin:0;font-size:18px" data-title></h3></div>
         <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px" data-grid></div>
         <form class="tsl-row xp-panel" data-form hidden style="padding:10px"><span class="tsl-badge" data-day></span><input class="tsl-input" style="flex:1" placeholder="Título del evento" required data-title-in aria-label="Título del evento" /><button type="submit" class="tsl-btn tsl-btn--primary tsl-btn--sm">Añadir</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-cancel>Cancelar</button></form>`,
       setup(root, ctx) {
@@ -639,7 +639,7 @@
     week: {
       html: `
         ${head("Calendarios · week.tsx", "Horario semanal", "Haz clic en un espacio vacío para bloquear una hora y en un bloque para quitarlo. La línea roja es la hora actual.")}
-        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--sm" data-nav="-7">‹ Anterior</button><button type="button" class="tsl-btn tsl-btn--sm" data-nav="7">Siguiente ›</button><strong data-range></strong><span class="tsl-spacer"></span><span class="tsl-badge" data-busy></span></div>
+        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--sm" data-nav="-7"><tsl-icon name="chevron-left" flip-rtl></tsl-icon>Anterior</button><button type="button" class="tsl-btn tsl-btn--sm" data-nav="7">Siguiente<tsl-icon name="chevron-right" flip-rtl></tsl-icon></button><strong data-range></strong><span class="tsl-spacer"></span><span class="tsl-badge" data-busy></span></div>
         <div class="xp-panel" style="padding:0;overflow:auto"><div data-grid style="position:relative;display:grid;grid-template-columns:52px repeat(7,minmax(90px,1fr));min-width:720px"></div></div>`,
       setup(root, ctx) {
         const H0 = 8;
@@ -715,7 +715,7 @@
       html: `
         ${head("Calendarios · date-range.tsx", "Selector de rango de fechas", "Dos meses lado a lado: haz clic en un inicio y un fin (al pasar el cursor se previsualiza el rango) o usa un preajuste.")}
         <div class="tsl-row"><span class="tsl-badge tsl-badge--outline xp-mono" data-out>Elige una fecha de inicio</span><span class="tsl-spacer"></span>${[["7", "Últimos 7 días"], ["30", "Últimos 30 días"], ["month", "Este mes"]].map(([v, l]) => `<button type="button" class="tsl-chip" data-preset="${v}">${l}</button>`).join("")}</div>
-        <div class="xp-panel tsl-row" style="align-items:flex-start;--gap:28px"><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-nav="-1" aria-label="Anterior">‹</button><div class="tsl-row" style="align-items:flex-start;--gap:28px;flex:1;justify-content:center" data-months></div><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-nav="1" aria-label="Siguiente">›</button></div>`,
+        <div class="xp-panel tsl-row" style="align-items:flex-start;--gap:28px"><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-nav="-1" aria-label="Anterior"><tsl-icon name="chevron-left" flip-rtl></tsl-icon></button><div class="tsl-row" style="align-items:flex-start;--gap:28px;flex:1;justify-content:center" data-months></div><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-nav="1" aria-label="Siguiente"><tsl-icon name="chevron-right" flip-rtl></tsl-icon></button></div>`,
       setup(root, ctx) {
         const today = new Date();
         let view = new Date(today.getFullYear(), today.getMonth() - 1, 1);
@@ -797,11 +797,11 @@
               const h = hourIn(t, tz);
               const work = h >= 9 && h < 18;
               if (!work) all = false;
-              return `<li><span class="tsl-dot tsl-dot--${work ? "success" : "danger"}"></span><div style="flex:1"><div class="tsl-list__title">${tz.split("/").pop().replace("_", " ")}</div><div class="tsl-list__desc">${tz}</div></div><span class="xp-num xp-mono" style="font-size:20px">${new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: tz }).format(t)}</span><span class="tsl-muted" style="width:70px;text-align:right">${new Intl.DateTimeFormat("es-MX", { weekday: "short", timeZone: tz }).format(t)}</span>${i ? `<button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" data-rm="${i}" aria-label="Quitar">✕</button>` : '<span style="width:26px"></span>'}</li>`;
+              return `<li><span class="tsl-dot tsl-dot--${work ? "success" : "danger"}"></span><div style="flex:1"><div class="tsl-list__title">${tz.split("/").pop().replace("_", " ")}</div><div class="tsl-list__desc">${tz}</div></div><span class="xp-num xp-mono" style="font-size:20px">${new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: tz }).format(t)}</span><span class="tsl-muted" style="width:70px;text-align:right">${new Intl.DateTimeFormat("es-MX", { weekday: "short", timeZone: tz }).format(t)}</span>${i ? `<button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" data-rm="${i}" aria-label="Quitar"><tsl-icon name=x></tsl-icon></button>` : '<span style="width:26px"></span>'}</li>`;
             })
             .join("");
           ctx.$("[data-overlap]").className = `tsl-alert tsl-alert--${all ? "success" : "warning"}`;
-          ctx.$("[data-overlap-t]").textContent = all ? "✓ Todos están dentro del horario laboral" : "Alguien está fuera del horario laboral: desliza para encontrar el traslape";
+          ctx.$("[data-overlap-t]").innerHTML = all ? "<tsl-icon name=check></tsl-icon> Todos están dentro del horario laboral" : "Alguien está fuera del horario laboral: desliza para encontrar el traslape";
         };
         ctx.on(ctx.$("[data-shift]"), "input", render);
         ctx.on(ctx.$("[data-add]"), "change", (e) => {
@@ -824,7 +824,7 @@
       html: `
         ${head("Calendarios · mini.tsx", "Mini calendario", "Un campo de fecha con un popover <tsl-calendar>: escribe una fecha o elige una; Escape cierra el popover.")}
         <div class="xp-rel" style="max-width:300px">
-          <div class="tsl-input-group"><input class="tsl-input xp-mono" data-in placeholder="AAAA-MM-DD" aria-label="Fecha" /><button type="button" class="tsl-btn tsl-btn--subtle tsl-btn--sm" style="margin:3px" data-open aria-expanded="false" aria-label="Abrir calendario">📅</button></div>
+          <div class="tsl-input-group"><input class="tsl-input xp-mono" data-in placeholder="AAAA-MM-DD" aria-label="Fecha" /><button type="button" class="tsl-btn tsl-btn--subtle tsl-btn--sm" style="margin:3px" data-open aria-expanded="false" aria-label="Abrir calendario"><tsl-icon name="calendar"></tsl-icon></button></div>
           <div data-pop hidden style="position:absolute;z-index:5;top:calc(100% + 6px);left:0;box-shadow:var(--tsl-shadow-lg);border-radius:var(--tsl-radius);background:var(--tsl-bg-elevated)"><tsl-calendar data-cal locale="es-MX"></tsl-calendar></div>
         </div>
         <p class="tsl-muted" data-out></p>`,
@@ -1009,7 +1009,7 @@
           reqs.push(req);
           ctx.timeout(2500, () => {
             req.state = "Aprobada";
-            ctx.toast({ title: "Días libres aprobados 🌴", description: `${req.from} → ${req.to}` });
+            ctx.toast({ title: "Días libres aprobados", description: `${req.from} → ${req.to}` });
             render();
           });
           render();
@@ -1043,7 +1043,7 @@
             <p data-bio style="max-width:620px;line-height:1.6">Construyo interfaces tranquilas y sin dependencias. Ahora mismo: tesela-ui.</p>
             <tsl-tabs><div class="tsl-tabs__list"><button class="tsl-tabs__tab" data-tab="o">Resumen</button><button class="tsl-tabs__tab" data-tab="p">Proyectos</button><button class="tsl-tabs__tab" data-tab="a">Actividad</button></div>
               <div class="tsl-tabs__panel" data-panel="o"><div class="tsl-grid" style="--min:150px"><div class="tsl-stat"><span class="tsl-eyebrow">Proyectos</span><span class="tsl-stat__value">12</span></div><div class="tsl-stat"><span class="tsl-eyebrow">Estrellas</span><span class="tsl-stat__value">3.4k</span></div><div class="tsl-stat"><span class="tsl-eyebrow">Racha</span><span class="tsl-stat__value">41d</span></div></div></div>
-              <div class="tsl-tabs__panel" data-panel="p"><ul class="tsl-list"><li>tesela-ui <span class="tsl-list__end tsl-badge">★ 2.1k</span></li><li>tesela <span class="tsl-list__end tsl-badge">★ 1.3k</span></li></ul></div>
+              <div class="tsl-tabs__panel" data-panel="p"><ul class="tsl-list"><li>tesela-ui <span class="tsl-list__end tsl-badge"><tsl-icon name="star" label="Estrellas"></tsl-icon> 2.1k</span></li><li>tesela <span class="tsl-list__end tsl-badge"><tsl-icon name="star" label="Estrellas"></tsl-icon> 1.3k</span></li></ul></div>
               <div class="tsl-tabs__panel" data-panel="a"><ol class="tsl-timeline"><li>Hizo merge de #482<div class="tsl-timeline__meta">hace 2 h</div></li><li>Lanzó v1.3.0<div class="tsl-timeline__meta">hace 1 d</div></li></ol></div>
             </tsl-tabs>
           </div></div>`,
@@ -1122,7 +1122,7 @@
         ${head("Perfil · team-grid.tsx", "Cuadrícula del equipo", "Filtra por departamento o nombre; haz clic en una persona para abrir sus detalles en un panel lateral.")}
         <div class="tsl-row"><input class="tsl-input xp-search" data-q placeholder="Buscar personas…" aria-label="Buscar" /><div class="tsl-row" style="--gap:6px" data-deps></div></div>
         <div class="tsl-grid" style="--min:180px" data-grid></div>
-        <dialog class="tsl-dialog tsl-dialog--drawer" id="tg-drawer"><button type="button" class="tsl-btn tsl-btn--subtle tsl-btn--icon tsl-btn--sm tsl-dialog__close" data-tsl-close aria-label="Cerrar">✕</button><div class="tsl-dialog__body tsl-stack" data-detail style="padding-top:28px"></div></dialog>`,
+        <dialog class="tsl-dialog tsl-dialog--drawer" id="tg-drawer"><button type="button" class="tsl-btn tsl-btn--subtle tsl-btn--icon tsl-btn--sm tsl-dialog__close" data-tsl-close aria-label="Cerrar"><tsl-icon name=x></tsl-icon></button><div class="tsl-dialog__body tsl-stack" data-detail style="padding-top:28px"></div></dialog>`,
       setup(root, ctx) {
         const deps = ["Todos", ...new Set(team.map((t) => t[1]))];
         let dep = "Todos";
@@ -1170,7 +1170,7 @@
           const rows = people.filter((p) => p.toLowerCase().includes(q));
           const letters = [...new Set(rows.map((p) => p.split(" ")[1][0]))];
           ctx.$("[data-letters]").innerHTML = letters.map((l) => `<button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-l="${l}" style="padding:0 6px">${l}</button>`).join("");
-          ctx.$("[data-list]").innerHTML = letters.map((l) => `<div class="tsl-eyebrow" id="dir-${l}" style="margin:10px 0 4px">${l}</div><ul class="tsl-list">${rows.filter((p) => p.split(" ")[1][0] === l).map((p) => `<li class="xp-select-item" data-p="${p}" aria-selected="${p === sel}"><span class="tsl-avatar tsl-avatar--sm">${initials(p)}</span><span style="flex:1">${p}</span><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" data-fav="${p}" aria-label="Favorito" aria-pressed="${favs.has(p)}">${favs.has(p) ? "★" : "☆"}</button></li>`).join("")}</ul>`).join("") || '<p class="tsl-muted">Sin contactos.</p>';
+          ctx.$("[data-list]").innerHTML = letters.map((l) => `<div class="tsl-eyebrow" id="dir-${l}" style="margin:10px 0 4px">${l}</div><ul class="tsl-list">${rows.filter((p) => p.split(" ")[1][0] === l).map((p) => `<li class="xp-select-item" data-p="${p}" aria-selected="${p === sel}"><span class="tsl-avatar tsl-avatar--sm">${initials(p)}</span><span style="flex:1">${p}</span><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" data-fav="${p}" aria-label="Favorito" aria-pressed="${favs.has(p)}"><tsl-icon name="star"${favs.has(p) ? ' class="xp-filled"' : ""}></tsl-icon></button></li>`).join("")}</ul>`).join("") || '<p class="tsl-muted">Sin contactos.</p>';
         };
         ctx.on(ctx.$("[data-q]"), "input", render);
         ctx.on(ctx.$("[data-letters]"), "click", (e) => {
@@ -1187,7 +1187,7 @@
           if (!li) return;
           sel = li.dataset.p;
           const info = team.find((t) => t[0] === sel) || [sel, "Externo", "Socio", "offline"];
-          ctx.$("[data-detail]").innerHTML = `<div class="tsl-stack"><span class="tsl-avatar tsl-avatar--lg" data-status="${info[3]}">${initials(sel)}</span><h3 class="xp-title" style="margin:0">${sel}${favs.has(sel) ? " ★" : ""}</h3><span class="tsl-muted">${info[2]} · ${info[1]}</span><dl class="xp-kv"><dt>Correo</dt><dd>${sel.split(" ")[0].toLowerCase()}@acme.dev</dd><dt>Teléfono</dt><dd>+52 55 ${String(sel.length * 731).padStart(4, "0")} 1200</dd></dl><div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--sm" data-tsl-copy="${sel.split(" ")[0].toLowerCase()}@acme.dev">Copiar correo</button></div></div>`;
+          ctx.$("[data-detail]").innerHTML = `<div class="tsl-stack"><span class="tsl-avatar tsl-avatar--lg" data-status="${info[3]}">${initials(sel)}</span><h3 class="xp-title" style="margin:0">${sel}${favs.has(sel) ? ' <tsl-icon name="star" label="Favorito" class="xp-filled" style="color:var(--tsl-warning)"></tsl-icon>' : ""}</h3><span class="tsl-muted">${info[2]} · ${info[1]}</span><dl class="xp-kv"><dt>Correo</dt><dd>${sel.split(" ")[0].toLowerCase()}@acme.dev</dd><dt>Teléfono</dt><dd>+52 55 ${String(sel.length * 731).padStart(4, "0")} 1200</dd></dl><div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--sm" data-tsl-copy="${sel.split(" ")[0].toLowerCase()}@acme.dev">Copiar correo</button></div></div>`;
           render();
         });
         render();
@@ -1199,8 +1199,8 @@
         ${head("Perfil · compact-card.tsx", "Tarjeta compacta de usuario", "Define tu estado desde el menú y añade un mensaje personalizado con un emoji y un tiempo de borrado automático.")}
         <div class="xp-center" style="min-height:0"><div class="tsl-card" style="width:min(360px,100%)"><div class="tsl-card__body tsl-stack">
           <div class="tsl-row"><span class="tsl-avatar" data-avatar data-status="online">LI</span><div style="flex:1"><strong>Luis Islas</strong><div class="tsl-muted" style="font-size:11px" data-msg>Sin mensaje de estado</div></div>
-            <tsl-menu align="end" data-menu><button type="button" class="tsl-btn tsl-btn--sm" data-tsl-trigger><span data-label>En línea</span> ▾</button><div class="tsl-menu__list"><button type="button" class="tsl-menu__item" data-value="online"><span class="tsl-dot tsl-dot--success"></span> En línea</button><button type="button" class="tsl-menu__item" data-value="away"><span class="tsl-dot tsl-dot--warning"></span> Ausente</button><button type="button" class="tsl-menu__item" data-value="busy"><span class="tsl-dot tsl-dot--danger"></span> No molestar</button><button type="button" class="tsl-menu__item" data-value="offline"><span class="tsl-dot"></span> Invisible</button></div></tsl-menu></div>
-          <form class="tsl-row" data-form style="flex-wrap:nowrap"><select class="tsl-select" style="width:64px" data-emoji aria-label="Emoji"><option>💬</option><option>🌴</option><option>🎧</option><option>🍕</option><option>🤒</option></select><input class="tsl-input" data-text placeholder="¿Cuál es tu estado?" maxlength="40" aria-label="Mensaje de estado" /><select class="tsl-select" style="width:auto" data-clear aria-label="Borrar después de"><option value="0">No borrar</option><option value="10">10 s</option><option value="60">1 min</option></select><button type="submit" class="tsl-btn tsl-btn--sm">Definir</button></form>
+            <tsl-menu align="end" data-menu><button type="button" class="tsl-btn tsl-btn--sm" data-tsl-trigger><span data-label>En línea</span><tsl-icon name=chevron-down></tsl-icon></button><div class="tsl-menu__list"><button type="button" class="tsl-menu__item" data-value="online"><span class="tsl-dot tsl-dot--success"></span> En línea</button><button type="button" class="tsl-menu__item" data-value="away"><span class="tsl-dot tsl-dot--warning"></span> Ausente</button><button type="button" class="tsl-menu__item" data-value="busy"><span class="tsl-dot tsl-dot--danger"></span> No molestar</button><button type="button" class="tsl-menu__item" data-value="offline"><span class="tsl-dot"></span> Invisible</button></div></tsl-menu></div>
+          <form class="tsl-row" data-form style="flex-wrap:nowrap"><select class="tsl-select" style="width:150px" data-emoji aria-label="Tipo de estado"><option value="message-circle">Disponible</option><option value="tree-palm">De vacaciones</option><option value="headphones">Concentrado</option><option value="coffee">En una pausa</option><option value="thermometer">De baja</option></select><input class="tsl-input" data-text placeholder="¿Cuál es tu estado?" maxlength="40" aria-label="Mensaje de estado" /><select class="tsl-select" style="width:auto" data-clear aria-label="Borrar después de"><option value="0">No borrar</option><option value="10">10 s</option><option value="60">1 min</option></select><button type="submit" class="tsl-btn tsl-btn--sm">Definir</button></form>
         </div></div></div>`,
       setup(root, ctx) {
         const labels = { online: "En línea", away: "Ausente", busy: "No molestar", offline: "Invisible" };
@@ -1212,7 +1212,9 @@
         ctx.on(ctx.$("[data-form]"), "submit", (e) => {
           e.preventDefault();
           const text = ctx.$("[data-text]").value.trim();
-          ctx.$("[data-msg]").textContent = text ? `${ctx.$("[data-emoji]").value} ${text}` : "Sin mensaje de estado";
+          const msg = ctx.$("[data-msg]");
+          msg.textContent = text || "Sin mensaje de estado";
+          if (text) msg.prepend(Object.assign(document.createElement("tsl-icon"), { name: ctx.$("[data-emoji]").value }), " ");
           clearTimeout(clearTimer);
           const secs = Number(ctx.$("[data-clear]").value);
           if (secs && text) clearTimer = setTimeout(() => (ctx.$("[data-msg]").textContent = "Sin mensaje de estado"), secs * 1000);
@@ -1299,7 +1301,7 @@
             .map(([room, ppl]) => {
               const inside = me === room;
               const list = inside ? ppl.concat("Luis Islas") : ppl;
-              return `<div class="tsl-card tsl-card--flat" style="${inside ? "border-color:var(--xp-accent)" : ""}"><div class="tsl-card__body tsl-stack" style="--gap:8px;padding:14px"><div class="tsl-row"><strong>🔊 ${room}</strong><span class="tsl-muted">${list.length}</span><span class="tsl-spacer"></span>${inside ? `<button type="button" class="tsl-btn tsl-btn--sm" data-mute>${muted ? "🔇 Activar micrófono" : "🎙 Silenciar"}</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--danger" data-leave>Salir</button>` : `<button type="button" class="tsl-btn tsl-btn--sm" data-join="${room}">Entrar</button>`}</div><div class="tsl-row">${list.map((p) => `<span class="tsl-avatar tsl-avatar--sm" style="${speaking.has(p) ? "box-shadow:0 0 0 2px var(--tsl-success)" : ""}" title="${p}">${initials(p)}</span>`).join("") || '<span class="tsl-muted">Vacía: sé el primero</span>'}</div></div></div>`;
+              return `<div class="tsl-card tsl-card--flat" style="${inside ? "border-color:var(--xp-accent)" : ""}"><div class="tsl-card__body tsl-stack" style="--gap:8px;padding:14px"><div class="tsl-row"><strong><tsl-icon name=volume-2></tsl-icon> ${room}</strong><span class="tsl-muted">${list.length}</span><span class="tsl-spacer"></span>${inside ? `<button type="button" class="tsl-btn tsl-btn--sm" data-mute>${muted ? "<tsl-icon name=volume-x></tsl-icon> Activar micrófono" : "<tsl-icon name=mic></tsl-icon> Silenciar"}</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--danger" data-leave>Salir</button>` : `<button type="button" class="tsl-btn tsl-btn--sm" data-join="${room}">Entrar</button>`}</div><div class="tsl-row">${list.map((p) => `<span class="tsl-avatar tsl-avatar--sm" style="${speaking.has(p) ? "box-shadow:0 0 0 2px var(--tsl-success)" : ""}" title="${p}">${initials(p)}</span>`).join("") || '<span class="tsl-muted">Vacía: sé el primero</span>'}</div></div></div>`;
             })
             .join("");
         };
@@ -1331,7 +1333,7 @@
         let connected = 0;
         const render = () => {
           ctx.$("[data-count]").textContent = `${connected} conexiones`;
-          ctx.$("[data-grid]").innerHTML = shown.map((p, i) => `<div class="tsl-card tsl-card--flat"><div class="tsl-card__body tsl-stack" style="align-items:center;text-align:center"><span class="tsl-avatar tsl-avatar--lg">${initials(p.name)}</span><strong>${p.name}</strong><span class="tsl-muted" style="font-size:11px">${p.role} · ${p.mutual} en común</span><div class="tsl-row">${p.state === "new" ? `<button type="button" class="tsl-btn tsl-btn--sm tsl-btn--primary" data-c="${i}">Conectar</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-s="${i}">Omitir</button>` : p.state === "pending" ? '<span class="tsl-badge tsl-badge--warning">Pendiente…</span>' : '<span class="tsl-badge tsl-badge--success">✓ Conectado</span>'}</div></div></div>`).join("") || '<div class="tsl-empty"><div class="tsl-empty__title">No hay más sugerencias</div></div>';
+          ctx.$("[data-grid]").innerHTML = shown.map((p, i) => `<div class="tsl-card tsl-card--flat"><div class="tsl-card__body tsl-stack" style="align-items:center;text-align:center"><span class="tsl-avatar tsl-avatar--lg">${initials(p.name)}</span><strong>${p.name}</strong><span class="tsl-muted" style="font-size:11px">${p.role} · ${p.mutual} en común</span><div class="tsl-row">${p.state === "new" ? `<button type="button" class="tsl-btn tsl-btn--sm tsl-btn--primary" data-c="${i}">Conectar</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-s="${i}">Omitir</button>` : p.state === "pending" ? '<span class="tsl-badge tsl-badge--warning">Pendiente…</span>' : '<span class="tsl-badge tsl-badge--success"><tsl-icon name=check></tsl-icon> Conectado</span>'}</div></div></div>`).join("") || '<div class="tsl-empty"><div class="tsl-empty__title">No hay más sugerencias</div></div>';
         };
         ctx.on(ctx.$("[data-grid]"), "click", (e) => {
           const c = e.target.closest("[data-c]");
@@ -1362,7 +1364,7 @@
         <form class="xp-panel tsl-stack" data-form novalidate><label class="tsl-field"><span class="tsl-label">Título</span><input class="tsl-input" data-title-in placeholder="Laptop del trabajo" /></label><label class="tsl-field"><span class="tsl-label">Clave pública</span><textarea class="tsl-textarea xp-mono" data-key placeholder="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA… tu@host" style="font-size:11.5px"></textarea></label><span class="tsl-error" data-err></span><button type="submit" class="tsl-btn tsl-btn--primary" style="align-self:flex-start">Añadir clave SSH</button></form>`,
       setup(root, ctx) {
         const keys = [{ title: "MacBook Pro", type: "ED25519", fp: "SHA256:3Fq8o0vC1y6m1rGqk3c9lJxW0yZ2tq7e7mR9pLk4d2A", added: "2026-08-12" }];
-        const render = () => (ctx.$("[data-list]").innerHTML = keys.map((k, i) => `<li><span style="font-size:20px">🔑</span><div style="flex:1;min-width:0"><div class="tsl-list__title">${esc(k.title)} <span class="tsl-badge">${k.type}</span></div><div class="tsl-list__desc xp-mono" style="overflow:hidden;text-overflow:ellipsis">${k.fp}</div><div class="tsl-list__desc">Añadida el ${k.added}</div></div><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--danger" data-rm="${i}">Eliminar</button></li>`).join("") || '<li class="tsl-muted">Sin claves.</li>');
+        const render = () => (ctx.$("[data-list]").innerHTML = keys.map((k, i) => `<li><tsl-icon name="key-round" style="font-size:20px"></tsl-icon><div style="flex:1;min-width:0"><div class="tsl-list__title">${esc(k.title)} <span class="tsl-badge">${k.type}</span></div><div class="tsl-list__desc xp-mono" style="overflow:hidden;text-overflow:ellipsis">${k.fp}</div><div class="tsl-list__desc">Añadida el ${k.added}</div></div><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--danger" data-rm="${i}">Eliminar</button></li>`).join("") || '<li class="tsl-muted">Sin claves.</li>');
         ctx.on(ctx.$("[data-list]"), "click", (e) => {
           const b = e.target.closest("[data-rm]");
           if (!b) return;
@@ -1456,7 +1458,7 @@
       html: `
         ${head("Hilos · side-panel.tsx", "Comentarios en panel lateral", "Selecciona texto en el documento y haz clic en “Comentar” para anclar una nota. Al hacer clic en un resaltado se enfoca su comentario y viceversa.")}
         <div class="xp-split" style="--cols:minmax(0,1fr) 300px">
-          <div class="xp-pane xp-rel"><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--primary" data-add hidden style="position:absolute;z-index:3">💬 Comentar</button><article data-doc style="line-height:1.9;font-size:14px;max-width:620px">
+          <div class="xp-pane xp-rel"><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--primary" data-add hidden style="position:absolute;z-index:3"><tsl-icon name=message-circle></tsl-icon> Comentar</button><article data-doc style="line-height:1.9;font-size:14px;max-width:620px">
             <p>tesela-ui es una biblioteca de componentes <mark class="xp-mark" data-c="1">sin dependencias</mark>. Cada componente es HTML puro, tokens de CSS y una capa ligera de elementos personalizados.</p>
             <p>La galería ahora muestra experimentos funcionales en lugar de vistas previas estáticas, y cada uno expone su código fuente real en el panel de código.</p>
           </article></div>
@@ -1531,11 +1533,13 @@
         ${head("Hilos · comment-row.tsx", "Fila de comentario", "Alterna reacciones (los conteos se actualizan), añade nuevas desde el selector, edita en el mismo lugar o elimina con opción de deshacer.")}
         <div data-list class="tsl-stack" style="max-width:640px;width:100%"></div>`,
       setup(root, ctx) {
-        const picker = ["👍", "🎉", "❤️", "🚀", "👀", "😂"];
-        let comments = [{ who: "Ana", at: "hace 2 h", text: "La nueva **galería** se siente mucho más rápida.", reacts: { "👍": [3, false], "🚀": [1, true] }, editing: false }, { who: "Leo", at: "hace 1 h", text: "De acuerdo. Publiquémosla esta semana.", reacts: { "🎉": [2, false] }, editing: false }];
+        // Reacciones con iconos: nombre del icono y etiqueta accesible
+        const picker = [["thumbs-up", "Me gusta"], ["party-popper", "Celebrar"], ["heart", "Me encanta"], ["rocket", "Adelante"], ["eye", "Lo estoy viendo"], ["laugh", "Me hace gracia"]];
+        const reactLabel = Object.fromEntries(picker);
+        let comments = [{ who: "Ana", at: "hace 2 h", text: "La nueva **galería** se siente mucho más rápida.", reacts: { "thumbs-up": [3, false], rocket: [1, true] }, editing: false }, { who: "Leo", at: "hace 1 h", text: "De acuerdo. Publiquémosla esta semana.", reacts: { "party-popper": [2, false] }, editing: false }];
         const render = () => {
           ctx.$("[data-list]").innerHTML = comments
-            .map((c, i) => `<div class="xp-panel tsl-stack" style="--gap:8px;padding:12px 14px"><div class="tsl-row" style="--gap:8px"><span class="tsl-avatar tsl-avatar--sm">${c.who[0]}</span><strong>${c.who}</strong><span class="tsl-muted">${c.at}</span><span class="tsl-spacer"></span>${c.who === "Tú" || i < 2 ? `<button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-edit="${i}">${c.editing ? "Cancelar" : "Editar"}</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-del="${i}">Eliminar</button>` : ""}</div>${c.editing ? `<form class="tsl-stack" data-save="${i}"><textarea class="tsl-textarea" style="min-height:60px">${esc(c.text)}</textarea><button type="submit" class="tsl-btn tsl-btn--sm tsl-btn--primary" style="align-self:flex-start">Guardar</button></form>` : `<p data-text style="line-height:1.6"></p>`}<div class="tsl-row" style="--gap:4px">${Object.entries(c.reacts).filter(([, [n]]) => n > 0).map(([e, [n, mine]]) => `<button type="button" class="tsl-chip" data-r="${i}" data-e="${e}" aria-pressed="${mine}">${e} ${n}</button>`).join("")}<tsl-menu><button type="button" class="tsl-chip" data-tsl-trigger aria-label="Añadir reacción">＋☺</button><div class="tsl-menu__list" style="min-width:0;display:flex;gap:2px">${picker.map((e) => `<button type="button" class="tsl-menu__item" data-value="${e}" style="width:auto">${e}</button>`).join("")}</div></tsl-menu></div></div>`)
+            .map((c, i) => `<div class="xp-panel tsl-stack" style="--gap:8px;padding:12px 14px"><div class="tsl-row" style="--gap:8px"><span class="tsl-avatar tsl-avatar--sm">${c.who[0]}</span><strong>${c.who}</strong><span class="tsl-muted">${c.at}</span><span class="tsl-spacer"></span>${c.who === "Tú" || i < 2 ? `<button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-edit="${i}">${c.editing ? "Cancelar" : "Editar"}</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-del="${i}">Eliminar</button>` : ""}</div>${c.editing ? `<form class="tsl-stack" data-save="${i}"><textarea class="tsl-textarea" style="min-height:60px">${esc(c.text)}</textarea><button type="submit" class="tsl-btn tsl-btn--sm tsl-btn--primary" style="align-self:flex-start">Guardar</button></form>` : `<p data-text style="line-height:1.6"></p>`}<div class="tsl-row" style="--gap:4px">${Object.entries(c.reacts).filter(([, [n]]) => n > 0).map(([e, [n, mine]]) => `<button type="button" class="tsl-chip" data-r="${i}" data-e="${e}" aria-pressed="${mine}" aria-label="${reactLabel[e]}: ${n}"><tsl-icon name="${e}"></tsl-icon> ${n}</button>`).join("")}<tsl-menu><button type="button" class="tsl-chip" data-tsl-trigger aria-label="Añadir reacción"><tsl-icon name="smile-plus"></tsl-icon></button><div class="tsl-menu__list" style="min-width:0;display:flex;gap:2px">${picker.map(([e, l]) => `<button type="button" class="tsl-menu__item" data-value="${e}" aria-label="${l}" data-tsl-tooltip="${l}" style="width:auto"><tsl-icon name="${e}"></tsl-icon></button>`).join("")}</div></tsl-menu></div></div>`)
             .join("");
           ctx.$$("[data-text]").forEach((p, i) => {
             const c = comments.filter((x) => !x.editing)[i];
@@ -1662,8 +1666,8 @@
           ctx.$("[data-count]").textContent = `${threads.filter((t) => !t.resolved).length} abiertos · ${threads.filter((t) => t.resolved).length} resueltos`;
           ctx.$("[data-list]").innerHTML = threads
             .map((t, i) => (t.resolved && !show ? "" : t.resolved
-              ? `<div class="xp-panel tsl-row" style="padding:10px 14px;opacity:.75"><span style="color:var(--tsl-success)">✓</span><span style="flex:1"><strong>${esc(t.title)}</strong> <span class="tsl-muted">· resuelto · ${t.msgs.length} mensajes · último: “${esc(t.msgs[t.msgs.length - 1][1])}”</span></span><button type="button" class="tsl-btn tsl-btn--sm" data-reopen="${i}">Reabrir</button></div>`
-              : `<div class="xp-panel tsl-stack" style="--gap:8px"><div class="tsl-row"><strong>${esc(t.title)}</strong><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--primary" data-resolve="${i}">✓ Resolver</button></div>${t.msgs.map(([w, m]) => `<div class="tsl-row" style="--gap:8px"><span class="tsl-avatar tsl-avatar--sm">${w[0]}</span><strong style="font-size:12px">${w}</strong><span style="font-size:12px">${esc(m)}</span></div>`).join("")}<form class="tsl-row" data-reply="${i}" style="flex-wrap:nowrap"><input class="tsl-input" placeholder="Responder…" required aria-label="Respuesta" /><button type="submit" class="tsl-btn tsl-btn--sm">Enviar</button></form></div>`))
+              ? `<div class="xp-panel tsl-row" style="padding:10px 14px;opacity:.75"><tsl-icon name="circle-check" style="color:var(--tsl-success)"></tsl-icon><span style="flex:1"><strong>${esc(t.title)}</strong> <span class="tsl-muted">· resuelto · ${t.msgs.length} mensajes · último: “${esc(t.msgs[t.msgs.length - 1][1])}”</span></span><button type="button" class="tsl-btn tsl-btn--sm" data-reopen="${i}">Reabrir</button></div>`
+              : `<div class="xp-panel tsl-stack" style="--gap:8px"><div class="tsl-row"><strong>${esc(t.title)}</strong><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--primary" data-resolve="${i}"><tsl-icon name=check></tsl-icon> Resolver</button></div>${t.msgs.map(([w, m]) => `<div class="tsl-row" style="--gap:8px"><span class="tsl-avatar tsl-avatar--sm">${w[0]}</span><strong style="font-size:12px">${w}</strong><span style="font-size:12px">${esc(m)}</span></div>`).join("")}<form class="tsl-row" data-reply="${i}" style="flex-wrap:nowrap"><input class="tsl-input" placeholder="Responder…" required aria-label="Respuesta" /><button type="submit" class="tsl-btn tsl-btn--sm">Enviar</button></form></div>`))
             .join("");
         };
         ctx.on(ctx.$("[data-list]"), "click", (e) => {
@@ -1688,7 +1692,7 @@
         ${head("Hilos · compose-rich.tsx", "Compositor enriquecido", "La barra de Markdown envuelve tu selección; la pestaña Vista previa la renderiza de forma segura. ⌘/Ctrl+Enter publica.")}
         <div class="tsl-card" style="max-width:720px;width:100%">
           <div class="tsl-card__body tsl-stack">
-            <div class="tsl-row" style="--gap:2px">${[["b", "B", "**", "**"], ["i", "I", "_", "_"], ["c", "</>", "`", "`"], ["l", "🔗", "[", "](https://)"], ["q", "❝", "> ", ""], ["u", "• Lista", "- ", ""]].map(([k, l]) => `<button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-fmt="${k}">${esc(l)}</button>`).join("")}<span class="tsl-spacer"></span><tsl-segmented value="write" data-mode><button class="tsl-segmented__item" value="write">Escribir</button><button class="tsl-segmented__item" value="preview">Vista previa</button></tsl-segmented></div>
+            <div class="tsl-row" style="--gap:2px">${[["b", "B", "**", "**"], ["i", "I", "_", "_"], ["c", "</>", "`", "`"], ["l", "link", "[", "](https://)"], ["q", "quote", "> ", ""], ["u", "list", "- ", ""]].map(([k, l]) => `<button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle" data-fmt="${k}"${/^[a-z]+$/.test(l) && l.length > 1 ? ` aria-label="${{ link: "Enlace", quote: "Cita", list: "Lista" }[l]}"><tsl-icon name="${l}"></tsl-icon>` : `>${esc(l)}`}</button>`).join("")}<span class="tsl-spacer"></span><tsl-segmented value="write" data-mode><button class="tsl-segmented__item" value="write">Escribir</button><button class="tsl-segmented__item" value="preview">Vista previa</button></tsl-segmented></div>
             <textarea class="tsl-textarea" data-text style="min-height:150px" aria-label="Mensaje">**Notas de versión** de _v1.3_:\n- Galería funcional\n- Corrección de \`tsl-sparkline\`\n> Cero dependencias, como siempre.</textarea>
             <div data-preview hidden class="xp-panel" style="min-height:150px;line-height:1.7"></div>
             <div class="tsl-row"><span class="tsl-muted xp-mono" data-count></span><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--primary" data-post>Publicar</button></div>
@@ -1750,7 +1754,7 @@
   // ==========================================================================
   const mockApp = `
     <div class="xp-panel xp-rel" data-app style="padding:0;overflow:hidden;min-height:340px">
-      <div class="tsl-row" style="padding:10px 14px;border-bottom:1px solid var(--tsl-border)"><strong data-t="logo">◆ Acme</strong><input class="tsl-input" style="max-width:220px" placeholder="Buscar…" data-t="search" aria-label="Buscar" /><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--primary" data-t="new">+ Nuevo</button><span class="tsl-avatar tsl-avatar--sm" data-t="avatar">LI</span></div>
+      <div class="tsl-row" style="padding:10px 14px;border-bottom:1px solid var(--tsl-border)"><strong data-t="logo"><tsl-icon name="box"></tsl-icon> Acme</strong><input class="tsl-input" style="max-width:220px" placeholder="Buscar…" data-t="search" aria-label="Buscar" /><span class="tsl-spacer"></span><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--primary" data-t="new">+ Nuevo</button><span class="tsl-avatar tsl-avatar--sm" data-t="avatar">LI</span></div>
       <div class="tsl-row" style="align-items:stretch;--gap:0;min-height:290px"><nav class="tsl-nav" style="width:180px;padding:10px;border-right:1px solid var(--tsl-border)" data-t="nav"><span class="tsl-nav__item" aria-current="page">Inicio</span><span class="tsl-nav__item">Proyectos</span><span class="tsl-nav__item">Informes</span></nav><div style="flex:1;padding:16px" class="tsl-grid"><div class="tsl-stat" data-t="stat"><span class="tsl-eyebrow">Ingresos</span><span class="tsl-stat__value">$48k</span></div><div class="tsl-stat"><span class="tsl-eyebrow">Usuarios</span><span class="tsl-stat__value">1.2k</span></div></div></div>
     </div>`;
 
@@ -1760,14 +1764,14 @@
         ${head("Tours · welcome-carousel.tsx", "Carrusel de bienvenida", "Diapositivas de novedades con puntos, flechas (también ←/→ con foco) y un interruptor de reproducción automática que se pausa al pasar el cursor.")}
         <div class="tsl-card" data-car tabindex="0" style="max-width:560px;width:100%;margin:0 auto;outline:none" aria-roledescription="carousel">
           <div style="overflow:hidden"><div data-track style="display:flex;transition:transform .45s var(--tsl-ease)"></div></div>
-          <div class="tsl-card__footer" style="justify-content:space-between"><button type="button" class="tsl-btn tsl-btn--sm" data-prev>←</button><div class="tsl-row" style="--gap:6px" data-dots></div><button type="button" class="tsl-btn tsl-btn--sm" data-next>→</button></div>
+          <div class="tsl-card__footer" style="justify-content:space-between"><button type="button" class="tsl-btn tsl-btn--sm" data-prev aria-label="Anterior"><tsl-icon name="arrow-left" flip-rtl></tsl-icon></button><div class="tsl-row" style="--gap:6px" data-dots></div><button type="button" class="tsl-btn tsl-btn--sm" data-next aria-label="Siguiente"><tsl-icon name="arrow-right" flip-rtl></tsl-icon></button></div>
         </div>
         <div class="tsl-row" style="justify-content:center"><label class="tsl-choice">Reproducción automática <input type="checkbox" role="switch" class="tsl-switch" data-auto checked /></label></div>`,
       setup(root, ctx) {
-        const slides = [["✦", "Te damos la bienvenida a tesela-ui", "43 componentes, cero dependencias."], ["⚡", "Galería funcional", "Cada experimento es real, con código copiable."], ["🎨", "Tus tokens", "Cambia --tsl-accent y todo lo demás lo sigue."], ["⌘K", "Teclado primero", "Paletas, menús y pestañas se controlan por completo con el teclado."]];
+        const slides = [["sparkles", "Te damos la bienvenida a tesela-ui", "43 componentes, cero dependencias."], ["zap", "Galería funcional", "Cada experimento es real, con código copiable."], ["palette", "Tus tokens", "Cambia --tsl-accent y todo lo demás lo sigue."], ["command", "Teclado primero", "Paletas, menús y pestañas se controlan por completo con el teclado."]];
         let i = 0;
         let hover = false;
-        ctx.$("[data-track]").innerHTML = slides.map(([ic, t, d]) => `<div style="flex:0 0 100%;padding:42px 28px;text-align:center"><div style="font-size:42px">${ic}</div><h3 class="xp-title">${t}</h3><p class="tsl-muted">${d}</p></div>`).join("");
+        ctx.$("[data-track]").innerHTML = slides.map(([ic, t, d]) => `<div style="flex:0 0 100%;padding:42px 28px;text-align:center"><div style="font-size:42px"><tsl-icon name="${ic}"></tsl-icon></div><h3 class="xp-title">${t}</h3><p class="tsl-muted">${d}</p></div>`).join("");
         const go = (n) => {
           i = (n + slides.length) % slides.length;
           ctx.$("[data-track]").style.transform = `translateX(-${i * 100}%)`;
@@ -1787,7 +1791,7 @@
     spotlight: {
       html: `
         ${head("Tours · spotlight.tsx", "Tour con foco", "Una máscara oscura con un recorte se mueve entre elementos reales de la interfaz y la tarjeta del paso lo sigue. Esc u Omitir termina el tour.")}
-        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-start>▶ Iniciar tour</button></div>
+        <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--primary" data-start><tsl-icon name=play></tsl-icon> Iniciar tour</button></div>
         ${mockApp}`,
       setup(root, ctx) {
         const app = ctx.$("[data-app]");
@@ -1820,7 +1824,7 @@
           if (e.target.closest("[data-back]")) i--;
           if (e.target.closest("[data-go]")) {
             i++;
-            if (i >= steps.length) ctx.toast({ title: "Tour completado 🎉" });
+            if (i >= steps.length) ctx.toast({ title: "Tour completado" });
           }
           show();
         });
@@ -1943,7 +1947,7 @@
         const render = () => {
           const visible = hints.filter(([k]) => !hidden.has(k) && !session.has(k));
           ctx.$("[data-count]").textContent = `${visible.length} de ${hints.length} visibles`;
-          ctx.$("[data-hints]").innerHTML = visible.map(([k, v, t, d]) => `<div class="tsl-alert tsl-alert--${v}"><div style="flex:1"><div class="tsl-alert__title">${t}</div><div class="tsl-alert__desc">${d}</div><label class="tsl-choice" style="margin-top:8px;font-size:11px"><input type="checkbox" class="tsl-check" data-forever="${k}" /> No volver a mostrar</label></div><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" data-dismiss="${k}" aria-label="Descartar">✕</button></div>`).join("") || '<div class="tsl-empty"><div class="tsl-empty__title">No hay avisos</div><p class="tsl-empty__desc">Los descartaste todos.</p></div>';
+          ctx.$("[data-hints]").innerHTML = visible.map(([k, v, t, d]) => `<div class="tsl-alert tsl-alert--${v}"><div style="flex:1"><div class="tsl-alert__title">${t}</div><div class="tsl-alert__desc">${d}</div><label class="tsl-choice" style="margin-top:8px;font-size:11px"><input type="checkbox" class="tsl-check" data-forever="${k}" /> No volver a mostrar</label></div><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" data-dismiss="${k}" aria-label="Descartar"><tsl-icon name=x></tsl-icon></button></div>`).join("") || '<div class="tsl-empty"><div class="tsl-empty__title">No hay avisos</div><p class="tsl-empty__desc">Los descartaste todos.</p></div>';
         };
         ctx.on(ctx.$("[data-hints]"), "click", (e) => {
           const b = e.target.closest("[data-dismiss]");
@@ -1972,7 +1976,7 @@
         <div class="tsl-card" style="max-width:520px;width:100%;margin:0 auto"><div class="tsl-card__body tsl-stack">
           <div class="tsl-row"><svg viewBox="0 0 44 44" width="64" height="64" data-ring><circle cx="22" cy="22" r="18" fill="none" stroke="var(--tsl-surface-strong)" stroke-width="5"/><circle cx="22" cy="22" r="18" fill="none" stroke="var(--xp-accent)" stroke-width="5" stroke-linecap="round" pathLength="100" stroke-dasharray="0 100" transform="rotate(-90 22 22)" data-arc style="transition:stroke-dasharray .4s"/><text x="22" y="26" text-anchor="middle" font-size="10" font-weight="600" fill="currentColor" style="fill:var(--tsl-fg)" data-pct>0%</text></svg><div><strong>Empieza con Acme</strong><div class="tsl-muted" data-left></div></div></div>
           <ul class="tsl-list" data-list></ul>
-          <div data-done hidden class="tsl-alert tsl-alert--success"><div><div class="tsl-alert__title">🎉 ¡Todo listo!</div><div class="tsl-alert__desc">Ganaste la insignia “Arranque veloz”.</div></div></div>
+          <div data-done hidden class="tsl-alert tsl-alert--success"><div><div class="tsl-alert__title"><tsl-icon name=party-popper></tsl-icon> ¡Todo listo!</div><div class="tsl-alert__desc">Ganaste la insignia “Arranque veloz”.</div></div></div>
         </div></div>`,
       setup(root, ctx) {
         const tasks = [["Crear un espacio de trabajo", "Crear", true], ["Invitar a un compañero", "Invitar"], ["Conectar GitHub", "Conectar"], ["Crear tu primer proyecto", "Crear"], ["Personalizar tu tema", "Abrir"]].map(([t, a, d]) => ({ t, a, done: !!d }));
@@ -1982,7 +1986,7 @@
           ctx.$("[data-arc]").setAttribute("stroke-dasharray", `${pct} 100`);
           ctx.$("[data-pct]").textContent = `${pct}%`;
           ctx.$("[data-left]").textContent = `${tasks.length - n} de ${tasks.length} pasos restantes`;
-          ctx.$("[data-list]").innerHTML = tasks.map((t, i) => `<li><span style="width:20px;color:${t.done ? "var(--tsl-success)" : "var(--tsl-fg-subtle)"}">${t.done ? "✓" : "○"}</span><span style="flex:1;${t.done ? "text-decoration:line-through;color:var(--tsl-fg-muted)" : ""}">${t.t}</span>${t.done ? "" : `<button type="button" class="tsl-btn tsl-btn--sm" data-i="${i}">${t.a}</button>`}</li>`).join("");
+          ctx.$("[data-list]").innerHTML = tasks.map((t, i) => `<li><tsl-icon name="${t.done ? "circle-check" : "circle"}" label="${t.done ? "Hecho" : "Pendiente"}" style="width:20px;color:${t.done ? "var(--tsl-success)" : "var(--tsl-fg-subtle)"}"></tsl-icon><span style="flex:1;${t.done ? "text-decoration:line-through;color:var(--tsl-fg-muted)" : ""}">${t.t}</span>${t.done ? "" : `<button type="button" class="tsl-btn tsl-btn--sm" data-i="${i}">${t.a}</button>`}</li>`).join("");
           ctx.$("[data-done]").hidden = pct < 100;
         };
         ctx.on(ctx.$("[data-list]"), "click", (e) => {
@@ -1993,11 +1997,12 @@
             tasks[b.dataset.i].done = true;
             render();
             if (tasks.every((t) => t.done)) {
-              ctx.toast({ title: "Incorporación completada 🎉" });
+              ctx.toast({ title: "Incorporación completada" });
               const card = ctx.$(".tsl-card");
               for (let k = 0; k < 18; k++) {
                 const s = document.createElement("span");
-                s.textContent = ["🎉", "✨", "🎊"][k % 3];
+                s.append(Object.assign(document.createElement("tsl-icon"), { name: ["party-popper", "sparkles", "star"][k % 3] }));
+                s.style.color = ["var(--xp-accent)", "var(--tsl-warning)", "var(--tsl-success)"][k % 3];
                 s.style.cssText = `position:fixed;left:${card.getBoundingClientRect().left + card.offsetWidth / 2}px;top:${card.getBoundingClientRect().top + 40}px;pointer-events:none;font-size:20px;z-index:200`;
                 document.body.appendChild(s);
                 s.animate([{ transform: "translate(0,0)", opacity: 1 }, { transform: `translate(${(Math.random() - 0.5) * 400}px, ${-80 - Math.random() * 200}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }], { duration: 1200 + Math.random() * 600, easing: "cubic-bezier(.22,1,.36,1)" }).onfinish = () => s.remove();

@@ -1,0 +1,99 @@
+/* ==========================================================================
+   02b. Iconos: <tsl-icon> y .tsl-icon (el envoltorio que usan los componentes)
+        Miden 1em y heredan el color; --tsl-icon-size y --tsl-icon-stroke los ajustan.
+   ========================================================================== */
+tsl-icon,
+.tsl-icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--tsl-icon-size, 1em);
+  height: var(--tsl-icon-size, 1em);
+  line-height: 0;
+  vertical-align: -0.125em;
+}
+
+.tsl-icon__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Solo los SVG de trazo cambian de grosor; los rellenos (Phosphor, Material…) no se ven afectados */
+.tsl-icon__svg[stroke-width] {
+  stroke-width: var(--tsl-icon-stroke, 2);
+}
+
+/* Tamaños con nombre */
+tsl-icon[size="xs"] { --tsl-icon-size: 12px; }
+tsl-icon[size="sm"] { --tsl-icon-size: 14px; }
+tsl-icon[size="md"] { --tsl-icon-size: 16px; }
+tsl-icon[size="lg"] { --tsl-icon-size: 20px; }
+tsl-icon[size="xl"] { --tsl-icon-size: 24px; }
+
+/* Dentro de botones y controles el icono acompaña al texto con su tamaño propio */
+.tsl-btn > tsl-icon,
+.tsl-btn > .tsl-icon {
+  --tsl-icon-size: 1.15em;
+}
+
+.tsl-btn--icon > tsl-icon,
+.tsl-btn--icon > .tsl-icon {
+  --tsl-icon-size: 16px;
+}
+
+.tsl-btn--sm.tsl-btn--icon > tsl-icon,
+.tsl-btn--sm.tsl-btn--icon > .tsl-icon {
+  --tsl-icon-size: 14px;
+}
+
+/* Icono que gira (indicadores de carga) */
+tsl-icon[spin] .tsl-icon__svg,
+.tsl-icon--spin .tsl-icon__svg {
+  animation: tsl-icon-spin 1s linear infinite;
+}
+
+@keyframes tsl-icon-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Las flechas y chevrones de dirección se espejan en RTL si lo piden */
+[dir="rtl"] tsl-icon[flip-rtl],
+[dir="rtl"] .tsl-icon--flip-rtl {
+  transform: scaleX(-1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  tsl-icon[spin] .tsl-icon__svg,
+  .tsl-icon--spin .tsl-icon__svg {
+    animation-duration: 3s;
+  }
+}
+
+@media (forced-colors: active) {
+  .tsl-icon__svg {
+    color: CanvasText;
+  }
+}
+
+/* Iconos para CSS puro (::before/::after sin JS): máscaras con los mismos trazos del set base.
+   Uso: content: ""; background: currentColor; mask: var(--tsl-svg-check) center / contain no-repeat; */
+:root {
+  --tsl-svg-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+  --tsl-svg-x: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18'/%3E%3Cpath d='m6 6 12 12'/%3E%3C/svg%3E");
+  --tsl-svg-arrow-up: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 7-7 7 7'/%3E%3Cpath d='M12 19V5'/%3E%3C/svg%3E");
+  --tsl-svg-arrow-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 5v14'/%3E%3Cpath d='m19 12-7 7-7-7'/%3E%3C/svg%3E");
+  --tsl-svg-chevrons-up-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 15 5 5 5-5'/%3E%3Cpath d='m7 9 5-5 5 5'/%3E%3C/svg%3E");
+  --tsl-svg-chevron-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  --tsl-svg-chevron-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E");
+  --tsl-svg-grip-vertical: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='9' cy='12' r='1'/%3E%3Ccircle cx='9' cy='5' r='1'/%3E%3Ccircle cx='9' cy='19' r='1'/%3E%3Ccircle cx='15' cy='12' r='1'/%3E%3Ccircle cx='15' cy='5' r='1'/%3E%3Ccircle cx='15' cy='19' r='1'/%3E%3C/svg%3E");
+}
+
+/* Dentro de controles el icono no recibe el puntero: el clic llega al botón o enlace (e.target) */
+:is(button, a, label, summary, [role="button"], [role="menuitem"], [role="option"], [role="tab"]) :is(tsl-icon, .tsl-icon) {
+  pointer-events: none;
+}

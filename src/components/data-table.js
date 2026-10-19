@@ -1,5 +1,6 @@
 import { TslElement, define, emit, normalize } from "../core/base.js";
 import "./popover.js";
+import { icon } from "../core/icons.js";
 
 /**
  * <tsl-data-table page-size="10" selectable searchable exportable height="360px"
@@ -147,7 +148,7 @@ export class TslDataTable extends TslElement {
     trig.type = "button";
     trig.className = "tsl-btn tsl-btn--sm";
     trig.setAttribute("data-tsl-trigger", "");
-    trig.textContent = `${t("columns-label", "Columnas")} ▾`;
+    trig.append(t("columns-label", "Columnas"), icon("chevron-down"));
     this.colPanel = document.createElement("div");
     this.colPanel.className = "tsl-popover__panel tsl-dt__colmenu";
     this.colPanel.setAttribute("aria-label", t("columns-label", "Columnas visibles"));
@@ -335,11 +336,7 @@ export class TslDataTable extends TslElement {
         b.type = "button";
         b.className = "tsl-dt__sort";
         b.append(c.label);
-        const icon = document.createElement("span");
-        icon.className = "tsl-dt__sorticon";
-        icon.setAttribute("aria-hidden", "true");
-        icon.textContent = dir === "asc" ? "↑" : dir === "desc" ? "↓" : "↕";
-        b.appendChild(icon);
+        b.appendChild(icon(dir === "asc" ? "arrow-up" : dir === "desc" ? "arrow-down" : "chevrons-up-down", "tsl-dt__sorticon"));
         b.addEventListener("click", () => this.sortBy(c.key));
         th.appendChild(b);
       } else th.textContent = c.label;
@@ -471,7 +468,7 @@ export class TslDataTable extends TslElement {
     const mk = (label, page, extra = {}) => {
       const b = document.createElement("button");
       b.type = "button";
-      b.textContent = label;
+      b.append(label);
       b.dataset.page = String(page);
       Object.entries(extra).forEach(([k, v]) => (v === true ? b.setAttribute(k, "") : b.setAttribute(k, v)));
       return b;
@@ -481,7 +478,7 @@ export class TslDataTable extends TslElement {
     if (this.pages < 2) return;
     const p = this.page;
     const last = this.pages - 1;
-    this.pager.appendChild(mk("‹", Math.max(0, p - 1), { "aria-label": "Página anterior", ...(p === 0 ? { disabled: true } : {}) }));
+    this.pager.appendChild(mk(icon("chevron-left", "tsl-icon--flip-rtl"), Math.max(0, p - 1), { "aria-label": "Página anterior", ...(p === 0 ? { disabled: true } : {}) }));
     const nums = new Set([0, last, p - 1, p, p + 1].filter((n) => n >= 0 && n <= last));
     let prev = -1;
     Array.from(nums).sort((a, b) => a - b).forEach((n) => {
@@ -493,7 +490,7 @@ export class TslDataTable extends TslElement {
       this.pager.appendChild(mk(String(n + 1), n, n === p ? { "aria-current": "page" } : { "aria-label": `Página ${n + 1}` }));
       prev = n;
     });
-    this.pager.appendChild(mk("›", Math.min(last, p + 1), { "aria-label": "Página siguiente", ...(p === last ? { disabled: true } : {}) }));
+    this.pager.appendChild(mk(icon("chevron-right", "tsl-icon--flip-rtl"), Math.min(last, p + 1), { "aria-label": "Página siguiente", ...(p === last ? { disabled: true } : {}) }));
   }
 
   // ---- Exportar ---------------------------------------------------------------------------

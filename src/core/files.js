@@ -26,13 +26,18 @@ export const accepts = (accept, file) => {
   });
 };
 
+// Nombre del icono del set base que representa un archivo (por tipo MIME o extensión)
 export const iconFor = (file) => {
   const t = file.type || "";
-  if (t.startsWith("image/")) return "🖼";
-  if (t.startsWith("audio/")) return "♪";
-  if (t.startsWith("video/")) return "▶";
-  if (t === "application/pdf" || /\.pdf$/i.test(file.name)) return "📄";
-  return "📎";
+  const n = file.name || "";
+  if (t.startsWith("image/")) return "file-image";
+  if (t.startsWith("audio/")) return "file-audio";
+  if (t.startsWith("video/")) return "file-video";
+  if (t === "application/pdf" || /\.(pdf|docx?|txt|md|rtf)$/i.test(n)) return "file-text";
+  if (/(spreadsheet|csv|excel)/.test(t) || /\.(csv|xlsx?|ods)$/i.test(n)) return "file-spreadsheet";
+  if (/(zip|tar|gzip|compressed)/.test(t) || /\.(zip|tar|gz|7z|rar)$/i.test(n)) return "file-archive";
+  if (/(json|javascript|xml|html)/.test(t) || /\.(js|ts|json|html|css|py|go|rs)$/i.test(n)) return "file-code";
+  return "file";
 };
 
 // "image/*,.pdf" → "Imágenes, PDF" (para textos de ayuda)
