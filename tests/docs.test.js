@@ -76,10 +76,10 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
       if (bad) failing.push(`${name}/${theme}: ${bad}`);
     }
   }
-  ok(rowsPerCase.every(n => n === 10) && failing.length === 0, `contraste en vivo: los ${names.length} presets cumplen los 10 pares en oscuro y en claro (${rowsPerCase.length} casos)` + (failing.length ? ` (fallan: ${failing})` : ''));
+  ok(rowsPerCase.every(n => n === 11) && failing.length === 0, `contraste en vivo: los ${names.length} presets cumplen los 11 pares en oscuro y en claro (${rowsPerCase.length} casos)` + (failing.length ? ` (fallan: ${failing})` : ''));
   await p.evaluate(() => { TeselaUI.setPreset('alto-contraste'); TeselaUI.setTheme('dark'); });
   const levels = await p.locator('#docs-contrast tbody tr td:last-child').allInnerTexts();
-  ok(levels.filter(l => l.startsWith('AAA')).length >= 9, 'contraste en vivo: «alto-contraste» marca AAA en casi todos los pares (' + levels.filter(l => l.startsWith('AAA')).length + ' de 10)');
+  ok(levels.filter(l => l.startsWith('AAA')).length >= 10, 'contraste en vivo: «alto-contraste» marca AAA en casi todos los pares (' + levels.filter(l => l.startsWith('AAA')).length + ' de 11)');
 
   // Acentos del panel: setAccent elige un texto legible, así que el botón de acento cumple siempre
   await p.evaluate(() => { TeselaUI.setPreset('tesela'); TeselaUI.setTheme('dark'); });

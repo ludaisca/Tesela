@@ -311,7 +311,7 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   ok((await txt(CD + ' .tsl-chart__tip-title')) === 'Pro', 'dona: teclado recorre los segmentos');
   await p.keyboard.press('Escape');
   const CG = '#demo-chart-gauge';
-  ok((await txt(CG + ' .tsl-chart__center-value')) === '72%' && (await attr(CG, 'aria-valuenow')) === '72' && (await attr(CG, 'role')) === 'meter', 'gauge: valor 72% y role="meter" con aria-valuenow');
+  ok((await txt(CG + ' .tsl-chart__center-value')) === '72%' && (await attr(CG + ' .tsl-chart__stage', 'aria-valuenow')) === '72' && (await attr(CG + ' .tsl-chart__stage', 'role')) === 'meter' && (await attr(CG, 'role')) === 'group', 'gauge: valor 72% y role="meter" con aria-valuenow en el escenario (la leyenda y la tabla siguen accesibles)');
   ok((await attr(CG + ' .tsl-chart__value-arc', 'stroke')) === 'var(--tsl-warning)', 'gauge: el color sigue al umbral (72 → advertencia)');
   ok((await p.locator(CG + ' .tsl-chart__band-arc').count()) === 3, 'gauge: tres franjas de umbral');
 

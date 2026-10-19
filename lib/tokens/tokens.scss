@@ -17,6 +17,7 @@ $tsl-accent-fg: var(--tsl-accent-fg); // Texto sobre el acento (contraste AA con
 $tsl-success: var(--tsl-success); // Éxito (en claro, más oscuro para que el texto cumpla AA)
 $tsl-warning: var(--tsl-warning); // Aviso (en claro, más oscuro para que el texto cumpla AA)
 $tsl-danger: var(--tsl-danger); // Peligro o error (en claro, más oscuro para que el texto cumpla AA)
+$tsl-danger-fg: var(--tsl-danger-fg); // Texto sobre un relleno de peligro (botón «Eliminar»): oscuro sobre el rojo claro del modo oscuro, blanco sobre el del claro
 $tsl-info: var(--tsl-info); // Información (en claro, más oscuro para que el texto cumpla AA)
 $tsl-chart-1: var(--tsl-chart-1); // Serie 1 de las gráficas: sigue al acento
 $tsl-chart-2: var(--tsl-chart-2); // Serie 2 de las gráficas
@@ -56,6 +57,7 @@ $tsl-tokens-dark: (
   "success": #10b981,
   "warning": #f59e0b,
   "danger": #f54a67,
+  "danger-fg": #1a0508,
   "info": #0ea5e9,
   "chart-1": #6365f0,
   "chart-2": #10b981,
@@ -94,6 +96,7 @@ $tsl-tokens-light: (
   "success": #047253,
   "warning": #a14a08,
   "danger": #be123c,
+  "danger-fg": #ffffff,
   "info": #0368a0,
   "chart-1": #4f46e5,
   "chart-2": #10b981,

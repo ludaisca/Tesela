@@ -88,7 +88,7 @@ tsl-time-picker {
 }
 
 .tsl-trigger__input::placeholder {
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-select__wrap:has(.tsl-trigger__clear:not([hidden])) .tsl-trigger {

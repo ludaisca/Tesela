@@ -48,11 +48,8 @@ export class TslTags extends TslElement {
 
   // Sustituye las etiquetas por las de una lista separada por comas (sin emitir tsl-change)
   setTags(list) {
-    this.tags.slice().forEach((t) => {
-      this.tags = this.tags.filter((x) => x !== t);
-      const chip = Array.from(this.querySelectorAll(".tsl-chip")).find((c) => c.dataset.tag === t);
-      if (chip) chip.remove();
-    });
+    this.querySelectorAll(":scope > .tsl-chip").forEach((chip) => chip.remove());
+    this.tags = [];
     (list || "")
       .split(",")
       .map((t) => t.trim())

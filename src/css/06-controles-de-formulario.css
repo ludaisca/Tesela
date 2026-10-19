@@ -41,7 +41,7 @@
 
 .tsl-input::placeholder,
 .tsl-textarea::placeholder {
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-input:hover,

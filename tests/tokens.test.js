@@ -14,7 +14,7 @@ const { contrast, parse } = require('../scripts/lib/color');
 (async () => {
   // ================= Node: fuente, contraste y archivos exportados =================
   const vars = T.tokens.map(t => t.cssVar);
-  ok(T.tokens.length === 36 && new Set(vars).size === 36 && vars.every(v => /^--tsl-[a-z0-9-]+$/.test(v)), `tokens.json: ${T.tokens.length} tokens con nombre de variable único`);
+  ok(T.tokens.length === 37 && new Set(vars).size === 37 && vars.every(v => /^--tsl-[a-z0-9-]+$/.test(v)), `tokens.json: ${T.tokens.length} tokens con nombre de variable único`);
   ok(T.tokens.every(t => t.type && t.dark && t.description) && T.tokens.every(t => /^\{[a-z-]+\.[a-z0-9-]+\}$/.test(t.dark) ? T.byPath.has(t.dark.slice(1, -1)) : true), 'tokens.json: cada token tiene tipo, valor y descripción; los alias apuntan a tokens que existen');
   const presetNames = Object.keys(T.presets);
   const unknownKeys = presetNames.flatMap(n => ['common', 'dark', 'light'].flatMap(m => Object.keys(T.presets[n][m] || {}).filter(k => !T.byPath.has(k)).map(k => `${n}.${m}.${k}`)));
@@ -36,14 +36,14 @@ const { contrast, parse } = require('../scripts/lib/color');
 
   const tokensCss = read('lib/tokens/tokens.css');
   const unlayer = (css) => css.replace(/^@layer [^;]+;\n@layer tesela\.tokens \{\n/, '').replace(/\n\}\s*$/, '');
-  ok(unlayer(read('lib/css/00-tokens.css').trim()) === tokensCss.trim() && vars.every(v => tokensCss.includes(`${v}:`)), 'tokens.css coincide con la parte 00-tokens.css del bundle y declara los 36 tokens');
+  ok(unlayer(read('lib/css/00-tokens.css').trim()) === tokensCss.trim() && vars.every(v => tokensCss.includes(`${v}:`)), 'tokens.css coincide con la parte 00-tokens.css del bundle y declara los 37 tokens');
   const mjs = await import(pathToFileURL(path.join(root, 'lib/tokens/tokens.mjs')).href);
   const keyOf = (t) => t.cssVar.replace(/^--tsl-/, '');
   const dark = T.resolve('dark'), light = T.resolve('light');
   ok(T.tokens.every(t => mjs.tokens.dark[keyOf(t)] === dark[t.path] && mjs.tokens.light[keyOf(t)] === light[t.path] && mjs.tokens.names[keyOf(t)] === t.cssVar && mjs.tokens.vars[keyOf(t)] === `var(${t.cssVar})`), 'tokens.mjs: valores oscuro/claro, nombres y var() coinciden con la fuente (alias resueltos)');
   ok(Object.keys(mjs.presets).length === 11 && mjs.presets.esmeralda.dark.accent === T.presets.esmeralda.dark['color.accent'], 'tokens.mjs: exporta los presets con las claves cortas');
   const dmts = read('lib/tokens/tokens.d.mts');
-  ok(T.tokens.every(t => dmts.includes(`"${keyOf(t)}"`)) && presetNames.every(n => dmts.includes(`"${n}"`)), 'tokens.d.mts: tipa los 36 tokens y los 11 presets');
+  ok(T.tokens.every(t => dmts.includes(`"${keyOf(t)}"`)) && presetNames.every(n => dmts.includes(`"${n}"`)), 'tokens.d.mts: tipa los 37 tokens y los 11 presets');
   const scss = read('lib/tokens/tokens.scss');
   ok(T.tokens.every(t => scss.includes(`$tsl-${keyOf(t)}: var(${t.cssVar});`)) && scss.includes('$tsl-presets:') && scss.includes('$tsl-tokens-light:'), 'tokens.scss: una variable por token que apunta a su propiedad CSS, más los mapas por modo y los presets');
   const tw = require(path.join(root, 'lib/tokens/tailwind.preset.cjs'));
@@ -84,7 +84,7 @@ const { contrast, parse } = require('../scripts/lib/color');
     const d = diff(await computed({ 'data-theme': theme, 'data-preset': null }), expected(mode));
     results.push(d.length ? `base ${theme || 'sin data-theme'}/${scheme}: ${d.slice(0, 2)}` : null);
   }
-  ok(results.every(r => !r), 'base: los 36 tokens calculados coinciden con tokens.json en oscuro, claro y «system» (con el sistema en claro y en oscuro)' + (results.filter(Boolean).length ? `:\n   - ${results.filter(Boolean).join('\n   - ')}` : ''));
+  ok(results.every(r => !r), 'base: los 37 tokens calculados coinciden con tokens.json en oscuro, claro y «system» (con el sistema en claro y en oscuro)' + (results.filter(Boolean).length ? `:\n   - ${results.filter(Boolean).join('\n   - ')}` : ''));
 
   const presetProblems = [];
   for (const n of presetNames.filter(x => x !== 'tesela')) {
@@ -96,7 +96,7 @@ const { contrast, parse } = require('../scripts/lib/color');
       if (d.length) presetProblems.push(`${n} ${theme}/${scheme}: ${d.slice(0, 2)}`);
     }
   }
-  ok(presetProblems.length === 0, `presets: los 36 tokens calculados de los ${presetNames.length - 1} presets coinciden con presets.json en los 4 casos (oscuro, claro, system en claro y en oscuro)` + (presetProblems.length ? `:\n   - ${presetProblems.slice(0, 4).join('\n   - ')}` : ''));
+  ok(presetProblems.length === 0, `presets: los 37 tokens calculados de los ${presetNames.length - 1} presets coinciden con presets.json en los 4 casos (oscuro, claro, system en claro y en oscuro)` + (presetProblems.length ? `:\n   - ${presetProblems.slice(0, 4).join('\n   - ')}` : ''));
 
   // Un contenedor con su propio preset y modo: las variables derivadas (--tsl-ring) usan SU acento, no el de <html>
   await p.evaluate(() => { document.documentElement.removeAttribute('data-preset'); document.documentElement.setAttribute('data-theme', 'dark'); });

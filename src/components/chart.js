@@ -209,9 +209,12 @@ export class TslChart extends TslElement {
     this.caption.textContent = cap || "";
     this.caption.hidden = !cap;
     this.setAttribute("aria-label", cap || this.getAttribute("aria-label") || "Gráfica");
-    // El medidor es un role="meter" con su valor; el resto, un grupo con la tabla de datos accesible
-    this.setAttribute("role", this.type === "gauge" ? "meter" : "group");
-    if (this.type !== "gauge") ["aria-valuenow", "aria-valuetext", "aria-valuemin", "aria-valuemax"].forEach((a) => this.removeAttribute(a));
+    // El medidor lleva role="meter" en el escenario, no en el elemento: un meter vuelve
+    // presentacional todo lo que contiene, y la leyenda y la tabla de datos dejarían de leerse
+    if (this.type === "gauge") {
+      this.stage.setAttribute("role", "meter");
+      this.stage.setAttribute("aria-label", cap || "Medidor");
+    } else ["role", "aria-label", "aria-valuenow", "aria-valuetext", "aria-valuemin", "aria-valuemax"].forEach((a) => this.stage.removeAttribute(a));
 
     let markup = "";
     if (!d) markup = `<text x="${W / 2}" y="${H / 2}" text-anchor="middle" class="tsl-chart__tick">Sin datos</text>`;
@@ -476,10 +479,10 @@ export class TslChart extends TslElement {
     out += `<text class="tsl-chart__center-value" x="${cx}" y="${cy - 8}" text-anchor="middle">${escXml(this.fmt(Number(d.value)))}</text>`;
     if (d.label) out += `<text class="tsl-chart__center-label" x="${cx}" y="${cy + 12}" text-anchor="middle">${escXml(d.label)}</text>`;
     out += `<text class="tsl-chart__tick" x="${cx - r}" y="${cy + 18}" text-anchor="middle">${escXml(this.tick(min))}</text><text class="tsl-chart__tick" x="${cx + r}" y="${cy + 18}" text-anchor="middle">${escXml(this.tick(max))}</text>`;
-    this.setAttribute("aria-valuemin", String(min));
-    this.setAttribute("aria-valuemax", String(max));
-    this.setAttribute("aria-valuenow", String(d.value));
-    this.setAttribute("aria-valuetext", `${d.label ? `${d.label}: ` : ""}${this.fmt(Number(d.value))}`);
+    this.stage.setAttribute("aria-valuemin", String(min));
+    this.stage.setAttribute("aria-valuemax", String(max));
+    this.stage.setAttribute("aria-valuenow", String(d.value));
+    this.stage.setAttribute("aria-valuetext", `${d.label ? `${d.label}: ` : ""}${this.fmt(Number(d.value))}`);
     this.hit = { kind: "gauge", count: 1 };
     return out;
   }

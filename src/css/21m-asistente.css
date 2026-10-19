@@ -61,7 +61,7 @@ tsl-prompt-input[disabled] .tsl-prompt-input__form {
 }
 
 .tsl-prompt-input__textarea::placeholder {
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-prompt-input__toolbar {

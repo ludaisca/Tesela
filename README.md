@@ -83,7 +83,7 @@ npm run build     # src/ → lib/ (bundle IIFE, minificado, módulos ESM y CSS p
 
 ## Temas, presets y tokens
 
-Todo el estilo sale de 36 tokens definidos una sola vez en `src/tokens/tokens.json` (formato inspirado en W3C Design Tokens, con valor para el modo oscuro y el claro). De ahí se generan el CSS, las variables de Sass, un módulo JS con tipos y un preset de Tailwind.
+Todo el estilo sale de 37 tokens definidos una sola vez en `src/tokens/tokens.json` (formato inspirado en W3C Design Tokens, con valor para el modo oscuro y el claro). De ahí se generan el CSS, las variables de Sass, un módulo JS con tipos y un preset de Tailwind.
 
 | Qué | Cómo |
 |---|---|

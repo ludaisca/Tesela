@@ -29,6 +29,7 @@ function check(tokensApi) {
         TEXT.forEach((t) => add("semantic", `${t} / ${n}`, contrast(v[`color.${t}`], base), min.semantic));
       });
       add("accentText", "texto del acento / acento", contrast(v["color.accent-fg"], v["color.accent"]), min.accentText);
+      add("accentText", "texto de peligro / peligro (botón)", contrast(v["color.danger-fg"], v["color.danger"]), min.accentText);
       add("accentUi", "acento / fondo", contrast(v["color.accent"], bg), min.accentUi);
       // Insignias: texto del color sobre su propio velo (15 % del color sobre el fondo)
       TEXT.forEach((t) => {

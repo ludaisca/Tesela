@@ -36,6 +36,7 @@
   --tsl-success: #10b981;
   --tsl-warning: #f59e0b;
   --tsl-danger: #f54a67;
+  --tsl-danger-fg: #1a0508;
   --tsl-info: #0ea5e9;
   --tsl-shadow: 0 1px 2px rgba(0, 0, 0, 0.45), 0 10px 26px -12px rgba(0, 0, 0, 0.65);
   --tsl-shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.55), 0 20px 38px -12px rgba(0, 0, 0, 0.8);
@@ -61,6 +62,7 @@
   --tsl-success: #047253;
   --tsl-warning: #a14a08;
   --tsl-danger: #be123c;
+  --tsl-danger-fg: #ffffff;
   --tsl-info: #0368a0;
   --tsl-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 8px 24px -12px rgba(0, 0, 0, 0.14);
   --tsl-shadow-lg: 0 2px 6px rgba(0, 0, 0, 0.08), 0 18px 34px -12px rgba(0, 0, 0, 0.22);
@@ -87,6 +89,7 @@
     --tsl-success: #047253;
     --tsl-warning: #a14a08;
     --tsl-danger: #be123c;
+    --tsl-danger-fg: #ffffff;
     --tsl-info: #0368a0;
     --tsl-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 8px 24px -12px rgba(0, 0, 0, 0.14);
     --tsl-shadow-lg: 0 2px 6px rgba(0, 0, 0, 0.08), 0 18px 34px -12px rgba(0, 0, 0, 0.22);
@@ -393,17 +396,16 @@ tsl-icon[spin] .tsl-icon__svg,
   border-color: transparent;
 }
 
-/* El rojo de peligro es para texto sobre el fondo; como relleno se oscurece para que el blanco
-   llegue a 4,5:1 (con el rojo puro se queda en 3,5:1) */
+/* El texto sale de --tsl-danger-fg, que cada preset ajusta para llegar a 4,5:1 sobre su rojo
+   (con blanco fijo, el rojo claro del modo oscuro se quedaba en 3,5:1) */
 .tsl-btn--danger {
-  --_danger: color-mix(in srgb, var(--tsl-danger) 80%, #000);
-  background: var(--_danger);
-  border-color: var(--_danger);
-  color: #fff;
+  background: var(--tsl-danger);
+  border-color: var(--tsl-danger);
+  color: var(--tsl-danger-fg);
 }
 
 .tsl-btn--danger:hover {
-  background: color-mix(in srgb, var(--tsl-danger) 70%, #000);
+  background: color-mix(in srgb, var(--tsl-danger) 86%, #000);
   border-color: transparent;
 }
 
@@ -857,7 +859,7 @@ button.tsl-item {
 
 .tsl-input::placeholder,
 .tsl-textarea::placeholder {
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-input:hover,
@@ -2879,7 +2881,7 @@ tsl-time-picker {
 }
 
 .tsl-trigger__input::placeholder {
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-select__wrap:has(.tsl-trigger__clear:not([hidden])) .tsl-trigger {
@@ -5735,7 +5737,7 @@ tsl-prompt-input[disabled] .tsl-prompt-input__form {
 }
 
 .tsl-prompt-input__textarea::placeholder {
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 .tsl-prompt-input__toolbar {
@@ -7003,7 +7005,7 @@ fieldset:disabled tsl-phone {
 
 .tsl-currency__input::placeholder,
 .tsl-phone__input::placeholder {
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 /* ---- Importe ---- */
@@ -7385,7 +7387,7 @@ tsl-editor[aria-invalid="true"] {
   content: attr(data-placeholder);
   position: absolute;
   inset-inline: 14px;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
   pointer-events: none;
 }
 

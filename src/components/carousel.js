@@ -83,7 +83,8 @@ export class TslCarousel extends TslElement {
   reconnected() {
     this.resizer.observe(this.track);
     this.sync(false);
-    this.startAuto();
+    // Solo si seguía avanzando: una pausa de la persona se respeta al volver a montarlo
+    if (this.playing) this.startAuto(true);
   }
 
   attributeChanged() {

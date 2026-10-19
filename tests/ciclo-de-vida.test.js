@@ -117,6 +117,18 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   ok(await p.evaluate(() => document.querySelector('#zona tsl-carousel').index) === 1, 'y «Siguiente» avanza una sola diapositiva');
   await p.evaluate(() => document.getElementById('zona').remove());
 
+  // Avance automático: sigue al remontar si estaba en marcha y se respeta si la persona lo pausó
+  await mount('<tsl-carousel label="Auto" autoplay="2000"><div class="tsl-carousel__track"><div class="tsl-carousel__slide">1</div><div class="tsl-carousel__slide">2</div></div></tsl-carousel>');
+  const playing = () => p.evaluate(() => document.querySelector('#zona tsl-carousel').playing);
+  await unmount();
+  await remount();
+  const resumed = await playing();
+  await p.click('#zona .tsl-carousel__play');
+  await unmount();
+  await remount();
+  ok(resumed === true && (await playing()) === false, '<tsl-carousel autoplay> remontado sigue avanzando, pero si se pausó sigue en pausa');
+  await p.evaluate(() => document.getElementById('zona').remove());
+
   await mount('<div class="tsl-sidebar-layout" style="height:200px"><tsl-sidebar shortcut="b" collapsible="icon"><div class="tsl-sidebar__content"><a class="tsl-sidebar__item" href="#a">A</a></div></tsl-sidebar><div class="tsl-sidebar-inset">x</div></div>');
   await unmount();
   await remount();

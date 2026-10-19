@@ -61,7 +61,7 @@ fieldset:disabled tsl-phone {
 
 .tsl-currency__input::placeholder,
 .tsl-phone__input::placeholder {
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
 }
 
 /* ---- Importe ---- */
@@ -443,7 +443,7 @@ tsl-editor[aria-invalid="true"] {
   content: attr(data-placeholder);
   position: absolute;
   inset-inline: 14px;
-  color: var(--tsl-fg-subtle);
+  color: var(--tsl-fg-muted);
   pointer-events: none;
 }
 
