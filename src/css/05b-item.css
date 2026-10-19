@@ -1,0 +1,125 @@
+/* ----------------------------------------------------------------------------
+   05b. Item: fila genérica con medio (icono o imagen), contenido y acciones
+        <div class="tsl-item"> o <a class="tsl-item" href>; variantes --outline y --muted; tamaño --sm
+   ---------------------------------------------------------------------------- */
+.tsl-item-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tsl-item {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 12px 14px;
+  border: 1px solid transparent;
+  border-radius: var(--tsl-radius);
+  color: var(--tsl-fg);
+  font-size: 13px;
+  text-decoration: none;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+a.tsl-item:hover,
+button.tsl-item:hover {
+  background: var(--tsl-surface-hover);
+}
+
+a.tsl-item:focus-visible,
+button.tsl-item:focus-visible {
+  outline: none;
+  box-shadow: var(--tsl-ring);
+}
+
+button.tsl-item {
+  width: 100%;
+  background: transparent;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.tsl-item--outline {
+  border-color: var(--tsl-border);
+}
+
+.tsl-item--muted {
+  background: var(--tsl-surface);
+}
+
+.tsl-item--sm {
+  gap: 10px;
+  padding: 8px 12px;
+}
+
+.tsl-item__media {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--tsl-radius-sm);
+  overflow: hidden;
+  font-size: 16px;
+}
+
+.tsl-item__media--icon {
+  border: 1px solid var(--tsl-border);
+  background: var(--tsl-surface-strong);
+}
+
+.tsl-item__media--image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tsl-item--sm .tsl-item__media {
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+}
+
+.tsl-item__content {
+  flex: 1 1 160px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-wrap: anywhere;
+}
+
+.tsl-item__title {
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.tsl-item__desc {
+  margin: 0;
+  color: var(--tsl-fg-muted);
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+.tsl-item__actions {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-inline-start: auto;
+}
+
+/* Cabecera y pie ocupan toda la fila */
+.tsl-item__header,
+.tsl-item__footer {
+  flex: 1 1 100%;
+}
+
+.tsl-item-separator {
+  height: 1px;
+  margin: 0;
+  border: 0;
+  background: var(--tsl-border);
+}

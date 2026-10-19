@@ -26,7 +26,7 @@ tsl-slider {
 .tsl-slider__thumb {
   position: absolute;
   top: 50%;
-  left: var(--p, 0%);
+  inset-inline-start: var(--p, 0%);
   width: 16px;
   height: 16px;
   transform: translate(-50%, -50%);
@@ -313,7 +313,7 @@ tsl-toggle-group {
 }
 
 .tsl-toggle-group__item + .tsl-toggle-group__item {
-  border-left: 1px solid var(--tsl-border);
+  border-inline-start: 1px solid var(--tsl-border);
 }
 
 .tsl-toggle-group__item:hover:not(:disabled) {
@@ -387,7 +387,26 @@ tsl-toggle-group {
 }
 
 .tsl-choice-card__end {
-  margin-left: auto;
+  margin-inline-start: auto;
   font-size: 12px;
   font-weight: 600;
+}
+
+/* Derecha a izquierda: el pulgar se centra con el desplazamiento invertido */
+.tsl-slider__thumb:dir(rtl) {
+  transform: translate(50%, -50%);
+}
+
+.tsl-slider__thumb:dir(rtl):hover {
+  transform: translate(50%, -50%) scale(1.12);
+}
+
+/* Áreas de color, matiz y opacidad, minigráficos y gráficas conservan siempre la orientación izquierda-derecha */
+tsl-otp,
+tsl-sparkline,
+tsl-chart,
+.tsl-color__area,
+.tsl-color__hue,
+.tsl-color__alpha {
+  direction: ltr;
 }

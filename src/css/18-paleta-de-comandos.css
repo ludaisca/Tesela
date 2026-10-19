@@ -52,7 +52,7 @@
   color: var(--tsl-fg);
   font: inherit;
   font-size: 12px;
-  text-align: left;
+  text-align: start;
   cursor: pointer;
 }
 
@@ -61,7 +61,7 @@
 }
 
 .tsl-command__item .tsl-kbd {
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 
 .tsl-command__empty {

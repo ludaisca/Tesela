@@ -154,7 +154,7 @@
 }
 
 .tsl-btn-group > .tsl-btn + .tsl-btn {
-  margin-left: -1px;
+  margin-inline-start: -1px;
 }
 
 .tsl-btn-group > .tsl-btn:first-child {

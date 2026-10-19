@@ -53,6 +53,11 @@
           <button class="tsl-segmented__item" value="9">9</button>
           <button class="tsl-segmented__item" value="16">16</button>
         </tsl-segmented>
+        <span class="tsl-eyebrow">Dirección</span>
+        <tsl-segmented id="docs-dir" value="ltr" aria-label="Dirección de escritura" style="margin:10px 0 14px">
+          <button class="tsl-segmented__item" value="ltr">LTR</button>
+          <button class="tsl-segmented__item" value="rtl">RTL</button>
+        </tsl-segmented>
         <div class="tsl-stack" style="--gap:8px">
           <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--block" id="docs-export">Copiar overrides CSS</button>
           <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle tsl-btn--block" id="docs-reset">Restablecer</button>
@@ -181,6 +186,17 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
             </tbody>
           </table>
         </div>
+      </section>
+
+      <section class="doc" id="rtl" data-group="Inicio" data-keywords="rtl derecha a izquierda direccion dir árabe hebreo bidireccional lógico espejo">
+        <h2><a href="#rtl">Derecha a izquierda (RTL)</a></h2>
+        <p><code>TeselaUI.setDirection("rtl")</code> pone <code>dir="rtl"</code> en <code>&lt;html&gt;</code> (se guarda y <code>theme-init.js</code> lo aplica antes de pintar); también sirve <code>dir="rtl"</code> en cualquier contenedor. El CSS usa propiedades lógicas (<code>inline-start</code>, <code>inline-end</code>), así que márgenes, bordes, iconos y paneles se espejan solos. El comportamiento también: las flechas ← → se invierten en pestañas, menús, árbol, calendario, slider, valoración, radios, carrusel y paneles redimensionables; los paneles flotantes se anclan al borde de inicio y «derecha»/«izquierda» de <code>position()</code> significan fin/inicio. Se mantienen de izquierda a derecha las gráficas, los minigráficos, los selectores de color y el OTP. Prueba el cambio con el selector «Dirección» del panel lateral. Evento <code>tsl-direction</code>.</p>
+        <template>
+          <div class="tsl-row" style="--gap:12px">
+            <button type="button" class="tsl-btn" id="demo-dir-rtl" onclick="TeselaUI.setDirection('rtl')">Pasar a RTL</button>
+            <button type="button" class="tsl-btn tsl-btn--subtle" id="demo-dir-ltr" onclick="TeselaUI.setDirection('ltr')">Volver a LTR</button>
+          </div>
+        </template>
       </section>
 
       <section class="doc" id="tokens" data-group="Inicio" data-keywords="colors colores theme tema variables">
@@ -378,6 +394,25 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         </template>
       </section>
 
+      <section class="doc" id="radio-group" data-group="Formularios" data-keywords="radio group grupo de radios opciones selección única radiogroup tarjetas">
+        <h2><a href="#radio-group">Grupo de radios</a></h2>
+        <p><code>&lt;tsl-radio-group&gt;</code> agrupa opciones <code>button.tsl-radio</code> con etiqueta y descripción. Tiene un solo punto de tabulación: las flechas mueven y seleccionan (respetando RTL y saltando las deshabilitadas), Espacio selecciona y Inicio/Fin saltan a los extremos. Participa en formularios (<code>name</code>, <code>required</code>, <code>reset</code>, <code>fieldset disabled</code>), con <code>orientation="horizontal"</code> y la variante <code>.tsl-radio-group--cards</code>. Evento <code>tsl-change</code>.</p>
+        <template>
+          <form class="tsl-stack demo-max" style="--gap:18px" onsubmit="event.preventDefault()">
+            <tsl-radio-group id="demo-radios" name="plan" value="pro" label="Plan de suscripción" class="tsl-radio-group--cards">
+              <button type="button" class="tsl-radio" value="free"><span class="tsl-radio__body"><span class="tsl-radio__label">Gratis</span><span class="tsl-radio__desc">Para empezar, sin tarjeta.</span></span></button>
+              <button type="button" class="tsl-radio" value="pro"><span class="tsl-radio__body"><span class="tsl-radio__label">Pro</span><span class="tsl-radio__desc">Equipos pequeños, $12 al mes.</span></span></button>
+              <button type="button" class="tsl-radio" value="ent" disabled><span class="tsl-radio__body"><span class="tsl-radio__label">Enterprise</span><span class="tsl-radio__desc">Próximamente.</span></span></button>
+            </tsl-radio-group>
+            <tsl-radio-group id="demo-radios-h" name="ciclo" orientation="horizontal" label="Ciclo de facturación" required required-message="Elige un ciclo.">
+              <button type="button" class="tsl-radio" value="mensual"><span class="tsl-radio__body"><span class="tsl-radio__label">Mensual</span></span></button>
+              <button type="button" class="tsl-radio" value="anual"><span class="tsl-radio__body"><span class="tsl-radio__label">Anual (−20 %)</span></span></button>
+            </tsl-radio-group>
+            <button type="submit" class="tsl-btn tsl-btn--primary">Continuar</button>
+          </form>
+        </template>
+      </section>
+
       <section class="doc" id="switch" data-group="Formularios" data-keywords="toggle interruptor">
         <h2><a href="#switch">Interruptor</a></h2>
         <p>Checkbox nativo con <code>role="switch"</code>: accesible y compatible con formularios.</p>
@@ -413,6 +448,61 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
             <button type="button" data-step="1" aria-label="Aumentar">+</button>
           </div>
         </template>
+      </section>
+
+      <section class="doc" id="currency" data-group="Formularios" data-keywords="moneda importe precio dinero currency money divisa decimales formato miles">
+        <h2><a href="#currency">Importe</a></h2>
+        <p><code>&lt;tsl-currency&gt;</code> da formato al importe mientras se escribe con los separadores del idioma (<code>locale</code>) y pone el símbolo de la <code>currency</code> delante o detrás, como corresponda; los decimales son los de la moneda (el yen no tiene). El punto o la coma del teclado numérico valen como separador decimal, <kbd class="tsl-kbd">↑</kbd> <kbd class="tsl-kbd">↓</kbd> suman o restan <code>step</code> y al salir se completan los decimales. En el formulario viaja el valor canónico (<code>1250.50</code>); <code>min</code> y <code>max</code> se validan con su mensaje.</p>
+        <template>
+          <form class="tsl-stack demo-max" style="--gap:12px" id="demo-money" novalidate>
+            <div class="tsl-field"><span class="tsl-label">Precio (pesos mexicanos)</span><tsl-currency name="precio" currency="MXN" locale="es-MX" value="1250.5" min="0" max="1000000" step="50" label="Precio"></tsl-currency></div>
+            <div class="tsl-field"><span class="tsl-label">Presupuesto (euros)</span><tsl-currency name="presupuesto" currency="EUR" locale="es-ES" placeholder="0,00" show-code label="Presupuesto" required></tsl-currency></div>
+            <div class="tsl-field"><span class="tsl-label">Ajuste (yenes, admite negativos)</span><tsl-currency name="ajuste" currency="JPY" locale="ja-JP" min="-50000" value="-1200" label="Ajuste"></tsl-currency></div>
+            <div class="tsl-row"><button type="submit" class="tsl-btn tsl-btn--primary">Enviar</button><button type="reset" class="tsl-btn">Restablecer</button></div>
+            <pre class="tsl-code" id="demo-money-out" aria-live="polite">{ }</pre>
+          </form>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const form = document.querySelector("#demo-money");
+          form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const out = document.querySelector("#demo-money-out");
+            if (!form.checkValidity()) {
+              const bad = [...form.elements].find((el) => el.validity && !el.validity.valid);
+              bad.reportValidity();
+              out.textContent = `Falta corregir: ${bad.validationMessage}`;
+              return;
+            }
+            out.textContent = JSON.stringify(Object.fromEntries(new FormData(form)), null, 2);
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="phone" data-group="Formularios" data-keywords="teléfono telefono phone móvil celular país prefijo internacional e164 formato">
+        <h2><a href="#phone">Teléfono</a></h2>
+        <p><code>&lt;tsl-phone&gt;</code> une un selector de país (un <code>&lt;select&gt;</code> nativo bajo el distintivo «MX +52») y el número, al que da la forma de ese país mientras se escribe. Si se pega o escribe un número internacional (<code>+34…</code> o <code>0034…</code>) cambia solo de país. Envía el valor en E.164 (<code>+525512345678</code>) y no es válido hasta tener todos los dígitos («Faltan 3 dígitos»). <code>countries</code> limita y ordena los países.</p>
+        <template>
+          <form class="tsl-stack demo-max" style="--gap:12px" id="demo-phone-form" novalidate>
+            <div class="tsl-field"><span class="tsl-label">Teléfono</span><tsl-phone id="demo-phone" name="telefono" country="MX" countries="MX,US,ES,CO,AR,CL,PE,BR,GT" required label="Teléfono"></tsl-phone><span class="tsl-hint">Prueba a pegar <code>+34 600 12 34 56</code>.</span></div>
+            <div class="tsl-field"><span class="tsl-label">Teléfono de la oficina</span><tsl-phone name="oficina" country="US" value="+1 415 555 0132" label="Teléfono de la oficina"></tsl-phone></div>
+            <div class="tsl-row"><button type="submit" class="tsl-btn tsl-btn--primary">Enviar</button></div>
+            <pre class="tsl-code" id="demo-phone-out" aria-live="polite">{ }</pre>
+          </form>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const form = document.querySelector("#demo-phone-form");
+          const out = document.querySelector("#demo-phone-out");
+          form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const phone = document.querySelector("#demo-phone");
+            if (!phone.checkValidity()) {
+              phone.reportValidity();
+              out.textContent = phone.validationMessage;
+              return;
+            }
+            out.textContent = JSON.stringify({ ...Object.fromEntries(new FormData(form)), legible: phone.formatted }, null, 2);
+          });
+        </script>
       </section>
 
       <section class="doc" id="segmented" data-group="Formularios" data-keywords="radio group selector vista">
@@ -463,6 +553,39 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
             <span>o haz clic para explorar · PNG, PDF hasta 10 MB</span>
           </tsl-dropzone>
         </template>
+      </section>
+
+      <section class="doc" id="upload" data-group="Formularios" data-keywords="subir archivos upload progreso barra cancelar reintentar adjuntos ficheros arrastrar">
+        <h2><a href="#upload">Subida de archivos</a></h2>
+        <p><code>&lt;tsl-upload&gt;</code> amplía la zona para soltar con una fila por archivo: miniatura o icono, tamaño, barra de progreso y las acciones que tocan en cada estado (cancelar mientras sube, reintentar si falló, quitar al terminar). Sube con <code>action</code> (POST multipart con progreso real) o con tu función <code>uploader</code> (<code>async (file, { signal, progress }) =&gt; resultado</code>), hasta <code>concurrency</code> a la vez. En el formulario viaja el <code>id</code> o la <code>url</code> de cada resultado, y mientras algo sube el formulario no es válido. En la demostración la subida es simulada y los archivos con «error» en el nombre fallan.</p>
+        <template>
+          <div class="tsl-stack demo-max" style="--gap:10px">
+            <tsl-upload id="demo-upload" name="adjuntos" multiple accept="image/*,.pdf,.txt,.md,.csv" max-size="20MB" max-files="6" label="Archivos adjuntos"></tsl-upload>
+            <p class="tsl-hint" id="demo-upload-out" aria-live="polite">Nada subido todavía.</p>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const upload = document.querySelector("#demo-upload");
+          // Subida simulada: avanza a saltos, respeta «Cancelar» y falla si el nombre contiene «error»
+          upload.uploader = (file, { signal, progress }) => new Promise((resolve, reject) => {
+            let hecho = 0;
+            const paso = () => {
+              if (signal.aborted) return reject(new DOMException("Cancelada", "AbortError"));
+              hecho = Math.min(1, hecho + 0.08 + Math.random() * 0.12);
+              progress(hecho);
+              if (/error/i.test(file.name) && hecho > 0.5) return reject(new Error("El servidor rechazó el archivo"));
+              if (hecho >= 1) return resolve({ id: `arch_${Math.random().toString(36).slice(2, 8)}`, url: `/archivos/${encodeURIComponent(file.name)}` });
+              setTimeout(paso, 180);
+            };
+            setTimeout(paso, 180);
+          });
+          upload.addEventListener("tsl-complete", (e) => {
+            document.querySelector("#demo-upload-out").textContent = `${e.detail.results.length} subidos${e.detail.failed ? `, ${e.detail.failed} con error` : ""}: ${e.detail.results.map((r) => r.id).join(", ")}`;
+          });
+          upload.addEventListener("tsl-error", (e) => {
+            if (e.detail.reason !== "upload") TeselaUI.toast({ title: "Archivo rechazado", description: e.detail.message, variant: "error" });
+          });
+        </script>
       </section>
 
       <section class="doc" id="calendar" data-group="Formularios" data-keywords="date picker fecha calendario mes">
@@ -739,6 +862,40 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         </script>
       </section>
 
+      <section class="doc" id="editor" data-group="Formularios" data-keywords="editor texto enriquecido rich text wysiwyg negrita cursiva lista enlace formato contenteditable">
+        <h2><a href="#editor">Editor de texto enriquecido</a></h2>
+        <p><code>&lt;tsl-editor&gt;</code> es un editor mínimo con barra de formato: negrita, cursiva, subrayado, tachado, títulos, listas, cita, código y enlaces, con deshacer y rehacer. La barra es una sola parada de tabulación (las flechas recorren los botones) y cada botón refleja con <code>aria-pressed</code> el formato del texto seleccionado. <kbd class="tsl-kbd">Ctrl</kbd>+<kbd class="tsl-kbd">K</kbd> abre el campo del enlace, <kbd class="tsl-kbd">Tab</kbd> sangra dentro de una lista y lo que se pega o se escribe en HTML se filtra a una lista corta de etiquetas, sin estilos ni scripts. El valor que viaja en el formulario es ese HTML saneado; <code>maxlength</code> muestra el contador y valida.</p>
+        <template>
+          <form class="tsl-stack demo-wide" style="--gap:10px" id="demo-editor-form" novalidate>
+            <div class="tsl-field">
+              <span class="tsl-label">Descripción del proyecto</span>
+              <tsl-editor id="demo-editor" name="descripcion" label="Descripción del proyecto" placeholder="Cuenta de qué trata…" maxlength="600" required>
+                <h2>Rediseño de la incorporación</h2>
+                <p>Queremos que una persona nueva cree su <strong>primer proyecto</strong> en menos de <em>tres minutos</em>.</p>
+                <ul><li>Menos pasos en el alta</li><li>Plantillas listas para usar</li></ul>
+                <p>Más contexto en la <a href="#editor">documentación</a>.</p>
+              </tsl-editor>
+            </div>
+            <div class="tsl-row"><button type="submit" class="tsl-btn tsl-btn--primary">Guardar</button><button type="reset" class="tsl-btn">Restablecer</button></div>
+            <pre class="tsl-code" id="demo-editor-out" aria-live="polite" style="white-space:pre-wrap"></pre>
+          </form>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const form = document.querySelector("#demo-editor-form");
+          form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const editor = document.querySelector("#demo-editor");
+            const out = document.querySelector("#demo-editor-out");
+            if (!editor.checkValidity()) {
+              editor.reportValidity();
+              out.textContent = editor.validationMessage;
+              return;
+            }
+            out.textContent = new FormData(form).get("descripcion");
+          });
+        </script>
+      </section>
+
       <section class="doc" id="choice-card" data-group="Formularios" data-keywords="choice card tarjeta radio checkbox seleccion plan opcion">
         <h2><a href="#choice-card">Tarjetas de elección</a></h2>
         <p>CSS puro: un <code>&lt;label class="tsl-choice-card"&gt;</code> con un <code>tsl-check</code> (radio o checkbox) dentro. El estado marcado, el foco y el deshabilitado se reflejan en toda la tarjeta mediante <code>:has()</code>.</p>
@@ -863,6 +1020,40 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         </template>
       </section>
 
+      <section class="doc" id="wizard" data-group="Navegación" data-keywords="wizard asistente pasos stepper formulario multipaso validación onboarding alta">
+        <h2><a href="#wizard">Asistente por pasos</a></h2>
+        <p><code>&lt;tsl-wizard&gt;</code> reparte un <code>&lt;form&gt;</code> en pasos (<code>fieldset.tsl-wizard__step</code> con <code>data-title</code>). Antes de avanzar valida los campos del paso con la validación nativa (también los <code>tsl-select</code>, <code>tsl-date-picker</code>… asociados a formularios), señala el primero que falla y no deja saltar pasos. Dibuja el indicador <code>.tsl-steps</code>: los pasos visitados se pueden pulsar para volver. Enter en un campo avanza; al cambiar de paso enfoca su título y lo anuncia. Al enviar revisa todo, lleva al primer paso con errores si lo hay y emite <code>tsl-submit</code> con <code>values</code>.</p>
+        <template>
+          <tsl-wizard id="demo-wizard" class="demo-max" label="Crear cuenta">
+            <form>
+              <fieldset class="tsl-wizard__step" data-title="Cuenta">
+                <legend>Tu cuenta</legend>
+                <label class="tsl-field"><span class="tsl-label">Correo electrónico</span><input class="tsl-input" type="email" name="correo" required autocomplete="email" placeholder="tu@empresa.com" /></label>
+              </fieldset>
+              <fieldset class="tsl-wizard__step" data-title="Perfil">
+                <legend>Tu perfil</legend>
+                <label class="tsl-field"><span class="tsl-label">Nombre</span><input class="tsl-input" name="nombre" required minlength="2" autocomplete="name" /></label>
+                <div class="tsl-field"><span class="tsl-label">Rol</span><tsl-select name="rol" required label="Rol" placeholder="Elige tu rol…"><option value="dev">Desarrollo</option><option value="dis">Diseño</option><option value="prod">Producto</option></tsl-select></div>
+              </fieldset>
+              <fieldset class="tsl-wizard__step" data-title="Confirmar">
+                <legend>Confirmar</legend>
+                <label class="tsl-choice"><input class="tsl-check" type="checkbox" name="terminos" value="si" required /> Acepto las condiciones de uso</label>
+              </fieldset>
+              <div class="tsl-wizard__actions">
+                <button type="button" class="tsl-btn" data-prev>Atrás</button>
+                <button type="button" class="tsl-btn tsl-btn--primary" data-next>Continuar</button>
+                <button type="submit" class="tsl-btn tsl-btn--primary" data-submit>Crear cuenta</button>
+              </div>
+            </form>
+          </tsl-wizard>
+        </template>
+        <script type="text/plain" data-doc-js>
+          document.querySelector("#demo-wizard").addEventListener("tsl-submit", (e) => {
+            TeselaUI.toast({ title: "Cuenta creada", description: JSON.stringify(e.detail.values), variant: "success" });
+          });
+        </script>
+      </section>
+
       <section class="doc" id="command" data-group="Navegación" data-keywords="command palette cmdk buscador spotlight">
         <h2><a href="#command">Paleta de comandos</a></h2>
         <p><code>&lt;tsl-command hotkey="k"&gt;</code> crea un <code>&lt;dialog&gt;</code> nativo con búsqueda difusa, grupos (<code>data-group</code>), palabras clave (<code>data-keywords</code>) y evento <code>tsl-select</code>. Ábrelo con <code>data-tsl-open="id"</code> o <code>⌘K</code>.</p>
@@ -940,6 +1131,48 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
             </div>
             <a class="tsl-bar__item" href="#nav-menu">Precios</a>
           </tsl-nav-menu>
+        </template>
+      </section>
+
+      <section class="doc" id="sidebar" data-group="Navegación" data-tall="360px" data-keywords="sidebar barra lateral navegación menú lateral colapsable iconos cajón drawer app shell">
+        <h2><a href="#sidebar">Barra lateral</a></h2>
+        <p><code>&lt;tsl-sidebar&gt;</code> va dentro de <code>.tsl-sidebar-layout</code> junto a <code>.tsl-sidebar-inset</code>. Con <code>collapsible="icon"</code> se contrae a una columna de iconos (el nombre pasa a <code>title</code>); con <code>offcanvas</code> desaparece. Cuando el contenedor mide menos de <code>breakpoint</code> (720 px) se convierte en un cajón con fondo, <kbd>Esc</kbd> y devolución del foco. Cualquier <code>[data-tsl-sidebar-toggle]</code> la alterna sin código, <code>shortcut="b"</code> añade Ctrl/⌘+B y <code>storage-key</code> recuerda el estado. Submenús con un botón <code>aria-expanded</code> seguido de <code>.tsl-sidebar__sub</code>. Evento <code>tsl-toggle</code>.</p>
+        <template>
+          <div class="tsl-sidebar-layout" style="height:320px;border:1px solid var(--tsl-border);border-radius:var(--tsl-radius)">
+            <tsl-sidebar id="demo-sidebar" collapsible="icon" shortcut="b" label="Navegación de la aplicación">
+              <div class="tsl-sidebar__header"><span class="tsl-avatar">T</span><strong class="tsl-sidebar__hide-rail">Tesela</strong></div>
+              <div class="tsl-sidebar__content">
+                <div class="tsl-sidebar__group">
+                  <div class="tsl-sidebar__label">Plataforma</div>
+                  <ul class="tsl-sidebar__menu">
+                    <li><a class="tsl-sidebar__item" href="#sidebar" aria-current="page"><span class="tsl-sidebar__icon" aria-hidden="true">⌂</span><span class="tsl-sidebar__text">Inicio</span></a></li>
+                    <li><a class="tsl-sidebar__item" href="#sidebar"><span class="tsl-sidebar__icon" aria-hidden="true">✉</span><span class="tsl-sidebar__text">Bandeja</span><span class="tsl-badge tsl-sidebar__badge">4</span></a></li>
+                    <li>
+                      <button type="button" class="tsl-sidebar__item" aria-expanded="true"><span class="tsl-sidebar__icon" aria-hidden="true">▤</span><span class="tsl-sidebar__text">Proyectos</span></button>
+                      <ul class="tsl-sidebar__sub">
+                        <li><a class="tsl-sidebar__item" href="#sidebar"><span class="tsl-sidebar__text">Tesela</span></a></li>
+                        <li><a class="tsl-sidebar__item" href="#sidebar"><span class="tsl-sidebar__text">Documentación</span></a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+                <div class="tsl-sidebar__group">
+                  <div class="tsl-sidebar__label">Cuenta</div>
+                  <ul class="tsl-sidebar__menu">
+                    <li><a class="tsl-sidebar__item" href="#sidebar"><span class="tsl-sidebar__icon" aria-hidden="true">⚙</span><span class="tsl-sidebar__text">Ajustes</span></a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="tsl-sidebar__footer"><span class="tsl-avatar">LI</span><span class="tsl-muted tsl-sidebar__hide-rail">Luis Islas</span></div>
+            </tsl-sidebar>
+            <div class="tsl-sidebar-inset">
+              <div class="tsl-sidebar-inset__bar">
+                <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--icon tsl-btn--subtle" data-tsl-sidebar-toggle aria-label="Alternar barra lateral">☰</button>
+                <strong>Inicio</strong>
+              </div>
+              <div style="padding:16px"><p class="tsl-muted">Contenido de la página. Reduce el ancho del navegador para ver el cajón.</p></div>
+            </div>
+          </div>
         </template>
       </section>
 
@@ -1337,6 +1570,30 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
         </template>
       </section>
 
+      <section class="doc" id="item" data-group="Datos" data-keywords="item fila elemento lista media icono contenido acciones fila genérica">
+        <h2><a href="#item">Item</a></h2>
+        <p><code>.tsl-item</code> es una fila genérica con <code>.tsl-item__media</code> (<code>--icon</code> o <code>--image</code>), <code>.tsl-item__content</code> (<code>__title</code> y <code>__desc</code>) y <code>.tsl-item__actions</code>. Puede ser <code>&lt;div&gt;</code>, <code>&lt;a&gt;</code> o <code>&lt;button&gt;</code> (con hover y foco). Variantes <code>--outline</code> y <code>--muted</code>, tamaño <code>--sm</code>; <code>.tsl-item-group</code> los apila. Si no caben, las acciones pasan a la línea siguiente.</p>
+        <template>
+          <div class="tsl-item-group demo-max">
+            <div class="tsl-item tsl-item--outline">
+              <div class="tsl-item__media tsl-item__media--icon" aria-hidden="true">🛡</div>
+              <div class="tsl-item__content"><div class="tsl-item__title">Verificación en dos pasos</div><p class="tsl-item__desc">Protege tu cuenta con un segundo factor.</p></div>
+              <div class="tsl-item__actions"><button type="button" class="tsl-btn tsl-btn--sm">Activar</button></div>
+            </div>
+            <a class="tsl-item tsl-item--muted" href="#item">
+              <div class="tsl-item__media tsl-item__media--icon" aria-hidden="true">✉</div>
+              <div class="tsl-item__content"><div class="tsl-item__title">Preferencias de correo</div><p class="tsl-item__desc">Enlace completo: se resalta al pasar o enfocar.</p></div>
+              <div class="tsl-item__actions"><span class="tsl-badge">Nuevo</span></div>
+            </a>
+            <div class="tsl-item tsl-item--sm">
+              <div class="tsl-item__media tsl-item__media--icon" aria-hidden="true">⌘</div>
+              <div class="tsl-item__content"><div class="tsl-item__title">Atajos de teclado</div></div>
+              <div class="tsl-item__actions"><kbd class="tsl-kbd">Ctrl</kbd><kbd class="tsl-kbd">K</kbd></div>
+            </div>
+          </div>
+        </template>
+      </section>
+
       <section class="doc" id="timeline" data-group="Datos" data-keywords="actividad historial feed eventos changelog">
         <h2><a href="#timeline">Línea de tiempo</a></h2>
         <p>Historial vertical; colorea cada nodo con <code>--c</code>.</p>
@@ -1659,6 +1916,336 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
       </section>
 
       <!-- ================================================================ Diseño -->
+      <section class="doc" id="message" data-group="Conversación" data-keywords="mensaje burbuja chat conversación asistente ia marcador separador bubble marker">
+        <h2><a href="#message">Mensaje, burbuja y marcador</a></h2>
+        <p><code>.tsl-message</code> ordena avatar, cabecera, burbuja y pie; <code>--end</code> lo alinea al lado de quien escribe (el acento hace de fondo). <code>.tsl-message-group</code> apila mensajes seguidos (deja un <code>.tsl-message__avatar</code> vacío en los anteriores para mantener la alineación). <code>.tsl-marker</code> son notas de sistema en línea, con borde (<code>--border</code>) o como separador con etiqueta (<code>--separator</code>); con <code>role="status"</code> se anuncian. <code>.tsl-shimmer</code> anima el texto de lo que aún se está generando. Todo usa propiedades lógicas, así que se espeja en RTL.</p>
+        <template>
+          <div class="tsl-stack demo-max" style="--gap:12px">
+            <div class="tsl-marker tsl-marker--separator">Hoy</div>
+            <div class="tsl-message-group">
+              <div class="tsl-message">
+                <div class="tsl-message__avatar"></div>
+                <div class="tsl-message__content"><div class="tsl-bubble">¿Puedes revisar el contraste del tema claro?</div></div>
+              </div>
+              <div class="tsl-message">
+                <span class="tsl-message__avatar"><span class="tsl-avatar">AS</span></span>
+                <div class="tsl-message__content">
+                  <div class="tsl-message__header">Asistente</div>
+                  <div class="tsl-bubble">Claro: todos los presets cumplen AA, y «alto-contraste» llega a AAA.</div>
+                  <div class="tsl-message__footer">14:02 · Leído</div>
+                </div>
+              </div>
+            </div>
+            <div class="tsl-message tsl-message--end">
+              <div class="tsl-message__content"><div class="tsl-bubble">Perfecto, gracias.</div><div class="tsl-message__footer">14:03</div></div>
+            </div>
+            <div class="tsl-marker" role="status"><span class="tsl-marker__icon" aria-hidden="true">✓</span><span>Exploró 4 archivos</span></div>
+            <div class="tsl-marker" role="status"><span class="tsl-marker__icon" aria-hidden="true">…</span><span class="tsl-shimmer">Escribiendo la respuesta</span></div>
+          </div>
+        </template>
+      </section>
+
+      <section class="doc" id="message-scroller" data-group="Conversación" data-keywords="scroller conversación chat seguir final autoscroll log mensajes streaming">
+        <h2><a href="#message-scroller">Zona de conversación</a></h2>
+        <p><code>&lt;tsl-message-scroller&gt;</code> envuelve una conversación de altura propia. Mientras la persona está al final, sigue los mensajes nuevos (y el texto que crece en streaming); si sube con la rueda, el dedo o el teclado deja de seguirlos y aparece «Ir al final». El contenido es una región <code>role="log"</code> y el visor es enfocable. <code>scrollToEnd()</code>, <code>scrollToStart()</code>, <code>atEnd</code>, <code>manual</code> y el evento <code>tsl-scroll-state</code>.</p>
+        <template>
+          <div class="tsl-stack demo-max" style="--gap:10px">
+            <tsl-message-scroller id="demo-scroller" label="Conversación de ejemplo" style="height:220px;border:1px solid var(--tsl-border);border-radius:var(--tsl-radius)">
+              <div class="tsl-message-scroller__content" id="demo-scroller-log">
+                <div class="tsl-message"><div class="tsl-message__content"><div class="tsl-bubble">Mensaje 1</div></div></div>
+                <div class="tsl-message tsl-message--end"><div class="tsl-message__content"><div class="tsl-bubble">Mensaje 2</div></div></div>
+                <div class="tsl-message"><div class="tsl-message__content"><div class="tsl-bubble">Mensaje 3</div></div></div>
+                <div class="tsl-message tsl-message--end"><div class="tsl-message__content"><div class="tsl-bubble">Mensaje 4</div></div></div>
+                <div class="tsl-message"><div class="tsl-message__content"><div class="tsl-bubble">Mensaje 5</div></div></div>
+                <div class="tsl-message tsl-message--end"><div class="tsl-message__content"><div class="tsl-bubble">Mensaje 6</div></div></div>
+              </div>
+            </tsl-message-scroller>
+            <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--sm" id="demo-scroller-add">Añadir mensaje</button></div>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          let n = 6;
+          document.querySelector("#demo-scroller-add").addEventListener("click", () => {
+            n += 1;
+            document.querySelector("#demo-scroller-log").insertAdjacentHTML("beforeend", `<div class="tsl-message${n % 2 ? "" : " tsl-message--end"}"><div class="tsl-message__content"><div class="tsl-bubble">Mensaje ${n}</div></div></div>`);
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="attachment" data-group="Conversación" data-keywords="adjunto archivo fichero imagen subida estado error chip upload attachment">
+        <h2><a href="#attachment">Adjunto</a></h2>
+        <p><code>.tsl-attachment</code> muestra un archivo con medio (<code>__media</code>: icono o imagen), título y descripción, y acciones. <code>data-state="uploading|processing|error"</code> anima el título o marca el error (deja el motivo en la descripción); tamaños <code>--sm</code> y <code>--xs</code> (chip) y <code>--vertical</code>. Un <code>.tsl-attachment__trigger</code> convierte toda la tarjeta en enlace o botón sin tapar las acciones, y <code>.tsl-attachment-group</code> las ordena en una fila desplazable.</p>
+        <template>
+          <div class="tsl-attachment-group demo-max">
+            <div class="tsl-attachment"><div class="tsl-attachment__media" aria-hidden="true">📄</div><div class="tsl-attachment__content"><div class="tsl-attachment__title">informe-q3.pdf</div><div class="tsl-attachment__desc">PDF · 2,4 MB</div></div><div class="tsl-attachment__actions"><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Quitar informe-q3.pdf">✕</button></div></div>
+            <div class="tsl-attachment" data-state="uploading"><div class="tsl-attachment__media" aria-hidden="true">🖼</div><div class="tsl-attachment__content"><div class="tsl-attachment__title">captura-pantalla.png</div><div class="tsl-attachment__desc">Subiendo… 62 %</div></div></div>
+            <div class="tsl-attachment" data-state="error"><div class="tsl-attachment__media" aria-hidden="true">⚠</div><div class="tsl-attachment__content"><div class="tsl-attachment__title">datos.csv</div><div class="tsl-attachment__desc">No se pudo subir: supera 10 MB</div></div><div class="tsl-attachment__actions"><button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Reintentar datos.csv">↻</button></div></div>
+            <div class="tsl-attachment tsl-attachment--xs"><span class="tsl-attachment__media" aria-hidden="true">📎</span><span class="tsl-attachment__title">notas.txt</span></div>
+          </div>
+        </template>
+      </section>
+
+      <section class="doc" id="trace" data-group="Conversación" data-keywords="trace traza pasos agente herramientas razonamiento fuentes plan ia ejecución">
+        <h2><a href="#trace">Traza de pasos</a></h2>
+        <p><code>.tsl-trace</code> lista los pasos de un agente: herramientas, razonamiento, fuentes. Cada <code>.tsl-trace__line</code> lleva icono, título (se trunca) y descripción (duración, cantidad). <code>data-status="running"</code> anima el título, <code>pending</code> lo atenúa y <code>error</code> lo marca; una línea que sea <code>&lt;button&gt;</code> o <code>&lt;a&gt;</code> es interactiva. Combina con <code>&lt;tsl-collapsible&gt;</code> para mostrar el detalle de cada paso.</p>
+        <template>
+          <ul class="tsl-trace demo-max">
+            <li><span class="tsl-trace__line"><span class="tsl-trace__icon" aria-hidden="true">✓</span><span class="tsl-trace__title">Leyó 4 archivos</span><span class="tsl-trace__desc">0,8 s</span></span></li>
+            <li>
+              <tsl-collapsible id="demo-trace-open" open>
+                <button type="button" class="tsl-trace__line" data-tsl-trigger><span class="tsl-trace__icon" aria-hidden="true">›_</span><span class="tsl-trace__title">Ejecutando npm run build</span><span class="tsl-trace__desc">14 s</span><span class="tsl-collapsible__chevron"></span></button>
+                <div class="tsl-collapsible__content"><div class="tsl-trace__detail tsl-muted">Compilando 37 componentes…</div></div>
+              </tsl-collapsible>
+            </li>
+            <li><span class="tsl-trace__line" data-status="running"><span class="tsl-trace__icon" aria-hidden="true">◌</span><span class="tsl-trace__title">Ejecutando las pruebas</span></span></li>
+            <li><span class="tsl-trace__line" data-status="error"><span class="tsl-trace__icon" aria-hidden="true">✕</span><span class="tsl-trace__title">Falló la publicación</span><span class="tsl-trace__desc">sin permisos</span></span></li>
+            <li><span class="tsl-trace__line" data-status="pending"><span class="tsl-trace__icon" aria-hidden="true">○</span><span class="tsl-trace__title">Resumir los cambios</span></span></li>
+          </ul>
+        </template>
+      </section>
+
+      <section class="doc" id="code-block" data-group="Conversación" data-keywords="bloque codigo codeblock terminal log diff líneas numeradas copiar añadido eliminado resaltado">
+        <h2><a href="#code-block">Bloque de código completo</a></h2>
+        <p><code>.tsl-codeblock</code> amplía <code>tsl-code</code>: cabecera con título y acciones, números de línea (<code>data-numbers</code>, <code>--tsl-start</code> cambia el primero), ajuste de línea (<code>data-wrap</code>), líneas <code>added</code>, <code>removed</code> y <code>highlighted</code> con su marca (que no se copia ni se selecciona) y pie. El botón copia el texto que le pases en <code>data-tsl-copy</code>, sin números ni marcas. El contenido es enfocable y siempre va de izquierda a derecha, también en RTL.</p>
+        <template>
+          <div class="tsl-codeblock demo-wide">
+            <div class="tsl-codeblock__header"><span class="tsl-codeblock__title">src/tema.js</span><div class="tsl-codeblock__actions"><button type="button" class="tsl-btn tsl-btn--sm" data-tsl-copy="TeselaUI.setPreset('esmeralda');">Copiar</button></div></div>
+            <pre class="tsl-codeblock__content" data-numbers tabindex="0" aria-label="Contenido de src/tema.js"><span class="tsl-codeblock__line">import { setPreset } from "tesela-ui";</span>
+<span class="tsl-codeblock__line" data-variant="removed">setPreset("tesela");</span>
+<span class="tsl-codeblock__line" data-variant="added">setPreset("esmeralda");</span>
+<span class="tsl-codeblock__line" data-variant="highlighted">// el cambio se guarda en localStorage</span></pre>
+          </div>
+        </template>
+      </section>
+
+      <section class="doc" id="questionnaire" data-group="Conversación" data-keywords="cuestionario questionnaire preguntas pasos encuesta wizard formulario condicional omitir obligatoria">
+        <h2><a href="#questionnaire">Cuestionario</a></h2>
+        <p><code>&lt;tsl-questionnaire&gt;</code> muestra una pregunta por pantalla dentro de un <code>&lt;form&gt;</code> normal. Las preguntas son <code>fieldset.tsl-questionnaire__item</code>: <code>data-required</code> obliga a responder (con aviso accesible), las demás se pueden omitir, y <code>data-when="rol=dev|ops"</code> las hace depender de una respuesta anterior (el progreso solo cuenta las que aplican). Las teclas <kbd class="tsl-kbd">1</kbd>–<kbd class="tsl-kbd">9</kbd> eligen una opción y Enter avanza desde un campo de texto. Al terminar emite <code>tsl-submit</code> con <code>answers</code>; <code>tsl-step</code> informa cada cambio de pregunta.</p>
+        <template>
+          <tsl-questionnaire id="demo-q" class="demo-max">
+            <form>
+              <div data-progress></div>
+              <fieldset class="tsl-questionnaire__item" data-required data-name="rol">
+                <legend>¿Cuál es tu rol?</legend>
+                <p class="tsl-questionnaire__desc">Elige la opción que mejor te describa.</p>
+                <div class="tsl-questionnaire__choices">
+                  <label class="tsl-choice"><input class="tsl-check" type="radio" name="rol" value="dev" /> Desarrollo</label>
+                  <label class="tsl-choice"><input class="tsl-check" type="radio" name="rol" value="design" /> Diseño</label>
+                  <label class="tsl-choice"><input class="tsl-check" type="radio" name="rol" value="otro" /> Otro</label>
+                </div>
+                <div class="tsl-questionnaire__error"></div>
+              </fieldset>
+              <fieldset class="tsl-questionnaire__item" data-when="rol=dev" data-name="stack">
+                <legend>¿Qué usas para construir interfaces?</legend>
+                <p class="tsl-questionnaire__desc">Opcional: puedes marcar varias u omitirla.</p>
+                <div class="tsl-questionnaire__choices">
+                  <label class="tsl-choice"><input class="tsl-check" type="checkbox" name="stack" value="react" /> React</label>
+                  <label class="tsl-choice"><input class="tsl-check" type="checkbox" name="stack" value="vue" /> Vue</label>
+                  <label class="tsl-choice"><input class="tsl-check" type="checkbox" name="stack" value="wc" /> Web Components</label>
+                </div>
+                <div class="tsl-questionnaire__error"></div>
+              </fieldset>
+              <fieldset class="tsl-questionnaire__item" data-name="comentario">
+                <legend>¿Algo más que quieras contarnos?</legend>
+                <div class="tsl-questionnaire__choices"><input class="tsl-input" type="text" name="comentario" placeholder="Escribe aquí…" aria-label="Comentario" /></div>
+                <div class="tsl-questionnaire__error"></div>
+              </fieldset>
+              <div class="tsl-questionnaire__actions">
+                <button type="button" class="tsl-btn" data-prev>Anterior</button>
+                <button type="button" class="tsl-btn tsl-btn--subtle" data-skip>Omitir</button>
+                <button type="button" class="tsl-btn tsl-btn--primary" data-next>Siguiente</button>
+                <button type="submit" class="tsl-btn tsl-btn--primary" data-submit>Enviar</button>
+              </div>
+            </form>
+          </tsl-questionnaire>
+        </template>
+        <script type="text/plain" data-doc-js>
+          document.querySelector("#demo-q").addEventListener("tsl-submit", (e) => {
+            TeselaUI.toast({ title: "Respuestas enviadas", description: JSON.stringify(e.detail.answers), variant: "success" });
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="prompt-input" data-group="Conversación" data-keywords="prompt entrada chat composer mensaje enviar detener adjuntar archivos modelo textarea ia asistente">
+        <h2><a href="#prompt-input">Entrada de prompt</a></h2>
+        <p><code>&lt;tsl-prompt-input&gt;</code> convierte un <code>&lt;form&gt;</code> con un <code>&lt;textarea&gt;</code> en la caja de un chat: crece con el texto, <kbd class="tsl-kbd">Enter</kbd> envía y <kbd class="tsl-kbd">Mayús</kbd>+<kbd class="tsl-kbd">Enter</kbd> salta de línea (sin cortar la composición de un IME). Los archivos llegan por el botón <code>[data-attach]</code>, pegándolos o arrastrándolos sobre la caja, y se validan con <code>accept</code>, <code>max-size</code> y <code>max-files</code>. Con <code>status="submitted"</code> el botón muestra espera y con <code>streaming</code> se convierte en «Detener» (<code>tsl-stop</code>). <code>tsl-submit</code> trae <code>text</code>, <code>files</code> y los demás campos del formulario, como el modelo elegido.</p>
+        <template>
+          <tsl-prompt-input id="demo-prompt" class="demo-max" accept="image/*,.pdf,.txt,.csv,.md" max-files="4" max-size="10MB">
+            <form>
+              <textarea name="prompt" placeholder="Pregunta lo que quieras…" aria-label="Mensaje para el asistente"></textarea>
+              <div class="tsl-prompt-input__toolbar">
+                <div class="tsl-prompt-input__tools">
+                  <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" data-attach aria-label="Adjuntar archivos" style="font-size:18px">+</button>
+                  <select class="tsl-select" name="modelo" aria-label="Modelo">
+                    <option value="rapido">Rápido</option>
+                    <option value="equilibrado" selected>Equilibrado</option>
+                    <option value="profundo">Profundo</option>
+                  </select>
+                </div>
+                <button type="submit" class="tsl-btn tsl-btn--primary" data-submit></button>
+              </div>
+            </form>
+          </tsl-prompt-input>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const prompt = document.querySelector("#demo-prompt");
+          let timer;
+          prompt.addEventListener("tsl-submit", (e) => {
+            const { text, files, values } = e.detail;
+            TeselaUI.toast({ title: `Enviado a «${values.modelo}»`, description: `${text || "(sin texto)"} · ${files.length} adjunto(s)` });
+            prompt.status = "submitted";
+            timer = setTimeout(() => {
+              prompt.status = "streaming";
+              timer = setTimeout(() => (prompt.status = "ready"), 2500);
+            }, 800);
+          });
+          prompt.addEventListener("tsl-stop", () => {
+            clearTimeout(timer);
+            prompt.status = "ready";
+            TeselaUI.toast({ title: "Respuesta detenida" });
+          });
+          prompt.addEventListener("tsl-error", (e) => TeselaUI.toast({ title: "Archivo rechazado", description: e.detail.message, variant: "error" }));
+        </script>
+      </section>
+
+      <section class="doc" id="suggestion" data-group="Conversación" data-keywords="sugerencias suggestion prompts ejemplo chips arranque conversación vacía">
+        <h2><a href="#suggestion">Sugerencias</a></h2>
+        <p><code>.tsl-suggestions</code> es una fila desplazable de <code>.tsl-suggestion</code> (<code>--wrap</code> la deja en varias líneas). Con <code>data-tsl-suggest="#id"</code> un botón rellena esa entrada de prompt con su texto (o con <code>data-value</code>) y la enfoca; con <code>data-send</code> además la envía.</p>
+        <template>
+          <div class="tsl-stack demo-max" style="--gap:10px">
+            <div class="tsl-suggestions" role="group" aria-label="Sugerencias">
+              <button type="button" class="tsl-suggestion" data-tsl-suggest="#demo-suggest-prompt">Resume este documento</button>
+              <button type="button" class="tsl-suggestion" data-tsl-suggest="#demo-suggest-prompt" data-value="Escribe una prueba para el componente de calendario">Escribe una prueba</button>
+              <button type="button" class="tsl-suggestion" data-tsl-suggest="#demo-suggest-prompt">Explica el contraste WCAG</button>
+              <button type="button" class="tsl-suggestion" data-tsl-suggest="#demo-suggest-prompt" data-send>¿Qué temas hay?</button>
+            </div>
+            <tsl-prompt-input id="demo-suggest-prompt">
+              <form>
+                <textarea name="prompt" placeholder="O escribe tu propia pregunta…" aria-label="Mensaje"></textarea>
+                <div class="tsl-prompt-input__toolbar"><button type="submit" class="tsl-btn tsl-btn--primary" data-submit></button></div>
+              </form>
+            </tsl-prompt-input>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          document.querySelector("#demo-suggest-prompt").addEventListener("tsl-submit", (e) => {
+            TeselaUI.toast({ title: "Enviado", description: e.detail.text, variant: "success" });
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="reasoning" data-group="Conversación" data-keywords="razonamiento reasoning pensando thinking cadena de pensamiento ia asistente plegable">
+        <h2><a href="#reasoning">Razonamiento</a></h2>
+        <p><code>&lt;tsl-reasoning&gt;</code> pliega el razonamiento de un asistente. Mientras tiene <code>streaming</code> se abre, anuncia «Pensando…» con brillo y cuenta los segundos; al quitarlo pasa a «Pensó durante N s», emite <code>tsl-complete</code> y se pliega tras <code>close-delay</code>, salvo que la persona lo haya abierto o cerrado a mano. <code>duration</code> sirve para razonamientos ya terminados y los textos se cambian con <code>thinking-label</code> y <code>done-label</code>.</p>
+        <template>
+          <div class="tsl-stack demo-max" style="--gap:14px">
+            <tsl-reasoning duration="12">
+              <p>La persona pide comparar los presets. Primero miro el contraste de cada uno en modo claro y oscuro.</p>
+              <p>«alto-contraste» llega a AAA en texto; el resto, a AA. Conviene mencionarlo primero.</p>
+            </tsl-reasoning>
+            <tsl-reasoning id="demo-reasoning" close-delay="1500">
+              <p id="demo-reasoning-text">Pulsa «Simular» para ver el razonamiento en curso.</p>
+            </tsl-reasoning>
+            <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--sm" id="demo-reasoning-run">Simular razonamiento</button></div>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const r = document.querySelector("#demo-reasoning");
+          const text = document.querySelector("#demo-reasoning-text");
+          const steps = ["Leo la pregunta y el código adjunto.", " El fallo aparece al cambiar de mes.", " Viene de comparar fechas como texto.", " Propongo usar toISO() en ambos lados."];
+          document.querySelector("#demo-reasoning-run").addEventListener("click", (e) => {
+            e.currentTarget.disabled = true;
+            text.textContent = "";
+            r.removeAttribute("duration");
+            r.setAttribute("streaming", "");
+            steps.forEach((s, i) => setTimeout(() => (text.textContent += s), 500 + i * 700));
+            setTimeout(() => {
+              r.removeAttribute("streaming");
+              e.target.disabled = false;
+            }, 3400);
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="sources" data-group="Conversación" data-keywords="fuentes citas citation sources referencias enlaces búsqueda web ia hovercard">
+        <h2><a href="#sources">Fuentes y citas</a></h2>
+        <p><code>.tsl-sources</code> es un <code>&lt;tsl-collapsible&gt;</code> con un disparador <code>.tsl-sources__trigger</code> y una lista de <code>.tsl-source</code> (icono o inicial, título que se trunca y dominio). <code>.tsl-citation</code> es la cita en línea dentro del texto; envuelta en <code>&lt;tsl-hovercard class="tsl-citation-card"&gt;</code> muestra al pasar o enfocar una tarjeta <code>.tsl-citation__panel</code> con dominio, título y fragmento citado. Escribe la tarjeta con <code>&lt;span&gt;</code>: así la cita puede ir dentro de un <code>&lt;p&gt;</code> sin que el navegador lo cierre antes de tiempo.</p>
+        <template>
+          <div class="tsl-stack demo-max" style="--gap:12px">
+            <tsl-collapsible class="tsl-sources">
+              <button type="button" class="tsl-sources__trigger" data-tsl-trigger>Usó 3 fuentes <span class="tsl-collapsible__chevron"></span></button>
+              <div class="tsl-collapsible__content">
+                <ul class="tsl-sources__list">
+                  <li><a class="tsl-source" href="#sources"><span class="tsl-source__icon" aria-hidden="true">W</span><span class="tsl-source__title">Web Content Accessibility Guidelines (WCAG) 2.2</span><span class="tsl-source__host">w3.org</span></a></li>
+                  <li><a class="tsl-source" href="#sources"><span class="tsl-source__icon" aria-hidden="true">M</span><span class="tsl-source__title">color-mix() — CSS: Cascading Style Sheets</span><span class="tsl-source__host">developer.mozilla.org</span></a></li>
+                  <li><a class="tsl-source" href="#sources"><span class="tsl-source__icon" aria-hidden="true">T</span><span class="tsl-source__title">Temas, presets y tokens de Tesela</span><span class="tsl-source__host">tesela.dev</span></a></li>
+                </ul>
+              </div>
+            </tsl-collapsible>
+            <div style="line-height:1.7">El texto normal debe tener un contraste mínimo de 4,5:1 frente al fondo<tsl-hovercard class="tsl-citation-card" open-delay="150"><a class="tsl-citation" href="#sources" data-tsl-trigger>w3.org</a><span class="tsl-popover__panel tsl-citation__panel"><span class="tsl-citation__host"><span class="tsl-source__icon" aria-hidden="true">W</span>w3.org</span><span class="tsl-citation__title">Understanding Success Criterion 1.4.3: Contrast (Minimum)</span><span class="tsl-citation__quote">The visual presentation of text has a contrast ratio of at least 4.5:1…</span></span></tsl-hovercard> y <code>color-mix()</code> permite derivar los tonos atenuados sin perderlo<tsl-hovercard class="tsl-citation-card" open-delay="150"><a class="tsl-citation" href="#sources" data-tsl-trigger>mdn +1</a><span class="tsl-popover__panel tsl-citation__panel"><span class="tsl-citation__host"><span class="tsl-source__icon" aria-hidden="true">M</span>developer.mozilla.org</span><span class="tsl-citation__title">color-mix()</span><span class="tsl-citation__quote">Takes two color values and returns the result of mixing them in a given colorspace.</span></span></tsl-hovercard>.</div>
+          </div>
+        </template>
+      </section>
+
+      <section class="doc" id="branch" data-group="Conversación" data-keywords="branch versiones respuestas regenerar alternativas editar mensaje anterior siguiente acciones copiar valorar">
+        <h2><a href="#branch">Versiones y acciones de un mensaje</a></h2>
+        <p><code>&lt;tsl-branch&gt;</code> guarda varias versiones de un mensaje (<code>.tsl-branch__item</code>), muestra una y añade el selector «‹ 2 de 3 ›» (dentro de un <code>.tsl-branch__selector</code> propio si lo pones, por ejemplo en el pie). Empieza en la última, da la vuelta en los extremos y, si llega una versión nueva, salta a ella. <code>.tsl-message__actions</code> agrupa copiar, repetir o valorar: aparecen al pasar por el mensaje o al llegar con el teclado, y en pantallas táctiles siempre (<code>--visible</code> las fija).</p>
+        <template>
+          <div class="tsl-message demo-max">
+            <span class="tsl-message__avatar"><span class="tsl-avatar">AS</span></span>
+            <div class="tsl-message__content">
+              <tsl-branch id="demo-branch">
+                <div class="tsl-branch__item"><div class="tsl-bubble">Puedes cambiar el acento con <code>TeselaUI.setAccent("#e5484d")</code>.</div></div>
+                <div class="tsl-branch__item"><div class="tsl-bubble">Usa <code>setAccent()</code>: recalcula el color del texto sobre el acento para que mantenga el contraste.</div></div>
+                <div class="tsl-message__footer tsl-row" style="--gap:4px">
+                  <div class="tsl-branch__selector"></div>
+                  <div class="tsl-message__actions">
+                    <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Copiar" data-tsl-copy="TeselaUI.setAccent()">⧉</button>
+                    <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Regenerar" id="demo-branch-retry">↻</button>
+                    <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Buena respuesta" aria-pressed="false" data-tsl-toggle>👍</button>
+                    <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Mala respuesta" aria-pressed="false" data-tsl-toggle>👎</button>
+                  </div>
+                </div>
+              </tsl-branch>
+            </div>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const branch = document.querySelector("#demo-branch");
+          let n = 2;
+          document.querySelector("#demo-branch-retry").addEventListener("click", () => {
+            n += 1;
+            const item = document.createElement("div");
+            item.className = "tsl-branch__item";
+            item.innerHTML = `<div class="tsl-bubble">Versión ${n}: <code>setAccent()</code> guarda el color y lo aplica también al recargar.</div>`;
+            branch.insertBefore(item, branch.querySelector(".tsl-message__footer"));
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="context" data-group="Conversación" data-keywords="contexto tokens ventana uso medidor coste modelo límite ia anillo">
+        <h2><a href="#context">Uso de contexto</a></h2>
+        <p><code>&lt;tsl-context&gt;</code> mide cuánto de la ventana de contexto se ha usado (<code>used</code> de <code>max</code>). El anillo muestra el porcentaje y, al pulsarlo, un panel con la barra (<code>role="meter"</code>), el desglose de <code>input</code>, <code>output</code>, <code>reasoning</code> y <code>cached</code> (solo las filas que reciba) y el coste en la moneda de <code>currency</code>. Desde el 75 % pasa a aviso y desde el 90 % a peligro. Las cifras se abrevian con el idioma de la página.</p>
+        <template>
+          <div class="tsl-stack demo-max" style="--gap:12px">
+            <div class="tsl-row" style="--gap:8px">
+              <tsl-context id="demo-context" model="Equilibrado" used="48200" max="200000" input="36000" output="9000" reasoning="3200" cached="12000" cost="0.0874"></tsl-context>
+              <tsl-context used="158000" max="200000"></tsl-context>
+              <tsl-context used="191500" max="200000" cost="1.92" currency="EUR"></tsl-context>
+            </div>
+            <div class="tsl-row"><button type="button" class="tsl-btn tsl-btn--sm" id="demo-context-add">+20 mil tokens</button></div>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const ctx = document.querySelector("#demo-context");
+          document.querySelector("#demo-context-add").addEventListener("click", () => {
+            const used = Math.min(200000, Number(ctx.getAttribute("used")) + 20000);
+            ctx.setAttribute("used", used);
+            ctx.setAttribute("output", Number(ctx.getAttribute("output")) + 20000);
+          });
+        </script>
+      </section>
+
       <section class="doc" id="layout" data-group="Diseño" data-keywords="stack row grid flex espaciado">
         <h2><a href="#layout">Utilidades de diseño</a></h2>
         <p><code>tsl-stack</code> (vertical), <code>tsl-row</code> (horizontal con wrap) y <code>tsl-grid</code> (auto-fit). Ajusta con <code>--gap</code> y <code>--min</code>; <code>tsl-spacer</code> empuja elementos.</p>
@@ -1686,6 +2273,31 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
               </ul>
             </div>
           </tsl-collapsible>
+        </template>
+      </section>
+
+      <section class="doc" id="carousel" data-group="Diseño" data-keywords="carousel carrusel slider galería diapositivas deslizar scroll snap autoplay">
+        <h2><a href="#carousel">Carrusel</a></h2>
+        <p><code>&lt;tsl-carousel&gt;</code> usa el desplazamiento nativo con <code>scroll-snap</code>: funciona con dedo, rueda y flechas (también Inicio/Fin). Añade solo los botones, los puntos (<code>dots</code>) y, con <code>autoplay="4000"</code>, un botón de pausa; el avance se detiene con el cursor, el foco o <code>prefers-reduced-motion</code>. <code>per-view</code> muestra varias a la vez, <code>loop</code> da la vuelta y <code>orientation="vertical"</code> cambia el eje. Las diapositivas fuera de vista son <code>inert</code>. Evento <code>tsl-change</code>.</p>
+        <template>
+          <div class="tsl-stack demo-max" style="--gap:22px">
+            <tsl-carousel id="demo-carousel" label="Novedades" dots>
+              <div class="tsl-carousel__track">
+                <div class="tsl-carousel__slide"><div class="tsl-card" style="padding:28px;min-height:120px"><div class="tsl-eyebrow">Novedad 1</div><h3>Barra lateral</h3><p class="tsl-muted">Modo de iconos y cajón en móvil.</p></div></div>
+                <div class="tsl-carousel__slide"><div class="tsl-card" style="padding:28px;min-height:120px"><div class="tsl-eyebrow">Novedad 2</div><h3>Grupo de radios</h3><p class="tsl-muted">Teclado completo y formularios.</p></div></div>
+                <div class="tsl-carousel__slide"><div class="tsl-card" style="padding:28px;min-height:120px"><div class="tsl-eyebrow">Novedad 3</div><h3>Carrusel</h3><p class="tsl-muted">Scroll-snap nativo.</p><button type="button" class="tsl-btn tsl-btn--sm">Ver más</button></div></div>
+                <div class="tsl-carousel__slide"><div class="tsl-card" style="padding:28px;min-height:120px"><div class="tsl-eyebrow">Novedad 4</div><h3>Diseño adaptable</h3><p class="tsl-muted">De 320 a 2560 px.</p></div></div>
+              </div>
+            </tsl-carousel>
+            <tsl-carousel id="demo-carousel-multi" label="Etiquetas" per-view="2" loop autoplay="4000">
+              <div class="tsl-carousel__track">
+                <div class="tsl-carousel__slide"><div class="tsl-card" style="padding:18px">Ligero</div></div>
+                <div class="tsl-carousel__slide"><div class="tsl-card" style="padding:18px">Accesible</div></div>
+                <div class="tsl-carousel__slide"><div class="tsl-card" style="padding:18px">Sin dependencias</div></div>
+                <div class="tsl-carousel__slide"><div class="tsl-card" style="padding:18px">En español</div></div>
+              </div>
+            </tsl-carousel>
+          </div>
         </template>
       </section>
 
@@ -1747,53 +2359,792 @@ TeselaUI.setAccent(null);         // vuelve al acento del preset</code></pre>
       </section>
 
       <!-- ================================================================ Patrones -->
-      <section class="doc" id="pattern-login" data-group="Patrones" data-keywords="login signin auth formulario ejemplo">
-        <h2><a href="#pattern-login">Inicio de sesión</a></h2>
-        <p>Ejemplo de composición: card + fields + divider + botones.</p>
+      <section class="doc" id="pattern-dashboard" data-group="Patrones" data-keywords="dashboard panel de control analítica kpi métricas gráficas tabla pedidos admin app shell">
+        <h2><a href="#pattern-dashboard">Panel de control</a></h2>
+        <p>Barra lateral con modo de iconos, barra superior con migas y búsqueda, métricas con minigráfico, gráficas de área y dona, y la tabla de pedidos. El periodo (<code>tsl-segmented</code>) recalcula todo. <code>.tsl-dashboard</code> convierte la zona de contenido en contenedor: las métricas pasan de cuatro a dos columnas y las gráficas se apilan según el ancho del propio panel, no el de la ventana.</p>
         <template>
-          <form class="tsl-card" style="max-width:360px" onsubmit="return false">
-            <div class="tsl-card__header">
-              <span class="tsl-eyebrow">Acme S.A.</span>
-              <h3 class="tsl-card__title" style="margin-top:8px">Inicia sesión en tu espacio de trabajo</h3>
-            </div>
-            <div class="tsl-card__body tsl-stack">
-              <label class="tsl-field"><span class="tsl-label">Correo electrónico</span><input class="tsl-input" type="email" placeholder="tu@empresa.com" /></label>
-              <label class="tsl-field"><span class="tsl-label">Contraseña</span><input class="tsl-input" type="password" /></label>
-              <label class="tsl-choice"><input type="checkbox" class="tsl-check" /> Recuérdame</label>
-              <button type="submit" class="tsl-btn tsl-btn--primary tsl-btn--block">Iniciar sesión</button>
-              <div class="tsl-divider">o</div>
-              <button type="button" class="tsl-btn tsl-btn--block">Continuar con SSO</button>
-            </div>
-          </form>
-        </template>
-      </section>
-
-      <section class="doc" id="pattern-settings" data-group="Patrones" data-keywords="settings ajustes preferencias ejemplo">
-        <h2><a href="#pattern-settings">Panel de ajustes</a></h2>
-        <p>Tabs + lista + switches + acciones.</p>
-        <template>
-          <div class="tsl-card demo-wide">
-            <div class="tsl-card__body">
-              <tsl-tabs>
-                <div class="tsl-tabs__list">
-                  <button class="tsl-tabs__tab" data-tab="notif">Notificaciones</button>
-                  <button class="tsl-tabs__tab" data-tab="security">Seguridad</button>
-                </div>
-                <div class="tsl-tabs__panel" data-panel="notif">
-                  <ul class="tsl-list">
-                    <li><div><div class="tsl-list__title">Resumen por correo</div><div class="tsl-list__desc">Resumen semanal cada lunes</div></div><div class="tsl-list__end"><input type="checkbox" role="switch" class="tsl-switch" checked aria-label="Resumen por correo" /></div></li>
-                    <li><div><div class="tsl-list__title">Menciones</div><div class="tsl-list__desc">Cuando alguien te @menciona</div></div><div class="tsl-list__end"><input type="checkbox" role="switch" class="tsl-switch" checked aria-label="Menciones" /></div></li>
+          <div class="tsl-sidebar-layout tsl-dashboard" style="width:100%;height:760px;border:1px solid var(--tsl-border);border-radius:var(--tsl-radius)">
+            <tsl-sidebar id="dash-sidebar" collapsible="icon" breakpoint="600" label="Navegación del panel">
+              <div class="tsl-sidebar__header"><span class="tsl-avatar tsl-avatar--sm" aria-hidden="true">A</span><strong class="tsl-sidebar__hide-rail">Acme</strong></div>
+              <div class="tsl-sidebar__content">
+                <div class="tsl-sidebar__group">
+                  <div class="tsl-sidebar__label">Tienda</div>
+                  <ul class="tsl-sidebar__menu">
+                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard" aria-current="page"><span class="tsl-sidebar__icon" aria-hidden="true">◧</span><span class="tsl-sidebar__text">Resumen</span></a></li>
+                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard"><span class="tsl-sidebar__icon" aria-hidden="true">▤</span><span class="tsl-sidebar__text">Pedidos</span><span class="tsl-badge tsl-sidebar__badge">12</span></a></li>
+                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard"><span class="tsl-sidebar__icon" aria-hidden="true">◎</span><span class="tsl-sidebar__text">Clientes</span></a></li>
+                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard"><span class="tsl-sidebar__icon" aria-hidden="true">▣</span><span class="tsl-sidebar__text">Productos</span></a></li>
                   </ul>
                 </div>
-                <div class="tsl-tabs__panel" data-panel="security">
-                  <div class="tsl-alert tsl-alert--warning"><div><div class="tsl-alert__title">2FA desactivada</div><div class="tsl-alert__desc">Activa la autenticación de dos factores para proteger tu cuenta.</div></div></div>
+                <div class="tsl-sidebar__group">
+                  <div class="tsl-sidebar__label">Análisis</div>
+                  <ul class="tsl-sidebar__menu">
+                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard"><span class="tsl-sidebar__icon" aria-hidden="true">◔</span><span class="tsl-sidebar__text">Informes</span></a></li>
+                    <li><a class="tsl-sidebar__item" href="#pattern-dashboard"><span class="tsl-sidebar__icon" aria-hidden="true">⚙</span><span class="tsl-sidebar__text">Ajustes</span></a></li>
+                  </ul>
                 </div>
-              </tsl-tabs>
+              </div>
+              <div class="tsl-sidebar__footer"><span class="tsl-avatar tsl-avatar--sm" aria-hidden="true">LI</span><span class="tsl-muted tsl-sidebar__hide-rail">Luis Islas</span></div>
+            </tsl-sidebar>
+            <div class="tsl-sidebar-inset">
+              <div class="tsl-sidebar-inset__bar">
+                <button type="button" class="tsl-btn tsl-btn--sm tsl-btn--icon tsl-btn--subtle" data-tsl-sidebar-toggle aria-label="Alternar barra lateral">☰</button>
+                <nav aria-label="Migas de pan"><ol class="tsl-breadcrumb"><li><a href="#pattern-dashboard">Acme</a></li><li><span aria-current="page">Resumen</span></li></ol></nav>
+                <div class="tsl-input-group tsl-dashboard__search">
+                  <span class="tsl-input-group__addon" aria-hidden="true">⌕</span>
+                  <input class="tsl-input" type="search" placeholder="Buscar pedidos…" aria-label="Buscar pedidos" id="dash-search" />
+                </div>
+              </div>
+              <div class="tsl-dashboard__body">
+                <div class="tsl-dashboard__head">
+                  <div><h3>Resumen</h3><p id="dash-range-desc">Últimos 30 días comparados con los 30 anteriores</p></div>
+                  <tsl-segmented id="dash-range" value="30d" aria-label="Periodo">
+                    <button class="tsl-segmented__item" value="7d">7 días</button>
+                    <button class="tsl-segmented__item" value="30d">30 días</button>
+                    <button class="tsl-segmented__item" value="12m">12 meses</button>
+                  </tsl-segmented>
+                </div>
+                <div class="tsl-dashboard__kpis" id="dash-kpis"></div>
+                <div class="tsl-dashboard__charts">
+                  <div class="tsl-dashboard__panel">
+                    <h4 class="tsl-dashboard__panel-title">Ingresos <small id="dash-total"></small></h4>
+                    <tsl-chart id="dash-revenue" type="area" smooth prefix="$" aria-label="Ingresos del periodo frente al anterior" height="220"></tsl-chart>
+                  </div>
+                  <div class="tsl-dashboard__panel">
+                    <h4 class="tsl-dashboard__panel-title">Canales</h4>
+                    <tsl-chart id="dash-channels" type="donut" aria-label="Pedidos por canal" height="220"></tsl-chart>
+                  </div>
+                </div>
+                <div class="tsl-dashboard__panel">
+                  <h4 class="tsl-dashboard__panel-title">Pedidos recientes <small id="dash-orders-count"></small></h4>
+                  <tsl-data-table id="dash-orders" page-size="5" caption="Pedidos recientes" empty-text="Ningún pedido coincide" locale="es"></tsl-data-table>
+                </div>
+              </div>
             </div>
-            <div class="tsl-card__footer"><button type="button" class="tsl-btn tsl-btn--sm">Restablecer</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--primary">Guardar cambios</button></div>
           </div>
         </template>
+        <script type="text/plain" data-doc-js>
+          const periodos = {
+            "7d": { desc: "Últimos 7 días comparados con los 7 anteriores", labels: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"], escala: 1 },
+            "30d": { desc: "Últimos 30 días comparados con los 30 anteriores", labels: Array.from({ length: 10 }, (_, i) => `${i * 3 + 1} oct`), escala: 4.2 },
+            "12m": { desc: "Últimos 12 meses comparados con los 12 anteriores", labels: ["Nov", "Dic", "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct"], escala: 51 }
+          };
+          // Serie determinista: misma forma cada vez, distinta por periodo
+          const serie = (n, base, semilla) => Array.from({ length: n }, (_, i) => Math.round(base * (1 + 0.35 * Math.sin(i * 0.9 + semilla) + i * 0.04)));
+          const dinero = (v) => `$${Math.round(v).toLocaleString("es")}`;
+          const kpis = document.querySelector("#dash-kpis");
+          const ingresos = document.querySelector("#dash-revenue");
+          const canales = document.querySelector("#dash-channels");
+          const tabla = document.querySelector("#dash-orders");
+
+          function pintar(clave) {
+            const p = periodos[clave];
+            const actual = serie(p.labels.length, 1800 * p.escala, clave.length);
+            const anterior = serie(p.labels.length, 1550 * p.escala, clave.length + 1.3);
+            const total = actual.reduce((a, b) => a + b, 0);
+            const totalAnt = anterior.reduce((a, b) => a + b, 0);
+            const pedidos = Math.round(total / 64);
+            const delta = (a, b) => ((a - b) / b) * 100;
+            const metricas = [
+              { titulo: "Ingresos", valor: dinero(total), cambio: delta(total, totalAnt), puntos: actual },
+              { titulo: "Pedidos", valor: pedidos.toLocaleString("es"), cambio: delta(pedidos, Math.round(totalAnt / 66)), puntos: actual.map((v) => v / 64) },
+              { titulo: "Ticket medio", valor: dinero(total / pedidos), cambio: -2.4, puntos: actual.map((v, i) => 60 + Math.sin(i) * 4) },
+              { titulo: "Conversión", valor: "3,8 %", cambio: 0.6, puntos: actual.map((v, i) => 3.4 + Math.cos(i * 0.7) * 0.3) }
+            ];
+            kpis.innerHTML = metricas.map((m) => `
+              <div class="tsl-stat tsl-dashboard__panel">
+                <span class="tsl-eyebrow">${m.titulo}</span>
+                <span class="tsl-stat__value">${m.valor}</span>
+                <tsl-sparkline values="${m.puntos.map((v) => v.toFixed(2)).join(" ")}" fill style="--w:100%${m.cambio < 0 ? ";color:var(--tsl-danger)" : ""}"></tsl-sparkline>
+                <span class="tsl-stat__delta ${m.cambio < 0 ? "is-down" : "is-up"}">${m.cambio > 0 ? "+" : ""}${m.cambio.toFixed(1).replace(".", ",")} % vs. anterior</span>
+              </div>`).join("");
+            ingresos.data = { labels: p.labels, series: [{ name: "Este periodo", values: actual }, { name: "Periodo anterior", values: anterior }] };
+            canales.data = { segments: [
+              { label: "Web", value: Math.round(pedidos * 0.52) }, { label: "App", value: Math.round(pedidos * 0.31) },
+              { label: "Tienda física", value: Math.round(pedidos * 0.12) }, { label: "Mayoristas", value: Math.round(pedidos * 0.05) }
+            ] };
+            document.querySelector("#dash-range-desc").textContent = p.desc;
+            document.querySelector("#dash-total").textContent = `${dinero(total)} en total`;
+          }
+
+          const clientes = ["Acme", "Globex", "Initech", "Umbrella", "Hooli", "Stark", "Wayne", "Wonka"];
+          const estados = { Pagado: "success", Pendiente: "warning", Enviado: "info", Reembolsado: "danger" };
+          tabla.columns = [
+            { key: "id", label: "Pedido", sort: "text", width: "110px" },
+            { key: "cliente", label: "Cliente", sort: "text" },
+            { key: "estado", label: "Estado", sort: "text", render: (r) => { const b = document.createElement("span"); b.className = `tsl-badge tsl-badge--${estados[r.estado]}`; b.textContent = r.estado; return b; } },
+            { key: "total", label: "Total", sort: "number", align: "end", format: (v) => `$${v.toLocaleString("es", { minimumFractionDigits: 2 })}` }
+          ];
+          const filas = Array.from({ length: 24 }, (_, i) => ({
+            id: `PED-${2400 - i}`,
+            cliente: clientes[(i * 5) % clientes.length],
+            estado: Object.keys(estados)[(i * 3 + 1) % 4],
+            total: Math.round(((i * 7919) % 42000) + 1800) / 100
+          }));
+          tabla.rows = filas;
+          const contar = (n) => (document.querySelector("#dash-orders-count").textContent = `${n} pedidos`);
+          contar(filas.length);
+          // La búsqueda de la barra superior filtra la tabla
+          document.querySelector("#dash-search").addEventListener("input", (e) => {
+            const q = e.target.value.trim().toLowerCase();
+            const visibles = filas.filter((f) => !q || `${f.id} ${f.cliente} ${f.estado}`.toLowerCase().includes(q));
+            tabla.rows = visibles;
+            contar(visibles.length);
+          });
+          document.querySelector("#dash-range").addEventListener("tsl-change", (e) => pintar(e.detail.value));
+          pintar("30d");
+        </script>
       </section>
+
+      <section class="doc" id="pattern-auth" data-group="Patrones" data-keywords="login signin registro signup autenticación auth contraseña verificación otp recuperar olvidé sso">
+        <h2><a href="#pattern-auth">Autenticación</a></h2>
+        <p>Entrar, crear cuenta, verificar el correo con un código y recuperar la contraseña en un solo bloque. <code>.tsl-auth</code> pone a un lado la presentación y al otro una vista (<code>.tsl-auth__view</code>) cada vez; cuando el bloque es estrecho la presentación desaparece. Los errores se muestran junto a cada campo con <code>aria-invalid</code> y <code>aria-describedby</code>, y al cambiar de vista el foco va a su título. En la demostración, cualquier código de 6 cifras salvo 000000 es válido.</p>
+        <template>
+          <div class="tsl-auth demo-wide" id="auth">
+            <div class="tsl-auth__grid">
+              <aside class="tsl-auth__aside">
+                <div class="tsl-auth__brand"><span class="tsl-avatar tsl-avatar--sm" aria-hidden="true">A</span>Acme</div>
+                <div>
+                  <p class="tsl-auth__pitch">Todo el trabajo de tu equipo, en un solo lugar.</p>
+                  <ul class="tsl-auth__points">
+                    <li>Proyectos, documentos y tareas conectados</li>
+                    <li>Permisos por equipo y registro de cambios</li>
+                    <li>Inicio de sesión único con tu proveedor</li>
+                  </ul>
+                </div>
+                <span class="tsl-hint">© Acme · Privacidad · Condiciones</span>
+              </aside>
+              <div class="tsl-auth__main">
+                <form class="tsl-auth__view" data-view="entrar" novalidate>
+                  <h3 class="tsl-auth__title" tabindex="-1">Inicia sesión</h3>
+                  <p class="tsl-auth__desc">Usa tu correo de trabajo.</p>
+                  <div class="tsl-field"><label class="tsl-label" for="auth-email">Correo electrónico</label><input class="tsl-input" id="auth-email" type="email" name="email" required autocomplete="email" placeholder="tu@empresa.com" /><span class="tsl-error" id="auth-email-err"></span></div>
+                  <div class="tsl-field"><label class="tsl-label" for="auth-pass">Contraseña</label><tsl-password><input id="auth-pass" name="clave" required minlength="8" autocomplete="current-password" /></tsl-password><span class="tsl-error" id="auth-pass-err"></span></div>
+                  <div class="tsl-auth__inline">
+                    <label class="tsl-choice"><input class="tsl-check" type="checkbox" name="recordar" /> Recuérdame</label>
+                    <button type="button" class="tsl-link" data-go="recuperar">¿Olvidaste tu contraseña?</button>
+                  </div>
+                  <button type="submit" class="tsl-btn tsl-btn--primary tsl-btn--block">Iniciar sesión</button>
+                  <div class="tsl-divider">o</div>
+                  <div class="tsl-auth__providers">
+                    <button type="button" class="tsl-btn" data-sso="Google">Google</button>
+                    <button type="button" class="tsl-btn" data-sso="GitHub">GitHub</button>
+                  </div>
+                  <p class="tsl-auth__foot">¿No tienes cuenta? <button type="button" class="tsl-link" data-go="registro">Crear cuenta</button></p>
+                </form>
+
+                <form class="tsl-auth__view" data-view="registro" novalidate hidden>
+                  <h3 class="tsl-auth__title" tabindex="-1">Crea tu cuenta</h3>
+                  <p class="tsl-auth__desc">Gratis durante 14 días, sin tarjeta.</p>
+                  <div class="tsl-field"><label class="tsl-label" for="reg-name">Nombre</label><input class="tsl-input" id="reg-name" name="nombre" required minlength="2" autocomplete="name" /><span class="tsl-error" id="reg-name-err"></span></div>
+                  <div class="tsl-field"><label class="tsl-label" for="reg-email">Correo electrónico</label><input class="tsl-input" id="reg-email" type="email" name="email" required autocomplete="email" placeholder="tu@empresa.com" /><span class="tsl-error" id="reg-email-err"></span></div>
+                  <div class="tsl-field"><label class="tsl-label" for="reg-pass">Contraseña</label><tsl-password meter min-length="10"><input id="reg-pass" name="clave" required minlength="10" autocomplete="new-password" placeholder="Mínimo 10 caracteres" /></tsl-password><span class="tsl-error" id="reg-pass-err"></span></div>
+                  <div class="tsl-field"><label class="tsl-choice"><input class="tsl-check" id="reg-terms" type="checkbox" name="condiciones" required /> Acepto las condiciones y la política de privacidad</label><span class="tsl-error" id="reg-terms-err"></span></div>
+                  <button type="submit" class="tsl-btn tsl-btn--primary tsl-btn--block">Crear cuenta</button>
+                  <p class="tsl-auth__foot">¿Ya tienes cuenta? <button type="button" class="tsl-link" data-go="entrar">Inicia sesión</button></p>
+                </form>
+
+                <form class="tsl-auth__view" data-view="verificar" novalidate hidden>
+                  <h3 class="tsl-auth__title" tabindex="-1">Revisa tu correo</h3>
+                  <p class="tsl-auth__desc">Enviamos un código de 6 cifras a <strong data-email>tu correo</strong>.</p>
+                  <div class="tsl-field"><span class="tsl-label" id="auth-otp-label">Código de verificación</span><tsl-otp id="auth-otp" length="6" name="codigo" aria-labelledby="auth-otp-label"></tsl-otp><span class="tsl-error" id="auth-otp-err" role="alert"></span></div>
+                  <button type="submit" class="tsl-btn tsl-btn--primary tsl-btn--block">Verificar</button>
+                  <p class="tsl-auth__foot">¿No te llegó? <button type="button" class="tsl-link" id="auth-resend" disabled>Reenviar en 30 s</button></p>
+                  <p class="tsl-auth__foot"><button type="button" class="tsl-link" data-go="registro">← Cambiar el correo</button></p>
+                </form>
+
+                <form class="tsl-auth__view" data-view="recuperar" novalidate hidden>
+                  <h3 class="tsl-auth__title" tabindex="-1">Recupera tu contraseña</h3>
+                  <p class="tsl-auth__desc">Te enviaremos un enlace para elegir una nueva.</p>
+                  <div class="tsl-field"><label class="tsl-label" for="rec-email">Correo electrónico</label><input class="tsl-input" id="rec-email" type="email" name="email" required autocomplete="email" placeholder="tu@empresa.com" /><span class="tsl-error" id="rec-email-err"></span></div>
+                  <button type="submit" class="tsl-btn tsl-btn--primary tsl-btn--block">Enviar enlace</button>
+                  <p class="tsl-auth__foot"><button type="button" class="tsl-link" data-go="entrar">← Volver a iniciar sesión</button></p>
+                </form>
+
+                <div class="tsl-auth__view" data-view="listo" hidden>
+                  <div class="tsl-empty">
+                    <div class="tsl-empty__icon" aria-hidden="true">✓</div>
+                    <h3 class="tsl-auth__title tsl-empty__title" tabindex="-1" data-done-title>Todo listo</h3>
+                    <p class="tsl-empty__desc" data-done-desc></p>
+                    <div class="tsl-row" style="justify-content:center;margin-top:6px"><button type="button" class="tsl-btn" data-go="entrar">Volver al inicio</button></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const auth = document.querySelector("#auth");
+          const vistas = auth.querySelectorAll(".tsl-auth__view");
+          let reloj;
+
+          function ir(nombre) {
+            vistas.forEach((v) => (v.hidden = v.dataset.view !== nombre));
+            const vista = auth.querySelector(`[data-view="${nombre}"]`);
+            vista.querySelector(".tsl-auth__title").focus();
+          }
+
+          // Mensaje junto a cada campo inválido; devuelve true si todo está bien
+          function validar(form) {
+            let primero = null;
+            form.querySelectorAll("input[required]").forEach((input) => {
+              const error = document.getElementById(`${input.id}-err`);
+              const mal = !input.checkValidity();
+              input.setAttribute("aria-invalid", String(mal));
+              if (error) {
+                error.textContent = mal ? (input.type === "checkbox" ? "Debes aceptarlas para continuar." : input.validationMessage) : "";
+                input.setAttribute("aria-describedby", error.id);
+              }
+              if (mal && !primero) primero = input;
+            });
+            if (primero) primero.focus();
+            return !primero;
+          }
+
+          function terminar(titulo, texto) {
+            auth.querySelector("[data-done-title]").textContent = titulo;
+            auth.querySelector("[data-done-desc]").textContent = texto;
+            ir("listo");
+          }
+
+          function cuentaAtras() {
+            const boton = auth.querySelector("#auth-resend");
+            let s = 30;
+            clearInterval(reloj);
+            boton.disabled = true;
+            boton.textContent = `Reenviar en ${s} s`;
+            reloj = setInterval(() => {
+              s -= 1;
+              boton.textContent = s > 0 ? `Reenviar en ${s} s` : "Reenviar el código";
+              if (s <= 0) {
+                clearInterval(reloj);
+                boton.disabled = false;
+              }
+            }, 1000);
+          }
+
+          auth.addEventListener("click", (e) => {
+            const destino = e.target.closest("[data-go]");
+            if (destino) ir(destino.dataset.go);
+            const sso = e.target.closest("[data-sso]");
+            if (sso) TeselaUI.toast({ title: `Redirigiendo a ${sso.dataset.sso}…` });
+          });
+          auth.addEventListener("input", (e) => {
+            if (e.target.getAttribute("aria-invalid") === "true" && e.target.checkValidity()) {
+              e.target.setAttribute("aria-invalid", "false");
+              const error = document.getElementById(`${e.target.id}-err`);
+              if (error) error.textContent = "";
+            }
+          });
+
+          auth.querySelector('[data-view="entrar"]').addEventListener("submit", (e) => {
+            e.preventDefault();
+            if (validar(e.target)) TeselaUI.toast({ title: "Sesión iniciada", description: e.target.email.value, variant: "success" });
+          });
+          auth.querySelector('[data-view="registro"]').addEventListener("submit", (e) => {
+            e.preventDefault();
+            if (!validar(e.target)) return;
+            auth.querySelector("[data-email]").textContent = e.target.email.value;
+            auth.querySelector("#auth-otp").clear();
+            cuentaAtras();
+            ir("verificar");
+          });
+          auth.querySelector("#auth-resend").addEventListener("click", () => {
+            TeselaUI.toast({ title: "Código reenviado" });
+            cuentaAtras();
+          });
+          const verificar = auth.querySelector('[data-view="verificar"]');
+          const otp = auth.querySelector("#auth-otp");
+          const comprobar = () => {
+            const error = auth.querySelector("#auth-otp-err");
+            if (otp.value.length < 6) error.textContent = "Escribe las 6 cifras del código.";
+            else if (otp.value === "000000") error.textContent = "El código no es correcto o ha caducado.";
+            else {
+              error.textContent = "";
+              clearInterval(reloj);
+              return terminar("Correo verificado", "Tu cuenta está lista. Ya puedes iniciar sesión.");
+            }
+            otp.querySelector("input").focus();
+          };
+          verificar.addEventListener("submit", (e) => {
+            e.preventDefault();
+            comprobar();
+          });
+          otp.addEventListener("tsl-complete", comprobar);
+          auth.querySelector('[data-view="recuperar"]').addEventListener("submit", (e) => {
+            e.preventDefault();
+            if (validar(e.target)) terminar("Revisa tu correo", `Si ${e.target.email.value} tiene una cuenta, recibirás un enlace en unos minutos.`);
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="pattern-settings" data-group="Patrones" data-keywords="settings ajustes preferencias perfil cuenta notificaciones seguridad facturación barra lateral cambios sin guardar">
+        <h2><a href="#pattern-settings">Ajustes con navegación lateral</a></h2>
+        <p><code>.tsl-settings</code> pone las secciones en una navegación lateral (<code>.tsl-nav</code> con <code>aria-current</code>) y cada sección en filas <code>.tsl-settings__row</code>: título y explicación a un lado, control al otro. Al tocar cualquier campo aparece <code>.tsl-savebar</code> con Guardar y Descartar (que restablece el formulario); la zona de peligro pide confirmación. En un contenedor estrecho la navegación pasa a ser una fila desplazable y las filas se apilan.</p>
+        <template>
+          <div class="tsl-settings demo-wide" id="settings">
+            <div class="tsl-settings__grid">
+              <div class="tsl-settings__nav">
+                <nav class="tsl-nav" aria-label="Secciones de ajustes">
+                  <a class="tsl-nav__item" href="#ajustes-perfil" aria-current="page">Perfil</a>
+                  <a class="tsl-nav__item" href="#ajustes-notificaciones">Notificaciones</a>
+                  <a class="tsl-nav__item" href="#ajustes-seguridad">Seguridad</a>
+                  <a class="tsl-nav__item" href="#ajustes-cuenta">Cuenta</a>
+                </nav>
+              </div>
+              <form class="tsl-settings__main" id="settings-form" novalidate>
+                <section class="tsl-settings__panel" id="ajustes-perfil" aria-labelledby="ajustes-perfil-t">
+                  <div class="tsl-settings__head"><h3 id="ajustes-perfil-t" tabindex="-1">Perfil</h3><p>Así te ven las demás personas del espacio.</p></div>
+                  <div class="tsl-settings__row">
+                    <div><div class="tsl-settings__row-title">Foto</div><div class="tsl-settings__row-desc">Cuadrada, de al menos 256 px.</div></div>
+                    <div class="tsl-settings__control tsl-settings__control--inline"><span class="tsl-avatar tsl-avatar--lg" aria-hidden="true">LI</span><button type="button" class="tsl-btn tsl-btn--sm">Cambiar</button><button type="button" class="tsl-btn tsl-btn--sm tsl-btn--subtle">Quitar</button></div>
+                  </div>
+                  <div class="tsl-settings__row">
+                    <label for="set-name"><div class="tsl-settings__row-title">Nombre visible</div><div class="tsl-settings__row-desc">Aparece en comentarios y menciones.</div></label>
+                    <div class="tsl-settings__control"><input class="tsl-input" id="set-name" name="nombre" value="Luis Islas" autocomplete="name" /></div>
+                  </div>
+                  <div class="tsl-settings__row">
+                    <label for="set-bio"><div class="tsl-settings__row-title">Biografía</div><div class="tsl-settings__row-desc">Una o dos frases.</div></label>
+                    <div class="tsl-settings__control"><textarea class="tsl-textarea" id="set-bio" name="bio" data-tsl-autosize data-max-rows="6" data-tsl-count="#set-bio-count" maxlength="160">Diseño sistemas de interfaz.</textarea><span class="tsl-hint" id="set-bio-count"></span></div>
+                  </div>
+                  <div class="tsl-settings__row">
+                    <div><div class="tsl-settings__row-title" id="set-tz-l">Zona horaria</div><div class="tsl-settings__row-desc">Para fechas y recordatorios.</div></div>
+                    <div class="tsl-settings__control"><tsl-select name="zona" value="mx" label="Zona horaria"><option value="mx">Ciudad de México (UTC−6)</option><option value="mad">Madrid (UTC+1)</option><option value="bog">Bogotá (UTC−5)</option><option value="bue">Buenos Aires (UTC−3)</option></tsl-select></div>
+                  </div>
+                </section>
+
+                <section class="tsl-settings__panel" id="ajustes-notificaciones" aria-labelledby="ajustes-notificaciones-t" hidden>
+                  <div class="tsl-settings__head"><h3 id="ajustes-notificaciones-t" tabindex="-1">Notificaciones</h3><p>Elige qué te avisa y por dónde.</p></div>
+                  <div class="tsl-settings__row">
+                    <div><div class="tsl-settings__row-title">Por correo</div><div class="tsl-settings__row-desc">Nunca más de un correo por hora.</div></div>
+                    <div class="tsl-settings__control">
+                      <label class="tsl-choice"><input type="checkbox" role="switch" class="tsl-switch" name="n-menciones" checked /> Menciones y respuestas</label>
+                      <label class="tsl-choice"><input type="checkbox" role="switch" class="tsl-switch" name="n-resumen" checked /> Resumen semanal</label>
+                      <label class="tsl-choice"><input type="checkbox" role="switch" class="tsl-switch" name="n-novedades" /> Novedades del producto</label>
+                    </div>
+                  </div>
+                  <div class="tsl-settings__row">
+                    <div><div class="tsl-settings__row-title" id="set-push-l">En el navegador</div><div class="tsl-settings__row-desc">Mientras tengas la aplicación abierta.</div></div>
+                    <div class="tsl-settings__control">
+                      <div class="tsl-stack" style="--gap:6px" role="radiogroup" aria-labelledby="set-push-l">
+                        <label class="tsl-choice"><input class="tsl-check" type="radio" name="push" value="todo" /> Todo</label>
+                        <label class="tsl-choice"><input class="tsl-check" type="radio" name="push" value="directo" checked /> Solo mensajes directos y menciones</label>
+                        <label class="tsl-choice"><input class="tsl-check" type="radio" name="push" value="nada" /> Nada</label>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="tsl-settings__panel" id="ajustes-seguridad" aria-labelledby="ajustes-seguridad-t" hidden>
+                  <div class="tsl-settings__head"><h3 id="ajustes-seguridad-t" tabindex="-1">Seguridad</h3><p>Protege el acceso a tu cuenta.</p></div>
+                  <div class="tsl-settings__row">
+                    <div><div class="tsl-settings__row-title">Verificación en dos pasos</div><div class="tsl-settings__row-desc">Pide un código además de la contraseña.</div></div>
+                    <div class="tsl-settings__control"><label class="tsl-choice"><input type="checkbox" role="switch" class="tsl-switch" name="dos-pasos" id="set-2fa" /> Activada</label><div class="tsl-alert tsl-alert--warning" id="set-2fa-alert"><div><div class="tsl-alert__title">Desactivada</div><div class="tsl-alert__desc">Recomendamos activarla en cuentas con permisos de administración.</div></div></div></div>
+                  </div>
+                  <div class="tsl-settings__row">
+                    <div><div class="tsl-settings__row-title">Sesiones abiertas</div><div class="tsl-settings__row-desc">Cierra las que no reconozcas.</div></div>
+                    <div class="tsl-settings__control">
+                      <ul class="tsl-list" id="set-sessions">
+                        <li><div><div class="tsl-list__title">Firefox · Linux</div><div class="tsl-list__desc">Ciudad de México · esta sesión</div></div></li>
+                        <li><div><div class="tsl-list__title">Safari · iPhone</div><div class="tsl-list__desc">Ciudad de México · hace 2 h</div></div><div class="tsl-list__end"><button type="button" class="tsl-btn tsl-btn--sm" data-close-session>Cerrar</button></div></li>
+                        <li><div><div class="tsl-list__title">Chrome · Windows</div><div class="tsl-list__desc">Guadalajara · hace 6 días</div></div><div class="tsl-list__end"><button type="button" class="tsl-btn tsl-btn--sm" data-close-session>Cerrar</button></div></li>
+                      </ul>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="tsl-settings__panel" id="ajustes-cuenta" aria-labelledby="ajustes-cuenta-t" hidden>
+                  <div class="tsl-settings__head"><h3 id="ajustes-cuenta-t" tabindex="-1">Cuenta</h3><p>Datos de acceso e idioma.</p></div>
+                  <div class="tsl-settings__row">
+                    <label for="set-email"><div class="tsl-settings__row-title">Correo</div><div class="tsl-settings__row-desc">Recibirás un enlace para confirmar el cambio.</div></label>
+                    <div class="tsl-settings__control"><input class="tsl-input" id="set-email" type="email" name="email" value="luis@acme.example" autocomplete="email" /></div>
+                  </div>
+                  <div class="tsl-settings__row">
+                    <div><div class="tsl-settings__row-title">Idioma</div><div class="tsl-settings__row-desc">De la interfaz y los correos.</div></div>
+                    <div class="tsl-settings__control"><tsl-select name="idioma" value="es" label="Idioma"><option value="es">Español</option><option value="en">English</option><option value="pt">Português</option></tsl-select></div>
+                  </div>
+                  <div class="tsl-settings__danger">
+                    <div class="tsl-settings__row">
+                      <div><div class="tsl-settings__row-title">Eliminar la cuenta</div><div class="tsl-settings__row-desc">Se borran tus datos y no se puede deshacer.</div></div>
+                      <div class="tsl-settings__control tsl-settings__control--inline"><button type="button" class="tsl-btn tsl-btn--danger" id="set-delete">Eliminar cuenta…</button></div>
+                    </div>
+                  </div>
+                </section>
+
+                <div class="tsl-savebar" role="region" aria-label="Cambios sin guardar" hidden>
+                  <span>Tienes cambios sin guardar.</span>
+                  <button type="reset" class="tsl-btn tsl-btn--sm">Descartar</button>
+                  <button type="submit" class="tsl-btn tsl-btn--sm tsl-btn--primary">Guardar cambios</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const ajustes = document.querySelector("#settings");
+          const form = ajustes.querySelector("#settings-form");
+          const barra = ajustes.querySelector(".tsl-savebar");
+          const enlaces = ajustes.querySelectorAll(".tsl-nav__item");
+          const aviso2fa = ajustes.querySelector("#set-2fa-alert");
+
+          // Navegación entre secciones sin tocar la URL de la página
+          enlaces.forEach((a) => a.addEventListener("click", (e) => {
+            e.preventDefault();
+            const id = a.getAttribute("href").slice(1);
+            enlaces.forEach((b) => (b === a ? b.setAttribute("aria-current", "page") : b.removeAttribute("aria-current")));
+            ajustes.querySelectorAll(".tsl-settings__panel").forEach((p) => (p.hidden = p.id !== id));
+            ajustes.querySelector(`#${id} h3`).focus();
+          }));
+
+          const sucio = () => (barra.hidden = false);
+          form.addEventListener("input", sucio);
+          form.addEventListener("change", sucio);
+          form.addEventListener("tsl-change", sucio);
+          ajustes.querySelector("#set-2fa").addEventListener("change", (e) => (aviso2fa.hidden = e.target.checked));
+
+          form.addEventListener("reset", () => setTimeout(() => {
+            barra.hidden = true;
+            aviso2fa.hidden = ajustes.querySelector("#set-2fa").checked;
+            TeselaUI.init(form);
+          }));
+          form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            barra.hidden = true;
+            TeselaUI.toast({ title: "Cambios guardados", variant: "success" });
+          });
+
+          ajustes.querySelectorAll("[data-close-session]").forEach((b) => b.addEventListener("click", () => {
+            const fila = b.closest("li");
+            const nombre = fila.querySelector(".tsl-list__title").textContent;
+            fila.remove();
+            TeselaUI.toast({ title: "Sesión cerrada", description: nombre });
+          }));
+          ajustes.querySelector("#set-delete").addEventListener("click", async () => {
+            const ok = await TeselaUI.confirm({ title: "¿Eliminar tu cuenta?", description: "Se borrarán tus proyectos y documentos. No se puede deshacer.", confirmLabel: "Eliminar", variant: "danger" });
+            if (ok) TeselaUI.toast({ title: "Cuenta eliminada (de mentira)", variant: "error" });
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="pattern-wizard" data-group="Patrones" data-keywords="wizard asistente pasos alta onboarding espacio de trabajo plan invitar equipo revisión">
+        <h2><a href="#pattern-wizard">Alta de un espacio de trabajo</a></h2>
+        <p>Un <code>&lt;tsl-wizard&gt;</code> de cuatro pasos: datos del espacio (la dirección se propone sola a partir del nombre), invitaciones con <code>&lt;tsl-tags&gt;</code>, plan con tarjetas de elección y una revisión <code>.tsl-summary</code> que se rellena con <code>tsl-step</code>. Cada paso valida antes de avanzar, el indicador deja volver a los ya visitados y, al terminar, el formulario se sustituye por un estado vacío de confirmación.</p>
+        <template>
+          <div class="tsl-card demo-wide" style="max-width:680px" id="alta">
+            <div class="tsl-card__body">
+              <tsl-wizard id="alta-wizard" label="Alta del espacio de trabajo">
+                <form>
+                  <fieldset class="tsl-wizard__step" data-title="Espacio">
+                    <legend>Tu espacio de trabajo</legend>
+                    <p class="tsl-wizard__desc">Podrás cambiar el nombre más adelante.</p>
+                    <div class="tsl-field"><label class="tsl-label" for="alta-nombre">Nombre</label><input class="tsl-input" id="alta-nombre" name="nombre" required minlength="3" placeholder="Acme Diseño" autocomplete="organization" /></div>
+                    <div class="tsl-field">
+                      <label class="tsl-label" for="alta-slug">Dirección</label>
+                      <div class="tsl-input-group" dir="ltr"><span class="tsl-input-group__addon">https://</span><input class="tsl-input" id="alta-slug" name="direccion" required pattern="[a-z0-9]+(-[a-z0-9]+)*" minlength="3" maxlength="32" aria-describedby="alta-slug-hint" /><span class="tsl-input-group__addon">.tesela.app</span></div>
+                      <span class="tsl-hint" id="alta-slug-hint">Minúsculas, números y guiones.</span>
+                    </div>
+                    <div class="tsl-field"><span class="tsl-label">Región de los datos</span><tsl-select name="region" required label="Región de los datos" placeholder="Elige una región…"><option value="us">Estados Unidos</option><option value="eu">Unión Europea</option><option value="sa">São Paulo</option></tsl-select></div>
+                  </fieldset>
+
+                  <fieldset class="tsl-wizard__step" data-title="Equipo">
+                    <legend>Invita a tu equipo</legend>
+                    <p class="tsl-wizard__desc">Escribe correos y pulsa Enter. También puedes hacerlo después.</p>
+                    <div class="tsl-field"><span class="tsl-label">Correos</span><tsl-tags id="alta-invitados" name="invitados" label="Añadir correo" placeholder="nombre@empresa.com"></tsl-tags><span class="tsl-error" id="alta-invitados-err" role="alert"></span></div>
+                    <div class="tsl-field"><label class="tsl-label" for="alta-rol">Rol de las personas invitadas</label><select class="tsl-select" id="alta-rol" name="rol"><option value="Miembro">Miembro</option><option value="Administración">Administración</option><option value="Invitado">Invitado (solo lectura)</option></select></div>
+                  </fieldset>
+
+                  <fieldset class="tsl-wizard__step" data-title="Plan">
+                    <legend>Elige un plan</legend>
+                    <div class="tsl-grid" style="--min:170px;--gap:10px" role="radiogroup" aria-label="Plan">
+                      <label class="tsl-choice-card"><input class="tsl-check" type="radio" name="plan" value="Gratis" required /><span><span class="tsl-choice-card__title">Gratis</span><span class="tsl-choice-card__desc" style="display:block">Hasta 3 personas.</span></span></label>
+                      <label class="tsl-choice-card"><input class="tsl-check" type="radio" name="plan" value="Equipo" /><span><span class="tsl-choice-card__title">Equipo · 8 $</span><span class="tsl-choice-card__desc" style="display:block">Por persona al mes.</span></span></label>
+                      <label class="tsl-choice-card"><input class="tsl-check" type="radio" name="plan" value="Empresa" /><span><span class="tsl-choice-card__title">Empresa · 16 $</span><span class="tsl-choice-card__desc" style="display:block">SSO y auditoría.</span></span></label>
+                    </div>
+                    <label class="tsl-choice"><input type="checkbox" role="switch" class="tsl-switch" name="anual" value="si" /> Facturación anual (2 meses gratis)</label>
+                  </fieldset>
+
+                  <fieldset class="tsl-wizard__step" data-title="Revisión">
+                    <legend>Revisa y crea</legend>
+                    <dl class="tsl-summary" id="alta-resumen"></dl>
+                    <label class="tsl-choice"><input class="tsl-check" type="checkbox" name="condiciones" value="si" required /> Acepto las condiciones del servicio</label>
+                  </fieldset>
+
+                  <div class="tsl-wizard__actions">
+                    <button type="button" class="tsl-btn" data-prev>Atrás</button>
+                    <button type="button" class="tsl-btn tsl-btn--primary" data-next>Continuar</button>
+                    <button type="submit" class="tsl-btn tsl-btn--primary" data-submit>Crear espacio</button>
+                  </div>
+                </form>
+              </tsl-wizard>
+              <div class="tsl-empty" id="alta-hecho" hidden>
+                <div class="tsl-empty__icon" aria-hidden="true">✓</div>
+                <h3 class="tsl-empty__title" tabindex="-1">Tu espacio está listo</h3>
+                <p class="tsl-empty__desc" id="alta-hecho-desc"></p>
+                <div class="tsl-row" style="justify-content:center;margin-top:6px"><button type="button" class="tsl-btn tsl-btn--primary" id="alta-abrir">Abrir el espacio</button><button type="button" class="tsl-btn" id="alta-otra">Crear otro</button></div>
+              </div>
+            </div>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const wizard = document.querySelector("#alta-wizard");
+          const nombre = wizard.querySelector("#alta-nombre");
+          const slug = wizard.querySelector("#alta-slug");
+          const invitados = wizard.querySelector("#alta-invitados");
+          const hecho = document.querySelector("#alta-hecho");
+          let slugTocado = false;
+
+          // La dirección se propone a partir del nombre hasta que la persona la edita
+          const aSlug = (t) => t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 32);
+          nombre.addEventListener("input", () => { if (!slugTocado) slug.value = aSlug(nombre.value); });
+          slug.addEventListener("input", () => (slugTocado = slug.value !== ""));
+
+          // Solo se aceptan correos válidos como invitaciones
+          invitados.addEventListener("tsl-change", () => {
+            const malos = invitados.value.filter((c) => !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c));
+            malos.forEach((c) => invitados.removeTag(c, false));
+            wizard.querySelector("#alta-invitados-err").textContent = malos.length ? `«${malos[0]}» no es un correo válido.` : "";
+          });
+
+          const fila = (dt, dd) => `<dt>${dt}</dt><dd>${dd}</dd>`;
+          const texto = (t) => { const s = document.createElement("span"); s.textContent = t; return s.innerHTML; };
+          wizard.addEventListener("tsl-step", (e) => {
+            if (e.detail.title !== "Revisión") return;
+            const v = wizard.values;
+            const region = wizard.querySelector("tsl-select[name=region]");
+            const personas = invitados.value;
+            wizard.querySelector("#alta-resumen").innerHTML =
+              fila("Nombre", texto(v.nombre)) +
+              fila("Dirección", `https://${texto(v.direccion)}.tesela.app`) +
+              fila("Región", texto(region.labelOf(v.region))) +
+              fila("Invitaciones", personas.length ? `${personas.length} como ${texto(v.rol)}` : "Ninguna por ahora") +
+              fila("Plan", `${texto(v.plan)}${v.anual ? ", facturación anual" : ", facturación mensual"}`);
+          });
+
+          wizard.addEventListener("tsl-submit", (e) => {
+            wizard.hidden = true;
+            hecho.hidden = false;
+            document.querySelector("#alta-hecho-desc").textContent = `${e.detail.values.nombre} ya está en https://${e.detail.values.direccion}.tesela.app.`;
+            hecho.querySelector("h3").focus();
+          });
+          document.querySelector("#alta-abrir").addEventListener("click", () => TeselaUI.toast({ title: "Abriendo el espacio…" }));
+          document.querySelector("#alta-otra").addEventListener("click", () => {
+            wizard.querySelector("form").reset();
+            invitados.value.forEach((c) => invitados.removeTag(c, false));
+            slugTocado = false;
+            hecho.hidden = true;
+            wizard.hidden = false;
+            nombre.focus();
+          });
+        </script>
+      </section>
+
+      <section class="doc" id="pattern-chat" data-group="Patrones" data-keywords="chat asistente ia conversación patrón completo prompt razonamiento fuentes citas versiones contexto streaming">
+        <h2><a href="#pattern-chat">Chat con asistente</a></h2>
+        <p>Toda la familia de conversación junta. <code>.tsl-chat</code> reparte el marco en cabecera (<code>__header</code>, con el medidor de contexto), la zona de mensajes y la caja de entrada (<code>__composer</code>). Las respuestas usan <code>.tsl-message--wide</code> para ocupar todo el ancho y apilan razonamiento con su traza, texto con citas, bloque de código, versiones, acciones y fuentes. Escribe algo, usa una sugerencia, detén la respuesta a medias o pulsa «Regenerar»: la respuesta es simulada, pero los estados son los reales.</p>
+        <template>
+          <div class="tsl-chat demo-wide">
+            <div class="tsl-chat__header">
+              <span class="tsl-avatar tsl-avatar--sm" aria-hidden="true">T</span>
+              <div class="tsl-chat__title">Asistente de Tesela<small>Responde con la documentación de la biblioteca</small></div>
+              <tsl-context id="chat-context" placement="bottom-end" model="Equilibrado" used="14200" max="200000" input="9800" output="3600" reasoning="800" cost="0.0213"></tsl-context>
+            </div>
+            <tsl-message-scroller id="chat-scroller" label="Conversación con el asistente">
+              <div class="tsl-message-scroller__content" id="chat-log">
+                <div class="tsl-marker tsl-marker--separator">Hoy</div>
+                <div class="tsl-message tsl-message--end">
+                  <div class="tsl-message__content">
+                    <div class="tsl-attachment tsl-attachment--xs"><span class="tsl-attachment__media" aria-hidden="true">🖼</span><span class="tsl-attachment__title">marca.png</span></div>
+                    <div class="tsl-bubble">¿Cómo uso el color de mi marca como acento sin perder contraste?</div>
+                  </div>
+                </div>
+                <div class="tsl-message tsl-message--wide">
+                  <span class="tsl-message__avatar"><span class="tsl-avatar tsl-avatar--sm" aria-hidden="true">T</span></span>
+                  <div class="tsl-message__content">
+                    <tsl-reasoning duration="7">
+                      <ul class="tsl-trace">
+                        <li><span class="tsl-trace__line"><span class="tsl-trace__icon" aria-hidden="true">✓</span><span class="tsl-trace__title">Buscó «acento» en la documentación</span><span class="tsl-trace__desc">3 resultados</span></span></li>
+                        <li><span class="tsl-trace__line"><span class="tsl-trace__icon" aria-hidden="true">✓</span><span class="tsl-trace__title">Leyó src/api/theme.js</span><span class="tsl-trace__desc">0,4 s</span></span></li>
+                      </ul>
+                      <p>La imagen es un naranja saturado. setAccent() ya calcula el color del texto encima, así que basta con explicarlo y recordar el mínimo de 4,5:1.</p>
+                    </tsl-reasoning>
+                    <tsl-branch>
+                      <div class="tsl-branch__item">
+                        <div class="tsl-bubble tsl-bubble--plain">
+                          <p>Pasa tu color a <code>setAccent()</code>: guarda el acento y elige el texto que va encima para que el contraste no baje de 4,5:1<tsl-hovercard class="tsl-citation-card" open-delay="150"><a class="tsl-citation" href="#pattern-chat" data-tsl-trigger>w3.org</a><span class="tsl-popover__panel tsl-citation__panel"><span class="tsl-citation__host"><span class="tsl-source__icon" aria-hidden="true">W</span>w3.org</span><span class="tsl-citation__title">Understanding Success Criterion 1.4.3: Contrast (Minimum)</span><span class="tsl-citation__quote">The visual presentation of text has a contrast ratio of at least 4.5:1…</span></span></tsl-hovercard>.</p>
+                          <div class="tsl-codeblock">
+                            <div class="tsl-codeblock__header"><span class="tsl-codeblock__title">tema.js</span><div class="tsl-codeblock__actions"><button type="button" class="tsl-btn tsl-btn--sm" data-tsl-copy='TeselaUI.setAccent("#f76b15");'>Copiar</button></div></div>
+                            <pre class="tsl-codeblock__content" tabindex="0" aria-label="Contenido de tema.js"><span class="tsl-codeblock__line">TeselaUI.setAccent("#f76b15");</span></pre>
+                          </div>
+                          <p>Se aplica al instante en toda la página y se recuerda al recargar<tsl-hovercard class="tsl-citation-card" open-delay="150"><a class="tsl-citation" href="#pattern-chat" data-tsl-trigger>tesela</a><span class="tsl-popover__panel tsl-citation__panel"><span class="tsl-citation__host"><span class="tsl-source__icon" aria-hidden="true">T</span>tesela.dev</span><span class="tsl-citation__title">Temas, presets y tokens</span><span class="tsl-citation__quote">El acento elegido se guarda y theme-init.js lo aplica antes de pintar.</span></span></tsl-hovercard>.</p>
+                        </div>
+                      </div>
+                      <div class="tsl-message__footer tsl-row" style="--gap:4px">
+                        <div class="tsl-branch__selector"></div>
+                        <div class="tsl-message__actions">
+                          <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Copiar respuesta" data-tsl-copy='Pasa tu color a setAccent(): guarda el acento y elige el texto que va encima para que el contraste no baje de 4,5:1.'>⧉</button>
+                          <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Regenerar" data-regenerar>↻</button>
+                          <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Buena respuesta" aria-pressed="false" data-tsl-toggle>👍</button>
+                          <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Mala respuesta" aria-pressed="false" data-tsl-toggle>👎</button>
+                        </div>
+                      </div>
+                    </tsl-branch>
+                    <tsl-collapsible class="tsl-sources">
+                      <button type="button" class="tsl-sources__trigger" data-tsl-trigger>Usó 2 fuentes <span class="tsl-collapsible__chevron"></span></button>
+                      <div class="tsl-collapsible__content">
+                        <ul class="tsl-sources__list">
+                          <li><a class="tsl-source" href="#pattern-chat"><span class="tsl-source__icon" aria-hidden="true">W</span><span class="tsl-source__title">Understanding SC 1.4.3: Contrast (Minimum)</span><span class="tsl-source__host">w3.org</span></a></li>
+                          <li><a class="tsl-source" href="#themes"><span class="tsl-source__icon" aria-hidden="true">T</span><span class="tsl-source__title">Temas, presets y tokens</span><span class="tsl-source__host">tesela.dev</span></a></li>
+                        </ul>
+                      </div>
+                    </tsl-collapsible>
+                  </div>
+                </div>
+              </div>
+            </tsl-message-scroller>
+            <div class="tsl-chat__composer">
+              <div class="tsl-suggestions" role="group" aria-label="Sugerencias">
+                <button type="button" class="tsl-suggestion" data-tsl-suggest="#chat-prompt" data-send>¿Qué presets de tema hay?</button>
+                <button type="button" class="tsl-suggestion" data-tsl-suggest="#chat-prompt" data-send>¿Funciona en RTL?</button>
+                <button type="button" class="tsl-suggestion" data-tsl-suggest="#chat-prompt">Muéstrame un diálogo de confirmación</button>
+              </div>
+              <tsl-prompt-input id="chat-prompt" accept="image/*,.pdf,.txt,.md" max-files="3" max-size="10MB">
+                <form>
+                  <textarea name="prompt" placeholder="Pregunta sobre Tesela…" aria-label="Mensaje para el asistente"></textarea>
+                  <div class="tsl-prompt-input__toolbar">
+                    <div class="tsl-prompt-input__tools">
+                      <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" data-attach aria-label="Adjuntar archivos" style="font-size:18px">+</button>
+                      <select class="tsl-select" name="modelo" aria-label="Modelo">
+                        <option value="Rápido">Rápido</option>
+                        <option value="Equilibrado" selected>Equilibrado</option>
+                        <option value="Profundo">Profundo</option>
+                      </select>
+                    </div>
+                    <button type="submit" class="tsl-btn tsl-btn--primary" data-submit></button>
+                  </div>
+                </form>
+              </tsl-prompt-input>
+              <p class="tsl-chat__note">Respuestas simuladas para la demostración.</p>
+            </div>
+          </div>
+        </template>
+        <script type="text/plain" data-doc-js>
+          const scroller = document.querySelector("#chat-scroller");
+          const log = document.querySelector("#chat-log");
+          const prompt = document.querySelector("#chat-prompt");
+          const meter = document.querySelector("#chat-context");
+          const respuestas = [
+            "Hay once presets: tesela, papel, esmeralda, alto-contraste y siete más. Todos cumplen AA en ambos modos y alto-contraste llega a AAA. Cámbialos con TeselaUI.setPreset(nombre).",
+            "Sí. Todo usa propiedades lógicas, así que con dir=\"rtl\" o TeselaUI.setDirection(\"rtl\") los componentes se espejan, y el teclado de pestañas, carruseles y sliders invierte sus flechas.",
+            "Usa TeselaUI.confirm({ title, description, confirmLabel }): devuelve una promesa que se resuelve a true o false según lo que elija la persona, y el diálogo es un <dialog> nativo."
+          ];
+          let turno = 0;
+          let ocupado = false;
+          let timers = [];
+
+          const nodo = (html) => {
+            const t = document.createElement("template");
+            t.innerHTML = html.trim();
+            return t.content.firstElementChild;
+          };
+          const esperar = (ms) => new Promise((ok) => timers.push(setTimeout(ok, ms)));
+          const sumar = (n) => {
+            meter.setAttribute("used", Number(meter.getAttribute("used")) + n);
+            meter.setAttribute("output", Number(meter.getAttribute("output")) + n);
+          };
+
+          function mensajePropio(texto, archivos) {
+            const msg = nodo('<div class="tsl-message tsl-message--end"><div class="tsl-message__content"></div></div>');
+            const contenido = msg.firstElementChild;
+            archivos.forEach((f) => {
+              const chip = nodo('<div class="tsl-attachment tsl-attachment--xs"><span class="tsl-attachment__media" aria-hidden="true">📎</span><span class="tsl-attachment__title"></span></div>');
+              chip.querySelector(".tsl-attachment__title").textContent = f.name;
+              contenido.append(chip);
+            });
+            if (texto) {
+              const burbuja = nodo('<div class="tsl-bubble"></div>');
+              burbuja.textContent = texto;
+              contenido.append(burbuja);
+            }
+            log.append(msg);
+          }
+
+          function mensajeAsistente() {
+            return nodo(`
+              <div class="tsl-message tsl-message--wide">
+                <span class="tsl-message__avatar"><span class="tsl-avatar tsl-avatar--sm" aria-hidden="true">T</span></span>
+                <div class="tsl-message__content">
+                  <tsl-reasoning streaming><p>Busco la respuesta en la documentación de Tesela.</p></tsl-reasoning>
+                  <tsl-branch>
+                    <div class="tsl-message__footer tsl-row" style="--gap:4px" hidden>
+                      <div class="tsl-branch__selector"></div>
+                      <div class="tsl-message__actions">
+                        <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Copiar respuesta" data-tsl-copy>⧉</button>
+                        <button type="button" class="tsl-btn tsl-btn--icon tsl-btn--sm tsl-btn--subtle" aria-label="Regenerar" data-regenerar>↻</button>
+                      </div>
+                    </div>
+                  </tsl-branch>
+                </div>
+              </div>`);
+          }
+
+          // Añade una versión a la respuesta y la escribe palabra a palabra
+          async function escribir(branch, texto) {
+            const footer = branch.querySelector(".tsl-message__footer");
+            const item = nodo('<div class="tsl-branch__item"><div class="tsl-bubble tsl-bubble--plain"><p></p></div></div>');
+            branch.insertBefore(item, footer);
+            const p = item.querySelector("p");
+            prompt.status = "streaming";
+            for (const palabra of texto.split(" ")) {
+              p.textContent += (p.textContent ? " " : "") + palabra;
+              await esperar(45);
+            }
+            footer.hidden = false;
+            footer.querySelector("[data-tsl-copy]").dataset.tslCopy = texto;
+            sumar(texto.length * 3);
+          }
+
+          async function responder() {
+            ocupado = true;
+            prompt.status = "submitted";
+            const msg = mensajeAsistente();
+            log.append(msg);
+            scroller.scrollToEnd();
+            await esperar(1400);
+            msg.querySelector("tsl-reasoning").removeAttribute("streaming");
+            await escribir(msg.querySelector("tsl-branch"), respuestas[turno++ % respuestas.length]);
+            prompt.status = "ready";
+            ocupado = false;
+          }
+
+          prompt.addEventListener("tsl-submit", (e) => {
+            if (ocupado) return e.preventDefault();
+            mensajePropio(e.detail.text, e.detail.files);
+            meter.setAttribute("model", e.detail.values.modelo);
+            sumar(e.detail.text.length * 2 + e.detail.files.length * 1500);
+            responder();
+          });
+
+          prompt.addEventListener("tsl-stop", () => {
+            timers.forEach(clearTimeout);
+            timers = [];
+            log.querySelectorAll("tsl-reasoning[streaming]").forEach((r) => r.removeAttribute("streaming"));
+            log.querySelectorAll(".tsl-message__footer[hidden]").forEach((f) => (f.hidden = false));
+            log.append(nodo('<div class="tsl-marker" role="status"><span class="tsl-marker__icon" aria-hidden="true">■</span><span>Respuesta detenida</span></div>'));
+            prompt.status = "ready";
+            ocupado = false;
+          });
+
+          log.addEventListener("click", async (e) => {
+            const boton = e.target.closest("[data-regenerar]");
+            if (!boton || ocupado) return;
+            ocupado = true;
+            await escribir(boton.closest("tsl-branch"), respuestas[turno++ % respuestas.length]);
+            prompt.status = "ready";
+            ocupado = false;
+          });
+        </script>
+      </section>
+
     </main>
   </div>
 

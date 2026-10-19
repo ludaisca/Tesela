@@ -1,0 +1,113 @@
+/* ----------------------------------------------------------------------------
+   06b. Grupo de radios: <tsl-radio-group> con botones .tsl-radio
+        Variante .tsl-radio-group--cards: cada opción es una tarjeta
+   ---------------------------------------------------------------------------- */
+tsl-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+tsl-radio-group[orientation="horizontal"] {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+}
+
+.tsl-radio {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--tsl-fg);
+  font: inherit;
+  font-size: 13px;
+  text-align: start;
+  cursor: pointer;
+}
+
+.tsl-radio:focus-visible {
+  outline: none;
+  border-radius: var(--tsl-radius-sm);
+  box-shadow: var(--tsl-ring);
+}
+
+.tsl-radio__mark {
+  flex: none;
+  display: inline-grid;
+  place-content: center;
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+  border-radius: 50%;
+  border: 1px solid var(--tsl-border-strong);
+  background: var(--tsl-bg);
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.tsl-radio__mark::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--tsl-bg);
+  transform: scale(0);
+  transition: transform 140ms var(--tsl-ease);
+}
+
+.tsl-radio[aria-checked="true"] .tsl-radio__mark {
+  background: var(--tsl-fg);
+  border-color: var(--tsl-fg);
+}
+
+.tsl-radio[aria-checked="true"] .tsl-radio__mark::before {
+  transform: scale(1);
+}
+
+.tsl-radio__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.tsl-radio__label {
+  font-weight: 500;
+}
+
+.tsl-radio__desc {
+  font-size: 12px;
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-radio:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+tsl-radio-group[aria-disabled] {
+  opacity: 0.6;
+}
+
+tsl-radio-group[data-invalid] .tsl-radio__mark {
+  border-color: var(--tsl-danger);
+}
+
+.tsl-radio-group--cards .tsl-radio {
+  padding: 12px 14px;
+  border: 1px solid var(--tsl-border);
+  border-radius: var(--tsl-radius);
+  background: var(--tsl-surface);
+}
+
+.tsl-radio-group--cards .tsl-radio:hover:not(:disabled) {
+  background: var(--tsl-surface-hover);
+}
+
+.tsl-radio-group--cards .tsl-radio[aria-checked="true"] {
+  border-color: var(--tsl-fg);
+  background: var(--tsl-surface-strong);
+}

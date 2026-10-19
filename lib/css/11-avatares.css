@@ -31,7 +31,7 @@
 .tsl-avatar[data-status]::after {
   content: "";
   position: absolute;
-  right: -1px;
+  inset-inline-end: -1px;
   bottom: -1px;
   width: 30%;
   height: 30%;
@@ -55,5 +55,5 @@
 }
 
 .tsl-avatar-group > .tsl-avatar + .tsl-avatar {
-  margin-left: calc(var(--_s) * -0.28);
+  margin-inline-start: calc(var(--_s) * -0.28);
 }

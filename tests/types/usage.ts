@@ -1,6 +1,6 @@
 // Uso de los tipos generados. Se compila con `strict`; las líneas `@ts-expect-error` deben fallar
 // (si dejaran de fallar, tsc lo reportaría), así que también se comprueba que los tipos rechazan usos erróneos.
-import { toast, confirm, copy, position, setTheme, getTheme, getResolvedTheme, setPreset, getPreset, setAccent, presets, init, VERSION, TslSelect } from "../../lib/types/tesela-ui";
+import { toast, confirm, copy, position, setDirection, getDirection, setTheme, getTheme, getResolvedTheme, setPreset, getPreset, setAccent, presets, init, VERSION, TslSelect } from "../../lib/types/tesela-ui";
 import type { TslTabsElement, TslSelectElement, TslDataTableElement, TslSliderElement, TeselaUIGlobal, Theme, ResolvedTheme, PresetName } from "../../lib/types/tesela-ui";
 
 // HTMLElementTagNameMap: los elementos salen tipados sin conversión
@@ -80,6 +80,10 @@ const preset: PresetName = setPreset("esmeralda");
 const active: PresetName = getPreset();
 const firstPreset: string = presets[0].label;
 const fg: string | null = setAccent("#10b981");
+const direction: "ltr" | "rtl" = setDirection("rtl");
+const currentDirection: "ltr" | "rtl" = getDirection();
+void direction;
+void currentDirection;
 setAccent(null);
 void preset;
 void active;

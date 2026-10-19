@@ -1040,6 +1040,74 @@
       ]
     },
     {
+      "name": "tsl-radio-group",
+      "description": {
+        "kind": "markdown",
+        "value": "Grupo de radios con un solo punto de tabulación: las flechas mueven y seleccionan. Opciones `button.tsl-radio` con etiqueta y descripción; participa en formularios."
+      },
+      "attributes": [
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre con el que el valor viaja en el formulario."
+          }
+        },
+        {
+          "name": "disabled",
+          "description": {
+            "kind": "markdown",
+            "value": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required",
+          "description": {
+            "kind": "markdown",
+            "value": "Obliga a tener valor: aplica la validación nativa del formulario."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required-message",
+          "description": {
+            "kind": "markdown",
+            "value": "Mensaje de validación cuando falta el valor. Por defecto: `Completa este campo.`."
+          }
+        },
+        {
+          "name": "value",
+          "description": {
+            "kind": "markdown",
+            "value": "Valor seleccionado al iniciar."
+          }
+        },
+        {
+          "name": "orientation",
+          "description": {
+            "kind": "markdown",
+            "value": "Disposición de las opciones. Por defecto: `vertical`."
+          },
+          "values": [
+            {
+              "name": "vertical"
+            },
+            {
+              "name": "horizontal"
+            }
+          ]
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del grupo. Por defecto: `Opciones`."
+          }
+        }
+      ]
+    },
+    {
       "name": "tsl-color-picker",
       "description": {
         "kind": "markdown",
@@ -1306,6 +1374,1013 @@
             "value": "Abierto."
           },
           "valueSet": "v"
+        }
+      ]
+    },
+    {
+      "name": "tsl-sidebar",
+      "description": {
+        "kind": "markdown",
+        "value": "Barra lateral de navegación dentro de `.tsl-sidebar-layout`: completa, solo iconos u oculta; en pantallas estrechas se vuelve un cajón con fondo, Esc y devolución del foco."
+      },
+      "attributes": [
+        {
+          "name": "collapsible",
+          "description": {
+            "kind": "markdown",
+            "value": "Cómo se contrae en escritorio: a una columna de iconos o por completo. Por defecto: `icon`."
+          },
+          "values": [
+            {
+              "name": "icon"
+            },
+            {
+              "name": "offcanvas"
+            }
+          ]
+        },
+        {
+          "name": "collapsed",
+          "description": {
+            "kind": "markdown",
+            "value": "Contraída."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "side",
+          "description": {
+            "kind": "markdown",
+            "value": "Lado del diseño en que se coloca. Por defecto: `start`."
+          },
+          "values": [
+            {
+              "name": "start"
+            },
+            {
+              "name": "end"
+            }
+          ]
+        },
+        {
+          "name": "breakpoint",
+          "description": {
+            "kind": "markdown",
+            "value": "Ancho del contenedor (px) por debajo del cual pasa a cajón. Por defecto: `720`."
+          }
+        },
+        {
+          "name": "storage-key",
+          "description": {
+            "kind": "markdown",
+            "value": "Si se indica, recuerda si está contraída en `localStorage`."
+          }
+        },
+        {
+          "name": "shortcut",
+          "description": {
+            "kind": "markdown",
+            "value": "Letra que, con Ctrl/⌘, la alterna (p. ej. `b`)."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible de la navegación. Por defecto: `Barra lateral`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-carousel",
+      "description": {
+        "kind": "markdown",
+        "value": "Carrusel con scroll-snap nativo: botones, puntos, teclado, bucle y avance automático con pausa. Las diapositivas fuera de vista quedan `inert`."
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del carrusel. Por defecto: `Carrusel`."
+          }
+        },
+        {
+          "name": "per-view",
+          "description": {
+            "kind": "markdown",
+            "value": "Diapositivas visibles a la vez. Por defecto: `1`."
+          }
+        },
+        {
+          "name": "orientation",
+          "description": {
+            "kind": "markdown",
+            "value": "Eje de desplazamiento (el vertical necesita una altura). Por defecto: `horizontal`."
+          },
+          "values": [
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "vertical"
+            }
+          ]
+        },
+        {
+          "name": "dots",
+          "description": {
+            "kind": "markdown",
+            "value": "Muestra los puntos de navegación."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "loop",
+          "description": {
+            "kind": "markdown",
+            "value": "Da la vuelta al llegar al final."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "autoplay",
+          "description": {
+            "kind": "markdown",
+            "value": "Milisegundos entre avances (mínimo 1500). Se pausa con el cursor, el foco, el botón y `prefers-reduced-motion`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-message-scroller",
+      "description": {
+        "kind": "markdown",
+        "value": "Zona de conversación con altura propia: sigue el final mientras llegan o crecen mensajes y, si la persona sube, deja de seguirlo y ofrece «Ir al final». El contenido es una región `log`."
+      },
+      "attributes": [
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible de la región desplazable. Por defecto: `Conversación`."
+          }
+        },
+        {
+          "name": "threshold",
+          "description": {
+            "kind": "markdown",
+            "value": "Píxeles al final dentro de los cuales se considera «al final». Por defecto: `48`."
+          }
+        },
+        {
+          "name": "end-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto del botón para volver al final. Por defecto: `↓ Ir al final`."
+          }
+        },
+        {
+          "name": "manual",
+          "description": {
+            "kind": "markdown",
+            "value": "No sigue el final automáticamente (el botón sigue funcionando)."
+          },
+          "valueSet": "v"
+        }
+      ]
+    },
+    {
+      "name": "tsl-questionnaire",
+      "description": {
+        "kind": "markdown",
+        "value": "Formulario de una pregunta por pantalla: obligatorias, omitibles, condicionales, atajos 1-9 y progreso. Los datos son campos nativos de un `<form>`."
+      },
+      "attributes": [
+        {
+          "name": "shortcuts",
+          "description": {
+            "kind": "markdown",
+            "value": "Con `off` desactiva las teclas 1-9 (por defecto están activas)."
+          },
+          "values": [
+            {
+              "name": "off"
+            }
+          ]
+        },
+        {
+          "name": "progress-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto del progreso con `{n}` y `{total}`. Por defecto: `Pregunta {n} de {total}`."
+          }
+        },
+        {
+          "name": "data-required",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) La pregunta debe responderse para avanzar."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "data-when",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Solo aplica si otra respuesta coincide: `nombre=valor` o `nombre=a|b`."
+          }
+        },
+        {
+          "name": "data-error",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Mensaje cuando falta la respuesta. Por defecto: `Elige una respuesta para continuar.`."
+          }
+        },
+        {
+          "name": "data-name",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Nombre de la pregunta que se informa en `tsl-step`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-prompt-input",
+      "description": {
+        "kind": "markdown",
+        "value": "Caja de entrada de un chat sobre un `<form>`: crece con el texto, Enter envía y Mayús+Enter salta de línea (respeta el IME), adjuntos por botón `[data-attach]`, pegado o arrastre, y el botón `[data-submit]` pasa a «Detener» mientras hay respuesta en curso."
+      },
+      "attributes": [
+        {
+          "name": "status",
+          "description": {
+            "kind": "markdown",
+            "value": "Estado de la respuesta: con `submitted` el botón muestra espera y con `streaming` un cuadrado; en ambos detiene en vez de enviar. Por defecto: `ready`."
+          },
+          "values": [
+            {
+              "name": "ready"
+            },
+            {
+              "name": "submitted"
+            },
+            {
+              "name": "streaming"
+            },
+            {
+              "name": "error"
+            }
+          ]
+        },
+        {
+          "name": "disabled",
+          "description": {
+            "kind": "markdown",
+            "value": "Deshabilita el texto, los adjuntos y el envío."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "accept",
+          "description": {
+            "kind": "markdown",
+            "value": "Tipos de archivo admitidos, como el `accept` nativo (`image/*,.pdf`)."
+          }
+        },
+        {
+          "name": "max-files",
+          "description": {
+            "kind": "markdown",
+            "value": "Máximo de adjuntos."
+          }
+        },
+        {
+          "name": "max-size",
+          "description": {
+            "kind": "markdown",
+            "value": "Tamaño máximo por archivo (`10MB`, `500KB` o bytes)."
+          }
+        },
+        {
+          "name": "max-rows",
+          "description": {
+            "kind": "markdown",
+            "value": "Filas que crece el texto antes de desplazarse. Por defecto: `8`."
+          }
+        },
+        {
+          "name": "submit-key",
+          "description": {
+            "kind": "markdown",
+            "value": "Con `mod-enter` se envía con Ctrl/⌘+Enter y Enter salta de línea. Por defecto: `enter`."
+          },
+          "values": [
+            {
+              "name": "enter"
+            },
+            {
+              "name": "mod-enter"
+            }
+          ]
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del texto si no tiene `<label>`. Por defecto: `Mensaje`."
+          }
+        },
+        {
+          "name": "attachments-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible de la lista de adjuntos. Por defecto: `Adjuntos`."
+          }
+        },
+        {
+          "name": "submit-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre del botón al enviar. Por defecto: `Enviar`."
+          }
+        },
+        {
+          "name": "stop-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre del botón mientras hay respuesta en curso. Por defecto: `Detener`."
+          }
+        },
+        {
+          "name": "data-tsl-suggest",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) En cualquier botón de la página: selector de la caja que rellena con su texto (o con `data-value`)."
+          }
+        },
+        {
+          "name": "data-value",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Texto que pone la sugerencia, si no es el visible."
+          }
+        },
+        {
+          "name": "data-send",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) La sugerencia además envía."
+          },
+          "valueSet": "v"
+        }
+      ]
+    },
+    {
+      "name": "tsl-reasoning",
+      "description": {
+        "kind": "markdown",
+        "value": "Razonamiento plegable de un asistente: con `streaming` se abre, muestra «Pensando…» y cuenta el tiempo; al terminar dice cuánto pensó y se pliega solo si la persona no lo tocó."
+      },
+      "attributes": [
+        {
+          "name": "streaming",
+          "description": {
+            "kind": "markdown",
+            "value": "El razonamiento está en curso."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "open",
+          "description": {
+            "kind": "markdown",
+            "value": "Muestra el contenido."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "duration",
+          "description": {
+            "kind": "markdown",
+            "value": "Segundos de un razonamiento ya terminado."
+          }
+        },
+        {
+          "name": "close-delay",
+          "description": {
+            "kind": "markdown",
+            "value": "Milisegundos tras terminar antes de plegarse (`-1` no lo pliega). Por defecto: `1000`."
+          }
+        },
+        {
+          "name": "thinking-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto mientras piensa. Por defecto: `Pensando…`."
+          }
+        },
+        {
+          "name": "done-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto al terminar, con `{s}`. Por defecto: `Pensó durante {s} s`."
+          }
+        },
+        {
+          "name": "instant-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto si duró menos de un segundo. Por defecto: `Pensó unos instantes`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-branch",
+      "description": {
+        "kind": "markdown",
+        "value": "Versiones alternativas de un mensaje (`.tsl-branch__item`): muestra una con el selector «‹ 2 de 3 ›», empieza en la última y salta a cada versión nueva que llegue."
+      },
+      "attributes": [
+        {
+          "name": "index",
+          "description": {
+            "kind": "markdown",
+            "value": "Versión visible al iniciar, desde 0 (por defecto, la última)."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del selector. Por defecto: `Versiones`."
+          }
+        },
+        {
+          "name": "count-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto del contador con `{n}` y `{total}`. Por defecto: `{n} de {total}`."
+          }
+        },
+        {
+          "name": "prev-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre del botón anterior. Por defecto: `Versión anterior`."
+          }
+        },
+        {
+          "name": "next-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre del botón siguiente. Por defecto: `Versión siguiente`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-context",
+      "description": {
+        "kind": "markdown",
+        "value": "Medidor del contexto de un modelo: anillo con el porcentaje usado que abre un panel con barra, desglose de tokens y coste. Pasa a aviso desde el 75 % y a peligro desde el 90 % (`data-level`)."
+      },
+      "attributes": [
+        {
+          "name": "used",
+          "description": {
+            "kind": "markdown",
+            "value": "Tokens usados."
+          }
+        },
+        {
+          "name": "max",
+          "description": {
+            "kind": "markdown",
+            "value": "Tokens de la ventana de contexto."
+          }
+        },
+        {
+          "name": "input",
+          "description": {
+            "kind": "markdown",
+            "value": "Tokens de entrada (fila opcional)."
+          }
+        },
+        {
+          "name": "output",
+          "description": {
+            "kind": "markdown",
+            "value": "Tokens de salida (fila opcional)."
+          }
+        },
+        {
+          "name": "reasoning",
+          "description": {
+            "kind": "markdown",
+            "value": "Tokens de razonamiento (fila opcional)."
+          }
+        },
+        {
+          "name": "cached",
+          "description": {
+            "kind": "markdown",
+            "value": "Tokens servidos desde caché (fila opcional)."
+          }
+        },
+        {
+          "name": "cost",
+          "description": {
+            "kind": "markdown",
+            "value": "Coste estimado (fila opcional)."
+          }
+        },
+        {
+          "name": "currency",
+          "description": {
+            "kind": "markdown",
+            "value": "Moneda del coste (ISO 4217). Por defecto: `USD`."
+          }
+        },
+        {
+          "name": "model",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre del modelo en la cabecera del panel."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre del medidor. Por defecto: `Contexto`."
+          }
+        },
+        {
+          "name": "placement",
+          "description": {
+            "kind": "markdown",
+            "value": "Posición del panel. Por defecto: `top-start`."
+          }
+        },
+        {
+          "name": "input-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Etiqueta de la fila de entrada. Por defecto: `Entrada`."
+          }
+        },
+        {
+          "name": "output-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Etiqueta de la fila de salida. Por defecto: `Salida`."
+          }
+        },
+        {
+          "name": "reasoning-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Etiqueta de la fila de razonamiento. Por defecto: `Razonamiento`."
+          }
+        },
+        {
+          "name": "cached-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Etiqueta de la fila de caché. Por defecto: `En caché`."
+          }
+        },
+        {
+          "name": "cost-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Etiqueta del coste. Por defecto: `Coste estimado`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-wizard",
+      "description": {
+        "kind": "markdown",
+        "value": "Formulario en varios pasos (`.tsl-wizard__step`): valida cada paso con la validación nativa antes de avanzar, dibuja el indicador `.tsl-steps` con los pasos visitados pulsables y, al enviar, revisa todos y emite `tsl-submit`. Botones `[data-prev]`, `[data-next]` y `[data-submit]`."
+      },
+      "attributes": [
+        {
+          "name": "index",
+          "description": {
+            "kind": "markdown",
+            "value": "Paso visible al iniciar, desde 0. Por defecto: `0`."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del indicador de pasos. Por defecto: `Pasos`."
+          }
+        },
+        {
+          "name": "step-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto que se anuncia al cambiar de paso, con `{n}`, `{total}` y `{title}`. Por defecto: `Paso {n} de {total}: {title}`."
+          }
+        },
+        {
+          "name": "data-title",
+          "description": {
+            "kind": "markdown",
+            "value": "(en los hijos) Nombre del paso en el indicador y en el anuncio."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-currency",
+      "description": {
+        "kind": "markdown",
+        "value": "Importe con el formato del idioma mientras se escribe, símbolo de la moneda en su sitio y los decimales de esa moneda. En el formulario viaja el valor canónico (`1250.50`). ↑ ↓ suman o restan `step`."
+      },
+      "attributes": [
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre con el que el valor viaja en el formulario."
+          }
+        },
+        {
+          "name": "disabled",
+          "description": {
+            "kind": "markdown",
+            "value": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required",
+          "description": {
+            "kind": "markdown",
+            "value": "Obliga a tener valor: aplica la validación nativa del formulario."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required-message",
+          "description": {
+            "kind": "markdown",
+            "value": "Mensaje de validación cuando falta el valor. Por defecto: `Completa este campo.`."
+          }
+        },
+        {
+          "name": "value",
+          "description": {
+            "kind": "markdown",
+            "value": "Importe inicial con punto decimal (`1250.5`)."
+          }
+        },
+        {
+          "name": "currency",
+          "description": {
+            "kind": "markdown",
+            "value": "Código ISO 4217 de la moneda. Por defecto: `USD`."
+          }
+        },
+        {
+          "name": "locale",
+          "description": {
+            "kind": "markdown",
+            "value": "Idioma del formato (por defecto, el `lang` de la página)."
+          }
+        },
+        {
+          "name": "min",
+          "description": {
+            "kind": "markdown",
+            "value": "Importe mínimo; si es negativo se pueden escribir negativos."
+          }
+        },
+        {
+          "name": "max",
+          "description": {
+            "kind": "markdown",
+            "value": "Importe máximo."
+          }
+        },
+        {
+          "name": "step",
+          "description": {
+            "kind": "markdown",
+            "value": "Lo que suman o restan ↑ y ↓. Por defecto: `1`."
+          }
+        },
+        {
+          "name": "show-code",
+          "description": {
+            "kind": "markdown",
+            "value": "Muestra el código de la moneda al final."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "placeholder",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto de ejemplo."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible (se le añade la moneda). Por defecto: `Importe`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-phone",
+      "description": {
+        "kind": "markdown",
+        "value": "Teléfono con selector de país: da forma al número según el país mientras se escribe, reconoce el prefijo al pegar un número internacional y envía el valor en E.164 (`+525512345678`). Sin todos los dígitos no es válido."
+      },
+      "attributes": [
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre con el que el valor viaja en el formulario."
+          }
+        },
+        {
+          "name": "disabled",
+          "description": {
+            "kind": "markdown",
+            "value": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required",
+          "description": {
+            "kind": "markdown",
+            "value": "Obliga a tener valor: aplica la validación nativa del formulario."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required-message",
+          "description": {
+            "kind": "markdown",
+            "value": "Mensaje de validación cuando falta el valor. Por defecto: `Completa este campo.`."
+          }
+        },
+        {
+          "name": "value",
+          "description": {
+            "kind": "markdown",
+            "value": "Número inicial, nacional o internacional (`+34 600 12 34 56`)."
+          }
+        },
+        {
+          "name": "country",
+          "description": {
+            "kind": "markdown",
+            "value": "País inicial (ISO 3166, p. ej. `MX`). Por defecto: `MX`."
+          }
+        },
+        {
+          "name": "countries",
+          "description": {
+            "kind": "markdown",
+            "value": "Países que se ofrecen, en orden: `MX,US,ES`."
+          }
+        },
+        {
+          "name": "placeholder",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto de ejemplo (por defecto, la forma del número del país)."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del número. Por defecto: `Teléfono`."
+          }
+        },
+        {
+          "name": "country-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del selector de país. Por defecto: `País`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-upload",
+      "description": {
+        "kind": "markdown",
+        "value": "Subida de archivos con progreso: zona para soltar o elegir y una fila por archivo con barra, cancelar, reintentar y quitar. Sube con `action` (POST multipart) o con la función `uploader`; mientras sube, el formulario no es válido."
+      },
+      "attributes": [
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre con el que el valor viaja en el formulario."
+          }
+        },
+        {
+          "name": "disabled",
+          "description": {
+            "kind": "markdown",
+            "value": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required",
+          "description": {
+            "kind": "markdown",
+            "value": "Obliga a tener valor: aplica la validación nativa del formulario."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required-message",
+          "description": {
+            "kind": "markdown",
+            "value": "Mensaje de validación cuando falta el valor. Por defecto: `Completa este campo.`."
+          }
+        },
+        {
+          "name": "multiple",
+          "description": {
+            "kind": "markdown",
+            "value": "Permite varios archivos."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "accept",
+          "description": {
+            "kind": "markdown",
+            "value": "Tipos admitidos, como el `accept` nativo."
+          }
+        },
+        {
+          "name": "max-size",
+          "description": {
+            "kind": "markdown",
+            "value": "Tamaño máximo por archivo (`20MB`)."
+          }
+        },
+        {
+          "name": "max-files",
+          "description": {
+            "kind": "markdown",
+            "value": "Máximo de archivos (con `multiple`)."
+          }
+        },
+        {
+          "name": "action",
+          "description": {
+            "kind": "markdown",
+            "value": "URL a la que se suben con POST multipart."
+          }
+        },
+        {
+          "name": "field",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre del campo del archivo en la petición. Por defecto: `file`."
+          }
+        },
+        {
+          "name": "concurrency",
+          "description": {
+            "kind": "markdown",
+            "value": "Subidas simultáneas. Por defecto: `3`."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible de la lista. Por defecto: `Archivos`."
+          }
+        },
+        {
+          "name": "drop-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto de la zona para soltar."
+          }
+        },
+        {
+          "name": "hint",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto de ayuda (por defecto, los límites)."
+          }
+        },
+        {
+          "name": "busy-message",
+          "description": {
+            "kind": "markdown",
+            "value": "Mensaje de validación mientras sube. Por defecto: `Espera a que terminen de subirse los archivos.`."
+          }
+        }
+      ]
+    },
+    {
+      "name": "tsl-editor",
+      "description": {
+        "kind": "markdown",
+        "value": "Editor de texto enriquecido mínimo: barra de formato accesible, atajos, enlaces sin ventanas emergentes, Tab para sangrar listas y pegado limpio. El valor es HTML saneado a una lista corta de etiquetas."
+      },
+      "attributes": [
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre con el que el valor viaja en el formulario."
+          }
+        },
+        {
+          "name": "disabled",
+          "description": {
+            "kind": "markdown",
+            "value": "Deshabilita el campo (también lo hace un `<fieldset disabled>`)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required",
+          "description": {
+            "kind": "markdown",
+            "value": "Obliga a tener valor: aplica la validación nativa del formulario."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "required-message",
+          "description": {
+            "kind": "markdown",
+            "value": "Mensaje de validación cuando falta el valor. Por defecto: `Completa este campo.`."
+          }
+        },
+        {
+          "name": "readonly",
+          "description": {
+            "kind": "markdown",
+            "value": "Se puede leer y seleccionar, pero no editar."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "placeholder",
+          "description": {
+            "kind": "markdown",
+            "value": "Texto cuando está vacío."
+          }
+        },
+        {
+          "name": "maxlength",
+          "description": {
+            "kind": "markdown",
+            "value": "Máximo de caracteres (muestra el contador)."
+          }
+        },
+        {
+          "name": "toolbar",
+          "description": {
+            "kind": "markdown",
+            "value": "Botones y separadores (`|`) de la barra. Por defecto: `bold italic underline strike | h2 h3 | ul ol quote code | link | undo redo`."
+          }
+        },
+        {
+          "name": "label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre accesible del texto. Por defecto: `Texto`."
+          }
+        },
+        {
+          "name": "link-label",
+          "description": {
+            "kind": "markdown",
+            "value": "Nombre del campo de la dirección del enlace. Por defecto: `Dirección del enlace`."
+          }
         }
       ]
     },

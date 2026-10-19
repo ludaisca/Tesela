@@ -51,7 +51,7 @@
 /* En un bloque de código estrecho el botón de copiar no flota sobre el texto: pasa a una línea propia */
 @media (max-width: 599px) {
   .tsl-code:has(> [data-tsl-copy]) {
-    padding-right: 16px;
+    padding-inline-end: 16px;
   }
 
   .tsl-code > [data-tsl-copy] {

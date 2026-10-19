@@ -72,7 +72,7 @@
 
 .tsl-select {
   appearance: none;
-  padding-right: 32px;
+  padding-inline-end: 32px;
   cursor: pointer;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238e8e96' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -114,11 +114,11 @@
 }
 
 .tsl-input-group__addon:first-child {
-  border-right: 1px solid var(--tsl-border);
+  border-inline-end: 1px solid var(--tsl-border);
 }
 
 .tsl-input-group__addon:last-child {
-  border-left: 1px solid var(--tsl-border);
+  border-inline-start: 1px solid var(--tsl-border);
 }
 
 /* Casilla y radio: <input type="checkbox|radio" class="tsl-check"> */
@@ -159,7 +159,7 @@
 }
 
 .tsl-check:checked,
-.tsl-check:indeterminate {
+.tsl-check[type="checkbox"]:indeterminate {
   background: var(--tsl-fg);
   border-color: var(--tsl-fg);
 }
@@ -168,7 +168,7 @@
   transform: scale(1);
 }
 
-.tsl-check:indeterminate::before {
+.tsl-check[type="checkbox"]:indeterminate::before {
   transform: scale(1);
   height: 2px;
   clip-path: none;
@@ -205,7 +205,7 @@
   content: "";
   position: absolute;
   top: 2px;
-  left: 2px;
+  inset-inline-start: 2px;
   width: 16px;
   height: 16px;
   border-radius: 50%;
@@ -312,8 +312,8 @@
 .tsl-number > input {
   width: 52px;
   border: 0;
-  border-left: 1px solid var(--tsl-border);
-  border-right: 1px solid var(--tsl-border);
+  border-inline-start: 1px solid var(--tsl-border);
+  border-inline-end: 1px solid var(--tsl-border);
   background: transparent;
   color: var(--tsl-fg);
   font: inherit;

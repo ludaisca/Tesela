@@ -3,33 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Tesela — 212 experimentos funcionales en 24 carpetas, construidos con la biblioteca tesela-ui sin dependencias, con HTML y JavaScript copiables." />
-  <title>Tesela — 212 experimentos de UI</title>
+  <meta name="description" content="Tesela — biblioteca de componentes sin dependencias y una galería de 212 experimentos funcionales en 24 carpetas, con HTML y JavaScript copiables." />
+  <title>Tesela — Galería de 212 experimentos</title>
   <link rel="stylesheet" href="lib/tesela-ui.css" />
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/galeria.css" />
   <link rel="stylesheet" href="css/experiments.css" />
   <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="preload" href="fonts/marcellus-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/libre-franklin-latin.woff2" as="font" type="font/woff2" crossorigin />
   <script src="lib/theme-init.js"></script>
 </head>
 <body>
-  <!-- Fondo ambiental de shader WebGL / Canvas 2D -->
-  <canvas id="ambient-canvas" aria-hidden="true"></canvas>
   <div class="blueprint-grid-overlay" aria-hidden="true"></div>
 
   <!-- Encabezado fijo superior -->
   <header class="site-header">
     <div class="header-inner">
       <div class="brand-group">
-        <span class="brand-dot" aria-hidden="true"></span>
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
         <span class="brand-title">TESELA</span>
-        <span class="brand-count" id="header-count-text">212 ARCHIVOS · 24 CARPETAS</span>
+        <span class="brand-count" id="header-count-text">212 experimentos · 24 carpetas</span>
       </div>
 
       <div class="header-controls">
-        <!-- Selector de vista (cuadrícula o pila) -->
+        <a class="header-link" href="components.html" title="Documentación de la biblioteca tesela-ui">Documentación</a>
+        <button type="button" class="header-link" id="btn-tokens" title="Editor de tokens de diseño">Tokens</button>
+        <span class="header-sep" aria-hidden="true"></span>
+
+        <!-- Búsqueda (⌘K) -->
+        <button type="button" class="header-pill-btn" id="btn-cmdk" aria-label="Buscar… ⌘K">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+          <span>Buscar…</span>
+          <kbd class="kbd-badge kbd-text">⌘K</kbd>
+        </button>
+        <span class="header-sep" aria-hidden="true"></span>
+
+        <!-- Selector de vista (cuadrícula o lista) -->
         <div role="group" aria-label="Disposición" class="layout-toggle-group">
           <button type="button" class="icon-btn" data-view-btn="grid" aria-label="Vista en cuadrícula" aria-pressed="true" title="Vista en cuadrícula">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <rect width="7" height="7" x="3" y="3" rx="1"></rect>
               <rect width="7" height="7" x="14" y="3" rx="1"></rect>
               <rect width="7" height="7" x="14" y="14" rx="1"></rect>
@@ -37,34 +53,12 @@
             </svg>
           </button>
           <button type="button" class="icon-btn" data-view-btn="stack" aria-label="Vista en lista" aria-pressed="false" title="Vista en lista">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <rect width="18" height="6" x="3" y="4" rx="1"></rect>
               <rect width="18" height="6" x="3" y="14" rx="1"></rect>
             </svg>
           </button>
         </div>
-
-        <!-- Botón de búsqueda (⌘K) -->
-        <button type="button" class="header-pill-btn" id="btn-cmdk" aria-label="Buscar… ⌘K">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.3-4.3"></path>
-          </svg>
-          <span>Buscar…</span>
-          <kbd class="kbd-badge">⌘K</kbd>
-        </button>
-
-        <!-- Documentación de la biblioteca de componentes -->
-        <a class="header-pill-btn" href="components.html" title="Biblioteca de componentes tesela-ui">
-          <span class="dot-emerald"></span>
-          <span>Biblioteca</span>
-        </a>
-
-        <!-- Estudio de tokens de diseño (D) -->
-        <button type="button" class="header-pill-btn" id="btn-tokens" title="Editor de tokens de diseño">
-          <span class="dot-emerald"></span>
-          <span>Tokens</span>
-        </button>
 
         <!-- Interruptor del modo rayos X blueprint (B) -->
         <button type="button" class="header-icon-action" id="btn-blueprint" aria-label="Alternar modo Blueprint (B)" aria-pressed="false" title="Modo Blueprint (B)">
@@ -123,7 +117,7 @@
   <aside class="token-studio-popover" id="token-studio-popover" hidden aria-label="Editor de tokens de diseño">
     <div class="token-studio-head">
       <span>EDITOR DE TOKENS</span>
-      <button type="button" id="btn-close-tokens" aria-label="Cerrar editor de tokens">✕</button>
+      <button type="button" id="btn-close-tokens" aria-label="Cerrar editor de tokens"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
     </div>
     <div class="token-studio-group">
       <span class="sb-eyebrow">COLOR DE ACENTO</span>
@@ -147,43 +141,57 @@
     <button type="button" class="sb-btn-primary sb-full" id="btn-export-tokens">Copiar variables CSS</button>
   </aside>
 
-  <!-- Sección hero -->
-  <section class="hero-section">
-    <div class="hero-folder-row">
-      <div class="hero-folder-tag">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"></path>
-        </svg>
-        <span>CARPETA</span>
-      </div>
-
-      <!-- Barra interactiva de filtro por estado -->
-      <div class="hero-filter-pills" role="group" aria-label="Filtrar diseños">
-        <button type="button" class="filter-pill is-active" data-filter-btn="all">Todos (212)</button>
-        <button type="button" class="filter-pill" data-filter-btn="new">✦ Nuevos (54)</button>
-        <button type="button" class="filter-pill" data-filter-btn="favs">Favoritos ★</button>
+  <!-- Portada: titular y pared de teselas -->
+  <main id="contenido">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-top">
+      <h1 class="hero-heading" id="hero-title">Una biblioteca, doscientos doce usos.</h1>
+      <div class="hero-aside">
+        <p class="hero-lead">
+          Tesela es una biblioteca de componentes <strong>sin dependencias</strong>. Cada tesela de la pared es un experimento funcional con su código: elige una, o teclea su número.
+        </p>
+        <div class="hero-actions">
+          <a class="btn-solid" href="#gallery-root" id="hero-explore">Explorar la galería</a>
+          <a class="btn-line" href="components.html">Documentación</a>
+          <button type="button" class="btn-quiet" id="hero-cmdk-trigger">Buscar <kbd class="kbd-badge">⌘K</kbd></button>
+        </div>
+        <p class="hero-facts" id="hero-facts">99 componentes documentados · 11 temas · pruebas automáticas en navegador real</p>
       </div>
     </div>
 
-    <h1 class="hero-heading">Diseños.</h1>
-
-    <p class="hero-lead">
-      <strong>212</strong> experimentos funcionales en <strong>24 carpetas</strong>, construidos con la biblioteca tesela-ui sin dependencias: formularios, tablas, gráficas, shaders WebGL, Web Audio y canvas reales que puedes usar y copiar. Desplázate o pulsa
-      <button type="button" class="inline-cmdk-btn" id="hero-cmdk-trigger">⌘K</button>
-      para entrar.
-    </p>
-
-    <!-- 3 tarjetas destacadas con widgets interactivos en vivo -->
-    <div class="hero-cards-grid" id="hero-cards-grid"></div>
+    <div class="wall-wrap">
+      <div class="wall-frame" id="wall-frame">
+        <div class="wall" id="wall" role="group" aria-label="Pared de 212 teselas, una por experimento"></div>
+      </div>
+      <div class="wall-legend">
+        <!-- Filtros: atenúan la pared y la galería -->
+        <div class="hero-filter-pills" role="group" aria-label="Filtrar experimentos">
+          <button type="button" class="filter-pill is-active" data-filter-btn="all">Todos<em id="count-all">212</em></button>
+          <button type="button" class="filter-pill" data-filter-btn="new">Nuevos<em id="count-new">54</em></button>
+          <button type="button" class="filter-pill" data-filter-btn="favs">Favoritos<em id="count-favs">0</em></button>
+        </div>
+        <p class="wall-hint"><span class="wall-key" aria-hidden="true"></span>Dorado: tus favoritos <span class="wall-hint-extra"> · Teclea <kbd>0</kbd>–<kbd>9</kbd> para abrir una pieza por su número</span></p>
+      </div>
+    </div>
   </section>
 
+  <div class="wall-tip" id="wall-tip" aria-hidden="true"></div>
+  <div class="address-hud" id="address-hud" role="status" aria-live="polite">
+    <div class="address-card">
+      <span class="address-num" id="address-num"></span>
+      <span class="address-name" id="address-name"></span>
+    </div>
+  </div>
+
   <!-- Galería principal por categorías -->
-  <main class="gallery-main" id="gallery-root" data-view="grid"></main>
+  <div class="gallery-main" id="gallery-root" data-view="grid"></div>
+  </main>
 
   <!-- Pie de página -->
   <footer class="site-footer">
     <div>
-      <strong>Tesela</strong> — 212 experimentos de UI en 24 carpetas · HTML/CSS/SVG/WebGL propios (0 librerías externas)
+      <strong>Tesela</strong><br />
+      212 experimentos en 24 carpetas · HTML, CSS, SVG y WebGL propios, sin librerías externas
     </div>
     <div>
       Atajos: <kbd class="kbd-badge">⌘K</kbd> buscar · <kbd class="kbd-badge">R</kbd> aleatorio · <kbd class="kbd-badge">T</kbd> tema · <kbd class="kbd-badge">B</kbd> blueprint
@@ -200,7 +208,7 @@
         <button type="button" class="vp-btn" data-vp-size="768px">Tablet</button>
         <button type="button" class="vp-btn" data-vp-size="440px">Móvil</button>
         <button type="button" class="vp-btn" data-hud-action="code">Código (C)</button>
-        <button type="button" class="vp-btn" data-hud-action="back">✕ Cerrar</button>
+        <button type="button" class="vp-btn" data-hud-action="back"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg> Cerrar</button>
       </div>
     </header>
 
@@ -217,7 +225,7 @@
         </div>
         <div class="code-tabs">
           <button type="button" class="code-tab" id="btn-copy-source">Copiar código</button>
-          <button type="button" class="code-tab" id="btn-close-code">✕</button>
+          <button type="button" class="code-tab" id="btn-close-code" aria-label="Cerrar el código"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
         </div>
       </div>
       <pre class="code-pre-wrap"><code id="sandbox-code-pre"></code></pre>
@@ -273,7 +281,7 @@
   <!-- Scripts (código propio, sin librerías externas) -->
   <script src="lib/tesela-ui.js"></script>
   <script src="js/data.js"></script>
-  <script src="js/shaders.js"></script>
+  <script src="js/audio.js"></script>
   <script src="js/previews.js"></script>
   <script src="js/highlight.js"></script>
   <script src="js/experiments/core.js"></script>

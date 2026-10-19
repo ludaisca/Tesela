@@ -1,4 +1,4 @@
-import { TslElement, clamp, define, emit, nextId, storage } from "../core/base.js";
+import { TslElement, clamp, define, emit, isRtl, nextId, storage } from "../core/base.js";
 
 /**
  * <tsl-resizable direction="horizontal|vertical" storage-key="mi-layout" style="height:260px">
@@ -78,7 +78,7 @@ export class TslResizable extends TslElement {
     });
     h.addEventListener("pointermove", (e) => {
       if (!start) return;
-      const dx = (this.vertical ? e.clientY : e.clientX) - start.pos;
+      const dx = ((this.vertical ? e.clientY : e.clientX) - start.pos) * (!this.vertical && isRtl(this) ? -1 : 1);
       const total = this.sizes[i] + this.sizes[i + 1];
       const target = start.size + (dx / start.avail) * 100;
       this.resize(i, target - this.sizes[i]);
@@ -99,8 +99,9 @@ export class TslResizable extends TslElement {
       this.save();
     });
     h.addEventListener("keydown", (e) => {
-      const prev = this.vertical ? "ArrowUp" : "ArrowLeft";
-      const next = this.vertical ? "ArrowDown" : "ArrowRight";
+      const rtl = !this.vertical && isRtl(this);
+      const prev = this.vertical ? "ArrowUp" : rtl ? "ArrowRight" : "ArrowLeft";
+      const next = this.vertical ? "ArrowDown" : rtl ? "ArrowLeft" : "ArrowRight";
       const step = e.shiftKey ? 10 : 2;
       let moved = null;
       if (e.key === prev) moved = this.resize(i, -step);

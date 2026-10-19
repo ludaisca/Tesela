@@ -1,4 +1,4 @@
-import { TslElement, define, emit, normalize } from "../core/base.js";
+import { TslElement, define, emit, isRtl, normalize } from "../core/base.js";
 
 /**
  * <tsl-tree selection="single|multiple|none" checkable label="Archivos">
@@ -216,12 +216,12 @@ export class TslTree extends TslElement {
     else if (k === "ArrowUp") this.focusItem(vis[Math.max(0, i - 1)]);
     else if (k === "Home") this.focusItem(vis[0]);
     else if (k === "End") this.focusItem(vis[vis.length - 1]);
-    else if (k === "ArrowRight") {
+    else if (k === (isRtl(this) ? "ArrowLeft" : "ArrowRight")) {
       if (this.hasChildren(li)) {
         if (li.getAttribute("aria-expanded") !== "true") this.setExpanded(li, true);
         else this.focusItem(li.querySelector(":scope > ul > li"));
       }
-    } else if (k === "ArrowLeft") {
+    } else if (k === (isRtl(this) ? "ArrowRight" : "ArrowLeft")) {
       if (this.hasChildren(li) && li.getAttribute("aria-expanded") === "true") this.setExpanded(li, false);
       else this.focusItem(li.parentElement.closest("li[role=treeitem]"));
     } else if (k === "Enter") this.select(li);

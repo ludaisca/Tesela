@@ -1,0 +1,539 @@
+/* ----------------------------------------------------------------------------
+   21n. Bloques: asistente por pasos, panel de control, autenticación y ajustes
+        (se adaptan al ancho de su contenedor, no al de la ventana, para que sirvan
+        igual a pantalla completa que dentro de un panel)
+   ---------------------------------------------------------------------------- */
+
+/* ---- Enlace de texto (también para <button>) ---- */
+.tsl-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--tsl-fg);
+  font: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.tsl-link:hover {
+  text-decoration-color: currentColor;
+}
+
+.tsl-link:focus-visible {
+  outline: none;
+  border-radius: 2px;
+  box-shadow: var(--tsl-ring);
+}
+
+.tsl-link:disabled {
+  color: var(--tsl-fg-subtle);
+  text-decoration: none;
+  cursor: default;
+}
+
+/* ---- Asistente por pasos ---- */
+tsl-wizard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tsl-wizard__steps > li {
+  gap: 6px;
+}
+
+.tsl-wizard__jump {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 12px;
+  text-align: start;
+  cursor: pointer;
+}
+
+.tsl-wizard__jump:disabled {
+  cursor: default;
+}
+
+.tsl-wizard__jump:not(:disabled):hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.tsl-wizard__jump:focus-visible {
+  outline: none;
+  border-radius: 2px;
+  box-shadow: var(--tsl-ring);
+}
+
+.tsl-wizard__steps > li[data-current] {
+  color: var(--tsl-fg);
+}
+
+.tsl-wizard__steps > li[data-current]::before {
+  background: var(--tsl-accent);
+}
+
+.tsl-wizard__step {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.tsl-wizard__step > legend,
+.tsl-wizard__title {
+  margin: 0;
+  padding: 0;
+  font-family: var(--tsl-font-heading);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--tsl-fg);
+}
+
+.tsl-wizard__step > legend:focus,
+.tsl-wizard__title:focus {
+  outline: none;
+}
+
+/* Flotado, el <legend> deja de ir sobre el borde del fieldset y pasa a ser un elemento flex más:
+   así le llega el mismo gap que al resto del paso */
+.tsl-wizard__step > legend {
+  float: left;
+  width: 100%;
+}
+
+.tsl-wizard__desc {
+  margin: -8px 0 0;
+  font-size: 13px;
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-wizard__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--tsl-border);
+}
+
+.tsl-wizard__actions [data-next],
+.tsl-wizard__actions [data-submit] {
+  margin-inline-start: auto;
+}
+
+/* Resumen de la revisión */
+.tsl-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 10em) minmax(0, 1fr);
+  gap: 8px 16px;
+  margin: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--tsl-border);
+  border-radius: var(--tsl-radius);
+  background: var(--tsl-surface);
+  font-size: 13px;
+}
+
+.tsl-summary dt {
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-summary dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* ---- Panel de control ---- */
+.tsl-dashboard .tsl-sidebar-inset {
+  container: tsl-dashboard / inline-size;
+}
+
+.tsl-dashboard__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.tsl-dashboard__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tsl-dashboard__head h3 {
+  margin: 0;
+  font-family: var(--tsl-font-heading);
+  font-size: 20px;
+}
+
+.tsl-dashboard__head p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-dashboard__kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.tsl-dashboard__charts {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.tsl-dashboard__panel {
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--tsl-border);
+  border-radius: var(--tsl-radius);
+  background: var(--tsl-surface);
+}
+
+.tsl-dashboard__panel-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.tsl-dashboard__panel-title small {
+  font-weight: 400;
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-dashboard__search {
+  width: min(240px, 40%);
+  margin-inline-start: auto;
+}
+
+@container tsl-dashboard (max-width: 860px) {
+  .tsl-dashboard__kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tsl-dashboard__charts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@container tsl-dashboard (max-width: 520px) {
+  .tsl-dashboard__body {
+    padding: 14px;
+  }
+
+  .tsl-dashboard__search {
+    display: none;
+  }
+}
+
+/* ---- Autenticación ---- */
+.tsl-auth {
+  container: tsl-auth / inline-size;
+  border: 1px solid var(--tsl-border);
+  border-radius: var(--tsl-radius);
+  background: var(--tsl-bg);
+  overflow: hidden;
+}
+
+.tsl-auth__grid {
+  display: flex;
+  min-height: 520px;
+}
+
+.tsl-auth__aside {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px;
+  border-inline-end: 1px solid var(--tsl-border);
+  background:
+    radial-gradient(120% 80% at 0% 100%, color-mix(in srgb, var(--tsl-accent) 16%, transparent), transparent 70%),
+    var(--tsl-surface);
+}
+
+.tsl-auth__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.tsl-auth__pitch {
+  margin: 0;
+  font-family: var(--tsl-font-heading);
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.tsl-auth__points {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-auth__points li::before {
+  content: "✓";
+  margin-inline-end: 8px;
+  color: var(--tsl-accent);
+}
+
+.tsl-auth__main {
+  flex: 1 1 0;
+  display: grid;
+  place-items: center;
+  padding: 28px;
+}
+
+.tsl-auth__view {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: min(100%, 340px);
+}
+
+.tsl-auth__view[hidden] {
+  display: none;
+}
+
+.tsl-auth__title {
+  margin: 0;
+  font-family: var(--tsl-font-heading);
+  font-size: 20px;
+}
+
+.tsl-auth__title:focus {
+  outline: none;
+}
+
+.tsl-auth__desc {
+  margin: -8px 0 0;
+  font-size: 13px;
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-auth__inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12.5px;
+}
+
+.tsl-auth__foot {
+  margin: 4px 0 0;
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-auth__providers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+@container tsl-auth (max-width: 680px) {
+  .tsl-auth__aside {
+    display: none;
+  }
+
+  .tsl-auth__main {
+    padding: 24px 16px;
+  }
+}
+
+/* ---- Ajustes con navegación lateral ---- */
+.tsl-settings {
+  container: tsl-settings / inline-size;
+  border: 1px solid var(--tsl-border);
+  border-radius: var(--tsl-radius);
+  background: var(--tsl-bg);
+}
+
+.tsl-settings__grid {
+  display: flex;
+  min-height: 560px;
+}
+
+.tsl-settings__nav {
+  flex: none;
+  width: 200px;
+  padding: 16px 10px;
+  border-inline-end: 1px solid var(--tsl-border);
+}
+
+.tsl-settings__main {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.tsl-settings__panel {
+  flex: 1 1 auto;
+  padding: 20px 24px 24px;
+}
+
+.tsl-settings__panel[hidden] {
+  display: none;
+}
+
+.tsl-settings__head h3 {
+  margin: 0;
+  font-family: var(--tsl-font-heading);
+  font-size: 18px;
+}
+
+.tsl-settings__head h3:focus {
+  outline: none;
+}
+
+.tsl-settings__head p {
+  margin: 4px 0 8px;
+  font-size: 13px;
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-settings__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+  align-items: start;
+  gap: 8px 24px;
+  padding-block: 16px;
+  border-top: 1px solid var(--tsl-border);
+}
+
+.tsl-settings__row-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.tsl-settings__row-desc {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--tsl-fg-muted);
+}
+
+.tsl-settings__control {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.tsl-settings__control--inline {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Zona de peligro */
+.tsl-settings__danger {
+  margin-top: 8px;
+  border: 1px solid color-mix(in srgb, var(--tsl-danger) 45%, var(--tsl-border));
+  border-radius: var(--tsl-radius);
+}
+
+.tsl-settings__danger .tsl-settings__row {
+  padding-inline: 16px;
+}
+
+.tsl-settings__danger .tsl-settings__row:first-child {
+  border-top: 0;
+}
+
+/* Barra de cambios sin guardar: aparece al final del contenido y se queda a la vista */
+.tsl-savebar {
+  position: sticky;
+  inset-block-end: 12px;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 16px 12px;
+  padding-block: 10px;
+  padding-inline: 16px 12px;
+  border: 1px solid var(--tsl-border-strong);
+  border-radius: var(--tsl-radius);
+  background: var(--tsl-bg-elevated);
+  box-shadow: var(--tsl-shadow-lg);
+  font-size: 13px;
+  animation: tsl-pop 180ms var(--tsl-ease);
+}
+
+.tsl-savebar[hidden] {
+  display: none;
+}
+
+.tsl-savebar > :first-child {
+  flex: 1 1 auto;
+}
+
+@container tsl-settings (max-width: 640px) {
+  .tsl-settings__grid {
+    flex-direction: column;
+  }
+
+  .tsl-settings__nav {
+    width: auto;
+    padding: 8px;
+    border-inline-end: 0;
+    border-bottom: 1px solid var(--tsl-border);
+  }
+
+  .tsl-settings__nav .tsl-nav {
+    flex-direction: row;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  .tsl-settings__nav .tsl-nav__item {
+    flex: none;
+  }
+
+  .tsl-settings__panel {
+    padding: 16px;
+  }
+
+  .tsl-settings__row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tsl-savebar {
+    animation: none;
+  }
+}

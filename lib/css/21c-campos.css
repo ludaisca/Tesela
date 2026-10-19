@@ -25,7 +25,7 @@ tsl-time-picker {
   color: var(--tsl-fg);
   font: inherit;
   font-size: 12px;
-  text-align: left;
+  text-align: start;
   cursor: pointer;
   transition: border-color 140ms ease, box-shadow 140ms ease;
 }
@@ -92,13 +92,13 @@ tsl-time-picker {
 }
 
 .tsl-select__wrap:has(.tsl-trigger__clear:not([hidden])) .tsl-trigger {
-  padding-right: 52px;
+  padding-inline-end: 52px;
 }
 
 .tsl-trigger__clear {
   position: absolute;
   top: 50%;
-  right: 30px;
+  inset-inline-end: 30px;
   display: grid;
   place-items: center;
   width: 18px;
@@ -273,8 +273,8 @@ tsl-select:has([aria-invalid="true"]) .tsl-trigger,
 }
 
 .tsl-time__col + .tsl-time__col {
-  border-left: 1px solid var(--tsl-border);
-  padding-left: 6px;
+  border-inline-start: 1px solid var(--tsl-border);
+  padding-inline-start: 6px;
 }
 
 .tsl-time__opt {

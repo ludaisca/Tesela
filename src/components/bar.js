@@ -1,4 +1,4 @@
-import { TslElement, define, emit, moveFocus, nextId } from "../core/base.js";
+import { TslElement, define, emit, isRtl, moveFocus, nextId } from "../core/base.js";
 import { FOCUSABLE, position } from "../core/position.js";
 
 /**
@@ -187,14 +187,17 @@ export class TslBar extends TslElement {
   onKey(e) {
     const t = e.target;
     const k = e.key;
+    const rtl = isRtl(this);
+    const fwdKey = rtl ? "ArrowLeft" : "ArrowRight";
+    const backKey = rtl ? "ArrowRight" : "ArrowLeft";
     const stopIdx = this.stops.indexOf(t);
 
     // Elementos de la barra superior
     if (stopIdx !== -1) {
       const entry = this.entries[stopIdx];
-      if (k === "ArrowRight" || k === "ArrowLeft") {
+      if (k === fwdKey || k === backKey) {
         e.preventDefault();
-        const next = this.entries[(stopIdx + (k === "ArrowRight" ? 1 : -1) + this.entries.length) % this.entries.length];
+        const next = this.entries[(stopIdx + (k === fwdKey ? 1 : -1) + this.entries.length) % this.entries.length];
         next.trigger.focus();
         if (this.current && next.panel) this.open(next, this.isMenubar ? "first" : null);
       } else if (k === "Home" || k === "End") {
@@ -240,20 +243,20 @@ export class TslBar extends TslElement {
         e.preventDefault();
         next.focus();
       }
-    } else if (k === "ArrowRight" && isSubParent) {
+    } else if (k === fwdKey && isSubParent) {
       e.preventDefault();
       const sub = t.parentElement;
       this.openSub(sub);
       this.focusIn(sub.querySelector(":scope > .tsl-menu__list"), "first");
-    } else if (k === "ArrowLeft" && list.parentElement.classList.contains("tsl-menu__sub")) {
+    } else if (k === backKey && list.parentElement.classList.contains("tsl-menu__sub")) {
       e.preventDefault();
       const sub = list.parentElement;
       this.closeSub(sub);
       sub.querySelector(":scope > .tsl-menu__item").focus();
-    } else if (k === "ArrowRight" || k === "ArrowLeft") {
+    } else if (k === fwdKey || k === backKey) {
       e.preventDefault();
       const i = this.entries.indexOf(this.current);
-      const next = this.entries[(i + (k === "ArrowRight" ? 1 : -1) + this.entries.length) % this.entries.length];
+      const next = this.entries[(i + (k === fwdKey ? 1 : -1) + this.entries.length) % this.entries.length];
       next.trigger.focus();
       if (next.panel) this.open(next, "first");
     } else if (k === "Enter" || k === " ") {

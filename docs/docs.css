@@ -244,7 +244,7 @@ p {
 
 .doc-demo {
   position: relative;
-  padding: 28px 24px;
+  padding: 28px var(--demo-pad, 24px);
   background-color: var(--tsl-bg);
   background-image: radial-gradient(circle at 1px 1px, var(--tsl-border) 1px, transparent 0);
   background-size: 16px 16px;

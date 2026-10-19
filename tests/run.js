@@ -54,7 +54,7 @@ const { start } = require("./server");
     const f = lines.filter((l) => l.startsWith("FAIL ")).length;
     passed += p;
     failed += f;
-    console.log(`${p} correctas, ${f} fallidas${r.status > 1 ? `  (error de ejecución: ${(r.stderr || "").trim().split("\n")[0]})` : ""}`);
+    console.log(`${p} correctas, ${f} fallidas${r.status !== 0 && f === 0 ? `  (error de ejecución: ${(r.stderr || "").split("\n").find((l) => /\w*Error:/.test(l)) || (r.stderr || "").trim().split("\n")[0]})` : ""}`);
     if (r.status !== 0 && f === 0) failed += 1;
   }
 

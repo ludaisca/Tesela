@@ -22,7 +22,7 @@ tsl-data-table {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding-left: 10px;
+  padding-inline-start: 10px;
   color: var(--tsl-fg);
 }
 

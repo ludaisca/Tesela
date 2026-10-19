@@ -394,3 +394,32 @@
     border-top: 1px solid var(--tsl-border);
   }
 }
+
+/* ---- Composición del escenario: el conjunto (cabecera + muestra) se centra en vertical y, si todas las muestras
+   son estrechas, también como columna común en horizontal ---- */
+.sandbox-stage {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Espacio para la píldora de teclado: no descentra el contenido corto y deja aire inferior al desplazar */
+.sandbox-stage::after {
+  content: "";
+  flex: none;
+  height: 80px;
+}
+
+.sandbox-stage > .xp {
+  width: 100%;
+  margin-block: auto;
+  padding-block: 40px;
+}
+
+/* js/app.js mide el max-width de las muestras y fija --xp-col; así la cabecera y la muestra comparten el borde de inicio */
+.sandbox-stage > .xp[style*="--xp-col"] {
+  max-width: calc(max(var(--xp-col), 480px) + 48px);
+}
+
+.sandbox-stage > .xp[style*="--xp-col"] > *:not(dialog):not([popover]) {
+  margin-inline: 0;
+}

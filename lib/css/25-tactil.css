@@ -22,6 +22,16 @@
     min-height: 40px;
   }
 
+  tsl-currency,
+  tsl-phone {
+    height: 40px;
+  }
+
+  .tsl-editor__tool {
+    width: 36px;
+    height: 36px;
+  }
+
   .tsl-trigger__input {
     height: 38px;
   }
@@ -73,6 +83,37 @@
     min-height: 40px;
   }
 
+  .tsl-questionnaire__choices .tsl-choice,
+  .tsl-trace__line,
+  .tsl-reasoning__trigger,
+  .tsl-sources__trigger,
+  .tsl-source {
+    min-height: 44px;
+  }
+
+  .tsl-suggestion {
+    min-height: 40px;
+  }
+
+  .tsl-branch__selector .tsl-btn--icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .tsl-prompt-input__submit {
+    width: 40px;
+    height: 40px;
+  }
+
+  .tsl-radio {
+    min-height: 32px;
+    align-items: center;
+  }
+
+  .tsl-sidebar__item {
+    min-height: 44px;
+  }
+
   .tsl-pagination > * {
     min-width: 38px;
     height: 38px;
@@ -91,7 +132,7 @@
   }
 
   .tsl-trigger__clear {
-    right: 26px;
+    inset-inline-end: 26px;
   }
 
   .tsl-chip__remove {
@@ -116,8 +157,8 @@
   }
 
   tsl-resizable[data-direction="horizontal"] > .tsl-resizable__handle::before {
-    left: -14px;
-    right: -14px;
+    inset-inline-start: -14px;
+    inset-inline-end: -14px;
   }
 
   tsl-resizable[data-direction="vertical"] > .tsl-resizable__handle::before {
@@ -170,7 +211,7 @@
 
   .tsl-switch::before {
     top: 3px;
-    left: 3px;
+    inset-inline-start: 3px;
     width: 20px;
     height: 20px;
   }

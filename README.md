@@ -7,7 +7,7 @@ Biblioteca de componentes **sin dependencias** (HTML + CSS + Custom Elements) y 
 
 ## Tesela (`tesela-ui`)
 
-78 componentes (botones, formularios, OTP, tags, dropzone, calendario, tabs, menús, paleta de comandos, diálogos, drawers, toasts, tablas ordenables, sparklines, popover, hover card, menú contextual, confirmación, sheets, select, combobox, selector de fecha, rango de fechas, selector de hora, barra de menús, menú de navegación, slider de rango, rating, selector de color, contraseña con medidor, textarea autoajustable, menciones, toggle group, collapsible, scroll area, paneles redimensionables, tree view, lista virtualizada, listas ordenables, kanban, tabla de datos y gráficas de línea, área, barras, dona, gauge y mapa de calor…) más patrones de ejemplo.
+99 secciones de componentes (botones, formularios, OTP, tags, dropzone, calendario, tabs, menús, paleta de comandos, diálogos, drawers, toasts, tablas ordenables, sparklines, popover, hover card, menú contextual, confirmación, sheets, select, combobox, selector de fecha, rango de fechas, selector de hora, barra de menús, menú de navegación, slider de rango, rating, selector de color, contraseña con medidor, textarea autoajustable, menciones, toggle group, collapsible, scroll area, paneles redimensionables, tree view, lista virtualizada, listas ordenables, kanban, tabla de datos, gráficas de línea, área, barras, dona, gauge y mapa de calor, barra lateral, grupo de radios, carrusel, item y la familia de conversación: mensaje, burbuja, adjunto, traza, bloque de código, zona con seguimiento, cuestionario, entrada de prompt con adjuntos, sugerencias, razonamiento, fuentes y citas, versiones de respuesta, medidor de contexto, asistente por pasos, importe, teléfono, subida de archivos con progreso y editor de texto enriquecido…) más patrones completos: panel de control, autenticación, ajustes con navegación lateral, alta por pasos y chat con asistente.
 
 ### Uso
 
@@ -24,10 +24,10 @@ Copia la carpeta `lib/` a tu proyecto:
 ```
 
 - **CSS (`tesela-ui.css`):** tokens `--tsl-*` y clases `tsl-*`. Funciona sin JS.
-- **JS (`tesela-ui.js`):** Custom Elements en light DOM (`<tsl-tabs>`, `<tsl-segmented>`, `<tsl-menu>`, `<tsl-command>`, `<tsl-otp>`, `<tsl-tags>`, `<tsl-dropzone>`, `<tsl-calendar>`, `<tsl-sparkline>`, `<tsl-popover>`, `<tsl-hovercard>`, `<tsl-context-menu>`, `<tsl-select>`, `<tsl-combobox>`, `<tsl-date-picker>`, `<tsl-time-picker>`, `<tsl-menubar>`, `<tsl-nav-menu>`, `<tsl-slider>`, `<tsl-rating>`, `<tsl-color-picker>`, `<tsl-password>`, `<tsl-mention>`, `<tsl-toggle-group>`, `<tsl-collapsible>`, `<tsl-scroll-area>`, `<tsl-resizable>`, `<tsl-tree>`, `<tsl-virtual-list>`, `<tsl-sortable>`, `<tsl-data-table>`, `<tsl-chart>`) y atributos `data-tsl-*` (abrir/cerrar diálogos, copiar, tema, tablas ordenables, rangos, steppers).
+- **JS (`tesela-ui.js`):** Custom Elements en light DOM (`<tsl-tabs>`, `<tsl-segmented>`, `<tsl-menu>`, `<tsl-command>`, `<tsl-otp>`, `<tsl-tags>`, `<tsl-dropzone>`, `<tsl-calendar>`, `<tsl-sparkline>`, `<tsl-popover>`, `<tsl-hovercard>`, `<tsl-context-menu>`, `<tsl-select>`, `<tsl-combobox>`, `<tsl-date-picker>`, `<tsl-time-picker>`, `<tsl-menubar>`, `<tsl-nav-menu>`, `<tsl-slider>`, `<tsl-rating>`, `<tsl-color-picker>`, `<tsl-password>`, `<tsl-mention>`, `<tsl-toggle-group>`, `<tsl-collapsible>`, `<tsl-scroll-area>`, `<tsl-resizable>`, `<tsl-tree>`, `<tsl-virtual-list>`, `<tsl-sortable>`, `<tsl-data-table>`, `<tsl-chart>`, `<tsl-sidebar>`, `<tsl-radio-group>`, `<tsl-carousel>`, `<tsl-message-scroller>`, `<tsl-questionnaire>`, `<tsl-prompt-input>`, `<tsl-reasoning>`, `<tsl-branch>`, `<tsl-context>`, `<tsl-wizard>`, `<tsl-currency>`, `<tsl-phone>`, `<tsl-upload>`, `<tsl-editor>`) y atributos `data-tsl-*` (abrir/cerrar diálogos, copiar, tema, tablas ordenables, rangos, steppers).
 - **API global:** `TeselaUI.toast()`, `TeselaUI.confirm()` (promesa), `TeselaUI.position()` (motor de posicionamiento), `TeselaUI.copy()`, `TeselaUI.setTheme()`, `TeselaUI.getTheme()`, `TeselaUI.init(root)`.
 - **Eventos:** todos los componentes emiten eventos `tsl-*` que burbujean (`tsl-change`, `tsl-select`, `tsl-complete`, `tsl-copy`, `tsl-theme`).
-- **Formularios:** `tsl-select`, `tsl-combobox`, `tsl-date-picker`, `tsl-time-picker`, `tsl-slider`, `tsl-rating` y `tsl-color-picker` son *form-associated* (`ElementInternals`): aparecen en `FormData`, respetan `required`, `form.reset()` y `<fieldset disabled>`.
+- **Formularios:** `tsl-select`, `tsl-combobox`, `tsl-date-picker`, `tsl-time-picker`, `tsl-slider`, `tsl-rating`, `tsl-color-picker`, `tsl-currency`, `tsl-phone`, `tsl-upload` y `tsl-editor` son *form-associated* (`ElementInternals`): aparecen en `FormData`, respetan `required`, `form.reset()` y `<fieldset disabled>`.
 - **Temas:** oscuro por defecto; `data-theme="light"` en `<html>`. Cambia la marca sobrescribiendo `--tsl-accent`, `--tsl-radius`, etc.
 - **Accesibilidad:** roles ARIA, navegación por teclado, `<dialog>` nativo y soporte de `prefers-reduced-motion`.
 - **Textos por defecto en español** (etiquetas ARIA, placeholders, "Copiado"…); se pueden cambiar con atributos (`label`, `placeholder`, `empty`).
@@ -65,7 +65,8 @@ Todo el estilo sale de 36 tokens definidos una sola vez en `src/tokens/tokens.js
 | Preset | `data-preset="esmeralda"` cambia colores, radios y tipografías de una vez. Hay 11: `tesela` (por defecto), `esmeralda`, `ambar`, `cielo`, `rosa`, `violeta`, `medianoche`, `papel`, `alto-contraste`, `brutalista` y `suave` |
 | Acento | `TeselaUI.setAccent("#10b981")` cambia el acento y elige solo un texto legible (blanco o casi negro) |
 | API | `TeselaUI.setTheme()`, `getTheme()`, `getResolvedTheme()`, `setPreset()`, `getPreset()`, `setAccent()`, `presets` y los eventos `tsl-theme`, `tsl-preset` y `tsl-accent` |
-| Sin parpadeo | `<script src="lib/theme-init.js"></script>` en `<head>` aplica lo guardado antes del primer pintado |
+| Dirección | `TeselaUI.setDirection("rtl")` (o `dir="rtl"` en `<html>`/un contenedor) espeja los componentes: el CSS usa propiedades lógicas y el teclado, el puntero y el posicionamiento respetan el sentido de lectura. Gráficas, minigráficos, selectores de color y OTP conservan la orientación izquierda-derecha. Evento `tsl-direction` |
+| Sin parpadeo | `<script src="lib/theme-init.js"></script>` en `<head>` aplica lo guardado (tema, preset, acento y dirección) antes del primer pintado |
 
 Todos los presets cumplen el contraste WCAG en ambos modos (texto AAA, atenuado AA, texto del acento AA, insignias AA) y `alto-contraste` llega a AAA; `tests/tokens.test.js` lo comprueba con los valores reales del navegador. Los archivos exportados están en `lib/tokens/` (`tokens.json`, `tokens.css`, `tokens.scss`, `tokens.mjs`, `tailwind.preset.cjs`) y hay un CSS por preset en `lib/themes/`.
 
@@ -145,6 +146,20 @@ Las pruebas corren en un Chromium real con Playwright e incluyen teclado, arrast
 | `tests/api.test.js` | la descripción de la API coincide con el código; los tipos compilan con `tsc --strict` |
 | `tests/docs.test.js` | la pestaña «API», la galería de presets y el comprobador de contraste |
 | `tests/tokens.test.js` | tokens, contraste WCAG de los presets, archivos exportados, modos, presets y API de temas |
+| `tests/responsive.test.js` | sin desborde de 320 a 2560 px (15 tamaños), los 212 experimentos en móvil, 20 paneles flotantes dentro de la pantalla y ergonomía táctil |
+| `tests/sidebar.test.js` | barra lateral: modo de iconos, cajón en móvil, teclado, persistencia y submenús |
+| `tests/radio-group.test.js` | grupo de radios: teclado, ARIA, formularios, validación y `fieldset disabled` |
+| `tests/carousel.test.js` | carrusel: snap, botones, puntos, teclado, bucle, varias a la vez, avance automático y RTL |
+| `tests/estilos.test.js` | componentes solo de CSS (item) |
+| `tests/rtl.test.js` | derecha a izquierda: API, guardado, posiciones y teclado espejados y sin desbordes |
+| `tests/portada.test.js` | portada de la galería: pared de 212 teselas, flechas, dirección numérica, filtros, favoritos, cifras verificables y tamaños de 320 a 950 px |
+| `tests/gallery-layout.test.js` | minimapa sin tapar contenido, escenario del sandbox centrado, 212 miniaturas equilibradas y muestras de la documentación centradas en su marco |
+| `tests/conversacion.test.js` | mensaje, marcador, zona con seguimiento, adjunto, traza, bloque de código y cuestionario |
+| `tests/asistente.test.js` | entrada de prompt (Enter/IME, adjuntos por botón, pegado y arrastre, detener), sugerencias, razonamiento, fuentes y citas, versiones, acciones, medidor de contexto y el patrón de chat completo (enviar, detener, regenerar, adjuntos, seguir el final al estrecharse) |
+| `tests/bloques.test.js` | asistente por pasos (validación por paso, indicador, envío y reinicio), alta de un espacio, panel de control (periodos, búsqueda, consultas de contenedor), autenticación (errores por campo, registro, código, recuperación) y ajustes (secciones, guardar y descartar, zona de peligro) |
+| `tests/controles.test.js` | importe (formato por idioma, cursor, decimales, límites), teléfono (forma por país, prefijo al pegar, E.164), subida (validación, progreso, cancelar, reintentar, `action` real) y editor (barra accesible, formato, enlaces, listas, pegado saneado, límites) |
+
+`scripts/audit-layout.js` (equilibrio de cada experimento), `scripts/audit-previews.js` (centrado de las miniaturas), `scripts/audit-responsive.js` y `scripts/audit-experiments.js` imprimen el detalle de los desbordes y de los objetivos táctiles pequeños (los usa `tests/responsive.test.js`).
 
 ```bash
 npm install                        # solo la primera vez (instala Playwright)

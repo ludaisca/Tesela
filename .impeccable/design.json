@@ -1,0 +1,270 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-18T06:43:41.790422Z",
+  "title": "Design System: Tesela",
+  "extensions": {
+    "colorMeta": {
+      "gilt": {
+        "role": "primary",
+        "displayName": "Dorado mate",
+        "canonical": "#c3a569",
+        "tonalRamp": [
+          "#2e2615",
+          "#483a1f",
+          "#625029",
+          "#7b5e21",
+          "#9a7e3c",
+          "#b99347",
+          "#c3a569",
+          "#e0d1a8"
+        ]
+      },
+      "lacquer-black": {
+        "role": "neutral",
+        "displayName": "Negro lacado",
+        "canonical": "#141415",
+        "tonalRamp": [
+          "#0a0a0b",
+          "#141415",
+          "#1b1b1d",
+          "#2a2a2d",
+          "#3d3d41",
+          "#6a6a74",
+          "#8e8e96",
+          "#f5f5f7"
+        ]
+      },
+      "lacquer-raised": {
+        "role": "neutral",
+        "displayName": "Lacado elevado",
+        "canonical": "#1b1b1d",
+        "tonalRamp": [
+          "#0a0a0b",
+          "#141415",
+          "#1b1b1d",
+          "#2a2a2d",
+          "#3d3d41",
+          "#6a6a74",
+          "#8e8e96",
+          "#f5f5f7"
+        ]
+      },
+      "stone-light": {
+        "role": "neutral",
+        "displayName": "Piedra clara",
+        "canonical": "#a9a396",
+        "tonalRamp": [
+          "#2b2924",
+          "#4a463f",
+          "#6b665c",
+          "#8a8579",
+          "#a9a396",
+          "#c4bfb4",
+          "#dcd8cf",
+          "#f0eee9"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Titular del frontispicio en capitales Marcellus."
+      },
+      "headline": {
+        "displayName": "Carpeta",
+        "purpose": "Títulos de carpeta."
+      },
+      "address": {
+        "displayName": "Dirección",
+        "purpose": "Número N.º de tres cifras en la tarjeta de dirección."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "Solo direcciones, archivos y atajos."
+      }
+    },
+    "shadows": [
+      {
+        "name": "pop",
+        "value": "0 8px 16px -8px rgba(0,0,0,0.55)",
+        "purpose": "Elementos flotantes: tooltip, HUD, carril, popover."
+      },
+      {
+        "name": "tile-bevel",
+        "value": "inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -1px 0 rgba(0,0,0,0.28)",
+        "purpose": "Bisel de 1 px de cada tesela."
+      },
+      {
+        "name": "tile-raised",
+        "value": "0 0 0 1px var(--fg), 0 6px 14px -6px rgba(0,0,0,0.55)",
+        "purpose": "Tesela en hover, foco o vínculo."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Movimiento de teselas, tooltip y HUD."
+      },
+      {
+        "name": "lay-in",
+        "value": "480ms ease, 2.4ms por pieza, opacity 0 y scale 0.55 a plena",
+        "purpose": "Único momento de movimiento; solo sin prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wall-12-rows",
+        "value": "1099px"
+      },
+      {
+        "name": "wall-15-rows",
+        "value": "899px"
+      },
+      {
+        "name": "wall-18-rows",
+        "value": "759px"
+      },
+      {
+        "name": "wall-24-rows",
+        "value": "599px"
+      },
+      {
+        "name": "wall-27-rows",
+        "value": "479px"
+      },
+      {
+        "name": "wall-31-rows",
+        "value": "359px"
+      },
+      {
+        "name": "header-two-rows",
+        "value": "767px"
+      },
+      {
+        "name": "folder-rail",
+        "value": "1440px"
+      },
+      {
+        "name": "cards-4-cols",
+        "value": "1360px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botón sólido",
+      "kind": "custom",
+      "refersTo": "button-solid",
+      "description": "Acción primaria del frontispicio.",
+      "html": "<a class=\"ds-btn-solid\" href=\"#\">Explorar la galería</a>",
+      "css": ".ds-btn-solid{display:inline-flex;align-items:center;height:40px;padding-inline:18px;border-radius:6px;background:var(--fg,#f5f5f7);color:var(--bg,#141415);font:500 13.5px 'Libre Franklin',sans-serif;transition:background-color 160ms ease}.ds-btn-solid:hover{background:color-mix(in srgb,var(--fg,#f5f5f7) 86%,var(--bg,#141415))}.ds-btn-solid:focus-visible{outline:2px solid var(--fg,#f5f5f7);outline-offset:3px}"
+    },
+    {
+      "name": "Botón de línea",
+      "kind": "custom",
+      "refersTo": "button-line",
+      "description": "Acción secundaria.",
+      "html": "<a class=\"ds-btn-line\" href=\"#\">Documentación</a>",
+      "css": ".ds-btn-line{display:inline-flex;align-items:center;height:40px;padding-inline:18px;border:1px solid var(--border-strong,rgba(255,255,255,.22));border-radius:6px;color:var(--fg,#f5f5f7);font:500 13.5px 'Libre Franklin',sans-serif}.ds-btn-line:hover{border-color:var(--fg-muted,#8e8e96);background:var(--surface-card-hover,rgba(255,255,255,.055))}.ds-btn-line:focus-visible{outline:2px solid var(--fg,#f5f5f7);outline-offset:3px}"
+    },
+    {
+      "name": "Tesela",
+      "kind": "custom",
+      "refersTo": "wall-frame",
+      "description": "Pieza cuadrada de la pared; el color lo pone la carpeta.",
+      "html": "<span class=\"ds-tile\" style=\"--tile:#6366f1;--j:4\"></span><span class=\"ds-tile is-fav\"></span>",
+      "css": ".ds-tile{display:inline-block;width:44px;height:44px;margin:3px;border-radius:1px;background:color-mix(in oklch,color-mix(in oklch,var(--tile) 42%,#1b1b1d) calc(100% - var(--j)*1%),#f5f5f7 calc(var(--j)*1%));box-shadow:inset 0 1px 0 rgba(255,255,255,.15),inset 0 -1px 0 rgba(0,0,0,.28);transition:transform 160ms cubic-bezier(.22,1,.36,1)}.ds-tile:hover{transform:scale(1.14);box-shadow:0 0 0 1px #f5f5f7,0 6px 14px -6px rgba(0,0,0,.55)}.ds-tile.is-fav{background:#c3a569}"
+    },
+    {
+      "name": "Tarjeta de dirección",
+      "kind": "custom",
+      "refersTo": "address-card",
+      "description": "HUD de direccionamiento numérico.",
+      "html": "<div class=\"ds-address\"><span class=\"ds-address-num\">N.º 04<i>_</i></span><span class=\"ds-address-name\">Teclea tres cifras</span></div>",
+      "css": ".ds-address{display:flex;align-items:baseline;gap:16px;padding:14px 20px;border:1px solid rgba(195,165,105,.42);border-radius:4px;background:#1b1b1d;box-shadow:0 8px 16px -8px rgba(0,0,0,.55)}.ds-address-num{font:400 30px Marcellus,serif;letter-spacing:.06em;color:#f5f5f7}.ds-address-num i{font-style:normal;color:#8e8e96}.ds-address-name{font:13.5px 'Libre Franklin',sans-serif;color:#8e8e96}"
+    },
+    {
+      "name": "Cabecera de carpeta",
+      "kind": "custom",
+      "refersTo": "header",
+      "description": "Filete con tramo dorado, título con tesela y rango mono.",
+      "html": "<div class=\"ds-cat\"><div class=\"ds-cat-rule\"></div><h2><span class=\"ds-cat-tile\"></span>Formularios</h2><p>001–009</p></div>",
+      "css": ".ds-cat-rule{position:relative;height:1px;margin-bottom:32px;background:rgba(255,255,255,.095)}.ds-cat-rule:before{content:'';position:absolute;top:-1px;left:0;width:48px;height:3px;background:#c3a569}.ds-cat h2{font:400 32px/1.1 Marcellus,serif;color:#f5f5f7}.ds-cat-tile{display:inline-block;width:12px;height:12px;margin-right:14px;border-radius:1px;background:color-mix(in oklch,#10b981 42%,#1b1b1d);box-shadow:inset 0 1px 0 rgba(255,255,255,.15),inset 0 -1px 0 rgba(0,0,0,.28)}.ds-cat p{margin-top:10px;font:12px 'Spline Sans Mono',monospace;letter-spacing:.04em;color:#8e8e96}"
+    },
+    {
+      "name": "Filtro",
+      "kind": "chip",
+      "refersTo": "button-quiet",
+      "description": "Píldora Todos / Nuevos / Favoritos con subrayado dorado en la activa.",
+      "html": "<button class=\"ds-filter is-active\">Todos <em>212</em></button>",
+      "css": ".ds-filter{height:32px;padding-inline:12px;border:0;border-radius:6px;background:none;color:#8e8e96;font:13px 'Libre Franklin',sans-serif}.ds-filter em{margin-left:6px;font-style:normal}.ds-filter.is-active,.ds-filter:hover{color:#f5f5f7;background:rgba(255,255,255,.055)}.ds-filter.is-active{box-shadow:inset 0 -2px 0 #c3a569}.ds-filter:focus-visible{outline:2px solid #f5f5f7;outline-offset:2px}"
+    },
+    {
+      "name": "Tarjeta de experimento",
+      "kind": "card",
+      "refersTo": "card-frame",
+      "description": "Miniatura 16:10 con título, N.º y archivo.",
+      "html": "<article class=\"ds-card\"><div class=\"ds-card-frame\"></div><div class=\"ds-card-row\"><b>Formulario de acceso</b><code>N.º 012</code></div><code class=\"ds-card-file\">acceso.html</code></article>",
+      "css": ".ds-card-frame{aspect-ratio:16/10;border:1px solid rgba(255,255,255,.095);border-radius:6px;background:#1b1b1d;transition:border-color 200ms ease}.ds-card:hover .ds-card-frame{border-color:#8e8e96}.ds-card-row{display:flex;justify-content:space-between;gap:10px;margin-top:12px;font:600 14px/1.35 'Libre Franklin',sans-serif;color:#f5f5f7}.ds-card code{font:12px 'Spline Sans Mono',monospace;color:#8e8e96;font-weight:400}.ds-card-file{display:block;margin-top:4px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "La pared de teselas",
+    "overview": "La portada es un mosaico de smalti sobre negro lacado: 212 piezas, una por experimento, en módulo cuadrado estricto. Cada carpeta aporta su color mate y desaturado, mezclado con el fondo elevado del tema. Filetes de 1 px, sin degradados ni brillos, un único dorado mate y un solo momento de movimiento: la colocación de la pared al cargar.",
+    "keyCharacteristics": [
+      "Pared de módulo cuadrado exacto, hueco de 3 px.",
+      "Color de carpeta mate; dorado solo para favoritos y filetes.",
+      "Bisel de 1 px y variación de luminosidad fija por pieza.",
+      "Marcellus para titulares y números; Libre Franklin para texto; Spline Sans Mono solo para direcciones, archivos y atajos.",
+      "Tema oscuro por defecto; claro y sistema reasignan dorado y piedra."
+    ],
+    "rules": [
+      {
+        "name": "The Gilt Reserve Rule",
+        "body": "El dorado solo marca favoritos y filetes finos.",
+        "section": "colors"
+      },
+      {
+        "name": "The Muted Stone Rule",
+        "body": "El color de una carpeta se mezcla siempre con --tile-ground; en claro la piedra se apaga, no se vuelve pastel.",
+        "section": "colors"
+      },
+      {
+        "name": "The Token Alias Rule",
+        "body": "Los neutros de la portada son alias de --tsl-*.",
+        "section": "colors"
+      },
+      {
+        "name": "The Mono Is An Address Rule",
+        "body": "Spline Sans Mono solo junto a una dirección, un archivo o un atajo.",
+        "section": "typography"
+      },
+      {
+        "name": "The Inscription Rule",
+        "body": "Marcellus en un solo peso; la jerarquía se hace con tamaño y espaciado.",
+        "section": "typography"
+      },
+      {
+        "name": "The No Gloss Rule",
+        "body": "Sin degradados ni brillos; la luz es el bisel de 1 px.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do dar a cada pieza nueva el color de su carpeta mediante --tile, mezclado con --tile-ground al --tile-mix del tema.",
+      "Do mantener la tesela cuadrada, con hueco de 3 px y bisel de 1 px.",
+      "Do reservar el dorado para favoritos, filetes finos y estados activos.",
+      "Do componer las cifras y direcciones en Marcellus o mono con cifras tabulares.",
+      "Do limitar el movimiento de entrada a la colocación de la pared y respetar prefers-reduced-motion.",
+      "Do usar alias --tsl-* para cualquier neutro nuevo."
+    ],
+    "donts": [
+      "Don't usar el acento de carpeta a plena saturación en la portada ni pasteles en claro.",
+      "Don't añadir degradados, brillos o sombras de gran difusión.",
+      "Don't usar Spline Sans Mono para prosa ni Marcellus en negrita.",
+      "Don't variar el módulo de la tesela por importancia o tamaño.",
+      "Don't repetir tres tarjetas promocionales iguales como frontispicio."
+    ]
+  }
+}

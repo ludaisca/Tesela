@@ -162,7 +162,7 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
 
   // ---------- FORMULARIO ----------
   await go('#form-fields');
-  await p.getByRole('button', { name: 'Enviar', exact: true }).click();
+  await p.locator('#demo-form').getByRole('button', { name: 'Enviar', exact: true }).click();
   ok((await txt('#demo-form-out')).includes('Faltan'), 'form: required bloquea el envío');
   ok(await p.evaluate(() => !document.querySelector('#demo-form').checkValidity()), 'form: checkValidity() = false');
   await p.locator('#demo-form tsl-select[name=prioridad] .tsl-trigger').click();
@@ -177,7 +177,7 @@ const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++
   await p.locator('#demo-form tsl-time-picker[name=hora] .tsl-trigger').click();
   await p.locator('#demo-form tsl-time-picker[name=hora] [data-col=h] [data-v="8"]').click();
   await p.locator('#demo-form tsl-time-picker[name=hora] [data-col=m] [data-v="30"]').click();
-  await p.getByRole('button', { name: 'Enviar', exact: true }).click();
+  await p.locator('#demo-form').getByRole('button', { name: 'Enviar', exact: true }).click();
   const out = JSON.parse(await txt('#demo-form-out'));
   ok(out.prioridad === 'alta' && JSON.stringify(out.equipos) === '["dis","prod"]' && /^\d{4}-\d{2}-\d{2}$/.test(out.fecha) && out.hora === '08:30', 'form: FormData incluye select, múltiple (2 entradas), fecha y hora → ' + JSON.stringify(out));
   await p.locator('#demo-form button[type=reset]').click();

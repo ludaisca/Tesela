@@ -1,4 +1,4 @@
-import { clamp, define, emit } from "../core/base.js";
+import { clamp, define, emit, isRtl } from "../core/base.js";
 import { TslFormElement } from "../core/form.js";
 
 const decimalsOf = (n) => (String(n).split(".")[1] || "").length;
@@ -89,7 +89,8 @@ export class TslSlider extends TslFormElement {
 
   valueAt(clientX) {
     const r = this.track.getBoundingClientRect();
-    return this.min + clamp((clientX - r.left) / r.width, 0, 1) * (this.max - this.min);
+    const frac = isRtl(this) ? (r.right - clientX) / r.width : (clientX - r.left) / r.width;
+    return this.min + clamp(frac, 0, 1) * (this.max - this.min);
   }
 
   onKey(e, i) {
@@ -97,8 +98,10 @@ export class TslSlider extends TslFormElement {
     const k = e.key;
     const cur = this.vals[i];
     let next = null;
-    if (k === "ArrowRight" || k === "ArrowUp") next = cur + this.step;
-    else if (k === "ArrowLeft" || k === "ArrowDown") next = cur - this.step;
+    const up = isRtl(this) ? "ArrowLeft" : "ArrowRight";
+    const down = isRtl(this) ? "ArrowRight" : "ArrowLeft";
+    if (k === up || k === "ArrowUp") next = cur + this.step;
+    else if (k === down || k === "ArrowDown") next = cur - this.step;
     else if (k === "PageUp") next = cur + this.step * 10;
     else if (k === "PageDown") next = cur - this.step * 10;
     else if (k === "Home") next = this.min;
@@ -156,7 +159,7 @@ export class TslSlider extends TslFormElement {
       // El pulgar activo queda por encima cuando ambos coinciden en un extremo
       t.style.zIndex = this.range && this.vals[0] === this.vals[1] ? (i === 0 ? (pct[0] > 50 ? 2 : 1) : pct[1] > 50 ? 1 : 2) : "";
     });
-    this.fill.style.left = this.range ? `${pct[0]}%` : "0";
+    this.fill.style.insetInlineStart = this.range ? `${pct[0]}%` : "0";
     this.fill.style.width = this.range ? `${pct[1] - pct[0]}%` : `${pct[0]}%`;
     this.syncDisabled();
     if (this.range) {

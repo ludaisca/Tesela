@@ -253,6 +253,42 @@
   // --------------------------------------------------------------------------
   // 2. 212 vistas previas en miniatura de tarjetas por slug (micro-interfaces SVG de 320x200)
   // --------------------------------------------------------------------------
+  // Ajuste [dx, dy] (unidades del lienzo de 320×200) que centra el dibujo en el área bajo la barra de la ventana.
+  // Se obtiene con scripts/audit-previews.js; los rieles laterales se dejan pegados al borde a propósito.
+  const CENTER_NUDGE = {
+    "layouts/canvas-tools": [0, 20],
+    "ai-agents/agent-handoff-graph": [0, 16],
+    "ai-agents/voice-waveform-hud": [0, -11],
+    "auth/waitlist": [0, 8],
+    "media-audio/bezier-easing-editor": [0, 8],
+    "timelines/audit": [-12, 0],
+    "timelines/notifications": [-12, 0],
+    "timelines/changelog": [-12, 0],
+    "timelines/commits": [-12, 0],
+    "timelines/approvals": [-12, 0],
+    "timelines/pull-request": [-12, 0],
+    "timelines/releases": [-12, 0],
+    "timelines/deploys": [-12, 0],
+    "timelines/inbox-thread": [-12, 0],
+    "timelines/activity-feed": [-12, 0],
+    "calendars/year-heatmap": [0, 16],
+    "profile/hero": [0, 10],
+    "profile/hover-card": [0, 10],
+    "profile/directory": [0, 10],
+    "profile/compact-card": [0, 10],
+    "profile/org-chart": [0, 22],
+    "profile/skills": [0, 10],
+    "profile/presence-rail": [0, 10],
+    "profile/introductions": [0, 10],
+    "profile/credentials": [0, 10],
+    "threads/inline-thread": [0, 9],
+    "threads/side-panel": [0, 9],
+    "threads/comment-row": [0, 9],
+    "threads/mention-popover": [0, 8],
+    "threads/resolved": [0, 9],
+    "threads/compose-rich": [0, 9]
+  };
+
   function generatePreviewSVG(catId, item, idx) {
     const slug = item.slug;
     const h = hashSlug(catId + ":" + slug);
@@ -282,8 +318,12 @@
           <text x="160" y="12" text-anchor="middle" font-size="5.5" font-family="ui-monospace, monospace" fill="currentColor" class="op-45">${catId}/${slug}</text>
           <circle cx="305" cy="10" r="2.8" fill="${acc}" class="op-85"/>
         </g>
-        ${inner}
+        ${nudgeOf(catId, slug, inner)}
       </svg>`;
+    };
+    const nudgeOf = (cat, sl, inner) => {
+      const n = CENTER_NUDGE[`${cat}/${sl}`];
+      return n ? `<g transform="translate(${n[0]} ${n[1]})">${inner}</g>` : inner;
     };
 
     // ========================================================================

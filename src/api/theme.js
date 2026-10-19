@@ -6,6 +6,7 @@ const THEME_KEY = "tsl-theme";
 const PRESET_KEY = "tsl-preset";
 const ACCENT_KEY = "tsl-accent";
 const ACCENT_FG_KEY = "tsl-accent-fg";
+const DIR_KEY = "tsl-dir";
 const THEMES = ["dark", "light", "system"];
 const root = () => document.documentElement;
 const lightQuery = () => (typeof window !== "undefined" && window.matchMedia ? window.matchMedia("(prefers-color-scheme: light)") : null);
@@ -79,7 +80,23 @@ export function setAccent(color) {
   return fg;
 }
 
+/** Dirección de escritura del documento: "ltr" (izquierda a derecha) o "rtl" (derecha a izquierda). */
+export function getDirection() {
+  return root().getAttribute("dir") === "rtl" ? "rtl" : "ltr";
+}
+
+/** Cambia la dirección (atributo `dir` de <html>) y la guarda. Cualquier otro valor se toma como "ltr". */
+export function setDirection(dir) {
+  const next = dir === "rtl" ? "rtl" : "ltr";
+  root().setAttribute("dir", next);
+  storage.set(DIR_KEY, next);
+  emit(document, "tsl-direction", { direction: next });
+  return next;
+}
+
 // Restaura lo guardado en la sesión anterior
+const storedDir = storage.get(DIR_KEY);
+if (storedDir === "rtl" || storedDir === "ltr") root().setAttribute("dir", storedDir);
 const storedTheme = storage.get(THEME_KEY);
 if (THEMES.includes(storedTheme)) root().setAttribute("data-theme", storedTheme);
 const storedPreset = storage.get(PRESET_KEY);

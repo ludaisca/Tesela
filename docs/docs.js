@@ -125,6 +125,68 @@
   }
 
   // ---------------------------------------------------------------- Marcos de demo
+  const demos = [];
+
+  // Una muestra más estrecha que el marco se centra: se mide lo que ocupa con el ancho completo y se reparte el resto
+  // como relleno lateral (--demo-pad). Así lo que ya llena el marco no cambia y lo que no, no queda pegado a la izquierda.
+  // Las filas y rejillas sin pintar (solo reparten sus hijos) no cuentan por su ancho de bloque, sino por lo que contienen.
+  function paintedExtent(el, depth = 0) {
+    const cs = getComputedStyle(el);
+    if (cs.display === "none" || cs.visibility === "hidden" || cs.position === "absolute" || cs.position === "fixed") return null;
+    const box = el.getBoundingClientRect();
+    if (!box.width && !box.height) return null;
+    const painted = /^(svg|canvas|img|video|input|button|select|textarea|hr|table)$/i.test(el.localName) || el.localName.includes("-") && el.children.length === 0 ||
+      (cs.backgroundColor !== "rgba(0, 0, 0, 0)" && cs.backgroundColor !== "transparent") || cs.backgroundImage !== "none" || parseFloat(cs.borderTopWidth) > 0 || parseFloat(cs.borderLeftWidth) > 0 || cs.boxShadow !== "none";
+    const kids = Array.from(el.children);
+    const ownText = Array.from(el.childNodes).some((n) => n.nodeType === 3 && n.textContent.trim());
+    // Un contenedor con recorte o scroll propio cuenta por su caja: lo que queda fuera de vista no ensancha la muestra
+    const clips = cs.overflowX !== "visible";
+    if (painted || clips || depth > 5 || !kids.length) return { l: box.left, r: box.right };
+    let l = Infinity;
+    let r = -Infinity;
+    kids.forEach((k) => {
+      const e = paintedExtent(k, depth + 1);
+      if (e) {
+        l = Math.min(l, e.l);
+        r = Math.max(r, e.r);
+      }
+    });
+    if (ownText) {
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      const t = range.getBoundingClientRect();
+      l = Math.min(l, t.left);
+      r = Math.max(r, t.right);
+    }
+    return isFinite(l) ? { l, r } : null;
+  }
+
+  function centerDemo(demo) {
+    if (demo.hidden || !demo.isConnected) return;
+    demo.style.removeProperty("--demo-pad");
+    const base = parseFloat(getComputedStyle(demo).paddingLeft);
+    const inner = demo.getBoundingClientRect().width - 2 * base;
+    let l = Infinity;
+    let r = -Infinity;
+    for (const k of demo.children) {
+      const e = paintedExtent(k);
+      if (e) {
+        l = Math.min(l, e.l);
+        r = Math.max(r, e.r);
+      }
+    }
+    // Margen de 4 px para que ninguna fila vuelva a partirse por redondeos
+    const used = r - l + 4;
+    if (!isFinite(l) || used >= inner * 0.9) return;
+    // El desplazamiento del contenido respecto al borde izquierdo también se corrige: lo que sobra se reparte a ambos lados
+    const lead = l - (demo.getBoundingClientRect().left + base);
+    demo.style.setProperty("--demo-pad", `${Math.round((base + (inner - used) / 2 - lead * 0) * 10) / 10}px`);
+  }
+
+  function centerDemos() {
+    demos.forEach(centerDemo);
+  }
+
   function buildDoc(section) {
     const tpl = section.querySelector(":scope > template");
     if (!tpl) return;
@@ -187,6 +249,7 @@
     });
 
     TeselaUI.init(demo);
+    demos.push(demo);
     if (js) {
       try {
         new Function(js)();
@@ -318,7 +381,15 @@
       });
     }
 
+    const dir = document.getElementById("docs-dir");
+    if (dir) {
+      dir.value = TeselaUI.getDirection();
+      dir.addEventListener("tsl-change", (e) => TeselaUI.setDirection(e.detail.value));
+      document.addEventListener("tsl-direction", (e) => (dir.value = e.detail.direction));
+    }
+
     document.getElementById("docs-reset")?.addEventListener("click", () => {
+      TeselaUI.setDirection("ltr");
       TeselaUI.setAccent(null);
       ["--tsl-radius", "--tsl-radius-sm", "--tsl-radius-xs"].forEach((v) => root.style.removeProperty(v));
       storageSet("tsl-docs-radius", "");
@@ -449,5 +520,21 @@
     document.querySelector(".docs-menu-btn")?.addEventListener("click", () => {
       document.querySelector(".docs-sidebar").classList.toggle("is-open");
     });
+
+    // Centrado de las muestras: tras cargar las fuentes y cada vez que cambia el ancho del contenido o la dirección
+    const recenter = () => requestAnimationFrame(centerDemos);
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(recenter);
+    recenter();
+    const main = document.querySelector(".docs-main");
+    if (main && window.ResizeObserver) {
+      let last = main.clientWidth;
+      new ResizeObserver(() => {
+        if (main.clientWidth !== last) {
+          last = main.clientWidth;
+          recenter();
+        }
+      }).observe(main);
+    }
+    document.addEventListener("tsl-direction", recenter);
   });
 })();

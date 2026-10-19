@@ -4,6 +4,7 @@ const { execFileSync } = require('child_process');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
+const { pathToFileURL } = require('url');
 let fails = 0;
 const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++; };
 const root = path.resolve(__dirname, '..');
@@ -65,10 +66,11 @@ const walk = (d, base = d) => fs.readdirSync(d, { withFileTypes: true }).flatMap
 
   // 3) Ningún elemento pisa miembros nativos de HTMLElement (p. ej. remove(), matches()), salvo con la misma firma
   await p.goto(`${base}/tests/fixtures/esm-index.html`); await p.waitForFunction(() => window.__listo);
-  const clashes = await p.evaluate(() => {
+  const allTags = (await import(pathToFileURL(path.join(root, 'src/meta/elements.js')).href)).elements.map((e) => e.tag);
+  const clashes = await p.evaluate((tags) => {
     const life = new Set(['constructor', 'connectedCallback', 'disconnectedCallback', 'attributeChangedCallback', 'formResetCallback', 'formDisabledCallback']);
     const out = {};
-    ['tsl-tabs', 'tsl-segmented', 'tsl-menu', 'tsl-command', 'tsl-otp', 'tsl-tags', 'tsl-dropzone', 'tsl-calendar', 'tsl-sparkline', 'tsl-popover', 'tsl-hovercard', 'tsl-context-menu', 'tsl-select', 'tsl-combobox', 'tsl-date-picker', 'tsl-time-picker', 'tsl-menubar', 'tsl-nav-menu', 'tsl-slider', 'tsl-rating', 'tsl-color-picker', 'tsl-password', 'tsl-mention', 'tsl-toggle-group', 'tsl-collapsible', 'tsl-scroll-area', 'tsl-resizable', 'tsl-tree', 'tsl-virtual-list', 'tsl-sortable', 'tsl-data-table', 'tsl-chart'].forEach((t) => {
+    tags.forEach((t) => {
       const bad = [];
       for (let k = customElements.get(t); k && k !== HTMLElement; k = Object.getPrototypeOf(k)) {
         Object.getOwnPropertyNames(k.prototype).forEach((n) => { if (!life.has(n) && n in HTMLElement.prototype) bad.push(n); });
@@ -76,11 +78,11 @@ const walk = (d, base = d) => fs.readdirSync(d, { withFileTypes: true }).flatMap
       if (bad.length) out[t] = [...new Set(bad)];
     });
     return out;
-  });
-  // scrollTo de <tsl-scroll-area> conserva la firma nativa y reenvía al área desplazable
-  const allowed = { 'tsl-scroll-area': ['scrollTo'] };
+  }, allTags);
+  // scrollTo de <tsl-scroll-area> y focus de los campos compuestos conservan la firma nativa y reenvían a su parte interna
+  const allowed = { 'tsl-scroll-area': ['scrollTo'], 'tsl-prompt-input': ['focus'], 'tsl-currency': ['focus'], 'tsl-phone': ['focus'], 'tsl-editor': ['focus'] };
   const real = Object.fromEntries(Object.entries(clashes).map(([t, ns]) => [t, ns.filter((n) => !(allowed[t] || []).includes(n))]).filter(([, ns]) => ns.length));
-  ok(Object.keys(real).length === 0, 'los 32 elementos no sobrescriben miembros nativos de HTMLElement' + (Object.keys(real).length ? `: ${JSON.stringify(real)}` : ''));
+  ok(Object.keys(real).length === 0, `los ${allTags.length} elementos no sobrescriben miembros nativos de HTMLElement` + (Object.keys(real).length ? `: ${JSON.stringify(real)}` : ''));
   const natives = await p.evaluate(async () => {
     const host = document.createElement('div');
     document.body.appendChild(host);

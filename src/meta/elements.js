@@ -366,6 +366,23 @@ export const elements = [
     events: [event("tsl-change", "{ value: number }", "Cambió la valoración.")]
   },
   {
+    tag: "tsl-radio-group", cls: "TslRadioGroup", module: "components/radio-group", docs: ["radio-group"], formAssociated: true,
+    summary: "Grupo de radios con un solo punto de tabulación: las flechas mueven y seleccionan. Opciones `button.tsl-radio` con etiqueta y descripción; participa en formularios.",
+    attributes: [
+      ...formAttrs,
+      attr("value", "string", "Valor seleccionado al iniciar."),
+      attr("orientation", '"vertical" | "horizontal"', "Disposición de las opciones.", "vertical"),
+      attr("label", "string", "Nombre accesible del grupo.", "Opciones")
+    ],
+    itemAttributes: [
+      attr("value", "string", "Valor de la opción."),
+      attr("disabled", "boolean", "Opción deshabilitada.")
+    ],
+    properties: [prop("value", "string", "Valor seleccionado (cadena vacía si no hay)."), prop("orientation", '"vertical" | "horizontal"', "Disposición.", true), ...formProps],
+    methods: [method("reset", [], "void", "Restablece la selección inicial."), ...formMethods],
+    events: [event("tsl-change", "{ value: string }", "El usuario eligió otra opción.")]
+  },
+  {
     tag: "tsl-color-picker", cls: "TslColorPicker", module: "components/color-picker", docs: ["color-picker"], formAssociated: true,
     summary: "Selector de color con área de saturación/brillo, tono, opacidad, hexadecimal y cuentagotas.",
     attributes: [
@@ -448,6 +465,368 @@ export const elements = [
       method("open", [], "void", "Abre."), method("close", [], "void", "Cierra.")
     ],
     events: [event("tsl-toggle", "{ open: boolean }", "Cambió el estado.")]
+  },
+  {
+    tag: "tsl-sidebar", cls: "TslSidebar", module: "components/sidebar", docs: ["sidebar"],
+    summary: "Barra lateral de navegación dentro de `.tsl-sidebar-layout`: completa, solo iconos u oculta; en pantallas estrechas se vuelve un cajón con fondo, Esc y devolución del foco.",
+    attributes: [
+      attr("collapsible", '"icon" | "offcanvas"', "Cómo se contrae en escritorio: a una columna de iconos o por completo.", "icon"),
+      attr("collapsed", "boolean", "Contraída."),
+      attr("side", '"start" | "end"', "Lado del diseño en que se coloca.", "start"),
+      attr("breakpoint", "number", "Ancho del contenedor (px) por debajo del cual pasa a cajón.", "720"),
+      attr("storage-key", "string", "Si se indica, recuerda si está contraída en `localStorage`."),
+      attr("shortcut", "string", "Letra que, con Ctrl/⌘, la alterna (p. ej. `b`)."),
+      attr("label", "string", "Nombre accesible de la navegación.", "Barra lateral")
+    ],
+    properties: [
+      prop("collapsed", "boolean", "Contraída en escritorio."),
+      prop("isMobile", "boolean", "Está en modo cajón.", true),
+      prop("mobileOpen", "boolean", "El cajón está abierto.", true)
+    ],
+    methods: [
+      method("toggle", [param("show", "boolean", true)], "void", "Contrae/expande (o abre/cierra el cajón en móvil); con `true` la muestra y con `false` la oculta."),
+      method("collapse", [], "void", "Contrae."), method("expand", [], "void", "Expande."),
+      method("openMobile", [], "void", "Abre el cajón (solo en modo estrecho)."), method("closeMobile", [], "void", "Cierra el cajón.")
+    ],
+    events: [event("tsl-toggle", "{ collapsed: boolean; open: boolean; mobile: boolean }", "Cambió el estado de la barra.")]
+  },
+  {
+    tag: "tsl-carousel", cls: "TslCarousel", module: "components/carousel", docs: ["carousel"],
+    summary: "Carrusel con scroll-snap nativo: botones, puntos, teclado, bucle y avance automático con pausa. Las diapositivas fuera de vista quedan `inert`.",
+    attributes: [
+      attr("label", "string", "Nombre accesible del carrusel.", "Carrusel"),
+      attr("per-view", "number", "Diapositivas visibles a la vez.", "1"),
+      attr("orientation", '"horizontal" | "vertical"', "Eje de desplazamiento (el vertical necesita una altura).", "horizontal"),
+      attr("dots", "boolean", "Muestra los puntos de navegación."),
+      attr("loop", "boolean", "Da la vuelta al llegar al final."),
+      attr("autoplay", "number", "Milisegundos entre avances (mínimo 1500). Se pausa con el cursor, el foco, el botón y `prefers-reduced-motion`.")
+    ],
+    properties: [
+      prop("index", "number", "Posición actual."),
+      prop("perView", "number", "Diapositivas visibles.", true),
+      prop("pageCount", "number", "Número de posiciones posibles.", true)
+    ],
+    methods: [
+      method("goTo", [param("index", "number"), param("smooth", "boolean", true)], "void", "Va a una posición."),
+      method("next", [], "void", "Avanza."), method("prev", [], "void", "Retrocede.")
+    ],
+    events: [event("tsl-change", "{ index: number; count: number }", "Cambió la diapositiva visible.")]
+  },
+  {
+    tag: "tsl-message-scroller", cls: "TslMessageScroller", module: "components/message-scroller", docs: ["message-scroller"],
+    summary: "Zona de conversación con altura propia: sigue el final mientras llegan o crecen mensajes y, si la persona sube, deja de seguirlo y ofrece «Ir al final». El contenido es una región `log`.",
+    attributes: [
+      attr("label", "string", "Nombre accesible de la región desplazable.", "Conversación"),
+      attr("threshold", "number", "Píxeles al final dentro de los cuales se considera «al final».", "48"),
+      attr("end-label", "string", "Texto del botón para volver al final.", "↓ Ir al final"),
+      attr("manual", "boolean", "No sigue el final automáticamente (el botón sigue funcionando).")
+    ],
+    properties: [prop("atEnd", "boolean", "El visor está al final.", true)],
+    methods: [
+      method("scrollToEnd", [param("smooth", "boolean", true)], "void", "Baja al último mensaje y vuelve a seguir el final."),
+      method("scrollToStart", [param("smooth", "boolean", true)], "void", "Sube al principio.")
+    ],
+    events: [event("tsl-scroll-state", "{ atEnd: boolean }", "La persona llegó o se alejó del final.")]
+  },
+  {
+    tag: "tsl-questionnaire", cls: "TslQuestionnaire", module: "components/questionnaire", docs: ["questionnaire"],
+    summary: "Formulario de una pregunta por pantalla: obligatorias, omitibles, condicionales, atajos 1-9 y progreso. Los datos son campos nativos de un `<form>`.",
+    attributes: [
+      attr("shortcuts", '"off"', "Con `off` desactiva las teclas 1-9 (por defecto están activas)."),
+      attr("progress-label", "string", "Texto del progreso con `{n}` y `{total}`.", "Pregunta {n} de {total}")
+    ],
+    itemAttributes: [
+      attr("data-required", "boolean", "La pregunta debe responderse para avanzar."),
+      attr("data-when", "string", "Solo aplica si otra respuesta coincide: `nombre=valor` o `nombre=a|b`."),
+      attr("data-error", "string", "Mensaje cuando falta la respuesta.", "Elige una respuesta para continuar."),
+      attr("data-name", "string", "Nombre de la pregunta que se informa en `tsl-step`.")
+    ],
+    properties: [
+      prop("answers", "Record<string, FormDataEntryValue | FormDataEntryValue[]>", "Respuestas de las preguntas que aplican.", true),
+      prop("activeIndex", "number", "Posición de la pregunta actual entre las que aplican.", true),
+      prop("count", "number", "Número de preguntas que aplican.", true)
+    ],
+    methods: [
+      method("next", [], "boolean", "Avanza si la actual está respondida (o no es obligatoria)."),
+      method("prev", [], "void", "Retrocede."),
+      method("skip", [], "void", "Omite la pregunta actual (solo si no es obligatoria)."),
+      method("goTo", [param("index", "number"), param("focus", "boolean", true)], "void", "Va a una pregunta."),
+      method("submit", [], "boolean", "Valida todas las obligatorias y emite `tsl-submit`."),
+      method("reset", [], "void", "Borra las respuestas y vuelve a la primera.")
+    ],
+    events: [
+      event("tsl-step", "{ index: number; count: number; name: string }", "Cambió la pregunta visible."),
+      event("tsl-submit", "{ answers: Record<string, FormDataEntryValue | FormDataEntryValue[]> }", "Se enviaron las respuestas.")
+    ]
+  },
+  {
+    tag: "tsl-prompt-input", cls: "TslPromptInput", module: "components/prompt-input", docs: ["prompt-input", "suggestion"],
+    summary: "Caja de entrada de un chat sobre un `<form>`: crece con el texto, Enter envía y Mayús+Enter salta de línea (respeta el IME), adjuntos por botón `[data-attach]`, pegado o arrastre, y el botón `[data-submit]` pasa a «Detener» mientras hay respuesta en curso.",
+    attributes: [
+      attr("status", '"ready" | "submitted" | "streaming" | "error"', "Estado de la respuesta: con `submitted` el botón muestra espera y con `streaming` un cuadrado; en ambos detiene en vez de enviar.", "ready"),
+      attr("disabled", "boolean", "Deshabilita el texto, los adjuntos y el envío."),
+      attr("accept", "string", "Tipos de archivo admitidos, como el `accept` nativo (`image/*,.pdf`)."),
+      attr("max-files", "number", "Máximo de adjuntos."),
+      attr("max-size", "string", "Tamaño máximo por archivo (`10MB`, `500KB` o bytes)."),
+      attr("max-rows", "number", "Filas que crece el texto antes de desplazarse.", "8"),
+      attr("submit-key", '"enter" | "mod-enter"', "Con `mod-enter` se envía con Ctrl/⌘+Enter y Enter salta de línea.", "enter"),
+      attr("label", "string", "Nombre accesible del texto si no tiene `<label>`.", "Mensaje"),
+      attr("attachments-label", "string", "Nombre accesible de la lista de adjuntos.", "Adjuntos"),
+      attr("submit-label", "string", "Nombre del botón al enviar.", "Enviar"),
+      attr("stop-label", "string", "Nombre del botón mientras hay respuesta en curso.", "Detener")
+    ],
+    itemAttributes: [
+      attr("data-tsl-suggest", "string", "En cualquier botón de la página: selector de la caja que rellena con su texto (o con `data-value`)."),
+      attr("data-value", "string", "Texto que pone la sugerencia, si no es el visible."),
+      attr("data-send", "boolean", "La sugerencia además envía.")
+    ],
+    properties: [
+      prop("value", "string", "Texto escrito."),
+      prop("files", "File[]", "Archivos adjuntos.", true),
+      prop("status", "string", "Refleja el atributo `status`."),
+      prop("busy", "boolean", "Hay una respuesta en curso (`submitted` o `streaming`).", true),
+      prop("canSubmit", "boolean", "Hay texto o adjuntos y no está deshabilitado ni ocupado.", true)
+    ],
+    methods: [
+      method("submit", [], "boolean", "Emite `tsl-submit`; si nadie lo cancela, vacía la caja."),
+      method("stop", [], "void", "Emite `tsl-stop`."),
+      method("clear", [], "void", "Vacía el texto y los adjuntos."),
+      method("addFiles", [param("files", "FileList | File[]")], "void", "Añade archivos validando tipo, tamaño y cantidad."),
+      method("removeFile", [param("index", "number")], "void", "Quita un adjunto."),
+      method("openFilePicker", [], "void", "Abre el selector de archivos."),
+      method("focus", [param("options", "FocusOptions", true)], "void", "Enfoca el texto.")
+    ],
+    events: [
+      event("tsl-submit", "{ text: string; files: File[]; values: Record<string, FormDataEntryValue | FormDataEntryValue[]> }", "Envío con el texto, los adjuntos y los demás campos del formulario (p. ej. el modelo). Cancelable: `preventDefault()` conserva el contenido."),
+      event("tsl-stop", "{}", "Se pulsó «Detener» durante una respuesta."),
+      event("tsl-files", "{ files: File[] }", "Cambiaron los adjuntos."),
+      event("tsl-error", '{ file: File; reason: "type" | "size" | "count"; message: string }', "Se rechazó un archivo (también se anuncia)."),
+      event("tsl-select", "{ value: string }", "Una sugerencia `[data-tsl-suggest]` rellenó la caja (lo emite el botón).")
+    ]
+  },
+  {
+    tag: "tsl-reasoning", cls: "TslReasoning", module: "components/reasoning", docs: ["reasoning"],
+    summary: "Razonamiento plegable de un asistente: con `streaming` se abre, muestra «Pensando…» y cuenta el tiempo; al terminar dice cuánto pensó y se pliega solo si la persona no lo tocó.",
+    attributes: [
+      attr("streaming", "boolean", "El razonamiento está en curso."),
+      attr("open", "boolean", "Muestra el contenido."),
+      attr("duration", "number", "Segundos de un razonamiento ya terminado."),
+      attr("close-delay", "number", "Milisegundos tras terminar antes de plegarse (`-1` no lo pliega).", "1000"),
+      attr("thinking-label", "string", "Texto mientras piensa.", "Pensando…"),
+      attr("done-label", "string", "Texto al terminar, con `{s}`.", "Pensó durante {s} s"),
+      attr("instant-label", "string", "Texto si duró menos de un segundo.", "Pensó unos instantes")
+    ],
+    properties: [
+      prop("isOpen", "boolean", "El contenido está visible.", true),
+      prop("isStreaming", "boolean", "Tiene `streaming`.", true),
+      prop("duration", "number", "Segundos que duró (o lleva).", true)
+    ],
+    methods: [
+      method("toggle", [param("force", "boolean", true)], "void", "Abre o pliega."),
+      method("open", [], "void", "Abre el contenido."),
+      method("close", [], "void", "Pliega el contenido.")
+    ],
+    events: [
+      event("tsl-toggle", "{ open: boolean }", "La persona abrió o plegó el razonamiento."),
+      event("tsl-complete", "{ duration: number }", "Terminó el razonamiento (se quitó `streaming`).")
+    ]
+  },
+  {
+    tag: "tsl-branch", cls: "TslBranch", module: "components/branch", docs: ["branch"],
+    summary: "Versiones alternativas de un mensaje (`.tsl-branch__item`): muestra una con el selector «‹ 2 de 3 ›», empieza en la última y salta a cada versión nueva que llegue.",
+    attributes: [
+      attr("index", "number", "Versión visible al iniciar, desde 0 (por defecto, la última)."),
+      attr("label", "string", "Nombre accesible del selector.", "Versiones"),
+      attr("count-label", "string", "Texto del contador con `{n}` y `{total}`.", "{n} de {total}"),
+      attr("prev-label", "string", "Nombre del botón anterior.", "Versión anterior"),
+      attr("next-label", "string", "Nombre del botón siguiente.", "Versión siguiente")
+    ],
+    properties: [
+      prop("index", "number", "Versión visible, desde 0."),
+      prop("count", "number", "Número de versiones.", true)
+    ],
+    methods: [
+      method("goTo", [param("index", "number"), param("fire", "boolean", true)], "void", "Muestra una versión (da la vuelta en los extremos)."),
+      method("next", [], "void", "Versión siguiente."),
+      method("prev", [], "void", "Versión anterior.")
+    ],
+    events: [event("tsl-change", "{ index: number; count: number }", "La persona cambió de versión.")]
+  },
+  {
+    tag: "tsl-context", cls: "TslContext", module: "components/context", docs: ["context"],
+    summary: "Medidor del contexto de un modelo: anillo con el porcentaje usado que abre un panel con barra, desglose de tokens y coste. Pasa a aviso desde el 75 % y a peligro desde el 90 % (`data-level`).",
+    attributes: [
+      attr("used", "number", "Tokens usados."),
+      attr("max", "number", "Tokens de la ventana de contexto."),
+      attr("input", "number", "Tokens de entrada (fila opcional)."),
+      attr("output", "number", "Tokens de salida (fila opcional)."),
+      attr("reasoning", "number", "Tokens de razonamiento (fila opcional)."),
+      attr("cached", "number", "Tokens servidos desde caché (fila opcional)."),
+      attr("cost", "number", "Coste estimado (fila opcional)."),
+      attr("currency", "string", "Moneda del coste (ISO 4217).", "USD"),
+      attr("model", "string", "Nombre del modelo en la cabecera del panel."),
+      attr("label", "string", "Nombre del medidor.", "Contexto"),
+      attr("placement", "string", "Posición del panel.", "top-start"),
+      attr("input-label", "string", "Etiqueta de la fila de entrada.", "Entrada"),
+      attr("output-label", "string", "Etiqueta de la fila de salida.", "Salida"),
+      attr("reasoning-label", "string", "Etiqueta de la fila de razonamiento.", "Razonamiento"),
+      attr("cached-label", "string", "Etiqueta de la fila de caché.", "En caché"),
+      attr("cost-label", "string", "Etiqueta del coste.", "Coste estimado")
+    ],
+    properties: [
+      prop("used", "number", "Tokens usados.", true),
+      prop("max", "number", "Tamaño de la ventana.", true),
+      prop("ratio", "number", "Fracción usada, entre 0 y 1.", true),
+      prop("level", '"ok" | "warn" | "danger"', "Nivel según el uso.", true)
+    ],
+    methods: [
+      method("open", [], "void", "Abre el panel."),
+      method("close", [], "void", "Cierra el panel.")
+    ],
+    events: []
+  },
+  {
+    tag: "tsl-wizard", cls: "TslWizard", module: "components/wizard", docs: ["wizard", "pattern-wizard"],
+    summary: "Formulario en varios pasos (`.tsl-wizard__step`): valida cada paso con la validación nativa antes de avanzar, dibuja el indicador `.tsl-steps` con los pasos visitados pulsables y, al enviar, revisa todos y emite `tsl-submit`. Botones `[data-prev]`, `[data-next]` y `[data-submit]`.",
+    attributes: [
+      attr("index", "number", "Paso visible al iniciar, desde 0.", "0"),
+      attr("label", "string", "Nombre accesible del indicador de pasos.", "Pasos"),
+      attr("step-label", "string", "Texto que se anuncia al cambiar de paso, con `{n}`, `{total}` y `{title}`.", "Paso {n} de {total}: {title}")
+    ],
+    itemAttributes: [attr("data-title", "string", "Nombre del paso en el indicador y en el anuncio.")],
+    properties: [
+      prop("index", "number", "Paso visible, desde 0.", true),
+      prop("count", "number", "Número de pasos.", true),
+      prop("isLast", "boolean", "El paso visible es el último.", true),
+      prop("values", "Record<string, FormDataEntryValue | FormDataEntryValue[]>", "Valores actuales del formulario.", true)
+    ],
+    methods: [
+      method("next", [], "boolean", "Avanza si el paso actual es válido."),
+      method("prev", [], "boolean", "Retrocede un paso."),
+      method("goTo", [param("index", "number"), param("focus", "boolean", true)], "boolean", "Va a un paso; hacia delante solo si los anteriores son válidos."),
+      method("validate", [param("index", "number"), param("report", "boolean", true)], "boolean", "Comprueba un paso y, con `report`, señala el primer campo inválido."),
+      method("submit", [], "boolean", "Valida todos los pasos (lleva al primero con errores) y emite `tsl-submit`."),
+      method("restart", [], "void", "Vuelve al primer paso sin borrar los campos (`form.reset()` también lo hace).")
+    ],
+    events: [
+      event("tsl-step", "{ index: number; count: number; title: string }", "Cambió el paso visible."),
+      event("tsl-change", "{ values: Record<string, FormDataEntryValue | FormDataEntryValue[]> }", "Cambió algún campo."),
+      event("tsl-submit", "{ values: Record<string, FormDataEntryValue | FormDataEntryValue[]> }", "Se enviaron todos los pasos válidos.")
+    ]
+  },
+  {
+    tag: "tsl-currency", cls: "TslCurrency", module: "components/currency", docs: ["currency"],
+    summary: "Importe con el formato del idioma mientras se escribe, símbolo de la moneda en su sitio y los decimales de esa moneda. En el formulario viaja el valor canónico (`1250.50`). ↑ ↓ suman o restan `step`.",
+    attributes: [
+      ...formAttrs,
+      attr("value", "string", "Importe inicial con punto decimal (`1250.5`)."),
+      attr("currency", "string", "Código ISO 4217 de la moneda.", "USD"),
+      attr("locale", "string", "Idioma del formato (por defecto, el `lang` de la página)."),
+      attr("min", "number", "Importe mínimo; si es negativo se pueden escribir negativos."),
+      attr("max", "number", "Importe máximo."),
+      attr("step", "number", "Lo que suman o restan ↑ y ↓.", "1"),
+      attr("show-code", "boolean", "Muestra el código de la moneda al final."),
+      attr("placeholder", "string", "Texto de ejemplo."),
+      attr("label", "string", "Nombre accesible (se le añade la moneda).", "Importe")
+    ],
+    properties: [
+      ...formProps,
+      prop("value", "string", "Importe canónico (`-1250.50`) o `\"\"`."),
+      prop("valueAsNumber", "number", "Importe como número (`NaN` si está vacío).", true),
+      prop("formatted", "string", "Importe con símbolo como lo escribe el idioma.", true)
+    ],
+    methods: [...formMethods, method("focus", [param("options", "FocusOptions", true)], "void", "Enfoca el campo.")],
+    events: [event("tsl-change", "{ value: string; number: number }", "Cambió el importe (al salir del campo, con Enter o con ↑ ↓).")]
+  },
+  {
+    tag: "tsl-phone", cls: "TslPhone", module: "components/phone", docs: ["phone"],
+    summary: "Teléfono con selector de país: da forma al número según el país mientras se escribe, reconoce el prefijo al pegar un número internacional y envía el valor en E.164 (`+525512345678`). Sin todos los dígitos no es válido.",
+    attributes: [
+      ...formAttrs,
+      attr("value", "string", "Número inicial, nacional o internacional (`+34 600 12 34 56`)."),
+      attr("country", "string", "País inicial (ISO 3166, p. ej. `MX`).", "MX"),
+      attr("countries", "string", "Países que se ofrecen, en orden: `MX,US,ES`."),
+      attr("placeholder", "string", "Texto de ejemplo (por defecto, la forma del número del país)."),
+      attr("label", "string", "Nombre accesible del número.", "Teléfono"),
+      attr("country-label", "string", "Nombre accesible del selector de país.", "País")
+    ],
+    properties: [
+      ...formProps,
+      prop("value", "string", "Número en E.164 o `\"\"`."),
+      prop("country", "string", "País elegido."),
+      prop("national", "string", "Dígitos del número nacional.", true),
+      prop("isComplete", "boolean", "Tiene todos los dígitos del país.", true),
+      prop("formatted", "string", "Número legible: `+52 55 1234 5678`.", true)
+    ],
+    methods: [...formMethods, method("focus", [param("options", "FocusOptions", true)], "void", "Enfoca el número.")],
+    events: [event("tsl-change", "{ value: string; country: string; complete: boolean }", "Cambió el número o el país.")]
+  },
+  {
+    tag: "tsl-upload", cls: "TslUpload", module: "components/upload", docs: ["upload"],
+    summary: "Subida de archivos con progreso: zona para soltar o elegir y una fila por archivo con barra, cancelar, reintentar y quitar. Sube con `action` (POST multipart) o con la función `uploader`; mientras sube, el formulario no es válido.",
+    attributes: [
+      ...formAttrs,
+      attr("multiple", "boolean", "Permite varios archivos."),
+      attr("accept", "string", "Tipos admitidos, como el `accept` nativo."),
+      attr("max-size", "string", "Tamaño máximo por archivo (`20MB`)."),
+      attr("max-files", "number", "Máximo de archivos (con `multiple`)."),
+      attr("action", "string", "URL a la que se suben con POST multipart."),
+      attr("field", "string", "Nombre del campo del archivo en la petición.", "file"),
+      attr("concurrency", "number", "Subidas simultáneas.", "3"),
+      attr("label", "string", "Nombre accesible de la lista.", "Archivos"),
+      attr("drop-label", "string", "Texto de la zona para soltar."),
+      attr("hint", "string", "Texto de ayuda (por defecto, los límites)."),
+      attr("busy-message", "string", "Mensaje de validación mientras sube.", "Espera a que terminen de subirse los archivos.")
+    ],
+    properties: [
+      ...formProps,
+      prop("uploader", "((file: File, options: { signal: AbortSignal; progress: (fraction: number) => void }) => Promise<unknown>) | null", "Función de subida propia; tiene prioridad sobre `action`."),
+      prop("files", "Array<{ file: File; name: string; size: number; status: string; progress: number; result?: unknown; error?: string }>", "Estado de cada archivo.", true),
+      prop("value", "unknown[]", "Resultados de los archivos subidos (o los `File`, sin destino).", true),
+      prop("busy", "boolean", "Hay archivos subiendo o en cola.", true)
+    ],
+    methods: [
+      ...formMethods,
+      method("addFiles", [param("files", "FileList | File[]")], "void", "Añade archivos validando tipo, tamaño y cantidad."),
+      method("cancel", [param("index", "number")], "void", "Cancela una subida."),
+      method("retry", [param("index", "number")], "void", "Reintenta una subida fallida o cancelada."),
+      method("removeFile", [param("index", "number"), param("focus", "boolean", true)], "void", "Quita un archivo (y corta su subida)."),
+      method("clear", [], "void", "Quita todos."),
+      method("openFilePicker", [], "void", "Abre el selector de archivos.")
+    ],
+    events: [
+      event("tsl-files", "{ files: object[] }", "Cambió la lista."),
+      event("tsl-progress", "{ file: File; progress: number }", "Avanzó una subida (0-1)."),
+      event("tsl-upload", "{ file: File; result: unknown }", "Terminó una subida."),
+      event("tsl-error", '{ file: File; reason: "type" | "size" | "count" | "upload"; message: string }', "Se rechazó un archivo o falló su subida."),
+      event("tsl-complete", "{ results: unknown[]; failed: number }", "No queda nada subiendo.")
+    ]
+  },
+  {
+    tag: "tsl-editor", cls: "TslEditor", module: "components/editor", docs: ["editor"],
+    summary: "Editor de texto enriquecido mínimo: barra de formato accesible, atajos, enlaces sin ventanas emergentes, Tab para sangrar listas y pegado limpio. El valor es HTML saneado a una lista corta de etiquetas.",
+    attributes: [
+      ...formAttrs,
+      attr("readonly", "boolean", "Se puede leer y seleccionar, pero no editar."),
+      attr("placeholder", "string", "Texto cuando está vacío."),
+      attr("maxlength", "number", "Máximo de caracteres (muestra el contador)."),
+      attr("toolbar", "string", "Botones y separadores (`|`) de la barra.", "bold italic underline strike | h2 h3 | ul ol quote code | link | undo redo"),
+      attr("label", "string", "Nombre accesible del texto.", "Texto"),
+      attr("link-label", "string", "Nombre del campo de la dirección del enlace.", "Dirección del enlace")
+    ],
+    properties: [
+      ...formProps,
+      prop("value", "string", "HTML saneado o `\"\"`."),
+      prop("text", "string", "Texto sin formato.", true),
+      prop("isEmpty", "boolean", "No hay texto.", true)
+    ],
+    methods: [
+      ...formMethods,
+      method("run", [param("tool", "string")], "void", "Aplica una herramienta de la barra (`bold`, `h2`, `ul`, `link`…)."),
+      method("applyLink", [param("href", "string", true)], "void", "Pone un enlace en la selección; con `\"\"` lo quita."),
+      method("focus", [param("options", "FocusOptions", true)], "void", "Enfoca el texto.")
+    ],
+    events: [event("tsl-change", "{ value: string; text: string }", "Cambió el contenido (al salir del editor).")]
   },
   {
     tag: "tsl-scroll-area", cls: "TslScrollArea", module: "components/scroll-area", docs: ["scroll-area"],
@@ -638,6 +1017,8 @@ export const api = {
     { name: "setPreset", params: [param("name", "PresetName")], returns: "PresetName", description: "Aplica un preset de tema (se ignora un nombre desconocido) y lo guarda. Devuelve el preset activo." },
     { name: "getPreset", params: [], returns: "PresetName", description: "Preset activo." },
     { name: "setAccent", params: [param("color", "string | null")], returns: "string | null", description: "Cambia el acento (`#rgb` o `#rrggbb`) y elige solo el color de texto legible; `null` lo restablece. Devuelve ese color de texto." },
+    { name: "setDirection", params: [param("dir", '"ltr" | "rtl"')], returns: '"ltr" | "rtl"', description: "Cambia la dirección de escritura del documento (atributo `dir` de `<html>`) y la guarda; los componentes se espejan. Devuelve la dirección activa." },
+    { name: "getDirection", params: [], returns: '"ltr" | "rtl"', description: "Dirección de escritura actual." },
     { name: "init", params: [param("root", "ParentNode", true)], returns: "void", description: "Inicializa los ayudantes estáticos tras insertar HTML dinámico." }
   ]
 };

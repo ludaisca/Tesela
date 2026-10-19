@@ -1,9 +1,12 @@
+import { isRtl } from "./base.js";
+
 const OPPOSITE = { top: "bottom", bottom: "top", left: "right", right: "left" };
 
 /**
  * Posiciona `el` (position: fixed) junto a `anchor` o a un punto { x, y }.
  * placement: "top|bottom|left|right" + "-start|-end" opcional. Si no cabe, se voltea
  * al lado opuesto; después se ajusta para no salirse de la ventana. Devuelve el lado final.
+ * En RTL, "start"/"end" y también "left"/"right" se leen como inicio/fin de la lectura (se espejan).
  */
 export function position(anchor, el, { placement = "bottom", offset = 6, padding = 8, point } = {}) {
   const a = point
@@ -14,6 +17,8 @@ export function position(anchor, el, { placement = "bottom", offset = 6, padding
   const vw = document.documentElement.clientWidth;
   const vh = window.innerHeight;
   let [side, align = "center"] = placement.split("-");
+  const rtl = isRtl(anchor && anchor.nodeType ? anchor : el);
+  if (rtl && (side === "left" || side === "right")) side = OPPOSITE[side];
   const fits = {
     top: a.top - offset - h >= padding,
     bottom: a.bottom + offset + h <= vh - padding,
@@ -26,7 +31,9 @@ export function position(anchor, el, { placement = "bottom", offset = 6, padding
   let y;
   if (side === "top" || side === "bottom") {
     y = side === "top" ? a.top - offset - h : a.bottom + offset;
-    x = align === "start" ? a.left : align === "end" ? a.right - w : a.left + a.width / 2 - w / 2;
+    const atStart = rtl ? a.right - w : a.left;
+    const atEnd = rtl ? a.left : a.right - w;
+    x = align === "start" ? atStart : align === "end" ? atEnd : a.left + a.width / 2 - w / 2;
   } else {
     x = side === "left" ? a.left - offset - w : a.right + offset;
     y = align === "start" ? a.top : align === "end" ? a.bottom - h : a.top + a.height / 2 - h / 2;

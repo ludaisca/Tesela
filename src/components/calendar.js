@@ -1,4 +1,4 @@
-import { TslElement, define, emit, fromISO, toISO } from "../core/base.js";
+import { TslElement, define, emit, fromISO, isRtl, toISO } from "../core/base.js";
 
 
 export class TslCalendar extends TslElement {
@@ -44,7 +44,8 @@ export class TslCalendar extends TslElement {
       if (!e.target.classList.contains("tsl-cal__day")) return;
       const d = fromISO(e.target.dataset.date);
       if (!d) return;
-      const steps = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 };
+      const flip = isRtl(this) ? -1 : 1;
+      const steps = { ArrowLeft: -flip, ArrowRight: flip, ArrowUp: -7, ArrowDown: 7 };
       if (steps[e.key] !== undefined) d.setDate(d.getDate() + steps[e.key]);
       else if (e.key === "PageUp" || e.key === "PageDown") {
         const dir = e.key === "PageUp" ? -1 : 1;
