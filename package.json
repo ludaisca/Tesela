@@ -3,7 +3,7 @@
   "version": "1.4.0",
   "private": true,
   "description": "Tesela — biblioteca de componentes sin dependencias (HTML + CSS + Custom Elements) y galería de experimentos",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ludaisca/tesela.git"
