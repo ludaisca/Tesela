@@ -29,9 +29,12 @@ Copia la carpeta `lib/` a tu proyecto y enlaza los dos archivos:
 <body class="tsl">
   <button class="tsl-btn tsl-btn--primary">Guardar</button>
   <tsl-tabs>
-    <button slot="tab" aria-selected="true">Resumen</button>
-    <button slot="tab">Detalle</button>
-    <section slot="panel">…</section>
+    <div class="tsl-tabs__list">
+      <button class="tsl-tabs__tab" data-tab="resumen">Resumen</button>
+      <button class="tsl-tabs__tab" data-tab="detalle">Detalle</button>
+    </div>
+    <div class="tsl-tabs__panel" data-panel="resumen">…</div>
+    <div class="tsl-tabs__panel" data-panel="detalle">…</div>
   </tsl-tabs>
 </body>
 ```
